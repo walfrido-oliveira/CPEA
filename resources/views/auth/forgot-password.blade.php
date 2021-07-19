@@ -24,10 +24,15 @@
                 <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <x-jet-button>
+            <div class="flex items-center justify-center mt-4">
+                <x-jet-button class="w-full">
                     {{ __('Email Password Reset Link') }}
                 </x-jet-button>
+            </div>
+            <div class="flex items-center justify-center">
+                <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
+                    {{ __('Lembrei a minha senha!') }}
+                </a>
             </div>
         </form>
     </x-jet-authentication-card>

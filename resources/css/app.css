@@ -70,3 +70,34 @@
     border-width: 1px;
     border-radius: .25rem;
 }
+
+#password-validation {
+    margin-top: 1rem;
+    display: none;
+    background: #f1f1f1;
+    color: #000;
+    position: relative;
+}
+
+#password-validation ul {
+    font: var(--default-font);
+    color: #707070;
+}
+
+.valid-password-role {
+    color: green;
+}
+
+.valid-password-role:before {
+    padding-right: 1rem;
+    content: "✔";
+}
+
+.invalid-password-role {
+    color: red;
+}
+
+.invalid-password-role:before {
+    padding-right: 1rem;
+    content: "✖";
+}

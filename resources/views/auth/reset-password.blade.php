@@ -6,29 +6,40 @@
 
         <x-jet-validation-errors class="mb-4" />
 
+        <h1>{{ __('Redefinir Senha') }}</h1>
+
         <form method="POST" action="{{ route('password.update') }}">
             @csrf
 
             <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
-            <div class="block">
-                <x-jet-label for="email" value="{{ __('Email') }}" />
-                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus />
+            <div class="mt-4">
+                <x-jet-input id="email" class="form-control block mt-1 w-full" type="hidden" name="email" :value="old('email', $request->email)" required readonly autofocus />
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="password" value="{{ __('Password') }}" />
-                <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
+                <input id="password" class="form-input rounded-md shadow-sm form-control block mt-1 w-full" type="password" minlength="8" maxlength="16" name="password"
+                required autocomplete="new-password" placeholder="{{ __('Senha') }}" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"/>
             </div>
 
             <div class="mt-4">
-                <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-                <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
+                <input id="password_confirmation" class="form-input rounded-md shadow-sm form-control block mt-1 w-full" type="password" name="password_confirmation"
+                required autocomplete="new-password" placeholder="{{ __('Confirmar Senha') }}"/>
+                <div id="password-validation">
+                    <ul>
+                        <li id="letter" class="invalid-password-role">{{ __('A lowercase letter') }}</li>
+                        <li id="capital" class="invalid-password-role">{{ __('A uppercase letter') }}</li>
+                        <li id="number" class="invalid-password-role">{{ __('A number') }}</li>
+                        <li id="special" class="invalid-password-role">{{ __('A special chacters') }}</li>
+                        <li id="length" class="invalid-password-role">{{ __('Minimum 8 characters') }}</li>
+                        <li id="confirmation" class="invalid-password-role">{{ __('Password Confirmation') }}</li>
+                    </ul>
+                </div>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <x-jet-button>
-                    {{ __('Reset Password') }}
+            <div class="flex items-center justify-center mt-4">
+                <x-jet-button class="w-full">
+                    {{ __('Save') }}
                 </x-jet-button>
             </div>
         </form>

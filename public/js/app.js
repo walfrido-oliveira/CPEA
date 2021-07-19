@@ -4965,6 +4965,8 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+__webpack_require__(/*! ./validate */ "./resources/js/validate.js");
+
 __webpack_require__(/*! ./scripts */ "./resources/js/scripts.js");
 
 /***/ }),
@@ -4975,7 +4977,200 @@ __webpack_require__(/*! ./scripts */ "./resources/js/scripts.js");
   \*********************************/
 /***/ (() => {
 
+/* PASSWORD ROLES */
+var letter = document.getElementById("letter");
+var capital = document.getElementById("capital");
+var number = document.getElementById("number");
+var special = document.getElementById("special");
+var length = document.getElementById("length");
+var confirmation = document.getElementById("confirmation");
+var password = document.getElementById("password");
+var passwordConfirmation = document.getElementById("password_confirmation");
 
+if (password) {
+  password.onfocus = function () {
+    document.getElementById("password-validation").style.display = "block";
+  };
+
+  password.onblur = function () {
+    document.getElementById("password-validation").style.display = "none";
+  };
+
+  password.onkeyup = function () {
+    var lowerCaseLetters = /[a-z]/g;
+
+    if (password.value.match(lowerCaseLetters)) {
+      letter.classList.remove("invalid-password-role");
+      letter.classList.add("valid-password-role");
+    } else {
+      letter.classList.remove("valid-password-role");
+      letter.classList.add("invalid-password-role");
+    }
+
+    var upperCaseLetters = /[A-Z]/g;
+
+    if (password.value.match(upperCaseLetters)) {
+      capital.classList.remove("invalid-password-role");
+      capital.classList.add("valid-password-role");
+    } else {
+      capital.classList.remove("valid-password-role");
+      capital.classList.add("invalid-password-role");
+    }
+
+    var numbers = /[0-9]/g;
+
+    if (password.value.match(numbers)) {
+      number.classList.remove("invalid-password-role");
+      number.classList.add("valid-password-role");
+    } else {
+      number.classList.remove("valid-password-role");
+      number.classList.add("invalid-password-role");
+    }
+
+    var specials = /[\W_]/g;
+
+    if (password.value.match(specials)) {
+      special.classList.remove("invalid-password-role");
+      special.classList.add("valid-password-role");
+    } else {
+      special.classList.remove("valid-password-role");
+      special.classList.add("invalid-password-role");
+    }
+
+    if (password.value.length >= 8) {
+      length.classList.remove("invalid-password-role");
+      length.classList.add("valid-password-role");
+    } else {
+      length.classList.remove("valid-password-role");
+      length.classList.add("invalid-password-role");
+    }
+  };
+
+  password.addEventListener("blur", function () {
+    !validate.password(this.value, this.getAttribute('minlength'), this.getAttribute('maxlength')) ? validate.addInvalidClass(this) : validate.addValidClass(this);
+  });
+}
+
+if (passwordConfirmation) {
+  passwordConfirmation.onfocus = function () {
+    document.getElementById("password-validation").style.display = "block";
+  };
+
+  passwordConfirmation.onblur = function () {
+    document.getElementById("password-validation").style.display = "none";
+  };
+
+  passwordConfirmation.onkeyup = function () {
+    if (password.value === passwordConfirmation.value) {
+      confirmation.classList.remove("invalid-password-role");
+      confirmation.classList.add("valid-password-role");
+    } else {
+      confirmation.classList.remove("valid-password-role");
+      confirmation.classList.add("invalid-password-role");
+    }
+  };
+
+  passwordConfirmation.addEventListener("blur", function () {
+    validate.isEmpty(this.value) || password.value !== this.value ? validate.addInvalidClass(this) : validate.addValidClass(this);
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/js/validate.js":
+/*!**********************************!*\
+  !*** ./resources/js/validate.js ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "isCPF": () => (/* binding */ isCPF),
+/* harmony export */   "isEmail": () => (/* binding */ isEmail),
+/* harmony export */   "maxLength": () => (/* binding */ maxLength),
+/* harmony export */   "isEmpty": () => (/* binding */ isEmpty),
+/* harmony export */   "addInvalidClass": () => (/* binding */ addInvalidClass),
+/* harmony export */   "addValidClass": () => (/* binding */ addValidClass),
+/* harmony export */   "password": () => (/* binding */ password),
+/* harmony export */   "dateToDMY": () => (/* binding */ dateToDMY),
+/* harmony export */   "sanitizeNumeric": () => (/* binding */ sanitizeNumeric)
+/* harmony export */ });
+function isCPF(strCPF) {
+  strCPF = String(strCPF).replace(/\D/g, "");
+  var sum;
+  var mod;
+  sum = 0;
+  if (strCPF.length !== 11 || !Array.from(strCPF).filter(function (e) {
+    return e !== strCPF[0];
+  }).length) return false;
+
+  for (var i = 1; i <= 9; i++) {
+    sum = sum + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+  }
+
+  mod = sum * 10 % 11;
+  if (mod == 10 || mod == 11) mod = 0;
+  if (mod != parseInt(strCPF.substring(9, 10))) return false;
+  sum = 0;
+
+  for (var _i = 1; _i <= 10; _i++) {
+    sum = sum + parseInt(strCPF.substring(_i - 1, _i)) * (12 - _i);
+  }
+
+  mod = sum * 10 % 11;
+  if (mod == 10 || mod == 11) mod = 0;
+  if (mod != parseInt(strCPF.substring(10, 11))) return false;
+  return true;
+}
+function isEmail(email) {
+  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
+}
+function maxLength(max, value) {
+  return value.length <= max;
+}
+function isEmpty(value) {
+  return value == '';
+}
+function addInvalidClass(elem) {
+  elem.classList.add("is-invalid");
+  elem.classList.remove("is-valid");
+}
+function addValidClass(elem) {
+  elem.classList.add("is-valid");
+  elem.classList.remove("is-invalid");
+}
+function password(value, min, max) {
+  if (!value.match(/[A-Z]/)) {
+    return false;
+  }
+
+  if (!value.match(/[a-z]/)) {
+    return false;
+  }
+
+  if (!value.match(/[0-9]/)) {
+    return false;
+  }
+
+  if (!value.match(/[\W_]/)) {
+    return false;
+  }
+
+  return value.length >= min && value.length <= max;
+}
+function dateToDMY(date) {
+  var parts = date.split('-');
+  var dateResult = new Date(parts[0], parts[1] - 1, parts[2]);
+  var d = dateResult.getDate();
+  var m = dateResult.getMonth() + 1;
+  var y = dateResult.getFullYear();
+  return '' + (d <= 9 ? '0' + d : d) + '/' + (m <= 9 ? '0' + m : m) + '/' + y;
+}
+function sanitizeNumeric(number) {
+  return number.replaceAll(" ", "").replaceAll("%", "").replaceAll(".", "").replaceAll(",", ".").replaceAll("R$", "");
+}
 
 /***/ }),
 
