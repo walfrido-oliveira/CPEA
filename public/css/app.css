@@ -1171,9 +1171,6 @@ select {
 .-mt-px {
 	margin-top: -1px;
 }
-.mt-28 {
-	margin-top: 7rem;
-}
 .block {
 	display: block;
 }
@@ -1878,9 +1875,6 @@ select {
 	padding-right: 1rem;
 	padding-top: 0.5rem;
 	padding-bottom: 0.5rem;
-	font-size: 0.75rem;
-	line-height: 1rem;
-	font-weight: 600;
 	text-transform: uppercase;
 	letter-spacing: 0.1em;
 	--tw-text-opacity: 1;
