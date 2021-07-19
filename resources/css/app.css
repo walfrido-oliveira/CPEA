@@ -2,6 +2,10 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+main {
+    background-color: #ecf0f5;
+}
+
 :root {
     --default-font: normal normal normal 1rem Arial;
     --default-font-bolder: normal normal bold 1rem Arial;
@@ -101,3 +105,89 @@
     padding-right: 1rem;
     content: "✖";
 }
+
+/*SIDER BAR */
+.sidebar {
+    width: 25%;
+    background-color: #005E10;
+    padding-top: 15px;
+}
+
+.sidebar li a {
+    color: #fff;
+    font-weight: bolder;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.sidebar ul {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.sidebar ul li > a {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    display: block;
+}
+
+
+.sidebar-menu li > ul,
+.sidebar-menu.-horizontal.-alignRight li > ul,
+.sidebar-menu.-floating {
+    opacity: 1;
+    transform: scale(1) translateY(0px);
+    transform-origin: left top;
+}
+.sidebar-menu.-alignRight li > ul,
+.sidebar-menu.-floating.-alignRight {
+    transform-origin: right top;
+}
+.sidebar-menu li > ul.-animating,
+.sidebar-menu.-floating.-animating {
+    opacity: 0 !important;
+    transform: scale(0.96) translateX(-16px);
+}
+.sidebar-menu li > ul.-animating {
+    z-index: -1 !important;
+}
+.sidebar-menu.-horizontal > li > ul.-animating {
+    transform: scale(0.96) translateY(-16px);
+}
+.sidebar-menu.-alignRight li > ul.-animating,
+.sidebar-menu.-floating.-alignRight.-animating {
+    transform: scale(0.96) translateX(16px);
+}
+.sidebar-menu.-horizontal.-alignRight > li > ul.-animating {
+    transform: scale(0.96) translateY(-16px);
+}
+.sidebar-menu li > ul,
+.sidebar-menu.-floating {
+    display: none;
+}
+.sidebar-menu li > ul.-visible,
+ul.sidebar-menu.-floating.-visible {
+    display: block;
+}
+
+#sidebar li.active {
+    background-color: #3A4D72;
+}
+
+.dropdown-toggle::after {
+    float: right;
+    margin-top: 0.5rem;
+    margin-right: .9rem;
+}
+
+#sidebar > ul > li a:hover {
+    background-color: #3A4D72;
+}
+
+@media only screen and (max-width: 640px) {
+    .sidebar {
+        width: 100%;
+    }
+}
+

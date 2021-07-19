@@ -19,24 +19,24 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">
-        <x-jet-banner />
+        <div class="min-h-screen">
 
-        <div class="min-h-screen bg-gray-100">
-            @livewire('navigation-menu')
+            <div class="flex md:flex-row flex-col w-full">
+                @include('top-menu')
+            </div>
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+            <div class="flex md:flex-row flex-col">
+                @include('sidebar')
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+                <!-- Page Content -->
+                <main class="w-full">
+                    {{ $slot }}
+                </main>
+            </div>
+
+            <footer>
+                <p class="text-center">{{ __("© Copyright - CPEA 2021") }}</p>
+            </footer>
         </div>
 
         @stack('modals')
