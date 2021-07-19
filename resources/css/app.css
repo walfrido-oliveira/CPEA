@@ -1,0 +1,72 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+:root {
+    --default-font: normal normal normal 1rem Arial;
+    --default-font-bolder: normal normal bold 1rem Arial;
+}
+
+.btn {
+    text-decoration: none;
+    border-radius: 10px;
+    text-align: center;
+    font: normal normal normal 16px/25px Arial;
+    letter-spacing: 0px;
+    min-width: 88px;
+    display: inline-block;
+    font-weight: 400;
+    color: #212529;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    border-radius: 10px;
+    text-align: center;
+    font: normal normal normal 16px/25px Arial;
+    letter-spacing: 0;
+    min-width: 88px;
+}
+
+.btn-primary {
+    @apply items-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition;
+    background-color: #005E10;
+    border: 0px;
+}
+
+.form-input {
+    background: #FBFBFB 0% 0% no-repeat padding-box;
+    border: 1px solid #C4C4C4;
+    border-radius: 10px;
+}
+
+.form-checkbox {
+    background: #FBFBFB 0% 0% no-repeat padding-box;
+    border: 1px solid #C4C4C4;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+    display: inline-block;
+    vertical-align: middle;
+    background-origin: border-box;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    flex-shrink: 0;
+    height: 1rem;
+    width: 1rem;
+    color: #3f83f8;
+    background-color: #fff;
+    border-color: #d2d6dc;
+    border-width: 1px;
+    border-radius: .25rem;
+}
