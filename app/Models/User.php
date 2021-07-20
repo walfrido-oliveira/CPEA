@@ -29,7 +29,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'phone', 'password',
+        'name', 'email', 'phone', 'password', 'role'
     ];
 
     /**
@@ -70,5 +70,14 @@ class User extends Authenticatable
     public function sendUpdateUserInformationNotification()
     {
         $this->notify(new UpdateUserInformationNotification($this));
+    }
+
+    /**
+     * Get first role
+     */
+    public function getRoleAttribute()
+    {
+      $role = $this->roles()->first();
+      return $role->name;
     }
 }
