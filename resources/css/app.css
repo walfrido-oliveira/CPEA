@@ -220,9 +220,10 @@ ul.sidebar-menu.-floating.-visible {
 }
 
 .table .thead-light th {
-    color: #495057;
+    color: #313131;
     background-color: #e9ecef;
     border-color: #dee2e6;
+    text-align: left;
 }
 
 .table tr>th {

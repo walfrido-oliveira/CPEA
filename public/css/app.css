@@ -1228,9 +1228,6 @@ select {
 .grid {
 	display: grid;
 }
-.contents {
-	display: contents;
-}
 .hidden {
 	display: none;
 }
@@ -1678,6 +1675,9 @@ select {
 .pb-1 {
 	padding-bottom: 0.25rem;
 }
+.pb-20 {
+	padding-bottom: 5rem;
+}
 .pt-8 {
 	padding-top: 2rem;
 }
@@ -1689,9 +1689,6 @@ select {
 }
 .pb-0 {
 	padding-bottom: 0px;
-}
-.pb-20 {
-	padding-bottom: 5rem;
 }
 .text-left {
 	text-align: left;
@@ -2261,9 +2258,10 @@ ul.sidebar-menu.-floating.-visible {
     padding: .5rem;
 }
 .table .thead-light th {
-    color: #495057;
+    color: #313131;
     background-color: #e9ecef;
     border-color: #dee2e6;
+    text-align: left;
 }
 .table tr>th {
     cursor: pointer;
@@ -2311,10 +2309,6 @@ ul.sidebar-menu.-floating.-visible {
 .hover\:bg-gray-50:hover {
 	--tw-bg-opacity: 1;
 	background-color: rgba(249, 250, 251, var(--tw-bg-opacity));
-}
-.hover\:bg-red-700:hover {
-	--tw-bg-opacity: 1;
-	background-color: rgba(185, 28, 28, var(--tw-bg-opacity));
 }
 .hover\:bg-green-700:hover {
 	--tw-bg-opacity: 1;
@@ -2436,17 +2430,13 @@ ul.sidebar-menu.-floating.-visible {
 	--tw-ring-opacity: 1;
 	--tw-ring-color: rgba(191, 219, 254, var(--tw-ring-opacity));
 }
-.focus\:ring-red-500:focus {
+.focus\:ring-green-500:focus {
 	--tw-ring-opacity: 1;
-	--tw-ring-color: rgba(239, 68, 68, var(--tw-ring-opacity));
+	--tw-ring-color: rgba(16, 185, 129, var(--tw-ring-opacity));
 }
 .focus\:ring-indigo-500:focus {
 	--tw-ring-opacity: 1;
 	--tw-ring-color: rgba(99, 102, 241, var(--tw-ring-opacity));
-}
-.focus\:ring-green-500:focus {
-	--tw-ring-opacity: 1;
-	--tw-ring-color: rgba(16, 185, 129, var(--tw-ring-opacity));
 }
 .focus\:ring-opacity-50:focus {
 	--tw-ring-opacity: 0.5;
@@ -2563,12 +2553,12 @@ ul.sidebar-menu.-floating.-visible {
 		height: 2.5rem;
 	}
 
-	.sm\:h-20 {
-		height: 5rem;
-	}
-
 	.sm\:h-screen {
 		height: 100vh;
+	}
+
+	.sm\:h-20 {
+		height: 5rem;
 	}
 
 	.sm\:w-10 {
@@ -2703,6 +2693,10 @@ ul.sidebar-menu.-floating.-visible {
 		padding-bottom: 1rem;
 	}
 
+	.sm\:pr-6 {
+		padding-right: 1.5rem;
+	}
+
 	.sm\:text-left {
 		text-align: left;
 	}
@@ -2798,6 +2792,10 @@ ul.sidebar-menu.-floating.-visible {
 
 	.lg\:px-8 {
 		padding-left: 2rem;
+		padding-right: 2rem;
+	}
+
+	.lg\:pr-8 {
 		padding-right: 2rem;
 	}
 }
