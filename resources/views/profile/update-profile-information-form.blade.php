@@ -59,6 +59,13 @@
             <x-jet-input-error for="name" class="mt-2" />
         </div>
 
+        <!-- Sobrenome -->
+        <div class="col-span-8 sm:col-span-6">
+            <x-jet-label for="last_name" value="{{ __('Sobrenome') }}" />
+            <x-jet-input id="last_name" type="text" class="mt-1 block w-full form-control" wire:model.defer="state.last_name" autocomplete="last_name" />
+            <x-jet-input-error for="last_name" class="mt-2" />
+        </div>
+
         <!-- Email -->
         <div class="col-span-8 sm:col-span-6">
             <x-jet-label for="email" value="{{ __('Email') }}" />
@@ -72,7 +79,7 @@
             <x-jet-input id="phone" type="tel" class="mt-1 block w-full form-control" wire:model.defer="state.phone" />
             <x-jet-input-error for="phone" class="mt-2" />
          </div>
- 
+
          <!-- Nível de Acesso -->
         <div class="col-span-8 sm:col-span-6">
             <x-jet-label for="role" value="{{ __('Nível de Acesso') }}" />

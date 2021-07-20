@@ -36,6 +36,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
         } else {
             $user->forceFill([
                 'name' => $input['name'],
+                'last_name' => isset($input['name']) ? $input['last_name'] : null,
                 'email' => $input['email'],
                 'phone' => $input['phone'],
             ])->save();

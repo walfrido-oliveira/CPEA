@@ -1,9 +1,19 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+@import '../../node_modules/toastr/build/toastr.min.css';
 
 main {
     background-color: #ecf0f5;
+}
+
+h1 {
+    font: var(--default-font-bolder);
+    font-size: 25px;
+    line-height: 27px;
+    color: #0a0a0a;
+    opacity: .66;
+    margin: 0;
 }
 
 :root {
@@ -44,7 +54,19 @@ main {
     border: 0px;
 }
 
-.form-input {
+.btn-outline-info {
+    @apply bg-transparent hover:bg-blue-500 text-blue-500 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded-lg;
+}
+
+.btn-outline-warning {
+    @apply bg-transparent hover:bg-yellow-500 text-yellow-500 font-semibold hover:text-white py-2 px-4 border border-yellow-500 hover:border-transparent rounded-lg;
+}
+
+.btn-outline-danger {
+    @apply bg-transparent hover:bg-red-500 text-red-500 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded-lg;
+}
+
+.form-input, .custom-select {
     background: #FBFBFB 0% 0% no-repeat padding-box;
     border: 1px solid #C4C4C4;
     border-radius: 10px;
@@ -172,7 +194,7 @@ ul.sidebar-menu.-floating.-visible {
 }
 
 #sidebar li.active {
-    background-color: #3A4D72;
+    background-color: #317b3e;
 }
 
 .dropdown-toggle::after {
@@ -182,7 +204,7 @@ ul.sidebar-menu.-floating.-visible {
 }
 
 #sidebar > ul > li a:hover {
-    background-color: #3A4D72;
+    background-color: #5d9a67;
 }
 
 @media only screen and (max-width: 640px) {
@@ -191,3 +213,36 @@ ul.sidebar-menu.-floating.-visible {
     }
 }
 
+.filter-container {
+    background: hsla(0,0%,76.9%,.16);
+    border-radius: 10px;
+    padding: .5rem;
+}
+
+.table .thead-light th {
+    color: #495057;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}
+
+.table tr>th {
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+.table td, .table th {
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+.table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}

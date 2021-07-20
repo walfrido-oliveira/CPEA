@@ -29,7 +29,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'phone', 'password', 'role'
+        'name', 'email', 'last_name', 'phone', 'password', 'role'
     ];
 
     /**
@@ -79,5 +79,58 @@ class User extends Authenticatable
     {
       $role = $this->roles()->first();
       return $role->name;
+    }
+
+    /**
+     * Find users in dabase
+     *
+     * @param Array
+     *
+     * @return array
+     */
+    public static function filter($query)
+    {
+        $perPage = 10;
+        if(isset($query['paginate_per_page'])) $perPage = $query['paginate_per_page'];
+
+        $users = self::where(function($q) use ($query) {
+            if(isset($query['id']))
+            {
+                if(!is_null($query['id']))
+                {
+                    $q->where('id', $query['id']);
+                }
+            }
+
+            if(isset($query['roles']))
+            {
+                if(!is_null($query['roles']))
+                {
+                    $q->whereHas('roles', function($q) use ($query) {
+                        $q->where('roles.name', $query['roles']);
+                    });
+                }
+            }
+
+            if(isset($query['name']))
+            {
+                if(!is_null($query['name']))
+                {
+                    $q->where('name', 'like','%' . $query['name'] . '%');
+                }
+            }
+        })->paginate($perPage);
+
+        return $users;
+    }
+
+    /**
+     * Get full name user
+     *
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return $this->name . ' ' . $this->last_name;
     }
 }
