@@ -13,8 +13,8 @@
                 </div>
             </div>
 
-            <div class="px-4 py-2 my-6  bg-white rounded-lg">
-                <div class="flex mt-4 filter-container">
+            <div class="py-2 my-6 bg-white rounded-lg">
+                <div class="filter-container">
                     <div class="flex -mx-3 mb-6 p-2 md:flex-row flex-col w-full">
                         <div class="w-full md:w-1/3 px-2 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="id">
@@ -52,7 +52,7 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="flex mt-4" id="pagination">
+                <div class="flex mt-4 p-2" id="pagination">
                         {{ $users->appends(request()->input())->links() }}
                 </div>
             </div>
