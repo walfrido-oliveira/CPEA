@@ -113,9 +113,9 @@
             function eventsDeleteCallback() {
                 document.querySelectorAll('.delete-user').forEach(item => {
                 item.addEventListener("click", function() {
-                    var id = this.dataset.id;
+                    var url = this.dataset.url;
                     var modal = document.getElementById("delete_user_modal");
-                    modal.dataset.url = "{!! route('users.destroy', ['user' => '#']) !!}".replace("#", id);
+                    modal.dataset.url = url;
                     modal.classList.remove("hidden");
                     modal.classList.add("block");
                 })
