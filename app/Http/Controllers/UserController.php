@@ -89,7 +89,7 @@ class UserController extends Controller
         //$user->delete();
 
         return response()->json([
-            'message' => __('Usuário excluído com sucesso!'),
+            'message' => __('Usuário Apagado com Sucesso!'),
             'alert-type' => 'success'
         ]);
     }
