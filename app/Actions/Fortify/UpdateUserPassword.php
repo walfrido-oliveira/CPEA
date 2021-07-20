@@ -2,6 +2,7 @@
 
 namespace App\Actions\Fortify;
 
+use App\Events\UpdatedUser;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\UpdatesUserPasswords;
@@ -31,5 +32,7 @@ class UpdateUserPassword implements UpdatesUserPasswords
         $user->forceFill([
             'password' => Hash::make($input['password']),
         ])->save();
+
+        event(new UpdatedUser($user));
     }
 }

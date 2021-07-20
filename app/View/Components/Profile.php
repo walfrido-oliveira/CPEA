@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class Password extends Component
+class Profile extends Component
 {
     /**
      * Create a new component instance.
@@ -23,6 +23,6 @@ class Password extends Component
      */
     public function render()
     {
-        return view('components.password');
+        return view('layouts.profile');
     }
 }
