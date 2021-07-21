@@ -1988,6 +1988,12 @@ h1 {
     opacity: .66;
     margin: 0;
 }
+input:-moz-read-only { /* For Firefox */
+    background-color: #ecf0f5;
+}
+input:read-only {
+    background-color: #ecf0f5;
+}
 :root {
     --default-font: normal normal normal 1rem Arial;
     --default-font-bolder: normal normal bold 1rem Arial;
