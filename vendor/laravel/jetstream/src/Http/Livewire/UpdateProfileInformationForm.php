@@ -32,8 +32,10 @@ class UpdateProfileInformationForm extends Component
      */
     public function mount()
     {
-        $this->state = array_merge(Auth::user()->withoutRelations()->toArray(),
-        ['role' => __(Auth::user()->role)]);
+        $user = Auth::user();
+        $this->state = array_merge($user->withoutRelations()->toArray(),
+        ['role' => __($user->role)]);
+        $this->state['status'] = __($user->status);
     }
 
     /**
