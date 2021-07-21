@@ -22,7 +22,7 @@
         </td>
         <td>
             <a class="btn btn-outline-warning" href="{{ route('users.edit', ['user' => $user->id]) }}">{{ __('Editar') }}</a>
-            <button class="btn btn-outline-danger delete-user" data-url="{!! route('users.destroy', ['user' => ]) !!}">{{ __('Apagar') }}</button>
+            <button class="btn btn-outline-danger delete-user" data-url="{!! route('users.destroy', ['user' => $user->id]) !!}">{{ __('Apagar') }}</button>
         </td>
     <tr>
 @empty

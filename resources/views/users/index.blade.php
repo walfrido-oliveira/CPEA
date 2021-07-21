@@ -61,8 +61,8 @@
 
     <x-modal title="{{ __('Excluir usuário') }}"
              msg="{{ __('Deseja realmente apagar esse usuário?') }}"
-            confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_user_modal"
-            method="DELETE"/>
+             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_user_modal"
+             method="DELETE"/>
 
     <script>
         window.addEventListener("load", function() {
