@@ -24,6 +24,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     Route::prefix('users')->name('users.')->group(function(){
         Route::post('/filter', [UserController::class, 'filter'])->name('filter');
+        Route::post('/forgot-password/{user}', [UserController::class, 'forgotPassword'])->name('forgot-password');
     });
 });
 

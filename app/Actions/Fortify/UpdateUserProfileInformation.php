@@ -38,7 +38,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'name' => $input['name'],
                 'last_name' => isset($input['name']) ? $input['last_name'] : null,
                 'email' => $input['email'],
-                'phone' => $input['phone'],
+                'phone' => preg_replace('/[^0-9]/', '', $input['phone']),
             ])->save();
         }
 

@@ -54,9 +54,9 @@
                     var resp = JSON.parse(ajax.response);
                     toastr.success(resp.message);
                     close();
-                    location.reload();
+                    window.location.href = "{{ $attributes['redirect-url'] }}";
                 } else if(this.readyState == 4 && this.status != 200) {
-                    toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
+                    toastr.error("{!! __('Um erro ocorreu a executar essa ação') !!}");
                     close();
                 }
             }

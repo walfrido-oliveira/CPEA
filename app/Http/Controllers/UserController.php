@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Events\UpdatedUser;
 use Illuminate\Http\Request;
+use Laravel\Fortify\Fortify;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Contracts\Auth\PasswordBroker;
 
 class UserController extends Controller
 {
@@ -50,7 +54,19 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $roles = Role::all()->pluck('name', 'name');
+        $userRole = $user->roles->values()->get(0) ? $user->roles->values()->get(0)->name : null;
+        $status = ['activated' => 'Ativo', 'inactivated' => 'Inativo'];
+
+        $roles = $user->roles->pluck("name")->all();
+        $rolesResult = [];
+        foreach ($roles as $key => $value)
+        {
+            $rolesResult[ $key ] = __($value);
+        }
+
+        return view('users.show', compact('user', 'roles', 'status', 'userRole', 'rolesResult'));
     }
 
     /**
@@ -61,7 +77,12 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $roles =  Role::all()->pluck('name', 'name');
+        $userRole = $user->roles->values()->get(0) ? $user->roles->values()->get(0)->name : null;
+        $status = ['active' => 'Ativo', 'inactive' => 'Inativo'];
+
+        return view('users.edit', compact('user', 'roles', 'status', 'userRole'));
     }
 
     /**
@@ -73,7 +94,24 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $input = $request->all();
+
+        $user = User::findOrFail($id);
+
+        $isInactivated = $user->status == 'activated' && $input['status'] == 'inactivated';
+
+        $user->update([
+            'name' => $input['name'],
+            'last_name' => $input['last_name'],
+            'phone' => preg_replace('/[^0-9]/', '', $input['phone']),
+            'status' => $input['status'],
+        ]);
+
+        $user->syncRoles([$input['role']]);
+
+        event(new UpdatedUser($user));
+
+        return redirect()->route('users.show', ['user' => $user->id])->with(defaultSaveMessagemNotification());
     }
 
     /**
@@ -109,5 +147,44 @@ class UserController extends Controller
             'filter_result' => view('users.filter-result', compact('users'))->render(),
             'pagination' => view('layouts.pagination', ['models' => $users])->render(),
         ]);
+    }
+
+    /**
+     * Send a reset link to the given user.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function forgotPassword(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $request->validate([Fortify::email() => 'required|email']);
+
+        $status = $this->broker()->sendResetLink(
+            $request->only(Fortify::email())
+        );
+
+        $notification = $status == Password::RESET_LINK_SENT
+            ? array(
+                'message' => 'Resete de senha enviado com sucesso!',
+                'alert-type' => 'success'
+            )
+            : array(
+                'message' => 'Ocorreu um erro ao enviar resete.',
+                'alert-type' => 'error');
+
+        return redirect()->back()->with($notification);
+    }
+
+    /**
+     * Get the broker to be used during password reset.
+     *
+     * @return \Illuminate\Contracts\Auth\PasswordBroker
+     */
+    protected function broker(): PasswordBroker
+    {
+        return Password::broker(config('fortify.passwords'));
     }
 }

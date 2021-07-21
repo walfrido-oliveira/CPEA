@@ -21,8 +21,8 @@
             <a class="text-item-table" href="{{ route('users.show', ['user' => $user->id]) }}">{{ implode(", ", $rolesResult) }}</a>
         </td>
         <td>
-            <a class="btn btn-outline-warning" href="{{ route('users.edit', ['user' => $user->id]) }}">{{ __('Editar') }}</a>
-            <button class="btn btn-outline-danger delete-user" data-url="{!! route('users.destroy', ['user' => $user->id]) !!}">{{ __('Apagar') }}</button>
+            <a class="btn-outline-warning" href="{{ route('users.edit', ['user' => $user->id]) }}">{{ __('Editar') }}</a>
+            <button class="btn-outline-danger delete-user" data-url="{!! route('users.destroy', ['user' => $user->id]) !!}">{{ __('Apagar') }}</button>
         </td>
     <tr>
 @empty

@@ -13,7 +13,7 @@
                 </div>
             </div>
 
-            <div class="py-2 my-6 bg-white rounded-lg">
+            <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
                 <div class="filter-container">
                     <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full">
                         <div class="w-full md:w-1/3 px-2 mb-6 md:mb-0">
@@ -62,7 +62,8 @@
     <x-modal title="{{ __('Excluir usuário') }}"
              msg="{{ __('Deseja realmente apagar esse usuário?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_user_modal"
-             method="DELETE"/>
+             method="DELETE"
+             redirect-url="{{ route('users.index') }}"/>
 
     <script>
         window.addEventListener("load", function() {
