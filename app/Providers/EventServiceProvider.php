@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\CreatedUser;
 use App\Events\UpdatedUser;
 use Illuminate\Support\Facades\Event;
+use App\Listeners\SendMailCreatedUser;
 use App\Listeners\SendMailUpdatedUser;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -22,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         UpdatedUser::class => [
             SendMailUpdatedUser::class,
+        ],
+        CreatedUser::class => [
+            SendMailCreatedUser::class,
         ]
     ];
 

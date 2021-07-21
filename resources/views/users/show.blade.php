@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="py-6 users">
+    <div class="py-6 show-users">
         <div class="max-w-6xl mx-auto px-4">
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">
@@ -53,6 +53,15 @@
                         </div>
                         <div class="w-full md:w-1/2">
                             <p class="text-gray-500 font-bold">{{ $user->email }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-2/12">
+                            <p class="font-bold">{{ __('Telefone') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-500 font-bold">{{ $user->phone }}</p>
                         </div>
                     </div>
 

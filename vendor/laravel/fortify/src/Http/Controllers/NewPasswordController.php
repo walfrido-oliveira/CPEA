@@ -72,21 +72,10 @@ class NewPasswordController extends Controller
      */
     public function store(Request $request): Responsable
     {
-        if($request->has('new_user'))
-        {
-            $request->validate([
-                'token' => 'required',
-                Fortify::email() => 'required|email',
-                'accepted_privacy_terms' => ['accepted'],
-            ]);
-        }
-        else
-        {
-            $request->validate([
-                'token' => 'required',
-                Fortify::email() => 'required|email',
-            ]);
-        }
+        $request->validate([
+            'token' => 'required',
+            Fortify::email() => 'required|email',
+        ]);
 
         // Here we will attempt to reset the user's password. If it is successful we
         // will update the password on an actual user model and persist it to the
@@ -99,7 +88,6 @@ class NewPasswordController extends Controller
                 if(!$user->hasVerifiedEmail())
                 {
                     $user->forceFill([
-                        'accepted_privacy_terms' => true,
                         'email_verified_at' => Carbon::now(),
                     ])->save();
 

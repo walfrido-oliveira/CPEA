@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
 use Laravel\Jetstream\HasProfilePhoto;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\NewUserNotification;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -132,5 +134,38 @@ class User extends Authenticatable
     public function getFullNameAttribute()
     {
         return $this->name . ' ' . $this->last_name;
+    }
+
+    /**
+     * Get status array
+     *
+     * @return Array
+     */
+    public static function getStatusArray()
+    {
+        return  ['active' => 'Ativo', 'inactive' => 'Inativo'];
+    }
+
+    /**
+     * Send new user notification
+     *
+     * @return void
+     */
+    public function sendNewUserNotification()
+    {
+        $token = app('auth.password')->broker('invites')->createToken($this);
+
+        DB::table(config('auth.passwords.users.table'))->insert([
+            'email' => $this->email,
+            'token' => $token
+        ]);
+
+        $url = url(route('password.reset', [
+            'token' => $token,
+            'email' =>  $this->email,
+            'new_user' => true
+        ], false));
+
+        $this->notify(new NewUserNotification($this, $url));
     }
 }

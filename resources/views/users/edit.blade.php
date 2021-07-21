@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="py-6 users">
+    <div class="py-6 edit-users">
         <div class="max-w-6xl mx-auto px-4">
             <form method="POST" action="{{ route('users.update', ['user' => $user->id]) }}">
                 @csrf

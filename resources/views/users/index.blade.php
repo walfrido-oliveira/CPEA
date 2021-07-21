@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="py-6 users">
+    <div class="py-6 index-users">
         <div class="max-w-6xl mx-auto px-4">
 
             <div class="flex md:flex-row flex-col">

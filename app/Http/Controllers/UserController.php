@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Events\CreatedUser;
 use App\Events\UpdatedUser;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Laravel\Fortify\Fortify;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Contracts\Auth\PasswordBroker;
 
@@ -32,7 +35,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $roles =  Role::all()->pluck('name', 'name');
+        $status = User::getStatusArray();
+        return view('users.create', compact('roles', 'status'));
     }
 
     /**
@@ -43,7 +48,22 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+
+        $user = User::create([
+            'name' => $input['name'],
+            'last_name' => $input['last_name'],
+            'phone' => preg_replace('/[^0-9]/', '', $input['phone']),
+            'email' => $input['email'],
+            'status' => $input['status'],
+            'password' => Hash::make(Str::random(8))
+        ]);
+
+        $user->syncRoles([$input['role']]);
+
+        event(new CreatedUser($user));
+
+        return redirect()->route('users.index')->with(defaultSaveMessagemNotification());
     }
 
     /**
@@ -57,7 +77,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $roles = Role::all()->pluck('name', 'name');
         $userRole = $user->roles->values()->get(0) ? $user->roles->values()->get(0)->name : null;
-        $status = ['activated' => 'Ativo', 'inactivated' => 'Inativo'];
 
         $roles = $user->roles->pluck("name")->all();
         $rolesResult = [];
@@ -66,7 +85,7 @@ class UserController extends Controller
             $rolesResult[ $key ] = __($value);
         }
 
-        return view('users.show', compact('user', 'roles', 'status', 'userRole', 'rolesResult'));
+        return view('users.show', compact('user', 'roles', 'userRole', 'rolesResult'));
     }
 
     /**
@@ -80,7 +99,7 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         $roles =  Role::all()->pluck('name', 'name');
         $userRole = $user->roles->values()->get(0) ? $user->roles->values()->get(0)->name : null;
-        $status = ['active' => 'Ativo', 'inactive' => 'Inativo'];
+        $status = User::getStatusArray();
 
         return view('users.edit', compact('user', 'roles', 'status', 'userRole'));
     }
