@@ -4968,7 +4968,7 @@ window.toastr = __webpack_require__(/*! ../../node_modules/toastr/toastr */ "./n
 
 __webpack_require__(/*! ./validate */ "./resources/js/validate.js");
 
-__webpack_require__(/*! ./sidebar */ "./resources/js/sidebar.js");
+__webpack_require__(Object(function webpackMissingModule() { var e = new Error("Cannot find module './sidebar'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 
 __webpack_require__(/*! ./scripts */ "./resources/js/scripts.js");
 
@@ -5077,16 +5077,6 @@ if (passwordConfirmation) {
     validate.isEmpty(this.value) || password.value !== this.value ? validate.addInvalidClass(this) : validate.addValidClass(this);
   });
 }
-
-/***/ }),
-
-/***/ "./resources/js/sidebar.js":
-/*!*********************************!*\
-  !*** ./resources/js/sidebar.js ***!
-  \*********************************/
-/***/ (() => {
-
-
 
 /***/ }),
 
