@@ -4968,8 +4968,6 @@ window.toastr = __webpack_require__(/*! ../../node_modules/toastr/toastr */ "./n
 
 __webpack_require__(/*! ./validate */ "./resources/js/validate.js");
 
-__webpack_require__(Object(function webpackMissingModule() { var e = new Error("Cannot find module './sidebar'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
-
 __webpack_require__(/*! ./scripts */ "./resources/js/scripts.js");
 
 /***/ }),

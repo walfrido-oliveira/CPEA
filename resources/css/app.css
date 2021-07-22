@@ -149,7 +149,7 @@ input:read-only {
     font-weight: bolder;
     font-size: 16px;
     text-decoration: none;
-    @apply block px-4 py-2 mt-2 text-white hover:text-white focus:text-white focus:outline-none;
+    @apply block px-4 py-2 text-white hover:text-white focus:text-white focus:outline-none;
 }
 
 .sidebar .submenu {
@@ -157,7 +157,7 @@ input:read-only {
     font-weight: bolder;
     font-size: 16px;
     text-decoration: none;
-    @apply flex flex-row items-center w-full px-4 py-2 mt-2 text-left bg-transparent md:block text-white hover:text-white focus:text-white focus:outline-none;
+    @apply flex flex-row items-center w-full px-4 py-2 text-left bg-transparent md:block text-white hover:text-white focus:text-white focus:outline-none;
 }
 
 .sidebar .submenu a:hover,  .sidebar a:hover, .sidebar .submenu:hover {
@@ -173,7 +173,7 @@ input:read-only {
     font-weight: bolder;
     font-size: 16px;
     text-decoration: none;
-    @apply block px-4 py-2 mt-2 bg-transparent md:mt-0 text-white hover:bg-green-500 focus:bg-white focus:outline-none;
+    @apply block px-4 py-2 bg-transparent md:mt-0 text-white hover:bg-green-500 focus:bg-white focus:outline-none;
 }
 
 .filter-container {
