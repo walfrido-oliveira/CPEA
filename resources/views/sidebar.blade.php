@@ -13,13 +13,13 @@
       </div>
       <nav :class="{'block': open, 'hidden': !open}" class="flex-grow md:block px-0 pb-4 md:pb-0 md:overflow-y-auto">
 
-        <a href="{{ route('users.index') }}">
+        <a class="@if(request()->routeIs('users.index')) {{ 'active' }} @endif" href="{{ route('users.index') }}">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
             Usuários</a>
 
-        <div @click.away="open = false" class="relative" x-data="{ open: false }">
+        <div @click.away="open = @if(request()->routeIs('config.emails.*')) {{ 'true' }} @else {{ 'false' }} @endif" class="relative" x-data="{ open: @if(request()->routeIs('config.emails.*')) {{ 'true' }} @else {{ 'false' }} @endif }">
           <button @click="open = !open" class="submenu">
             <svg xmlns="http://www.w3.org/2000/svg" class="inline h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
@@ -29,7 +29,7 @@
           </button>
           <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 w-full origin-top-right">
             <div class="px-0 py-0 ">
-              <a class="" href="{{ route('config.emails.index') }}">Configurações</a>
+              <a class="@if(request()->routeIs('config.emails.index')) {{ 'active' }} @endif" href="{{ route('config.emails.index') }}">Configurações</a>
             </div>
           </div>
         </div>

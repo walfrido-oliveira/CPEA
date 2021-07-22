@@ -144,6 +144,10 @@ input:read-only {
     background-color: rgb(0, 94, 16);
 }
 
+.sidebar a.active, .sidebar .submenu.active  {
+    background-color: #93c79c;
+}
+
 .sidebar a {
     color: #fff;
     font-weight: bolder;

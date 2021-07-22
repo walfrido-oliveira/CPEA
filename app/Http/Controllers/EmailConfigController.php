@@ -17,7 +17,7 @@ class EmailConfigController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('permission:config-mail');
+        //
     }
 
     /**
@@ -42,7 +42,7 @@ class EmailConfigController extends Controller
 
         $encryptionList = ["ssl" => "SSL", "tls" => "TLS", "none" => "Nenhuma"];
 
-        return view('admin.config.emails.index',
+        return view('config.emails.index',
         compact('mailFromName', 'mailFromAdress', 'mailHost', 'mailUserName',
         'mailPassword', 'mailPort', 'mailEncryption', 'encryptionList', 'mailHeader',
         'mailFooter', 'mailCSS', 'mailSignature'));
@@ -67,6 +67,6 @@ class EmailConfigController extends Controller
             'alert-type' => 'success'
         );
 
-        return Redirect::to(route('admin.config.emails.index'))->with($notification);
+        return Redirect::to(route('config.emails.index'))->with($notification);
     }
 }

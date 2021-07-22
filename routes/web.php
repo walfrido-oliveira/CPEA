@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\EmailConfigController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::prefix('config')->name('config.')->group(function(){
         Route::prefix('emails')->name('emails.')->group(function(){
             Route::get('/', [EmailConfigController::class, 'index'])->name('index');
+            Route::post('/store', [EmailConfigController::class, 'store'])->name('store');
         });
     });
 });
