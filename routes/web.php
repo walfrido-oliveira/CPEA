@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmailConfigController;
+use App\Http\Controllers\TemplateEmailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::prefix('emails')->name('emails.')->group(function(){
             Route::get('/', [EmailConfigController::class, 'index'])->name('index');
             Route::post('/store', [EmailConfigController::class, 'store'])->name('store');
+            Route::resource('templates', TemplateEmailController::class);
+            Route::get('templates/mail-preview/{template}', [TemplateEmailController::class, 'show'])->name("templates.mail-preview");
         });
     });
 });
