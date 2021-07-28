@@ -38,7 +38,6 @@
                         <thead>
                             <tr class="thead-light">
                                 <th width="5%"></th>
-                                <th width="8%" data-name="id" data-ascending="desc">{{ __('ID') }}</th>
                                 <th width="75%" data-name="name" data-ascending="desc">{{ __('Nome') }}</th>
                                 <th>{{ __('Ações') }}</th>
                             </tr>

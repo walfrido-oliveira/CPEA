@@ -4,9 +4,6 @@
             <input class="form-checkbox geodetics-url" type="checkbox" name="geodetics[{{ $geodetics->id }}]" value="{!! route('registers.geodetics.destroy', ['geodetic' => $geodetics->id]) !!}">
         </td>
         <td>
-            <a class="text-item-table" href="{{ route('registers.geodetics.show', ['geodetic' => $geodetics->id]) }}">{{ $geodetics->id }}</a>
-        </td>
-        <td>
             <a class="text-item-table" href="{{ route('registers.geodetics.show', ['geodetic' => $geodetics->id]) }}">{{ $geodetics->name }}</a>
         </td>
         <td>
