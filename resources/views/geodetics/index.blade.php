@@ -124,10 +124,12 @@
                             }
                         });
 
-                        var modal = document.getElementById("delete_geodetic_modal");
-                        modal.dataset.url = urls;
-                        modal.classList.remove("hidden");
-                        modal.classList.add("block");
+                        if(urls.length > 0) {
+                            var modal = document.getElementById("delete_geodetic_modal");
+                            modal.dataset.url = urls;
+                            modal.classList.remove("hidden");
+                            modal.classList.add("block");
+                        }
                     }
                 })
             });
