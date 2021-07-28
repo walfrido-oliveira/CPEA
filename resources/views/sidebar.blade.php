@@ -16,26 +16,42 @@
         <a class="@if(request()->routeIs('users.index')) {{ 'active' }} @endif" href="{{ route('users.index') }}">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
-            Usuários</a>
+            </svg>
+            Usuários
+        </a>
 
-        <div @click.away="open = @if(request()->routeIs('config.emails.*')) {{ 'true' }} @else {{ 'false' }} @endif" class="relative" x-data="{ open: @if(request()->routeIs('config.emails.*')) {{ 'true' }} @else {{ 'false' }} @endif }">
-          <button @click="open = !open" class="submenu">
+        <div @click.away="openConfig = {{ request()->routeIs('config.emails.*') ? 'true' : 'false' }}" class="relative" x-data="{ openConfig: {{ request()->routeIs('config.emails.*') ? 'true' : 'false' }} }">
+          <button @click="openConfig = !openConfig" class="submenu">
             <svg xmlns="http://www.w3.org/2000/svg" class="inline h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
             </svg>
             <span>E-mail</span>
-            <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': open, 'rotate-0': !open}" class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1 text-white"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': openConfig, 'rotate-0': !openConfig}" class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1 text-white"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
           </button>
-          <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 w-full origin-top-right">
+          <div x-show="openConfig" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="relative right-0 w-full origin-top-right">
             <div class="px-0 py-0 ">
-              <a class="@if(request()->routeIs('config.emails.index')) {{ 'active' }} @endif" href="{{ route('config.emails.index') }}">Configurações</a>
+                <a class="@if(request()->routeIs('config.emails.index')) {{ 'active' }} @endif" href="{{ route('config.emails.index') }}">Configurações</a>
             </div>
             <div class="px-0 py-0 ">
                 <a class="@if(request()->routeIs('config.emails.templates.index')) {{ 'active' }} @endif" href="{{ route('config.emails.templates.index') }}">Templates</a>
-              </div>
+            </div>
           </div>
         </div>
+
+        <div @click.away="openRegisters = {{ request()->routeIs('registers.*') ? 'true' : 'false' }}" class="relative" x-data="{ openRegisters: {{ request()->routeIs('registers.*') ? 'true' : 'false' }} }">
+            <button @click="openRegisters = !openRegisters" class="submenu">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                </svg>
+              <span>Cadastros</span>
+              <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': openRegisters, 'rotate-0': !openRegisters}" class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1 text-white"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </button>
+            <div x-show="openRegisters" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="relative right-0 w-full origin-top-right">
+              <div class="px-0 py-0 ">
+                <a class="@if(request()->routeIs('registers.geodetics.index')) {{ 'active' }} @endif" href="{{ route('registers.geodetics.index') }}">Tipo Sistema Geodésico</a>
+              </div>
+            </div>
+          </div>
       </nav>
     </div>
   </div>

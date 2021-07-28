@@ -42,30 +42,41 @@
         var modal = document.getElementById("{{ $attributes['id'] }}");
 
         var modalCallback = function (event) {
-            var ajax = new XMLHttpRequest();
+            var ajax = [];
             var url = document.getElementById("{{ $attributes['id'] }}").dataset.url;
             var token = document.querySelector('meta[name="csrf-token"]').content;
             var method = "{{$attributes['method'] }}";
 
-            ajax.open("POST", url);
+            var urls = url.split(',');
 
-            ajax.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var resp = JSON.parse(ajax.response);
-                    toastr.success(resp.message);
-                    close();
-                    window.location.href = "{{ $attributes['redirect-url'] }}";
-                } else if(this.readyState == 4 && this.status != 200) {
-                    toastr.error("{!! __('Um erro ocorreu a executar essa ação') !!}");
-                    close();
+            for (let index = 0; index < urls.length; index++) {
+                const url = urls[index];
+
+                ajax[index] = new XMLHttpRequest();
+
+                ajax[index].open("POST", url);
+
+                ajax[index].onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var resp = JSON.parse(ajax[index].response);
+                        toastr.success(resp.message);
+                        close();
+                    } else if(this.readyState == 4 && this.status != 200) {
+                        toastr.error("{!! __('Um erro ocorreu a executar essa ação') !!}");
+                        close();
+                    }
                 }
+
+                var data = new FormData();
+                data.append('_token', token);
+                data.append('_method', method);
+
+                ajax[index].send(data);
+
             }
 
-            var data = new FormData();
-            data.append('_token', token);
-            data.append('_method', method);
+            window.location.href = "{{ $attributes['redirect-url'] }}";
 
-            ajax.send(data);
         }
 
         function eventsModalCallback() {

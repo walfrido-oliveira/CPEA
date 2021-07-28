@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmailConfigController;
 use App\Http\Controllers\TemplateEmailController;
+use App\Http\Controllers\TypeGeodeticSystemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +37,14 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::resource('templates', TemplateEmailController::class);
             Route::get('templates/mail-preview/{template}', [TemplateEmailController::class, 'show'])->name("templates.mail-preview");
         });
+    });
+
+    Route::prefix('registers')->name('registers.')->group(function(){
+        Route::resource('geodetics', TypeGeodeticSystemController::class);
+        Route::prefix('geodetics')->name('geodetics.')->group(function(){
+            Route::post('/filter', [TypeGeodeticSystemController::class, 'filter'])->name('filter');
+        });
+
     });
 });
 
