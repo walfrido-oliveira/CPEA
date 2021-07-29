@@ -44,7 +44,7 @@ class GuidingValueController extends Controller
 
         $input = $request->all();
 
-        $geodetic =   GuidingValue::create([
+        $guidingValue =   GuidingValue::create([
             'name' => $input['name']
         ]);
 

@@ -165,7 +165,8 @@ return [
         'message' => 'mensagem',
         'comment' => 'comentário',
         'type' => 'tipo',
-        'customers' => 'clientes'
+        'customers' => 'clientes',
+        "internal_id" => "código"
     ],
 
 ];

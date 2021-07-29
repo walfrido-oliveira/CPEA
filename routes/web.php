@@ -9,6 +9,7 @@ use App\Http\Controllers\GeodeticSystemController;
 use App\Http\Controllers\PlanActionLevelController;
 use App\Http\Controllers\EnvironmentalAreaController;
 use App\Http\Controllers\TypeGeodeticSystemController;
+use App\Http\Controllers\EnvironmentalAgencyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,6 +75,14 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         ]);
         Route::prefix('valor-orientador')->name('guiding-value.')->group(function(){
             Route::post('/filter', [GuidingValueController::class, 'filter'])->name('filter');
+        });
+
+        Route::resource('orgao-ambiental', EnvironmentalAgencyController::class, [
+            'names' => 'environmental-agency'])->parameters([
+            'orgao-ambiental' => 'environmental_agency'
+        ]);
+        Route::prefix('orgao-ambiental')->name('environmental-agency.')->group(function(){
+            Route::post('/filter', [EnvironmentalAgencyController::class, 'filter'])->name('filter');
         });
 
     });

@@ -44,7 +44,7 @@ class EnvironmentalAreaController extends Controller
 
         $input = $request->all();
 
-        $geodetic =   EnvironmentalArea::create([
+        $environmentalArea =   EnvironmentalArea::create([
             'name' => $input['name']
         ]);
 

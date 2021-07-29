@@ -59,6 +59,9 @@
               <div class="px-0 py-0 ">
                 <a class="@if(request()->routeIs('registers.guiding-value.index')) {{ 'active' }} @endif" href="{{ route('registers.guiding-value.index') }}">Tipo Valor Orientador</a>
               </div>
+              <div class="px-0 py-0 ">
+                <a class="@if(request()->routeIs('registers.environmental-agency.index')) {{ 'active' }} @endif" href="{{ route('registers.environmental-agency.index') }}">Órgão Ambiental</a>
+              </div>
             </div>
           </div>
       </nav>

@@ -1,17 +1,17 @@
 <x-app-layout>
-    <div class="py-6 index-environmental-area">
+    <div class="py-6 index-environmental-agency">
         <div class="max-w-6xl mx-auto px-4">
 
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">
-                    <h1>{{ __('Tipo Área Ambiental') }}</h1>
+                    <h1>{{ __('Órgão Ambiental') }}</h1>
                 </div>
                 <div class="w-full flex justify-end">
                     <div class="m-2 ">
-                        <a class="btn-outline-info" href="{{ route('registers.environmental-area.create') }}" >{{ __('Cadastrar') }}</a>
+                        <a class="btn-outline-info" href="{{ route('registers.environmental-agency.create') }}" >{{ __('Cadastrar') }}</a>
                     </div>
                     <div class="m-2">
-                        <button type="button" class="btn-outline-danger delete-environmental-area" data-type="multiple">{{ __('Apagar') }}</a>
+                        <button type="button" class="btn-outline-danger delete-environmental-agency" data-type="multiple">{{ __('Apagar') }}</a>
                     </div>
                 </div>
             </div>
@@ -42,29 +42,29 @@
                                 <th>{{ __('Ações') }}</th>
                             </tr>
                         </thead>
-                        <tbody id="environmental-area_table_content">
-                            @include('environmental-area.filter-result', ['environmentalAreas' => $environmentalAreas])
+                        <tbody id="environmental-agency_table_content">
+                            @include('environmental-agency.filter-result', ['environmentalAgencies' => $environmentalAgencies])
                         </tbody>
                     </table>
                 </div>
                 <div class="flex mt-4 p-2" id="pagination">
-                        {{ $environmentalAreas->appends(request()->input())->links() }}
+                        {{ $environmentalAgencies->appends(request()->input())->links() }}
                 </div>
             </div>
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir Tipo Área Ambiental') }}"
-             msg="{{ __('Deseja realmente apagar esse Tipo Área Ambiental?') }}"
-             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_environmental_area_modal"
+    <x-modal title="{{ __('Excluir Órgão Ambiental') }}"
+             msg="{{ __('Deseja realmente apagar esse Órgão Ambiental?') }}"
+             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_environmental_agency_modal"
              method="DELETE"
-             redirect-url="{{ route('registers.environmental-area.index') }}"/>
+             redirect-url="{{ route('registers.environmental-agency.index') }}"/>
 
     <script>
         window.addEventListener("load", function() {
             var filterCallback = function (event) {
                 var ajax = new XMLHttpRequest();
-                var url = "{!! route('registers.environmental-area.filter') !!}";
+                var url = "{!! route('registers.environmental-agency.filter') !!}";
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
@@ -76,7 +76,7 @@
                 ajax.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         var resp = JSON.parse(ajax.response);
-                        document.getElementById("environmental_area_table_content").innerHTML = resp.filter_result;
+                        document.getElementById("environmental_agency_table_content").innerHTML = resp.filter_result;
                         document.getElementById("pagination").innerHTML = resp.pagination;
                         eventsFilterCallback();
                         eventsDeleteCallback();
@@ -105,18 +105,18 @@
             }
 
             function eventsDeleteCallback() {
-                document.querySelectorAll('.delete-environmental-area').forEach(item => {
+                document.querySelectorAll('.delete-environmental-agency').forEach(item => {
                 item.addEventListener("click", function() {
                     if(this.dataset.type != 'multiple') {
                         var url = this.dataset.url;
-                        var modal = document.getElementById("delete_environmental_area_modal");
+                        var modal = document.getElementById("delete_environmental_agency_modal");
                         modal.dataset.url = url;
                         modal.classList.remove("hidden");
                         modal.classList.add("block");
                     }
                     else {
                         var urls = '';
-                        document.querySelectorAll('input:checked.environmental-area-url').forEach((item, index, arr) => {
+                        document.querySelectorAll('input:checked.environmental-agency-url').forEach((item, index, arr) => {
                             urls += item.value ;
                             if(index < (arr.length - 1)) {
                                 urls += ',';
@@ -124,7 +124,7 @@
                         });
 
                         if(urls.length > 0) {
-                            var modal = document.getElementById("delete_environmental_area_modal");
+                            var modal = document.getElementById("delete_environmental_agency_modal");
                             modal.dataset.url = urls;
                             modal.classList.remove("hidden");
                             modal.classList.add("block");
