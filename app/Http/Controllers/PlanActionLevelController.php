@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\PlanActionLevel;
 use Illuminate\Validation\Rule;
-use App\Models\EnvironmentalArea;
 
-class EnvironmentalAreaController extends Controller
+class PlanActionLevelController extends Controller
 {
      /**
     * Display a listing of the user.
@@ -16,8 +16,8 @@ class EnvironmentalAreaController extends Controller
      */
     public function index(Request $request)
     {
-        $environmentalAreas =  EnvironmentalArea::filter($request->all());
-         return view('environmental-area.index', compact('environmentalAreas'));
+        $planActionLevels =  PlanActionLevel::filter($request->all());
+         return view('plan-action-level.index', compact('planActionLevels'));
     }
 
     /**
@@ -27,7 +27,7 @@ class EnvironmentalAreaController extends Controller
      */
     public function create()
     {
-        return view('environmental-area.create');
+        return view('plan-action-level.create');
     }
 
     /**
@@ -39,21 +39,21 @@ class EnvironmentalAreaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('environmental_areas', 'name')],
+            'name' => ['required', 'string', 'max:255', Rule::unique('plan_action_levels', 'name')],
         ]);
 
         $input = $request->all();
 
-        $geodetic =   EnvironmentalArea::create([
+        $geodetic =   PlanActionLevel::create([
             'name' => $input['name']
         ]);
 
         $resp = [
-            'message' => __('Tipo Área Ambiental Cadastrado com Sucesso!'),
+            'message' => __('Tipo Nível Ação Plano Cadastrado com Sucesso!'),
             'alert-type' => 'success'
         ];
 
-        return redirect()->route('registers.environmental-area.index')->with($resp);
+        return redirect()->route('registers.plan-action-level.index')->with($resp);
     }
 
     /**
@@ -64,8 +64,8 @@ class EnvironmentalAreaController extends Controller
      */
     public function show($id)
     {
-        $environmentalArea = EnvironmentalArea::findOrFail($id);
-        return view('environmental-area.show', compact('environmentalArea'));
+        $planActionLevel = PlanActionLevel::findOrFail($id);
+        return view('plan-action-level.show', compact('planActionLevel'));
     }
 
     /**
@@ -76,8 +76,8 @@ class EnvironmentalAreaController extends Controller
      */
     public function edit($id)
     {
-        $environmentalArea = EnvironmentalArea::findOrFail($id);
-        return view('environmental-area.edit', compact('environmentalArea'));
+        $planActionLevel = PlanActionLevel::findOrFail($id);
+        return view('plan-action-level.edit', compact('planActionLevel'));
     }
 
     /**
@@ -89,24 +89,24 @@ class EnvironmentalAreaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $environmentalArea = EnvironmentalArea::findOrFail($id);
+        $environmental_area = PlanActionLevel::findOrFail($id);
 
         $request->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('environmental_areas', 'name')->ignore($environmentalArea->id)],
+            'name' => ['required', 'string', 'max:255', Rule::unique('environmental_areas', 'name')->ignore($environmental_area->id)],
         ]);
 
         $input = $request->all();
 
-        $environmentalArea->update([
+        $environmental_area->update([
             'name' => $input['name'],
         ]);
 
         $resp = [
-            'message' => __('Tipo Área Ambiental Atualizado com Sucesso!'),
+            'message' => __('Tipo Nível Ação Plano Atualizado com Sucesso!'),
             'alert-type' => 'success'
         ];
 
-        return redirect()->route('registers.environmental-area.index')->with($resp);
+        return redirect()->route('registers.plan-action-level.index')->with($resp);
     }
 
     /**
@@ -117,30 +117,30 @@ class EnvironmentalAreaController extends Controller
      */
     public function destroy($id)
     {
-        $environmentalArea = EnvironmentalArea::findOrFail($id);
+        $planActionLevel = PlanActionLevel::findOrFail($id);
 
-        //$environmentalArea->delete();
+        //$planActionLevel->delete();
 
         return response()->json([
-            'message' => __('Tipo Área Ambiental Apagado com Sucesso!!'),
+            'message' => __('Tipo Nível Ação Plano Apagado com Sucesso!!'),
             'alert-type' => 'success'
         ]);
     }
 
     /**
-     * Filter EnvironmentalArea
+     * Filter Plan Action Level
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function filter(Request $request)
     {
-        $environmentalAreas = EnvironmentalArea::filter($request->all());
-        $environmentalAreas = $environmentalAreas->setPath('');
+        $PlanActionLevels = PlanActionLevel::filter($request->all());
+        $PlanActionLevels = $PlanActionLevels->setPath('');
 
         return response()->json([
-            'filter_result' => view('environmental-area.filter-result', compact('environmentalAreas'))->render(),
-            'pagination' => view('layouts.pagination', ['models' => $environmentalAreas])->render(),
+            'filter_result' => view('plan-action-level.filter-result', compact('PlanActionLevels'))->render(),
+            'pagination' => view('layouts.pagination', ['models' => $PlanActionLevels])->render(),
         ]);
     }
 }

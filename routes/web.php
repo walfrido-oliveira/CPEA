@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmailConfigController;
 use App\Http\Controllers\TemplateEmailController;
 use App\Http\Controllers\GeodeticSystemController;
+use App\Http\Controllers\PlanActionLevelController;
 use App\Http\Controllers\EnvironmentalAreaController;
 use App\Http\Controllers\TypeGeodeticSystemController;
 
@@ -43,16 +44,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     Route::prefix('cadastros')->name('registers.')->group(function(){
         Route::resource('geodesico', GeodeticSystemController::class, [
-            'names' => [
-                'index' => 'geodetics.index',
-                'edit' => 'geodetics.edit',
-                'create' => 'geodetics.create',
-                'store' => 'geodetics.store',
-                'update' => 'geodetics.update',
-                'destroy' => 'geodetics.destroy',
-                'show' => 'geodetics.show',
-            ]
-        ])->parameters([
+            'names' => 'geodetics'])->parameters([])->parameters([
             'geodesico' => 'geodetic'
         ]);
         Route::prefix('geodesico')->name('geodetics.')->group(function(){
@@ -60,20 +52,19 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         });
 
         Route::resource('area-ambiental', EnvironmentalAreaController::class, [
-            'names' => [
-                'index' => 'environmental-area.index',
-                'edit' => 'environmental-area.edit',
-                'create' => 'environmental-area.create',
-                'store' => 'environmental-area.store',
-                'update' => 'environmental-area.update',
-                'destroy' => 'environmental-area.destroy',
-                'show' => 'environmental-area.show',
-            ]
-        ])->parameters([
-            'area-ambiental' => 'environmental-area'
+            'names' => 'environmental-area'])->parameters([
+            'area-ambiental' => 'environmental_area'
         ]);
         Route::prefix('area-ambiental')->name('environmental-area.')->group(function(){
             Route::post('/filter', [EnvironmentalAreaController::class, 'filter'])->name('filter');
+        });
+
+        Route::resource('nivel-acao-plano', PlanActionLevelController::class, [
+            'names' => 'plan-action-level'])->parameters([
+            'nivel-acao-plano' => 'plan_action_level'
+        ]);
+        Route::prefix('nivel-acao-plano')->name('plan-action-level.')->group(function(){
+            Route::post('/filter', [PlanActionLevelController::class, 'filter'])->name('filter');
         });
 
     });

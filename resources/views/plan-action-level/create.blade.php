@@ -1,7 +1,7 @@
 <x-app-layout>
-    <div class="py-6 create-geodetics">
+    <div class="py-6 create-environmental-area">
         <div class="max-w-6xl mx-auto px-4">
-            <form method="POST" action="{{ route('registers.geodetics.store') }}">
+            <form method="POST" action="{{ route('registers.plan-action-level.store') }}">
                 @csrf
                 @method("POST")
                 <div class="flex md:flex-row flex-col">
@@ -13,7 +13,7 @@
                             <button type="submit" class="btn-outline-success">{{ __('Confirmar') }}</button>
                         </div>
                         <div class="m-2">
-                            <a href="{{ route('registers.geodetics.index')}}" class="btn-outline-danger">{{ __('Cancelar') }}</a>
+                            <a href="{{ route('registers.plan-action-level.index')}}" class="btn-outline-danger">{{ __('Cancelar') }}</a>
                         </div>
                     </div>
                 </div>

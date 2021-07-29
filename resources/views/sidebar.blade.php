@@ -53,6 +53,9 @@
               <div class="px-0 py-0 ">
                 <a class="@if(request()->routeIs('registers.environmental-area.index')) {{ 'active' }} @endif" href="{{ route('registers.environmental-area.index') }}">Tipo Área Ambiental</a>
               </div>
+              <div class="px-0 py-0 ">
+                <a class="@if(request()->routeIs('registers.plan-action-level.index')) {{ 'active' }} @endif" href="{{ route('registers.plan-action-level.index') }}">Tipo Nível Ação Plano</a>
+              </div>
             </div>
           </div>
       </nav>

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="py-6 show-environmental-area">
+    <div class="py-6 show-plan-action-level">
         <div class="max-w-6xl mx-auto px-4">
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">
@@ -7,13 +7,13 @@
                 </div>
                 <div class="w-full flex justify-end">
                     <div class="m-2 ">
-                        <a class="btn-outline-info" href="{{ route('registers.environmental-area.index') }}">{{ __('Listar') }}</a>
+                        <a class="btn-outline-info" href="{{ route('registers.plan-action-level.index') }}">{{ __('Listar') }}</a>
                     </div>
                     <div class="m-2">
-                        <a class="btn-outline-warning" href="{{ route('registers.environmental-area.edit', ['environmental_area' => $environmentalArea->id]) }}">{{ __('Editar') }}</a>
+                        <a class="btn-outline-warning" href="{{ route('registers.plan-action-level.edit', ['environmental_area' => $environmental_area->id]) }}">{{ __('Editar') }}</a>
                     </div>
                     <div class="m-2">
-                        <button type="button" class="btn-outline-danger delete-environmental-area" id="environmental_area_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $environmentalArea->id }}">{{ __('Apagar') }}</button>
+                        <button type="button" class="btn-outline-danger delete-environmental-area" id="environmental_area_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $environmental_area->id }}">{{ __('Apagar') }}</button>
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                         </div>
 
                         <div class="w-full md:w-1/2">
-                            <p class=   "text-gray-500 font-bold">{{ $environmentalArea->id }}</p>
+                            <p class=   "text-gray-500 font-bold">{{ $environmental_area->id }}</p>
                         </div>
                     </div>
 
@@ -35,7 +35,7 @@
                             <p class="font-bold">{{ __('Nome') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $environmentalArea->name }}</p>
+                            <p class="text-gray-500 font-bold">{{ $environmental_area->name }}</p>
                         </div>
                     </div>
 
@@ -44,7 +44,7 @@
                             <p class="font-bold">{{ __('Data de Cadastro') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $environmentalArea->created_at->format('d/m/Y h:i:s')}}</p>
+                            <p class="text-gray-500 font-bold">{{ $environmental_area->created_at->format('d/m/Y h:i:s')}}</p>
                         </div>
                     </div>
 
@@ -53,7 +53,7 @@
                             <p class="font-bold">{{ __('Ultima Edição') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $environmentalArea->updated_at->format('d/m/Y h:i:s')}}</p>
+                            <p class="text-gray-500 font-bold">{{ $environmental_area->updated_at->format('d/m/Y h:i:s')}}</p>
                         </div>
                     </div>
                 </div>
@@ -66,8 +66,8 @@
              msg="{{ __('Deseja realmente apagar esse usuário?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_environmental_area_modal"
              method="DELETE"
-             url="{{ route('registers.environmental-area.destroy', ['environmental_area' => $environmentalArea->id]) }}"
-             redirect-url="{{ route('registers.environmental-area.index') }}"/>
+             url="{{ route('registers.plan-action-level.destroy', ['environmental_area' => $environmental_area->id]) }}"
+             redirect-url="{{ route('registers.plan-action-level.index') }}"/>
 
     <script>
         function eventsDeleteCallback() {
