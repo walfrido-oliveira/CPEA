@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\EmailConfigController;
+use App\Http\Controllers\GuidingValueController;
 use App\Http\Controllers\TemplateEmailController;
 use App\Http\Controllers\GeodeticSystemController;
 use App\Http\Controllers\PlanActionLevelController;
@@ -65,6 +66,14 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         ]);
         Route::prefix('nivel-acao-plano')->name('plan-action-level.')->group(function(){
             Route::post('/filter', [PlanActionLevelController::class, 'filter'])->name('filter');
+        });
+
+        Route::resource('valor-orientador', GuidingValueController::class, [
+            'names' => 'guiding-value'])->parameters([
+            'valor-orientador' => 'guiding_value'
+        ]);
+        Route::prefix('valor-orientador')->name('guiding-value.')->group(function(){
+            Route::post('/filter', [GuidingValueController::class, 'filter'])->name('filter');
         });
 
     });

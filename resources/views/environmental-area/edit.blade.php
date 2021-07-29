@@ -1,12 +1,12 @@
 <x-app-layout>
     <div class="py-6 edit-environmental-area">
         <div class="max-w-6xl mx-auto px-4">
-            <form method="POST" action="{{ route('registers.environmental-area.update', ['environmentalArea' => $environmental_area->id]) }}">
+            <form method="POST" action="{{ route('registers.environmental-area.update', ['environmental_area' => $environmentalArea->id]) }}">
                 @csrf
                 @method("PUT")
                 <div class="flex md:flex-row flex-col">
                     <div class="w-full flex items-center">
-                        <h1>{{ __('Editar Usuário') }}</h1>
+                        <h1>{{ __('Tipo Área Ambiental') }}</h1>
                     </div>
                     <div class="w-full flex justify-end">
                         <div class="m-2 ">

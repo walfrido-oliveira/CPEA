@@ -56,6 +56,9 @@
               <div class="px-0 py-0 ">
                 <a class="@if(request()->routeIs('registers.plan-action-level.index')) {{ 'active' }} @endif" href="{{ route('registers.plan-action-level.index') }}">Tipo Nível Ação Plano</a>
               </div>
+              <div class="px-0 py-0 ">
+                <a class="@if(request()->routeIs('registers.guiding-value.index')) {{ 'active' }} @endif" href="{{ route('registers.guiding-value.index') }}">Tipo Valor Orientador</a>
+              </div>
             </div>
           </div>
       </nav>

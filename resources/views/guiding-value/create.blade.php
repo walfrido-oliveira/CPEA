@@ -1,19 +1,19 @@
 <x-app-layout>
-    <div class="py-6 create-environmental-area">
+    <div class="py-6 create-guiding-value">
         <div class="max-w-6xl mx-auto px-4">
-            <form method="POST" action="{{ route('registers.environmental-area.store') }}">
+            <form method="POST" action="{{ route('registers.guiding-value.store') }}">
                 @csrf
                 @method("POST")
                 <div class="flex md:flex-row flex-col">
                     <div class="w-full flex items-center">
-                        <h1>{{ __('Tipo Área Ambiental') }}</h1>
+                        <h1>{{ __('Tipo Valor Orientador') }}</h1>
                     </div>
                     <div class="w-full flex justify-end">
                         <div class="m-2 ">
                             <button type="submit" class="btn-outline-success">{{ __('Confirmar') }}</button>
                         </div>
                         <div class="m-2">
-                            <a href="{{ route('registers.environmental-area.index')}}" class="btn-outline-danger">{{ __('Cancelar') }}</a>
+                            <a href="{{ route('registers.guiding-value.index')}}" class="btn-outline-danger">{{ __('Cancelar') }}</a>
                         </div>
                     </div>
                 </div>

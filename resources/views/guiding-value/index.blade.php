@@ -1,17 +1,17 @@
 <x-app-layout>
-    <div class="py-6 index-plan-action-level">
+    <div class="py-6 index-guiding-value">
         <div class="max-w-6xl mx-auto px-4">
 
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">
-                    <h1>{{ __('Tipo Nível Ação Plano') }}</h1>
+                    <h1>{{ __('Tipo Valor Orientador') }}</h1>
                 </div>
                 <div class="w-full flex justify-end">
                     <div class="m-2 ">
-                        <a class="btn-outline-info" href="{{ route('registers.plan-action-level.create') }}" >{{ __('Cadastrar') }}</a>
+                        <a class="btn-outline-info" href="{{ route('registers.guiding-value.create') }}" >{{ __('Cadastrar') }}</a>
                     </div>
                     <div class="m-2">
-                        <button type="button" class="btn-outline-danger delete-plan-action-level" data-type="multiple">{{ __('Apagar') }}</a>
+                        <button type="button" class="btn-outline-danger delete-guiding-value" data-type="multiple">{{ __('Apagar') }}</a>
                     </div>
                 </div>
             </div>
@@ -42,29 +42,29 @@
                                 <th>{{ __('Ações') }}</th>
                             </tr>
                         </thead>
-                        <tbody id="plan-action-level_table_content">
-                            @include('plan-action-level.filter-result', ['planActionLevels' => $planActionLevels])
+                        <tbody id="guiding-value_table_content">
+                            @include('guiding-value.filter-result', ['guidingValues' => $guidingValues])
                         </tbody>
                     </table>
                 </div>
                 <div class="flex mt-4 p-2" id="pagination">
-                        {{ $planActionLevels->appends(request()->input())->links() }}
+                        {{ $guidingValues->appends(request()->input())->links() }}
                 </div>
             </div>
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir Tipo Área Ambiental') }}"
-             msg="{{ __('Deseja realmente apagar esse Tipo Área Ambiental?') }}"
-             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_plan_action_level_modal"
+    <x-modal title="{{ __('Excluir Tipo Valor Orientador') }}"
+             msg="{{ __('Deseja realmente apagar esse Tipo Valor Orientador?') }}"
+             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_guiding_value_modal"
              method="DELETE"
-             redirect-url="{{ route('registers.plan-action-level.index') }}"/>
+             redirect-url="{{ route('registers.guiding-value.index') }}"/>
 
     <script>
         window.addEventListener("load", function() {
             var filterCallback = function (event) {
                 var ajax = new XMLHttpRequest();
-                var url = "{!! route('registers.plan-action-level.filter') !!}";
+                var url = "{!! route('registers.guiding-value.filter') !!}";
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
@@ -76,7 +76,7 @@
                 ajax.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         var resp = JSON.parse(ajax.response);
-                        document.getElementById("plan_action_level_table_content").innerHTML = resp.filter_result;
+                        document.getElementById("guiding_value_table_content").innerHTML = resp.filter_result;
                         document.getElementById("pagination").innerHTML = resp.pagination;
                         eventsFilterCallback();
                         eventsDeleteCallback();
@@ -105,18 +105,18 @@
             }
 
             function eventsDeleteCallback() {
-                document.querySelectorAll('.delete-plan-action-level').forEach(item => {
+                document.querySelectorAll('.delete-guiding-value').forEach(item => {
                 item.addEventListener("click", function() {
                     if(this.dataset.type != 'multiple') {
                         var url = this.dataset.url;
-                        var modal = document.getElementById("delete_plan_action_level_modal");
+                        var modal = document.getElementById("delete_guiding_value_modal");
                         modal.dataset.url = url;
                         modal.classList.remove("hidden");
                         modal.classList.add("block");
                     }
                     else {
                         var urls = '';
-                        document.querySelectorAll('input:checked.plan-action-level-url').forEach((item, index, arr) => {
+                        document.querySelectorAll('input:checked.guiding-value-url').forEach((item, index, arr) => {
                             urls += item.value ;
                             if(index < (arr.length - 1)) {
                                 urls += ',';
@@ -124,7 +124,7 @@
                         });
 
                         if(urls.length > 0) {
-                            var modal = document.getElementById("delete_plan_action_level_modal");
+                            var modal = document.getElementById("delete_guiding_value_modal");
                             modal.dataset.url = urls;
                             modal.classList.remove("hidden");
                             modal.classList.add("block");

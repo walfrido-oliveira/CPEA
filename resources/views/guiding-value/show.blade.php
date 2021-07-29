@@ -1,19 +1,19 @@
 <x-app-layout>
-    <div class="py-6 show-plan-action-level">
+    <div class="py-6 show-guiding-value">
         <div class="max-w-6xl mx-auto px-4">
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">
-                    <h1>{{ __('Tipo Nível Ação Plano') }}</h1>
+                    <h1>{{ __('Tipo Valor Orientador') }}</h1>
                 </div>
                 <div class="w-full flex justify-end">
                     <div class="m-2 ">
-                        <a class="btn-outline-info" href="{{ route('registers.plan-action-level.index') }}">{{ __('Listar') }}</a>
+                        <a class="btn-outline-info" href="{{ route('registers.guiding-value.index') }}">{{ __('Listar') }}</a>
                     </div>
                     <div class="m-2">
-                        <a class="btn-outline-warning" href="{{ route('registers.plan-action-level.edit', ['plan_action_level' => $planActionLevel->id]) }}">{{ __('Editar') }}</a>
+                        <a class="btn-outline-warning" href="{{ route('registers.guiding-value.edit', ['guiding_value' => $guidingValue->id]) }}">{{ __('Editar') }}</a>
                     </div>
                     <div class="m-2">
-                        <button type="button" class="btn-outline-danger delete-environmental-area" id="plan_action_level_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $planActionLevel->id }}">{{ __('Apagar') }}</button>
+                        <button type="button" class="btn-outline-danger delete-guiding-value" id="guiding_value_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $guidingValue->id }}">{{ __('Apagar') }}</button>
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                         </div>
 
                         <div class="w-full md:w-1/2">
-                            <p class=   "text-gray-500 font-bold">{{ $planActionLevel->id }}</p>
+                            <p class=   "text-gray-500 font-bold">{{ $guidingValue->id }}</p>
                         </div>
                     </div>
 
@@ -35,7 +35,7 @@
                             <p class="font-bold">{{ __('Nome') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $planActionLevel->name }}</p>
+                            <p class="text-gray-500 font-bold">{{ $guidingValue->name }}</p>
                         </div>
                     </div>
 
@@ -44,7 +44,7 @@
                             <p class="font-bold">{{ __('Data de Cadastro') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $planActionLevel->created_at->format('d/m/Y h:i:s')}}</p>
+                            <p class="text-gray-500 font-bold">{{ $guidingValue->created_at->format('d/m/Y h:i:s')}}</p>
                         </div>
                     </div>
 
@@ -53,7 +53,7 @@
                             <p class="font-bold">{{ __('Ultima Edição') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $planActionLevel->updated_at->format('d/m/Y h:i:s')}}</p>
+                            <p class="text-gray-500 font-bold">{{ $guidingValue->updated_at->format('d/m/Y h:i:s')}}</p>
                         </div>
                     </div>
                 </div>
@@ -64,16 +64,16 @@
 
     <x-modal title="{{ __('Excluir usuário') }}"
              msg="{{ __('Deseja realmente apagar esse usuário?') }}"
-             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_plan_action_level_modal"
+             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_guiding_value_modal"
              method="DELETE"
-             url="{{ route('registers.plan-action-level.destroy', ['plan_action_level' => $planActionLevel->id]) }}"
-             redirect-url="{{ route('registers.plan-action-level.index') }}"/>
+             url="{{ route('registers.guiding-value.destroy', ['guiding_value' => $guidingValue->id]) }}"
+             redirect-url="{{ route('registers.guiding-value.index') }}"/>
 
     <script>
         function eventsDeleteCallback() {
-            document.querySelectorAll('.delete-environmental-area').forEach(item => {
+            document.querySelectorAll('.delete-guiding-value').forEach(item => {
             item.addEventListener("click", function() {
-                var modal = document.getElementById("delete_plan_action_level_modal");
+                var modal = document.getElementById("delete_guiding_value_modal");
                 modal.classList.remove("hidden");
                 modal.classList.add("block");
             })
