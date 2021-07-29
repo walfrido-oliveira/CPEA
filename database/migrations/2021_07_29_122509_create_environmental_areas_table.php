@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTypeGeodeticSystemsTable extends Migration
+class CreateEnvironmentalAreasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTypeGeodeticSystemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('type_geodetic_systems', function (Blueprint $table) {
+        Schema::create('environmental_areas', function (Blueprint $table) {
             $table->id();
             $table->string("name");
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateTypeGeodeticSystemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('type_geodetic_systems');
+        Schema::dropIfExists('environmental_areas');
     }
 }

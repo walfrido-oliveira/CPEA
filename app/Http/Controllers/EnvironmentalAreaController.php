@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use App\Models\TypeGeodeticSystem;
+use App\Models\EnvironmentalArea;
 
-class TypeGeodeticSystemController extends Controller
+class EnvironmentalAreaController extends Controller
 {
-    /**
+     /**
     * Display a listing of the user.
      *
      * @param  Request  $request
@@ -16,8 +16,8 @@ class TypeGeodeticSystemController extends Controller
      */
     public function index(Request $request)
     {
-        $geodetics =  TypeGeodeticSystem::filter($request->all());
-         return view('geodetics.index', compact('geodetics'));
+        $environmentalAreas =  EnvironmentalArea::filter($request->all());
+         return view('environmental-area.index', compact('environmentalAreas'));
     }
 
     /**
@@ -27,7 +27,7 @@ class TypeGeodeticSystemController extends Controller
      */
     public function create()
     {
-        return view('geodetics.create');
+        return view('environmental-area.create');
     }
 
     /**
@@ -39,21 +39,21 @@ class TypeGeodeticSystemController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('type_geodetic_systems', 'name')],
+            'name' => ['required', 'string', 'max:255', Rule::unique('environmental_areas', 'name')],
         ]);
 
         $input = $request->all();
 
-        $geodetic =   TypeGeodeticSystem::create([
+        $geodetic =   EnvironmentalArea::create([
             'name' => $input['name']
         ]);
 
         $resp = [
-            'message' => __('Tipo Sistema Geodésico Cadastrado com Sucesso!'),
+            'message' => __('Tipo Área Ambiental Cadastrado com Sucesso!'),
             'alert-type' => 'success'
         ];
 
-        return redirect()->route('registers.geodetics.index')->with($resp);
+        return redirect()->route('registers.environmental-area.index')->with($resp);
     }
 
     /**
@@ -64,8 +64,8 @@ class TypeGeodeticSystemController extends Controller
      */
     public function show($id)
     {
-        $geodetic = TypeGeodeticSystem::findOrFail($id);
-        return view('geodetics.show', compact('geodetic'));
+        $environmental_area = EnvironmentalArea::findOrFail($id);
+        return view('environmental-area.show', compact('environmental_area'));
     }
 
     /**
@@ -76,8 +76,8 @@ class TypeGeodeticSystemController extends Controller
      */
     public function edit($id)
     {
-        $geodetic = TypeGeodeticSystem::findOrFail($id);
-        return view('geodetics.edit', compact('geodetic'));
+        $environmental_area = EnvironmentalArea::findOrFail($id);
+        return view('environmental-area.edit', compact('environmental_area'));
     }
 
     /**
@@ -89,24 +89,24 @@ class TypeGeodeticSystemController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $geodetic = TypeGeodeticSystem::findOrFail($id);
+        $environmental_area = EnvironmentalArea::findOrFail($id);
 
         $request->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('type_geodetic_systems', 'name')->ignore($geodetic->id)],
+            'name' => ['required', 'string', 'max:255', Rule::unique('environmental_areas', 'name')->ignore($environmental_area->id)],
         ]);
 
         $input = $request->all();
 
-        $geodetic->update([
+        $environmental_area->update([
             'name' => $input['name'],
         ]);
 
         $resp = [
-            'message' => __('Tipo Sistema Geodésico Atualizado com Sucesso!'),
+            'message' => __('Tipo Área Ambiental Atualizado com Sucesso!'),
             'alert-type' => 'success'
         ];
 
-        return redirect()->route('registers.geodetics.index')->with($resp);
+        return redirect()->route('registers.environmental-area.index')->with($resp);
     }
 
     /**
@@ -117,12 +117,12 @@ class TypeGeodeticSystemController extends Controller
      */
     public function destroy($id)
     {
-        $geodetic = TypeGeodeticSystem::findOrFail($id);
+        $environmental_area = EnvironmentalArea::findOrFail($id);
 
         //$geodetic->delete();
 
         return response()->json([
-            'message' => __('Tipo Sistema Geodésico Apagado com Sucesso!!'),
+            'message' => __('Tipo Área Ambiental Apagado com Sucesso!!'),
             'alert-type' => 'success'
         ]);
     }
@@ -135,12 +135,12 @@ class TypeGeodeticSystemController extends Controller
      */
     public function filter(Request $request)
     {
-        $geodetics = TypeGeodeticSystem::filter($request->all());
-        $geodetics = $geodetics->setPath('');
+        $environmentalAreas = EnvironmentalArea::filter($request->all());
+        $environmentalAreas = $environmentalAreas->setPath('');
 
         return response()->json([
-            'filter_result' => view('geodetics.filter-result', compact('geodetics'))->render(),
-            'pagination' => view('layouts.pagination', ['models' => $geodetics])->render(),
+            'filter_result' => view('environmental-area.filter-result', compact('environmentalAreas'))->render(),
+            'pagination' => view('layouts.pagination', ['models' => $environmentalAreas])->render(),
         ]);
     }
 }
