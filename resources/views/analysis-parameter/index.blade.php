@@ -42,7 +42,7 @@
                                 <th>{{ __('Ações') }}</th>
                             </tr>
                         </thead>
-                        <tbody id="analysis-parameter_table_content">
+                        <tbody id="analysis_parameter_table_content">
                             @include('analysis-parameter.filter-result', ['analysisParameters' => $analysisParameters])
                         </tbody>
                     </table>
@@ -54,8 +54,8 @@
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir Tipo Área Ambiental') }}"
-             msg="{{ __('Deseja realmente apagar esse Tipo Área Ambiental?') }}"
+    <x-modal title="{{ __('Excluir Tipo Param. Análise') }}"
+             msg="{{ __('Deseja realmente apagar esse Tipo Param. Análise?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_analysis_parameter_modal"
              method="DELETE"
              redirect-url="{{ route('registers.analysis-parameter.index') }}"/>

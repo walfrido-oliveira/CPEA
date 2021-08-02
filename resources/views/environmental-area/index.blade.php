@@ -42,7 +42,7 @@
                                 <th>{{ __('Ações') }}</th>
                             </tr>
                         </thead>
-                        <tbody id="environmental-area_table_content">
+                        <tbody id="environmental_area_table_content">
                             @include('environmental-area.filter-result', ['environmentalAreas' => $environmentalAreas])
                         </tbody>
                     </table>

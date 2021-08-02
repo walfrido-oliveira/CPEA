@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="py-6 create-environmental-area">
+    <div class="py-6 create-analysis-parameter">
         <div class="max-w-6xl mx-auto px-4">
             <form method="POST" action="{{ route('registers.analysis-parameter.store') }}">
                 @csrf

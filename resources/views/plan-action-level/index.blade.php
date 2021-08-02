@@ -42,7 +42,7 @@
                                 <th>{{ __('Ações') }}</th>
                             </tr>
                         </thead>
-                        <tbody id="plan-action-level_table_content">
+                        <tbody id="plan_action_level_table_content">
                             @include('plan-action-level.filter-result', ['planActionLevels' => $planActionLevels])
                         </tbody>
                     </table>
@@ -54,8 +54,8 @@
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir Tipo Área Ambiental') }}"
-             msg="{{ __('Deseja realmente apagar esse Tipo Área Ambiental?') }}"
+    <x-modal title="{{ __('Excluir Tipo Nível Ação Plano') }}"
+             msg="{{ __('Deseja realmente apagar esse Tipo Nível Ação Plano?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_plan_action_level_modal"
              method="DELETE"
              redirect-url="{{ route('registers.plan-action-level.index') }}"/>

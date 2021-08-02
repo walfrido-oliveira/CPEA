@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use App\Models\AnalysisParameter;
+use App\Models\PointIdentification;
 
-class AnalysisParameterController extends Controller
+class PointIdentificationController extends Controller
 {
     /**
      * Display a listing of the user.
@@ -16,8 +15,8 @@ class AnalysisParameterController extends Controller
      */
     public function index(Request $request)
     {
-        $analysisParameters =  AnalysisParameter::filter($request->all());
-         return view('analysis-parameter.index', compact('analysisParameters'));
+        $pointIdentifications =  PointIdentification::filter($request->all());
+         return view('point-identification.index', compact('pointIdentifications'));
     }
 
     /**
@@ -27,7 +26,7 @@ class AnalysisParameterController extends Controller
      */
     public function create()
     {
-        return view('analysis-parameter.create');
+        return view('point-identification.create');
     }
 
     /**
@@ -39,21 +38,23 @@ class AnalysisParameterController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('analysis_parameters', 'name')],
+            'area' => ['required', 'string', 'max:255'],
+            'identification' => ['required', 'string', 'max:255'],
         ]);
 
         $input = $request->all();
 
-        $analysisParameter =   AnalysisParameter::create([
-            'name' => $input['name']
+        $pointIdentification =   PointIdentification::create([
+            'area' => $input['area'],
+            'identification' => $input['identification']
         ]);
 
         $resp = [
-            'message' => __('Tipo Param. Análise Cadastrado com Sucesso!'),
+            'message' => __('Ponto Cadastrado com Sucesso!'),
             'alert-type' => 'success'
         ];
 
-        return redirect()->route('registers.analysis-parameter.index')->with($resp);
+        return redirect()->route('registers.point-identification.index')->with($resp);
     }
 
     /**
@@ -64,8 +65,8 @@ class AnalysisParameterController extends Controller
      */
     public function show($id)
     {
-        $analysisParameter = AnalysisParameter::findOrFail($id);
-        return view('analysis-parameter.show', compact('analysisParameter'));
+        $pointIdentification = PointIdentification::findOrFail($id);
+        return view('point-identification.show', compact('pointIdentification'));
     }
 
     /**
@@ -76,8 +77,8 @@ class AnalysisParameterController extends Controller
      */
     public function edit($id)
     {
-        $analysisParameter = AnalysisParameter::findOrFail($id);
-        return view('analysis-parameter.edit', compact('analysisParameter'));
+        $pointIdentification = PointIdentification::findOrFail($id);
+        return view('point-identification.edit', compact('pointIdentification'));
     }
 
     /**
@@ -89,24 +90,26 @@ class AnalysisParameterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $analysisParameter = AnalysisParameter::findOrFail($id);
+        $pointIdentification = PointIdentification::findOrFail($id);
 
         $request->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('analysis_parameters', 'name')->ignore($analysisParameter->id)],
+            'area' => ['required', 'string', 'max:255'],
+            'identification' => ['required', 'string', 'max:255'],
         ]);
 
         $input = $request->all();
 
-        $analysisParameter->update([
-            'name' => $input['name'],
+        $pointIdentification->update([
+            'area' => $input['area'],
+            'identification' => $input['identification']
         ]);
 
         $resp = [
-            'message' => __('Tipo Param. Análise Atualizado com Sucesso!'),
+            'message' => __('Ponto Atualizado com Sucesso!'),
             'alert-type' => 'success'
         ];
 
-        return redirect()->route('registers.analysis-parameter.index')->with($resp);
+        return redirect()->route('registers.point-identification.index')->with($resp);
     }
 
     /**
@@ -117,12 +120,12 @@ class AnalysisParameterController extends Controller
      */
     public function destroy($id)
     {
-        $analysisParameter = AnalysisParameter::findOrFail($id);
+        $pointIdentification = PointIdentification::findOrFail($id);
 
-        //$analysisParameter->delete();
+        //$pointIdentification->delete();
 
         return response()->json([
-            'message' => __('Tipo Param. Análise Apagado com Sucesso!!'),
+            'message' => __('Ponto Apagado com Sucesso!!'),
             'alert-type' => 'success'
         ]);
     }
@@ -135,12 +138,12 @@ class AnalysisParameterController extends Controller
      */
     public function filter(Request $request)
     {
-        $analysisParameters = AnalysisParameter::filter($request->all());
-        $analysisParameters = $analysisParameters->setPath('');
+        $pointIdentifications = PointIdentification::filter($request->all());
+        $pointIdentifications = $pointIdentifications->setPath('');
 
         return response()->json([
-            'filter_result' => view('analysis-parameter.filter-result', compact('analysisParameters'))->render(),
-            'pagination' => view('layouts.pagination', ['models' => $analysisParameters])->render(),
+            'filter_result' => view('point-identification.filter-result', compact('pointIdentifications'))->render(),
+            'pagination' => view('layouts.pagination', ['models' => $pointIdentifications])->render(),
         ]);
     }
 }

@@ -42,7 +42,7 @@
                                 <th>{{ __('Ações') }}</th>
                             </tr>
                         </thead>
-                        <tbody id="guiding-value_table_content">
+                        <tbody id="guiding_value_table_content">
                             @include('guiding-value.filter-result', ['guidingValues' => $guidingValues])
                         </tbody>
                     </table>
