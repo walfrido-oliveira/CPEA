@@ -43,7 +43,7 @@
                             </tr>
                         </thead>
                         <tbody id="environmental-agency_table_content">
-                            @include('environmental_agency.filter-result', ['environmentalAgencies' => $environmentalAgencies])
+                            @include('environmental-agency.filter-result', ['environmentalAgencies' => $environmentalAgencies])
                         </tbody>
                     </table>
                 </div>

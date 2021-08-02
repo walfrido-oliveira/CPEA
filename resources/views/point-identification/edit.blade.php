@@ -33,6 +33,61 @@
                             <x-jet-input id="identification" class="form-control block mt-1 w-full" type="text" name="identification" maxlength="255" :value="$pointIdentification->identification" required autofocus autocomplete="identification" placeholder="{{ __('Identificação') }}"/>
                         </div>
                     </div>
+
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="utm_me_coordinate" value="{{ __('Coordenada UTM ME') }}" />
+                            <x-jet-input id="utm_me_coordinate" class="form-control block mt-1 w-full" type="number" name="utm_me_coordinate" maxlength="18" step="any" autofocus autocomplete="utm_me_coordinate" :value="$pointIdentification->utm_me_coordinate"/>
+                        </div>
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="utm_mm_coordinate" value="{{ __('Coordenada UTM MM') }}" />
+                            <x-jet-input id="utm_mm_coordinate" class="form-control block mt-1 w-full" type="number" name="utm_mm_coordinate" maxlength="18" step="any"  autofocus autocomplete="utm_mm_coordinate" :value="$pointIdentification->utm_mm_coordinate"/>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="pool_depth" value="{{ __('Profundidade Poço') }}" />
+                            <x-jet-input id="pool_depth" class="form-control block mt-1 w-full" type="number" name="pool_depth" maxlength="18" step="any" autofocus autocomplete="pool_depth" :value="$pointIdentification->pool_depth"/>
+                        </div>
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="utm_mm_coordinate" value="{{ __('Sistema Geodesico') }}" required/>
+                            <x-custom-select :options="$geodeticSystems" name="geodetic_system_id" id="geodetic_system_id" :value="$pointIdentification->geodeticSystem->id" required/>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="pool_diameter" value="{{ __('Diâmetro Poço') }}" />
+                            <x-jet-input id="pool_diameter" class="form-control block mt-1 w-full" type="number" name="pool_diameter" maxlength="18" step="any" autofocus autocomplete="pool_diameter" :value="$pointIdentification->pool_diameter" />
+                        </div>
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="water_depth" value="{{ __('Profundidade Nível Água') }}" />
+                            <x-jet-input id="water_depth" class="form-control block mt-1 w-full" type="number" name="water_depth" maxlength="18" step="any" autofocus autocomplete="water_depth" :value="$pointIdentification->water_depth"/>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="sedimentary_collection_depth" value="{{ __('Profundidade Col. Sedmentar') }}"  />
+                            <x-jet-input id="sedimentary_collection_depth" class="form-control block mt-1 w-full" type="number" name="sedimentary_collection_depth" maxlength="18" step="any" autofocus autocomplete="sedimentary_collection_depth" :value="$pointIdentification->sedimentary_collection_depth"/>
+                        </div>
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="pool_volume" value="{{ __('Volue Poço') }}" />
+                            <x-jet-input id="pool_volume" class="form-control block mt-1 w-full" type="number" name="pool_volume" maxlength="18" step="any" autofocus autocomplete="pool_volume"  :value="$pointIdentification->pool_volume"/>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="collection_depth" value="{{ __('Profundidade Col Coleta') }}"  />
+                            <x-jet-input id="collection_depth" class="form-control block mt-1 w-full" type="number" name="collection_depth" maxlength="18" step="any" autofocus autocomplete="collection_depth" :value="$pointIdentification->collection_depth"/>
+                        </div>
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="water_collection_depth" value="{{ __('Profundidade Col Água') }}" />
+                            <x-jet-input id="water_collection_depth" class="form-control block mt-1 w-full" type="number" name="water_collection_depth" step="any" maxlength="18" autofocus autocomplete="water_collection_depth" :value="$pointIdentification->water_collection_depth"/>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>

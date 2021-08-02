@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\GeodeticSystem;
 use App\Models\PointIdentification;
+use App\Http\Requests\PointIdentificationRequest;
 
 class PointIdentificationController extends Controller
 {
@@ -26,27 +28,33 @@ class PointIdentificationController extends Controller
      */
     public function create()
     {
-        return view('point-identification.create');
+        $geodeticSystems = GeodeticSystem::pluck("name", "id");
+        return view('point-identification.create', compact('geodeticSystems'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  PointIdentificationRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PointIdentificationRequest $request)
     {
-        $request->validate([
-            'area' => ['required', 'string', 'max:255'],
-            'identification' => ['required', 'string', 'max:255'],
-        ]);
-
         $input = $request->all();
 
         $pointIdentification =   PointIdentification::create([
             'area' => $input['area'],
-            'identification' => $input['identification']
+            'identification' => $input['identification'],
+            'geodetic_system_id' => $input['geodetic_system_id'],
+            'utm_me_coordinate' => isset($input['utm_me_coordinate']) ? $input['utm_me_coordinate'] : null,
+            'utm_mm_coordinate' => isset($input['utm_mm_coordinate']) ? $input['utm_mm_coordinate'] : null,
+            'pool_depth' => isset($input['pool_depth']) ? $input['pool_depth'] : null,
+            'pool_diameter' => isset($input['pool_diameter']) ? $input['pool_diameter'] : null,
+            'pool_volume' => isset($input['pool_volume']) ? $input['pool_volume'] : null,
+            'water_depth' => isset($input['water_depth']) ? $input['water_depth'] : null,
+            'sedimentary_collection_depth' => isset($input['sedimentary_collection_depth']) ? $input['sedimentary_collection_depth'] : null,
+            'collection_depth' => isset($input['collection_depth']) ? $input['collection_depth'] : null,
+            'water_collection_depth' => isset($input['water_collection_depth']) ? $input['water_collection_depth'] : null,
         ]);
 
         $resp = [
@@ -78,30 +86,37 @@ class PointIdentificationController extends Controller
     public function edit($id)
     {
         $pointIdentification = PointIdentification::findOrFail($id);
-        return view('point-identification.edit', compact('pointIdentification'));
+        $geodeticSystems = GeodeticSystem::pluck("name", "id");
+        return view('point-identification.edit', compact('pointIdentification', 'geodeticSystems'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  PointIdentificationRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PointIdentificationRequest $request, $id)
     {
         $pointIdentification = PointIdentification::findOrFail($id);
 
-        $request->validate([
-            'area' => ['required', 'string', 'max:255'],
-            'identification' => ['required', 'string', 'max:255'],
-        ]);
-
         $input = $request->all();
+        //dd($input);
 
         $pointIdentification->update([
             'area' => $input['area'],
-            'identification' => $input['identification']
+            'identification' => $input['identification'],
+            'geodetic_system_id' => $input['geodetic_system_id'],
+            'utm_me_coordinate' => isset($input['utm_me_coordinate']) ? $input['utm_me_coordinate'] : null,
+            'utm_mm_coordinate' => isset($input['utm_mm_coordinate']) ? $input['utm_mm_coordinate'] : null,
+            'pool_depth' => isset($input['pool_depth']) ? $input['pool_depth'] : null,
+            'pool_diameter' => isset($input['pool_diameter']) ? $input['pool_diameter'] : null,
+            'pool_volume' => isset($input['pool_volume']) ? $input['pool_volume'] : null,
+            'water_depth' => isset($input['water_depth']) ? $input['water_depth'] : null,
+            'sedimentary_collection_depth' => isset($input['sedimentary_collection_depth']) ? $input['sedimentary_collection_depth'] : null,
+            'collection_depth' => isset($input['collection_depth']) ? $input['collection_depth'] : null,
+            'water_collection_depth' => isset($input['water_collection_depth']) ? $input['water_collection_depth'] : null,
         ]);
 
         $resp = [

@@ -15,8 +15,23 @@ class PointIdentification extends Model
      * @var array
      */
     protected $fillable = [
-        'area', 'identification'
+        'geodetic_system_id',
+        'area', 'identification',
+        'utm_me_coordinate', 'utm_mm_coordinate',
+        'pool_depth', 'pool_diameter', 'pool_volume',
+        'water_depth', 'water_collection_depth',
+        'sedimentary_collection_depth', 'collection_depth'
     ];
+
+
+
+    /**
+     * The roles that belong to the geodetic system.
+     */
+    public function geodeticSystem()
+    {
+        return $this->belongsTo(GeodeticSystem::class);
+    }
 
     /**
      * Find users in dabase

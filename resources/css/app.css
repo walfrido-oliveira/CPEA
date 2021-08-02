@@ -89,7 +89,7 @@ input:read-only {
 .form-input, .custom-select {
     background: #FBFBFB 0% 0% no-repeat padding-box;
     border: 1px solid #C4C4C4;
-    border-radius: 10px;
+    border-radius: 0.375rem;
 }
 
 .form-checkbox {

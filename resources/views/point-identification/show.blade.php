@@ -3,7 +3,7 @@
         <div class="max-w-6xl mx-auto px-4">
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">
-                    <h1>{{ __('Editar Ponto') }}</h1>
+                    <h1>{{ __('Ponto') }}</h1>
                 </div>
                 <div class="w-full flex justify-end">
                     <div class="m-2 ">
