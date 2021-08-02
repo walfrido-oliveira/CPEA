@@ -62,6 +62,9 @@
               <div class="px-0 py-0 ">
                 <a class="@if(request()->routeIs('registers.environmental-agency.index')) {{ 'active' }} @endif" href="{{ route('registers.environmental-agency.index') }}">Órgão Ambiental</a>
               </div>
+              <div class="px-0 py-0 ">
+                <a class="@if(request()->routeIs('registers.analysis-parameter.index')) {{ 'active' }} @endif" href="{{ route('registers.analysis-parameter.index') }}">Tipo Param. Análise</a>
+              </div>
             </div>
           </div>
       </nav>

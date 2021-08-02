@@ -7,6 +7,7 @@ use App\Http\Controllers\GuidingValueController;
 use App\Http\Controllers\TemplateEmailController;
 use App\Http\Controllers\GeodeticSystemController;
 use App\Http\Controllers\PlanActionLevelController;
+use App\Http\Controllers\AnalysisParameterController;
 use App\Http\Controllers\EnvironmentalAreaController;
 use App\Http\Controllers\TypeGeodeticSystemController;
 use App\Http\Controllers\EnvironmentalAgencyController;
@@ -83,6 +84,14 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         ]);
         Route::prefix('orgao-ambiental')->name('environmental-agency.')->group(function(){
             Route::post('/filter', [EnvironmentalAgencyController::class, 'filter'])->name('filter');
+        });
+
+        Route::resource('param-analise', AnalysisParameterController::class, [
+            'names' => 'analysis-parameter'])->parameters([
+            'param-analise' => 'analysis_parameter'
+        ]);
+        Route::prefix('param-analise')->name('analysis-parameter.')->group(function(){
+            Route::post('/filter', [AnalysisParameterController::class, 'filter'])->name('filter');
         });
 
     });

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\PlanActionLevel;
 use Illuminate\Validation\Rule;
+use App\Models\AnalysisParameter;
 
-class PlanActionLevelController extends Controller
+class AnalysisParameterController extends Controller
 {
     /**
      * Display a listing of the user.
@@ -16,8 +16,8 @@ class PlanActionLevelController extends Controller
      */
     public function index(Request $request)
     {
-        $planActionLevels =  PlanActionLevel::filter($request->all());
-         return view('plan-action-level.index', compact('planActionLevels'));
+        $analysisParameters =  AnalysisParameter::filter($request->all());
+         return view('analysis-parameter.index', compact('analysisParameters'));
     }
 
     /**
@@ -27,7 +27,7 @@ class PlanActionLevelController extends Controller
      */
     public function create()
     {
-        return view('plan-action-level.create');
+        return view('analysis-parameter.create');
     }
 
     /**
@@ -39,12 +39,12 @@ class PlanActionLevelController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('plan_action_levels', 'name')],
+            'name' => ['required', 'string', 'max:255', Rule::unique('analysis_parameters', 'name')],
         ]);
 
         $input = $request->all();
 
-        $planActionLevel =   PlanActionLevel::create([
+        $analysisParameter =   AnalysisParameter::create([
             'name' => $input['name']
         ]);
 
@@ -53,7 +53,7 @@ class PlanActionLevelController extends Controller
             'alert-type' => 'success'
         ];
 
-        return redirect()->route('registers.plan-action-level.index')->with($resp);
+        return redirect()->route('registers.analysis-parameter.index')->with($resp);
     }
 
     /**
@@ -64,8 +64,8 @@ class PlanActionLevelController extends Controller
      */
     public function show($id)
     {
-        $planActionLevel = PlanActionLevel::findOrFail($id);
-        return view('plan-action-level.show', compact('planActionLevel'));
+        $analysisParameter = AnalysisParameter::findOrFail($id);
+        return view('analysis-parameter.show', compact('analysisParameter'));
     }
 
     /**
@@ -76,8 +76,8 @@ class PlanActionLevelController extends Controller
      */
     public function edit($id)
     {
-        $planActionLevel = PlanActionLevel::findOrFail($id);
-        return view('plan-action-level.edit', compact('planActionLevel'));
+        $analysisParameter = AnalysisParameter::findOrFail($id);
+        return view('analysis-parameter.edit', compact('analysisParameter'));
     }
 
     /**
@@ -89,15 +89,15 @@ class PlanActionLevelController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $planActionLevel = PlanActionLevel::findOrFail($id);
+        $analysisParameter = AnalysisParameter::findOrFail($id);
 
         $request->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('plan_action_levels', 'name')->ignore($planActionLevel->id)],
+            'name' => ['required', 'string', 'max:255', Rule::unique('analysis_parameters', 'name')->ignore($analysisParameter->id)],
         ]);
 
         $input = $request->all();
 
-        $planActionLevel->update([
+        $analysisParameter->update([
             'name' => $input['name'],
         ]);
 
@@ -106,7 +106,7 @@ class PlanActionLevelController extends Controller
             'alert-type' => 'success'
         ];
 
-        return redirect()->route('registers.plan-action-level.index')->with($resp);
+        return redirect()->route('registers.analysis-parameter.index')->with($resp);
     }
 
     /**
@@ -117,9 +117,9 @@ class PlanActionLevelController extends Controller
      */
     public function destroy($id)
     {
-        $planActionLevel = PlanActionLevel::findOrFail($id);
+        $analysisParameter = AnalysisParameter::findOrFail($id);
 
-        //$planActionLevel->delete();
+        //$analysisParameter->delete();
 
         return response()->json([
             'message' => __('Tipo Nível Ação Plano Apagado com Sucesso!!'),
@@ -135,12 +135,12 @@ class PlanActionLevelController extends Controller
      */
     public function filter(Request $request)
     {
-        $planActionLevels = PlanActionLevel::filter($request->all());
-        $planActionLevels = $planActionLevels->setPath('');
+        $analysisParameters = AnalysisParameter::filter($request->all());
+        $analysisParameters = $analysisParameters->setPath('');
 
         return response()->json([
-            'filter_result' => view('plan-action-level.filter-result', compact('planActionLevels'))->render(),
-            'pagination' => view('layouts.pagination', ['models' => $planActionLevels])->render(),
+            'filter_result' => view('analysis-parameter.filter-result', compact('analysisParameters'))->render(),
+            'pagination' => view('layouts.pagination', ['models' => $analysisParameters])->render(),
         ]);
     }
 }
