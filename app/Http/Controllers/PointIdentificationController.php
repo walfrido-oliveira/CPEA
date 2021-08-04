@@ -102,7 +102,6 @@ class PointIdentificationController extends Controller
         $pointIdentification = PointIdentification::findOrFail($id);
 
         $input = $request->all();
-        //dd($input);
 
         $pointIdentification->update([
             'area' => $input['area'],
@@ -159,6 +158,20 @@ class PointIdentificationController extends Controller
         return response()->json([
             'filter_result' => view('point-identification.filter-result', compact('pointIdentifications'))->render(),
             'pagination' => view('layouts.pagination', ['models' => $pointIdentifications])->render(),
+        ]);
+    }
+
+    /**
+     * Filter by area
+     * @param String $area
+     * @return \Illuminate\Http\Response
+     */
+    public function filterByArea($area)
+    {
+        $pointIdentifications = PointIdentification::where('area', $area)->get();
+
+        return response()->json([
+            'point_identifications' => $pointIdentifications,
         ]);
     }
 }

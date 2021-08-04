@@ -16,6 +16,14 @@ h1 {
     margin: 0;
 }
 
+h2, h3 {
+    font: var(--default-font-bolder);
+    line-height: 27px;
+    color: #0a0a0a;
+    opacity: .66;
+    margin: 0;
+}
+
 input:-moz-read-only { /* For Firefox */
     background-color: #ecf0f5;
 }
@@ -57,11 +65,15 @@ input:read-only {
 }
 
 .btn-transition-warning {
-    @apply inline-block text-yellow-500 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110;
+    @apply inline-block text-yellow-500 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 cursor-pointer;
 }
 
 .btn-transition-danger {
-    @apply inline-block text-red-500 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110;
+    @apply inline-block text-red-500 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 cursor-pointer;
+}
+
+.btn-transition-secondary {
+    @apply inline-block text-gray-500 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 cursor-pointer;
 }
 
 .btn-primary {

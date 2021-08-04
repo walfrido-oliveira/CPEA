@@ -21,7 +21,7 @@
             <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
                 <div class="mx-4 px-3 py-2 mt-4">
                     <div class="flex flex-wrap">
-                        <div class="w-full md:w-2/12">
+                        <div class="w-full md:w-1/4">
                             <p class="font-bold">{{ __('ID') }}</p>
                         </div>
 
@@ -31,16 +31,115 @@
                     </div>
 
                     <div class="flex flex-wrap">
-                        <div class="w-full md:w-2/12">
-                            <p class="font-bold">{{ __('Nome') }}</p>
+                        <div class="w-full md:w-1/4">
+                            <p class="font-bold">{{ __('Área') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $pointIdentification->name }}</p>
+                            <p class="text-gray-500 font-bold">{{ $pointIdentification->area }}</p>
                         </div>
                     </div>
 
                     <div class="flex flex-wrap">
-                        <div class="w-full md:w-2/12">
+                        <div class="w-full md:w-1/4">
+                            <p class="font-bold">{{ __('Identificação do Ponto') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-500 font-bold">{{ $pointIdentification->identification }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-1/4">
+                            <p class="font-bold">{{ __('Coordenada UTM ME') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->utm_me_coordinate, 5, ",", ".")   }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-1/4">
+                            <p class="font-bold">{{ __('Coordenada UTM MM') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->utm_mm_coordinate, 5, ",", ".") }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-1/4">
+                            <p class="font-bold">{{ __('Profundidade Poço') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->pool_depth, 5, ",", ".") }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-1/4">
+                            <p class="font-bold">{{ __('Sistema Geodesico') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-500 font-bold">{{ $pointIdentification->geodeticSystem->name }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-1/4">
+                            <p class="font-bold">{{ __('Diâmetro Poço') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->pool_diameter, 5, ",", ".") }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-1/4">
+                            <p class="font-bold">{{ __('Profundidade Nível Água') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->water_depth, 5, ",", ".") }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-1/4">
+                            <p class="font-bold">{{ __('Profundidade Col. Sedmentar') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->sedimentary_collection_depth, 5, ",", ".") }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-1/4">
+                            <p class="font-bold">{{ __('Volume Poço') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->pool_volume, 5, ",", ".") }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-1/4">
+                            <p class="font-bold">{{ __('Profundidade Col Coleta') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->collection_depth, 5, ",", ".") }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-1/4">
+                            <p class="font-bold">{{ __('Profundidade Col Água') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->water_collection_depth, 5, ",", ".") }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-1/4">
                             <p class="font-bold">{{ __('Data de Cadastro') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
@@ -49,7 +148,7 @@
                     </div>
 
                     <div class="flex flex-wrap">
-                        <div class="w-full md:w-2/12">
+                        <div class="w-full md:w-1/4">
                             <p class="font-bold">{{ __('Ultima Edição') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">

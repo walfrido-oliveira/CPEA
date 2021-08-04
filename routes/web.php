@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmailConfigController;
 use App\Http\Controllers\GuidingValueController;
 use App\Http\Controllers\TemplateEmailController;
@@ -30,11 +31,24 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
-    Route::resource('users', UserController::class);
+    Route::resource('usuarios', UserController::class, [
+        'names' => 'users'])->parameters([
+        'usuarios' => 'user'
+    ]);
 
-    Route::prefix('users')->name('users.')->group(function(){
+    Route::prefix('usuarios')->name('users.')->group(function(){
         Route::post('/filter', [UserController::class, 'filter'])->name('filter');
         Route::post('/forgot-password/{user}', [UserController::class, 'forgotPassword'])->name('forgot-password');
+    });
+
+    Route::resource('clientes', CustomerController::class, [
+        'names' => 'customers'])->parameters([
+        'clientes' => 'customer'
+    ]);
+
+    Route::prefix('clientes')->name('customers.')->group(function(){
+        Route::post('/filter', [CustomerController::class, 'filter'])->name('filter');
+        Route::post('/forgot-password/{user}', [CustomerController::class, 'forgotPassword'])->name('forgot-password');
     });
 
     Route::prefix('config')->name('config.')->group(function(){
@@ -101,6 +115,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         ]);
         Route::prefix('ponto')->name('point-identification.')->group(function(){
             Route::post('/filter', [PointIdentificationController::class, 'filter'])->name('filter');
+            Route::post('/filter/{area}', [PointIdentificationController::class, 'filterByArea'])->name('filter-by-area');
         });
 
     });

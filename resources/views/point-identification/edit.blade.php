@@ -73,7 +73,7 @@
                             <x-jet-input id="sedimentary_collection_depth" class="form-control block mt-1 w-full" type="number" name="sedimentary_collection_depth" maxlength="18" step="any" autofocus autocomplete="sedimentary_collection_depth" :value="$pointIdentification->sedimentary_collection_depth"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="pool_volume" value="{{ __('Volue Poço') }}" />
+                            <x-jet-label for="pool_volume" value="{{ __('Volume Poço') }}" />
                             <x-jet-input id="pool_volume" class="form-control block mt-1 w-full" type="number" name="pool_volume" maxlength="18" step="any" autofocus autocomplete="pool_volume"  :value="$pointIdentification->pool_volume"/>
                         </div>
                     </div>
