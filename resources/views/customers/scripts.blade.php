@@ -65,6 +65,11 @@
                 return;
             }
 
+            if(!document.getElementById("point_identifications").value) {
+                toastr.error("{!! __('Nenhum ponto selecionado') !!}");
+                return;
+            }
+
             let trashIcon = document.createElement("button");
             trashIcon.classList.add("btn-transition-danger");
             trashIcon.classList.add("delete-point-identification");

@@ -43,7 +43,7 @@
                         </div>
                         <div class="w-full md:w-5/12 pl-3 mb-6 md:mb-0">
                             <x-jet-label for="point_identifications" value="{{ __('Identificação Ponto') }}" />
-                            <x-custom-select :options="[]" name="point_identifications" id="point_identifications" value="" placeholder="{{ __('Ponto') }}" class="mt-1"/>
+                            <x-custom-select :options="[]" name="point_identifications" id="point_identifications" value="" class="mt-1"/>
                         </div>
                         <div class="flex items-end justify-end pr-3 mb-6 md:mb-0 w-full md:w-1/12">
                             <button type="button" class="btn-transition-secondary" id="point_identifications_add">
