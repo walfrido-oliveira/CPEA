@@ -26,7 +26,10 @@ class UserController extends Controller
     {
         $users =  User::filter($request->all());
         $roles = Role::all()->pluck('name', 'name');
-        return view('users.index', compact('users', 'roles'));
+        $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'id';
+
+        return view('users.index', compact('users', 'roles', 'ascending', 'orderBy'));
     }
 
     /**
@@ -162,10 +165,18 @@ class UserController extends Controller
     {
         $users = User::filter($request->all());
         $users = $users->setPath('');
+        $orderBy = $request->get('order_by');
+        $ascending = $request->get('ascending');
+        $paginate_per_page = $request->get('paginate_per_page');
 
         return response()->json([
-            'filter_result' => view('users.filter-result', compact('users'))->render(),
-            'pagination' => view('layouts.pagination', ['models' => $users])->render(),
+        'filter_result' => view('users.filter-result', compact('users', 'orderBy', 'ascending'))->render(),
+        'pagination' => view('layouts.pagination', [
+            'models' => $users,
+            'order_by' => $orderBy,
+            'ascending' => $ascending,
+            'paginate_per_page' => $paginate_per_page,
+            ])->render(),
         ]);
     }
 

@@ -40,7 +40,7 @@ class Customer extends Model
     }
 
      /**
-     * Find users in dabase
+     * Find customers in dabase
      *
      * @param Array
      *
@@ -48,15 +48,25 @@ class Customer extends Model
      */
     public static function filter($query)
     {
-        $perPage = 10;
-        if(isset($query['paginate_per_page'])) $perPage = $query['paginate_per_page'];
+        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : 5;
+        $ascending = isset($query['ascending']) ? $query['ascending'] : 'asc';
 
-        $users = self::where(function($q) use ($query) {
+        $customers = self::where(function($q) use ($query) {
             if(isset($query['id']))
             {
                 if(!is_null($query['id']))
                 {
                     $q->where('id', $query['id']);
+                }
+            }
+
+            if(isset($query['roles']))
+            {
+                if(!is_null($query['roles']))
+                {
+                    $q->whereHas('roles', function($q) use ($query) {
+                        $q->where('roles.name', $query['roles']);
+                    });
                 }
             }
 
@@ -67,9 +77,18 @@ class Customer extends Model
                     $q->where('name', 'like','%' . $query['name'] . '%');
                 }
             }
-        })->paginate($perPage);
+        });
 
-        return $users;
+        if(!isset($query['order_by']))
+        {
+            $customers->orderBy('created_at', 'desc');
+        }
+        else
+        {
+            $customers->orderBy($query['order_by'], $ascending);
+        }
+
+        return $customers->paginate($perPage);
     }
 
 }

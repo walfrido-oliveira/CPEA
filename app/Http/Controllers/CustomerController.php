@@ -18,7 +18,10 @@ class CustomerController extends Controller
     public function index(Request $request)
     {
         $customers = Customer::filter($request->all());
-        return view('customers.index', compact('customers'));
+        $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'id';
+
+        return view('customers.index', compact('customers', 'ascending', 'orderBy'));
     }
 
     /**
@@ -30,6 +33,7 @@ class CustomerController extends Controller
     {
         $status = Customer::getStatusArray();
         $areas = PointIdentification::pluck('area', 'area');
+
         return view('customers.create', compact('status', 'areas'));
     }
 
@@ -121,7 +125,14 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = Customer::findOrFail($id);
+
+        //$user->delete();
+
+        return response()->json([
+            'message' => __('Cliente Apagado com Sucesso!'),
+            'alert-type' => 'success'
+        ]);
     }
 
     /**
@@ -134,10 +145,18 @@ class CustomerController extends Controller
     {
         $customers = Customer::filter($request->all());
         $customers = $customers->setPath('');
+        $orderBy = $request->get('order_by');
+        $ascending = $request->get('ascending');
+        $paginate_per_page = $request->get('paginate_per_page');
 
         return response()->json([
-            'filter_result' => view('customers.filter-result', compact('customers'))->render(),
-            'pagination' => view('layouts.pagination', ['models' => $customers])->render(),
+        'filter_result' => view('customers.filter-result', compact('customers', 'orderBy', 'ascending'))->render(),
+        'pagination' => view('layouts.pagination', [
+            'models' => $customers,
+            'order_by' => $orderBy,
+            'ascending' => $ascending,
+            'paginate_per_page' => $paginate_per_page,
+            ])->render(),
         ]);
     }
 

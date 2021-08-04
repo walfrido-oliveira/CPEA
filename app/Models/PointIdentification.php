@@ -42,10 +42,10 @@ class PointIdentification extends Model
      */
     public static function filter($query)
     {
-        $perPage = 10;
-        if(isset($query['paginate_per_page'])) $perPage = $query['paginate_per_page'];
+        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : 5;
+        $ascending = isset($query['ascending']) ? $query['ascending'] : 'asc';
 
-        $users = self::where(function($q) use ($query) {
+        $pointIdentifications = self::where(function($q) use ($query) {
             if(isset($query['id']))
             {
                 if(!is_null($query['id']))
@@ -69,8 +69,17 @@ class PointIdentification extends Model
                     $q->where('identification', 'like','%' . $query['identification'] . '%');
                 }
             }
-        })->paginate($perPage);
+        });
 
-        return $users;
+        if(!isset($query['order_by']))
+        {
+            $pointIdentifications->orderBy('created_at', 'desc');
+        }
+        else
+        {
+            $pointIdentifications->orderBy($query['order_by'], $ascending);
+        }
+
+        return $pointIdentifications->paginate($perPage);
     }
 }

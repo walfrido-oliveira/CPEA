@@ -34,19 +34,8 @@
                     </div>
                 </div>
                 <div class="flex mt-4">
-                    <table class="table table-responsive md:table w-full">
-                        <thead>
-                            <tr class="thead-light">
-                                <th width="5%"></th>
-                                <th width="5%" data-name="id" data-ascending="id">{{ __('ID') }}</th>
-                                <th width="30%" data-name="area" data-ascending="area">{{ __('Área') }}</th>
-                                <th width="30%" data-name="identification" data-ascending="identification">{{ __('Identificação do Ponto') }}</th>
-                                <th>{{ __('Ações') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody id="point_identification_table_content">
-                            @include('point-identification.filter-result', ['pointIdentifications' => $pointIdentifications])
-                        </tbody>
+                    <table id="point_identification_table" class="table table-responsive md:table w-full">
+                        @include('point-identification.filter-result', ['pointIdentifications' => $pointIdentifications, 'ascending' => $ascending, 'orderBy' => $orderBy])
                     </table>
                 </div>
                 <div class="flex mt-4 p-2" id="pagination">
@@ -78,7 +67,7 @@
                 ajax.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         var resp = JSON.parse(ajax.response);
-                        document.getElementById("point_identification_table_content").innerHTML = resp.filter_result;
+                        document.getElementById("point_identification_table").innerHTML = resp.filter_result;
                         document.getElementById("pagination").innerHTML = resp.pagination;
                         eventsFilterCallback();
                         eventsDeleteCallback();
@@ -99,41 +88,87 @@
                 ajax.send(data);
             }
 
+            var ascending = "asc";
+            var orderByCallback = function (event) {
+                var orderBY = this.dataset.name;
+                var ascending = this.dataset.ascending;
+                var that = this;
+                var ajax = new XMLHttpRequest();
+                var url = "{!! route('registers.point-identification.filter') !!}";
+                var token = document.querySelector('meta[name="csrf-token"]').content;
+                var method = 'POST';
+                var paginationPerPage = document.getElementById("paginate_per_page").value;
+                var area = document.getElementById("area").value;
+                var identification = document.getElementById("identification").value;
+
+                ajax.open(method, url);
+
+                ajax.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var resp = JSON.parse(ajax.response);
+                        document.getElementById("point_identification_table").innerHTML = resp.filter_result;
+                        document.getElementById("pagination").innerHTML = resp.pagination;
+                        that.dataset.ascending = that.dataset.ascending == 'asc' ? that.dataset.ascending = 'desc' : that.dataset.ascending = 'asc';
+                        eventsFilterCallback();
+                        eventsDeleteCallback();
+                    } else if(this.readyState == 4 && this.status != 200) {
+                        toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
+                        eventsFilterCallback();
+                        eventsDeleteCallback();
+                    }
+                }
+
+                var data = new FormData();
+                data.append('_token', token);
+                data.append('_method', method);
+                data.append('paginate_per_page', paginationPerPage);
+                data.append('ascending', ascending);
+                data.append('order_by', orderBY);
+                if(area) data.append('area', area);
+                if(identification) data.append('identification', identification);
+
+                ajax.send(data);
+            }
+
             function eventsFilterCallback() {
                 document.querySelectorAll('.filter-field').forEach(item => {
                     item.addEventListener('change', filterCallback, false);
                     item.addEventListener('keyup', filterCallback, false);
                 });
+                document.querySelectorAll("#point_identification_table thead [data-name]").forEach(item => {
+                    item.addEventListener("click", orderByCallback, false);
+                });
             }
+
 
             function eventsDeleteCallback() {
                 document.querySelectorAll('.delete-point-identification').forEach(item => {
-                item.addEventListener("click", function() {
-                    if(this.dataset.type != 'multiple') {
-                        var url = this.dataset.url;
-                        var modal = document.getElementById("delete_point_identification_modal");
-                        modal.dataset.url = url;
-                        modal.classList.remove("hidden");
-                        modal.classList.add("block");
-                    }
-                    else {
-                        var urls = '';
-                        document.querySelectorAll('input:checked.point-identification-url').forEach((item, index, arr) => {
-                            urls += item.value ;
-                            if(index < (arr.length - 1)) {
-                                urls += ',';
-                            }
-                        });
-
-                        if(urls.length > 0) {
+                    item.addEventListener("click", function() {
+                        if(this.dataset.type != 'multiple') {
+                            var url = this.dataset.url;
                             var modal = document.getElementById("delete_point_identification_modal");
-                            modal.dataset.url = urls;
+                            modal.dataset.url = url;
                             modal.classList.remove("hidden");
                             modal.classList.add("block");
                         }
-                    }
-                })
-            });
+                        else {
+                            var urls = '';
+                            document.querySelectorAll('input:checked.point-identification-url').forEach((item, index, arr) => {
+                                urls += item.value ;
+                                if(index < (arr.length - 1)) {
+                                    urls += ',';
+                                }
+                            });
+
+                            if(urls.length > 0) {
+                                var modal = document.getElementById("delete_point_identification_modal");
+                                modal.dataset.url = urls;
+                                modal.classList.remove("hidden");
+                                modal.classList.add("block");
+                            }
+                        }
+                    });
+                });
             }
 
             eventsDeleteCallback();

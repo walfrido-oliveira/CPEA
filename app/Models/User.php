@@ -92,8 +92,8 @@ class User extends Authenticatable
      */
     public static function filter($query)
     {
-        $perPage = 10;
-        if(isset($query['paginate_per_page'])) $perPage = $query['paginate_per_page'];
+        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : 5;
+        $ascending = isset($query['ascending']) ? $query['ascending'] : 'asc';
 
         $users = self::where(function($q) use ($query) {
             if(isset($query['id']))
@@ -121,9 +121,29 @@ class User extends Authenticatable
                     $q->where('name', 'like','%' . $query['name'] . '%');
                 }
             }
-        })->paginate($perPage);
+        });
 
-        return $users;
+        if(!isset($query['order_by']))
+        {
+            $users->orderBy('created_at', 'desc');
+        }
+        else
+        {
+            if($query['order_by'] == 'role')
+            {
+                $users->leftJoin('model_has_roles', function ($join) {
+                    $join->on('model_has_roles.model_id', '=', 'users.id')
+                         ->where('model_has_roles.model_type', '=', 'app\Models\User');
+                })
+                ->orderBy('model_has_roles.role_id', $ascending);
+            }
+            else
+            {
+                $users->orderBy($query['order_by'], $ascending);
+            }
+        }
+
+        return $users->paginate($perPage);
     }
 
     /**
