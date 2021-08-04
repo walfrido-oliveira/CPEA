@@ -54,8 +54,13 @@
         document.getElementById("point_identifications_add").addEventListener("click", function() {
             let list = document.getElementById("point_identifications_list");
             let li = document.createElement("li");
+
             let pointIdentificationsSelected = document.getElementById("point_identifications");
             let pointIdentificationsSelectedText = pointIdentificationsSelected.options[pointIdentificationsSelected.selectedIndex].text;
+
+            let areasSelectedSelected = document.getElementById("areas");
+            let areasSelectedText = areasSelectedSelected.options[areasSelectedSelected.selectedIndex].text;
+
             let pointIdentificationsSelectedValue = pointIdentificationsSelected.options[pointIdentificationsSelected.selectedIndex].value;
             let id = "point_identification_" + pointIdentificationsSelectedValue;
             let length = list.getElementsByTagName("li").length;
@@ -88,7 +93,7 @@
 
             li.id = id;
 
-            let text = document.createTextNode(pointIdentificationsSelectedText);
+            let text = document.createTextNode(areasSelectedText + ', ' + pointIdentificationsSelectedText);
 
             li.appendChild(trashIcon);
             li.appendChild(text);
