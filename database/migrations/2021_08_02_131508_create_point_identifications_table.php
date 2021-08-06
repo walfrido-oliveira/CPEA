@@ -23,7 +23,7 @@ class CreatePointIdentificationsTable extends Migration
             $table->decimal("utm_me_coordinate", 18, 5)->nullable();
             $table->decimal("utm_mm_coordinate", 18, 5)->nullable();
 
-            $table->decimal("pool_depth", 18, 5)->nullable();;
+            $table->decimal("pool_depth", 18, 5)->nullable();
             $table->decimal("pool_diameter", 18, 5)->nullable();
             $table->decimal("pool_volume", 18, 5)->nullable();
 
@@ -31,7 +31,7 @@ class CreatePointIdentificationsTable extends Migration
             $table->decimal("water_collection_depth", 18, 5)->nullable();
 
             $table->decimal("sedimentary_collection_depth", 18, 5)->nullable();
-            $table->decimal("collection_depth", 18, 5)->nullable();;
+            $table->decimal("collection_depth", 18, 5)->nullable();
 
             $table->timestamps();
         });
