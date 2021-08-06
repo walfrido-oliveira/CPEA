@@ -119,7 +119,7 @@ class GuidingValueController extends Controller
     {
         $guidingValue = GuidingValue::findOrFail($id);
 
-        //$guidingValue->delete();
+        $guidingValue->delete();
 
         return response()->json([
             'message' => __('Tipo Valor Orientador Apagado com Sucesso!!'),

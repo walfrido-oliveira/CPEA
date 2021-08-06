@@ -119,7 +119,7 @@ class GeodeticSystemController extends Controller
     {
         $geodetic = GeodeticSystem::findOrFail($id);
 
-        //$geodetic->delete();
+        $geodetic->delete();
 
         return response()->json([
             'message' => __('Tipo Sistema Geodésico Apagado com Sucesso!!'),

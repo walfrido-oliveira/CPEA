@@ -17,7 +17,7 @@ class PlanActionLevelController extends Controller
     public function index(Request $request)
     {
         $planActionLevels =  PlanActionLevel::filter($request->all());
-         return view('plan-action-level.index', compact('planActionLevels'));
+        return view('plan-action-level.index', compact('planActionLevels'));
     }
 
     /**
@@ -119,7 +119,7 @@ class PlanActionLevelController extends Controller
     {
         $planActionLevel = PlanActionLevel::findOrFail($id);
 
-        //$planActionLevel->delete();
+        $planActionLevel->delete();
 
         return response()->json([
             'message' => __('Tipo Nível Ação Plano Apagado com Sucesso!!'),

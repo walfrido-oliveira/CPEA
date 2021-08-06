@@ -123,7 +123,7 @@ class EnvironmentalAgencyController extends Controller
     {
         $environmentalAgency = EnvironmentalAgency::findOrFail($id);
 
-        //$environmentalAgency->delete();
+        $environmentalAgency->delete();
 
         return response()->json([
             'message' => __('Órgão Ambiental Apagado com Sucesso!!'),

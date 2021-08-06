@@ -129,7 +129,7 @@ class CustomerController extends Controller
     {
         $user = Customer::findOrFail($id);
 
-        //$user->delete();
+        $user->delete();
 
         return response()->json([
             'message' => __('Cliente Apagado com Sucesso!'),

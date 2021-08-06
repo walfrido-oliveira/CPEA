@@ -147,7 +147,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        //$user->delete();
+        $user->delete();
 
         return response()->json([
             'message' => __('Usuário Apagado com Sucesso!'),

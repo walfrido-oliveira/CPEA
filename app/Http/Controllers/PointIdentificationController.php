@@ -139,7 +139,7 @@ class PointIdentificationController extends Controller
     {
         $pointIdentification = PointIdentification::findOrFail($id);
 
-        //$pointIdentification->delete();
+        $pointIdentification->delete();
 
         return response()->json([
             'message' => __('Ponto Apagado com Sucesso!!'),

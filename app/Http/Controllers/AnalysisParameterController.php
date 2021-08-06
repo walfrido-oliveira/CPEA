@@ -119,7 +119,7 @@ class AnalysisParameterController extends Controller
     {
         $analysisParameter = AnalysisParameter::findOrFail($id);
 
-        //$analysisParameter->delete();
+        $analysisParameter->delete();
 
         return response()->json([
             'message' => __('Tipo Param. Análise Apagado com Sucesso!!'),

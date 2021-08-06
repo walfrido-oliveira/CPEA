@@ -119,7 +119,7 @@ class EnvironmentalAreaController extends Controller
     {
         $environmentalArea = EnvironmentalArea::findOrFail($id);
 
-        //$environmentalArea->delete();
+        $environmentalArea->delete();
 
         return response()->json([
             'message' => __('Tipo Área Ambiental Apagado com Sucesso!!'),
