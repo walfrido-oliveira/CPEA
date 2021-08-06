@@ -35,7 +35,7 @@
                             <p class="font-bold">{{ __('Nome do Cliente') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $customer->full_name }}</p>
+                            <p class="text-gray-500 font-bold">{{ $customer->name }}</p>
                         </div>
                     </div>
 
