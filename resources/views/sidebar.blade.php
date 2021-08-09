@@ -75,6 +75,9 @@
               <div class="px-0 py-0 ">
                 <a class="@if(request()->routeIs('registers.point-identification.index')) {{ 'active' }} @endif" href="{{ route('registers.point-identification.index') }}">Ponto</a>
               </div>
+              <div class="px-0 py-0 ">
+                <a class="@if(request()->routeIs('registers.parameter-analysis-group.index')) {{ 'active' }} @endif" href="{{ route('registers.parameter-analysis-group.index') }}">Grupo Param. Análise</a>
+              </div>
             </div>
           </div>
       </nav>

@@ -23,8 +23,6 @@ class PointIdentification extends Model
         'sedimentary_collection_depth', 'collection_depth'
     ];
 
-
-
     /**
      * The roles that belong to the geodetic system.
      */

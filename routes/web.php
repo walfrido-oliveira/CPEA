@@ -13,6 +13,7 @@ use App\Http\Controllers\EnvironmentalAreaController;
 use App\Http\Controllers\TypeGeodeticSystemController;
 use App\Http\Controllers\EnvironmentalAgencyController;
 use App\Http\Controllers\PointIdentificationController;
+use App\Http\Controllers\ParameterAnalysisGroupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -116,6 +117,14 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::prefix('ponto')->name('point-identification.')->group(function(){
             Route::post('/filter', [PointIdentificationController::class, 'filter'])->name('filter');
             Route::post('/filter/{area}', [PointIdentificationController::class, 'filterByArea'])->name('filter-by-area');
+        });
+
+        Route::resource('grupo-param-analise', ParameterAnalysisGroupController::class, [
+            'names' => 'parameter-analysis-group'])->parameters([
+            'grupo-param-analise' => 'parameter_analysis_group'
+        ]);
+        Route::prefix('grupo-param-analise')->name('parameter-analysis-group.')->group(function(){
+            Route::post('/filter', [ParameterAnalysisGroupController::class, 'filter'])->name('filter');
         });
 
     });

@@ -3069,6 +3069,10 @@ input:read-only {
 		width: 25%;
 	}
 
+	.md\:w-3\/12 {
+		width: 25%;
+	}
+
 	.md\:w-5\/12 {
 		width: 41.666667%;
 	}
