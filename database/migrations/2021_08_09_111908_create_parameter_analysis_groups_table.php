@@ -15,7 +15,7 @@ class CreateParameterAnalysisGroupsTable extends Migration
     {
         Schema::create('parameter_analysis_groups', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('parameter_analysis_group_id')->nullable()->constrained();
+            $table->foreignId('parameter_analysis_group_id')->nullable()->constrained()->onDelete('set null');
 
             $table->string("name");
             $table->string("order");

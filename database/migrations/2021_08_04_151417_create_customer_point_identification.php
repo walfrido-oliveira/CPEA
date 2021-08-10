@@ -15,8 +15,8 @@ class CreateCustomerPointIdentification extends Migration
     {
         Schema::create('customer_point_identification', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_id')->constrained();
-            $table->foreignId('point_identification_id')->constrained();
+            $table->foreignId('customer_id')->constrained()->onDelete('cascade');
+            $table->foreignId('point_identification_id')->constrained()->onDelete('cascade');
 
             $table->timestamps();
         });

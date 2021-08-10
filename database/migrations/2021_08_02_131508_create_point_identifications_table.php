@@ -15,7 +15,7 @@ class CreatePointIdentificationsTable extends Migration
     {
         Schema::create('point_identifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('geodetic_system_id')->constrained();
+            $table->foreignId('geodetic_system_id')->constrained()->onDelete('cascade');
 
             $table->string("area");
             $table->string("identification");
