@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AnalysisParameter extends Model
+class CampaignStatus extends Model
 {
     use HasFactory;
 
-     /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
@@ -19,7 +19,7 @@ class AnalysisParameter extends Model
     ];
 
     /**
-     * Find analysusParameters in dabase
+     * Find campaignStatus in dabase
      *
      * @param Array
      *
@@ -30,7 +30,7 @@ class AnalysisParameter extends Model
         $perPage = 10;
         if(isset($query['paginate_per_page'])) $perPage = $query['paginate_per_page'];
 
-        $analysusParameters = self::where(function($q) use ($query) {
+        $campaignStatus = self::where(function($q) use ($query) {
             if(isset($query['id']))
             {
                 if(!is_null($query['id']))
@@ -48,6 +48,6 @@ class AnalysisParameter extends Model
             }
         })->paginate($perPage);
 
-        return $analysusParameters;
+        return $campaignStatus;
     }
 }

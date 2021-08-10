@@ -78,6 +78,9 @@
               <div class="px-0 py-0 ">
                 <a class="@if(request()->routeIs('registers.parameter-analysis-group.index')) {{ 'active' }} @endif" href="{{ route('registers.parameter-analysis-group.index') }}">Grupo Param. Análise</a>
               </div>
+              <div class="px-0 py-0 ">
+                <a class="@if(request()->routeIs('registers.campaign-status.index')) {{ 'active' }} @endif" href="{{ route('registers.campaign-status.index') }}">Status Campanha</a>
+              </div>
             </div>
           </div>
       </nav>

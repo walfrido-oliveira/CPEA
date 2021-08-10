@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmailConfigController;
 use App\Http\Controllers\GuidingValueController;
+use App\Http\Controllers\CampaignStatusCotroller;
 use App\Http\Controllers\TemplateEmailController;
 use App\Http\Controllers\GeodeticSystemController;
 use App\Http\Controllers\PlanActionLevelController;
@@ -125,6 +126,14 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         ]);
         Route::prefix('grupo-param-analise')->name('parameter-analysis-group.')->group(function(){
             Route::post('/filter', [ParameterAnalysisGroupController::class, 'filter'])->name('filter');
+        });
+
+        Route::resource('status-campanha', CampaignStatusCotroller::class, [
+            'names' => 'campaign-status'])->parameters([
+            'status-campanha' => 'campaign_status'
+        ]);
+        Route::prefix('status-campanha')->name('campaign-status.')->group(function(){
+            Route::post('/filter', [CampaignStatusCotroller::class, 'filter'])->name('filter');
         });
 
     });
