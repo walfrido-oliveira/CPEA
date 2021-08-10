@@ -11,6 +11,7 @@ use App\Http\Controllers\GeodeticSystemController;
 use App\Http\Controllers\PlanActionLevelController;
 use App\Http\Controllers\AnalysisParameterController;
 use App\Http\Controllers\EnvironmentalAreaController;
+use App\Http\Controllers\ParameterAnalysisController;
 use App\Http\Controllers\TypeGeodeticSystemController;
 use App\Http\Controllers\EnvironmentalAgencyController;
 use App\Http\Controllers\PointIdentificationController;
@@ -51,6 +52,16 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::prefix('clientes')->name('customers.')->group(function(){
         Route::post('/filter', [CustomerController::class, 'filter'])->name('filter');
         Route::post('/forgot-password/{user}', [CustomerController::class, 'forgotPassword'])->name('forgot-password');
+    });
+
+    Route::resource('param-analise', ParameterAnalysisController::class, [
+        'names' => 'parameter-analysis'])->parameters([
+        'param-analise' => 'parameter_analysis'
+    ]);
+
+    Route::prefix('param-analise')->name('parameter-analysis.')->group(function(){
+        Route::post('/filter', [ParameterAnalysisController::class, 'filter'])->name('filter');
+        Route::post('/forgot-password/{user}', [ParameterAnalysisController::class, 'forgotPassword'])->name('forgot-password');
     });
 
     Route::prefix('config')->name('config.')->group(function(){

@@ -17,7 +17,7 @@ use Illuminate\Contracts\Auth\PasswordBroker;
 class UserController extends Controller
 {
     /**
-    * Display a listing of the user.
+     * Display a listing of the user.
      *
      * @param  Request  $request
      * @return \Illuminate\Http\Response

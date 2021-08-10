@@ -74,7 +74,7 @@
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="pool_volume" value="{{ __('Volue Poço') }}" />
-                            <x-jet-input id="pool_volume" class="form-control block mt-1 w-full" type="number" name="pool_volume" maxlength="18" autofocus autocomplete="pool_volume"  :value="old('pool_volume')"/>
+                            <x-jet-input id="pool_volume" class="form-control block mt-1 w-full" type="number" name="pool_volume" maxlength="18" autofocus autocomplete="pool_volume" :value="old('pool_volume')"/>
                         </div>
                     </div>
 

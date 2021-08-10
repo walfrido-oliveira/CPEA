@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="py-6 show-users">
+    <div class="py-6 show-parameter-analysis-group">
         <div class="max-w-6xl mx-auto px-4">
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">
@@ -84,7 +84,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
