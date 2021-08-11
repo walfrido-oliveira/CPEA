@@ -10,10 +10,10 @@
                         <a class="btn-outline-info" href="{{ route('registers.campaign-status.index') }}">{{ __('Listar') }}</a>
                     </div>
                     <div class="m-2">
-                        <a class="btn-outline-warning" href="{{ route('registers.campaign-status.edit', ['analysis_parameter' => $campaignStatus->id]) }}">{{ __('Editar') }}</a>
+                        <a class="btn-outline-warning" href="{{ route('registers.campaign-status.edit', ['campaign_status' => $campaignStatus->id]) }}">{{ __('Editar') }}</a>
                     </div>
                     <div class="m-2">
-                        <button type="button" class="btn-outline-danger delete-environmental-area" id="analysis_parameter_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $campaignStatus->id }}">{{ __('Apagar') }}</button>
+                        <button type="button" class="btn-outline-danger delete-campaign-status" id="campaign_status_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $campaignStatus->id }}">{{ __('Apagar') }}</button>
                     </div>
                 </div>
             </div>
@@ -62,18 +62,18 @@
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir usuário') }}"
+    <x-modal title="{{ __('Excluir Tipo Param. Análise') }}"
              msg="{{ __('Deseja realmente apagar esse Tipo Param. Análise?') }}"
-             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_analysis_parameter_modal"
+             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_campaign_status_modal"
              method="DELETE"
-             url="{{ route('registers.campaign-status.destroy', ['analysis_parameter' => $campaignStatus->id]) }}"
+             url="{{ route('registers.campaign-status.destroy', ['campaign_status' => $campaignStatus->id]) }}"
              redirect-url="{{ route('registers.campaign-status.index') }}"/>
 
     <script>
         function eventsDeleteCallback() {
-            document.querySelectorAll('.delete-environmental-area').forEach(item => {
+            document.querySelectorAll('.delete-campaign-status').forEach(item => {
             item.addEventListener("click", function() {
-                var modal = document.getElementById("delete_analysis_parameter_modal");
+                var modal = document.getElementById("delete_campaign_status_modal");
                 modal.classList.remove("hidden");
                 modal.classList.add("block");
             })
