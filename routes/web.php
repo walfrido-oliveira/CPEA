@@ -7,6 +7,8 @@ use App\Http\Controllers\EmailConfigController;
 use App\Http\Controllers\GuidingValueController;
 use App\Http\Controllers\CampaignStatusCotroller;
 use App\Http\Controllers\TemplateEmailController;
+use App\Http\Controllers\AnalysisMatrixController;
+use App\Http\Controllers\CampaignStatusController;
 use App\Http\Controllers\GeodeticSystemController;
 use App\Http\Controllers\PlanActionLevelController;
 use App\Http\Controllers\AnalysisParameterController;
@@ -139,12 +141,20 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::post('/filter', [ParameterAnalysisGroupController::class, 'filter'])->name('filter');
         });
 
-        Route::resource('status-campanha', CampaignStatusCotroller::class, [
+        Route::resource('status-campanha', CampaignStatusController::class, [
             'names' => 'campaign-status'])->parameters([
             'status-campanha' => 'campaign_status'
         ]);
         Route::prefix('status-campanha')->name('campaign-status.')->group(function(){
-            Route::post('/filter', [CampaignStatusCotroller::class, 'filter'])->name('filter');
+            Route::post('/filter', [CampaignStatusController::class, 'filter'])->name('filter');
+        });
+
+        Route::resource('matrix-analise', AnalysisMatrixController::class, [
+            'names' => 'analysis-matrix'])->parameters([
+            'matrix-analise' => 'analysis_matrix'
+        ]);
+        Route::prefix('matrix-analise')->name('analysis-matrix.')->group(function(){
+            Route::post('/filter', [AnalysisMatrixController::class, 'filter'])->name('filter');
         });
 
     });

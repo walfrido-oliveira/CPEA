@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\CampaignStatus;
 use Illuminate\Validation\Rule;
 
-class CampaignStatusCotroller extends Controller
+class CampaignStatusController extends Controller
 {
     /**
      * Display a listing of the user.
