@@ -40,7 +40,7 @@
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="unity_id" value="{{ __('Unidade Conversão') }}" />
-                            <x-custom-select :options="$unities" name="unity_id" id="unity_id" :value="old('unity_id')"/>
+                            <x-custom-select :options="$unities" name="unity_id" id="unity_id" :value="old('unity_id')" class="mt-1"/>
                         </div>
                     </div>
                 </div>
