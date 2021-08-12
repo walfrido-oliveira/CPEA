@@ -34,7 +34,7 @@
             Param. Análise
         </a>
 
-        <div @click.away="openConfig = false" class="relative" x-data="{ openConfig: {{ request()->routeIs('config.emails.*') ? 'true' : 'false' }} }">
+        <div class="relative" x-data="{ openConfig: {{ request()->routeIs('config.emails.*') ? 'true' : 'false' }} }">
           <button @click="openConfig = !openConfig" class="submenu">
             <svg xmlns="http://www.w3.org/2000/svg" class="inline h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
@@ -52,7 +52,7 @@
           </div>
         </div>
 
-        <div @click.away="openRegisters = false" class="relative" x-data="{ openRegisters: {{ request()->routeIs('registers.*') ? 'true' : 'false' }} }">
+        <div class="relative" x-data="{ openRegisters: {{ request()->routeIs('registers.*') ? 'true' : 'false' }} }">
             <button @click="openRegisters = !openRegisters" class="submenu">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
