@@ -24,7 +24,9 @@
                 <a class="text-item-table" href="{{ route('registers.unity.show', ['unity' => $unity->id]) }}">{{ $unity->name }}</a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('registers.unity.show', ['unity' => $unity->id]) }}">{{ $unity->conversion_amount }}</a>
+                <a class="text-item-table" href="{{ route('registers.unity.show', ['unity' => $unity->id]) }}">
+                    @if($unity->conversion_amount) {{ number_format($unity->conversion_amount, 5, ",", ".") }} @endif
+                </a>
             </td>
             <td>
                 <a class="text-item-table" href="{{ route('registers.unity.show', ['unity' => $unity->id]) }}">{{ $unity->unity ? $unity->unity->name : '' }}</a>
