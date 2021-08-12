@@ -98,7 +98,7 @@
 
                     <div class="flex flex-wrap">
                         <div class="w-full md:w-2/12">
-                            <p class="font-bold">{{ __('Ultima Edição') }}</p>
+                            <p class="font-bold">{{ __('Última Edição') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
                             <p class="text-gray-500 font-bold">{{ $user->updated_at->format('d/m/Y h:i:s')}}</p>

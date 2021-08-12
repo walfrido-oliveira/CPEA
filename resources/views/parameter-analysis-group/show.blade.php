@@ -77,7 +77,7 @@
 
                     <div class="flex flex-wrap">
                         <div class="w-full md:w-3/12 mr-2">
-                            <p class="font-bold text-right">{{ __('Ultima Edição') }}</p>
+                            <p class="font-bold text-right">{{ __('Última Edição') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
                             <p class="text-gray-500 font-bold">{{ $parameterAnalysisGroup->updated_at->format('d/m/Y h:i:s')}}</p>
