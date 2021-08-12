@@ -76,6 +76,10 @@ input:read-only {
     @apply inline-block text-gray-500 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 cursor-pointer;
 }
 
+.btn-transition-primary {
+    @apply inline-block text-blue-500 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 cursor-pointer;
+}
+
 .btn-primary {
     @apply items-center px-4 py-2 border border-transparent rounded-md text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition;
     background-color: #005E10;

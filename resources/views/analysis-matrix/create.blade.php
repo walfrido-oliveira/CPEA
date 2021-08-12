@@ -25,11 +25,11 @@
                 <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="analysis_matrix_id" value="{{ __('Cod. Matriz') }}" />
+                            <x-jet-label for="analysis_matrix_id" value="{{ __('Cod. Matriz') }}" required/>
                             <x-jet-input id="analysis_matrix_id" class="form-control block mt-1 w-full" type="text" name="analysis_matrix_id" maxlength="255" required autofocus autocomplete="analysis_matrix_id" :value="old('analysis_matrix_id')"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="name" value="{{ __('Nome Matriz') }}" />
+                            <x-jet-label for="name" value="{{ __('Nome Matriz') }}" required/>
                             <x-jet-input id="name" class="form-control block mt-1 w-full" type="text" name="name" maxlength="255" required autofocus autocomplete="name" :value="old('name')"/>
                         </div>
                     </div>

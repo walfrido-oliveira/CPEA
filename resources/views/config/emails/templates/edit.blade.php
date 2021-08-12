@@ -21,18 +21,18 @@
                 <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
                     <div class="flex flex-wrap -mx-3 mb-6">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-jet-label :value="__('Assunto')" for="subject"/>
+                            <x-jet-label :value="__('Assunto')" for="subject" required/>
                             <x-jet-input id="subject" class="form-control block w-full" type="text" name="subject" maxlength="255" :value="$template->subject" required autofocus autocomplete="subject"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-jet-label :value="__('Descrição')" for="description"/>
+                            <x-jet-label :value="__('Descrição')" for="description" required/>
                             <x-jet-input id="description" class="form-control block w-full" type="text" name="description" maxlength="255" :value="$template->description" required autofocus autocomplete="description"/>
                         </div>
                     </div>
 
                     <div class="flex flex-wrap -mx-3 mb-6">
                         <div class="w-full px-3 mb-6 md:mb-0">
-                            <x-jet-label :value="__('Corpo do E-mail')" for="value"/>
+                            <x-jet-label :value="__('Corpo do E-mail')" for="value" required/>
                             <textarea class="form-input w-full" name="value" id="value" cols="30" rows="10" required >{{ $template->value }}</textarea>
                             <div class="mt-4">
                                 <p class="m-0 text-gray-900">{{ __('Você pode utilizar as seguintes tags:') }}</p>

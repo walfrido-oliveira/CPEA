@@ -25,11 +25,11 @@
                 <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="name" value="{{ __('Nome do Cliente') }}" />
+                            <x-jet-label for="name" value="{{ __('Nome do Cliente') }}" required/>
                             <x-jet-input id="name" class="form-control block mt-1 w-full" type="text" name="name" maxlength="255" required autofocus autocomplete="name" :value="$customer->name"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="status" value="{{ __('Status') }}" />
+                            <x-jet-label for="status" value="{{ __('Status') }}" required/>
                             <x-custom-select :options="$status" name="status" id="status" :value="$customer->status" placeholder="{{ __('Situação do Cliente') }}" required class="mt-1"/>
                         </div>
                     </div>
