@@ -53,7 +53,9 @@
                             <p class="font-bold">{{ __('Qtde. Conversão') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $unity->conversion_amount }}</p>
+                            <p class="text-gray-500 font-bold">
+                                @if($unity->conversion_amount) {{ number_format($unity->conversion_amount, 5, ",", ".") }} @endif
+                            </p>
                         </div>
                     </div>
 
