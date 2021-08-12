@@ -1,12 +1,12 @@
 <x-app-layout>
-    <div class="py-6 edit-users">
+    <div class="py-6 edit-template">
         <div class="max-w-6xl mx-auto px-4">
             <form method="POST" action="{{ route('config.emails.templates.update', ['template' => $template->id]) }}">
                 @csrf
                 @method("PUT")
                 <div class="flex md:flex-row flex-col">
                     <div class="w-full flex items-center">
-                        <h1>{{ __('Editar Usuário') }}</h1>
+                        <h1>{{ __('Editar Template') }}</h1>
                     </div>
                     <div class="w-full flex justify-end">
                         <div class="m-2 ">
@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
-                    <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label :value="__('Assunto')" for="subject" required/>
                             <x-jet-input id="subject" class="form-control block w-full" type="text" name="subject" maxlength="255" :value="$template->subject" required autofocus autocomplete="subject"/>
@@ -30,7 +30,7 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full px-3 mb-6 md:mb-0">
                             <x-jet-label :value="__('Corpo do E-mail')" for="value" required/>
                             <textarea class="form-input w-full" name="value" id="value" cols="30" rows="10" required >{{ $template->value }}</textarea>
