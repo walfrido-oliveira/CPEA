@@ -91,6 +91,9 @@
               <div class="px-0 py-0 ">
                 <a class="@if(request()->routeIs('registers.analysis-matrix.index')) {{ 'active' }} @endif" href="{{ route('registers.analysis-matrix.index') }}">Matrix Análise</a>
               </div>
+              <div class="px-0 py-0 ">
+                <a class="@if(request()->routeIs('registers.unity.index')) {{ 'active' }} @endif" href="{{ route('registers.unity.index') }}">Unidade</a>
+              </div>
             </div>
           </div>
       </nav>

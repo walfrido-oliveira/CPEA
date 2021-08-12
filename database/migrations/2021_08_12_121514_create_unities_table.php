@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateParameterAnalysisGroupsTable extends Migration
+class CreateUnitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateParameterAnalysisGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('parameter_analysis_groups', function (Blueprint $table) {
+        Schema::create('unities', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('parameter_analysis_group_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('unity_id')->nullable()->constrained()->nullOnDelete();
 
-            $table->string("name");
-            $table->string("order");
-            $table->timestamp("final_validity");
+            $table->string('unity_cod')->unique();
+            $table->string('name');
+            $table->decimal('conversion_amount', 18, 5)->nullable();
+
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ class CreateParameterAnalysisGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('parameter_analysis_groups');
+        Schema::dropIfExists('unities');
     }
 }

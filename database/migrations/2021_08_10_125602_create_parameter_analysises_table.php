@@ -15,8 +15,8 @@ class CreateParameterAnalysisesTable extends Migration
     {
         Schema::create('parameter_analyses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('analysis_parameter_id')->nullable()->constrained()->onDelete('cascade');
-            $table->foreignId('parameter_analysis_group_id')->nullable()->constrained()->onDelete('cascade');
+            $table->foreignId('analysis_parameter_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('parameter_analysis_group_id')->nullable()->constrained()->cascadeOnDelete();
 
             $table->string('cas_rn')->nullable();
             $table->string('ref_cas_rn')->nullable();

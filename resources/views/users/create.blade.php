@@ -25,26 +25,32 @@
                 <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-jet-input id="name" class="form-control block mt-1 w-full" type="text" name="name" maxlength="255" required autofocus autocomplete="name" placeholder="{{ __('Primeiro Nome') }}"/>
+                            <x-jet-label for="name" value="{{ __('Primeiro Nome') }}" required/>
+                            <x-jet-input id="name" class="form-control block mt-1 w-full" type="text" name="name" maxlength="255" required autofocus autocomplete="name" :value="old('name')"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-jet-input id="last_name" class="form-control block mt-1 w-full" type="text" name="last_name" maxlength="255" autofocus autocomplete="last-name" placeholder="{{ __('Segundo Nome') }}"/>
-                        </div>
-                    </div>
-                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-jet-input id="email" class="form-control block mt-1 w-full" type="text" name="email" required maxlength="255" autofocus autocomplete="email" placeholder="{{ __('E-mail') }}"/>
-                        </div>
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-jet-input id="phone" class="form-control block mt-1 w-full" type="tel" name="phone" maxlength="255" autofocus autocomplete="phone" placeholder="{{ __('Telefone') }}"/>
+                            <x-jet-label for="last_name" value="{{ __('Segundo Nome') }}" />
+                            <x-jet-input id="last_name" class="form-control block mt-1 w-full" type="text" name="last_name" maxlength="255" autofocus autocomplete="last-name" :value="old('last_name')" />
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-custom-select :options="$roles" name="role" id="role" value="" placeholder="{{ __('Nível de Acesso') }}" required/>
+                            <x-jet-label for="email" value="{{ __('E-mail') }}" required/>
+                            <x-jet-input id="email" class="form-control block mt-1 w-full" type="text" name="email" required maxlength="255" autofocus autocomplete="email" :value="old('email')"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-custom-select :options="$status" name="status" id="status" value="" placeholder="{{ __('Situação do Usuário') }}" required/>
+                            <x-jet-label for="phone" value="{{ __('Telefone') }}" />
+                            <x-jet-input id="phone" class="form-control block mt-1 w-full" type="tel" name="phone" maxlength="255" autofocus autocomplete="phone" :value="old('phone')"/>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="role" value="{{ __('Nível de Acesso') }}" required/>
+                            <x-custom-select :options="$roles" name="role" id="role" required :value="old('role')"/>
+                        </div>
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="status" value="{{ __('Situação do Usuário') }}" required/>
+                            <x-custom-select :options="$status" name="status" id="status" required :value="old('status')"/>
                         </div>
                     </div>
                 </div>

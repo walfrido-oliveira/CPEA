@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UnityController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmailConfigController;
 use App\Http\Controllers\GuidingValueController;
@@ -155,6 +156,14 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         ]);
         Route::prefix('matrix-analise')->name('analysis-matrix.')->group(function(){
             Route::post('/filter', [AnalysisMatrixController::class, 'filter'])->name('filter');
+        });
+
+        Route::resource('unidades', UnityController::class, [
+            'names' => 'unity'])->parameters([
+            'unidades' => 'unity'
+        ]);
+        Route::prefix('unidades')->name('unity.')->group(function(){
+            Route::post('/filter', [UnityController::class, 'filter'])->name('filter');
         });
 
     });
