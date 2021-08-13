@@ -15,6 +15,8 @@ class CreateGuidingParameterRefValuesTable extends Migration
     {
         Schema::create('guiding_parameter_ref_values', function (Blueprint $table) {
             $table->id();
+            $table->string('guiding_parameter_ref_value_id');
+            $table->string('observation')->nullable();
             $table->timestamps();
         });
     }

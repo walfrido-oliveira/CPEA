@@ -20,6 +20,7 @@ use App\Http\Controllers\TypeGeodeticSystemController;
 use App\Http\Controllers\EnvironmentalAgencyController;
 use App\Http\Controllers\PointIdentificationController;
 use App\Http\Controllers\ParameterAnalysisGroupController;
+use App\Http\Controllers\GuidingParameterRefValueController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,6 +71,14 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     ]);
     Route::prefix('param-orientador')->name('guiding-parameter.')->group(function(){
         Route::post('/filter', [GuidingParameterController::class, 'filter'])->name('filter');
+    });
+
+    Route::resource('ref-vlr-param-orientador', GuidingParameterRefValueController::class, [
+        'names' => 'guiding-parameter-ref-value'])->parameters([
+        'ref-vlr-param-orientador' => 'guiding_parameter_ref_value'
+    ]);
+    Route::prefix('ref-vlr-param-orientador')->name('guiding-parameter-ref-value.')->group(function(){
+        Route::post('/filter', [GuidingParameterRefValueController::class, 'filter'])->name('filter');
     });
 
     Route::prefix('config')->name('config.')->group(function(){
