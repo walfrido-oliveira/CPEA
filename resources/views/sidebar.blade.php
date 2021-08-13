@@ -1,7 +1,7 @@
 
 
 <div class="md:flex flex-col md:flex-row md:min-h-screen sidebar">
-    <div @click.away="open = false" class="flex flex-col w-full md:w-64 text-gray-700 dark-mode:text-gray-200 dark-mode:bg-gray-800 flex-shrink-0" x-data="{ open: false }">
+    <div @click.away="open = false" class="flex flex-col w-full md:w-72 text-gray-700 dark-mode:text-gray-200 dark-mode:bg-gray-800 flex-shrink-0" x-data="{ open: false }">
       <div class="flex-shrink-0 px-8 py-4 flex flex-row items-center justify-between h-10">
         <a href="#" class="text-lg font-semibold tracking-widest text-white uppercase rounded-lg focus:outline-none focus:shadow-outline"></a>
         <button class="rounded-lg md:hidden focus:outline-none focus:shadow-outline" @click="open = !open">
