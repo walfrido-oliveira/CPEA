@@ -12,6 +12,7 @@ use App\Http\Controllers\AnalysisMatrixController;
 use App\Http\Controllers\CampaignStatusController;
 use App\Http\Controllers\GeodeticSystemController;
 use App\Http\Controllers\PlanActionLevelController;
+use App\Http\Controllers\GuidingParameterController;
 use App\Http\Controllers\AnalysisParameterController;
 use App\Http\Controllers\EnvironmentalAreaController;
 use App\Http\Controllers\ParameterAnalysisController;
@@ -41,7 +42,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         'names' => 'users'])->parameters([
         'usuarios' => 'user'
     ]);
-
     Route::prefix('usuarios')->name('users.')->group(function(){
         Route::post('/filter', [UserController::class, 'filter'])->name('filter');
         Route::post('/forgot-password/{user}', [UserController::class, 'forgotPassword'])->name('forgot-password');
@@ -51,7 +51,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         'names' => 'customers'])->parameters([
         'clientes' => 'customer'
     ]);
-
     Route::prefix('clientes')->name('customers.')->group(function(){
         Route::post('/filter', [CustomerController::class, 'filter'])->name('filter');
         Route::post('/forgot-password/{user}', [CustomerController::class, 'forgotPassword'])->name('forgot-password');
@@ -61,10 +60,16 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         'names' => 'parameter-analysis'])->parameters([
         'param-analise' => 'parameter_analysis'
     ]);
-
     Route::prefix('param-analise')->name('parameter-analysis.')->group(function(){
         Route::post('/filter', [ParameterAnalysisController::class, 'filter'])->name('filter');
-        Route::post('/forgot-password/{user}', [ParameterAnalysisController::class, 'forgotPassword'])->name('forgot-password');
+    });
+
+    Route::resource('param-orientador', GuidingParameterController::class, [
+        'names' => 'guiding-parameter'])->parameters([
+        'param-orientador' => 'guiding_parameter'
+    ]);
+    Route::prefix('param-orientador')->name('guiding-parameter.')->group(function(){
+        Route::post('/filter', [GuidingParameterController::class, 'filter'])->name('filter');
     });
 
     Route::prefix('config')->name('config.')->group(function(){

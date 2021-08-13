@@ -24,7 +24,7 @@ class PointIdentification extends Model
     ];
 
     /**
-     * The roles that belong to the geodetic system.
+     * The GeodeticSystem.
      */
     public function geodeticSystem()
     {

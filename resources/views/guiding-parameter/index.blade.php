@@ -1,17 +1,17 @@
 <x-app-layout>
-    <div class="py-6 index-point-identification">
+    <div class="py-6 index-guiding-parameter">
         <div class="max-w-6xl mx-auto px-4">
 
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">
-                    <h1>{{ __('Listar Pontos') }}</h1>
+                    <h1>{{ __('Listar Param. Orientador') }}</h1>
                 </div>
                 <div class="w-full flex justify-end">
                     <div class="m-2 ">
-                        <a class="btn-outline-info" href="{{ route('registers.point-identification.create') }}" >{{ __('Cadastrar') }}</a>
+                        <a class="btn-outline-info" href="{{ route('guiding-parameter.create') }}" >{{ __('Cadastrar') }}</a>
                     </div>
                     <div class="m-2">
-                        <button type="button" class="btn-outline-danger delete-point-identification" data-type="multiple">{{ __('Apagar') }}</a>
+                        <button type="button" class="btn-outline-danger delete-guiding-parameter" data-type="multiple">{{ __('Apagar') }}</a>
                     </div>
                 </div>
             </div>
@@ -20,54 +20,50 @@
                 <div class="filter-container">
                     <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full">
                         <div class="w-full md:w-1/2 px-2 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="area">
-                                {{ __('Área') }}
-                            </label>
-                            <x-jet-input id="area" class="form-control block w-full filter-field" type="text" name="area" :value="app('request')->input('area')" autofocus autocomplete="area" />
+                            <x-jet-label for="environmental_guiding_parameter_id" value="{{ __('Cod. Param. Orientador Ambiental') }}"/>
+                            <x-jet-input id="environmental_guiding_parameter_id" class="form-control block w-full filter-field" type="text" name="environmental_guiding_parameter_id" :value="app('request')->input('environmental_guiding_parameter_id')" autofocus autocomplete="environmental_guiding_parameter_id" />
                         </div>
                         <div class="w-full md:w-1/2 px-2 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="identification">
-                                {{ __('Identificação do Ponto') }}
-                            </label>
-                            <x-jet-input id="identification" class="form-control block w-full filter-field" type="text" name="identification" :value="app('request')->input('identification')" autofocus autocomplete="identification" />
+                            <x-jet-label for="environmental_agency_id" value="{{ __('Órgão Ambiental') }}"/>
+                            <x-custom-select :options="$environmentalAgencies" name="environmental_agency_id" id="environmental_agency_id" :value="app('request')->input('environmental_agency_id')"/>
                         </div>
                     </div>
                 </div>
                 <div class="flex mt-4">
-                    <table id="point_identification_table" class="table table-responsive md:table w-full">
-                        @include('point-identification.filter-result', ['pointIdentifications' => $pointIdentifications, 'ascending' => $ascending, 'orderBy' => $orderBy])
+                    <table id="guiding_parameter_table" class="table table-responsive md:table w-full">
+                        @include('guiding-parameter.filter-result', ['guidingParameters' => $guidingParameters, 'ascending' => $ascending, 'orderBy' => $orderBy])
                     </table>
                 </div>
                 <div class="flex mt-4 p-2" id="pagination">
-                        {{ $pointIdentifications->appends(request()->input())->links() }}
+                        {{ $guidingParameters->appends(request()->input())->links() }}
                 </div>
             </div>
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir Ponto') }}"
-             msg="{{ __('Deseja realmente apagar esse Ponto?') }}"
-             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_point_identification_modal"
+    <x-modal title="{{ __('Excluir Param. Orientador') }}"
+             msg="{{ __('Deseja realmente apagar esse Param. Orientador?') }}"
+             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_guiding_parameter_modal"
              method="DELETE"
-             redirect-url="{{ route('registers.point-identification.index') }}"/>
+             redirect-url="{{ route('guiding-parameter.index') }}"/>
 
     <script>
         window.addEventListener("load", function() {
             var filterCallback = function (event) {
                 var ajax = new XMLHttpRequest();
-                var url = "{!! route('registers.point-identification.filter') !!}";
+                var url = "{!! route('guiding-parameter.filter') !!}";
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
-                var area = document.getElementById("area").value;
-                var identification = document.getElementById("identification").value;
+                var environmental_guiding_parameter_id = document.getElementById("environmental_guiding_parameter_id").value;
+                var environmental_agency_id = document.getElementById("environmental_agency_id").value;
 
                 ajax.open(method, url);
 
                 ajax.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         var resp = JSON.parse(ajax.response);
-                        document.getElementById("point_identification_table").innerHTML = resp.filter_result;
+                        document.getElementById("guiding_parameter_table").innerHTML = resp.filter_result;
                         document.getElementById("pagination").innerHTML = resp.pagination;
                         eventsFilterCallback();
                         eventsDeleteCallback();
@@ -82,8 +78,8 @@
                 data.append('_token', token);
                 data.append('_method', method);
                 data.append('paginate_per_page', paginationPerPage);
-                if(area) data.append('area', area);
-                if(identification) data.append('identification', identification);
+                if(environmental_guiding_parameter_id) data.append('environmental_guiding_parameter_id', environmental_guiding_parameter_id);
+                if(environmental_agency_id) data.append('environmental_agency_id', environmental_agency_id);
 
                 ajax.send(data);
             }
@@ -94,19 +90,19 @@
                 var ascending = this.dataset.ascending;
                 var that = this;
                 var ajax = new XMLHttpRequest();
-                var url = "{!! route('registers.point-identification.filter') !!}";
+                var url = "{!! route('guiding-parameter.filter') !!}";
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
-                var area = document.getElementById("area").value;
-                var identification = document.getElementById("identification").value;
+                var environmental_guiding_parameter_id = document.getElementById("environmental_guiding_parameter_id").value;
+                var environmental_agency_id = document.getElementById("environmental_agency_id").value;
 
                 ajax.open(method, url);
 
                 ajax.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         var resp = JSON.parse(ajax.response);
-                        document.getElementById("point_identification_table").innerHTML = resp.filter_result;
+                        document.getElementById("guiding_parameter_table").innerHTML = resp.filter_result;
                         document.getElementById("pagination").innerHTML = resp.pagination;
                         that.dataset.ascending = that.dataset.ascending == 'asc' ? that.dataset.ascending = 'desc' : that.dataset.ascending = 'asc';
                         eventsFilterCallback();
@@ -124,8 +120,8 @@
                 data.append('paginate_per_page', paginationPerPage);
                 data.append('ascending', ascending);
                 data.append('order_by', orderBY);
-                if(area) data.append('area', area);
-                if(identification) data.append('identification', identification);
+                if(environmental_guiding_parameter_id) data.append('environmental_guiding_parameter_id', environmental_guiding_parameter_id);
+                if(environmental_agency_id) data.append('environmental_agency_id', environmental_agency_id);
 
                 ajax.send(data);
             }
@@ -135,25 +131,25 @@
                     item.addEventListener('change', filterCallback, false);
                     item.addEventListener('keyup', filterCallback, false);
                 });
-                document.querySelectorAll("#point_identification_table thead [data-name]").forEach(item => {
+                document.querySelectorAll("#guiding_parameter_table thead [data-name]").forEach(item => {
                     item.addEventListener("click", orderByCallback, false);
                 });
             }
 
 
             function eventsDeleteCallback() {
-                document.querySelectorAll('.delete-point-identification').forEach(item => {
+                document.querySelectorAll('.delete-guiding-parameter').forEach(item => {
                     item.addEventListener("click", function() {
                         if(this.dataset.type != 'multiple') {
                             var url = this.dataset.url;
-                            var modal = document.getElementById("delete_point_identification_modal");
+                            var modal = document.getElementById("delete_guiding_parameter_modal");
                             modal.dataset.url = url;
                             modal.classList.remove("hidden");
                             modal.classList.add("block");
                         }
                         else {
                             var urls = '';
-                            document.querySelectorAll('input:checked.point-identification-url').forEach((item, index, arr) => {
+                            document.querySelectorAll('input:checked.guiding-parameter-url').forEach((item, index, arr) => {
                                 urls += item.value ;
                                 if(index < (arr.length - 1)) {
                                     urls += ',';
@@ -161,7 +157,7 @@
                             });
 
                             if(urls.length > 0) {
-                                var modal = document.getElementById("delete_point_identification_modal");
+                                var modal = document.getElementById("delete_guiding_parameter_modal");
                                 modal.dataset.url = urls;
                                 modal.classList.remove("hidden");
                                 modal.classList.add("block");
