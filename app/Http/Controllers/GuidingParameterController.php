@@ -34,7 +34,7 @@ class GuidingParameterController extends Controller
      */
     public function create()
     {
-        $environmentalAgencies =  GuidingParameter::all()->pluck('name', 'id');
+        $environmentalAgencies =  EnvironmentalAgency::all()->pluck('name', 'id');
         $environmentalAreas = EnvironmentalArea::all()->pluck('name', 'id');
         $customers = Customer::all()->pluck('name', 'id');
         return view('guiding-parameter.create', compact('environmentalAgencies', 'environmentalAreas', 'customers'));
@@ -85,7 +85,7 @@ class GuidingParameterController extends Controller
      */
     public function edit($id)
     {
-        $guidingParameter = GuidingParameter::findOrFail($id);
+        $guidingParameter = EnvironmentalAgency::all()->pluck('name', 'id');
         $environmentalAgencies =  GuidingParameter::all()->pluck('name', 'id');
         $environmentalAreas = EnvironmentalArea::all()->pluck('name', 'id');
         $customers = Customer::all()->pluck('name', 'id');
