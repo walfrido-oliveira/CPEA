@@ -85,8 +85,8 @@ class GuidingParameterController extends Controller
      */
     public function edit($id)
     {
-        $guidingParameter = EnvironmentalAgency::all()->pluck('name', 'id');
-        $environmentalAgencies =  GuidingParameter::all()->pluck('name', 'id');
+        $guidingParameter = GuidingParameter::findOrFail($id);
+        $environmentalAgencies =  EnvironmentalAgency::all()->pluck('name', 'id');
         $environmentalAreas = EnvironmentalArea::all()->pluck('name', 'id');
         $customers = Customer::all()->pluck('name', 'id');
 
