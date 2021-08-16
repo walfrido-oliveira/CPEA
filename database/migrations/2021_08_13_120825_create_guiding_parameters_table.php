@@ -17,7 +17,7 @@ class CreateGuidingParametersTable extends Migration
             $table->id();
             $table->foreignId('environmental_area_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('environmental_agency_id')->nullable()->constrained()->nullOnDelete();
-            $table->foreignId('customer_id')->constrained();
+            $table->foreignId('customer_id')->nullable()->constrained();
 
             $table->string('environmental_guiding_parameter_id');
             $table->string('name');

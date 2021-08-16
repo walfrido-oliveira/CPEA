@@ -26,7 +26,7 @@ class GuidingParameterRequest extends FormRequest
         return [
             'environmental_area_id' => ['exists:environmental_areas,id', 'nullable'],
             'environmental_agency_id' => ['exists:environmental_agencies,id', 'nullable'],
-            'customer_id' => ['exists:customers,id', 'required'],
+            'customer_id' => ['exists:customers,id', 'nullable'],
             'name' => ['required', 'string', 'max:255'],
             'resolutions' => ['nullable', 'string', 'max:255'],
             'articles' => ['nullable', 'string', 'max:255'],
