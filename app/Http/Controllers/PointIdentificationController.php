@@ -10,7 +10,7 @@ use App\Http\Requests\PointIdentificationRequest;
 class PointIdentificationController extends Controller
 {
     /**
-     * Display a listing of the user.
+     * Display a listing of the point identification.
      *
      * @param  Request  $request
      * @return \Illuminate\Http\Response

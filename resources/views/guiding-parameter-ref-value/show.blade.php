@@ -24,9 +24,8 @@
                         <div class="w-full md:w-1/4">
                             <p class="font-bold">{{ __('ID') }}</p>
                         </div>
-
                         <div class="w-full md:w-1/2">
-                            <p class=   "text-gray-500 font-bold">{{ $guidingParameterRefValue->id }}</p>
+                            <p class="text-gray-500 font-bold">{{ $guidingParameterRefValue->id }}</p>
                         </div>
                     </div>
 

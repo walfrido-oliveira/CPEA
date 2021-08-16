@@ -32,7 +32,7 @@ class PointIdentification extends Model
     }
 
     /**
-     * Find users in dabase
+     * Find point idetification in dabase
      *
      * @param Array
      *
