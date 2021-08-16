@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Customer;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PointIdentification extends Model
 {
@@ -29,6 +30,16 @@ class PointIdentification extends Model
     public function geodeticSystem()
     {
         return $this->belongsTo(GeodeticSystem::class);
+    }
+
+    /**
+     * Get Customer array
+     *
+     * @return array
+     */
+    public function customers()
+    {
+        return $this->belongsToMany(Customer::class);
     }
 
     /**

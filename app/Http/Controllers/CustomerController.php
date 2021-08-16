@@ -20,8 +20,9 @@ class CustomerController extends Controller
         $customers = Customer::filter($request->all());
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'id';
+        $actions = isset($query['actions']) ? $query['actions'] : 'show';
 
-        return view('customers.index', compact('customers', 'ascending', 'orderBy'));
+        return view('customers.index', compact('customers', 'ascending', 'orderBy', 'actions'));
     }
 
     /**
@@ -150,9 +151,10 @@ class CustomerController extends Controller
         $orderBy = $request->get('order_by');
         $ascending = $request->get('ascending');
         $paginate_per_page = $request->get('paginate_per_page');
+        $actions = $request->has('actions') ? $request->get('actions') : 'show';
 
         return response()->json([
-        'filter_result' => view('customers.filter-result', compact('customers', 'orderBy', 'ascending'))->render(),
+        'filter_result' => view('customers.filter-result', compact('customers', 'orderBy', 'ascending', 'actions'))->render(),
         'pagination' => view('layouts.pagination', [
             'models' => $customers,
             'order_by' => $orderBy,

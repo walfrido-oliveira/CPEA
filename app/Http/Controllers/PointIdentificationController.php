@@ -77,7 +77,9 @@ class PointIdentificationController extends Controller
     public function show($id)
     {
         $pointIdentification = PointIdentification::findOrFail($id);
-        return view('point-identification.show', compact('pointIdentification'));
+        $customers = $pointIdentification->customers()->paginate(10, ['*'], 'customers')->appends(request()->input());
+
+        return view('point-identification.show', compact('pointIdentification', 'customers'));
     }
 
     /**

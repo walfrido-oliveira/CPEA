@@ -3,7 +3,7 @@
         <div class="max-w-6xl mx-auto px-4">
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">
-                    <h1>{{ __('Ponto') }}</h1>
+                    <h1>{{ __('Detalhes do Ponto') }}</h1>
                 </div>
                 <div class="w-full flex justify-end">
                     <div class="m-2 ">
@@ -18,7 +18,7 @@
                 </div>
             </div>
 
-            <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
+            <div class="py-2 my-2 bg-white rounded-lg">
                 <div class="mx-4 px-3 py-2 mt-4">
                     <div class="flex flex-wrap">
                         <div class="w-full md:w-1/4">
@@ -156,7 +156,39 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <div class="py-2 my-2 bg-white rounded-lg flex md:flex-row flex-col flex-wrap">
+                <div class="flex md:flex-row flex-col w-full">
+                    <div class="mx-4 px-3 py-2 w-full flex items-center">
+                        <h1>{{ __('Clientes') }}</h1>
+                    </div>
+                    <div class="mx-4 px-3 py-2 w-full flex justify-end" x-data="{ open: false }">
+                        <div class="pr-4 flex">
+                            <button @click="open = !open" id="nav-toggle" class="w-full block btn-transition-secondary">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                              </svg>
+                            </button>
+                        </div>
+                        <!--Search-->
+                        <div :class="{'block': open, 'hidden': !open}" class="w-full block" id="search-content">
+                            <div class="container mx-auto">
+                                <input id="name" name="name" type="search" placeholder="Buscar..." autofocus="autofocus" class="filter-field w-full form-control border-t-0 border-r-0 border-l-0 focus:outline-none focus:ring-0 focus:border-black pt-0 pb-0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex w-full">
+                    <table id="customer_table" class="table table-responsive md:table w-full">
+                        @include('customers.filter-result', ['customers' => $customers, 'ascending' => null, 'orderBy' => null, 'actions' => 'hidden'])
+                    </table>
+                </div>
+
+                <div class="flex w-full mt-4 p-2" id="pagination">
+                    {{ $customers->links() }}
+                </div>
             </div>
         </div>
     </div>
@@ -167,6 +199,8 @@
              method="DELETE"
              url="{{ route('registers.point-identification.destroy', ['point_identification' => $pointIdentification->id]) }}"
              redirect-url="{{ route('registers.point-identification.index') }}"/>
+
+    @include('customers.filter-result-scripts', ['actions' => 'hidden'])
 
     <script>
         function eventsDeleteCallback() {

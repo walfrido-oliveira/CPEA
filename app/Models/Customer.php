@@ -20,7 +20,7 @@ class Customer extends Model
     ];
 
     /**
-     * Get tags array
+     * Get point Identification  array
      *
      * @return array
      */
