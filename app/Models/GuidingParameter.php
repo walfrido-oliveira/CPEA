@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Customer;
 use App\Models\EnvironmentalArea;
 use App\Models\EnvironmentalAgency;
+use App\Models\GuidingParameterValue;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -45,6 +46,14 @@ class GuidingParameter extends Model
     public function environmentalAgency()
     {
         return $this->belongsTo(EnvironmentalAgency::class);
+    }
+
+    /**
+     * The Guiding Parameter Value
+     */
+    public function guidingParameterValues()
+    {
+        return $this->hasMany(GuidingParameterValue::class);
     }
 
     /**
