@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UnityController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmailConfigController;
 use App\Http\Controllers\GuidingValueController;
@@ -56,6 +57,15 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::prefix('clientes')->name('customers.')->group(function(){
         Route::post('/filter', [CustomerController::class, 'filter'])->name('filter');
         Route::post('/forgot-password/{user}', [CustomerController::class, 'forgotPassword'])->name('forgot-password');
+    });
+
+    Route::resource('projetos', ProjectController::class, [
+        'names' => 'project'])->parameters([
+        'projetos' => 'project'
+    ]);
+    Route::prefix('projetos')->name('project.')->group(function(){
+        Route::post('/filter', [ProjectController::class, 'filter'])->name('filter');
+        Route::post('/forgot-password/{user}', [ProjectController::class, 'forgotPassword'])->name('forgot-password');
     });
 
     Route::resource('param-analise', ParameterAnalysisController::class, [

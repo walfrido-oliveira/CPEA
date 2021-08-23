@@ -1,7 +1,7 @@
 <th scope="col"
     data-name="{{ $columnName }}" data-ascending="@if ($orderBy == $columnName) {{ $ascending == 'asc' ? 'desc' : 'asc' }} @else desc @endif"
     class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-    {{ $columnText }}
+    {!! $columnText !!}
     @if ($orderBy == $columnName)
         @switch($ascending)
             @case('asc')

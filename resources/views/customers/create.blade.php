@@ -34,7 +34,7 @@
                         </div>
                     </div>
 
-                    <h2 class="w-full mx-4 px-6 py-2 mt-4">{{ __("Identificação do Ponto") }}</h2>
+                    <h2 class="w-full mx-4 px-2 py-2 mt-4">{{ __("Identificação do Ponto") }}</h2>
 
                     <div class="flex mx-4 px-3 py-2 mt-2">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
