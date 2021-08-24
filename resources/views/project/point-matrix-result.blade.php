@@ -13,37 +13,38 @@
         </th>
     </tr>
 </thead>
-<tbody id="project_point_matrix_table_content">
+<tbody id="point_matrix_table_content">
     @forelse ($projectPointMatrices as $key => $projectPointMatrix)
         <tr>
             <td>
-                <input class="form-checkbox project-point-matrix-url" type="checkbox" name="project_point_matrix[{{ $projectPointMatrix->id }}]" value="{!! route('project-point-matrix.destroy', ['projectPointMatrix' => $projectPointMatrix->id]) !!}">
+                <input class="form-checkbox point-matrix-url" type="checkbox" name="point_matrix[{{ $projectPointMatrix->id }}]" value="{!! route('project.point-matrix.destroy', ['point_matrix' => $projectPointMatrix->id]) !!}">
+                <input type="hidden" name="point_matrix[{{ $key }}][id]" value="{{ $projectPointMatrix->id }}">
             </td>
             <td>
-                { $projectPointMatrix->pointIdentification->area }}
+                {{ $projectPointMatrix->pointIdentification->area }}
+                <input type="hidden" name="point_matrix[{{ $key }}][point_identification_id]" value="{{ $projectPointMatrix->pointIdentification->id }}">
             </td>
             <td>
-                { $projectPointMatrix->pointIdentification->identification }}
+                {{ $projectPointMatrix->pointIdentification->identification }}
             </td>
             <td>
-                { $projectPointMatrix->analysisMatrix->name }}
+                {{ $projectPointMatrix->analysisMatrix->name }}
+                <input type="hidden" name="point_matrix[{{ $key }}][analysis_matrix_id]" value="{{ $projectPointMatrix->analysisMatrix->id }}">
             </td>
             <td>
-                { $projectPointMatrix->planActionLevel->name }}
+                {{ $projectPointMatrix->planActionLevel->name }}
+                <input type="hidden" name="point_matrix[{{ $key }}][plan_action_level_id]" value="{{ $projectPointMatrix->planActionLevel->id }}">
             </td>
             <td>
-                { $projectPointMatrix->guidingParameter->environmental_guiding_parameter_id }}
+                {{ $projectPointMatrix->guidingParameter->environmental_guiding_parameter_id }}
+                <input type="hidden" name="point_matrix[{{ $key }}][guiding_parameter_id]" value="{{ $projectPointMatrix->guidingParameter->id }}">
             </td>
             <td>
-                { $projectPointMatrix->parameterAnalysis->analysis_parameter_name }}
+                {{ $projectPointMatrix->parameterAnalysis->analysis_parameter_name }}
+                <input type="hidden" name="point_matrix[{{ $key }}][parameter_analysis_id]" value="{{ $projectPointMatrix->parameterAnalysis->id }}">
             </td>
             <td>
-                <a class="btn-transition-warning" href="{{ route('project-point-matrix.edit', ['projectPointMatrix' => $projectPointMatrix->id]) }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                    </svg>
-
-                <button class="btn-transition-danger delete-project-point-matrix" data-url="{!! route('project-point-matrix.destroy', ['projectPointMatrix' => $projectPointMatrix->id]) !!}">
+                <button type="button" class="btn-transition-danger delete-point-matrix" data-type="edit" data-url="{!! route('project.point-matrix.destroy', ['point_matrix' => $projectPointMatrix->id]) !!}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>

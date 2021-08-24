@@ -17,6 +17,7 @@ use App\Http\Controllers\GuidingParameterController;
 use App\Http\Controllers\AnalysisParameterController;
 use App\Http\Controllers\EnvironmentalAreaController;
 use App\Http\Controllers\ParameterAnalysisController;
+use App\Http\Controllers\ProjectPointMatrixController;
 use App\Http\Controllers\TypeGeodeticSystemController;
 use App\Http\Controllers\EnvironmentalAgencyController;
 use App\Http\Controllers\PointIdentificationController;
@@ -66,7 +67,13 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::prefix('projetos')->name('project.')->group(function(){
         Route::post('/filter', [ProjectController::class, 'filter'])->name('filter');
         Route::post('/forgot-password/{user}', [ProjectController::class, 'forgotPassword'])->name('forgot-password');
+
+        Route::resource('ponto-matriz', ProjectPointMatrixController::class, [
+            'names' => 'point-matrix'])->parameters([
+            'ponto-matriz' => 'point_matrix'
+        ]);
     });
+
 
     Route::resource('param-analise', ParameterAnalysisController::class, [
         'names' => 'parameter-analysis'])->parameters([

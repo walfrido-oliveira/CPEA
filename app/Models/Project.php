@@ -33,7 +33,7 @@ class Project extends Model
      */
     public function projectPointMatrices()
     {
-        return $this->belongsToMany(ProjectPointMatrix::class);
+        return $this->HasMany(ProjectPointMatrix::class);
     }
 
     /**
