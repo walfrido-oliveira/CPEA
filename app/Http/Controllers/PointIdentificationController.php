@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\GeodeticSystem;
 use App\Models\PointIdentification;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\PointIdentificationRequest;
 
 class PointIdentificationController extends Controller
@@ -65,7 +67,57 @@ class PointIdentificationController extends Controller
             'alert-type' => 'success'
         ];
 
-        return redirect()->route('registers.point-identification.index')->with($resp);
+        if(!isset($input['no-redirect']))
+            return redirect()->route('registers.point-identification.index')->with($resp);
+        else
+            return response()->json($resp);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function simpleCreate(Request $request)
+    {
+        $input = $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'area' => ['required', 'string', 'max:255'],
+            'identification' => ['required', 'string', 'max:255'],
+            'geodetic_system_id' => ['required', 'exists:geodetic_systems,id'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
+        }
+
+        $pointIdentification =   PointIdentification::create([
+            'area' => $input['area'],
+            'identification' => $input['identification'],
+            'geodetic_system_id' => $input['geodetic_system_id'],
+            'utm_me_coordinate' => isset($input['utm_me_coordinate']) ? $input['utm_me_coordinate'] : null,
+            'utm_mm_coordinate' => isset($input['utm_mm_coordinate']) ? $input['utm_mm_coordinate'] : null,
+            'pool_depth' => isset($input['pool_depth']) ? $input['pool_depth'] : null,
+            'pool_diameter' => isset($input['pool_diameter']) ? $input['pool_diameter'] : null,
+            'pool_volume' => isset($input['pool_volume']) ? $input['pool_volume'] : null,
+            'water_depth' => isset($input['water_depth']) ? $input['water_depth'] : null,
+            'sedimentary_collection_depth' => isset($input['sedimentary_collection_depth']) ? $input['sedimentary_collection_depth'] : null,
+            'collection_depth' => isset($input['collection_depth']) ? $input['collection_depth'] : null,
+            'water_collection_depth' => isset($input['water_collection_depth']) ? $input['water_collection_depth'] : null,
+        ]);
+
+        $resp = [
+            'message' => __('Ponto Cadastrado com Sucesso!'),
+            'alert-type' => 'success',
+            'point_identifications' => PointIdentification::all()
+        ];
+
+        if(!isset($input['no-redirect']))
+            return redirect()->route('registers.point-identification.index')->with($resp);
+        else
+            return response()->json($resp);
     }
 
     /**

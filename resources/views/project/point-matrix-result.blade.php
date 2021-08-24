@@ -21,11 +21,15 @@
                 <input type="hidden" name="point_matrix[{{ $key }}][id]" value="{{ $projectPointMatrix->id }}">
             </td>
             <td>
-                {{ $projectPointMatrix->pointIdentification->area }}
+                <a class="text-green-600 underline" href="{{ route('registers.point-identification.show', ['point_identification' => $projectPointMatrix->pointIdentification->id]) }}" target="_blank" rel="noopener noreferrer">
+                    {{ $projectPointMatrix->pointIdentification->area }}
+                </a>
                 <input type="hidden" name="point_matrix[{{ $key }}][point_identification_id]" value="{{ $projectPointMatrix->pointIdentification->id }}">
             </td>
             <td>
-                {{ $projectPointMatrix->pointIdentification->identification }}
+                <a class="text-green-600 underline" href="{{ route('registers.point-identification.show', ['point_identification' => $projectPointMatrix->pointIdentification->id]) }}" target="_blank" rel="noopener noreferrer">
+                    {{ $projectPointMatrix->pointIdentification->identification }}
+                </a>
             </td>
             <td>
                 {{ $projectPointMatrix->analysisMatrix->name }}

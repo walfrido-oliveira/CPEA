@@ -51,7 +51,7 @@
                             <x-jet-input id="pool_depth" class="form-control block mt-1 w-full" type="number" name="pool_depth" maxlength="18" step="any" autofocus autocomplete="pool_depth" :value="$pointIdentification->pool_depth"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="utm_mm_coordinate" value="{{ __('Sistema Geodesico') }}" required/>
+                            <x-jet-label for="geodetic_system_id" value="{{ __('Sistema Geodesico') }}" required/>
                             <x-custom-select :options="$geodeticSystems" name="geodetic_system_id" id="geodetic_system_id" :value="$pointIdentification->geodeticSystem->id" required/>
                         </div>
                     </div>

@@ -42,14 +42,14 @@
                         </div>
                         <div class="w-full flex justify-end">
                             <div class="m-2 ">
-                                <button type="button" class="btn-transition-primary" id="">
+                                <button type="button" class="btn-transition-primary" id="point_create">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                 </button>
                             </div>
                             <div class="m-2 ">
-                                <button type="button" class="btn-outline-info" id="project_point_matrix_table_add">{{ __('Cadastrar') }}</button>
+                                <button type="button" class="btn-outline-info" id="point_matrix_table_add">{{ __('Cadastrar') }}</button>
                             </div>
                             <div class="m-2 ">
                                 <button type="button" id="delete_point_matrix" class="btn-outline-danger delete-point-matrix" data-type="multiple">{{ __('Apagar') }}</button>
@@ -86,8 +86,11 @@
                     </div>
                     <div class="flex mt-4">
                         <table id="project_table" class="table table-responsive md:table w-full">
-                            @include('project.point-matrix-result', ['projectPointMatrices' => $project->projectPointMatrices, 'orderBy' => 'area', 'ascending' => 'asc'])
+                            @include('project.point-matrix-result', ['projectPointMatrices' => $projectPointMatrices, 'orderBy' => 'area', 'ascending' => 'asc'])
                         </table>
+                    </div>
+                    <div class="flex w-full mt-4 p-2" id="pagination">
+                        {{ $projectPointMatrices->links() }}
                     </div>
                 </div>
             </form>
@@ -101,4 +104,5 @@
              redirect-url="{{ route('project.edit', ['project' => $project->id]) }}"/>
 
     @include('project.scripts')
+    @include('project.point-create-modal')
 </x-app-layout>

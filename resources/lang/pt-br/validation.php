@@ -166,7 +166,10 @@ return [
         'comment' => 'comentário',
         'type' => 'tipo',
         'customers' => 'clientes',
-        "internal_id" => "código"
+        "internal_id" => "código",
+        "geodetic_system_id" => "Sistema Geodesico",
+        "area" => "Área",
+        "identification" => "Identificação do Ponto"
     ],
 
 ];

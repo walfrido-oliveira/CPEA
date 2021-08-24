@@ -172,6 +172,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::prefix('ponto')->name('point-identification.')->group(function(){
             Route::post('/filter', [PointIdentificationController::class, 'filter'])->name('filter');
             Route::post('/filter/{area}', [PointIdentificationController::class, 'filterByArea'])->name('filter-by-area');
+            Route::post('/simple-create', [PointIdentificationController::class, 'simpleCreate'])->name('simple-create');
         });
 
         Route::resource('grupo-param-analise', ParameterAnalysisGroupController::class, [
