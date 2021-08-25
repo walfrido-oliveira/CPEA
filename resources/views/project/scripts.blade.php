@@ -429,9 +429,9 @@
             var key = this.dataset.row;
             var that = this;
             var ajax = new XMLHttpRequest();
-            var url = "{!! route('project.point-matrix.edit', ['point_matrix' => '#']) !!}".replace('#', id);
+            var url = "{!! route('project.point-matrix.edit-ajax', ['point_matrix' => '#']) !!}".replace('#', id);
             var token = document.querySelector('meta[name="csrf-token"]').content;
-            var method = 'GET';
+            var method = 'POST';
 
             ajax.open(method, url);
 
