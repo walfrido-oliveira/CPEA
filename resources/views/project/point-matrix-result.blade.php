@@ -21,27 +21,37 @@
                 <input type="hidden" name="point_matrix[{{ $key }}][id]" value="{{ $projectPointMatrix->id }}">
             </td>
             <td>
-                <a class="text-green-600 underline" href="{{ route('registers.point-identification.show', ['point_identification' => $projectPointMatrix->pointIdentification->id]) }}" target="_blank" rel="noopener noreferrer">
-                    {{ $projectPointMatrix->pointIdentification->area }}
-                </a>
-                <input type="hidden" name="point_matrix[{{ $key }}][point_identification_id]" value="{{ $projectPointMatrix->pointIdentification->id }}">
+                @if ($projectPointMatrix->pointIdentification)
+                    <a class="text-green-600 underline" href="{{ route('registers.point-identification.show', ['point_identification' => $projectPointMatrix->pointIdentification->id]) }}" target="_blank" rel="noopener noreferrer">
+                        {{ $projectPointMatrix->pointIdentification->area }}
+                    </a>
+                    <input type="hidden" name="point_matrix[{{ $key }}][point_identification_id]" value="{{ $projectPointMatrix->pointIdentification->id }}">
+                @endif
             </td>
             <td>
-                <a class="text-green-600 underline" href="{{ route('registers.point-identification.show', ['point_identification' => $projectPointMatrix->pointIdentification->id]) }}" target="_blank" rel="noopener noreferrer">
-                    {{ $projectPointMatrix->pointIdentification->identification }}
-                </a>
+                @if ($projectPointMatrix->pointIdentification)
+                    <a class="text-green-600 underline" href="{{ route('registers.point-identification.show', ['point_identification' => $projectPointMatrix->pointIdentification->id]) }}" target="_blank" rel="noopener noreferrer">
+                        {{ $projectPointMatrix->pointIdentification->identification }}
+                    </a>
+                @endif
             </td>
             <td>
-                {{ $projectPointMatrix->analysisMatrix->name }}
-                <input type="hidden" name="point_matrix[{{ $key }}][analysis_matrix_id]" value="{{ $projectPointMatrix->analysisMatrix->id }}">
+                @if ($projectPointMatrix->analysisMatrix)
+                    {{ $projectPointMatrix->analysisMatrix->name }}
+                    <input type="hidden" name="point_matrix[{{ $key }}][analysis_matrix_id]" value="{{ $projectPointMatrix->analysisMatrix->id }}">
+                @endif
             </td>
             <td>
-                {{ $projectPointMatrix->planActionLevel->name }}
-                <input type="hidden" name="point_matrix[{{ $key }}][plan_action_level_id]" value="{{ $projectPointMatrix->planActionLevel->id }}">
+                @if ($projectPointMatrix->planActionLevel)
+                    {{ $projectPointMatrix->planActionLevel->name }}
+                    <input type="hidden" name="point_matrix[{{ $key }}][plan_action_level_id]" value="{{ $projectPointMatrix->planActionLevel->id }}">
+                @endif
             </td>
             <td>
-                {{ $projectPointMatrix->guidingParameter->environmental_guiding_parameter_id }}
-                <input type="hidden" name="point_matrix[{{ $key }}][guiding_parameter_id]" value="{{ $projectPointMatrix->guidingParameter->id }}">
+                @if ($projectPointMatrix->guidingParameter)
+                    {{ $projectPointMatrix->guidingParameter->environmental_guiding_parameter_id }}
+                    <input type="hidden" name="point_matrix[{{ $key }}][guiding_parameter_id]" value="{{ $projectPointMatrix->guidingParameter->id }}">
+                @endif
             </td>
             <td>
                 {{ $projectPointMatrix->parameterAnalysis->analysis_parameter_name }}
