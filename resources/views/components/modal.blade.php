@@ -65,7 +65,7 @@
                         @if(!isset($attributes['redirect-url']))
                             var elements = document.getElementById("{{ $attributes['id'] }}").dataset.elements;
                             var elementArray = elements.split(',');
-                            document.getElementById(elementArray[index]).parentElement.parentElement.innerHTML = '';
+                            document.getElementById(elementArray[index]).innerHTML = '';
                         @endif
 
                         close();

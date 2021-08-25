@@ -49,7 +49,7 @@
                                 </button>
                             </div>
                             <div class="m-2 ">
-                                <button type="button" class="btn-outline-info" id="point_matrix_table_add">{{ __('Cadastrar') }}</button>
+                                <button type="button" class="btn-outline-info" id="point_matrix_table_add" data-type="save" data-id="0">{{ __('Cadastrar') }}</button>
                             </div>
                             <div class="m-2 ">
                                 <button type="button" id="delete_point_matrix" class="btn-outline-danger delete-point-matrix" data-type="multiple">{{ __('Apagar') }}</button>

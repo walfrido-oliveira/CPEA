@@ -33,16 +33,28 @@ class ProjectPointMatrixController extends Controller
     {
         $input = $request->all();
         $key = $input['key'];
-        $projectPointMatrix = ProjectPointMatrix::findOrFail($id);
+        $projectPointMatrix = ProjectPointMatrix::find($id);
 
-        $projectPointMatrix->update([
-            'project_id' => $projectPointMatrix->project_id,
-            'point_identification_id' => $input['point_identification_id'],
-            'analysis_matrix_id' => $input['analysis_matrix_id'],
-            'plan_action_level_id' => $input['plan_action_level_id'],
-            'guiding_parameter_id' => $input['guiding_parameter_id'],
-            'parameter_analysis_id' => $input['parameter_analysis_id']
-        ]);
+        if($projectPointMatrix)
+        {
+            $projectPointMatrix->update([
+                'project_id' => $projectPointMatrix->project_id,
+                'point_identification_id' => $input['point_identification_id'],
+                'analysis_matrix_id' => $input['analysis_matrix_id'],
+                'plan_action_level_id' => $input['plan_action_level_id'],
+                'guiding_parameter_id' => $input['guiding_parameter_id'],
+                'parameter_analysis_id' => $input['parameter_analysis_id']
+            ]);
+        } else {
+            $projectPointMatrix = ProjectPointMatrix::create([
+                'project_id' => $input['project_id'],
+                'point_identification_id' => $input['point_identification_id'],
+                'analysis_matrix_id' => $input['analysis_matrix_id'],
+                'plan_action_level_id' => $input['plan_action_level_id'],
+                'guiding_parameter_id' => $input['guiding_parameter_id'],
+                'parameter_analysis_id' => $input['parameter_analysis_id']
+            ]);
+        }
 
         $resp = [
             'message' => __('Ponto/Matriz Atualizado com Sucesso!'),
@@ -63,7 +75,7 @@ class ProjectPointMatrixController extends Controller
     {
         $user = ProjectPointMatrix::findOrFail($id);
 
-        //$user->delete();
+        $user->delete();
 
         return response()->json([
             'message' => __('Ponto/Matriz Apagado com Sucesso!'),

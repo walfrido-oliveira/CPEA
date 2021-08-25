@@ -51,162 +51,6 @@
             }
         }
 
-        document.getElementById("point_matrix_table_add").addEventListener("click", function() {
-            let list = document.getElementById("point_matrix_table_content");
-            let row = document.createElement("tr");
-
-            let pointIdentificationsSelected = document.getElementById("point_identifications");
-            let pointIdentificationsSelectedText = pointIdentificationsSelected.options[pointIdentificationsSelected.selectedIndex].text;
-
-            let areasSelectedSelected = document.getElementById("areas");
-            let areasSelectedText = areasSelectedSelected.options[areasSelectedSelected.selectedIndex].text;
-
-            let matrizSelected = document.getElementById("matriz_id");
-            let matrizText = matrizSelected.options[matrizSelected.selectedIndex].text;
-
-            let plaActionLevelSelected = document.getElementById("plan_action_level_id");
-            let plaActionLevelText = plaActionLevelSelected.options[plaActionLevelSelected.selectedIndex].text;
-
-            let guidingParameterSelected = document.getElementById("guiding_parameters_id");
-            let guidingParameterText = guidingParameterSelected.options[guidingParameterSelected.selectedIndex].text;
-
-            let analysisParameterSelected = document.getElementById("analysis_parameter_id");
-            let analysisParameterText = analysisParameterSelected.options[analysisParameterSelected.selectedIndex].text;
-
-            let pointIdentificationsSelectedValue = pointIdentificationsSelected.options[pointIdentificationsSelected.selectedIndex].value;
-            let matrixSelectedValue = matrizSelected.options[matrizSelected.selectedIndex].value;
-            let plaActionLevelSelectedValue = plaActionLevelSelected.options[plaActionLevelSelected.selectedIndex].value;
-            let guidingParameterSelectedValue = guidingParameterSelected.options[guidingParameterSelected.selectedIndex].value;
-            let analysisParameterSelectedValue = analysisParameterSelected.options[analysisParameterSelected.selectedIndex].value;
-
-            let id = "point_identification_" + pointIdentificationsSelectedValue;
-
-            let length = list ? list.getElementsByTagName("tr").length : 0;
-
-            if (document.getElementById(id)) {
-                //toastr.error("{!! __('Ponto já adicionado') !!}");
-                //return;
-            }
-
-            if (!document.getElementById("point_identifications").value) {
-                toastr.error("{!! __('Nenhum ponto selecionado') !!}");
-                return;
-            }
-
-            let trashIcon = document.createElement("button");
-            trashIcon.classList.add("btn-transition-danger");
-            trashIcon.classList.add("delete-point-matrix");
-            trashIcon.type = "button";
-            trashIcon.id = "point_matrix_" + length;
-
-            let icon = '<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">' +
-                '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />' +
-                '</svg>';
-
-            trashIcon.innerHTML = icon;
-
-            let input0 = document.createElement("input");
-            input0.type = "checkbox";
-            input0.name = "point_matrix[" + (length) + "][id]";
-            input0.classList.add('form-checkbox');
-            input0.classList.add('point-matrix-url');
-            input0.value = null;
-
-            row.id = id;
-
-            let text = document.createTextNode(areasSelectedText + ', ' + pointIdentificationsSelectedText);
-
-            let td0 = document.createElement("td");
-            td0.appendChild(input0);
-
-            let td1 = document.createElement("td");
-            let a1 = document.createElement("a");
-
-            a1.classList.add('text-green-600');
-            a1.classList.add('underline');
-            a1.href = "{{ route('registers.point-identification.show', ['point_identification' => '#']) }}".replace("#", pointIdentificationsSelectedValue);
-            a1.target = '_blank';
-            a1.rel = 'noopener noreferrer';
-            a1.innerText = areasSelectedText;
-
-            td1.appendChild(a1);
-
-            let input1 = document.createElement("input");
-            input1.type = "hidden";
-            input1.name = "point_matrix[" + (length) + "][point_identification_id]";
-            input1.value = pointIdentificationsSelectedValue;
-
-            td1.appendChild(input1);
-
-            let td2 = document.createElement("td");
-            let a2 = document.createElement("a");
-
-            a2.classList.add('text-green-600');
-            a2.classList.add('underline');
-            a2.href = "{{ route('registers.point-identification.show', ['point_identification' => '#']) }}".replace("#", pointIdentificationsSelectedValue);
-            a2.target = '_blank';
-            a2.rel = 'noopener noreferrer';
-            a2.innerText = pointIdentificationsSelectedText;
-
-            td2.appendChild(a2);
-
-            let td3 = document.createElement("td");
-            td3.innerHTML = matrizText;
-
-            let input2 = document.createElement("input");
-            input2.type = "hidden";
-            input2.name = "point_matrix[" + (length) + "][analysis_matrix_id]";
-            input2.value = matrixSelectedValue;
-
-            td3.appendChild(input2);
-
-            let td4 = document.createElement("td");
-            td4.innerHTML = plaActionLevelText;
-
-            let input3 = document.createElement("input");
-            input3.type = "hidden";
-            input3.name = "point_matrix[" + (length) + "][plan_action_level_id]";
-            input3.value = plaActionLevelSelectedValue;
-
-            td4.appendChild(input3);
-
-            let td5 = document.createElement("td");
-            td5.innerHTML = guidingParameterText;
-
-            let input4 = document.createElement("input");
-            input4.type = "hidden";
-            input4.name = "point_matrix[" + (length) + "][guiding_parameter_id]";
-            input4.value = guidingParameterSelectedValue;
-
-            td5.appendChild(input4);
-
-            let td6 = document.createElement("td");
-            td6.innerHTML = analysisParameterText;
-
-            let input5 = document.createElement("input");
-            input5.type = "hidden";
-            input5.name = "point_matrix[" + (length) + "][parameter_analysis_id]";
-            input5.value = analysisParameterSelectedValue;
-
-            td6.appendChild(input5);
-
-            let td7 = document.createElement("td");
-            td7.appendChild(trashIcon);
-
-            row.appendChild(td0);
-            row.appendChild(td1);
-            row.appendChild(td2);
-            row.appendChild(td3);
-            row.appendChild(td4);
-            row.appendChild(td5);
-            row.appendChild(td6);
-            row.appendChild(td7);
-
-            list.appendChild(row);
-
-            deletePointIdentificationCallback();
-        });
-
         function deletePointIdentificationCallback() {
             document.querySelectorAll(".delete-point-matrix").forEach(item => {
                 item.addEventListener("click", function() {
@@ -262,7 +106,6 @@
                         var elements = '';
                         document.querySelectorAll('input:checked.point-matrix-url').forEach((item, index, arr) => {
                             urls += item.value;
-                            console.log(item.dataset.id);
                             elements += item.dataset.id;
                             if (index < (arr.length - 1)) {
                                 urls += ',';
@@ -478,7 +321,11 @@
                     var resp = JSON.parse(ajax.response);
                     toastr.success(resp.message);
 
-                    that.parentElement.parentElement.parentElement.innerHTML = resp.point_matrix;
+                    if(id > 0) {
+                        that.parentElement.parentElement.parentElement.innerHTML = resp.point_matrix;
+                    } else {
+                        document.getElementById("point_matrix_table_content").insertAdjacentHTML('beforeend', resp.point_matrix);
+                    }
 
                     eventsFilterCallback();
                     selectAllPointMatrices();
@@ -500,6 +347,7 @@
             data.append('plan_action_level_id', plaActionLevel);
             data.append('guiding_parameter_id', guidingParameter);
             data.append('parameter_analysis_id', analysisParameter);
+            data.append('project_id', {{ isset($project) ? $project->id : null }});
 
             ajax.send(data);
         }
@@ -516,8 +364,10 @@
             document.querySelectorAll('.save-point-matrix').forEach(item => {
                 item.addEventListener("click", savePointMatrixAjax, false);
             });
+            document.getElementById("point_matrix_table_add").addEventListener("click", savePointMatrixAjax, false);
         }
 
+        savePointMatrixCallback();
         editPointMatrixCallback();
 
         function editPointMatrix(elem, row) {
