@@ -52,7 +52,7 @@
                                 <button type="button" class="btn-outline-info" id="point_matrix_table_add">{{ __('Cadastrar') }}</button>
                             </div>
                             <div class="m-2 ">
-                                <button type="button" id="delete-point-matrix" class="btn-outline-danger">{{ __('Apagar') }}</button>
+                                <button type="button" id="delete_point_matrix" class="btn-outline-danger">{{ __('Apagar') }}</button>
                             </div>
                         </div>
                     </div>
@@ -94,5 +94,12 @@
         </div>
     </div>
 
+    <x-modal title="{{ __('Excluir Ponto/Matriz') }}"
+             msg="{{ __('Deseja realmente apagar esse Ponto/Matriz?') }}"
+             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_point_matrix_modal"
+             method="DELETE"
+             />
+
     @include('project.scripts')
+    @include('project.point-create-modal')
 </x-app-layout>

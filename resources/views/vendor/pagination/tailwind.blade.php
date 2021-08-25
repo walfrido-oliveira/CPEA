@@ -30,7 +30,7 @@
                     <!-- <span class="font-medium">{{ $paginator->lastItem() }}</span> -->
                     <div class="w-20 inline-flex ml-1 mr-1">
                         <x-custom-select  :options="[10 => 10, 20 => 20, 30 => 30, 50 => 50, 100 => 100]" name="paginate_per_page{{ $paginator->getOptions()['pageName'] != 'page' ? '_' . $paginator->getOptions()['pageName'] : '' }}" id="paginate_per_page{{ $paginator->getOptions()['pageName'] != 'page' ? '_' . $paginator->getOptions()['pageName'] : '' }}"
-                            :value="app('request')->has('paginate_per_page' . ($paginator->getOptions()['pageName'] != 'page' ? '_' . $paginator->getOptions()['pageName'] : '') ) ? app('request')->input('paginate_per_page' . ($paginator->getOptions()['pageName'] != 'page' ? '_' . $paginator->getOptions()['pageName'] : '')) : 10"/>
+                            :value="app('request')->has('paginate_per_page') ? app('request')->input('paginate_per_page') : 10"/>
                     </div>
                     <span class="text-sm text-gray-700 leading-5 m-0 inline-flex">{{ __('of') }}</span>
                     <span class="text-sm text-gray-700 leading-5 m-0 inline-flex font-medium ml-1 mr-1">{{ $paginator->total() }}</span>

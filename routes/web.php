@@ -72,6 +72,10 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             'names' => 'point-matrix'])->parameters([
             'ponto-matriz' => 'point_matrix'
         ]);
+
+        Route::prefix('ponto-matriz')->name('point-matrix.')->group(function(){
+            Route::post('/filter', [ProjectPointMatrixController::class, 'filter'])->name('filter');
+        });
     });
 
 

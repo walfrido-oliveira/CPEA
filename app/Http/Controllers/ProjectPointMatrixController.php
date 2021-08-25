@@ -17,11 +17,36 @@ class ProjectPointMatrixController extends Controller
     {
         $user = ProjectPointMatrix::findOrFail($id);
 
-        $user->delete();
+        //$user->delete();
 
         return response()->json([
             'message' => __('Ponto/Matriz Apagado com Sucesso!'),
             'alert-type' => 'success'
+        ]);
+    }
+
+    /**
+     * Filter Project
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filter(Request $request)
+    {
+        $projectPointMatrices = ProjectPointMatrix::filter($request->all());
+        $projects = $projectPointMatrices->setPath('');
+        $orderBy = $request->get('order_by');
+        $ascending = $request->get('ascending');
+        $paginate_per_page = $request->get('paginate_per_page');
+
+        return response()->json([
+        'filter_result' => view('project.point-matrix-result', compact('projectPointMatrices', 'orderBy', 'ascending'))->render(),
+        'pagination' => view('layouts.pagination', [
+            'models' => $projects,
+            'order_by' => $orderBy,
+            'ascending' => $ascending,
+            'paginate_per_page' => $paginate_per_page,
+            ])->render(),
         ]);
     }
 }

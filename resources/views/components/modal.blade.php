@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true" id="{{ $attributes['id'] }}" data-url="">
+<div class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true" id="{{ $attributes['id'] }}" data-url="" data-elements="">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
       <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
 
@@ -59,7 +59,15 @@
                 ajax[index].onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         var resp = JSON.parse(ajax[index].response);
+
                         toastr.success(resp.message);
+
+                        @if(!isset($attributes['redirect-url']))
+                            var elements = document.getElementById("{{ $attributes['id'] }}").dataset.elements;
+                            var elementArray = elements.split(',');
+                            document.getElementById(elementArray[index]).parentElement.parentElement.innerHTML = '';
+                        @endif
+
                         close();
                     } else if(this.readyState == 4 && this.status != 200) {
                         toastr.error("{!! __('Um erro ocorreu a executar essa ação') !!}");
@@ -75,8 +83,9 @@
 
             }
 
-            window.location.href = "{{ $attributes['redirect-url'] }}";
-
+            @if(isset($attributes['redirect-url']))
+                window.location.href = "{{ $attributes['redirect-url'] }}";
+            @endif
         }
 
         function eventsModalCallback() {

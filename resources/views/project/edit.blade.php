@@ -85,7 +85,7 @@
                         </div>
                     </div>
                     <div class="flex mt-4">
-                        <table id="project_table" class="table table-responsive md:table w-full">
+                        <table id="point_matrix_table" class="table table-responsive md:table w-full">
                             @include('project.point-matrix-result', ['projectPointMatrices' => $projectPointMatrices, 'orderBy' => 'area', 'ascending' => 'asc'])
                         </table>
                     </div>
@@ -101,7 +101,7 @@
              msg="{{ __('Deseja realmente apagar esse Ponto/Matriz?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_point_matrix_modal"
              method="DELETE"
-             redirect-url="{{ route('project.edit', ['project' => $project->id]) }}"/>
+             />
 
     @include('project.scripts')
     @include('project.point-create-modal')

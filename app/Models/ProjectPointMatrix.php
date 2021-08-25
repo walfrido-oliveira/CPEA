@@ -72,4 +72,51 @@ class ProjectPointMatrix extends Model
     {
         return $this->belongsTo(ParameterAnalysis::class);
     }
+
+     /**
+     * Find projects in dabase
+     *
+     * @param Array
+     *
+     * @return array
+     */
+    public static function filter($query)
+    {
+        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : 5;
+        $ascending = isset($query['ascending']) ? $query['ascending'] : 'asc';
+
+        $projects = self::where(function($q) use ($query) {
+            if(isset($query['id']))
+            {
+                if(!is_null($query['id']))
+                {
+                    $q->where('id', $query['id']);
+                }
+            }
+        });
+
+        if(!isset($query['order_by']))
+        {
+
+            $projects->orderBy('created_at', $ascending);
+
+        }
+        else
+        {
+            if($query['order_by'] == 'identification' || $query['order_by'] == 'area')
+            {
+                $projects
+                ->with('pointIdentification')
+                ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+                ->orderBy($query['order_by'], $ascending);
+            }
+            else
+            {
+                $projects->orderBy($query['order_by'], $ascending);
+            }
+
+        }
+
+        return $projects->paginate($perPage, ['*'], 'project-point-matrices');
+    }
 }
