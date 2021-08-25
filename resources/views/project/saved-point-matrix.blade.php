@@ -38,8 +38,10 @@
         @endif
     </td>
     <td>
-        {{ $projectPointMatrix->parameterAnalysis->analysis_parameter_name }}
-        <input type="hidden" name="point_matrix[{{ $key }}][parameter_analysis_id]" id="point_matrix_{{ $key }}_parameter_analysis_id" value="{{ $projectPointMatrix->parameterAnalysis->id }}">
+        @if ($projectPointMatrix->parameterAnalysis)
+            {{ $projectPointMatrix->parameterAnalysis->analysis_parameter_name }}
+            <input type="hidden" name="point_matrix[{{ $key }}][parameter_analysis_id]" id="point_matrix_{{ $key }}_parameter_analysis_id" value="{{ $projectPointMatrix->parameterAnalysis->id }}">
+        @endif
     </td>
     <td>
         <div class="edit inline">
