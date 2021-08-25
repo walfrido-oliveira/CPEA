@@ -426,7 +426,7 @@
             }
 
             var id = this.dataset.id;
-            var row = this.dataset.row;
+            var key = this.dataset.row;
             var that = this;
             var ajax = new XMLHttpRequest();
             var url = "{!! route('project.point-matrix.edit', ['point_matrix' => '#']) !!}".replace('#', id);
@@ -450,7 +450,7 @@
             data.append('_token', token);
             data.append('_method', method);
             data.append('id', id);
-            data.append('row', row);
+            data.append('key', key);
 
             ajax.send(data);
         }
