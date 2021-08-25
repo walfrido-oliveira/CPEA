@@ -63,7 +63,7 @@
                         </div>
                         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                             <x-jet-label for="point_identifications" value="{{ __('Identificação Ponto') }}"/>
-                            <x-custom-select :options="[]" name="point_identifications" id="point_identifications" value="" class="mt-1"/>
+                            <x-custom-select :options="[]" name="point_identifications" id="point_identifications" value="" class="mt-1" no-filter="no-filter"/>
                         </div>
                         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                             <x-jet-label for="matriz_id" value="{{ __('Matriz') }}"/>
