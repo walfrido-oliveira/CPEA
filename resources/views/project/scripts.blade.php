@@ -540,11 +540,16 @@
 
             filterAreas();
 
-            pointIdentifications.value = document.getElementById('point_matrix_'+ row + '_point_identification_id').value
-            matriz.value = document.getElementById('point_matrix_'+ row + '_analysis_matrix_id').value
-            plaActionLevel.value = document.getElementById('point_matrix_'+ row + '_plan_action_level_id').value
-            guidingParameter.value = document.getElementById('point_matrix_'+ row + '_guiding_parameter_id').value
-            analysisParameter.value = document.getElementById('point_matrix_'+ row + '_parameter_analysis_id').value
+            pointIdentifications.value = document.getElementById('point_matrix_'+ row + '_point_identification_id') ?
+            document.getElementById('point_matrix_'+ row + '_point_identification_id').value : null;
+            matriz.value = document.getElementById('point_matrix_'+ row + '_analysis_matrix_id') ?
+            document.getElementById('point_matrix_'+ row + '_analysis_matrix_id').value : null;
+            plaActionLevel.value = document.getElementById('point_matrix_'+ row + '_plan_action_level_id') ?
+            document.getElementById('point_matrix_'+ row + '_plan_action_level_id').value : null;
+            guidingParameter.value = document.getElementById('point_matrix_'+ row + '_guiding_parameter_id') ?
+            document.getElementById('point_matrix_'+ row + '_guiding_parameter_id').value : null;
+            analysisParameter.value = document.getElementById('point_matrix_'+ row + '_parameter_analysis_id') ?
+            document.getElementById('point_matrix_'+ row + '_parameter_analysis_id').value : null;
         }
 
         function clearPointMatrixFields() {
