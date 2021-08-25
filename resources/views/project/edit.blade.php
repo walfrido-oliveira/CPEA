@@ -30,7 +30,7 @@
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="customer_id" value="{{ __('Cliente') }}"/>
-                            <x-custom-select :options="$customers" name="customer_id" id="customer_id" :value="$project->customer_id"/>
+                            <x-custom-select :options="$customers" name="customer_id" id="customer_id" :value="$project->customer_id" class="mt-1"/>
                         </div>
                     </div>
                 </div>
