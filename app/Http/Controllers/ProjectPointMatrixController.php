@@ -8,6 +8,52 @@ use App\Models\ProjectPointMatrix;
 class ProjectPointMatrixController extends Controller
 {
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Request $request, $id)
+    {
+        $projectPointMatrix = ProjectPointMatrix::findOrFail($id);
+        $key = $request->get('key');
+
+        return response()->json(view('project.save-icon', compact('key', 'projectPointMatrix'))->render());
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateAjax(Request $request, $id)
+    {
+        $input = $request->all();
+        $key = $input['key'];
+        $projectPointMatrix = ProjectPointMatrix::findOrFail($id);
+
+        $projectPointMatrix->update([
+            'project_id' => $projectPointMatrix->project_id,
+            'point_identification_id' => $input['point_identification_id'],
+            'analysis_matrix_id' => $input['analysis_matrix_id'],
+            'plan_action_level_id' => $input['plan_action_level_id'],
+            'guiding_parameter_id' => $input['guiding_parameter_id'],
+            'parameter_analysis_id' => $input['parameter_analysis_id']
+        ]);
+
+        $resp = [
+            'message' => __('Ponto/Matriz Atualizado com Sucesso!'),
+            'alert-type' => 'success',
+            'point_matrix' => view('project.saved-point-matrix', compact('projectPointMatrix', 'key'))->render()
+        ];
+
+        return response()->json($resp);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id

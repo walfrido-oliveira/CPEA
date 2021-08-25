@@ -1,6 +1,6 @@
 <script>
     window.addEventListener("load", function() {
-        var filterCallback = function(event) {
+        function filterAreas() {
             var area = document.getElementById("areas").value;
             cleanPointidentifications();
 
@@ -39,7 +39,7 @@
         }
 
         document.querySelectorAll('#areas').forEach(item => {
-            item.addEventListener('change', filterCallback, false);
+            item.addEventListener('change', filterAreas, false);
         });
 
         var pointIdentification = document.getElementById("point_identifications");
@@ -361,6 +361,7 @@
         var orderBY = 'created_at';
 
         var orderByCallback = function(event) {
+            console.log(this.nodeName);
             orderBY = this.dataset.name ? this.dataset.name : orderBY;
             ascending = this.dataset.ascending ? this.dataset.ascending : ascending;
             var that = this;
@@ -383,6 +384,7 @@
                     selectAllPointMatrices();
                     deletePointIdentificationCallback();
                     eventsDeleteCallback();
+                    editPointMatrixCallback();
 
                 } else if (this.readyState == 4 && this.status != 200) {
                     toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
@@ -390,6 +392,7 @@
                     selectAllPointMatrices();
                     deletePointIdentificationCallback();
                     eventsDeleteCallback();
+                    editPointMatrixCallback();
                 }
             }
 
@@ -414,6 +417,154 @@
         }
 
         eventsFilterCallback();
+
+        var editPointMatrixAjax = function(event) {
+            if(this.dataset.type != 'edit') return;
+
+            if(document.getElementsByClassName('save-point-matrix').length > 0) {
+                return;
+            }
+
+            var id = this.dataset.id;
+            var row = this.dataset.row;
+            var that = this;
+            var ajax = new XMLHttpRequest();
+            var url = "{!! route('project.point-matrix.edit', ['point_matrix' => '#']) !!}".replace('#', id);
+            var token = document.querySelector('meta[name="csrf-token"]').content;
+            var method = 'GET';
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    that.parentElement.innerHTML = resp;
+                    savePointMatrixCallback();
+
+                } else if (this.readyState == 4 && this.status != 200) {
+                    toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('id', id);
+            data.append('row', row);
+
+            ajax.send(data);
+        }
+
+        var savePointMatrixAjax = function(event) {
+            if(this.dataset.type != 'save') return;
+
+            var id = this.dataset.id;
+            var key = this.dataset.row;
+            var that = this;
+            var ajax = new XMLHttpRequest();
+            var url = "{!! route('project.point-matrix.update-ajax', ['point_matrix' => '#']) !!}".replace('#', id);
+            var token = document.querySelector('meta[name="csrf-token"]').content;
+            var method = 'POST';
+            let pointIdentifications = document.getElementById("point_identifications").value;
+            let matriz = document.getElementById("matriz_id").value;
+            let plaActionLevel = document.getElementById("plan_action_level_id").value;
+            let guidingParameter = document.getElementById("guiding_parameters_id").value;
+            let analysisParameter = document.getElementById("analysis_parameter_id").value;
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    toastr.success(resp.message);
+
+                    that.parentElement.parentElement.parentElement.innerHTML = resp.point_matrix;
+
+                    eventsFilterCallback();
+                    selectAllPointMatrices();
+                    deletePointIdentificationCallback();
+                    eventsDeleteCallback();
+                    editPointMatrixCallback();
+                } else if (this.readyState == 4 && this.status != 200) {
+                    toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('id', id);
+            data.append('key', key);
+            data.append('point_identification_id', pointIdentifications);
+            data.append('analysis_matrix_id', matriz);
+            data.append('plan_action_level_id', plaActionLevel);
+            data.append('guiding_parameter_id', guidingParameter);
+            data.append('parameter_analysis_id', analysisParameter);
+
+            ajax.send(data);
+        }
+
+        function editPointMatrixCallback() {
+            document.querySelectorAll('.edit-point-matrix').forEach(item => {
+                item.addEventListener('click', editPointMatrix.bind(null, item, item.dataset.row), false);
+                item.addEventListener("click", editPointMatrixAjax, false);
+                item.addEventListener("click", savePointMatrixAjax, false);
+            });
+        }
+
+        function savePointMatrixCallback() {
+            document.querySelectorAll('.save-point-matrix').forEach(item => {
+                item.addEventListener("click", savePointMatrixAjax, false);
+            });
+        }
+
+        editPointMatrixCallback();
+
+        function editPointMatrix(elem, row) {
+            if(elem.dataset.type != 'edit') return;
+            if(document.getElementsByClassName('save-point-matrix').length > 0) {
+                toastr.error("{!! __('Salve primeira a linha atual') !!}");
+                return;
+            }
+
+            let pointIdentifications = document.getElementById("point_identifications");
+            let areas = document.getElementById("areas");
+            let matriz = document.getElementById("matriz_id");
+            let plaActionLevel = document.getElementById("plan_action_level_id");
+            let guidingParameter = document.getElementById("guiding_parameters_id");
+            let analysisParameter = document.getElementById("analysis_parameter_id");
+
+            clearPointMatrixFields()
+
+            areas.value = document.getElementById('point_matrix_'+ row + '_area').value
+
+            filterAreas();
+
+            pointIdentifications.value = document.getElementById('point_matrix_'+ row + '_point_identification_id').value
+            matriz.value = document.getElementById('point_matrix_'+ row + '_analysis_matrix_id').value
+            plaActionLevel.value = document.getElementById('point_matrix_'+ row + '_plan_action_level_id').value
+            guidingParameter.value = document.getElementById('point_matrix_'+ row + '_guiding_parameter_id').value
+            analysisParameter.value = document.getElementById('point_matrix_'+ row + '_parameter_analysis_id').value
+        }
+
+        function clearPointMatrixFields() {
+            let pointIdentifications = document.getElementById("point_identifications");
+            let areas = document.getElementById("areas");
+            let matriz = document.getElementById("matriz_id");
+            let plaActionLevel = document.getElementById("plan_action_level_id");
+            let guidingParameter = document.getElementById("guiding_parameters_id");
+            let analysisParameter = document.getElementById("analysis_parameter_id");
+
+            areas.value = '';
+
+            filterAreas();
+
+            pointIdentifications.value = ''
+            matriz.value = ''
+            plaActionLevel.value = ''
+            guidingParameter.value = ''
+            analysisParameter.value = ''
+        }
 
     });
 </script>

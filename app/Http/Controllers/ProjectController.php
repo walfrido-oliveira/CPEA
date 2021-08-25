@@ -67,16 +67,19 @@ class ProjectController extends Controller
             'customer_id' => $input['customer_id'],
         ]);
 
-        foreach ($input['point_matrix'] as $key => $value)
+        if(isset($input['point_matrix']))
         {
-            $point = ProjectPointMatrix::create([
-                'project_id' => $project->id,
-                'point_identification_id' => $value['point_identification_id'],
-                'analysis_matrix_id' => $value['analysis_matrix_id'],
-                'plan_action_level_id' => $value['plan_action_level_id'],
-                'guiding_parameter_id' => $value['guiding_parameter_id'],
-                'parameter_analysis_id' => $value['parameter_analysis_id']
-            ]);
+            foreach ($input['point_matrix'] as $key => $value)
+            {
+                $point = ProjectPointMatrix::create([
+                    'project_id' => $project->id,
+                    'point_identification_id' => $value['point_identification_id'],
+                    'analysis_matrix_id' => $value['analysis_matrix_id'],
+                    'plan_action_level_id' => $value['plan_action_level_id'],
+                    'guiding_parameter_id' => $value['guiding_parameter_id'],
+                    'parameter_analysis_id' => $value['parameter_analysis_id']
+                ]);
+            }
         }
 
         $resp = [
@@ -84,7 +87,7 @@ class ProjectController extends Controller
             'alert-type' => 'success'
         ];
 
-        return redirect()->route('project.index')->with($resp);
+        return redirect()->route('project.edit', ['project' => $project->id])->with($resp);
     }
 
     /**
@@ -142,29 +145,32 @@ class ProjectController extends Controller
             'customer_id' => $input['customer_id'],
         ]);
 
-        foreach ($input['point_matrix'] as $key => $value)
+        if(isset($input['point_matrix']))
         {
-            $point = ProjectPointMatrix::find(isset($value['id']) ? $value['id'] : 0);
-
-            if($point)
+            foreach ($input['point_matrix'] as $key => $value)
             {
-                $point->update([
-                    'project_id' => $project->id,
-                    'point_identification_id' => $value['point_identification_id'],
-                    'analysis_matrix_id' => $value['analysis_matrix_id'],
-                    'plan_action_level_id' => $value['plan_action_level_id'],
-                    'guiding_parameter_id' => $value['guiding_parameter_id'],
-                    'parameter_analysis_id' => $value['parameter_analysis_id']
-                ]);
-            } else {
-                $point = ProjectPointMatrix::create([
-                    'project_id' => $project->id,
-                    'point_identification_id' => $value['point_identification_id'],
-                    'analysis_matrix_id' => $value['analysis_matrix_id'],
-                    'plan_action_level_id' => $value['plan_action_level_id'],
-                    'guiding_parameter_id' => $value['guiding_parameter_id'],
-                    'parameter_analysis_id' => $value['parameter_analysis_id']
-                ]);
+                $point = ProjectPointMatrix::find(isset($value['id']) ? $value['id'] : 0);
+
+                if($point)
+                {
+                    $point->update([
+                        'project_id' => $project->id,
+                        'point_identification_id' => $value['point_identification_id'],
+                        'analysis_matrix_id' => $value['analysis_matrix_id'],
+                        'plan_action_level_id' => $value['plan_action_level_id'],
+                        'guiding_parameter_id' => $value['guiding_parameter_id'],
+                        'parameter_analysis_id' => $value['parameter_analysis_id']
+                    ]);
+                } else {
+                    $point = ProjectPointMatrix::create([
+                        'project_id' => $project->id,
+                        'point_identification_id' => $value['point_identification_id'],
+                        'analysis_matrix_id' => $value['analysis_matrix_id'],
+                        'plan_action_level_id' => $value['plan_action_level_id'],
+                        'guiding_parameter_id' => $value['guiding_parameter_id'],
+                        'parameter_analysis_id' => $value['parameter_analysis_id']
+                    ]);
+                }
             }
         }
 
