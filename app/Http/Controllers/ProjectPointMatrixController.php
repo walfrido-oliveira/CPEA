@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use Illuminate\Http\Request;
 use App\Models\ProjectPointMatrix;
 
@@ -56,10 +57,32 @@ class ProjectPointMatrixController extends Controller
             ]);
         }
 
+        $id = $projectPointMatrix->id;
+        $className = 'edit-point-matrix';
+
         $resp = [
             'message' => __('Ponto/Matriz Atualizado com Sucesso!'),
             'alert-type' => 'success',
-            'point_matrix' => view('project.saved-point-matrix', compact('projectPointMatrix', 'key'))->render()
+            'point_matrix' => view('project.saved-point-matrix', compact('projectPointMatrix', 'key', 'id', 'className'))->render(),
+            'point_matrices' => $projectPointMatrix->project->projectPointMatrices
+        ];
+
+        return response()->json($resp);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getPointMatricesByProject(Request $request, $id)
+    {
+        $project = Project::find($id);
+
+        $resp = [
+            'point_matrices' => $project->projectPointMatrices
         ];
 
         return response()->json($resp);

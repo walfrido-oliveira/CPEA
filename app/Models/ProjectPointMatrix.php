@@ -26,6 +26,15 @@ class ProjectPointMatrix extends Model
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = [
+        'custom_name',
+    ];
+
+    /**
      * The Project.
      */
     public function project()
@@ -71,6 +80,19 @@ class ProjectPointMatrix extends Model
     public function parameterAnalysis()
     {
         return $this->belongsTo(ParameterAnalysis::class);
+    }
+
+    public function getCustomNameAttribute()
+    {
+        if($this->pointIdentification)
+        {
+            $result = $this->pointIdentification->area . ' - ' . $this->pointIdentification->identification;
+        }
+        if ($this->analysisMatrix)
+        {
+            $result .= ' - ' . $this->analysisMatrix->name;
+        }
+        return $result;
     }
 
      /**

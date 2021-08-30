@@ -43,12 +43,54 @@
         });
 
         var pointIdentification = document.getElementById("point_identifications");
+        var campaignPointMatrix = document.getElementById("campaign_point_matrix");
 
         function cleanPointidentifications() {
             var i, L = pointIdentification.options.length - 1;
             for (i = L; i >= 0; i--) {
                 pointIdentification.remove(i);
             }
+        }
+
+        function cleanCampaigns() {
+            var i, L = campaignPointMatrix.options.length - 1;
+            for (i = L; i >= 0; i--) {
+                campaignPointMatrix.remove(i);
+            }
+        }
+
+        function getPointMatrices() {
+            var id = '{{ $project->id }}';
+            var ajax = new XMLHttpRequest();
+            var url = "{!! route('project.point-matrix.get-point-matrices-by-project', ['project' => '#']) !!}".replace('#', id);
+            var token = document.querySelector('meta[name="csrf-token"]').content;
+            var method = 'POST';
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+
+                    let pointMatrices = resp.point_matrices;
+                    for (let index = 0; index < pointMatrices.length; index++) {
+                        const item = pointMatrices[index];
+                        var opt = document.createElement('option');
+                        opt.value = item.id;
+                        opt.text = item.custom_name;
+                        campaignPointMatrix.add(opt);
+                    }
+                } else if (this.readyState == 4 && this.status != 200) {
+                    toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('id', id);
+
+            ajax.send(data);
         }
 
         function deletePointIdentificationCallback() {
@@ -98,7 +140,7 @@
                         var url = this.dataset.url;
                         var modal = document.getElementById("delete_point_matrix_modal");
                         modal.dataset.url = url;
-                        modal.dataset.elements = this.id;
+                        modal.dataset.elements = this.dataset.id;
                         modal.classList.remove("hidden");
                         modal.classList.add("block");
                     } else if (this.dataset.type == 'multiple') {
@@ -302,7 +344,7 @@
             if(this.dataset.type != 'save') return;
 
             var id = this.dataset.id;
-            var key = this.dataset.row;
+            var key = this.dataset.row ? this.dataset.row : document.querySelectorAll('.point-matrix-row').length;
             var that = this;
             var ajax = new XMLHttpRequest();
             var url = "{!! route('project.point-matrix.update-ajax', ['point_matrix' => '#']) !!}".replace('#', id);
@@ -313,6 +355,8 @@
             let plaActionLevel = document.getElementById("plan_action_level_id").value;
             let guidingParameter = document.getElementById("guiding_parameters_id").value;
             let analysisParameter = document.getElementById("analysis_parameter_id").value;
+
+            cleanCampaigns();
 
             ajax.open(method, url);
 
@@ -325,6 +369,15 @@
                         that.parentElement.parentElement.parentElement.innerHTML = resp.point_matrix;
                     } else {
                         document.getElementById("point_matrix_table_content").insertAdjacentHTML('beforeend', resp.point_matrix);
+                    }
+
+                    let pointMatrices = resp.point_matrices;
+                    for (let index = 0; index < pointMatrices.length; index++) {
+                        const item = pointMatrices[index];
+                        var opt = document.createElement('option');
+                        opt.value = item.id;
+                        opt.text = item.custom_name;
+                        campaignPointMatrix.add(opt);
                     }
 
                     eventsFilterCallback();
@@ -420,6 +473,12 @@
             guidingParameter.value = ''
             analysisParameter.value = ''
         }
+
+        document.getElementById('confirm_modal').addEventListener('resp', function(e) {
+            cleanCampaigns();
+            getPointMatrices();
+            console.log(1);
+        }, false);
 
     });
 </script>

@@ -45,6 +45,19 @@ class Project extends Model
         return $this->HasMany(Campaign::class);
     }
 
+    public function getPointMatricesCustomFields()
+    {
+        return $this->ProjectPointMatrices
+        ->map(function($item) {
+            return [
+                'id' => $item->id,
+                'custom_name' => $item->custom_name
+            ];
+        })
+        ->pluck('custom_name', 'id')
+        ->all();
+    }
+
     /**
      * Find projects in dabase
      *

@@ -123,6 +123,12 @@
                             <x-jet-input id="date_collection" class="form-control block mt-1 w-full" type="date" name="date_collection" maxlength="255" required autofocus autocomplete="date_collection"/>
                         </div>
                     </div>
+                    <div class="flex flex-wrap mx-4 px-3 py-2">
+                        <div class="w-full px-3 mb-6 md:mb-0">
+                            <x-jet-label for="campaign_point_matrix" value="{{ __('Área/Identificação Ponto/Matriz') }}"/>
+                            <x-custom-select :options="$pointMatrices" name="campaign_point_matrix" id="campaign_point_matrix" value="" class="mt-1" no-filter="no-filter"/>
+                        </div>
+                    </div>
                     <div class="flex mt-4">
                         <table id="campaign_table" class="table table-responsive md:table w-full">
                             @include('project.campaign-result',

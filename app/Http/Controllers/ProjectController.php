@@ -122,12 +122,14 @@ class ProjectController extends Controller
         $parameterAnalyses = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
         $geodeticSystems = GeodeticSystem::pluck("name", "id");
         $campaignStatuses = CampaignStatus::pluck("name", "id");
+        $pointMatrices = $project->getPointMatricesCustomFields();
 
         $projectPointMatrices = $project->projectPointMatrices()->paginate(10, ['*'], 'project-point-matrices')->appends(request()->input());
         $projectCampaigns = $project->campaigns()->paginate(10, ['*'], 'project-campaigns')->appends(request()->input());
 
         return view('project.edit', compact('project','customers', 'areas', 'identifications', 'campaignStatuses', 'projectCampaigns',
-        'matrizeces', 'planActionLevels', 'guidingParameters', 'parameterAnalyses', 'projectPointMatrices', 'geodeticSystems'));
+        'matrizeces', 'planActionLevels', 'guidingParameters', 'parameterAnalyses', 'projectPointMatrices', 'geodeticSystems',
+        'pointMatrices'));
     }
 
     /**

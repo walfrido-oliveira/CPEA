@@ -38,15 +38,22 @@
   </div>
 
   <script>
+
     window.addEventListener("load", function() {
         var modal = document.getElementById("{{ $attributes['id'] }}");
+
+        const respEvent = new Event('resp', {
+                                bubbles: true,
+                                cancelable: true,
+                                composed: false
+                                });
 
         var modalCallback = function (event) {
             var ajax = [];
             var url = document.getElementById("{{ $attributes['id'] }}").dataset.url;
             var token = document.querySelector('meta[name="csrf-token"]').content;
             var method = "{{$attributes['method'] }}";
-
+            var that = this;
             var urls = url.split(',');
 
             for (let index = 0; index < urls.length; index++) {
@@ -66,6 +73,7 @@
                             var elements = document.getElementById("{{ $attributes['id'] }}").dataset.elements;
                             var elementArray = elements.split(',');
                             document.getElementById(elementArray[index]).innerHTML = '';
+                            document.getElementById("confirm_modal").dispatchEvent(respEvent);
                         @endif
 
                         close();
