@@ -170,7 +170,7 @@
                 if (this.readyState == 4 && this.status == 200) {
                     var resp = JSON.parse(ajax.response);
                     document.getElementById("campaign_table").innerHTML = resp.filter_result;
-                    document.getElementById("pagination").innerHTML = resp.pagination;
+                    document.getElementById("campaign_pagination").innerHTML = resp.pagination;
                     that.dataset.ascending = that.dataset.ascending == 'asc' ? that.dataset.ascending = 'desc' : that.dataset.ascending = 'asc';
 
                     eventsFilterCallback();

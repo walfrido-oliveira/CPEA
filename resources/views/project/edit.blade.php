@@ -90,7 +90,7 @@
                             ['projectPointMatrices' => $projectPointMatrices, 'orderBy' => 'area', 'ascending' => 'asc'])
                         </table>
                     </div>
-                    <div class="flex w-full mt-4 p-2" id="pagination">
+                    <div class="flex w-full mt-4 p-2" id="point_matrix_pagination">
                         {{ $projectPointMatrices->links() }}
                     </div>
                 </div>
@@ -129,7 +129,7 @@
                             ['projectCampaigns' => $projectCampaigns, 'orderBy' => 'area', 'ascending' => 'asc'])
                         </table>
                     </div>
-                    <div class="flex w-full mt-4 p-2" id="pagination">
+                    <div class="flex w-full mt-4 p-2" id="campaign_pagination">
                         {{ $projectCampaigns->links() }}
                     </div>
                 </div>
