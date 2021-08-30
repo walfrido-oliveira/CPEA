@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UnityController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmailConfigController;
 use App\Http\Controllers\GuidingValueController;
@@ -77,6 +78,17 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::post('/filter', [ProjectPointMatrixController::class, 'filter'])->name('filter');
             Route::post('/update-ajax/{point_matrix}', [ProjectPointMatrixController::class, 'updateAjax'])->name('update-ajax');
             Route::post('/edit-ajax/{point_matrix}', [ProjectPointMatrixController::class, 'editAjax'])->name('edit-ajax');
+        });
+
+        Route::resource('campanha', CampaignController::class, [
+            'names' => 'campaign'])->parameters([
+            'campanha' => 'campaign'
+        ]);
+
+        Route::prefix('campanha')->name('campaign.')->group(function(){
+            Route::post('/filter', [CampaignController::class, 'filter'])->name('filter');
+            Route::post('/update-ajax/{campaign}', [CampaignController::class, 'updateAjax'])->name('update-ajax');
+            Route::post('/edit-ajax/{campaign}', [CampaignController::class, 'editAjax'])->name('edit-ajax');
         });
     });
 

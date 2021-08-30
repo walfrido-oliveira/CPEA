@@ -102,6 +102,6 @@
              method="DELETE"
              />
 
-    @include('project.scripts')
+    @include('project.point-matrix-scripts')
     @include('project.point-create-modal')
 </x-app-layout>

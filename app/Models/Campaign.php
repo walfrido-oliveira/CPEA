@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use App\Models\Campaign;
-use App\Models\Customer;
+use App\Models\Project;
+use App\Models\CampaignStatus;
 use App\Models\ProjectPointMatrix;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Project extends Model
+class Campaign extends Model
 {
     use HasFactory;
 
@@ -18,31 +18,31 @@ class Project extends Model
      * @var array
      */
     protected $fillable = [
-        'project_cod', 'customer_id',
+        'project_point_matrix_id', 'campaign_status_id', 'name', 'date_collection', 'project_id',
     ];
 
     /**
-     * The Customer.
+     * The project.
      */
-    public function customer()
+    public function project()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Project::class);
     }
 
     /**
      * The ProjectPointMatrix.
      */
-    public function projectPointMatrices()
+    public function projectPointMatrix()
     {
-        return $this->HasMany(ProjectPointMatrix::class);
+        return $this->belongsTo(ProjectPointMatrix::class);
     }
 
     /**
-     * The Campaign.
+     * The CampaignStatus.
      */
-    public function campaigns()
+    public function campaignStatus()
     {
-        return $this->HasMany(Campaign::class);
+        return $this->belongsTo(CampaignStatus::class);
     }
 
     /**
@@ -66,24 +66,27 @@ class Project extends Model
                 }
             }
 
-            if(isset($query['project_cod']))
+            if(isset($query['name']))
             {
-                if(!is_null($query['project_cod']))
+                if(!is_null($query['name']))
                 {
-                    $q->where('project_cod', 'like','%' . $query['project_cod'] . '%');
+                    $q->where('name', 'like','%' . $query['name'] . '%');
                 }
             }
         });
 
         if(!isset($query['order_by']))
         {
-            $projects->orderBy('created_at', 'desc');
+
+            $projects->orderBy('created_at', $ascending);
+
         }
         else
         {
             $projects->orderBy($query['order_by'], $ascending);
+
         }
 
-        return $projects->paginate($perPage);
+        return $projects->paginate($perPage, ['*'], 'campaigns');
     }
 }

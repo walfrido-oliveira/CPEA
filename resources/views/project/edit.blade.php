@@ -87,11 +87,50 @@
                     <div class="flex mt-4">
                         <table id="point_matrix_table" class="table table-responsive md:table w-full">
                             @include('project.point-matrix-result',
-                            ['projectPointMatrices' => $projectPointMatrices, 'orderBy' => 'area', 'ascending' => 'asc', 'saveRow' => -1])
+                            ['projectPointMatrices' => $projectPointMatrices, 'orderBy' => 'area', 'ascending' => 'asc'])
                         </table>
                     </div>
                     <div class="flex w-full mt-4 p-2" id="pagination">
                         {{ $projectPointMatrices->links() }}
+                    </div>
+                </div>
+
+                <div class="py-2 my-2 bg-white rounded-lg">
+                    <div class="flex md:flex-row flex-col mx-4 px-3 py-2">
+                        <div class="w-full flex items-center">
+                            <h2 class="">{{ __("Campanha | Amostra") }}</h2>
+                        </div>
+                        <div class="w-full flex justify-end">
+                            <div class="m-2 ">
+                                <button type="button" class="btn-outline-info" id="campaign_table_add" data-type="save" data-id="0">{{ __('Cadastrar') }}</button>
+                            </div>
+                            <div class="m-2 ">
+                                <button type="button" id="delete_campaign" class="btn-outline-danger delete-campaign" data-type="multiple">{{ __('Apagar') }}</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap mx-4 px-3 py-2">
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="campaign_name" value="{{ __('Nome da Campanha') }}" required />
+                            <x-jet-input id="campaign_name" class="form-control block mt-1 w-full" type="text" name="campaign_name" maxlength="255" required autofocus autocomplete="campaign_name"/>
+                        </div>
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="campaign_status" value="{{ __('Status') }}"/>
+                            <x-custom-select :options="$campaignStatuses" name="campaign_status" id="campaign_status" value="" class="mt-1" no-filter="no-filter"/>
+                        </div>
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="date_collection" value="{{ __('DT/HR da Coleta') }}"/>
+                            <x-jet-input id="date_collection" class="form-control block mt-1 w-full" type="date" name="date_collection" maxlength="255" required autofocus autocomplete="date_collection"/>
+                        </div>
+                    </div>
+                    <div class="flex mt-4">
+                        <table id="campaign_table" class="table table-responsive md:table w-full">
+                            @include('project.campaign-result',
+                            ['projectCampaigns' => $projectCampaigns, 'orderBy' => 'area', 'ascending' => 'asc'])
+                        </table>
+                    </div>
+                    <div class="flex w-full mt-4 p-2" id="pagination">
+                        {{ $projectCampaigns->links() }}
                     </div>
                 </div>
             </form>
@@ -104,6 +143,7 @@
              method="DELETE"
              />
 
-    @include('project.scripts')
+    @include('project.point-matrix-scripts')
+    @include('project.campaign-scripts')
     @include('project.point-create-modal')
 </x-app-layout>

@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Models\AnalysisMatrix;
+use App\Models\CampaignStatus;
 use App\Models\GeodeticSystem;
 use App\Models\PlanActionLevel;
 use App\Models\GuidingParameter;
@@ -120,10 +121,12 @@ class ProjectController extends Controller
         $guidingParameters = GuidingParameter::pluck('environmental_guiding_parameter_id', 'id');
         $parameterAnalyses = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
         $geodeticSystems = GeodeticSystem::pluck("name", "id");
+        $campaignStatuses = CampaignStatus::pluck("name", "id");
 
         $projectPointMatrices = $project->projectPointMatrices()->paginate(10, ['*'], 'project-point-matrices')->appends(request()->input());
+        $projectCampaigns = $project->campaigns()->paginate(10, ['*'], 'project-campaigns')->appends(request()->input());
 
-        return view('project.edit', compact('project','customers', 'areas', 'identifications',
+        return view('project.edit', compact('project','customers', 'areas', 'identifications', 'campaignStatuses', 'projectCampaigns',
         'matrizeces', 'planActionLevels', 'guidingParameters', 'parameterAnalyses', 'projectPointMatrices', 'geodeticSystems'));
     }
 

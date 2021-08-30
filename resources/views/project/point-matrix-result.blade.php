@@ -62,7 +62,7 @@
             </td>
             <td>
                 <div class="edit inline">
-                    @include('project.edit-icon')
+                    @include('project.edit-icon', ['key' => $key, 'id' => $projectPointMatrix->id, 'className' => 'edit-point-matrix'])
                 </div>
                 <div class="edit inline">
                     <button type="button" class="btn-transition-danger delete-point-matrix" data-type="edit" id="point_matrix_{{ $projectPointMatrix->id }}" data-url="{!! route('project.point-matrix.destroy', ['point_matrix' => $projectPointMatrix->id]) !!}">
