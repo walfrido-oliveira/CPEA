@@ -75,7 +75,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         ]);
 
         Route::prefix('ponto-matriz')->name('point-matrix.')->group(function(){
-            Route::post('/filter', [ProjectPointMatrixController::class, 'filter'])->name('filter');
+            Route::post('/filter/{project_id}', [ProjectPointMatrixController::class, 'filter'])->name('filter');
             Route::post('/update-ajax/{point_matrix}', [ProjectPointMatrixController::class, 'updateAjax'])->name('update-ajax');
             Route::post('/edit-ajax/{point_matrix}', [ProjectPointMatrixController::class, 'editAjax'])->name('edit-ajax');
             Route::post('/list/{project}', [ProjectPointMatrixController::class, 'getPointMatricesByProject'])->name('get-point-matrices-by-project');
@@ -87,7 +87,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         ]);
 
         Route::prefix('campanha')->name('campaign.')->group(function(){
-            Route::post('/filter', [CampaignController::class, 'filter'])->name('filter');
+            Route::post('/filter/{project_id}', [CampaignController::class, 'filter'])->name('filter');
             Route::post('/update-ajax/{campaign}', [CampaignController::class, 'updateAjax'])->name('update-ajax');
             Route::post('/edit-ajax/{campaign}', [CampaignController::class, 'editAjax'])->name('edit-ajax');
         });

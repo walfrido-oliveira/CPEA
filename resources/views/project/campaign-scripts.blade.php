@@ -94,14 +94,14 @@
         });
 
         var ascendingCampaign = "asc";
-        var orderByCampaign = 'created_at';
+        var orderByCampaign = 'name';
 
         var campaignOrderByCallback = function(event) {
             orderByCampaign = this.dataset.name ? this.dataset.name : orderByCampaign;
             ascendingCampaign = this.dataset.ascending ? this.dataset.ascending : ascendingCampaign;
             var that = this;
             var ajax = new XMLHttpRequest();
-            var url = "{!! route('project.campaign.filter') !!}";
+            var url = "{!! route('project.campaign.filter', ['project_id' => $project->id]) !!}";
             var token = document.querySelector('meta[name="csrf-token"]').content;
             var method = 'POST';
             var paginationPerPage = document.getElementById("paginate_per_page_project-campaigns").value;

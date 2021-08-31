@@ -174,7 +174,7 @@
                     <div class="flex mt-4">
                         <table id="campaign_table" class="table table-responsive md:table w-full">
                             @include('project.campaign-result',
-                            ['projectCampaigns' => $projectCampaigns, 'orderBy' => 'area', 'ascending' => 'asc'])
+                            ['projectCampaigns' => $projectCampaigns, 'orderBy' => 'name', 'ascending' => 'asc'])
                         </table>
                     </div>
                     <div class="flex w-full mt-4 p-2" id="campaign_pagination">

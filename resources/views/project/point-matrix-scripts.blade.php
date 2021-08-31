@@ -246,7 +246,7 @@
             ascending = this.dataset.ascending ? this.dataset.ascending : ascending;
             var that = this;
             var ajax = new XMLHttpRequest();
-            var url = "{!! route('project.point-matrix.filter') !!}";
+            var url = "{!! route('project.point-matrix.filter', ['project_id' => $project->id]) !!}";
             var token = document.querySelector('meta[name="csrf-token"]').content;
             var method = 'POST';
             var paginationPerPage = document.getElementById("paginate_per_page_project-point-matrices").value;

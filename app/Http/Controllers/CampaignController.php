@@ -134,14 +134,15 @@ class CampaignController extends Controller
     }
 
     /**
-     * Filter Project
+     * Filter
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param string $id
      * @return \Illuminate\Http\Response
      */
-    public function filter(Request $request)
+    public function filter(Request $request, $id)
     {
-        $projectCampaigns = Campaign::filter($request->all());
+        $projectCampaigns = Campaign::filter($request->all(), $id);
         $projectCampaigns = $projectCampaigns->setPath('');
         $orderBy = $request->get('order_by');
         $ascending = $request->get('ascending');

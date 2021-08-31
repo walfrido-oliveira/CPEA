@@ -128,14 +128,15 @@ class ProjectPointMatrixController extends Controller
     }
 
     /**
-     * Filter Project
+     * Filter
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param string $id
      * @return \Illuminate\Http\Response
      */
-    public function filter(Request $request)
+    public function filter(Request $request, $id)
     {
-        $projectPointMatrices = ProjectPointMatrix::filter($request->all());
+        $projectPointMatrices = ProjectPointMatrix::filter($request->all(), $id);
         $projectPointMatrices = $projectPointMatrices->setPath('');
         $orderBy = $request->get('order_by');
         $ascending = $request->get('ascending');

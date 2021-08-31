@@ -61,18 +61,19 @@ class Campaign extends Model
     }
 
     /**
-     * Find projects in dabase
+     * Find in dabase
      *
-     * @param Array
+     * @param Array $query
+     * @param string $project_id
      *
      * @return array
      */
-    public static function filter($query)
+    public static function filter($query, $project_id)
     {
         $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : 5;
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'asc';
 
-        $projects = self::where(function($q) use ($query) {
+        $projects = self::where(function($q) use ($query, $project_id) {
             if(isset($query['id']))
             {
                 if(!is_null($query['id']))
@@ -80,6 +81,8 @@ class Campaign extends Model
                     $q->where('id', $query['id']);
                 }
             }
+
+            $q->where('project_id', $project_id);
 
             if(isset($query['name']))
             {
