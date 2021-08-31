@@ -204,6 +204,16 @@
             let campaignName = document.getElementById("campaign_name").value;
             let campaignStatus = document.getElementById("campaign_status").value;
             let dateCollection = document.getElementById("date_collection").value;
+            let refq = document.getElementById("refq").value;
+            let tide = document.getElementById("tide").value;
+            let environmentalConditions = document.getElementById("environmental_conditions").value;
+            let utm = document.getElementById("utm").value;
+            let waterDepth = document.getElementById("water_depth").value;
+            let sampleDepth = document.getElementById("sample_depth").value;
+            let environmentalRegime = document.getElementById("environmental_regime").value;
+            let secchiRecord = document.getElementById("secchi_record").value;
+            let floatingMaterials = document.getElementById("floating_materials").value;
+
             let campaignPointMatrix = document.getElementById("campaign_point_matrix").value;
             let paginationPerPage = document.getElementById("paginate_per_page_project-campaigns").value;
 
@@ -251,6 +261,16 @@
             data.append('campaign_status', campaignStatus);
             data.append('date_collection', dateCollection);
             data.append('campaign_point_matrix', campaignPointMatrix);
+            data.append('refq', refq);
+            data.append('tide', tide);
+            data.append('environmental_conditions', environmentalConditions);
+            data.append('utm', utm);
+            data.append('water_depth', waterDepth);
+            data.append('sample_depth', sampleDepth);
+            data.append('environmental_regime', environmentalRegime);
+            data.append('secchi_record', secchiRecord);
+            data.append('floating_materials', floatingMaterials);
+
             data.append('project_id', {{ isset($project) ? $project->id : null }});
 
             ajax.send(data);
@@ -285,6 +305,15 @@
             let campaignStatus = document.getElementById("campaign_status");
             let dateCollection = document.getElementById("date_collection");
             let campaignPointMatrix = document.getElementById("campaign_point_matrix");
+            let refq = document.getElementById("refq");
+            let tide = document.getElementById("tide");
+            let environmentalConditions = document.getElementById("environmental_conditions");
+            let utm = document.getElementById("utm");
+            let waterDepth = document.getElementById("water_depth");
+            let sampleDepth = document.getElementById("sample_depth");
+            let environmentalRegime = document.getElementById("environmental_regime");
+            let secchiRecord = document.getElementById("secchi_record");
+            let floatingMaterials = document.getElementById("floating_materials");
 
             clearCampaignFields()
 
@@ -300,6 +329,32 @@
             campaignPointMatrix.value = document.getElementById('campaign_'+ row + '_campaign_point_matrix') ?
             document.getElementById('campaign_'+ row + '_campaign_point_matrix').value : null;
 
+            refq.value = document.getElementById('campaign_'+ row + '_refq') ?
+            document.getElementById('campaign_'+ row + '_refq').value : null;
+
+            tide.value = document.getElementById('campaign_'+ row + '_tide') ?
+            document.getElementById('campaign_'+ row + '_tide').value : null;
+
+            environmentalConditions.value = document.getElementById('campaign_'+ row + '_environmental_conditions') ?
+            document.getElementById('campaign_'+ row + '_environmental_conditions').value : null;
+
+            utm.value = document.getElementById('campaign_'+ row + '_utm') ?
+            document.getElementById('campaign_'+ row + '_utm').value : null;
+
+            waterDepth.value = document.getElementById('campaign_'+ row + '_water_depth') ?
+            document.getElementById('campaign_'+ row + '_water_depth').value : null;
+
+            sampleDepth.value = document.getElementById('campaign_'+ row + '_sample_depth') ?
+            document.getElementById('campaign_'+ row + '_sample_depth').value : null;
+
+            environmentalRegime.value = document.getElementById('campaign_'+ row + '_environmental_regime') ?
+            document.getElementById('campaign_'+ row + '_environmental_regime').value : null;
+
+            secchiRecord.value = document.getElementById('campaign_'+ row + '_secchi_record') ?
+            document.getElementById('campaign_'+ row + '_secchi_record').value : null;
+
+            floatingMaterials.value = document.getElementById('campaign_'+ row + '_floating_materials') ?
+            document.getElementById('campaign_'+ row + '_floating_materials').value : null;
         }
 
         function clearCampaignFields() {
@@ -308,11 +363,29 @@
             let campaignStatus = document.getElementById("campaign_status");
             let dateCollection = document.getElementById("date_collection");
             let campaignPointMatrix = document.getElementById("campaign_point_matrix");
+            let refq = document.getElementById("refq");
+            let tide = document.getElementById("tide");
+            let environmentalConditions = document.getElementById("environmental_conditions");
+            let utm = document.getElementById("utm");
+            let waterDepth = document.getElementById("water_depth");
+            let sampleDepth = document.getElementById("sample_depth");
+            let environmentalRegime = document.getElementById("environmental_regime");
+            let secchiRecord = document.getElementById("secchi_record");
+            let floatingMaterials = document.getElementById("floating_materials");
 
-            campaignName.value = ''
-            campaignStatus.value = ''
-            dateCollection.value = ''
-            campaignPointMatrix.value = ''
+            campaignName.value = '';
+            campaignStatus.value = '';
+            dateCollection.value = '';
+            campaignPointMatrix.value = '';
+            refq.value = '';
+            tide.value = '';
+            environmentalConditions.value = '';
+            utm.value = '';
+            waterDepth.value = '';
+            sampleDepth.value = '';
+            environmentalRegime.value = '';
+            secchiRecord.value = '';
+            floatingMaterials.value = '';
         }
 
         document.getElementById('confirm_modal').addEventListener('resp', campaignOrderByCallback, false);

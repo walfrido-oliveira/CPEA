@@ -123,13 +123,18 @@ class ProjectController extends Controller
         $geodeticSystems = GeodeticSystem::pluck("name", "id");
         $campaignStatuses = CampaignStatus::pluck("name", "id");
         $pointMatrices = $project->getPointMatricesCustomFields();
+        $tides = ['enchente' => 'Enchente', 'vazante' => 'Vazante'];
+        $environmentalConditions = ['com-chuva' => 'Com Chuva', 'sem-chuva' => 'Sem Chuva'];
+        $sampleDepths = ['superficie' => 'Superficie', 'meio' => 'Meio', 'fundo' => 'Fundo'];
+        $environmentalRegimes = ['lotico' => 'Lótico', 'lentico' => 'Lentico', 'intermediario' => 'Intermediário'];
+        $floatingMaterials = ['ausente' => 'Ausente', 'presente' => 'Presente'];
 
         $projectPointMatrices = $project->projectPointMatrices()->paginate(10, ['*'], 'project-point-matrices')->appends(request()->input());
         $projectCampaigns = $project->campaigns()->paginate(10, ['*'], 'project-campaigns')->appends(request()->input());
 
         return view('project.edit', compact('project','customers', 'areas', 'identifications', 'campaignStatuses', 'projectCampaigns',
         'matrizeces', 'planActionLevels', 'guidingParameters', 'parameterAnalyses', 'projectPointMatrices', 'geodeticSystems',
-        'pointMatrices'));
+        'pointMatrices', 'tides', 'environmentalConditions', 'sampleDepths', 'environmentalRegimes', 'floatingMaterials'));
     }
 
     /**

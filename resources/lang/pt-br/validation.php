@@ -174,7 +174,9 @@ return [
         "campaign_status" => "Status",
         "date_collection" => "DT/HR da Coleta",
         "campaign_point_matrix" => "Área/Identificação Ponto/Matriz",
-        "point_identification_id" => "Identificação Ponto"
+        "point_identification_id" => "Identificação Ponto",
+        "tide" => "Maré",
+        "environmental_conditions" => "Condições ambientais"
     ],
 
 ];

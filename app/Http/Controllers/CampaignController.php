@@ -44,7 +44,14 @@ class CampaignController extends Controller
             'campaign_name' => ['required', 'string', 'max:255'],
             'campaign_status' => ['required', 'exists:campaign_statuses,id'],
             'date_collection' => ['required', 'date'],
-            'campaign_point_matrix' => ['required', 'exists:project_point_matrices,id']
+            'campaign_point_matrix' => ['required', 'exists:project_point_matrices,id'],
+            'tide' => ['nullable', 'in:enchente,vazante'],
+            'environmental_conditions' => ['nullable', 'in:com-chuva,sem-chuva'],
+            'water_depth' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
+            'secchi_record' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
+            'sample_depth' => ['nullable', 'in:superficie,meio,fundo'],
+            'environmental_regime' => ['nullable', 'in:lotico,lentico,intermediario'],
+            'floating_materials' => ['nullable', 'in:ausente,presente'],
         ]);
 
         if ($validator->fails()) {
@@ -62,6 +69,15 @@ class CampaignController extends Controller
                 'campaign_status_id' => $input['campaign_status'],
                 'name' => $input['campaign_name'],
                 'date_collection' => $input['date_collection'],
+                'refq' => $input['refq'],
+                'tide' => $input['tide'],
+                'environmental_conditions' => $input['environmental_conditions'],
+                'utm' => $input['utm'],
+                'water_depth' => $input['water_depth'],
+                'sample_depth' => $input['sample_depth'],
+                'environmental_regime' => $input['environmental_regime'],
+                'secchi_record' => $input['secchi_record'],
+                'floating_materials' => $input['floating_materials'],
             ]);
         } else {
             $projectCampaign = Campaign::create([
@@ -70,6 +86,14 @@ class CampaignController extends Controller
                 'campaign_status_id' => $input['campaign_status'],
                 'name' => $input['campaign_name'],
                 'date_collection' => $input['date_collection'],
+                'tide' => $input['tide'],
+                'environmental_conditions' => $input['environmental_conditions'],
+                'utm' => $input['utm'],
+                'water_depth' => $input['water_depth'],
+                'sample_depth' => $input['sample_depth'],
+                'environmental_regime' => $input['environmental_regime'],
+                'secchi_record' => $input['secchi_record'],
+                'floating_materials' => $input['floating_materials'],
             ]);
         }
 
