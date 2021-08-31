@@ -76,10 +76,16 @@ class CampaignController extends Controller
         $id = $projectCampaign->id;
         $className = 'edit-point-matrix';
 
+        $orderBy = $request->has('order_by') ?  $request->get('order_by') : 'id';
+        $ascending = $request->has('ascending') ? $request->get('ascending') : 'desc';
+        $paginatePerPage = $request->has('paginate_per_page') ? $request->get('paginate_per_page') : 5;
+        $projectCampaigns = $projectCampaign->project->campaigns() ->paginate($paginatePerPage, ['*'], 'project-campaigns');
+
         $resp = [
             'message' => __('Campanha Atualizada com Sucesso!'),
             'alert-type' => 'success',
-            'campaign' => view('project.saved-campaign', compact('projectCampaign', 'key', 'id', 'className'))->render()
+            'campaign' => view('project.saved-campaign', compact('projectCampaign', 'key', 'id', 'className'))->render(),
+            'pagination' => $this->setPagination($projectCampaigns, $orderBy, $ascending, $paginatePerPage),
         ];
 
         return response()->json($resp);
@@ -112,19 +118,32 @@ class CampaignController extends Controller
     public function filter(Request $request)
     {
         $projectCampaigns = Campaign::filter($request->all());
-        $projects = $projectCampaigns->setPath('');
+        $projectCampaigns = $projectCampaigns->setPath('');
         $orderBy = $request->get('order_by');
         $ascending = $request->get('ascending');
-        $paginate_per_page = $request->get('paginate_per_page');
+        $paginatePerPage = $request->get('paginate_per_page');
 
         return response()->json([
-        'filter_result' => view('project.campaign-result', compact('projectCampaigns', 'orderBy', 'ascending'))->render(),
-        'pagination' => view('layouts.pagination', [
-            'models' => $projects,
+            'filter_result' => view('project.campaign-result', compact('projectCampaigns', 'orderBy', 'ascending'))->render(),
+            'pagination' => $this->setPagination($projectCampaigns, $orderBy, $ascending, $paginatePerPage),
+        ]);
+    }
+
+    /**
+     * @param Collection $projectCampaigns
+     * @param string $orderBy
+     * @param string $ascending
+     * @param string $paginatePerPage
+     *
+     * @return view
+     */
+    private function setPagination($projectCampaigns, $orderBy, $ascending, $paginatePerPage)
+    {
+        return view('layouts.pagination', [
+            'models' => $projectCampaigns,
             'order_by' => $orderBy,
             'ascending' => $ascending,
-            'paginate_per_page' => $paginate_per_page,
-            ])->render(),
-        ]);
+            'paginate_per_page' => $paginatePerPage,
+            ])->render();
     }
 }

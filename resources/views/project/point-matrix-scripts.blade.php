@@ -338,18 +338,20 @@
         var savePointMatrixAjax = function(event) {
             if(this.dataset.type != 'save') return;
 
-            var id = this.dataset.id;
-            var key = this.dataset.row ? this.dataset.row : document.querySelectorAll('.point-matrix-row').length;
-            var that = this;
-            var ajax = new XMLHttpRequest();
-            var url = "{!! route('project.point-matrix.update-ajax', ['point_matrix' => '#']) !!}".replace('#', id);
-            var token = document.querySelector('meta[name="csrf-token"]').content;
-            var method = 'POST';
+            let id = this.dataset.id;
+            let key = this.dataset.row ? this.dataset.row : document.querySelectorAll('.point-matrix-row').length;
+            let that = this;
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('project.point-matrix.update-ajax', ['point_matrix' => '#']) !!}".replace('#', id);
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+
             let pointIdentifications = document.getElementById("point_identifications").value;
             let matriz = document.getElementById("matriz_id").value;
             let plaActionLevel = document.getElementById("plan_action_level_id").value;
             let guidingParameter = document.getElementById("guiding_parameters_id").value;
             let analysisParameter = document.getElementById("analysis_parameter_id").value;
+            let paginationPerPage = document.getElementById("paginate_per_page_project-campaigns").value;
 
             cleanCampaigns();
 
@@ -365,6 +367,8 @@
                     } else {
                         document.getElementById("point_matrix_table_content").insertAdjacentHTML('beforeend', resp.point_matrix);
                     }
+
+                    document.getElementById("point_matrix_pagination").innerHTML = resp.pagination;
 
                     let pointMatrices = resp.point_matrices;
                     for (let index = 0; index < pointMatrices.length; index++) {
@@ -396,6 +400,11 @@
             data.append('_method', method);
             data.append('id', id);
             data.append('key', key);
+
+            data.append('paginate_per_page', paginationPerPage);
+            data.append('ascending', ascending);
+            data.append('order_by', orderBY);
+
             data.append('point_identification_id', pointIdentifications);
             data.append('analysis_matrix_id', matriz);
             data.append('plan_action_level_id', plaActionLevel);
@@ -481,5 +490,6 @@
             console.log(1);
         }, false);
 
+        document.getElementById('confirm_modal').addEventListener('resp', orderByCallback, false);
     });
 </script>

@@ -93,13 +93,12 @@
             close();
         });
 
-        var ascending = "asc";
-        var orderBY = 'created_at';
+        var ascendingCampaign = "asc";
+        var orderByCampaign = 'created_at';
 
         var campaignOrderByCallback = function(event) {
-            console.log(this.nodeName);
-            orderBY = this.dataset.name ? this.dataset.name : orderBY;
-            ascending = this.dataset.ascending ? this.dataset.ascending : ascending;
+            orderByCampaign = this.dataset.name ? this.dataset.name : orderByCampaign;
+            ascendingCampaign = this.dataset.ascendingCampaign ? this.dataset.ascendingCampaign : ascendingCampaign;
             var that = this;
             var ajax = new XMLHttpRequest();
             var url = "{!! route('project.campaign.filter') !!}";
@@ -114,7 +113,7 @@
                     var resp = JSON.parse(ajax.response);
                     document.getElementById("campaign_table").innerHTML = resp.filter_result;
                     document.getElementById("campaign_pagination").innerHTML = resp.pagination;
-                    that.dataset.ascending = that.dataset.ascending == 'asc' ? that.dataset.ascending = 'desc' : that.dataset.ascending = 'asc';
+                    that.dataset.ascendingCampaign = that.dataset.ascendingCampaign == 'asc' ? that.dataset.ascendingCampaign = 'desc' : that.dataset.ascendingCampaign = 'asc';
 
                     campaignEventsFilterCallback();
                     selectAllCampaigns();
@@ -136,8 +135,8 @@
             data.append('_token', token);
             data.append('_method', method);
             data.append('paginate_per_page', paginationPerPage);
-            data.append('ascending', ascending);
-            data.append('order_by', orderBY);
+            data.append('ascending', ascendingCampaign);
+            data.append('order_by', orderByCampaign);
 
             ajax.send(data);
         }
@@ -194,18 +193,19 @@
         var saveCampaignAjax = function(event) {
             if(this.dataset.type != 'save') return;
 
-            var id = this.dataset.id;
-            var key = this.dataset.row ? this.dataset.row : document.querySelectorAll('.campaign-row').length;
-            var that = this;
-            var ajax = new XMLHttpRequest();
-            var url = "{!! route('project.campaign.update-ajax', ['campaign' => '#']) !!}".replace('#', id);
-            var token = document.querySelector('meta[name="csrf-token"]').content;
-            var method = 'POST';
+            let id = this.dataset.id;
+            let key = this.dataset.row ? this.dataset.row : document.querySelectorAll('.campaign-row').length;
+            let that = this;
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('project.campaign.update-ajax', ['campaign' => '#']) !!}".replace('#', id);
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
 
             let campaignName = document.getElementById("campaign_name").value;
             let campaignStatus = document.getElementById("campaign_status").value;
             let dateCollection = document.getElementById("date_collection").value;
             let campaignPointMatrix = document.getElementById("campaign_point_matrix").value;
+            let paginationPerPage = document.getElementById("paginate_per_page_project-campaigns").value;
 
             ajax.open(method, url);
 
@@ -219,6 +219,8 @@
                     } else {
                         document.getElementById("campaign_table_content").insertAdjacentHTML('beforeend', resp.campaign);
                     }
+
+                    document.getElementById("campaign_pagination").innerHTML = resp.pagination;
 
                     campaignEventsFilterCallback();
                     selectAllCampaigns();
@@ -240,6 +242,11 @@
             data.append('_method', method);
             data.append('id', id);
             data.append('key', key);
+
+            data.append('paginate_per_page', paginationPerPage);
+            data.append('ascending', ascendingCampaign);
+            data.append('order_by', orderByCampaign);
+
             data.append('campaign_name', campaignName);
             data.append('campaign_status', campaignStatus);
             data.append('date_collection', dateCollection);
@@ -307,6 +314,8 @@
             dateCollection.value = ''
             campaignPointMatrix.value = ''
         }
+
+        document.getElementById('confirm_modal').addEventListener('resp', campaignOrderByCallback, false);
 
     });
 </script>

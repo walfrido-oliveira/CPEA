@@ -75,11 +75,17 @@ class ProjectPointMatrixController extends Controller
         $id = $projectPointMatrix->id;
         $className = 'edit-point-matrix';
 
+        $orderBy = $request->has('order_by') ?  $request->get('order_by') : 'id';
+        $ascending = $request->has('ascending') ? $request->get('ascending') : 'desc';
+        $paginatePerPage = $request->has('paginate_per_page') ? $request->get('paginate_per_page') : 5;
+        $projectPointMatrices = $projectPointMatrix->project->projectPointMatrices() ->paginate($paginatePerPage, ['*'], 'project-point-matrices');
+
         $resp = [
             'message' => __('Ponto/Matriz Atualizado com Sucesso!'),
             'alert-type' => 'success',
             'point_matrix' => view('project.saved-point-matrix', compact('projectPointMatrix', 'key', 'id', 'className'))->render(),
-            'point_matrices' => $projectPointMatrix->project->projectPointMatrices
+            'point_matrices' => $projectPointMatrix->project->projectPointMatrices,
+            'pagination' => $this->setPagination($projectPointMatrices, $orderBy, $ascending, $paginatePerPage),
         ];
 
         return response()->json($resp);
@@ -130,19 +136,32 @@ class ProjectPointMatrixController extends Controller
     public function filter(Request $request)
     {
         $projectPointMatrices = ProjectPointMatrix::filter($request->all());
-        $projects = $projectPointMatrices->setPath('');
+        $projectPointMatrices = $projectPointMatrices->setPath('');
         $orderBy = $request->get('order_by');
         $ascending = $request->get('ascending');
-        $paginate_per_page = $request->get('paginate_per_page');
+        $paginatePerPage = $request->get('paginate_per_page');
 
         return response()->json([
-        'filter_result' => view('project.point-matrix-result', compact('projectPointMatrices', 'orderBy', 'ascending'))->render(),
-        'pagination' => view('layouts.pagination', [
-            'models' => $projects,
+            'filter_result' => view('project.point-matrix-result', compact('projectPointMatrices', 'orderBy', 'ascending'))->render(),
+            'pagination' => $this->setPagination($projectPointMatrices, $orderBy, $ascending, $paginatePerPage),
+        ]);
+    }
+
+    /**
+     * @param Collection $projectPointMatrices
+     * @param string $orderBy
+     * @param string $ascending
+     * @param string $paginatePerPage
+     *
+     * @return view
+     */
+    private function setPagination($projectPointMatrices, $orderBy, $ascending, $paginatePerPage)
+    {
+        return view('layouts.pagination', [
+            'models' => $projectPointMatrices,
             'order_by' => $orderBy,
             'ascending' => $ascending,
-            'paginate_per_page' => $paginate_per_page,
-            ])->render(),
-        ]);
+            'paginate_per_page' => $paginatePerPage,
+            ])->render();
     }
 }
