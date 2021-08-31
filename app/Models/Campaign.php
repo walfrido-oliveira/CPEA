@@ -82,7 +82,7 @@ class Campaign extends Model
                 }
             }
 
-            $q->where('project_id', $project_id);
+            $q->where('campaigns.project_id', $project_id);
 
             if(isset($query['name']))
             {
@@ -95,9 +95,7 @@ class Campaign extends Model
 
         if(!isset($query['order_by']))
         {
-
             $projects->orderBy('created_at', $ascending);
-
         }
         else
         {
