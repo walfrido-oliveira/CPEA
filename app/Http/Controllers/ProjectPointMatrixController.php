@@ -19,8 +19,12 @@ class ProjectPointMatrixController extends Controller
     {
         $projectPointMatrix = ProjectPointMatrix::findOrFail($id);
         $key = $request->get('key');
+        $className = 'save-point-matrix';
+        $id = $projectPointMatrix->id;
 
-        return response()->json(view('project.save-icon', compact('key', 'projectPointMatrix'))->render());
+        return response()->json(view('project.save-icon',
+        compact('key', 'projectPointMatrix', 'className', 'id'))
+        ->render());
     }
 
     /**

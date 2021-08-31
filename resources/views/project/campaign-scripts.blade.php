@@ -41,7 +41,7 @@
             });
         });
 
-        function eventsDeleteCallback() {
+        function campaignEventsDeleteCallback() {
             document.querySelectorAll('.delete-campaign').forEach(item => {
                 item.addEventListener("click", function() {
                     if (this.dataset.type == 'edit') {
@@ -75,69 +75,12 @@
             });
         }
 
-        eventsDeleteCallback();
+        campaignEventsDeleteCallback();
 
         document.getElementById("point_create").addEventListener("click", function() {
             var modal = document.getElementById("point_create_modal");
             modal.classList.remove("hidden");
             modal.classList.add("block");
-        });
-
-
-        document.getElementById("point_confirm_modal").addEventListener("click", function() {
-            var url = document.querySelector("#poinst_create_form").action;
-            var token = document.querySelector('meta[name="csrf-token"]').content;
-            var method = document.querySelector("#poinst_create_form").method;
-            var ajax = new XMLHttpRequest();
-
-            ajax.open(method, url);
-
-            ajax.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var resp = JSON.parse(ajax.response);
-                    toastr.success(resp.message);
-
-                    let areas = document.getElementById("areas");
-                    var i, L = areas.options.length - 1;
-                    for (i = L; i >= 0; i--) {
-                        areas.remove(i);
-                    }
-
-                    let pointIdentifications = resp.point_identifications;
-
-                    pointIdentifications.forEach((item, index, arr) => {
-                        var opt = document.createElement('option');
-                        opt.value = item.area;
-                        opt.text = item.area;
-                        areas.add(opt);
-                    });
-
-                    close();
-                } else if (this.readyState == 4 && this.status != 200) {
-                    var resp = JSON.parse(ajax.response);
-
-                    if (resp.area) {
-                        toastr.error(resp.area);
-                    }
-                    if (resp.geodetic_system_id) {
-                        toastr.error(resp.geodetic_system_id);
-                    }
-                    if (resp.identification) {
-                        toastr.error(resp.identification);
-                    }
-                }
-            }
-
-            var data = new FormData();
-            data.append('_token', token);
-            data.append('_method', method);
-            data.append('area', document.getElementById("area").value)
-            data.append('identification', document.getElementById("identification").value)
-            data.append('geodetic_system_id', document.getElementById("geodetic_system_id").value)
-            data.append('no-redirect', 'no-redirect')
-
-            ajax.send(data);
-
         });
 
         function close() {
@@ -173,18 +116,18 @@
                     document.getElementById("campaign_pagination").innerHTML = resp.pagination;
                     that.dataset.ascending = that.dataset.ascending == 'asc' ? that.dataset.ascending = 'desc' : that.dataset.ascending = 'asc';
 
-                    eventsFilterCallback();
+                    campaignEventsFilterCallback();
                     selectAllCampaigns();
                     deleteCampaignCallback();
-                    eventsDeleteCallback();
+                    campaignEventsDeleteCallback();
                     editCampaignCallback();
 
                 } else if (this.readyState == 4 && this.status != 200) {
                     toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
-                    eventsFilterCallback();
+                    campaignEventsFilterCallback();
                     selectAllCampaigns();
                     deleteCampaignCallback();
-                    eventsDeleteCallback();
+                    campaignEventsDeleteCallback();
                     editCampaignCallback();
                 }
             }
@@ -199,7 +142,7 @@
             ajax.send(data);
         }
 
-        function eventsFilterCallback() {
+        function campaignEventsFilterCallback() {
             document.querySelectorAll('.filter-field').forEach(item => {
                 item.addEventListener('change', campaignOrderByCallback, false);
                 item.addEventListener('keyup', campaignOrderByCallback, false);
@@ -209,7 +152,7 @@
             });
         }
 
-        eventsFilterCallback();
+        campaignEventsFilterCallback();
 
         var editCampaignAjax = function(event) {
             if(this.dataset.type != 'edit') return;
@@ -252,17 +195,17 @@
             if(this.dataset.type != 'save') return;
 
             var id = this.dataset.id;
-            var key = this.dataset.row;
+            var key = this.dataset.row ? this.dataset.row : document.querySelectorAll('.campaign-row').length;
             var that = this;
             var ajax = new XMLHttpRequest();
             var url = "{!! route('project.campaign.update-ajax', ['campaign' => '#']) !!}".replace('#', id);
             var token = document.querySelector('meta[name="csrf-token"]').content;
             var method = 'POST';
-            let pointIdentifications = document.getElementById("point_identifications").value;
-            let matriz = document.getElementById("matriz_id").value;
-            let plaActionLevel = document.getElementById("plan_action_level_id").value;
-            let guidingParameter = document.getElementById("guiding_parameters_id").value;
-            let analysisParameter = document.getElementById("analysis_parameter_id").value;
+
+            let campaignName = document.getElementById("campaign_name").value;
+            let campaignStatus = document.getElementById("campaign_status").value;
+            let dateCollection = document.getElementById("date_collection").value;
+            let campaignPointMatrix = document.getElementById("campaign_point_matrix").value;
 
             ajax.open(method, url);
 
@@ -277,13 +220,19 @@
                         document.getElementById("campaign_table_content").insertAdjacentHTML('beforeend', resp.campaign);
                     }
 
-                    eventsFilterCallback();
+                    campaignEventsFilterCallback();
                     selectAllCampaigns();
                     deleteCampaignCallback();
-                    eventsDeleteCallback();
+                    campaignEventsDeleteCallback();
                     editCampaignCallback();
                 } else if (this.readyState == 4 && this.status != 200) {
-                    toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
+                    var resp = JSON.parse(ajax.response);
+                    var obj = resp;
+                    for (var key in obj){
+                        var value = obj[key];
+
+                        toastr.error("<br>" + value);
+                    }
                 }
             }
 
@@ -292,11 +241,10 @@
             data.append('_method', method);
             data.append('id', id);
             data.append('key', key);
-            data.append('point_identification_id', pointIdentifications);
-            data.append('analysis_matrix_id', matriz);
-            data.append('plan_action_level_id', plaActionLevel);
-            data.append('guiding_parameter_id', guidingParameter);
-            data.append('parameter_analysis_id', analysisParameter);
+            data.append('campaign_name', campaignName);
+            data.append('campaign_status', campaignStatus);
+            data.append('date_collection', dateCollection);
+            data.append('campaign_point_matrix', campaignPointMatrix);
             data.append('project_id', {{ isset($project) ? $project->id : null }});
 
             ajax.send(data);
@@ -327,48 +275,38 @@
                 return;
             }
 
-            let pointIdentifications = document.getElementById("point_identifications");
-            let areas = document.getElementById("areas");
-            let matriz = document.getElementById("matriz_id");
-            let plaActionLevel = document.getElementById("plan_action_level_id");
-            let guidingParameter = document.getElementById("guiding_parameters_id");
-            let analysisParameter = document.getElementById("analysis_parameter_id");
+            let campaignName = document.getElementById("campaign_name");
+            let campaignStatus = document.getElementById("campaign_status");
+            let dateCollection = document.getElementById("date_collection");
+            let campaignPointMatrix = document.getElementById("campaign_point_matrix");
 
             clearCampaignFields()
 
-            areas.value = document.getElementById('campaign_'+ row + '_area').value
+            campaignName.value = document.getElementById('campaign_'+ row + '_campaign_name') ?
+            document.getElementById('campaign_'+ row + '_campaign_name').value : null;
 
-            filterAreas();
+            campaignStatus.value = document.getElementById('campaign_'+ row + '_campaign_status') ?
+            document.getElementById('campaign_'+ row + '_campaign_status').value : null;
 
-            pointIdentifications.value = document.getElementById('campaign_'+ row + '_point_identification_id') ?
-            document.getElementById('campaign_'+ row + '_point_identification_id').value : null;
-            matriz.value = document.getElementById('campaign_'+ row + '_analysis_matrix_id') ?
-            document.getElementById('campaign_'+ row + '_analysis_matrix_id').value : null;
-            plaActionLevel.value = document.getElementById('campaign_'+ row + '_plan_action_level_id') ?
-            document.getElementById('campaign_'+ row + '_plan_action_level_id').value : null;
-            guidingParameter.value = document.getElementById('campaign_'+ row + '_guiding_parameter_id') ?
-            document.getElementById('campaign_'+ row + '_guiding_parameter_id').value : null;
-            analysisParameter.value = document.getElementById('campaign_'+ row + '_parameter_analysis_id') ?
-            document.getElementById('campaign_'+ row + '_parameter_analysis_id').value : null;
+            dateCollection.value = document.getElementById('campaign_'+ row + '_date_collection') ?
+            document.getElementById('campaign_'+ row + '_date_collection').value : null;
+
+            campaignPointMatrix.value = document.getElementById('campaign_'+ row + '_campaign_point_matrix') ?
+            document.getElementById('campaign_'+ row + '_campaign_point_matrix').value : null;
+
         }
 
         function clearCampaignFields() {
-            let pointIdentifications = document.getElementById("point_identifications");
+            let campaignName = document.getElementById("campaign_name");
             let areas = document.getElementById("areas");
-            let matriz = document.getElementById("matriz_id");
-            let plaActionLevel = document.getElementById("plan_action_level_id");
-            let guidingParameter = document.getElementById("guiding_parameters_id");
-            let analysisParameter = document.getElementById("analysis_parameter_id");
+            let campaignStatus = document.getElementById("campaign_status");
+            let dateCollection = document.getElementById("date_collection");
+            let campaignPointMatrix = document.getElementById("campaign_point_matrix");
 
-            areas.value = '';
-
-            filterAreas();
-
-            pointIdentifications.value = ''
-            matriz.value = ''
-            plaActionLevel.value = ''
-            guidingParameter.value = ''
-            analysisParameter.value = ''
+            campaignName.value = ''
+            campaignStatus.value = ''
+            dateCollection.value = ''
+            campaignPointMatrix.value = ''
         }
 
     });

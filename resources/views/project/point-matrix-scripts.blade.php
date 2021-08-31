@@ -207,15 +207,11 @@
                     close();
                 } else if (this.readyState == 4 && this.status != 200) {
                     var resp = JSON.parse(ajax.response);
+                    var obj = resp;
+                    for (var key in obj){
+                        var value = obj[key];
 
-                    if (resp.area) {
-                        toastr.error(resp.area);
-                    }
-                    if (resp.geodetic_system_id) {
-                        toastr.error(resp.geodetic_system_id);
-                    }
-                    if (resp.identification) {
-                        toastr.error(resp.identification);
+                        toastr.error("<br>" + value);
                     }
                 }
             }

@@ -169,7 +169,11 @@ return [
         "internal_id" => "código",
         "geodetic_system_id" => "Sistema Geodesico",
         "area" => "Área",
-        "identification" => "Identificação do Ponto"
+        "identification" => "Identificação do Ponto",
+        "campaign_name" => "Nome da Campanha",
+        "campaign_status" => "Status",
+        "date_collection" => "DT/HR da Coleta",
+        "campaign_point_matrix" => "Área/Identificação Ponto/Matriz"
     ],
 
 ];

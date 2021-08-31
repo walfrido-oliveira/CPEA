@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Campaign;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Http\Requests\CampaignRequest;
+use Illuminate\Support\Facades\Validator;
 
 class CampaignController extends Controller
 {
@@ -18,46 +21,65 @@ class CampaignController extends Controller
     {
         $projectCampaign = Campaign::findOrFail($id);
         $key = $request->get('key');
+        $className = 'save-campaign';
+        $id = $projectCampaign->id;
 
-        return response()->json(view('project.save-icon', compact('key', 'projectCampaign'))->render());
+        return response()->json(view('project.save-icon',
+        compact('key', 'projectCampaign', 'className', 'id'))
+        ->render());
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function updateAjax(Request $request, $id)
     {
         $input = $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'campaign_name' => ['required', 'string', 'max:255'],
+            'campaign_status' => ['required', 'exists:campaign_statuses,id'],
+            'date_collection' => ['required', 'date'],
+            'campaign_point_matrix' => ['required', 'exists:project_point_matrices,id']
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
+        }
+
         $key = $input['key'];
         $projectCampaign = Campaign::find($id);
 
         if($projectCampaign)
         {
             $projectCampaign->update([
-                'project_point_matrix_id' => $projectCampaign->projectPointMatrix->id,
-                'project_id' => $projectCampaign->project->id,
-                'campaign_status_id' => $input['campaign_status_id'],
-                'name' => $input['name'],
+                'project_point_matrix_id' => $input['campaign_point_matrix'],
+                'project_id' => $input['project_id'],
+                'campaign_status_id' => $input['campaign_status'],
+                'name' => $input['campaign_name'],
                 'date_collection' => $input['date_collection'],
             ]);
         } else {
             $projectCampaign = Campaign::create([
-                'project_point_matrix_id' => $projectCampaign->projectPointMatrix->id,
-                'project_id' => $projectCampaign->project->id,
-                'campaign_status_id' => $input['campaign_status_id'],
-                'name' => $input['name'],
+                'project_point_matrix_id' => $input['campaign_point_matrix'],
+                'project_id' => $input['project_id'],
+                'campaign_status_id' => $input['campaign_status'],
+                'name' => $input['campaign_name'],
                 'date_collection' => $input['date_collection'],
             ]);
         }
 
+        $id = $projectCampaign->id;
+        $className = 'edit-point-matrix';
+
         $resp = [
             'message' => __('Campanha Atualizada com Sucesso!'),
             'alert-type' => 'success',
-            'point_matrix' => view('project.saved-campaign', compact('projectCampaign', 'key'))->render()
+            'campaign' => view('project.saved-campaign', compact('projectCampaign', 'key', 'id', 'className'))->render()
         ];
 
         return response()->json($resp);

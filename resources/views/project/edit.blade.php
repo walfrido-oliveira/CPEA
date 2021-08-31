@@ -115,17 +115,17 @@
                             <x-jet-input id="campaign_name" class="form-control block mt-1 w-full" type="text" name="campaign_name" maxlength="255" required autofocus autocomplete="campaign_name"/>
                         </div>
                         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="campaign_status" value="{{ __('Status') }}"/>
+                            <x-jet-label for="campaign_status" value="{{ __('Status') }}" required/>
                             <x-custom-select :options="$campaignStatuses" name="campaign_status" id="campaign_status" value="" class="mt-1" no-filter="no-filter"/>
                         </div>
                         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="date_collection" value="{{ __('DT/HR da Coleta') }}"/>
-                            <x-jet-input id="date_collection" class="form-control block mt-1 w-full" type="date" name="date_collection" maxlength="255" required autofocus autocomplete="date_collection"/>
+                            <x-jet-label for="date_collection" value="{{ __('DT/HR da Coleta') }}" required/>
+                            <x-jet-input id="date_collection" class="form-control block mt-1 w-full" type="datetime-local" name="date_collection" maxlength="255" required autofocus autocomplete="date_collection"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2">
                         <div class="w-full px-3 mb-6 md:mb-0">
-                            <x-jet-label for="campaign_point_matrix" value="{{ __('Área/Identificação Ponto/Matriz') }}"/>
+                            <x-jet-label for="campaign_point_matrix" value="{{ __('Área/Identificação Ponto/Matriz') }}" required/>
                             <x-custom-select :options="$pointMatrices" name="campaign_point_matrix" id="campaign_point_matrix" value="" class="mt-1" no-filter="no-filter"/>
                         </div>
                     </div>

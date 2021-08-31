@@ -60,7 +60,7 @@
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="decimal_place" value="{{ __('Dt. Fim Validade') }}"/>
-                            <x-jet-input id="final_validity" class="form-control block mt-1 w-full" type="datetime-local" name="final_validity"  autofocus autocomplete="final_validity" :value="$parameterAnalysis->final_validity->format('Y-m-d\TH:i')"/>
+                            <x-jet-input id="final_validity" class="form-control block mt-1 w-full" type="datetime-local" name="final_validity"  autofocus autocomplete="final_validity" :value="$parameterAnalysis->final_validity->format('Y-m-d\Th:m')"/>
                         </div>
                     </div>
                 </div>
