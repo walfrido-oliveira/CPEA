@@ -98,7 +98,7 @@
 
         var campaignOrderByCallback = function(event) {
             orderByCampaign = this.dataset.name ? this.dataset.name : orderByCampaign;
-            ascendingCampaign = this.dataset.ascendingCampaign ? this.dataset.ascendingCampaign : ascendingCampaign;
+            ascendingCampaign = this.dataset.ascending ? this.dataset.ascending : ascendingCampaign;
             var that = this;
             var ajax = new XMLHttpRequest();
             var url = "{!! route('project.campaign.filter') !!}";
@@ -113,7 +113,7 @@
                     var resp = JSON.parse(ajax.response);
                     document.getElementById("campaign_table").innerHTML = resp.filter_result;
                     document.getElementById("campaign_pagination").innerHTML = resp.pagination;
-                    that.dataset.ascendingCampaign = that.dataset.ascendingCampaign == 'asc' ? that.dataset.ascendingCampaign = 'desc' : that.dataset.ascendingCampaign = 'asc';
+                    that.dataset.ascending = that.dataset.ascending == 'asc' ? that.dataset.ascending = 'desc' : that.dataset.ascending = 'asc';
 
                     campaignEventsFilterCallback();
                     selectAllCampaigns();
