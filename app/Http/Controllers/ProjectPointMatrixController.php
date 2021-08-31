@@ -117,9 +117,9 @@ class ProjectPointMatrixController extends Controller
      */
     public function destroy($id)
     {
-        $user = ProjectPointMatrix::findOrFail($id);
+        $projectPointMatrix = ProjectPointMatrix::findOrFail($id);
 
-        $user->delete();
+        $projectPointMatrix->delete();
 
         return response()->json([
             'message' => __('Ponto/Matriz Apagado com Sucesso!'),

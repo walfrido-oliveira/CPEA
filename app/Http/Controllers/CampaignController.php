@@ -99,9 +99,9 @@ class CampaignController extends Controller
      */
     public function destroy($id)
     {
-        $user = Campaign::findOrFail($id);
+        $campaign = Campaign::findOrFail($id);
 
-        $user->delete();
+        $campaign->delete();
 
         return response()->json([
             'message' => __('Campanha Apagada com Sucesso!'),
