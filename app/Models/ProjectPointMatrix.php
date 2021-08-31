@@ -84,6 +84,7 @@ class ProjectPointMatrix extends Model
 
     public function getCustomNameAttribute()
     {
+        $result = '';
         if($this->pointIdentification)
         {
             $result = $this->pointIdentification->area . ' - ' . $this->pointIdentification->identification;

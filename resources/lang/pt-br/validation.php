@@ -173,7 +173,8 @@ return [
         "campaign_name" => "Nome da Campanha",
         "campaign_status" => "Status",
         "date_collection" => "DT/HR da Coleta",
-        "campaign_point_matrix" => "Área/Identificação Ponto/Matriz"
+        "campaign_point_matrix" => "Área/Identificação Ponto/Matriz",
+        "point_identification_id" => "Identificação Ponto"
     ],
 
 ];

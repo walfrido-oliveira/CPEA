@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\ProjectPointMatrix;
+use Illuminate\Support\Facades\Validator;
 
 class ProjectPointMatrixController extends Controller
 {
@@ -37,6 +39,15 @@ class ProjectPointMatrixController extends Controller
     public function updateAjax(Request $request, $id)
     {
         $input = $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'point_identification_id' => ['required', 'exists:point_identifications,id'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
+        }
+
         $key = $input['key'];
         $projectPointMatrix = ProjectPointMatrix::find($id);
 

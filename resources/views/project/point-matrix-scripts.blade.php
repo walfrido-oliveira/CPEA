@@ -210,7 +210,6 @@
                     var obj = resp;
                     for (var key in obj){
                         var value = obj[key];
-
                         toastr.error("<br>" + value);
                     }
                 }
@@ -381,8 +380,14 @@
                     deletePointIdentificationCallback();
                     eventsDeleteCallback();
                     editPointMatrixCallback();
+
                 } else if (this.readyState == 4 && this.status != 200) {
-                    toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
+                    var resp = JSON.parse(ajax.response);
+                    var obj = resp;
+                    for (var key in obj){
+                        var value = obj[key];
+                        toastr.error("<br>" + value);
+                    }
                 }
             }
 

@@ -2,7 +2,7 @@
     window.addEventListener("load", function() {
 
         function deleteCampaignCallback() {
-            document.querySelectorAll(".delete-point-matrix").forEach(item => {
+            document.querySelectorAll(".delete-campaign").forEach(item => {
                 item.addEventListener("click", function() {
                     if (!this.dataset.type)
                         this.parentElement.parentElement.parentElement.innerHTML = "";
@@ -46,9 +46,9 @@
                 item.addEventListener("click", function() {
                     if (this.dataset.type == 'edit') {
                         var url = this.dataset.url;
-                        var modal = document.getElementById("delete_campaign_modal");
+                        var modal = document.getElementById("delete_point_matrix_modal");
                         modal.dataset.url = url;
-                        modal.dataset.elements = this.id;
+                        modal.dataset.elements = this.dataset.id;
                         modal.classList.remove("hidden");
                         modal.classList.add("block");
                     } else if (this.dataset.type == 'multiple') {
@@ -64,7 +64,7 @@
                         });
 
                         if (urls.length > 0) {
-                            var modal = document.getElementById("delete_campaign_modal");
+                            var modal = document.getElementById("delete_point_matrix_modal");
                             modal.dataset.url = urls;
                             modal.dataset.elements = elements;
                             modal.classList.remove("hidden");
@@ -230,7 +230,6 @@
                     var obj = resp;
                     for (var key in obj){
                         var value = obj[key];
-
                         toastr.error("<br>" + value);
                     }
                 }
