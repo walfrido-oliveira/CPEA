@@ -16,3 +16,13 @@
 <input type="hidden" name="campaign[{{ $key }}][organism_type]" id="campaign_{{ $key }}_organism_type" value="{{ $projectCampaign->organism_type }}">
 <input type="hidden" name="campaign[{{ $key }}][popular_name]" id="campaign_{{ $key }}_popular_name" value="{{ $projectCampaign->popular_name }}">
 <input type="hidden" name="campaign[{{ $key }}][effluent_type]" id="campaign_{{ $key }}_effluent_type" value="{{ $projectCampaign->effluent_type }}">
+<input type="hidden" name="campaign[{{ $key }}][identification_pm]" id="campaign_{{ $key }}_identification_pm" value="{{ $projectCampaign->identification_pm }}">
+<input type="hidden" name="campaign[{{ $key }}][pm_depth]" id="campaign_{{ $key }}_pm_depth" value="{{ $projectCampaign->pm_depth }}">
+<input type="hidden" name="campaign[{{ $key }}][pm_diameter]" id="campaign_{{ $key }}_pm_diameter" value="{{ $projectCampaign->pm_diameter }}">
+<input type="hidden" name="campaign[{{ $key }}][water_level]" id="campaign_{{ $key }}_water_level" value="{{ $projectCampaign->water_level }}">
+<input type="hidden" name="campaign[{{ $key }}][oil_level]" id="campaign_{{ $key }}_oil_level" value="{{ $projectCampaign->oil_level }}">
+<input type="hidden" name="campaign[{{ $key }}][sample_horizon]" id="campaign_{{ $key }}_sample_horizon" value="{{ $projectCampaign->sample_horizon }}">
+<input type="hidden" name="campaign[{{ $key }}][field_measurements]" id="campaign_{{ $key }}_field_measurements" value="{{ $projectCampaign->field_measurements }}">
+<input type="hidden" name="campaign[{{ $key }}][temperature]" id="campaign_{{ $key }}_temperature" value="{{ $projectCampaign->temperature }}">
+<input type="hidden" name="campaign[{{ $key }}][humidity]" id="campaign_{{ $key }}_humidity" value="{{ $projectCampaign->humidity }}">
+<input type="hidden" name="campaign[{{ $key }}][pressure]" id="campaign_{{ $key }}_pressure" value="{{ $projectCampaign->pressure }}">

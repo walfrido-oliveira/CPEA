@@ -37,6 +37,7 @@ class CreateCampaignsTable extends Migration
             $table->string('utm')->nullable();
             $table->string("sedimentary_layer")->nullable();
             $table->string("sampling_area")->nullable();
+            $table->string("field_measurements")->nullable();
 
             $table->decimal("water_depth", 18, 5)->nullable();
             $table->decimal("secchi_record", 18, 5)->nullable();
@@ -45,7 +46,6 @@ class CreateCampaignsTable extends Migration
             $table->decimal("pm_diameter", 18, 5)->nullable();
             $table->decimal("water_level", 18, 5)->nullable();
             $table->decimal("oil_level", 18, 5)->nullable();
-            $table->decimal("field_measurements", 18, 5)->nullable();
             $table->decimal("temperature", 18, 5)->nullable();
             $table->decimal("humidity", 18, 5)->nullable();
             $table->decimal("pressure", 18, 5)->nullable();

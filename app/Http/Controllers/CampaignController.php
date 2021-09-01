@@ -57,6 +57,13 @@ class CampaignController extends Controller
             'water_depth' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
             'secchi_record' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
             'total_depth' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
+            'pm_depth' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
+            'pm_diameter' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
+            'water_level' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
+            'oil_level' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
+            'temperature' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
+            'humidity' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
+            'pressure' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
 
         ]);
 
@@ -92,6 +99,16 @@ class CampaignController extends Controller
                 'organism_type' => isset($input['organism_type']) ? $input['organism_type'] : null,
                 'popular_name' => isset($input['popular_name']) ? $input['popular_name'] : null,
                 'effluent_type' => isset($input['effluent_type']) ? $input['effluent_type'] : null,
+                'identification_pm' => isset($input['identification_pm']) ? $input['identification_pm'] : null,
+                'pm_depth' => isset($input['pm_depth']) ? $input['pm_depth'] : null,
+                'pm_diameter' => isset($input['pm_diameter']) ? $input['pm_diameter'] : null,
+                'water_level' => isset($input['water_level']) ? $input['water_level'] : null,
+                'oil_level' => isset($input['oil_level']) ? $input['oil_level'] : null,
+                'sample_horizon' => isset($input['sample_horizon']) ? $input['sample_horizon'] : null,
+                'field_measurements' => isset($input['field_measurements']) ? $input['field_measurements'] : null,
+                'temperature' => isset($input['temperature']) ? $input['temperature'] : null,
+                'humidity' => isset($input['humidity']) ? $input['humidity'] : null,
+                'pressure' => isset($input['pressure']) ? $input['pressure'] : null,
             ]);
         } else {
             $projectCampaign = Campaign::create([
@@ -117,6 +134,16 @@ class CampaignController extends Controller
                 'organism_type' => isset($input['organism_type']) ? $input['organism_type'] : null,
                 'popular_name' => isset($input['popular_name']) ? $input['popular_name'] : null,
                 'effluent_type' => isset($input['effluent_type']) ? $input['effluent_type'] : null,
+                'identification_pm' => isset($input['identification_pm']) ? $input['identification_pm'] : null,
+                'pm_depth' => isset($input['pm_depth']) ? $input['pm_depth'] : null,
+                'pm_diameter' => isset($input['pm_diameter']) ? $input['pm_diameter'] : null,
+                'water_level' => isset($input['water_level']) ? $input['water_level'] : null,
+                'oil_level' => isset($input['oil_level']) ? $input['oil_level'] : null,
+                'sample_horizon' => isset($input['sample_horizon']) ? $input['sample_horizon'] : null,
+                'field_measurements' => isset($input['field_measurements']) ? $input['field_measurements'] : null,
+                'temperature' => isset($input['temperature']) ? $input['temperature'] : null,
+                'humidity' => isset($input['humidity']) ? $input['humidity'] : null,
+                'pressure' => isset($input['pressure']) ? $input['pressure'] : null,
             ]);
         }
 
@@ -202,9 +229,26 @@ class CampaignController extends Controller
                     ]);
                     break;
 
+                case 'Água Subterrânea':
+                    return response()->json([
+                        'fields' => view('project.campaign-fields.campaign-fields-5', compact('environmentalConditions'))->render()
+                    ]);
+                    break;
+
+                case 'Solo':
+                    return response()->json([
+                        'fields' => view('project.campaign-fields.campaign-fields-6', compact('environmentalConditions'))->render()
+                    ]);
+                    break;
+
+                case 'Solo':
+                    return response()->json([
+                        'fields' => view('project.campaign-fields.campaign-fields-7')->render()
+                    ]);
+                    break;
                 default:
                     return response()->json([
-                        'fields' => view('project.campaign-fields.campaign-fields-4', compact('environmentalConditions', 'effluentTypes'))->render()
+                        'fields' => view('project.campaign-fields.campaign-fields-7')->render()
                     ]);
                     break;
             }
