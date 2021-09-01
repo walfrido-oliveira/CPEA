@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\Campaign;
 use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Models\AnalysisMatrix;
@@ -25,12 +26,13 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-        $projects =  Project::filter($request->all());
+        $projetcs =  Project::filter($request->all());
+
         $customers = Customer::all()->pluck('name', 'id');
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'id';
 
-        return view('project.index', compact('projects', 'customers', 'ascending', 'orderBy'));
+        return view('project.index', compact('projetcs', 'customers', 'ascending', 'orderBy'));
     }
 
     /**
@@ -41,16 +43,8 @@ class ProjectController extends Controller
     public function create()
     {
         $customers = Customer::all()->pluck('name', 'id');
-        $areas = PointIdentification::pluck('area', 'area');
-        $identifications = PointIdentification::pluck('identification', 'identification');
-        $matrizeces = AnalysisMatrix::pluck('name', 'id');
-        $planActionLevels = PlanActionLevel::pluck('name', 'id');
-        $guidingParameters = GuidingParameter::pluck('environmental_guiding_parameter_id', 'id');
-        $parameterAnalyses = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
-        $geodeticSystems = GeodeticSystem::pluck("name", "id");
 
-        return view('project.create', compact('customers', 'areas', 'identifications',
-        'matrizeces', 'planActionLevels', 'guidingParameters', 'parameterAnalyses', 'geodeticSystems'));
+        return view('project.create', compact('customers'));
     }
 
     /**
@@ -67,21 +61,6 @@ class ProjectController extends Controller
             'project_cod' => $input['project_cod'],
             'customer_id' => $input['customer_id'],
         ]);
-
-        if(isset($input['point_matrix']))
-        {
-            foreach ($input['point_matrix'] as $key => $value)
-            {
-                $point = ProjectPointMatrix::create([
-                    'project_id' => $project->id,
-                    'point_identification_id' => $value['point_identification_id'],
-                    'analysis_matrix_id' => $value['analysis_matrix_id'],
-                    'plan_action_level_id' => $value['plan_action_level_id'],
-                    'guiding_parameter_id' => $value['guiding_parameter_id'],
-                    'parameter_analysis_id' => $value['parameter_analysis_id']
-                ]);
-            }
-        }
 
         $resp = [
             'message' => __('Projeto Cadastrado com Sucesso!'),
@@ -150,35 +129,6 @@ class ProjectController extends Controller
             'customer_id' => $input['customer_id'],
         ]);
 
-        if(isset($input['point_matrix']))
-        {
-            foreach ($input['point_matrix'] as $key => $value)
-            {
-                $point = ProjectPointMatrix::find(isset($value['id']) ? $value['id'] : 0);
-
-                if($point)
-                {
-                    $point->update([
-                        'project_id' => $project->id,
-                        'point_identification_id' => $value['point_identification_id'],
-                        'analysis_matrix_id' => $value['analysis_matrix_id'],
-                        'plan_action_level_id' => $value['plan_action_level_id'],
-                        'guiding_parameter_id' => $value['guiding_parameter_id'],
-                        'parameter_analysis_id' => $value['parameter_analysis_id']
-                    ]);
-                } else {
-                    $point = ProjectPointMatrix::create([
-                        'project_id' => $project->id,
-                        'point_identification_id' => $value['point_identification_id'],
-                        'analysis_matrix_id' => $value['analysis_matrix_id'],
-                        'plan_action_level_id' => $value['plan_action_level_id'],
-                        'guiding_parameter_id' => $value['guiding_parameter_id'],
-                        'parameter_analysis_id' => $value['parameter_analysis_id']
-                    ]);
-                }
-            }
-        }
-
         $resp = [
             'message' => __('Projeto Atualizado com Sucesso!'),
             'alert-type' => 'success'
@@ -213,17 +163,17 @@ class ProjectController extends Controller
      */
     public function filter(Request $request)
     {
-        $projects = Project::filter($request->all());
-        $projects = $projects->setPath('');
+        $projetcs  = Project::filter($request->all());
+        $projetcs  = $projetcs->setPath('');
         $orderBy = $request->get('order_by');
         $ascending = $request->get('ascending');
         $paginate_per_page = $request->get('paginate_per_page');
         $actions = $request->has('actions') ? $request->get('actions') : 'show';
 
         return response()->json([
-        'filter_result' => view('projects.filter-result', compact('projects', 'orderBy', 'ascending', 'actions'))->render(),
+        'filter_result' => view('project.filter-result', compact('projetcs', 'orderBy', 'ascending', 'actions'))->render(),
         'pagination' => view('layouts.pagination', [
-            'models' => $projects,
+            'models' => $projetcs ,
             'order_by' => $orderBy,
             'ascending' => $ascending,
             'paginate_per_page' => $paginate_per_page,

@@ -68,7 +68,7 @@ class Campaign extends Model
      *
      * @return array
      */
-    public static function filter($query, $project_id)
+    public static function filter($query, $project_id = null)
     {
         $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : 5;
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'asc';
@@ -82,7 +82,7 @@ class Campaign extends Model
                 }
             }
 
-            $q->where('campaigns.project_id', $project_id);
+            if($project_id) $q->where('campaigns.project_id', $project_id);
 
             if(isset($query['name']))
             {

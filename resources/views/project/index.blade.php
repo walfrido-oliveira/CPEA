@@ -20,18 +20,23 @@
                 <div class="filter-container">
                     <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full">
                         <div class="w-full md:w-1/2 px-2 mb-6 md:mb-0">
-                            <x-jet-label for="customer" value="{{ __('Cliente') }}" />
-                            <x-custom-select :options="$customers" name="customer" id="customer" :value="app('request')->input('customer')"/>
+                            <x-jet-label for="project_cod" value="{{ __('Projeto') }}" />
+
+                            <x-jet-input id="project_cod" class="form-control block w-full filter-field" type="text" name="project_cod" :value="app('request')->input('project_cod')" autofocus autocomplete="project_cod" />
+                        </div>
+                        <div class="w-full md:w-1/2 px-2 mb-6 md:mb-0">
+                            <x-jet-label for="customer_id" value="{{ __('Cliente') }}" />
+                            <x-custom-select :options="$customers" name="customer_id" id="customer_id" :value="app('request')->input('customer_id')"/>
                         </div>
                     </div>
                 </div>
                 <div class="flex mt-4">
                     <table id="project_table" class="table table-responsive md:table w-full">
-                        @include('project.filter-result', ['projects' => $projects, 'ascending' => $ascending, 'orderBy' => $orderBy])
+                        @include('project.filter-result', ['projetcs' => $projetcs , 'ascending' => $ascending, 'orderBy' => $orderBy])
                     </table>
                 </div>
                 <div class="flex mt-4 p-2" id="pagination">
-                        {{ $projects->appends(request()->input())->links() }}
+                        {{ $projetcs ->appends(request()->input())->links() }}
                 </div>
             </div>
         </div>
@@ -51,7 +56,8 @@
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
-                var customer = document.getElementById("customer").value;
+                var customerId = document.getElementById("customer_id").value;
+                var projectCod = document.getElementById("project_cod").value;
 
                 ajax.open(method, url);
 
@@ -73,8 +79,8 @@
                 data.append('_token', token);
                 data.append('_method', method);
                 data.append('paginate_per_page', paginationPerPage);
-                if(customer) data.append('customer', customer);
-                if(identification) data.append('identification', identification);
+                if(customerId) data.append('customer_id', customerId);
+                if(projectCod) data.append('project_cod', projectCod);
 
                 ajax.send(data);
             }

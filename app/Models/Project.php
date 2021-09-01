@@ -86,6 +86,14 @@ class Project extends Model
                     $q->where('project_cod', 'like','%' . $query['project_cod'] . '%');
                 }
             }
+
+            if(isset($query['customer_id']))
+            {
+                if(!is_null($query['customer_id']))
+                {
+                    $q->where('customer_id', $query['customer_id']);
+                }
+            }
         });
 
         if(!isset($query['order_by']))
