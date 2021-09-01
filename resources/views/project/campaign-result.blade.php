@@ -21,7 +21,7 @@
                 {{ $projectCampaign->name }}
                 @include('project.campaign-row-fields')
             </td>
-            <td>
+            <td style="width: 40%">
                 @if ($projectCampaign->projectPointMatrix)
 
                     @if ($projectCampaign->projectPointMatrix->pointIdentification)
