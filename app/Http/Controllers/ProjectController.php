@@ -123,6 +123,7 @@ class ProjectController extends Controller
         $geodeticSystems = GeodeticSystem::pluck("name", "id");
         $campaignStatuses = CampaignStatus::pluck("name", "id");
         $pointMatrices = $project->getPointMatricesCustomFields();
+
         $tides = ['enchente' => 'Enchente', 'vazante' => 'Vazante'];
         $environmentalConditions = ['com-chuva' => 'Com Chuva', 'sem-chuva' => 'Sem Chuva'];
         $sampleDepths = ['superficie' => 'Superficie', 'meio' => 'Meio', 'fundo' => 'Fundo'];

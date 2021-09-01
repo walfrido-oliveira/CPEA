@@ -19,17 +19,7 @@
             </td>
             <td>
                 {{ $projectCampaign->name }}
-                <input type="hidden" name="campaign[{{ $key }}][campaign_name]" id="campaign_{{ $key }}_campaign_name" value="{{ $projectCampaign->name }}">
-                <input type="hidden" name="campaign[{{ $key }}][campaign_status]" id="campaign_{{ $key }}_campaign_status" value="{{ $projectCampaign->campaignStatus->id }}">
-                <input type="hidden" name="campaign[{{ $key }}][refq]" id="campaign_{{ $key }}_refq" value="{{ $projectCampaign->refq }}">
-                <input type="hidden" name="campaign[{{ $key }}][tide]" id="campaign_{{ $key }}_tide" value="{{ $projectCampaign->tide }}">
-                <input type="hidden" name="campaign[{{ $key }}][environmental_conditions]" id="campaign_{{ $key }}_environmental_conditions" value="{{ $projectCampaign->environmental_conditions }}">
-                <input type="hidden" name="campaign[{{ $key }}][utm]" id="campaign_{{ $key }}_utm" value="{{ $projectCampaign->utm }}">
-                <input type="hidden" name="campaign[{{ $key }}][water_depth]" id="campaign_{{ $key }}_water_depth" value="{{ $projectCampaign->water_depth }}">
-                <input type="hidden" name="campaign[{{ $key }}][sample_depth]" id="campaign_{{ $key }}_sample_depth" value="{{ $projectCampaign->sample_depth }}">
-                <input type="hidden" name="campaign[{{ $key }}][environmental_regime]" id="campaign_{{ $key }}_environmental_regime" value="{{ $projectCampaign->environmental_regime }}">
-                <input type="hidden" name="campaign[{{ $key }}][secchi_record]" id="campaign_{{ $key }}_secchi_record" value="{{ $projectCampaign->secchi_record }}">
-                <input type="hidden" name="campaign[{{ $key }}][floating_materials]" id="campaign_{{ $key }}_floating_materials" value="{{ $projectCampaign->floating_materials }}">
+                @include('project.campaign-row-fields')
             </td>
             <td>
                 @if ($projectCampaign->projectPointMatrix)

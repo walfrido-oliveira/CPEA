@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Campaign;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\ProjectPointMatrix;
 use App\Http\Requests\CampaignRequest;
 use Illuminate\Support\Facades\Validator;
 
@@ -44,14 +45,18 @@ class CampaignController extends Controller
             'campaign_name' => ['required', 'string', 'max:255'],
             'campaign_status' => ['required', 'exists:campaign_statuses,id'],
             'date_collection' => ['required', 'date'],
+
             'campaign_point_matrix' => ['required', 'exists:project_point_matrices,id'],
             'tide' => ['nullable', 'in:enchente,vazante'],
             'environmental_conditions' => ['nullable', 'in:com-chuva,sem-chuva'],
-            'water_depth' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
-            'secchi_record' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
             'sample_depth' => ['nullable', 'in:superficie,meio,fundo'],
             'environmental_regime' => ['nullable', 'in:lotico,lentico,intermediario'],
             'floating_materials' => ['nullable', 'in:ausente,presente'],
+
+            'water_depth' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
+            'secchi_record' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
+            'total_depth' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
+
         ]);
 
         if ($validator->fails()) {
@@ -69,15 +74,18 @@ class CampaignController extends Controller
                 'campaign_status_id' => $input['campaign_status'],
                 'name' => $input['campaign_name'],
                 'date_collection' => $input['date_collection'],
-                'refq' => $input['refq'],
-                'tide' => $input['tide'],
-                'environmental_conditions' => $input['environmental_conditions'],
-                'utm' => $input['utm'],
-                'water_depth' => $input['water_depth'],
-                'sample_depth' => $input['sample_depth'],
-                'environmental_regime' => $input['environmental_regime'],
-                'secchi_record' => $input['secchi_record'],
-                'floating_materials' => $input['floating_materials'],
+
+                'refq' => isset($input['refq']) ? $input['refq'] : null,
+                'tide' => isset($input['tide']) ? $input['tide'] : null,
+                'environmental_conditions' => isset($input['environmental_conditions']) ? $input['environmental_conditions'] : null,
+                'utm' => isset($input['utm']) ? $input['utm'] : null,
+                'water_depth' => isset($input['water_depth']) ? $input['water_depth'] : null,
+                'sample_depth' => isset($input['sample_depth']) ? $input['sample_depth'] : null,
+                'environmental_regime' => isset($input['environmental_regime']) ? $input['environmental_regime'] : null,
+                'secchi_record' => isset($input['secchi_record']) ? $input['secchi_record'] : null,
+                'floating_materials' => isset($input['floating_materials']) ? $input['floating_materials'] : null,
+                'total_depth' => isset($input['total_depth']) ? $input['total_depth'] : null,
+                'sedimentary_layer' => isset($input['sedimentary_layer']) ? $input['sedimentary_layer'] : null,
             ]);
         } else {
             $projectCampaign = Campaign::create([
@@ -86,14 +94,18 @@ class CampaignController extends Controller
                 'campaign_status_id' => $input['campaign_status'],
                 'name' => $input['campaign_name'],
                 'date_collection' => $input['date_collection'],
-                'tide' => $input['tide'],
-                'environmental_conditions' => $input['environmental_conditions'],
-                'utm' => $input['utm'],
-                'water_depth' => $input['water_depth'],
-                'sample_depth' => $input['sample_depth'],
-                'environmental_regime' => $input['environmental_regime'],
-                'secchi_record' => $input['secchi_record'],
-                'floating_materials' => $input['floating_materials'],
+
+                'refq' => isset($input['refq']) ? $input['refq'] : null,
+                'tide' => isset($input['tide']) ? $input['tide'] : null,
+                'environmental_conditions' => isset($input['environmental_conditions']) ? $input['environmental_conditions'] : null,
+                'utm' => isset($input['utm']) ? $input['utm'] : null,
+                'water_depth' => isset($input['water_depth']) ? $input['water_depth'] : null,
+                'sample_depth' => isset($input['sample_depth']) ? $input['sample_depth'] : null,
+                'environmental_regime' => isset($input['environmental_regime']) ? $input['environmental_regime'] : null,
+                'secchi_record' => isset($input['secchi_record']) ? $input['secchi_record'] : null,
+                'floating_materials' => isset($input['floating_materials']) ? $input['floating_materials'] : null,
+                'total_depth' => isset($input['total_depth']) ? $input['total_depth'] : null,
+                'sedimentary_layer' => isset($input['sedimentary_layer']) ? $input['sedimentary_layer'] : null,
             ]);
         }
 
@@ -131,6 +143,51 @@ class CampaignController extends Controller
             'message' => __('Campanha Apagada com Sucesso!'),
             'alert-type' => 'success'
         ]);
+    }
+
+    /**
+     * Get Fields for specific point type
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getFields($id)
+    {
+        $pointIdentification = ProjectPointMatrix::findOrFail($id);
+
+        $tides = ['enchente' => 'Enchente', 'vazante' => 'Vazante'];
+        $environmentalConditions = ['com-chuva' => 'Com Chuva', 'sem-chuva' => 'Sem Chuva'];
+        $sampleDepths = ['superficie' => 'Superficie', 'meio' => 'Meio', 'fundo' => 'Fundo'];
+        $environmentalRegimes = ['lotico' => 'Lótico', 'lentico' => 'Lentico', 'intermediario' => 'Intermediário'];
+        $floatingMaterials = ['ausente' => 'Ausente', 'presente' => 'Presente'];
+
+        if($pointIdentification->analysisMatrix)
+        {
+            switch ($pointIdentification->analysisMatrix->name)
+            {
+                case 'Água Supercial':
+                    return response()->json([
+                        'fields' => view('project.campaign-fields.campaign-fields-1',
+                        compact('tides', 'environmentalConditions', 'sampleDepths', 'environmentalRegimes', 'floatingMaterials'))->render()
+                    ]);
+                    break;
+
+                case 'Sedimento':
+                    return response()->json([
+                        'fields' => view('project.campaign-fields.campaign-fields-2',
+                        compact('tides', 'environmentalConditions', 'sampleDepths', 'environmentalRegimes', 'floatingMaterials'))->render()
+                    ]);
+                    break;
+
+                default:
+                    return response()->json([
+                        'fields' => view('project.campaign-fields.campaign-fields-2',
+                        compact('tides', 'environmentalConditions', 'sampleDepths', 'environmentalRegimes', 'floatingMaterials'))->render()
+                    ]);
+                    break;
+            }
+        }
+
     }
 
     /**

@@ -90,6 +90,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::post('/filter/{project_id}', [CampaignController::class, 'filter'])->name('filter');
             Route::post('/update-ajax/{campaign}', [CampaignController::class, 'updateAjax'])->name('update-ajax');
             Route::post('/edit-ajax/{campaign}', [CampaignController::class, 'editAjax'])->name('edit-ajax');
+            Route::post('/fields/{campaign}', [CampaignController::class, 'getFields'])->name('get-fields');
         });
     });
 

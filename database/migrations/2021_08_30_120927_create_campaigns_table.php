@@ -35,9 +35,9 @@ class CreateCampaignsTable extends Migration
             $table->string("sample_horizon")->nullable();
             $table->string('refq')->nullable();
             $table->string('utm')->nullable();
+            $table->string("sedimentary_layer")->nullable();
 
             $table->decimal("water_depth", 18, 5)->nullable();
-            $table->decimal("sedimentary_layer", 18, 5)->nullable();
             $table->decimal("secchi_record", 18, 5)->nullable();
             $table->decimal("total_depth", 18, 5)->nullable();
             $table->decimal("sampling_area", 18, 5)->nullable();

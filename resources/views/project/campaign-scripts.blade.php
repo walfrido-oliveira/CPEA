@@ -204,15 +204,12 @@
             let campaignName = document.getElementById("campaign_name").value;
             let campaignStatus = document.getElementById("campaign_status").value;
             let dateCollection = document.getElementById("date_collection").value;
-            let refq = document.getElementById("refq").value;
-            let tide = document.getElementById("tide").value;
-            let environmentalConditions = document.getElementById("environmental_conditions").value;
-            let utm = document.getElementById("utm").value;
-            let waterDepth = document.getElementById("water_depth").value;
-            let sampleDepth = document.getElementById("sample_depth").value;
-            let environmentalRegime = document.getElementById("environmental_regime").value;
-            let secchiRecord = document.getElementById("secchi_record").value;
-            let floatingMaterials = document.getElementById("floating_materials").value;
+
+            /* DINAMIC FIELDS */
+            let customFields = [];
+            document.querySelectorAll('[data-type="campaign-fields"]').forEach(item => {
+                customFields.push(item);
+            });
 
             let campaignPointMatrix = document.getElementById("campaign_point_matrix").value;
             let paginationPerPage = document.getElementById("paginate_per_page_project-campaigns").value;
@@ -261,15 +258,10 @@
             data.append('campaign_status', campaignStatus);
             data.append('date_collection', dateCollection);
             data.append('campaign_point_matrix', campaignPointMatrix);
-            data.append('refq', refq);
-            data.append('tide', tide);
-            data.append('environmental_conditions', environmentalConditions);
-            data.append('utm', utm);
-            data.append('water_depth', waterDepth);
-            data.append('sample_depth', sampleDepth);
-            data.append('environmental_regime', environmentalRegime);
-            data.append('secchi_record', secchiRecord);
-            data.append('floating_materials', floatingMaterials);
+
+            customFields.forEach(item => {
+                data.append(item.id, item.value);
+            });
 
             data.append('project_id', {{ isset($project) ? $project->id : null }});
 
@@ -301,94 +293,86 @@
                 return;
             }
 
-            let campaignName = document.getElementById("campaign_name");
-            let campaignStatus = document.getElementById("campaign_status");
-            let dateCollection = document.getElementById("date_collection");
             let campaignPointMatrix = document.getElementById("campaign_point_matrix");
-            let refq = document.getElementById("refq");
-            let tide = document.getElementById("tide");
-            let environmentalConditions = document.getElementById("environmental_conditions");
-            let utm = document.getElementById("utm");
-            let waterDepth = document.getElementById("water_depth");
-            let sampleDepth = document.getElementById("sample_depth");
-            let environmentalRegime = document.getElementById("environmental_regime");
-            let secchiRecord = document.getElementById("secchi_record");
-            let floatingMaterials = document.getElementById("floating_materials");
-
-            clearCampaignFields()
-
-            campaignName.value = document.getElementById('campaign_'+ row + '_campaign_name') ?
-            document.getElementById('campaign_'+ row + '_campaign_name').value : null;
-
-            campaignStatus.value = document.getElementById('campaign_'+ row + '_campaign_status') ?
-            document.getElementById('campaign_'+ row + '_campaign_status').value : null;
-
-            dateCollection.value = document.getElementById('campaign_'+ row + '_date_collection') ?
-            document.getElementById('campaign_'+ row + '_date_collection').value : null;
 
             campaignPointMatrix.value = document.getElementById('campaign_'+ row + '_campaign_point_matrix') ?
             document.getElementById('campaign_'+ row + '_campaign_point_matrix').value : null;
 
-            refq.value = document.getElementById('campaign_'+ row + '_refq') ?
-            document.getElementById('campaign_'+ row + '_refq').value : null;
+            getFieldsCampaignAjax(document.getElementById("campaign_point_matrix"))
+            .then(function(result) {
+                document.getElementById("campaign_point_matrix_fields").innerHTML = result;
 
-            tide.value = document.getElementById('campaign_'+ row + '_tide') ?
-            document.getElementById('campaign_'+ row + '_tide').value : null;
+                let campaignName = document.getElementById("campaign_name");
+                let campaignStatus = document.getElementById("campaign_status");
+                let dateCollection = document.getElementById("date_collection");
 
-            environmentalConditions.value = document.getElementById('campaign_'+ row + '_environmental_conditions') ?
-            document.getElementById('campaign_'+ row + '_environmental_conditions').value : null;
+                campaignName.value = document.getElementById('campaign_'+ row + '_campaign_name') ?
+                document.getElementById('campaign_'+ row + '_campaign_name').value : null;
 
-            utm.value = document.getElementById('campaign_'+ row + '_utm') ?
-            document.getElementById('campaign_'+ row + '_utm').value : null;
+                campaignStatus.value = document.getElementById('campaign_'+ row + '_campaign_status') ?
+                document.getElementById('campaign_'+ row + '_campaign_status').value : null;
 
-            waterDepth.value = document.getElementById('campaign_'+ row + '_water_depth') ?
-            document.getElementById('campaign_'+ row + '_water_depth').value : null;
+                dateCollection.value = document.getElementById('campaign_'+ row + '_date_collection') ?
+                document.getElementById('campaign_'+ row + '_date_collection').value : null;
 
-            sampleDepth.value = document.getElementById('campaign_'+ row + '_sample_depth') ?
-            document.getElementById('campaign_'+ row + '_sample_depth').value : null;
+                /* DINAMIC FIELDS */
+                let customFields = [];
+                document.querySelectorAll('[data-type="campaign-fields"]').forEach(item => {
+                    customFields.push(item);
+                });
 
-            environmentalRegime.value = document.getElementById('campaign_'+ row + '_environmental_regime') ?
-            document.getElementById('campaign_'+ row + '_environmental_regime').value : null;
+                customFields.forEach(item => {
+                    let field = document.getElementById('campaign_'+ row + '_' + item.id);
+                    item.value = '';
+                    item.value =  field ? field.value : null;
+                });
+            });
 
-            secchiRecord.value = document.getElementById('campaign_'+ row + '_secchi_record') ?
-            document.getElementById('campaign_'+ row + '_secchi_record').value : null;
-
-            floatingMaterials.value = document.getElementById('campaign_'+ row + '_floating_materials') ?
-            document.getElementById('campaign_'+ row + '_floating_materials').value : null;
-        }
-
-        function clearCampaignFields() {
-            let campaignName = document.getElementById("campaign_name");
-            let areas = document.getElementById("areas");
-            let campaignStatus = document.getElementById("campaign_status");
-            let dateCollection = document.getElementById("date_collection");
-            let campaignPointMatrix = document.getElementById("campaign_point_matrix");
-            let refq = document.getElementById("refq");
-            let tide = document.getElementById("tide");
-            let environmentalConditions = document.getElementById("environmental_conditions");
-            let utm = document.getElementById("utm");
-            let waterDepth = document.getElementById("water_depth");
-            let sampleDepth = document.getElementById("sample_depth");
-            let environmentalRegime = document.getElementById("environmental_regime");
-            let secchiRecord = document.getElementById("secchi_record");
-            let floatingMaterials = document.getElementById("floating_materials");
-
-            campaignName.value = '';
-            campaignStatus.value = '';
-            dateCollection.value = '';
-            campaignPointMatrix.value = '';
-            refq.value = '';
-            tide.value = '';
-            environmentalConditions.value = '';
-            utm.value = '';
-            waterDepth.value = '';
-            sampleDepth.value = '';
-            environmentalRegime.value = '';
-            secchiRecord.value = '';
-            floatingMaterials.value = '';
         }
 
         document.getElementById('confirm_modal').addEventListener('resp', campaignOrderByCallback, false);
 
+        document.querySelectorAll('#campaign_point_matrix').forEach(item => {
+            item.addEventListener("change", function(event) {
+                getFieldsCampaignAjax(document.getElementById("campaign_point_matrix"))
+                .then(function(result) {
+                    document.getElementById("campaign_point_matrix_fields").innerHTML = result;
+                });
+            } , false);
+        });
+
+        function getFieldsCampaignAjax(elem) {
+            if(!elem) return;
+
+            let id = elem.value
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('project.campaign.get-fields', ['campaign' => '#']) !!}".replace('#', id);
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+
+            return new Promise(function(resolve, reject) {
+                ajax.open(method, url);
+
+                ajax.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var resp = JSON.parse(ajax.response);
+                        resolve(resp.fields);
+                    } else if (this.readyState == 4 && this.status != 200) {
+                        var resp = JSON.parse(ajax.response);
+                        reject({
+                            status: this.status,
+                            statusText: ajax.statusText
+                        });
+                    }
+                }
+
+                var data = new FormData();
+                data.append('_token', token);
+                data.append('_method', method);
+                data.append('id', id);
+
+                ajax.send(data);
+            });
+        }
     });
 </script>
