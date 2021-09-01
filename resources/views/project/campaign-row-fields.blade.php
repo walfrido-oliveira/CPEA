@@ -15,3 +15,4 @@
 <input type="hidden" name="campaign[{{ $key }}][sampling_area]" id="campaign_{{ $key }}_sampling_area" value="{{ $projectCampaign->sampling_area }}">
 <input type="hidden" name="campaign[{{ $key }}][organism_type]" id="campaign_{{ $key }}_organism_type" value="{{ $projectCampaign->organism_type }}">
 <input type="hidden" name="campaign[{{ $key }}][popular_name]" id="campaign_{{ $key }}_popular_name" value="{{ $projectCampaign->popular_name }}">
+<input type="hidden" name="campaign[{{ $key }}][effluent_type]" id="campaign_{{ $key }}_effluent_type" value="{{ $projectCampaign->effluent_type }}">

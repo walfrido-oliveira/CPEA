@@ -52,6 +52,7 @@ class CampaignController extends Controller
             'sample_depth' => ['nullable', 'in:superficie,meio,fundo'],
             'environmental_regime' => ['nullable', 'in:lotico,lentico,intermediario'],
             'floating_materials' => ['nullable', 'in:ausente,presente'],
+            'effluent_type' => ['nullable', 'in:bruto,tratado'],
 
             'water_depth' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
             'secchi_record' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
@@ -90,6 +91,7 @@ class CampaignController extends Controller
                 'sampling_area' => isset($input['sampling_area']) ? $input['sampling_area'] : null,
                 'organism_type' => isset($input['organism_type']) ? $input['organism_type'] : null,
                 'popular_name' => isset($input['popular_name']) ? $input['popular_name'] : null,
+                'effluent_type' => isset($input['effluent_type']) ? $input['effluent_type'] : null,
             ]);
         } else {
             $projectCampaign = Campaign::create([
@@ -114,6 +116,7 @@ class CampaignController extends Controller
                 'sampling_area' => isset($input['sampling_area']) ? $input['sampling_area'] : null,
                 'organism_type' => isset($input['organism_type']) ? $input['organism_type'] : null,
                 'popular_name' => isset($input['popular_name']) ? $input['popular_name'] : null,
+                'effluent_type' => isset($input['effluent_type']) ? $input['effluent_type'] : null,
             ]);
         }
 
@@ -168,6 +171,7 @@ class CampaignController extends Controller
         $sampleDepths = ['superficie' => 'Superficie', 'meio' => 'Meio', 'fundo' => 'Fundo'];
         $environmentalRegimes = ['lotico' => 'Lótico', 'lentico' => 'Lentico', 'intermediario' => 'Intermediário'];
         $floatingMaterials = ['ausente' => 'Ausente', 'presente' => 'Presente'];
+        $effluentTypes = ['bruto' => 'Bruto', 'tratado' => 'Tratado'];
 
         if($pointIdentification->analysisMatrix)
         {
@@ -182,22 +186,25 @@ class CampaignController extends Controller
 
                 case 'Sedimento':
                     return response()->json([
-                        'fields' => view('project.campaign-fields.campaign-fields-2',
-                        compact('tides', 'environmentalConditions', 'sampleDepths', 'environmentalRegimes', 'floatingMaterials'))->render()
+                        'fields' => view('project.campaign-fields.campaign-fields-2', compact('environmentalConditions', 'environmentalRegimes'))->render()
                     ]);
                     break;
 
                 case 'Organismos':
                     return response()->json([
-                        'fields' => view('project.campaign-fields.campaign-fields-2',
-                        compact('tides', 'environmentalConditions', 'sampleDepths', 'environmentalRegimes', 'floatingMaterials'))->render()
+                        'fields' => view('project.campaign-fields.campaign-fields-3')->render()
+                    ]);
+                    break;
+
+                case ['Efluente', 'Água Residuária']:
+                    return response()->json([
+                        'fields' => view('project.campaign-fields.campaign-fields-4', compact('environmentalConditions', 'effluentTypes'))->render()
                     ]);
                     break;
 
                 default:
                     return response()->json([
-                        'fields' => view('project.campaign-fields.campaign-fields-3',
-                        compact('tides', 'environmentalConditions', 'sampleDepths', 'environmentalRegimes', 'floatingMaterials'))->render()
+                        'fields' => view('project.campaign-fields.campaign-fields-4', compact('environmentalConditions', 'effluentTypes'))->render()
                     ]);
                     break;
             }
