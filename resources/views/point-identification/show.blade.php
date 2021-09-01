@@ -13,7 +13,7 @@
                         <a class="btn-outline-warning" href="{{ route('registers.point-identification.edit', ['point_identification' => $pointIdentification->id]) }}">{{ __('Editar') }}</a>
                     </div>
                     <div class="m-2">
-                        <button type="button" class="btn-outline-danger delete-environmental-area" id="point_identification_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $pointIdentification->id }}">{{ __('Apagar') }}</button>
+                        <button type="button" class="btn-outline-danger delete-point-identification" id="point_identification_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $pointIdentification->id }}">{{ __('Apagar') }}</button>
                     </div>
                 </div>
             </div>
@@ -193,8 +193,8 @@
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir usuário') }}"
-             msg="{{ __('Deseja realmente apagar esse Tipo Param. Análise?') }}"
+    <x-modal title="{{ __('Excluir Ponto') }}"
+             msg="{{ __('Deseja realmente apagar esse Ponto?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_point_identification_modal"
              method="DELETE"
              url="{{ route('registers.point-identification.destroy', ['point_identification' => $pointIdentification->id]) }}"
@@ -204,7 +204,7 @@
 
     <script>
         function eventsDeleteCallback() {
-            document.querySelectorAll('.delete-environmental-area').forEach(item => {
+            document.querySelectorAll('.delete-point-identification').forEach(item => {
             item.addEventListener("click", function() {
                 var modal = document.getElementById("delete_point_identification_modal");
                 modal.classList.remove("hidden");

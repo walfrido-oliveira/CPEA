@@ -15,6 +15,9 @@
                         <div class="m-2">
                             <a href="{{ route('project.index')}}" class="btn-outline-danger">{{ __('Cancelar') }}</a>
                         </div>
+                        <div class="m-2">
+                            <button type="button" class="btn-outline-danger delete-project" id="project_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $project->id }}">{{ __('Apagar') }}</button>
+                        </div>
                     </div>
                 </div>
 
@@ -151,6 +154,31 @@
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_point_matrix_modal"
              method="DELETE"
              />
+
+    <x-modal title="{{ __('Excluir Projeto') }}"
+    msg="{{ __('Deseja realmente apagar esse Projeto?') }}"
+    confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_project_modal"
+    method="DELETE"
+    url="{{ route('project.destroy', ['project' => $project->id]) }}"
+    redirect-url="{{ route('project.index') }}"
+    confirm_id="project_confirm_id"
+    cancel_modal="project_cancel_modal"/>
+
+    @include('customers.filter-result-scripts', ['actions' => 'hidden'])
+
+    <script>
+        function eventsDeleteCallback() {
+            document.querySelectorAll('.delete-project').forEach(item => {
+            item.addEventListener("click", function() {
+                var modal = document.getElementById("delete_project_modal");
+                modal.classList.remove("hidden");
+                modal.classList.add("block");
+            })
+        });
+        }
+
+        eventsDeleteCallback();
+    </script>
 
     @include('project.point-matrix-scripts')
     @include('project.campaign-scripts')
