@@ -11,3 +11,7 @@
 <input type="hidden" name="campaign[{{ $key }}][floating_materials]" id="campaign_{{ $key }}_floating_materials" value="{{ $projectCampaign->floating_materials }}">
 <input type="hidden" name="campaign[{{ $key }}][total_depth]" id="campaign_{{ $key }}_total_depth" value="{{ $projectCampaign->total_depth }}">
 <input type="hidden" name="campaign[{{ $key }}][sedimentary_layer]" id="campaign_{{ $key }}_sedimentary_layer" value="{{ $projectCampaign->sedimentary_layer }}">
+<input type="hidden" name="campaign[{{ $key }}][report_identification]" id="campaign_{{ $key }}_report_identification" value="{{ $projectCampaign->report_identification }}">
+<input type="hidden" name="campaign[{{ $key }}][sampling_area]" id="campaign_{{ $key }}_sampling_area" value="{{ $projectCampaign->sampling_area }}">
+<input type="hidden" name="campaign[{{ $key }}][organism_type]" id="campaign_{{ $key }}_organism_type" value="{{ $projectCampaign->organism_type }}">
+<input type="hidden" name="campaign[{{ $key }}][popular_name]" id="campaign_{{ $key }}_popular_name" value="{{ $projectCampaign->popular_name }}">

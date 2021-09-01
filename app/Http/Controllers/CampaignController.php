@@ -86,6 +86,10 @@ class CampaignController extends Controller
                 'floating_materials' => isset($input['floating_materials']) ? $input['floating_materials'] : null,
                 'total_depth' => isset($input['total_depth']) ? $input['total_depth'] : null,
                 'sedimentary_layer' => isset($input['sedimentary_layer']) ? $input['sedimentary_layer'] : null,
+                'report_identification' => isset($input['report_identification']) ? $input['report_identification'] : null,
+                'sampling_area' => isset($input['sampling_area']) ? $input['sampling_area'] : null,
+                'organism_type' => isset($input['organism_type']) ? $input['organism_type'] : null,
+                'popular_name' => isset($input['popular_name']) ? $input['popular_name'] : null,
             ]);
         } else {
             $projectCampaign = Campaign::create([
@@ -106,6 +110,10 @@ class CampaignController extends Controller
                 'floating_materials' => isset($input['floating_materials']) ? $input['floating_materials'] : null,
                 'total_depth' => isset($input['total_depth']) ? $input['total_depth'] : null,
                 'sedimentary_layer' => isset($input['sedimentary_layer']) ? $input['sedimentary_layer'] : null,
+                'report_identification' => isset($input['report_identification']) ? $input['report_identification'] : null,
+                'sampling_area' => isset($input['sampling_area']) ? $input['sampling_area'] : null,
+                'organism_type' => isset($input['organism_type']) ? $input['organism_type'] : null,
+                'popular_name' => isset($input['popular_name']) ? $input['popular_name'] : null,
             ]);
         }
 
@@ -179,9 +187,16 @@ class CampaignController extends Controller
                     ]);
                     break;
 
-                default:
+                case 'Organismos':
                     return response()->json([
                         'fields' => view('project.campaign-fields.campaign-fields-2',
+                        compact('tides', 'environmentalConditions', 'sampleDepths', 'environmentalRegimes', 'floatingMaterials'))->render()
+                    ]);
+                    break;
+
+                default:
+                    return response()->json([
+                        'fields' => view('project.campaign-fields.campaign-fields-3',
                         compact('tides', 'environmentalConditions', 'sampleDepths', 'environmentalRegimes', 'floatingMaterials'))->render()
                     ]);
                     break;
