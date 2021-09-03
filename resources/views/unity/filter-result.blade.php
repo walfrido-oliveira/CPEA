@@ -29,7 +29,7 @@
                 </a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('registers.unity.show', ['unity' => $unity->id]) }}">{{ $unity->unity ? $unity->unity->name : '' }}</a>
+                <a class="text-item-table" href="{{ route('registers.unity.show', ['unity' => $unity->id]) }}">{{ $unity->unity ? $unity->unity->unity_cod : '' }}</a>
             </td>
             <td>
                 <a class="btn-transition-warning" href="{{ route('registers.unity.edit', ['unity' => $unity->id]) }}">
