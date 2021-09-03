@@ -20,7 +20,7 @@ class UnityController extends Controller
         $unitiesList = Unity::all()->pluck('name', 'id');
 
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
-        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'id';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'unity_cod';
 
         return view('unity.index', compact('unities', 'unitiesList', 'ascending', 'orderBy'));
     }
