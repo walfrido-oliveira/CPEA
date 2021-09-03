@@ -176,7 +176,8 @@ return [
         "campaign_point_matrix" => "Área/Identificação Ponto/Matriz",
         "point_identification_id" => "Identificação Ponto",
         "tide" => "Maré",
-        "environmental_conditions" => "Condições ambientais"
+        "environmental_conditions" => "Condições ambientais",
+        "unity_cod" => "Unidade de Medida"
     ],
 
 ];
