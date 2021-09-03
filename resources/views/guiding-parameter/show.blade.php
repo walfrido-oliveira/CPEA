@@ -100,7 +100,7 @@
                     <h1 class="mb-2">{{ __('Param. Valor(es) Orientador(es)') }}</h1>
                     @foreach ($guidingParameter->guidingParameterValues as $guidingParameterValue)
                         <p class="text-gray-500 font-bold text-center">
-                            <a class="text-green-600 underline" href="{{ route('guiding-parameter.show', ['guiding_parameter' => $guidingParameterValue->id]) }}">
+                            <a class="text-green-600 underline" href="{{ route('guiding-parameter-value.show', ['guiding_parameter' => $guidingParameterValue->id]) }}">
                                 {{ $guidingParameterValue->guidingParameter->name . ' - ' .
                                    $guidingParameterValue->analysisMatrix->name . ' - ' .
                                    $guidingParameterValue->parameterAnalysis->analysis_parameter_name
