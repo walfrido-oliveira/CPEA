@@ -91,9 +91,11 @@
             }
 
             var ascending = "asc";
+            var orderBY;
+
             var orderByCallback = function (event) {
-                var orderBY = this.dataset.name;
-                var ascending = this.dataset.ascending;
+                orderBY = this.dataset.name;
+                ascending = this.dataset.ascending;
                 var that = this;
                 var ajax = new XMLHttpRequest();
                 var url = "{!! route('registers.unity.filter') !!}";
