@@ -91,7 +91,7 @@ class GuidingParameterValue extends Model
      */
     public static function filter($query)
     {
-        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : 5;
+        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : 10;
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'asc';
 
         $guidingParameterValues = self::where(function($q) use ($query) {
