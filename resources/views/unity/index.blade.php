@@ -23,7 +23,7 @@
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="id">
                                 {{ __('Cod. Unidade') }}
                             </label>
-                            <x-jet-input id="unity_id" class="form-control block w-full filter-field" type="text" name="unity_id" :value="app('request')->input('unity_id')" autofocus autocomplete="unity_id" />
+                            <x-jet-input id="unity_cod" class="form-control block w-full filter-field" type="text" name="unity_cod" :value="app('request')->input('unity_cod')" autofocus autocomplete="unity_cod" />
                         </div>
                         <div class="w-full md:w-1/2 px-2 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
