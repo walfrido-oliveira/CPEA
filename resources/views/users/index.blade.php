@@ -96,7 +96,7 @@
             }
 
             var ascending = "asc";
-            var orderBY;
+            var orderBY = 'created_at';
 
             var orderByCallback = function (event) {
                 orderBY = this.dataset.name;

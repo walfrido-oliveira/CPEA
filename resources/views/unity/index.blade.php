@@ -91,7 +91,7 @@
             }
 
             var ascending = "asc";
-            var orderBY;
+            var orderBY = 'unity_cod';
 
             var orderByCallback = function (event) {
                 orderBY = this.dataset.name;
