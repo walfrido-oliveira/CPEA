@@ -23,6 +23,7 @@ class GuidingParameterValueController extends Controller
     public function index(Request $request)
     {
         $guidingParameterValues =  GuidingParameterValue::filter($request->all());
+        dd($guidingParameterValues);
         $guidingParameters = GuidingParameter::pluck('name', 'id');
         $analysisMatrices = AnalysisMatrix::pluck('name', 'id');
         $parameterAnalysises = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
