@@ -99,7 +99,7 @@
             var orderBY;
 
             var orderByCallback = function (event) {
-                var orderBY = this.dataset.name;
+                orderBY = this.dataset.name;
                 ascending = this.dataset.ascending;
                 var that = this;
                 var ajax = new XMLHttpRequest();
