@@ -13,13 +13,12 @@
 </thead>
 <tbody id="guiding_parameter_value_table_content">
     @forelse ($guidingParameterValues as $key => $guidingParameterValue)
-        {{ $guidingParameterValue->guidingParameter->name }}
         <tr>
             <td>
                 <input class="form-checkbox guiding-parameter-value-url" type="checkbox" name="guiding-parameter-value[{{ $guidingParameterValue->id }}]" value="{!! route('guiding-parameter-value.destroy', ['guiding_parameter_value' => $guidingParameterValue->id]) !!}">
             </td>
             <td>
-                @if ($guidingParameterValue->guidingParamete)
+                @if ($guidingParameterValue->guidingParameter)
                     <a class="text-item-table" href="{{ route('guiding-parameter-value.show', ['guiding_parameter_value' => $guidingParameterValue->id]) }}">{{ $guidingParameterValue->guidingParameter->name }}</a>
                 @endif
             </td>
