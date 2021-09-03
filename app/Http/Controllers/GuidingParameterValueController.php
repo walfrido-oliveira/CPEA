@@ -112,7 +112,7 @@ class GuidingParameterValueController extends Controller
         $parameterAnalysises = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
         $guidingParameterRefValues = GuidingParameterRefValue::pluck('guiding_parameter_ref_value_id', 'id');
         $guidingValues = GuidingValue::pluck('name', 'id');
-        $unities = Unity::pluck('name', 'id');
+        $unities = Unity::pluck('unity_cod', 'id');
 
         return view('guiding-parameter-value.edit', compact('guidingParameterValue',
         'guidingParameters', 'analysisMatrices', 'parameterAnalysises', 'guidingParameterRefValues', 'guidingValues', 'unities'));

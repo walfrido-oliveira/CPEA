@@ -32,7 +32,7 @@ class UnityController extends Controller
      */
     public function create()
     {
-        $unities = Unity::all()->pluck('name', 'id');
+        $unities = Unity::pluck('unity_cod', 'id');
         return view('unity.create', compact('unities'));
     }
 
@@ -78,7 +78,7 @@ class UnityController extends Controller
     public function edit($id)
     {
         $unity = Unity::findOrFail($id);
-        $unities = Unity::all()->pluck('name', 'id');
+        $unities = Unity::pluck('unity_cod', 'id');
 
         return view('unity.edit', compact('unity', 'unities'));
     }
