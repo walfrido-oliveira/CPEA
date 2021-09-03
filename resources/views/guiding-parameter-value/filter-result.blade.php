@@ -18,7 +18,9 @@
                 <input class="form-checkbox guiding-parameter-value-url" type="checkbox" name="guiding-parameter-value[{{ $guidingParameterValue->id }}]" value="{!! route('guiding-parameter-value.destroy', ['guiding_parameter_value' => $guidingParameterValue->id]) !!}">
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('guiding-parameter-value.show', ['guiding_parameter_value' => $guidingParameterValue->id]) }}">{{ $guidingParameterValue->guidingParameter->name }}</a>
+                @if ($guidingParameterValue->guidingParamete)
+                    <a class="text-item-table" href="{{ route('guiding-parameter-value.show', ['guiding_parameter_value' => $guidingParameterValue->id]) }}">{{ $guidingParameterValue->guidingParameter->name }}</a>
+                @endif
             </td>
             <td>
                 <a class="text-item-table" href="{{ route('guiding-parameter-value.show', ['guiding_parameter_value' => $guidingParameterValue->id]) }}">{{ $guidingParameterValue->analysisMatrix->name }}</a>
