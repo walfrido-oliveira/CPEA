@@ -25,7 +25,7 @@ class UnityRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'unity_cod' => ['required', 'string', 'max:255'],
+            'unity_cod' => ['required', 'string', 'max:255', 'unique:unities,unity_cod,' . $this->unity],
             'geodetic_system_id' => ['nullable', 'exists:unities,id'],
             'conversion_amount' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
         ];
