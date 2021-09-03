@@ -89,14 +89,18 @@
                 if(id) data.append('id', id);
                 if(name) data.append('name', name);
                 if(roles) data.append('roles', roles);
+                data.append('ascending', ascending);
+                data.append('order_by', orderBY);
 
                 ajax.send(data);
             }
 
             var ascending = "asc";
+            var orderBY;
+
             var orderByCallback = function (event) {
                 var orderBY = this.dataset.name;
-                var ascending = this.dataset.ascending;
+                ascending = this.dataset.ascending;
                 var that = this;
                 var ajax = new XMLHttpRequest();
                 var url = "{!! route('users.filter') !!}";
