@@ -15,7 +15,9 @@
     @forelse ($parameterAnalyses as $key => $parameterAnalysis)
         <tr>
             <td>
+              @if ($parameterAnalysis->AnalysisParameter)
                 <a class="text-item-table" href="{{ route('parameter-analysis.show', ['parameter_analysis' => $parameterAnalysis->id]) }}">{{ $parameterAnalysis->AnalysisParameter->name }}</a>
+              @endif
             </td>
             <td>
                 <a class="text-item-table" href="{{ route('parameter-analysis.show', ['parameter_analysis' => $parameterAnalysis->id]) }}">{{ $parameterAnalysis->cas_rn }}</a>
