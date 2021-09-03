@@ -98,7 +98,7 @@
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
-                var unity_id = document.getElementById("unity_id").value;
+                var unity_cod = document.getElementById("unity_cod").value;
                 var name = document.getElementById("name").value;
 
                 ajax.open(method, url);
@@ -124,7 +124,7 @@
                 data.append('paginate_per_page', paginationPerPage);
                 data.append('ascending', ascending);
                 data.append('order_by', orderBY);
-                if(unity_id) data.append('unity_id', unity_id);
+                if(unity_cod) data.append('unity_cod', unity_cod);
                 if(name) data.append('name', name);
 
                 ajax.send(data);
