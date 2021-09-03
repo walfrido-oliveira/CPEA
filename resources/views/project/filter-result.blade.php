@@ -26,7 +26,9 @@
                     <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">{{ $campaing->project->project_cod }}</a>
                 </td>
                 <td>
-                    <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">{{ $campaing->project->customer->name }}</a>
+                    @if ($campaing->project->customer)
+                        <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">{{ $campaing->project->customer->name }}</a>
+                    @endif
                 </td>
                 <td>
                     <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">{{ $campaing->name }}</a>
@@ -65,7 +67,9 @@
                     <a class="text-item-table" href="{{ route('project.show', ['project' => $project->id]) }}">{{ $project->project_cod }}</a>
                 </td>
                 <td>
-                    <a class="text-item-table" href="{{ route('project.show', ['project' => $project->id]) }}">{{ $project->customer->name }}</a>
+                    @if ($project->customer)
+                        <a class="text-item-table" href="{{ route('project.show', ['project' => $project->id]) }}">{{ $project->customer->name }}</a>
+                    @endif
                 </td>
                 <td></td>
                 <td></td>
