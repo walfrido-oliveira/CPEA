@@ -84,6 +84,8 @@
                 data.append('paginate_per_page', paginationPerPage);
                 if(unity_cod) data.append('unity_cod', unity_cod);
                 if(name) data.append('name', name);
+                data.append('ascending', ascending);
+                data.append('order_by', orderBY);
 
                 ajax.send(data);
             }
