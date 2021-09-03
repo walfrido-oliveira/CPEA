@@ -35,11 +35,13 @@
                             <p class="font-bold text-right">{{ __('Tipo Param. Análise') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">
-                                <a class="text-green-600 underline" href="{{ route('registers.analysis-parameter.show', ['analysis_parameter' => $parameterAnalysis->analysisParameter->id]) }}" target="_blank" rel="noopener noreferrer">
-                                    {{ $parameterAnalysis->analysisParameter->name }}
-                                </a>
-                            </p>
+                            @if ($parameterAnalysis->AnalysisParameter)
+                                <p class="text-gray-500 font-bold">
+                                    <a class="text-green-600 underline" href="{{ route('registers.analysis-parameter.show', ['analysis_parameter' => $parameterAnalysis->analysisParameter->id]) }}" target="_blank" rel="noopener noreferrer">
+                                        {{ $parameterAnalysis->analysisParameter->name }}
+                                    </a>
+                                </p>
+                            @endif
                         </div>
                     </div>
 
