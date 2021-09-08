@@ -17,7 +17,10 @@ class EnvironmentalAreaController extends Controller
     public function index(Request $request)
     {
         $environmentalAreas =  EnvironmentalArea::filter($request->all());
-         return view('environmental-area.index', compact('environmentalAreas'));
+        $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'name';
+
+        return view('environmental-area.index', compact('environmentalAreas', 'ascending', 'orderBy'));
     }
 
     /**
@@ -137,10 +140,18 @@ class EnvironmentalAreaController extends Controller
     {
         $environmentalAreas = EnvironmentalArea::filter($request->all());
         $environmentalAreas = $environmentalAreas->setPath('');
+        $orderBy = $request->get('order_by');
+        $ascending = $request->get('ascending');
+        $paginatePerPage = $request->get('paginate_per_page');
 
         return response()->json([
-            'filter_result' => view('environmental-area.filter-result', compact('environmentalAreas'))->render(),
-            'pagination' => view('layouts.pagination', ['models' => $environmentalAreas])->render(),
-        ]);
+            'filter_result' => view('environmental-area.filter-result', compact('environmentalAreas', 'orderBy', 'ascending'))->render(),
+            'pagination' => view('layouts.pagination', [
+                'models' => $environmentalAreas,
+                'order_by' => $orderBy,
+                'ascending' => $ascending,
+                'paginate_per_page' => $paginatePerPage,
+                ])->render(),
+            ]);
     }
 }
