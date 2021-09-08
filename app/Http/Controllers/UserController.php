@@ -167,7 +167,7 @@ class UserController extends Controller
         $users = $users->setPath('');
         $orderBy = $request->get('order_by');
         $ascending = $request->get('ascending');
-        $paginate_per_page = $request->get('paginate_per_page');
+        $paginatePerPage = $request->get('paginate_per_page');
 
         return response()->json([
         'filter_result' => view('users.filter-result', compact('users', 'orderBy', 'ascending'))->render(),
@@ -175,7 +175,7 @@ class UserController extends Controller
             'models' => $users,
             'order_by' => $orderBy,
             'ascending' => $ascending,
-            'paginate_per_page' => $paginate_per_page,
+            'paginate_per_page' => $paginatePerPage,
             ])->render(),
         ]);
     }

@@ -17,7 +17,10 @@ class PlanActionLevelController extends Controller
     public function index(Request $request)
     {
         $planActionLevels =  PlanActionLevel::filter($request->all());
-        return view('plan-action-level.index', compact('planActionLevels'));
+        $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'name';
+
+        return view('plan-action-level.index', compact('planActionLevels', 'ascending', 'orderBy'));
     }
 
     /**
@@ -137,10 +140,18 @@ class PlanActionLevelController extends Controller
     {
         $planActionLevels = PlanActionLevel::filter($request->all());
         $planActionLevels = $planActionLevels->setPath('');
+        $orderBy = $request->get('order_by');
+        $ascending = $request->get('ascending');
+        $paginatePerPage = $request->get('paginate_per_page');
 
         return response()->json([
-            'filter_result' => view('plan-action-level.filter-result', compact('planActionLevels'))->render(),
-            'pagination' => view('layouts.pagination', ['models' => $planActionLevels])->render(),
-        ]);
+            'filter_result' => view('plan-action-level.filter-result', compact('planActionLevels', 'orderBy', 'ascending', 'paginatePerPage'))->render(),
+            'pagination' => view('layouts.pagination', [
+                'models' => $planActionLevels,
+                'order_by' => $orderBy,
+                'ascending' => $ascending,
+                'paginate_per_page' => $paginatePerPage,
+                ])->render(),
+            ]);
     }
 }

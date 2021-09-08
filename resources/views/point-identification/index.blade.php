@@ -84,14 +84,18 @@
                 data.append('paginate_per_page', paginationPerPage);
                 if(area) data.append('area', area);
                 if(identification) data.append('identification', identification);
+                data.append('ascending', ascending);
+                data.append('order_by', orderBY);
 
                 ajax.send(data);
             }
 
-            var ascending = "asc";
+            var ascending = "{!! $ascending !!}";
+            var orderBY = "{!! $orderBy !!}";
+
             var orderByCallback = function (event) {
-                var orderBY = this.dataset.name;
-                var ascending = this.dataset.ascending;
+                orderBY = this.dataset.name;
+                ascending = this.dataset.ascending;
                 var that = this;
                 var ajax = new XMLHttpRequest();
                 var url = "{!! route('registers.point-identification.filter') !!}";
