@@ -97,7 +97,7 @@ class Project extends Model
             }
         });
 
-        if($orderBy == 'campaigns.name' )
+        if($orderBy == 'campaigns.name' || $orderBy == 'campaigns.campaign_status_id')
         {
             $projects->with('campaigns')
             ->leftJoin('campaigns', 'campaigns.project_id', '=', 'projects.id')
