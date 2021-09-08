@@ -17,7 +17,10 @@ class GeodeticSystemController extends Controller
     public function index(Request $request)
     {
         $geodetics =  GeodeticSystem::filter($request->all());
-         return view('geodetics.index', compact('geodetics'));
+        $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'name';
+
+        return view('geodetics.index', compact('geodetics', 'ascending', 'orderBy'));
     }
 
     /**
@@ -137,10 +140,18 @@ class GeodeticSystemController extends Controller
     {
         $geodetics = GeodeticSystem::filter($request->all());
         $geodetics = $geodetics->setPath('');
+        $orderBy = $request->get('order_by');
+        $ascending = $request->get('ascending');
+        $paginatePerPage = $request->get('paginate_per_page');
 
         return response()->json([
-            'filter_result' => view('geodetics.filter-result', compact('geodetics'))->render(),
-            'pagination' => view('layouts.pagination', ['models' => $geodetics])->render(),
-        ]);
+            'filter_result' => view('geodetics.filter-result', compact('geodetics', 'orderBy', 'ascending'))->render(),
+            'pagination' => view('layouts.pagination', [
+                'models' => $geodetics,
+                'order_by' => $orderBy,
+                'ascending' => $ascending,
+                'paginate_per_page' => $paginatePerPage,
+                ])->render(),
+            ]);
     }
 }
