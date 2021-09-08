@@ -17,7 +17,10 @@ class CampaignStatusController extends Controller
     public function index(Request $request)
     {
         $campaignStatuses =  CampaignStatus::filter($request->all());
-         return view('campaign-status.index', compact('campaignStatuses'));
+        $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'name';
+
+        return view('campaign-status.index', compact('campaignStatuses', 'ascending', 'orderBy'));
     }
 
     /**
@@ -135,12 +138,20 @@ class CampaignStatusController extends Controller
      */
     public function filter(Request $request)
     {
-        $campaignStatus = CampaignStatus::filter($request->all());
-        $campaignStatus = $campaignStatus->setPath('');
+        $campaignStatuses = CampaignStatus::filter($request->all());
+        $campaignStatuses = $campaignStatuses->setPath('');
+        $orderBy = $request->get('order_by');
+        $ascending = $request->get('ascending');
+        $paginatePerPage = $request->get('paginate_per_page');
 
         return response()->json([
-            'filter_result' => view('campaign-status.filter-result', compact('campaignStatus'))->render(),
-            'pagination' => view('layouts.pagination', ['models' => $campaignStatus])->render(),
-        ]);
+            'filter_result' => view('campaign-status.filter-result', compact('campaignStatuses', 'orderBy', 'ascending'))->render(),
+            'pagination' => view('layouts.pagination', [
+                'models' => $campaignStatuses,
+                'order_by' => $orderBy,
+                'ascending' => $ascending,
+                'paginate_per_page' => $paginatePerPage,
+                ])->render(),
+            ]);
     }
 }
