@@ -90,8 +90,8 @@
                 ajax.send(data);
             }
 
-            var ascending = "asc";
-            var orderBY = 'unity_cod';
+            var ascending = "{!! $ascending !!}";
+            var orderBY = '{!! $orderBy !!}';
 
             var orderByCallback = function (event) {
                 orderBY = this.dataset.name;

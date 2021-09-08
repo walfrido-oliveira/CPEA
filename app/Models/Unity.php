@@ -45,8 +45,9 @@ class Unity extends Model
      */
     public static function filter($query)
     {
-        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : 5;
-        $ascending = isset($query['ascending']) ? $query['ascending'] : 'asc';
+        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : DEFAULT_PAGINATE_PER_PAGE;
+        $ascending = isset($query['ascending']) ? $query['ascending'] : DEFAULT_ASCENDING;
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : DEFAULT_ORDER_BY_COLUMN;
 
         $unities = self::where(function($q) use ($query) {
             if(isset($query['id']))
@@ -75,14 +76,7 @@ class Unity extends Model
             }
         });
 
-        if(!isset($query['order_by']))
-        {
-            $unities->orderBy('created_at', 'desc');
-        }
-        else
-        {
-            $unities->orderBy($query['order_by'], $ascending);
-        }
+        $unities->orderBy($orderBy, $ascending);
 
         return $unities->paginate($perPage);
     }

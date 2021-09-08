@@ -70,8 +70,9 @@ class Campaign extends Model
      */
     public static function filter($query, $project_id = null)
     {
-        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : 5;
-        $ascending = isset($query['ascending']) ? $query['ascending'] : 'asc';
+        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : DEFAULT_PAGINATE_PER_PAGE;
+        $ascending = isset($query['ascending']) ? $query['ascending'] : DEFAULT_ASCENDING;
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : DEFAULT_ORDER_BY_COLUMN;
 
         $projects = self::where(function($q) use ($query, $project_id) {
             if(isset($query['id']))
@@ -93,23 +94,15 @@ class Campaign extends Model
             }
         });
 
-        if(!isset($query['order_by']))
+        if($orderBy == 'identification' || $orderBy == 'area')
         {
-            $projects->orderBy('created_at', $ascending);
-        }
-        else
-        {
-            if($query['order_by'] == 'identification' || $query['order_by'] == 'area')
-            {
-                $projects
-                ->with( 'projectPointMatrix.pointIdentification')
-                ->leftJoin('project_point_matrices', 'project_point_matrices.id', '=', 'campaigns.project_point_matrix_id')
-                ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
-                ->orderBy($query['order_by'], $ascending);
-            } else {
-                $projects->orderBy($query['order_by'], $ascending);
-            }
-
+            $projects
+            ->with( 'projectPointMatrix.pointIdentification')
+            ->leftJoin('project_point_matrices', 'project_point_matrices.id', '=', 'campaigns.project_point_matrix_id')
+            ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+            ->orderBy($orderBy, $ascending);
+        } else {
+            $projects->orderBy($orderBy, $ascending);
         }
 
         return $projects->paginate($perPage, ['*'], 'project-campaigns');

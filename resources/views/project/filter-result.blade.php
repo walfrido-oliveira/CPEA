@@ -1,8 +1,8 @@
 <thead>
     <tr class="thead-light">
         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="projecys.project_cod" columnText="{{ __('Projeto') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="projecys.customer_id" columnText="{{ __('Cliente') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="projects.project_cod" columnText="{{ __('Projeto') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="projects.customer_id" columnText="{{ __('Cliente') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="campaigns.name" columnText="{{ __('Campanha') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="campaigns.campaign_status_id" columnText="{!! __('Status<br>Campanha') !!}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="campaigns.updated_at" columnText="{!! __('Modificação<br>Campanha') !!}"/>

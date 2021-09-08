@@ -95,8 +95,8 @@
                 ajax.send(data);
             }
 
-            var ascending = "asc";
-            var orderBY = 'created_at';
+            var ascending = "{!! $ascending !!}";
+            var orderBY = "{!! $orderBy !!}";
 
             var orderByCallback = function (event) {
                 orderBY = this.dataset.name;

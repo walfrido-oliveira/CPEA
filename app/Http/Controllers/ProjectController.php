@@ -30,7 +30,7 @@ class ProjectController extends Controller
 
         $customers = Customer::all()->pluck('name', 'id');
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
-        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'id';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'projects.project_cod';
 
         return view('project.index', compact('projetcs', 'customers', 'ascending', 'orderBy'));
     }

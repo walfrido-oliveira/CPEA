@@ -85,18 +85,20 @@
                 ajax.send(data);
             }
 
-            var ascending = "asc";
+            var ascending = "{!! $ascending !!}";
+            var orderBY = "{!! $orderBy !!}";
+
             var orderByCallback = function (event) {
-                var orderBY = this.dataset.name;
-                var ascending = this.dataset.ascending;
+                orderBY = this.dataset.name;
+                ascending = this.dataset.ascending;
                 var that = this;
                 var ajax = new XMLHttpRequest();
                 var url = "{!! route('project.filter') !!}";
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
-                var customer = document.getElementById("customer").value;
-                var identification = document.getElementById("identification").value;
+                var customerId = document.getElementById("customer_id").value;
+                var projectCod = document.getElementById("project_cod").value;
 
                 ajax.open(method, url);
 
@@ -121,8 +123,8 @@
                 data.append('paginate_per_page', paginationPerPage);
                 data.append('ascending', ascending);
                 data.append('order_by', orderBY);
-                if(customer) data.append('customer', customer);
-                if(identification) data.append('identification', identification);
+                if(customerId) data.append('customer_id', customerId);
+                if(projectCod) data.append('project_cod', projectCod);
 
                 ajax.send(data);
             }

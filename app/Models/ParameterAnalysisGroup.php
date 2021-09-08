@@ -44,10 +44,11 @@ class ParameterAnalysisGroup extends Model
      */
     public static function filter($query)
     {
-        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : 5;
-        $ascending = isset($query['ascending']) ? $query['ascending'] : 'asc';
+        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : DEFAULT_PAGINATE_PER_PAGE;
+        $ascending = isset($query['ascending']) ? $query['ascending'] : DEFAULT_ASCENDING;
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : DEFAULT_ORDER_BY_COLUMN;
 
-        $users = self::where(function($q) use ($query) {
+        $parameterAnalysisGroups = self::where(function($q) use ($query) {
             if(isset($query['id']))
             {
                 if(!is_null($query['id']))
@@ -73,15 +74,8 @@ class ParameterAnalysisGroup extends Model
             }
         });
 
-        if(!isset($query['order_by']))
-        {
-            $users->orderBy('created_at', 'desc');
-        }
-        else
-        {
-            $users->orderBy($query['order_by'], $ascending);
-        }
+        $parameterAnalysisGroups->orderBy($orderBy, $ascending);
 
-        return $users->paginate($perPage);
+        return $parameterAnalysisGroups->paginate($perPage);
     }
 }

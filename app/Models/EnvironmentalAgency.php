@@ -27,10 +27,11 @@ class EnvironmentalAgency extends Model
      */
     public static function filter($query)
     {
-        $perPage = 10;
-        if(isset($query['paginate_per_page'])) $perPage = $query['paginate_per_page'];
+        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : DEFAULT_PAGINATE_PER_PAGE;
+        $ascending = isset($query['ascending']) ? $query['ascending'] : DEFAULT_ASCENDING;
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : DEFAULT_ORDER_BY_COLUMN;
 
-        $users = self::where(function($q) use ($query) {
+        $enviromentalAgencies = self::where(function($q) use ($query) {
             if(isset($query['id']))
             {
                 if(!is_null($query['id']))
@@ -54,8 +55,10 @@ class EnvironmentalAgency extends Model
                     $q->where('internal_id', 'like','%' . $query['internal_id'] . '%');
                 }
             }
-        })->paginate($perPage);
+        });
 
-        return $users;
+        $enviromentalAgencies->orderBy($orderBy, $ascending);
+
+        return $enviromentalAgencies->paginate($perPage);
     }
 }

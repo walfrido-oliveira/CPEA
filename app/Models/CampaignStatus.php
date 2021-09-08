@@ -27,8 +27,9 @@ class CampaignStatus extends Model
      */
     public static function filter($query)
     {
-        $perPage = 10;
-        if(isset($query['paginate_per_page'])) $perPage = $query['paginate_per_page'];
+        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : DEFAULT_PAGINATE_PER_PAGE;
+        $ascending = isset($query['ascending']) ? $query['ascending'] : DEFAULT_ASCENDING;
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : DEFAULT_ORDER_BY_COLUMN;
 
         $campaignStatus = self::where(function($q) use ($query) {
             if(isset($query['id']))
@@ -46,8 +47,10 @@ class CampaignStatus extends Model
                     $q->where('name', 'like','%' . $query['name'] . '%');
                 }
             }
-        })->paginate($perPage);
+        });
 
-        return $campaignStatus;
+        $campaignStatus->orderBy($orderBy, $ascending);
+
+        return $campaignStatus->paginate($perPage);
     }
 }

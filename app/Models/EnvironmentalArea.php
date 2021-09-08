@@ -19,7 +19,7 @@ class EnvironmentalArea extends Model
     ];
 
     /**
-     * Find users in dabase
+     * Find in dabase
      *
      * @param Array
      *
@@ -27,10 +27,11 @@ class EnvironmentalArea extends Model
      */
     public static function filter($query)
     {
-        $perPage = 10;
-        if(isset($query['paginate_per_page'])) $perPage = $query['paginate_per_page'];
+        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : DEFAULT_PAGINATE_PER_PAGE;
+        $ascending = isset($query['ascending']) ? $query['ascending'] : DEFAULT_ASCENDING;
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : DEFAULT_ORDER_BY_COLUMN;
 
-        $users = self::where(function($q) use ($query) {
+        $envionmentalAreas = self::where(function($q) use ($query) {
             if(isset($query['id']))
             {
                 if(!is_null($query['id']))
@@ -46,8 +47,10 @@ class EnvironmentalArea extends Model
                     $q->where('name', 'like','%' . $query['name'] . '%');
                 }
             }
-        })->paginate($perPage);
+        });
 
-        return $users;
+        $envionmentalAreas->orderBy($orderBy, $ascending);
+
+        return $envionmentalAreas->paginate($perPage);
     }
 }

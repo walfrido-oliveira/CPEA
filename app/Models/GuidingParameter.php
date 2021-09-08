@@ -65,8 +65,9 @@ class GuidingParameter extends Model
      */
     public static function filter($query)
     {
-        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : 5;
-        $ascending = isset($query['ascending']) ? $query['ascending'] : 'asc';
+        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : DEFAULT_PAGINATE_PER_PAGE;
+        $ascending = isset($query['ascending']) ? $query['ascending'] : DEFAULT_ASCENDING;
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : DEFAULT_ORDER_BY_COLUMN;
 
         $guidingParameters = self::where(function($q) use ($query) {
             if(isset($query['id']))
@@ -102,14 +103,7 @@ class GuidingParameter extends Model
             }
         });
 
-        if(!isset($query['order_by']))
-        {
-            $guidingParameters->orderBy('created_at', 'desc');
-        }
-        else
-        {
-            $guidingParameters->orderBy($query['order_by'], $ascending);
-        }
+        $guidingParameters->orderBy($orderBy, $ascending);
 
         return $guidingParameters->paginate($perPage);
     }

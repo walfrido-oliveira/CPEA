@@ -92,8 +92,9 @@ class User extends Authenticatable
      */
     public static function filter($query)
     {
-        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : 5;
-        $ascending = isset($query['ascending']) ? $query['ascending'] : 'asc';
+        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : DEFAULT_PAGINATE_PER_PAGE;
+        $ascending = isset($query['ascending']) ? $query['ascending'] : DEFAULT_ASCENDING;
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : DEFAULT_ORDER_BY_COLUMN;
 
         $users = self::where(function($q) use ($query) {
             if(isset($query['id']))
@@ -123,24 +124,17 @@ class User extends Authenticatable
             }
         });
 
-        if(!isset($query['order_by']))
+        if($orderBy == 'role')
         {
-            $users->orderBy('created_at', 'desc');
+            $users->leftJoin('model_has_roles', function ($join) {
+                $join->on('model_has_roles.model_id', '=', 'users.id')
+                        ->where('model_has_roles.model_type', '=', 'app\Models\User');
+            })
+            ->orderBy('model_has_roles.role_id', $ascending);
         }
         else
         {
-            if($query['order_by'] == 'role')
-            {
-                $users->leftJoin('model_has_roles', function ($join) {
-                    $join->on('model_has_roles.model_id', '=', 'users.id')
-                         ->where('model_has_roles.model_type', '=', 'app\Models\User');
-                })
-                ->orderBy('model_has_roles.role_id', $ascending);
-            }
-            else
-            {
-                $users->orderBy($query['order_by'], $ascending);
-            }
+            $users->orderBy($orderBy, $ascending);
         }
 
         return $users->paginate($perPage);

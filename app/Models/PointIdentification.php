@@ -51,8 +51,9 @@ class PointIdentification extends Model
      */
     public static function filter($query)
     {
-        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : 5;
-        $ascending = isset($query['ascending']) ? $query['ascending'] : 'asc';
+        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : DEFAULT_PAGINATE_PER_PAGE;
+        $ascending = isset($query['ascending']) ? $query['ascending'] : DEFAULT_ASCENDING;
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : DEFAULT_ORDER_BY_COLUMN;
 
         $pointIdentifications = self::where(function($q) use ($query) {
             if(isset($query['id']))
@@ -80,14 +81,7 @@ class PointIdentification extends Model
             }
         });
 
-        if(!isset($query['order_by']))
-        {
-            $pointIdentifications->orderBy('created_at', 'desc');
-        }
-        else
-        {
-            $pointIdentifications->orderBy($query['order_by'], $ascending);
-        }
+        $pointIdentifications->orderBy($orderBy, $ascending);
 
         return $pointIdentifications->paginate($perPage);
     }
