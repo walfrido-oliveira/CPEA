@@ -22,7 +22,7 @@ class GuidingParameterController extends Controller
         $guidingParameters =  GuidingParameter::filter($request->all());
         $environmentalAgencies = EnvironmentalAgency::all()->pluck('name', 'id');
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
-        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'id';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'environmental_guiding_parameter_id';
 
         return view('guiding-parameter.index', compact('guidingParameters', 'environmentalAgencies', 'ascending', 'orderBy'));
     }
