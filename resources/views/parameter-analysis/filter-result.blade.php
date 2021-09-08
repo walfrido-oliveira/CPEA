@@ -1,10 +1,10 @@
 <thead>
     <tr class="thead-light">
         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('#') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="analysis_parameter_id" columnText="{{ __('Tipo Param. Análise') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="analysis_parameter_id" columnText="{!! __('Tipo<br>Param. Análise') !!}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="cas_rn" columnText="{{ __('CAS RN') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="analysis_parameter_name" columnText="{{ __('Nome Param. Análise') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="parameter_analysis_group_id" columnText="{{ __('Grupo Param. Análise') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="analysis_parameter_name" columnText="{!! __('Nome<br>Param. Análise') !!}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="parameter_analysis_group_id" columnText="{!! __('Grupo<br>Param. Análise') !!}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="order" columnText="{{ __('Ordem') }}"/>
         <th scope="col"
             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
