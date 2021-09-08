@@ -19,7 +19,7 @@ class AnalysisMatrixController extends Controller
         $analysisMatrices =  AnalysisMatrix::filter($request->all());
         $names = AnalysisMatrix::pluck('name', 'name');
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
-        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'id';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'analysis_matrix_id';
 
         return view('analysis-matrix.index', compact('analysisMatrices', 'ascending', 'orderBy', 'names'));
     }
