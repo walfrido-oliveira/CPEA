@@ -17,7 +17,10 @@ class GuidingValueController extends Controller
     public function index(Request $request)
     {
         $guidingValues =  GuidingValue::filter($request->all());
-         return view('guiding-value.index', compact('guidingValues'));
+        $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'name';
+
+         return view('guiding-value.index', compact('guidingValues', 'ascending', 'orderBy'));
     }
 
     /**
@@ -135,12 +138,20 @@ class GuidingValueController extends Controller
      */
     public function filter(Request $request)
     {
-        $guidingValue = GuidingValue::filter($request->all());
-        $guidingValue = $guidingValue->setPath('');
+        $guidingValues = GuidingValue::filter($request->all());
+        $guidingValues = $guidingValues->setPath('');
+        $orderBy = $request->get('order_by');
+        $ascending = $request->get('ascending');
+        $paginatePerPage = $request->get('paginate_per_page');
 
         return response()->json([
-            'filter_result' => view('guiding-value.filter-result', compact('guidingValue'))->render(),
-            'pagination' => view('layouts.pagination', ['models' => $guidingValue])->render(),
-        ]);
+            'filter_result' => view('guiding-value.filter-result', compact('guidingValues', 'orderBy', 'ascending'))->render(),
+            'pagination' => view('layouts.pagination', [
+                'models' => $guidingValues,
+                'order_by' => $orderBy,
+                'ascending' => $ascending,
+                'paginate_per_page' => $paginatePerPage,
+                ])->render(),
+            ]);
     }
 }

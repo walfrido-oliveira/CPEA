@@ -10,7 +10,7 @@
         </th>
     </tr>
 </thead>
-<tbody id="users_table_content">
+<tbody id="parameter_analysis_table_content">
     @forelse ($parameterAnalysisGroups as $key => $parameterAnalysisGroup)
         <tr>
             <td>
