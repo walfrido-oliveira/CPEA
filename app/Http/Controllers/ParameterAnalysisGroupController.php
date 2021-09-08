@@ -18,7 +18,7 @@ class ParameterAnalysisGroupController extends Controller
     {
         $parameterAnalysisGroups =  ParameterAnalysisGroup::filter($request->all());
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
-        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'id';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'name';
         $parameterAnalysisGroupParents = ParameterAnalysisGroup::whereNull('parameter_analysis_group_id')->get()->pluck('name', 'id');
 
         return view('parameter-analysis-group.index', compact('parameterAnalysisGroups', 'parameterAnalysisGroupParents', 'ascending', 'orderBy'));

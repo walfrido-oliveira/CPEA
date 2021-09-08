@@ -146,32 +146,32 @@
 
             function eventsDeleteCallback() {
                 document.querySelectorAll('.delete-plan-action-level').forEach(item => {
-                item.addEventListener("click", function() {
-                    if(this.dataset.type != 'multiple') {
-                        var url = this.dataset.url;
-                        var modal = document.getElementById("delete_plan_action_level_modal");
-                        modal.dataset.url = url;
-                        modal.classList.remove("hidden");
-                        modal.classList.add("block");
-                    }
-                    else {
-                        var urls = '';
-                        document.querySelectorAll('input:checked.plan-action-level-url').forEach((item, index, arr) => {
-                            urls += item.value ;
-                            if(index < (arr.length - 1)) {
-                                urls += ',';
-                            }
-                        });
-
-                        if(urls.length > 0) {
+                    item.addEventListener("click", function() {
+                        if(this.dataset.type != 'multiple') {
+                            var url = this.dataset.url;
                             var modal = document.getElementById("delete_plan_action_level_modal");
-                            modal.dataset.url = urls;
+                            modal.dataset.url = url;
                             modal.classList.remove("hidden");
                             modal.classList.add("block");
                         }
-                    }
-                })
-            });
+                        else {
+                            var urls = '';
+                            document.querySelectorAll('input:checked.plan-action-level-url').forEach((item, index, arr) => {
+                                urls += item.value ;
+                                if(index < (arr.length - 1)) {
+                                    urls += ',';
+                                }
+                            });
+
+                            if(urls.length > 0) {
+                                var modal = document.getElementById("delete_plan_action_level_modal");
+                                modal.dataset.url = urls;
+                                modal.classList.remove("hidden");
+                                modal.classList.add("block");
+                            }
+                        }
+                    });
+                });
             }
 
             eventsDeleteCallback();

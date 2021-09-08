@@ -49,10 +49,8 @@ class AnalysisParameter extends Model
             }
         });
 
-        $analysusParameters->paginate($perPage);
-
         $analysusParameters->orderBy($orderBy, $ascending);
 
-        return $analysusParameters;
+        return $analysusParameters->paginate($perPage);
     }
 }

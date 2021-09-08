@@ -1,5 +1,6 @@
 <thead>
     <tr class="thead-light">
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="id" columnText="{{ __('#') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="name" columnText="{{ __('Nome Grupo Param Análise') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="parameter_analysis_group_id" columnText="{{ __('Nome Grupo Param Análise Pai') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="order" columnText="{{ __('Ordem') }}"/>
@@ -12,6 +13,9 @@
 <tbody id="users_table_content">
     @forelse ($parameterAnalysisGroups as $key => $parameterAnalysisGroup)
         <tr>
+            <td>
+                <input class="form-checkbox parameter-analysis-group-url" type="checkbox" name="parameter-analysis-group[{{ $parameterAnalysisGroup->id }}]" value="{!! route('registers.parameter-analysis-group.destroy', ['parameter_analysis_group' => $parameterAnalysisGroup->id]) !!}">
+            </td>
             <td>
                 <a class="text-item-table" href="{{ route('registers.parameter-analysis-group.show', ['parameter_analysis_group' => $parameterAnalysisGroup->id]) }}">{{ $parameterAnalysisGroup->name }}</a>
             </td>
