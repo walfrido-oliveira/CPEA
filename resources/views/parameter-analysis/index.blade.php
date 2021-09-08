@@ -10,6 +10,9 @@
                     <div class="m-2 ">
                         <a class="btn-outline-info" href="{{ route('parameter-analysis.create') }}" >{{ __('Cadastrar') }}</a>
                     </div>
+                    <div class="m-2">
+                        <button type="button" class="btn-outline-danger delete-parameter-analysis" data-type="multiple">{{ __('Apagar') }}</a>
+                    </div>
                 </div>
             </div>
 
@@ -98,14 +101,18 @@
                 if(parameter_analysis_group_id) data.append('parameter_analysis_group_id', parameter_analysis_group_id);
                 if(analysis_parameter_name) data.append('analysis_parameter_name', analysis_parameter_name);
                 if(cas_rn) data.append('cas_rn', cas_rn);
+                data.append('ascending', ascending);
+                data.append('order_by', orderBY);
 
                 ajax.send(data);
             }
 
-            var ascending = "asc";
+            var ascending = "{!! $ascending !!}";
+            var orderBY = "{!! $orderBy !!}";
+
             var orderByCallback = function (event) {
-                var orderBY = this.dataset.name;
-                var ascending = this.dataset.ascending;
+                orderBY = this.dataset.name;
+                ascending = this.dataset.ascending;
                 var that = this;
                 var ajax = new XMLHttpRequest();
                 var url = "{!! route('parameter-analysis.filter') !!}";
@@ -161,14 +168,32 @@
 
             function eventsDeleteCallback() {
                 document.querySelectorAll('.delete-parameter-analysis').forEach(item => {
-                item.addEventListener("click", function() {
-                    var url = this.dataset.url;
-                    var modal = document.getElementById("delete_parameter_analysis_modal");
-                    modal.dataset.url = url;
-                    modal.classList.remove("hidden");
-                    modal.classList.add("block");
-                })
-            });
+                    item.addEventListener("click", function() {
+                        if(this.dataset.type != 'multiple') {
+                            var url = this.dataset.url;
+                            var modal = document.getElementById("delete_parameter_analysis_modal");
+                            modal.dataset.url = url;
+                            modal.classList.remove("hidden");
+                            modal.classList.add("block");
+                        }
+                        else {
+                            var urls = '';
+                            document.querySelectorAll('input:checked.parameter-analysis-url').forEach((item, index, arr) => {
+                                urls += item.value ;
+                                if(index < (arr.length - 1)) {
+                                    urls += ',';
+                                }
+                            });
+
+                            if(urls.length > 0) {
+                                var modal = document.getElementById("delete_parameter_analysis_modal");
+                                modal.dataset.url = urls;
+                                modal.classList.remove("hidden");
+                                modal.classList.add("block");
+                            }
+                        }
+                    });
+                });
             }
 
             eventsDeleteCallback();
