@@ -68,6 +68,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::prefix('projetos')->name('project.')->group(function(){
         Route::post('/filter', [ProjectController::class, 'filter'])->name('filter');
         Route::post('/forgot-password/{user}', [ProjectController::class, 'forgotPassword'])->name('forgot-password');
+        Route::get('/duplicate/{project}', [ProjectController::class, 'duplicate'])->name('duplicate');
 
         Route::resource('ponto-matriz', ProjectPointMatrixController::class, [
             'names' => 'point-matrix'])->parameters([
@@ -93,7 +94,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::post('/fields/{campaign}', [CampaignController::class, 'getFields'])->name('get-fields');
         });
     });
-
 
     Route::resource('param-analise', ParameterAnalysisController::class, [
         'names' => 'parameter-analysis'])->parameters([

@@ -15,6 +15,8 @@ use App\Models\ParameterAnalysis;
 use App\Models\ProjectPointMatrix;
 use App\Models\PointIdentification;
 use App\Http\Requests\ProjectRequest;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Response;
 
 class ProjectController extends Controller
 {
@@ -62,8 +64,70 @@ class ProjectController extends Controller
             'customer_id' => $input['customer_id'],
         ]);
 
+        if(isset($input['duplicated_id']))
+        {
+            foreach ($input['point_matrix'] as $key => $point)
+            {
+                $validator = Validator::make($point, [
+                    'point_identification_id' => ['required', 'exists:point_identifications,id'],
+                ]);
+
+                if ($validator->fails()) {
+                    return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
+                }
+
+                $projectPointMatrix = ProjectPointMatrix::create([
+                    'project_id' => $project->id,
+                    'point_identification_id' => $point['point_identification_id'],
+                    'analysis_matrix_id' => $point['analysis_matrix_id'],
+                    'plan_action_level_id' => $point['plan_action_level_id'],
+                    'guiding_parameter_id' => $point['guiding_parameter_id'],
+                    'parameter_analysis_id' => $point['parameter_analysis_id']
+                ]);
+            }
+
+            foreach ($input['campaign'] as $key => $campaign)
+            {
+                $projectCampaign = Campaign::create([
+                    'project_point_matrix_id' => $campaign['campaign_point_matrix'],
+                    'project_id' => $project->id,
+                    'campaign_status_id' => $campaign['campaign_status'],
+                    'name' => $campaign['campaign_name'],
+                    'date_collection' => $campaign['date_collection'],
+
+                    'refq' => isset($campaign['refq']) ? $campaign['refq'] : null,
+                    'tide' => isset($campaign['tide']) ? $campaign['tide'] : null,
+                    'environmental_conditions' => isset($campaign['environmental_conditions']) ? $campaign['environmental_conditions'] : null,
+                    'utm' => isset($campaign['utm']) ? $campaign['utm'] : null,
+                    'water_depth' => isset($campaign['water_depth']) ? $campaign['water_depth'] : null,
+                    'sample_depth' => isset($campaign['sample_depth']) ? $campaign['sample_depth'] : null,
+                    'environmental_regime' => isset($campaign['environmental_regime']) ? $campaign['environmental_regime'] : null,
+                    'secchi_record' => isset($campaign['secchi_record']) ? $campaign['secchi_record'] : null,
+                    'floating_materials' => isset($campaign['floating_materials']) ? $campaign['floating_materials'] : null,
+                    'total_depth' => isset($campaign['total_depth']) ? $campaign['total_depth'] : null,
+                    'sedimentary_layer' => isset($campaign['sedimentary_layer']) ? $campaign['sedimentary_layer'] : null,
+                    'report_identification' => isset($campaign['report_identification']) ? $campaign['report_identification'] : null,
+                    'sampling_area' => isset($campaign['sampling_area']) ? $campaign['sampling_area'] : null,
+                    'organism_type' => isset($campaign['organism_type']) ? $campaign['organism_type'] : null,
+                    'popular_name' => isset($campaign['popular_name']) ? $campaign['popular_name'] : null,
+                    'effluent_type' => isset($campaign['effluent_type']) ? $campaign['effluent_type'] : null,
+                    'identification_pm' => isset($campaign['identification_pm']) ? $campaign['identification_pm'] : null,
+                    'pm_depth' => isset($campaign['pm_depth']) ? $campaign['pm_depth'] : null,
+                    'pm_diameter' => isset($campaign['pm_diameter']) ? $campaign['pm_diameter'] : null,
+                    'water_level' => isset($campaign['water_level']) ? $campaign['water_level'] : null,
+                    'oil_level' => isset($campaign['oil_level']) ? $campaign['oil_level'] : null,
+                    'sample_horizon' => isset($campaign['sample_horizon']) ? $campaign['sample_horizon'] : null,
+                    'field_measurements' => isset($campaign['field_measurements']) ? $campaign['field_measurements'] : null,
+                    'temperature' => isset($campaign['temperature']) ? $campaign['temperature'] : null,
+                    'humidity' => isset($campaign['humidity']) ? $campaign['humidity'] : null,
+                    'pressure' => isset($campaign['pressure']) ? $campaign['pressure'] : null,
+
+                ]);
+            }
+        }
+
         $resp = [
-            'message' => __('Projeto Cadastrado com Sucesso!'),
+            'message' => __('Projeto' . (isset($input['duplicated_id']) ? ' Duplicado ' : ' Cadastrado ') . 'com Sucesso!'),
             'alert-type' => 'success'
         ];
 
@@ -107,6 +171,34 @@ class ProjectController extends Controller
         $projectCampaigns = $project->campaigns()->paginate(10, ['*'], 'project-campaigns')->appends(request()->input());
 
         return view('project.edit', compact('project','customers', 'areas', 'identifications', 'campaignStatuses', 'projectCampaigns',
+        'matrizeces', 'planActionLevels', 'guidingParameters', 'parameterAnalyses', 'projectPointMatrices', 'geodeticSystems',
+        'pointMatrices'));
+    }
+
+    /**
+     * Show the form for duplicating the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function duplicate($id)
+    {
+        $project = Project::findOrFail($id);
+        $customers = Customer::all()->pluck('name', 'id');
+        $areas = PointIdentification::pluck('area', 'area');
+        $identifications = PointIdentification::pluck('identification', 'identification');
+        $matrizeces = AnalysisMatrix::pluck('name', 'id');
+        $planActionLevels = PlanActionLevel::pluck('name', 'id');
+        $guidingParameters = GuidingParameter::pluck('environmental_guiding_parameter_id', 'id');
+        $parameterAnalyses = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
+        $geodeticSystems = GeodeticSystem::pluck("name", "id");
+        $campaignStatuses = CampaignStatus::pluck("name", "id");
+        $pointMatrices = $project->getPointMatricesCustomFields();
+
+        $projectPointMatrices = $project->projectPointMatrices()->paginate(10, ['*'], 'project-point-matrices')->appends(request()->input());
+        $projectCampaigns = $project->campaigns()->paginate(10, ['*'], 'project-campaigns')->appends(request()->input());
+
+        return view('project.duplicate', compact('project','customers', 'areas', 'identifications', 'campaignStatuses', 'projectCampaigns',
         'matrizeces', 'planActionLevels', 'guidingParameters', 'parameterAnalyses', 'projectPointMatrices', 'geodeticSystems',
         'pointMatrices'));
     }

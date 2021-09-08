@@ -1,12 +1,13 @@
 <x-app-layout>
     <div class="py-6 edit-point-identification">
         <div class="max-w-6xl mx-auto px-4">
-            <form method="POST" action="{{ route('project.update', ['project' => $project->id]) }}">
+            <form method="POST" action="{{ route('project.store') }}">
                 @csrf
-                @method("PUT")
+                @method("POST")
+                <input type="hidden" name="duplicated_id" value="{{ $project->id }}">
                 <div class="flex md:flex-row flex-col">
                     <div class="w-full flex items-center">
-                        <h1>{{ __('Editar Projeto') }}</h1>
+                        <h1>{{ __('Duplicar Projeto') }}</h1>
                     </div>
                     <div class="w-full flex justify-end">
                         <div class="m-2 ">
@@ -14,12 +15,6 @@
                         </div>
                         <div class="m-2">
                             <a href="{{ route('project.index')}}" class="btn-outline-danger">{{ __('Cancelar') }}</a>
-                        </div>
-                        <div class="m-2">
-                            <button type="button" class="btn-outline-danger delete-project" id="project_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $project->id }}">{{ __('Apagar') }}</button>
-                        </div>
-                        <div class="m-2">
-                            <a href="{{ route('project.duplicate', ['project' => $project->id])}}" class="btn-outline-info">{{ __('Duplicar') }}</a>
                         </div>
                     </div>
                 </div>
@@ -32,7 +27,7 @@
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="project_cod" value="{{ __('Cód. do Projeto') }}" required />
-                            <x-jet-input id="project_cod" class="form-control block mt-1 w-full" type="text" name="project_cod" maxlength="255" required autofocus autocomplete="project_cod" :value="$project->project_cod"/>
+                            <x-jet-input id="project_cod" class="form-control block mt-1 w-full" type="text" name="project_cod" maxlength="255" required autofocus autocomplete="project_cod" :value="null"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="customer_id" value="{{ __('Cliente') }}"/>

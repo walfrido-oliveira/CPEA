@@ -21,12 +21,12 @@
                 <input type="hidden" name="point_matrix[{{ $key }}][id]" id="point_matrix_{{ $key }}_id" value="{{ $projectPointMatrix->id }}">
             </td>
             <td>
+                <input type="hidden" name="point_matrix[{{ $key }}][point_identification_id]" id="point_matrix_{{ $key }}_point_identification_id" value="{{ $projectPointMatrix->pointIdentification ? $projectPointMatrix->pointIdentification->id : null }}">
+                    <input type="hidden" name="point_matrix[{{ $key }}][area]" id="point_matrix_{{ $key }}_area" value="{{ $projectPointMatrix->pointIdentification ? $projectPointMatrix->pointIdentification->area : null }}">
                 @if ($projectPointMatrix->pointIdentification)
                     <a class="text-green-600 underline" href="{{ route('registers.point-identification.show', ['point_identification' => $projectPointMatrix->pointIdentification->id]) }}" target="_blank" rel="noopener noreferrer">
                         {{ $projectPointMatrix->pointIdentification->area }}
                     </a>
-                    <input type="hidden" name="point_matrix[{{ $key }}][point_identification_id]" id="point_matrix_{{ $key }}_point_identification_id" value="{{ $projectPointMatrix->pointIdentification->id }}">
-                    <input type="hidden" name="point_matrix[{{ $key }}][area]" id="point_matrix_{{ $key }}_area" value="{{ $projectPointMatrix->pointIdentification->area }}">
                 @endif
             </td>
             <td>
@@ -37,27 +37,27 @@
                 @endif
             </td>
             <td>
+                <input type="hidden" name="point_matrix[{{ $key }}][analysis_matrix_id]" id="point_matrix_{{ $key }}_analysis_matrix_id" value="{{ $projectPointMatrix->analysisMatrix ? $projectPointMatrix->analysisMatrix->id : null }}">
                 @if ($projectPointMatrix->analysisMatrix)
                     {{ $projectPointMatrix->analysisMatrix->name }}
-                    <input type="hidden" name="point_matrix[{{ $key }}][analysis_matrix_id]" id="point_matrix_{{ $key }}_analysis_matrix_id" value="{{ $projectPointMatrix->analysisMatrix->id }}">
                 @endif
             </td>
             <td>
+                <input type="hidden" name="point_matrix[{{ $key }}][plan_action_level_id]" id="point_matrix_{{ $key }}_plan_action_level_id" value="{{ $projectPointMatrix->planActionLevel ? $projectPointMatrix->planActionLevel->id : null }}">
                 @if ($projectPointMatrix->planActionLevel)
                     {{ $projectPointMatrix->planActionLevel->name }}
-                    <input type="hidden" name="point_matrix[{{ $key }}][plan_action_level_id]" id="point_matrix_{{ $key }}_plan_action_level_id" value="{{ $projectPointMatrix->planActionLevel->id }}">
                 @endif
             </td>
             <td>
+                <input type="hidden" name="point_matrix[{{ $key }}][guiding_parameter_id]" id="point_matrix_{{ $key }}_guiding_parameter_id" value="{{ $projectPointMatrix->guidingParameter ? $projectPointMatrix->guidingParameter->id : null }}">
                 @if ($projectPointMatrix->guidingParameter)
                     {{ $projectPointMatrix->guidingParameter->environmental_guiding_parameter_id }}
-                    <input type="hidden" name="point_matrix[{{ $key }}][guiding_parameter_id]" id="point_matrix_{{ $key }}_guiding_parameter_id" value="{{ $projectPointMatrix->guidingParameter->id }}">
                 @endif
             </td>
             <td>
+                <input type="hidden" name="point_matrix[{{ $key }}][parameter_analysis_id]" id="point_matrix_{{ $key }}_parameter_analysis_id" value="{{ $projectPointMatrix->parameterAnalysis ? $projectPointMatrix->parameterAnalysis->id : null }}">
                 @if ($projectPointMatrix->parameterAnalysis)
                     {{ $projectPointMatrix->parameterAnalysis->analysis_parameter_name }}
-                    <input type="hidden" name="point_matrix[{{ $key }}][parameter_analysis_id]" id="point_matrix_{{ $key }}_parameter_analysis_id" value="{{ $projectPointMatrix->parameterAnalysis->id }}">
                 @endif
             </td>
             <td>
