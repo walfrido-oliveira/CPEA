@@ -16,7 +16,7 @@
     @forelse ($parameterAnalyses as $key => $parameterAnalysis)
         <tr>
             <td>
-                <input class="form-checkbox parameter-analysis-url" type="checkbox" name="parameter-analysis[{{ $parameterAnalysis->id }}]" value="{!! route('registers.parameter-analysis.destroy', ['parameter_analysis' => $parameterAnalysis->id]) !!}">
+                <input class="form-checkbox parameter-analysis-url" type="checkbox" name="parameter-analysis[{{ $parameterAnalysis->id }}]" value="{!! route('parameter-analysis.destroy', ['parameter_analysis' => $parameterAnalysis->id]) !!}">
             </td>
             <td>
               @if ($parameterAnalysis->AnalysisParameter)
