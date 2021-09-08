@@ -28,7 +28,7 @@ class GuidingParameterValueController extends Controller
         $parameterAnalysises = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
 
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
-        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'id';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'guiding_parameter_id';
 
         return view('guiding-parameter-value.index',
         compact('guidingParameterValues', 'ascending', 'orderBy', 'guidingParameters', 'analysisMatrices', 'parameterAnalysises'));

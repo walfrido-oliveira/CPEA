@@ -83,6 +83,8 @@
                 data.append('_token', token);
                 data.append('_method', method);
                 data.append('paginate_per_page', paginationPerPage);
+                data.append('ascending', ascending);
+                data.append('order_by', orderBY);
                 if(guiding_parameter_id) data.append('guiding_parameter_id', guiding_parameter_id);
                 if(analysis_matrix_id) data.append('analysis_matrix_id', analysis_matrix_id);
                 if(parameter_analysis_id) data.append('parameter_analysis_id', parameter_analysis_id);
@@ -90,10 +92,12 @@
                 ajax.send(data);
             }
 
-            var ascending = "asc";
+            var ascending = "{!! $ascending !!}";
+            var orderBY = "{!! $orderBy !!}";
+
             var orderByCallback = function (event) {
-                var orderBY = this.dataset.name;
-                var ascending = this.dataset.ascending;
+                orderBY = this.dataset.name;
+                ascending = this.dataset.ascending;
                 var that = this;
                 var ajax = new XMLHttpRequest();
                 var url = "{!! route('guiding-parameter-value.filter') !!}";
