@@ -17,7 +17,10 @@ class AnalysisParameterController extends Controller
     public function index(Request $request)
     {
         $analysisParameters =  AnalysisParameter::filter($request->all());
-         return view('analysis-parameter.index', compact('analysisParameters'));
+        $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'name';
+
+        return view('analysis-parameter.index', compact('analysisParameters', 'ascending', 'orderBy'));
     }
 
     /**
@@ -137,10 +140,18 @@ class AnalysisParameterController extends Controller
     {
         $analysisParameters = AnalysisParameter::filter($request->all());
         $analysisParameters = $analysisParameters->setPath('');
+        $orderBy = $request->get('order_by');
+        $ascending = $request->get('ascending');
+        $paginatePerPage = $request->get('paginate_per_page');
 
         return response()->json([
-            'filter_result' => view('analysis-parameter.filter-result', compact('analysisParameters'))->render(),
-            'pagination' => view('layouts.pagination', ['models' => $analysisParameters])->render(),
-        ]);
+            'filter_result' => view('analysis-parameter.filter-result', compact('analysisParameters', 'orderBy', 'ascending'))->render(),
+            'pagination' => view('layouts.pagination', [
+                'models' => $analysisParameters,
+                'order_by' => $orderBy,
+                'ascending' => $ascending,
+                'paginate_per_page' => $paginatePerPage,
+                ])->render(),
+            ]);
     }
 }
