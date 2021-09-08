@@ -16,8 +16,11 @@ class EnvironmentalAgencyController extends Controller
      */
     public function index(Request $request)
     {
-        $environmentalAgencies =  EnvironmentalAgency::filter($request->all());
-         return view('environmental-agency.index', compact('environmentalAgencies'));
+        $environmentalAgencys =  EnvironmentalAgency::filter($request->all());
+        $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'name';
+
+        return view('environmental-agency.index', compact('environmentalAgencys', 'ascending', 'orderBy'));
     }
 
     /**
@@ -139,12 +142,20 @@ class EnvironmentalAgencyController extends Controller
      */
     public function filter(Request $request)
     {
-        $environmentalAgency = EnvironmentalAgency::filter($request->all());
-        $environmentalAgency = $environmentalAgency->setPath('');
+        $environmentalAgencys = EnvironmentalAgency::filter($request->all());
+        $environmentalAgencys = $environmentalAgencys ->setPath('');
+        $orderBy = $request->get('order_by');
+        $ascending = $request->get('ascending');
+        $paginatePerPage = $request->get('paginate_per_page');
 
         return response()->json([
-            'filter_result' => view('environmental-agency.filter-result', compact('environmentalAgency'))->render(),
-            'pagination' => view('layouts.pagination', ['models' => $environmentalAgency])->render(),
-        ]);
+            'filter_result' => view('environmental-agency.filter-result', compact('environmentalAgencys', 'orderBy', 'ascending', 'paginatePerPage'))->render(),
+            'pagination' => view('layouts.pagination', [
+                'models' => $environmentalAgencys,
+                'order_by' => $orderBy,
+                'ascending' => $ascending,
+                'paginate_per_page' => $paginatePerPage,
+                ])->render(),
+            ]);
     }
 }

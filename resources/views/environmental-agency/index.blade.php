@@ -34,21 +34,12 @@
                     </div>
                 </div>
                 <div class="flex mt-4">
-                    <table class="table table-responsive md:table w-full">
-                        <thead>
-                            <tr class="thead-light">
-                                <th width="5%"></th>
-                                <th width="75%" data-name="name" data-ascending="desc">{{ __('Nome') }}</th>
-                                <th>{{ __('Ações') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody id="environmental-agency_table_content">
-                            @include('environmental-agency.filter-result', ['environmentalAgencies' => $environmentalAgencies])
-                        </tbody>
+                    <table id="environmental_agency_table" class="table table-responsive md:table w-full">
+                        @include('environmental-agency.filter-result', ['environmentalAgencys' => $environmentalAgencys, 'ascending' => $ascending, 'orderBy' => $orderBy])
                     </table>
                 </div>
                 <div class="flex mt-4 p-2" id="pagination">
-                        {{ $environmentalAgencies->appends(request()->input())->links() }}
+                    {{ $environmentalAgencys->appends(request()->input())->links() }}
                 </div>
             </div>
         </div>
@@ -76,7 +67,7 @@
                 ajax.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         var resp = JSON.parse(ajax.response);
-                        document.getElementById("environmental_agency_table_content").innerHTML = resp.filter_result;
+                        document.getElementById("environmental_agency_table").innerHTML = resp.filter_result;
                         document.getElementById("pagination").innerHTML = resp.pagination;
                         eventsFilterCallback();
                         eventsDeleteCallback();
@@ -91,6 +82,52 @@
                 data.append('_token', token);
                 data.append('_method', method);
                 data.append('paginate_per_page', paginationPerPage);
+                data.append('ascending', ascending);
+                data.append('order_by', orderBY);
+                if(id) data.append('id', id);
+                if(name) data.append('name', name);
+
+                ajax.send(data);
+            }
+
+            var ascending = "{!! $ascending !!}";
+            var orderBY = "{!! $orderBy !!}";
+
+            var orderByCallback = function (event) {
+                orderBY = this.dataset.name;
+                ascending = this.dataset.ascending;
+                var that = this;
+                var ajax = new XMLHttpRequest();
+                var url = "{!! route('registers.environmental-agency.filter') !!}";
+                var token = document.querySelector('meta[name="csrf-token"]').content;
+                var method = 'POST';
+                var paginationPerPage = document.getElementById("paginate_per_page").value;
+                var id = document.getElementById("id").value;
+                var name = document.getElementById("name").value;
+
+                ajax.open(method, url);
+
+                ajax.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var resp = JSON.parse(ajax.response);
+                        document.getElementById("environmental_agency_table").innerHTML = resp.filter_result;
+                        document.getElementById("pagination").innerHTML = resp.pagination;
+                        that.dataset.ascending = that.dataset.ascending == 'asc' ? that.dataset.ascending = 'desc' : that.dataset.ascending = 'asc';
+                        eventsFilterCallback();
+                        eventsDeleteCallback();
+                    } else if(this.readyState == 4 && this.status != 200) {
+                        toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
+                        eventsFilterCallback();
+                        eventsDeleteCallback();
+                    }
+                }
+
+                var data = new FormData();
+                data.append('_token', token);
+                data.append('_method', method);
+                data.append('paginate_per_page', paginationPerPage);
+                data.append('ascending', ascending);
+                data.append('order_by', orderBY);
                 if(id) data.append('id', id);
                 if(name) data.append('name', name);
 
@@ -101,6 +138,9 @@
                 document.querySelectorAll('.filter-field').forEach(item => {
                     item.addEventListener('change', filterCallback, false);
                     item.addEventListener('keyup', filterCallback, false);
+                });
+                document.querySelectorAll("#environmental_agency_table thead [data-name]").forEach(item => {
+                    item.addEventListener("click", orderByCallback, false);
                 });
             }
 

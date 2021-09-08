@@ -39,7 +39,7 @@
                     </table>
                 </div>
                 <div class="flex mt-4 p-2" id="pagination">
-                        {{ $environmentalAreas->appends(request()->input())->links() }}
+                    {{ $environmentalAreas->appends(request()->input())->links() }}
                 </div>
             </div>
         </div>
