@@ -7,7 +7,7 @@
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="campaigns.campaign_status_id" columnText="{!! __('Status<br>Campanha') !!}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="campaigns.updated_at" columnText="{!! __('Modificação<br>Campanha') !!}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="campaigns.created_at" columnText="{!! __('Cadastro<br>Campanha') !!}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="projecys.created_at" columnText="{!! __('Cadastro<br>Projeto') !!}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="projects.created_at" columnText="{!! __('Cadastro<br>Projeto') !!}"/>
         <th scope="col"
             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
             Ações
