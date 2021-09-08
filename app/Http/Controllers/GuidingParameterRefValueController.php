@@ -18,7 +18,7 @@ class GuidingParameterRefValueController extends Controller
     {
         $guidingParameterRefValues =  GuidingParameterRefValue::filter($request->all());
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
-        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'id';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'guiding_parameter_ref_value_id';
 
         return view('guiding-parameter-ref-value.index', compact('guidingParameterRefValues', 'ascending', 'orderBy'));
     }

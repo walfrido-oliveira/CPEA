@@ -73,15 +73,19 @@
                 data.append('_token', token);
                 data.append('_method', method);
                 data.append('paginate_per_page', paginationPerPage);
+                data.append('ascending', ascending);
+                data.append('order_by', orderBY);
                 if(guiding_parameter_ref_value_id) data.append('guiding_parameter_ref_value_id', guiding_parameter_ref_value_id);
 
                 ajax.send(data);
             }
 
-            var ascending = "asc";
+            var ascending = "{!! $ascending !!}";
+            var orderBY = "{!! $orderBy !!}";
+
             var orderByCallback = function (event) {
-                var orderBY = this.dataset.name;
-                var ascending = this.dataset.ascending;
+                orderBY = this.dataset.name;
+                ascending = this.dataset.ascending;
                 var that = this;
                 var ajax = new XMLHttpRequest();
                 var url = "{!! route('guiding-parameter-ref-value.filter') !!}";
