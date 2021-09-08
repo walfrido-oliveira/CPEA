@@ -1,6 +1,6 @@
 <thead>
     <tr class="thead-light">
-        <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('') }}"/>
+        <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('#') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="id" columnText="{{ __('#') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="area" columnText="{{ __('Área') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="identification" columnText="{{ __('Identificação do Ponto') }}"/>

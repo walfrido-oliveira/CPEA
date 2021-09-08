@@ -1,5 +1,6 @@
 <thead>
     <tr class="thead-light">
+        <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('#') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="analysis_parameter_id" columnText="{{ __('Tipo Param. Análise') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="cas_rn" columnText="{{ __('CAS RN') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="analysis_parameter_name" columnText="{{ __('Nome Param. Análise') }}"/>
@@ -14,6 +15,9 @@
 <tbody id="parameter_analyses_table_content">
     @forelse ($parameterAnalyses as $key => $parameterAnalysis)
         <tr>
+            <td>
+                <input class="form-checkbox parameter-analysis-url" type="checkbox" name="parameter-analysis[{{ $parameterAnalysis->id }}]" value="{!! route('registers.parameter-analysis.destroy', ['parameter_analysis' => $pointIdentification->id]) !!}">
+            </td>
             <td>
               @if ($parameterAnalysis->AnalysisParameter)
                 <a class="text-item-table" href="{{ route('parameter-analysis.show', ['parameter_analysis' => $parameterAnalysis->id]) }}">{{ $parameterAnalysis->AnalysisParameter->name }}</a>
