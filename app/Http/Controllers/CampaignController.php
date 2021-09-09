@@ -260,19 +260,19 @@ class CampaignController extends Controller
      * Filter
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param string $id
      * @return \Illuminate\Http\Response
      */
-    public function filter(Request $request, $id)
+    public function filter(Request $request)
     {
-        $projectCampaigns = Campaign::filter($request->all(), $id);
+        $projectCampaigns = Campaign::filter($request->all());
         $projectCampaigns = $projectCampaigns->setPath('');
         $orderBy = $request->get('order_by');
         $ascending = $request->get('ascending');
         $paginatePerPage = $request->get('paginate_per_page');
+        $actions = $request->has('actions') ? $request->get('actions') : 'show';
 
         return response()->json([
-            'filter_result' => view('project.campaign-result', compact('projectCampaigns', 'orderBy', 'ascending'))->render(),
+            'filter_result' => view('project.campaign-result', compact('projectCampaigns', 'orderBy', 'ascending', 'actions'))->render(),
             'pagination' => $this->setPagination($projectCampaigns, $orderBy, $ascending, $paginatePerPage),
         ]);
     }

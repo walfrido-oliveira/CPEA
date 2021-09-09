@@ -38,7 +38,7 @@
                         @include('customers.filter-result', ['customers' => $customers, 'ascending' => $ascending, 'orderBy' => $orderBy])
                     </table>
                 </div>
-                <div class="flex mt-4 p-2" id="pagination">
+                <div class="flex mt-4 p-2" id="pagination_customers">
                         {{ $customers->appends(request()->input())->links() }}
                 </div>
             </div>

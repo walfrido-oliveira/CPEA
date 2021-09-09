@@ -141,7 +141,7 @@
                     <div class="flex mt-4">
                         <table id="campaign_table" class="table table-responsive md:table w-full">
                             @include('project.campaign-result',
-                            ['projectCampaigns' => $projectCampaigns, 'orderBy' => 'name', 'ascending' => 'asc'])
+                            ['projectCampaigns' => $projectCampaigns, 'orderBy' => 'name', 'ascending' => 'asc', 'actions' => 'show'])
                         </table>
                     </div>
                     <div class="flex w-full mt-4 p-2" id="campaign_pagination">
@@ -166,8 +166,6 @@
     redirect-url="{{ route('project.index') }}"
     confirm_id="project_confirm_id"
     cancel_modal="project_cancel_modal"/>
-
-    @include('customers.filter-result-scripts', ['actions' => 'hidden'])
 
     <script>
         function eventsDeleteCallback() {

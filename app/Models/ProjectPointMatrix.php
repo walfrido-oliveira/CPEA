@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Project;
+use App\Models\Campaign;
 use App\Models\AnalysisMatrix;
 use App\Models\PlanActionLevel;
 use App\Models\GuidingParameter;

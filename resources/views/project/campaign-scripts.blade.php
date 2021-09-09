@@ -101,10 +101,10 @@
             ascendingCampaign = this.dataset.ascending ? this.dataset.ascending : ascendingCampaign;
             var that = this;
             var ajax = new XMLHttpRequest();
-            var url = "{!! route('project.campaign.filter', ['project_id' => $project->id]) !!}";
+            var url = "{!! route('project.campaign.filter') !!}";
             var token = document.querySelector('meta[name="csrf-token"]').content;
             var method = 'POST';
-            var paginationPerPage = document.getElementById("paginate_per_page_project-campaigns").value;
+            var paginationPerPage = document.getElementById("paginate_per_page_campaigns").value;
 
             ajax.open(method, url);
 
@@ -137,12 +137,13 @@
             data.append('paginate_per_page', paginationPerPage);
             data.append('ascending', ascendingCampaign);
             data.append('order_by', orderByCampaign);
+            data.append('project_id', {{ $project->id }});
 
             ajax.send(data);
         }
 
         function campaignEventsFilterCallback() {
-            document.querySelectorAll('.filter-field').forEach(item => {
+            document.querySelectorAll('#paginate_per_page_campaigns').forEach(item => {
                 item.addEventListener('change', campaignOrderByCallback, false);
                 item.addEventListener('keyup', campaignOrderByCallback, false);
             });
@@ -212,7 +213,7 @@
             });
 
             let campaignPointMatrix = document.getElementById("campaign_point_matrix").value;
-            let paginationPerPage = document.getElementById("paginate_per_page_project-campaigns").value;
+            let paginationPerPage = document.getElementById("paginate_per_page_campaigns").value;
 
             ajax.open(method, url);
 

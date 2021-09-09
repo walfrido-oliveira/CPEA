@@ -109,7 +109,7 @@ class Project extends Model
         {
             $projects->orderBy($orderBy, $ascending);
         }
-        //dd($projects->get());
+
         return $projects->paginate($perPage);
     }
 }

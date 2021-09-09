@@ -287,7 +287,7 @@
         }
 
         function eventsFilterCallback() {
-            document.querySelectorAll('.filter-field').forEach(item => {
+            document.querySelectorAll('#paginate_per_page_project-point-matrices').forEach(item => {
                 item.addEventListener('change', orderByCallback, false);
                 item.addEventListener('keyup', orderByCallback, false);
             });
@@ -351,7 +351,7 @@
             let plaActionLevel = document.getElementById("plan_action_level_id").value;
             let guidingParameter = document.getElementById("guiding_parameters_id").value;
             let analysisParameter = document.getElementById("analysis_parameter_id").value;
-            let paginationPerPage = document.getElementById("paginate_per_page_project-campaigns").value;
+            let paginationPerPage = document.getElementById("paginate_per_page_campaigns").value;
 
             cleanCampaigns();
 

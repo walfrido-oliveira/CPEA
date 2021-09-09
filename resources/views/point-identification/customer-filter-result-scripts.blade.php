@@ -2,7 +2,7 @@
     window.addEventListener("load", function() {
         var filterCallback = function (event) {
             var ajax = new XMLHttpRequest();
-            var url = "{!! route('customers.filter') !!}";
+            var url = "{!! route('registers.point-identification.filter-customers') !!}";
             var token = document.querySelector('meta[name="csrf-token"]').content;
             var method = 'POST';
             var paginationPerPage = document.getElementById("paginate_per_page") ? document.getElementById("paginate_per_page").value : document.getElementById("paginate_per_page_customers").value;
@@ -32,6 +32,7 @@
             data.append('actions', '{{ $actions }}');
             data.append('ascending', ascending);
             data.append('order_by', orderBY);
+            data.append('point_identification_id', '{{ $pointIdentification->id }}');
             if(id) data.append('id', id);
             if(name) data.append('name', name);
 
@@ -46,7 +47,7 @@
             ascending = this.dataset.ascending;
             var that = this;
             var ajax = new XMLHttpRequest();
-            var url = "{!! route('customers.filter') !!}";
+            var url = "{!! route('registers.point-identification.filter-customers') !!}";
             var token = document.querySelector('meta[name="csrf-token"]').content;
             var method = 'POST';
             var paginationPerPage = document.getElementById("paginate_per_page") ? document.getElementById("paginate_per_page").value : document.getElementById("paginate_per_page_customers").value;
@@ -77,6 +78,7 @@
             data.append('ascending', ascending);
             data.append('order_by', orderBY);
             data.append('actions', '{{ $actions }}');
+            data.append('point_identification_id', '{{ $pointIdentification->id }}');
             if(id) data.append('id', id);
             if(name) data.append('name', name);
             ajax.send(data);

@@ -82,7 +82,7 @@ class Customer extends Model
 
         $customers->orderBy($orderBy, $ascending);
 
-        return $customers->paginate($perPage);
+        return $customers->paginate($perPage, ['*'], 'customers')->appends(request()->input());
     }
 
 }

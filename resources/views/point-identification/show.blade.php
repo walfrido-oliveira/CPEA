@@ -18,141 +18,147 @@
                 </div>
             </div>
 
-            <div class="py-2 my-2 bg-white rounded-lg">
-                <div class="mx-4 px-3 py-2 mt-4">
-                    <div class="flex flex-wrap">
-                        <div class="w-full md:w-1/4">
-                            <p class="font-bold">{{ __('ID') }}</p>
-                        </div>
+            <div class="bg-white rounded-lg py-2 my-2">
+                <div class="mx-4 px-3 py-2">
+                    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        <div class="">
+                            <div class="flex">
+                                <div class="w-full">
+                                    <p class="font-bold">{{ __('ID') }}</p>
+                                </div>
 
-                        <div class="w-full md:w-1/2">
-                            <p class=   "text-gray-500 font-bold">{{ $pointIdentification->id }}</p>
-                        </div>
-                    </div>
+                                <div class="w-full">
+                                    <p class="text-gray-500 font-bold">{{ $pointIdentification->id }}</p>
+                                </div>
+                            </div>
 
-                    <div class="flex flex-wrap">
-                        <div class="w-full md:w-1/4">
-                            <p class="font-bold">{{ __('Área') }}</p>
-                        </div>
-                        <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $pointIdentification->area }}</p>
-                        </div>
-                    </div>
+                            <div class="flex">
+                                <div class="w-full">
+                                    <p class="font-bold">{{ __('Área') }}</p>
+                                </div>
+                                <div class="w-full">
+                                    <p class="text-gray-500 font-bold">{{ $pointIdentification->area }}</p>
+                                </div>
+                            </div>
 
-                    <div class="flex flex-wrap">
-                        <div class="w-full md:w-1/4">
-                            <p class="font-bold">{{ __('Identificação do Ponto') }}</p>
-                        </div>
-                        <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $pointIdentification->identification }}</p>
-                        </div>
-                    </div>
+                            <div class="flex">
+                                <div class="w-full">
+                                    <p class="font-bold">{{ __('Identificação do Ponto') }}</p>
+                                </div>
+                                <div class="w-full">
+                                    <p class="text-gray-500 font-bold">{{ $pointIdentification->identification }}</p>
+                                </div>
+                            </div>
 
-                    <div class="flex flex-wrap">
-                        <div class="w-full md:w-1/4">
-                            <p class="font-bold">{{ __('Coordenada UTM ME') }}</p>
-                        </div>
-                        <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->utm_me_coordinate, 5, ",", ".")   }}</p>
-                        </div>
-                    </div>
+                            <div class="flex">
+                                <div class="w-full">
+                                    <p class="font-bold">{{ __('Coordenada UTM ME') }}</p>
+                                </div>
+                                <div class="w-full">
+                                    <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->utm_me_coordinate, 5, ",", ".")   }}</p>
+                                </div>
+                            </div>
 
-                    <div class="flex flex-wrap">
-                        <div class="w-full md:w-1/4">
-                            <p class="font-bold">{{ __('Coordenada UTM MM') }}</p>
+                            <div class="flex">
+                                <div class="w-full">
+                                    <p class="font-bold">{{ __('Coordenada UTM MM') }}</p>
+                                </div>
+                                <div class="w-full">
+                                    <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->utm_mm_coordinate, 5, ",", ".") }}</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->utm_mm_coordinate, 5, ",", ".") }}</p>
-                        </div>
-                    </div>
+                        <div class="">
+                            <div class="flex">
+                                <div class="w-full">
+                                    <p class="font-bold">{{ __('Profundidade Poço') }}</p>
+                                </div>
+                                <div class="w-full">
+                                    <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->pool_depth, 5, ",", ".") }}</p>
+                                </div>
+                            </div>
 
-                    <div class="flex flex-wrap">
-                        <div class="w-full md:w-1/4">
-                            <p class="font-bold">{{ __('Profundidade Poço') }}</p>
-                        </div>
-                        <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->pool_depth, 5, ",", ".") }}</p>
-                        </div>
-                    </div>
+                            <div class="flex">
+                                <div class="w-full">
+                                    <p class="font-bold">{{ __('Sistema Geodesico') }}</p>
+                                </div>
+                                <div class="w-full">
+                                    <p class="text-gray-500 font-bold">{{ $pointIdentification->geodeticSystem->name }}</p>
+                                </div>
+                            </div>
 
-                    <div class="flex flex-wrap">
-                        <div class="w-full md:w-1/4">
-                            <p class="font-bold">{{ __('Sistema Geodesico') }}</p>
-                        </div>
-                        <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $pointIdentification->geodeticSystem->name }}</p>
-                        </div>
-                    </div>
+                            <div class="flex">
+                                <div class="w-full">
+                                    <p class="font-bold">{{ __('Diâmetro Poço') }}</p>
+                                </div>
+                                <div class="w-full">
+                                    <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->pool_diameter, 5, ",", ".") }}</p>
+                                </div>
+                            </div>
 
-                    <div class="flex flex-wrap">
-                        <div class="w-full md:w-1/4">
-                            <p class="font-bold">{{ __('Diâmetro Poço') }}</p>
-                        </div>
-                        <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->pool_diameter, 5, ",", ".") }}</p>
-                        </div>
-                    </div>
+                            <div class="flex">
+                                <div class="w-full">
+                                    <p class="font-bold">{{ __('Profundidade Nível Água') }}</p>
+                                </div>
+                                <div class="w-full">
+                                    <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->water_depth, 5, ",", ".") }}</p>
+                                </div>
+                            </div>
 
-                    <div class="flex flex-wrap">
-                        <div class="w-full md:w-1/4">
-                            <p class="font-bold">{{ __('Profundidade Nível Água') }}</p>
+                            <div class="flex">
+                                <div class="w-full">
+                                    <p class="font-bold">{{ __('Profundidade Col. Sedmentar') }}</p>
+                                </div>
+                                <div class="w-full">
+                                    <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->sedimentary_collection_depth, 5, ",", ".") }}</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->water_depth, 5, ",", ".") }}</p>
-                        </div>
-                    </div>
+                        <div class="">
+                            <div class="flex">
+                                <div class="w-full">
+                                    <p class="font-bold">{{ __('Volume Poço') }}</p>
+                                </div>
+                                <div class="w-full">
+                                    <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->pool_volume, 5, ",", ".") }}</p>
+                                </div>
+                            </div>
 
-                    <div class="flex flex-wrap">
-                        <div class="w-full md:w-1/4">
-                            <p class="font-bold">{{ __('Profundidade Col. Sedmentar') }}</p>
-                        </div>
-                        <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->sedimentary_collection_depth, 5, ",", ".") }}</p>
-                        </div>
-                    </div>
+                            <div class="flex">
+                                <div class="w-full">
+                                    <p class="font-bold">{{ __('Profundidade Col Coleta') }}</p>
+                                </div>
+                                <div class="w-full">
+                                    <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->collection_depth, 5, ",", ".") }}</p>
+                                </div>
+                            </div>
 
-                    <div class="flex flex-wrap">
-                        <div class="w-full md:w-1/4">
-                            <p class="font-bold">{{ __('Volume Poço') }}</p>
-                        </div>
-                        <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->pool_volume, 5, ",", ".") }}</p>
-                        </div>
-                    </div>
+                            <div class="flex">
+                                <div class="w-full">
+                                    <p class="font-bold">{{ __('Profundidade Col Água') }}</p>
+                                </div>
+                                <div class="w-full">
+                                    <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->water_collection_depth, 5, ",", ".") }}</p>
+                                </div>
+                            </div>
 
-                    <div class="flex flex-wrap">
-                        <div class="w-full md:w-1/4">
-                            <p class="font-bold">{{ __('Profundidade Col Coleta') }}</p>
-                        </div>
-                        <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->collection_depth, 5, ",", ".") }}</p>
-                        </div>
-                    </div>
+                            <div class="flex">
+                                <div class="w-full">
+                                    <p class="font-bold">{{ __('Data de Cadastro') }}</p>
+                                </div>
+                                <div class="w-full">
+                                    <p class="text-gray-500 font-bold">{{ $pointIdentification->created_at->format('d/m/Y h:i:s')}}</p>
+                                </div>
+                            </div>
 
-                    <div class="flex flex-wrap">
-                        <div class="w-full md:w-1/4">
-                            <p class="font-bold">{{ __('Profundidade Col Água') }}</p>
-                        </div>
-                        <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ number_format($pointIdentification->water_collection_depth, 5, ",", ".") }}</p>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-wrap">
-                        <div class="w-full md:w-1/4">
-                            <p class="font-bold">{{ __('Data de Cadastro') }}</p>
-                        </div>
-                        <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $pointIdentification->created_at->format('d/m/Y h:i:s')}}</p>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-wrap">
-                        <div class="w-full md:w-1/4">
-                            <p class="font-bold">{{ __('Última Edição') }}</p>
-                        </div>
-                        <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $pointIdentification->updated_at->format('d/m/Y h:i:s')}}</p>
+                            <div class="flex">
+                                <div class="w-full">
+                                    <p class="font-bold">{{ __('Última Edição') }}</p>
+                                </div>
+                                <div class="w-full">
+                                    <p class="text-gray-500 font-bold">{{ $pointIdentification->updated_at->format('d/m/Y h:i:s')}}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -174,7 +180,7 @@
                         <!--Search-->
                         <div :class="{'block': open, 'hidden': !open}" class="w-full block" id="search-content">
                             <div class="container mx-auto">
-                                <input id="name" name="name" type="search" placeholder="Buscar..." autofocus="autofocus" class="filter-field w-full form-control border-t-0 border-r-0 border-l-0 focus:outline-none focus:ring-0 focus:border-black pt-0 pb-0">
+                                <input id="name_customer" name="name" type="search" placeholder="Buscar..." autofocus="autofocus" class="filter-field w-full form-control border-t-0 border-r-0 border-l-0 focus:outline-none focus:ring-0 focus:border-black pt-0 pb-0">
                             </div>
                         </div>
                     </div>
@@ -182,12 +188,44 @@
 
                 <div class="flex w-full">
                     <table id="customer_table" class="table table-responsive md:table w-full">
-                        @include('customers.filter-result', ['customers' => $customers, 'ascending' => null, 'orderBy' => null, 'actions' => 'hidden'])
+                        @include('customers.filter-result', ['customers' => $customers, 'ascending' => 'asc', 'orderBy' => 'id', 'actions' => 'hidden'])
                     </table>
                 </div>
-
-                <div class="flex w-full mt-4 p-2" id="pagination">
+                <div class="flex w-full mt-4 p-2" id="pagination_customers">
                     {{ $customers->links() }}
+                </div>
+            </div>
+
+            <div class="py-2 my-2 bg-white rounded-lg flex md:flex-row flex-col flex-wrap">
+                <div class="flex md:flex-row flex-col w-full">
+                    <div class="mx-4 px-3 py-2 w-full flex items-center">
+                        <h1>{{ __('Projetos/Campanhas') }}</h1>
+                    </div>
+                    <div class="mx-4 px-3 py-2 w-full flex justify-end" x-data="{ open: false }">
+                        <div class="pr-4 flex">
+                            <button @click="open = !open" id="nav-toggle" class="w-full block btn-transition-secondary">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                              </svg>
+                            </button>
+                        </div>
+                        <!--Search-->
+                        <div :class="{'block': open, 'hidden': !open}" class="w-full block" id="search-content">
+                            <div class="container mx-auto">
+                                <input id="name_campaign" name="name" type="search" placeholder="Buscar..." autofocus="autofocus" class="w-full form-control border-t-0 border-r-0 border-l-0 focus:outline-none focus:ring-0 focus:border-black pt-0 pb-0">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex w-full">
+                    <table id="campaign_table" class="table table-responsive md:table w-full">
+                        @include('project.campaign-result',
+                        ['projectCampaigns' => $projectCampaigns, 'orderBy' => 'name', 'ascending' => 'asc', 'actions' => 'hidden'])
+                    </table>
+                </div>
+                <div class="flex w-full mt-4 p-2" id="pagination_campaigns">
+                    {{ $projectCampaigns->links() }}
                 </div>
             </div>
         </div>
@@ -200,7 +238,8 @@
              url="{{ route('registers.point-identification.destroy', ['point_identification' => $pointIdentification->id]) }}"
              redirect-url="{{ route('registers.point-identification.index') }}"/>
 
-    @include('customers.filter-result-scripts', ['actions' => 'hidden'])
+    @include('point-identification.customer-filter-result-scripts', ['actions' => 'hidden', 'ascending' => 'asc', 'orderBy' => 'id'])
+    @include('point-identification.campaign-filter-result-scripts', ['actions' => 'hidden', 'ascending' => 'asc', 'orderBy' => 'name'])
 
     <script>
         function eventsDeleteCallback() {

@@ -168,7 +168,7 @@ class ProjectController extends Controller
         $pointMatrices = $project->getPointMatricesCustomFields();
 
         $projectPointMatrices = $project->projectPointMatrices()->paginate(10, ['*'], 'project-point-matrices')->appends(request()->input());
-        $projectCampaigns = $project->campaigns()->paginate(10, ['*'], 'project-campaigns')->appends(request()->input());
+        $projectCampaigns = $project->campaigns()->paginate(10, ['*'], 'campaigns')->appends(request()->input());
 
         return view('project.edit', compact('project','customers', 'areas', 'identifications', 'campaignStatuses', 'projectCampaigns',
         'matrizeces', 'planActionLevels', 'guidingParameters', 'parameterAnalyses', 'projectPointMatrices', 'geodeticSystems',

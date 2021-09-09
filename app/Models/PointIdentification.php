@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Models\Campaign;
 use App\Models\Customer;
+use App\Models\ProjectPointMatrix;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -40,6 +42,24 @@ class PointIdentification extends Model
     public function customers()
     {
         return $this->belongsToMany(Customer::class);
+    }
+
+    /**
+     * Get ProjectPointMatrix array
+     *
+     * @return array
+     */
+    public function projectPointMatrices()
+    {
+        return $this->HasMany(ProjectPointMatrix::class);
+    }
+
+    /**
+     * The Campaign .
+     */
+    public function campaigns()
+    {
+        return $this->hasManyThrough(Campaign::class, ProjectPointMatrix::class);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\GeodeticSystem;
@@ -129,9 +130,10 @@ class PointIdentificationController extends Controller
     public function show($id)
     {
         $pointIdentification = PointIdentification::findOrFail($id);
-        $customers = $pointIdentification->customers()->paginate(10, ['*'], 'customers')->appends(request()->input());
+        $customers = $pointIdentification->customers()->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'customers')->appends(request()->input());
+        $projectCampaigns = $pointIdentification->campaigns()->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'campaigns')->appends(request()->input());
 
-        return view('point-identification.show', compact('pointIdentification', 'customers'));
+        return view('point-identification.show', compact('pointIdentification', 'customers', 'projectCampaigns'));
     }
 
     /**
@@ -227,6 +229,64 @@ class PointIdentificationController extends Controller
     }
 
     /**
+     * Filter
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filterCustomer(Request $request)
+    {
+        $orderBy = $request->get('order_by');
+        $ascending = $request->get('ascending');
+        $paginatePerPage = $request->get('paginate_per_page');
+
+        $customers = PointIdentification::findOrFail($request->get('point_identification_id'))->customers();
+        if($request->has('name')) $customers->where('name', $request->get('name'));
+
+        $customers = $customers->orderBy($orderBy, $ascending);
+
+        $customers = $customers->paginate($paginatePerPage, ['*'], 'customers');
+
+        $actions = $request->has('actions') ? $request->get('actions') : 'show';
+
+        return response()->json([
+            'filter_result' => view('customers.filter-result', compact('customers', 'orderBy', 'ascending', 'actions'))->render(),
+            'pagination' => $this->setPagination($customers, $orderBy, $ascending, $paginatePerPage),
+        ]);
+    }
+
+    /**
+     * Filter
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filterCampaign(Request $request)
+    {
+        $orderBy = $request->get('order_by');
+        $ascending = $request->get('ascending');
+        $paginatePerPage = $request->get('paginate_per_page');
+
+        $projectCampaigns = PointIdentification::findOrFail($request->get('point_identification_id'))->campaigns();
+        if($request->has('name')) $projectCampaigns->where('name', $request->get('name'));
+
+        $projectCampaigns = $projectCampaigns->with('project')
+        ->leftJoin('projects', 'projects.id', '=', 'campaigns.project_id')
+        ->select('campaigns.*')
+        ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+        ->orderBy($orderBy, $ascending);
+
+        $projectCampaigns = $projectCampaigns->paginate($paginatePerPage, ['*'], 'campaigns');
+
+        $actions = $request->has('actions') ? $request->get('actions') : 'show';
+
+        return response()->json([
+            'filter_result' => view('project.campaign-result', compact('projectCampaigns', 'orderBy', 'ascending', 'actions'))->render(),
+            'pagination' => $this->setPagination($projectCampaigns, $orderBy, $ascending, $paginatePerPage),
+        ]);
+    }
+
+    /**
      * Filter by area
      * @param String $area
      * @return \Illuminate\Http\Response
@@ -238,5 +298,23 @@ class PointIdentificationController extends Controller
         return response()->json([
             'point_identifications' => $pointIdentifications,
         ]);
+    }
+
+     /**
+     * @param Collection $projectCampaigns
+     * @param string $orderBy
+     * @param string $ascending
+     * @param string $paginatePerPage
+     *
+     * @return view
+     */
+    private function setPagination($projectCampaigns, $orderBy, $ascending, $paginatePerPage)
+    {
+        return view('layouts.pagination', [
+            'models' => $projectCampaigns,
+            'order_by' => $orderBy,
+            'ascending' => $ascending,
+            'paginate_per_page' => $paginatePerPage,
+            ])->render();
     }
 }

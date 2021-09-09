@@ -88,7 +88,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         ]);
 
         Route::prefix('campanha')->name('campaign.')->group(function(){
-            Route::post('/filter/{project_id}', [CampaignController::class, 'filter'])->name('filter');
+            Route::post('/filter', [CampaignController::class, 'filter'])->name('filter');
             Route::post('/update-ajax/{campaign}', [CampaignController::class, 'updateAjax'])->name('update-ajax');
             Route::post('/edit-ajax/{campaign}', [CampaignController::class, 'editAjax'])->name('edit-ajax');
             Route::post('/fields/{campaign}', [CampaignController::class, 'getFields'])->name('get-fields');
@@ -191,6 +191,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         ]);
         Route::prefix('ponto')->name('point-identification.')->group(function(){
             Route::post('/filter', [PointIdentificationController::class, 'filter'])->name('filter');
+            Route::post('/filter-campaigns', [PointIdentificationController::class, 'filterCampaign'])->name('filter-campaigns');
+            Route::post('/filter-customers', [PointIdentificationController::class, 'filterCustomer'])->name('filter-customers');
             Route::post('/filter/{area}', [PointIdentificationController::class, 'filterByArea'])->name('filter-by-area');
             Route::post('/simple-create', [PointIdentificationController::class, 'simpleCreate'])->name('simple-create');
         });
