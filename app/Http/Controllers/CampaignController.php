@@ -213,7 +213,7 @@ class CampaignController extends Controller
 
                 case 'Sedimento':
                     return response()->json([
-                        'fields' => view('project.campaign-fields.campaign-fields-2', compact('environmentalConditions', 'environmentalRegimes'))->render()
+                        'fields' => view('project.campaign-fields.campaign-fields-2', compact('sampleDepths', 'environmentalConditions', 'environmentalRegimes'))->render()
                     ]);
                     break;
 
