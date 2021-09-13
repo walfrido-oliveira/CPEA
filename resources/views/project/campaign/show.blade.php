@@ -46,15 +46,14 @@
                         </div>
                     </div>
                 </div>
-                {{$campaign->projectPointMatrix}}
                 <div class="flex mt-4">
                     <table id="point_matrix_table" class="table table-responsive md:table w-full">
                         @include('project.campaign.point-matrix-result',
-                        ['projectPointMatrices' => $campaign->projectPointMatrix, 'orderBy' => 'area', 'ascending' => 'asc'])
+                        ['projectPointMatrices' => $projectPointMatrices, 'orderBy' => 'area', 'ascending' => 'asc'])
                     </table>
                 </div>
                 <div class="flex mt-4 p-2" id="point_matrix_pagination">
-                        {{ $campaign->projectPointMatrix()->paginate(10, ['*'], 'point_matrix')->appends(request()->input())->links() }}
+                        {{ $projectPointMatrices->appends(request()->input())->links() }}
                 </div>
             </div>
         </div>

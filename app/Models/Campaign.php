@@ -42,9 +42,9 @@ class Campaign extends Model
     /**
      * The ProjectPointMatrix.
      */
-    public function projectPointMatrix()
+    public function projectPointMatrices()
     {
-        return $this->belongsTo(ProjectPointMatrix::class);
+        return $this->hasMany(ProjectPointMatrix::class);
     }
 
     /**

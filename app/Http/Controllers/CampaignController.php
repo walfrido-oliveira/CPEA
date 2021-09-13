@@ -34,9 +34,12 @@ class CampaignController extends Controller
         $guidingParameters = GuidingParameter::pluck('environmental_guiding_parameter_id', 'id');
         $parameterAnalyses = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
         $geodeticSystems = GeodeticSystem::pluck("name", "id");
+        $projectPointMatrices = $campaign->projectPointMatrices()
+        ->orderBy("campaign_id", "asc")
+        ->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'point_matrix');
 
         return view('project.campaign.show', compact('campaign', 'areas', 'identifications', 'matrizeces', 'planActionLevels',
-                                                     'guidingParameters', 'parameterAnalyses', 'geodeticSystems'));
+                                                     'guidingParameters', 'parameterAnalyses', 'geodeticSystems', 'projectPointMatrices'));
     }
 
     /**
