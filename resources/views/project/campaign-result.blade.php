@@ -22,11 +22,13 @@
                     <input type="hidden" name="campaign[{{ $key }}][id]" id="campaign_{{ $key }}_id" value="{{ $projectCampaign->id }}">
                 </td>
             @endif
-            <td>
-                @if($actions == 'hidden')
+
+            @if($actions == 'hidden')
+                <td>
                     {{ $projectCampaign->project->project_cod }}
-                @endif
-            </td>
+                </td>
+            @endif
+
             <td>
                 {{ $projectCampaign->name }}
                 @if($actions == 'show')
