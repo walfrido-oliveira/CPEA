@@ -31,7 +31,9 @@
                     @endif
                 </td>
                 <td>
-                    <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">{{ $campaing->name }}</a>
+                    <a class="text-green-600 underline text-item-table" href="{{ route('project.campaign.show', ['campaign' => $campaing->id]) }}">
+                        {{ $campaing->name }}
+                    </a>
                 </td>
                 <td>
                     <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">{{ $campaing->campaignStatus->name }}</a>

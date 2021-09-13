@@ -80,6 +80,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::post('/update-ajax/{point_matrix}', [ProjectPointMatrixController::class, 'updateAjax'])->name('update-ajax');
             Route::post('/edit-ajax/{point_matrix}', [ProjectPointMatrixController::class, 'editAjax'])->name('edit-ajax');
             Route::post('/list/{project}', [ProjectPointMatrixController::class, 'getPointMatricesByProject'])->name('get-point-matrices-by-project');
+            Route::post('/fields/{campaign}', [ProjectPointMatrixController::class, 'getFields'])->name('get-fields');
         });
 
         Route::resource('campanha', CampaignController::class, [
@@ -91,7 +92,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::post('/filter', [CampaignController::class, 'filter'])->name('filter');
             Route::post('/update-ajax/{campaign}', [CampaignController::class, 'updateAjax'])->name('update-ajax');
             Route::post('/edit-ajax/{campaign}', [CampaignController::class, 'editAjax'])->name('edit-ajax');
-            Route::post('/fields/{campaign}', [CampaignController::class, 'getFields'])->name('get-fields');
+            Route::get('/duplicate/{campaign}', [CampaignController::class, 'duplicate'])->name('duplicate');
+            Route::post('/list/{project}', [CampaignController::class, 'getCampaignByProject'])->name('get-campaign-by-project');
         });
     });
 

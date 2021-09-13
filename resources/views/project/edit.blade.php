@@ -44,6 +44,45 @@
                 <div class="py-2 my-2 bg-white rounded-lg">
                     <div class="flex md:flex-row flex-col mx-4 px-3 py-2">
                         <div class="w-full flex items-center">
+                            <h2 class="">{{ __("Campanha") }}</h2>
+                        </div>
+                        <div class="w-full flex justify-end">
+                            <div class="m-2 ">
+                                <button type="button" class="btn-outline-info" id="campaign_table_add" data-type="save" data-id="0">{{ __('Cadastrar') }}</button>
+                            </div>
+                            <div class="m-2 ">
+                                <button type="button" id="delete_campaign" class="btn-outline-danger delete-campaign" data-type="multiple">{{ __('Apagar') }}</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap mx-4 px-3 py-2">
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="campaign_name" value="{{ __('Nome da Campanha') }}" required />
+                            <x-jet-input id="campaign_name" class="form-control block mt-1 w-full" type="text" name="campaign_name" maxlength="255" autofocus autocomplete="campaign_name"/>
+                        </div>
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="campaign_status" value="{{ __('Status') }}" required/>
+                            <x-custom-select :options="$campaignStatuses" name="campaign_status" id="campaign_status" value="" class="mt-1" no-filter="no-filter"/>
+                        </div>
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="date_collection" value="{{ __('DT/HR da Coleta') }}" required/>
+                            <x-jet-input id="date_collection" class="form-control block mt-1 w-full" type="datetime-local" name="date_collection" maxlength="255" autofocus autocomplete="date_collection"/>
+                        </div>
+                    </div>
+                    <div class="flex mt-4">
+                        <table id="campaign_table" class="table table-responsive md:table w-full">
+                            @include('project.campaign-result',
+                            ['projectCampaigns' => $projectCampaigns, 'orderBy' => 'name', 'ascending' => 'asc', 'actions' => 'show'])
+                        </table>
+                    </div>
+                    <div class="flex w-full mt-4 p-2" id="campaign_pagination">
+                        {{ $projectCampaigns->links() }}
+                    </div>
+                </div>
+
+                <div class="py-2 my-2 bg-white rounded-lg">
+                    <div class="flex md:flex-row flex-col mx-4 px-3 py-2">
+                        <div class="w-full flex items-center">
                             <h2 class="">{{ __("Identificação do Ponto/Matriz") }}</h2>
                         </div>
                         <div class="w-full flex justify-end">
@@ -60,6 +99,12 @@
                             <div class="m-2 ">
                                 <button type="button" id="delete_point_matrix" class="btn-outline-danger delete-point-matrix" data-type="multiple">{{ __('Apagar') }}</button>
                             </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap mx-4 px-3 py-2">
+                        <div class="w-full px-3 mb-6 md:mb-0">
+                            <x-jet-label for="campaign_id" value="{{ __('Campanha') }}" required/>
+                            <x-custom-select :options="$campaigns" name="campaign_id" id="campaign_id" value="" class="mt-1" no-filter="no-filter"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2">
@@ -90,62 +135,17 @@
                             <x-custom-select :options="$parameterAnalyses" name="analysis_parameter_id" id="analysis_parameter_id" value="" class="mt-1" no-filter="no-filter"/>
                         </div>
                     </div>
-                    <div class="flex mt-4">
-                        <table id="point_matrix_table" class="table table-responsive md:table w-full">
-                            @include('project.point-matrix-result',
-                            ['projectPointMatrices' => $projectPointMatrices, 'orderBy' => 'area', 'ascending' => 'asc'])
-                        </table>
-                    </div>
-                    <div class="flex w-full mt-4 p-2" id="point_matrix_pagination">
-                        {{ $projectPointMatrices->links() }}
-                    </div>
-                </div>
-
-                <div class="py-2 my-2 bg-white rounded-lg">
-                    <div class="flex md:flex-row flex-col mx-4 px-3 py-2">
-                        <div class="w-full flex items-center">
-                            <h2 class="">{{ __("Campanha | Amostra") }}</h2>
-                        </div>
-                        <div class="w-full flex justify-end">
-                            <div class="m-2 ">
-                                <button type="button" class="btn-outline-info" id="campaign_table_add" data-type="save" data-id="0">{{ __('Cadastrar') }}</button>
-                            </div>
-                            <div class="m-2 ">
-                                <button type="button" id="delete_campaign" class="btn-outline-danger delete-campaign" data-type="multiple">{{ __('Apagar') }}</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex flex-wrap mx-4 px-3 py-2">
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="campaign_name" value="{{ __('Nome da Campanha') }}" required />
-                            <x-jet-input id="campaign_name" class="form-control block mt-1 w-full" type="text" name="campaign_name" maxlength="255" autofocus autocomplete="campaign_name"/>
-                        </div>
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="campaign_status" value="{{ __('Status') }}" required/>
-                            <x-custom-select :options="$campaignStatuses" name="campaign_status" id="campaign_status" value="" class="mt-1" no-filter="no-filter"/>
-                        </div>
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="date_collection" value="{{ __('DT/HR da Coleta') }}" required/>
-                            <x-jet-input id="date_collection" class="form-control block mt-1 w-full" type="datetime-local" name="date_collection" maxlength="255" autofocus autocomplete="date_collection"/>
-                        </div>
-                    </div>
-                    <div class="flex flex-wrap mx-4 px-3 py-2">
-                        <div class="w-full px-3 mb-6 md:mb-0">
-                            <x-jet-label for="campaign_point_matrix" value="{{ __('Área/Identificação Ponto/Matriz') }}" required/>
-                            <x-custom-select :options="$pointMatrices" name="campaign_point_matrix" id="campaign_point_matrix" value="" class="mt-1" no-filter="no-filter"/>
-                        </div>
-                    </div>
                     <div id="campaign_point_matrix_fields">
 
                     </div>
                     <div class="flex mt-4">
-                        <table id="campaign_table" class="table table-responsive md:table w-full">
-                            @include('project.campaign-result',
-                            ['projectCampaigns' => $projectCampaigns, 'orderBy' => 'name', 'ascending' => 'asc', 'actions' => 'show'])
+                        <table id="point_matrix_table" class="table table-responsive md:table w-full">
+                            @include('project.point-matrix-result',
+                            ['projectPointMatrices' => $projectPointMatrices, 'orderBy' => 'campaign_id', 'ascending' => 'asc'])
                         </table>
                     </div>
-                    <div class="flex w-full mt-4 p-2" id="campaign_pagination">
-                        {{ $projectCampaigns->links() }}
+                    <div class="flex w-full mt-4 p-2" id="point_matrix_pagination">
+                        {{ $projectPointMatrices->links() }}
                     </div>
                 </div>
             </form>

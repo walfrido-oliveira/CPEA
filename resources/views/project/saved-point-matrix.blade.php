@@ -4,6 +4,11 @@
         <input type="hidden" name="point_matrix[{{ $key }}][id]" id="point_matrix_{{ $key }}_id" value="{{ $projectPointMatrix->id }}">
     </td>
     <td>
+        <a class="text-green-600 underline" href="{{ route('project.campaign.show', ['campaign' => $projectPointMatrix->campaign->id]) }}" target="_blank" rel="noopener noreferrer">
+            {{ $projectPointMatrix->campaign->name }}
+        </a>
+    </td>
+    <td>
         @if ($projectPointMatrix->pointIdentification)
             <a class="text-green-600 underline" href="{{ route('registers.point-identification.show', ['point_identification' => $projectPointMatrix->pointIdentification->id]) }}" target="_blank" rel="noopener noreferrer">
                 {{ $projectPointMatrix->pointIdentification->area }}

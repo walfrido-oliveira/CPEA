@@ -20,6 +20,8 @@
                 <td>
                     <input class="form-checkbox campaign-url" type="checkbox" name="campaign[{{ $projectCampaign->id }}]" value="{!! route('project.campaign.destroy', ['campaign' => $projectCampaign->id]) !!}" data-id="campaign_row_{{ $key }}">
                     <input type="hidden" name="campaign[{{ $key }}][id]" id="campaign_{{ $key }}_id" value="{{ $projectCampaign->id }}">
+                    <input type="hidden" name="campaign[{{ $key }}][campaign_name]" id="campaign_{{ $key }}_campaign_name" value="{{ $projectCampaign->name }}">
+                    <input type="hidden" name="campaign[{{ $key }}][campaign_status]" id="campaign_{{ $key }}_campaign_status" value="{{ $projectCampaign->campaignStatus->id }}">
                 </td>
             @endif
 
@@ -30,10 +32,9 @@
             @endif
 
             <td>
-                {{ $projectCampaign->name }}
-                @if($actions == 'show')
-                    @include('project.campaign-row-fields')
-                @endif
+                <a class="text-green-600 underline text-item-table" href="{{ route('project.campaign.show', ['campaign' => $projectCampaign->id]) }}">
+                    {{ $projectCampaign->name }}
+                </a>
             </td>
             <td style="width: 40%">
                 @if ($projectCampaign->projectPointMatrix)

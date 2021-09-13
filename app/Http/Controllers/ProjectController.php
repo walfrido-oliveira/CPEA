@@ -166,13 +166,19 @@ class ProjectController extends Controller
         $geodeticSystems = GeodeticSystem::pluck("name", "id");
         $campaignStatuses = CampaignStatus::pluck("name", "id");
         $pointMatrices = $project->getPointMatricesCustomFields();
+        $campaigns = $project->campaigns()->pluck("name", "id");
 
-        $projectPointMatrices = $project->projectPointMatrices()->paginate(10, ['*'], 'project-point-matrices')->appends(request()->input());
-        $projectCampaigns = $project->campaigns()->paginate(10, ['*'], 'campaigns')->appends(request()->input());
+        $projectPointMatrices = $project->projectPointMatrices()
+        ->orderBy("campaign_id", "asc")
+        ->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'project-point-matrices')->appends(request()->input());
+
+        $projectCampaigns = $project->campaigns()
+        ->orderBy("name", "asc")
+        ->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'campaigns')->appends(request()->input());
 
         return view('project.edit', compact('project','customers', 'areas', 'identifications', 'campaignStatuses', 'projectCampaigns',
         'matrizeces', 'planActionLevels', 'guidingParameters', 'parameterAnalyses', 'projectPointMatrices', 'geodeticSystems',
-        'pointMatrices'));
+        'pointMatrices', 'campaigns'));
     }
 
     /**

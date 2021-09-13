@@ -1,7 +1,6 @@
 <thead>
     <tr class="thead-light">
         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="<input class='form-checkbox' id='select_all_point_matrix' type='checkbox' value='all'>"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="campaign_id" columnText="{{ __('Campanha') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="area" columnText="{{ __('Área') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="identification" columnText="{{ __('Ponto') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="analysis_matrix_id" columnText="{{ __('Matriz') }}"/>
@@ -16,17 +15,11 @@
 </thead>
 <tbody id="point_matrix_table_content">
     @forelse ($projectPointMatrices as $key => $projectPointMatrix)
+    {{ $projectPointMatrix }}
         <tr id="point_matrix_row_{{ $key }}" class="point-matrix-row">
             <td>
                 <input class="form-checkbox point-matrix-url" type="checkbox" name="point_matrix[{{ $projectPointMatrix->id }}]" value="{!! route('project.point-matrix.destroy', ['point_matrix' => $projectPointMatrix->id]) !!}" data-id="point_matrix_row_{{ $key }}">
                 <input type="hidden" name="point_matrix[{{ $key }}][id]" id="point_matrix_{{ $key }}_id" value="{{ $projectPointMatrix->id }}">
-                <input type="hidden" name="point_matrix[{{ $key }}][campaign_id]" id="point_matrix_{{ $key }}_campaign_id" value="{{ $projectPointMatrix->campaign_id }}">
-                @include('project.project-point-matrix-row-fields')
-            </td>
-            <td>
-                <a class="text-green-600 underline" href="{{ route('project.campaign.show', ['campaign' => $projectPointMatrix->campaign->id]) }}" target="_blank" rel="noopener noreferrer">
-                    {{ $projectPointMatrix->campaign->name }}
-                </a>
             </td>
             <td>
                 <input type="hidden" name="point_matrix[{{ $key }}][point_identification_id]" id="point_matrix_{{ $key }}_point_identification_id" value="{{ $projectPointMatrix->pointIdentification ? $projectPointMatrix->pointIdentification->id : null }}">

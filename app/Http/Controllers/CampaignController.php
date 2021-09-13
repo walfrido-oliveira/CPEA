@@ -2,15 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\Campaign;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\AnalysisMatrix;
+use App\Models\GeodeticSystem;
+use App\Models\PlanActionLevel;
+use App\Models\GuidingParameter;
+use App\Models\ParameterAnalysis;
 use App\Models\ProjectPointMatrix;
+use App\Models\PointIdentification;
 use App\Http\Requests\CampaignRequest;
 use Illuminate\Support\Facades\Validator;
 
 class CampaignController extends Controller
 {
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $campaign = Campaign::findOrFail($id);
+        $areas = PointIdentification::pluck('area', 'area');
+        $identifications = PointIdentification::pluck('identification', 'identification');
+        $matrizeces = AnalysisMatrix::pluck('name', 'id');
+        $planActionLevels = PlanActionLevel::pluck('name', 'id');
+        $guidingParameters = GuidingParameter::pluck('environmental_guiding_parameter_id', 'id');
+        $parameterAnalyses = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
+        $geodeticSystems = GeodeticSystem::pluck("name", "id");
+
+        return view('project.campaign.show', compact('campaign', 'areas', 'identifications', 'matrizeces', 'planActionLevels',
+                                                     'guidingParameters', 'parameterAnalyses', 'geodeticSystems'));
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -45,26 +73,6 @@ class CampaignController extends Controller
             'campaign_name' => ['required', 'string', 'max:255'],
             'campaign_status' => ['required', 'exists:campaign_statuses,id'],
             'date_collection' => ['required', 'date'],
-
-            'campaign_point_matrix' => ['required', 'exists:project_point_matrices,id'],
-            'tide' => ['nullable', 'in:enchente,vazante'],
-            'environmental_conditions' => ['nullable', 'in:com-chuva,sem-chuva'],
-            'sample_depth' => ['nullable', 'in:superficie,meio,fundo'],
-            'environmental_regime' => ['nullable', 'in:lotico,lentico,intermediario'],
-            'floating_materials' => ['nullable', 'in:ausente,presente'],
-            'effluent_type' => ['nullable', 'in:bruto,tratado'],
-
-            'water_depth' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
-            'secchi_record' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
-            'total_depth' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
-            'pm_depth' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
-            'pm_diameter' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
-            'water_level' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
-            'oil_level' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
-            'temperature' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
-            'humidity' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
-            'pressure' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
-
         ]);
 
         if ($validator->fails()) {
@@ -77,88 +85,33 @@ class CampaignController extends Controller
         if($projectCampaign)
         {
             $projectCampaign->update([
-                'project_point_matrix_id' => $input['campaign_point_matrix'],
                 'project_id' => $input['project_id'],
                 'campaign_status_id' => $input['campaign_status'],
                 'name' => $input['campaign_name'],
                 'date_collection' => $input['date_collection'],
-
-                'refq' => isset($input['refq']) ? $input['refq'] : null,
-                'tide' => isset($input['tide']) ? $input['tide'] : null,
-                'environmental_conditions' => isset($input['environmental_conditions']) ? $input['environmental_conditions'] : null,
-                'utm' => isset($input['utm']) ? $input['utm'] : null,
-                'water_depth' => isset($input['water_depth']) ? $input['water_depth'] : null,
-                'sample_depth' => isset($input['sample_depth']) ? $input['sample_depth'] : null,
-                'environmental_regime' => isset($input['environmental_regime']) ? $input['environmental_regime'] : null,
-                'secchi_record' => isset($input['secchi_record']) ? $input['secchi_record'] : null,
-                'floating_materials' => isset($input['floating_materials']) ? $input['floating_materials'] : null,
-                'total_depth' => isset($input['total_depth']) ? $input['total_depth'] : null,
-                'sedimentary_layer' => isset($input['sedimentary_layer']) ? $input['sedimentary_layer'] : null,
-                'report_identification' => isset($input['report_identification']) ? $input['report_identification'] : null,
-                'sampling_area' => isset($input['sampling_area']) ? $input['sampling_area'] : null,
-                'organism_type' => isset($input['organism_type']) ? $input['organism_type'] : null,
-                'popular_name' => isset($input['popular_name']) ? $input['popular_name'] : null,
-                'effluent_type' => isset($input['effluent_type']) ? $input['effluent_type'] : null,
-                'identification_pm' => isset($input['identification_pm']) ? $input['identification_pm'] : null,
-                'pm_depth' => isset($input['pm_depth']) ? $input['pm_depth'] : null,
-                'pm_diameter' => isset($input['pm_diameter']) ? $input['pm_diameter'] : null,
-                'water_level' => isset($input['water_level']) ? $input['water_level'] : null,
-                'oil_level' => isset($input['oil_level']) ? $input['oil_level'] : null,
-                'sample_horizon' => isset($input['sample_horizon']) ? $input['sample_horizon'] : null,
-                'field_measurements' => isset($input['field_measurements']) ? $input['field_measurements'] : null,
-                'temperature' => isset($input['temperature']) ? $input['temperature'] : null,
-                'humidity' => isset($input['humidity']) ? $input['humidity'] : null,
-                'pressure' => isset($input['pressure']) ? $input['pressure'] : null,
             ]);
         } else {
             $projectCampaign = Campaign::create([
-                'project_point_matrix_id' => $input['campaign_point_matrix'],
                 'project_id' => $input['project_id'],
                 'campaign_status_id' => $input['campaign_status'],
                 'name' => $input['campaign_name'],
                 'date_collection' => $input['date_collection'],
-
-                'refq' => isset($input['refq']) ? $input['refq'] : null,
-                'tide' => isset($input['tide']) ? $input['tide'] : null,
-                'environmental_conditions' => isset($input['environmental_conditions']) ? $input['environmental_conditions'] : null,
-                'utm' => isset($input['utm']) ? $input['utm'] : null,
-                'water_depth' => isset($input['water_depth']) ? $input['water_depth'] : null,
-                'sample_depth' => isset($input['sample_depth']) ? $input['sample_depth'] : null,
-                'environmental_regime' => isset($input['environmental_regime']) ? $input['environmental_regime'] : null,
-                'secchi_record' => isset($input['secchi_record']) ? $input['secchi_record'] : null,
-                'floating_materials' => isset($input['floating_materials']) ? $input['floating_materials'] : null,
-                'total_depth' => isset($input['total_depth']) ? $input['total_depth'] : null,
-                'sedimentary_layer' => isset($input['sedimentary_layer']) ? $input['sedimentary_layer'] : null,
-                'report_identification' => isset($input['report_identification']) ? $input['report_identification'] : null,
-                'sampling_area' => isset($input['sampling_area']) ? $input['sampling_area'] : null,
-                'organism_type' => isset($input['organism_type']) ? $input['organism_type'] : null,
-                'popular_name' => isset($input['popular_name']) ? $input['popular_name'] : null,
-                'effluent_type' => isset($input['effluent_type']) ? $input['effluent_type'] : null,
-                'identification_pm' => isset($input['identification_pm']) ? $input['identification_pm'] : null,
-                'pm_depth' => isset($input['pm_depth']) ? $input['pm_depth'] : null,
-                'pm_diameter' => isset($input['pm_diameter']) ? $input['pm_diameter'] : null,
-                'water_level' => isset($input['water_level']) ? $input['water_level'] : null,
-                'oil_level' => isset($input['oil_level']) ? $input['oil_level'] : null,
-                'sample_horizon' => isset($input['sample_horizon']) ? $input['sample_horizon'] : null,
-                'field_measurements' => isset($input['field_measurements']) ? $input['field_measurements'] : null,
-                'temperature' => isset($input['temperature']) ? $input['temperature'] : null,
-                'humidity' => isset($input['humidity']) ? $input['humidity'] : null,
-                'pressure' => isset($input['pressure']) ? $input['pressure'] : null,
             ]);
         }
 
         $id = $projectCampaign->id;
         $className = 'edit-point-matrix';
-
+        $actions = 'show';
         $orderBy = $request->has('order_by') ?  $request->get('order_by') : 'id';
         $ascending = $request->has('ascending') ? $request->get('ascending') : 'desc';
         $paginatePerPage = $request->has('paginate_per_page') ? $request->get('paginate_per_page') : 5;
-        $projectCampaigns = $projectCampaign->project->campaigns() ->paginate($paginatePerPage, ['*'], 'project-campaigns');
+        $projectCampaigns = $projectCampaign->project->campaigns() ->paginate($paginatePerPage, ['*'], 'campaigns');
 
         $resp = [
             'message' => __('Campanha Atualizada com Sucesso!'),
             'alert-type' => 'success',
-            'campaign' => view('project.saved-campaign', compact('projectCampaign', 'key', 'id', 'className'))->render(),
+            'campaign' => view('project.saved-campaign', compact('projectCampaign', 'key', 'id', 'className', 'actions'))->render(),
+            'campaigns' => $projectCampaign->project->campaigns,
             'pagination' => $this->setPagination($projectCampaigns, $orderBy, $ascending, $paginatePerPage),
         ];
 
@@ -181,79 +134,6 @@ class CampaignController extends Controller
             'message' => __('Campanha Apagada com Sucesso!'),
             'alert-type' => 'success'
         ]);
-    }
-
-    /**
-     * Get Fields for specific point type
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function getFields($id)
-    {
-        $pointIdentification = ProjectPointMatrix::findOrFail($id);
-
-        $tides = ['enchente' => 'Enchente', 'vazante' => 'Vazante'];
-        $environmentalConditions = ['com-chuva' => 'Com Chuva', 'sem-chuva' => 'Sem Chuva'];
-        $sampleDepths = ['superficie' => 'Superficie', 'meio' => 'Meio', 'fundo' => 'Fundo'];
-        $environmentalRegimes = ['lotico' => 'Lótico', 'lentico' => 'Lentico', 'intermediario' => 'Intermediário'];
-        $floatingMaterials = ['ausente' => 'Ausente', 'presente' => 'Presente'];
-        $effluentTypes = ['bruto' => 'Bruto', 'tratado' => 'Tratado'];
-
-        if($pointIdentification->analysisMatrix)
-        {
-            switch ($pointIdentification->analysisMatrix->name)
-            {
-                case 'Água Supercial':
-                    return response()->json([
-                        'fields' => view('project.campaign-fields.campaign-fields-1',
-                        compact('tides', 'environmentalConditions', 'sampleDepths', 'environmentalRegimes', 'floatingMaterials'))->render()
-                    ]);
-                    break;
-
-                case 'Sedimento':
-                    return response()->json([
-                        'fields' => view('project.campaign-fields.campaign-fields-2', compact('sampleDepths', 'environmentalConditions', 'environmentalRegimes'))->render()
-                    ]);
-                    break;
-
-                case 'Organismos':
-                    return response()->json([
-                        'fields' => view('project.campaign-fields.campaign-fields-3')->render()
-                    ]);
-                    break;
-
-                case ['Efluente', 'Água Residuária']:
-                    return response()->json([
-                        'fields' => view('project.campaign-fields.campaign-fields-4', compact('environmentalConditions', 'effluentTypes'))->render()
-                    ]);
-                    break;
-
-                case 'Água Subterrânea':
-                    return response()->json([
-                        'fields' => view('project.campaign-fields.campaign-fields-5', compact('environmentalConditions'))->render()
-                    ]);
-                    break;
-
-                case 'Solo':
-                    return response()->json([
-                        'fields' => view('project.campaign-fields.campaign-fields-6', compact('environmentalConditions'))->render()
-                    ]);
-                    break;
-
-                case 'Solo':
-                    return response()->json([
-                        'fields' => view('project.campaign-fields.campaign-fields-7')->render()
-                    ]);
-                    break;
-                default:
-                    return response()->json([
-                        'fields' => view('project.campaign-fields.campaign-fields-7')->render()
-                    ]);
-                    break;
-            }
-        }
-
     }
 
     /**
@@ -293,5 +173,23 @@ class CampaignController extends Controller
             'ascending' => $ascending,
             'paginate_per_page' => $paginatePerPage,
             ])->render();
+    }
+
+    /**
+     * Get campaign by project
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getCampaignByProject(Request $request, $id)
+    {
+        $project = Project::find($id);
+
+        $resp = [
+            'campaigns' => $project->campaigns
+        ];
+
+        return response()->json($resp);
     }
 }

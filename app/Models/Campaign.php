@@ -19,11 +19,6 @@ class Campaign extends Model
      */
     protected $fillable = [
         'project_point_matrix_id', 'campaign_status_id', 'name', 'date_collection', 'project_id',
-        'tide', 'environmental_conditions', 'sample_depth', 'environmental_regime', 'floating_materials',
-        'effluent_type', 'report_identification', 'organism_type', 'popular_name', 'identification_pm',
-        'sample_horizon', 'refq', 'utm', 'water_depth', 'sedimentary_layer', 'secchi_record', 'total_depth',
-        'sampling_area', 'pm_depth', 'pm_diameter', 'water_level', 'oil_level', 'field_measurements',
-        'temperature', 'humidity', 'pressure'
     ];
 
     /**

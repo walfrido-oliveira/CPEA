@@ -23,7 +23,12 @@ class ProjectPointMatrix extends Model
      */
     protected $fillable = [
         'project_id', 'point_identification_id', 'analysis_matrix_id', 'plan_action_level_id',
-        'guiding_parameter_id', 'parameter_analysis_id'
+        'guiding_parameter_id', 'parameter_analysis_id', 'tide', 'environmental_conditions',
+        'sample_depth', 'environmental_regime', 'floating_materials',
+        'effluent_type', 'report_identification', 'organism_type', 'popular_name', 'identification_pm',
+        'sample_horizon', 'refq', 'utm', 'water_depth', 'sedimentary_layer', 'secchi_record', 'total_depth',
+        'sampling_area', 'pm_depth', 'pm_diameter', 'water_level', 'oil_level', 'field_measurements',
+        'temperature', 'humidity', 'pressure', 'campaign_id'
     ];
 
     /**
@@ -34,6 +39,14 @@ class ProjectPointMatrix extends Model
     protected $appends = [
         'custom_name',
     ];
+
+    /**
+     * The campaign.
+     */
+    public function campaign()
+    {
+        return $this->belongsTo(Campaign::class);
+    }
 
     /**
      * The Project.

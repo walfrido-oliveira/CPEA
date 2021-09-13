@@ -205,14 +205,6 @@
             let campaignName = document.getElementById("campaign_name").value;
             let campaignStatus = document.getElementById("campaign_status").value;
             let dateCollection = document.getElementById("date_collection").value;
-
-            /* DINAMIC FIELDS */
-            let customFields = [];
-            document.querySelectorAll('[data-type="campaign-fields"]').forEach(item => {
-                customFields.push(item);
-            });
-
-            let campaignPointMatrix = document.getElementById("campaign_point_matrix").value;
             let paginationPerPage = document.getElementById("paginate_per_page_campaigns").value;
 
             ajax.open(method, url);
@@ -230,11 +222,21 @@
 
                     document.getElementById("campaign_pagination").innerHTML = resp.pagination;
 
+                    let campaigns = resp.campaigns;
+                    for (let index = 0; index < campaigns.length; index++) {
+                        const item = campaigns[index];
+                        var opt = document.createElement('option');
+                        opt.value = item.id;
+                        opt.text = item.custom_name;
+                        campaign.add(opt);
+                    }
+
                     campaignEventsFilterCallback();
                     selectAllCampaigns();
                     deleteCampaignCallback();
                     campaignEventsDeleteCallback();
                     editCampaignCallback();
+                    getCampaigns()
                 } else if (this.readyState == 4 && this.status != 200) {
                     var resp = JSON.parse(ajax.response);
                     var obj = resp;
@@ -258,11 +260,6 @@
             data.append('campaign_name', campaignName);
             data.append('campaign_status', campaignStatus);
             data.append('date_collection', dateCollection);
-            data.append('campaign_point_matrix', campaignPointMatrix);
-
-            customFields.forEach(item => {
-                data.append(item.id, item.value);
-            });
 
             data.append('project_id', {{ isset($project) ? $project->id : null }});
 
@@ -295,85 +292,65 @@
             }
 
             let campaignPointMatrix = document.getElementById("campaign_point_matrix");
+            let campaignName = document.getElementById("campaign_name");
+            let campaignStatus = document.getElementById("campaign_status");
+            let dateCollection = document.getElementById("date_collection");
 
-            campaignPointMatrix.value = document.getElementById('campaign_'+ row + '_campaign_point_matrix') ?
-            document.getElementById('campaign_'+ row + '_campaign_point_matrix').value : null;
+            campaignName.value = document.getElementById('campaign_'+ row + '_campaign_name') ?
+            document.getElementById('campaign_'+ row + '_campaign_name').value : null;
 
-            getFieldsCampaignAjax(document.getElementById("campaign_point_matrix"))
-            .then(function(result) {
-                document.getElementById("campaign_point_matrix_fields").innerHTML = result;
+            campaignStatus.value = document.getElementById('campaign_'+ row + '_campaign_status') ?
+            document.getElementById('campaign_'+ row + '_campaign_status').value : null;
 
-                let campaignName = document.getElementById("campaign_name");
-                let campaignStatus = document.getElementById("campaign_status");
-                let dateCollection = document.getElementById("date_collection");
-
-                campaignName.value = document.getElementById('campaign_'+ row + '_campaign_name') ?
-                document.getElementById('campaign_'+ row + '_campaign_name').value : null;
-
-                campaignStatus.value = document.getElementById('campaign_'+ row + '_campaign_status') ?
-                document.getElementById('campaign_'+ row + '_campaign_status').value : null;
-
-                dateCollection.value = document.getElementById('campaign_'+ row + '_date_collection') ?
-                document.getElementById('campaign_'+ row + '_date_collection').value : null;
-
-                /* DINAMIC FIELDS */
-                let customFields = [];
-                document.querySelectorAll('[data-type="campaign-fields"]').forEach(item => {
-                    customFields.push(item);
-                });
-
-                customFields.forEach(item => {
-                    let field = document.getElementById('campaign_'+ row + '_' + item.id);
-                    item.value = '';
-                    item.value =  field ? field.value : null;
-                });
-            });
+            dateCollection.value = document.getElementById('campaign_'+ row + '_date_collection') ?
+            document.getElementById('campaign_'+ row + '_date_collection').value : null;
 
         }
 
         document.getElementById('confirm_modal').addEventListener('resp', campaignOrderByCallback, false);
 
-        document.querySelectorAll('#campaign_point_matrix').forEach(item => {
-            item.addEventListener("change", function(event) {
-                getFieldsCampaignAjax(document.getElementById("campaign_point_matrix"))
-                .then(function(result) {
-                    document.getElementById("campaign_point_matrix_fields").innerHTML = result;
-                });
-            } , false);
-        });
+        var campaign = document.getElementById("campaign_id");
 
-        function getFieldsCampaignAjax(elem) {
-            if(!elem) return;
+        function getCampaigns() {
+            var id = '{{ $project->id }}';
+            var ajax = new XMLHttpRequest();
+            var url = "{!! route('project.campaign.get-campaign-by-project', ['project' => '#']) !!}".replace('#', id);
+            var token = document.querySelector('meta[name="csrf-token"]').content;
+            var method = 'POST';
 
-            let id = elem.value
-            let ajax = new XMLHttpRequest();
-            let url = "{!! route('project.campaign.get-fields', ['campaign' => '#']) !!}".replace('#', id);
-            let token = document.querySelector('meta[name="csrf-token"]').content;
-            let method = 'POST';
+            ajax.open(method, url);
 
-            return new Promise(function(resolve, reject) {
-                ajax.open(method, url);
-
-                ajax.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        var resp = JSON.parse(ajax.response);
-                        resolve(resp.fields);
-                    } else if (this.readyState == 4 && this.status != 200) {
-                        var resp = JSON.parse(ajax.response);
-                        reject({
-                            status: this.status,
-                            statusText: ajax.statusText
-                        });
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    cleanCampaigns();
+                    let campaigns = resp.campaigns;
+                    for (let index = 0; index < campaigns.length; index++) {
+                        const item = campaigns[index];
+                        var opt = document.createElement('option');
+                        opt.value = item.id;
+                        opt.text = item.name;
+                        campaign.add(opt);
                     }
+                } else if (this.readyState == 4 && this.status != 200) {
+                    toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
                 }
+            }
 
-                var data = new FormData();
-                data.append('_token', token);
-                data.append('_method', method);
-                data.append('id', id);
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('id', id);
 
-                ajax.send(data);
-            });
+            ajax.send(data);
         }
+
+        function cleanCampaigns() {
+            var i, L = campaign.options.length - 1;
+            for (i = L; i >= 0; i--) {
+                campaign.remove(i);
+            }
+        }
+
     });
 </script>
