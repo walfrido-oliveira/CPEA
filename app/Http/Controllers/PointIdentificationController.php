@@ -132,7 +132,7 @@ class PointIdentificationController extends Controller
         $pointIdentification = PointIdentification::findOrFail($id);
         $customers = $pointIdentification->customers()->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'customers')->appends(request()->input());
         $projectCampaigns = $pointIdentification->campaigns()->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'campaigns')->appends(request()->input());
-
+        //dd($pointIdentification->projectPointMatrices->);
         return view('point-identification.show', compact('pointIdentification', 'customers', 'projectCampaigns'));
     }
 

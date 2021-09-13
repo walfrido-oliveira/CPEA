@@ -59,7 +59,7 @@ class PointIdentification extends Model
      */
     public function campaigns()
     {
-        return $this->hasManyThrough(Campaign::class, ProjectPointMatrix::class, 'id', 'id', 'project_point_matrix_id', 'campaign_id');
+        return $this->hasManyThrough(Campaign::class, ProjectPointMatrix::class, 'point_identification_id', 'id', 'id', 'campaign_id');
     }
 
     /**
