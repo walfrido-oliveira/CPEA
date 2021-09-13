@@ -174,7 +174,7 @@
                 var modal = document.getElementById("delete_project_modal");
                 modal.classList.remove("hidden");
                 modal.classList.add("block");
-            })
+            });
         });
         }
 

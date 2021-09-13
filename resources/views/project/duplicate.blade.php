@@ -136,7 +136,7 @@
                     <div class="flex mt-4">
                         <table id="campaign_table" class="table table-responsive md:table w-full">
                             @include('project.campaign-result',
-                            ['projectCampaigns' => $projectCampaigns, 'orderBy' => 'name', 'ascending' => 'asc'])
+                            ['projectCampaigns' => $projectCampaigns, 'orderBy' => 'name', 'ascending' => 'asc', 'actions' => 'show'])
                         </table>
                     </div>
                     <div class="flex w-full mt-4 p-2" id="campaign_pagination">
@@ -148,10 +148,10 @@
     </div>
 
     <x-modal title="{{ __('Excluir') }}"
-             msg="{{ __('Deseja realmente apagar esse Item?') }}"
-             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_point_matrix_modal"
-             method="DELETE"
-             />
+    msg="{{ __('Deseja realmente apagar esse Item?') }}"
+    confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_point_matrix_modal"
+    method="DELETE"
+    />
 
     <x-modal title="{{ __('Excluir Projeto') }}"
     msg="{{ __('Deseja realmente apagar esse Projeto?') }}"
@@ -162,20 +162,18 @@
     confirm_id="project_confirm_id"
     cancel_modal="project_cancel_modal"/>
 
-    @include('customers.filter-result-scripts', ['actions' => 'hidden'])
-
     <script>
-        function eventsDeleteCallback() {
-            document.querySelectorAll('.delete-project').forEach(item => {
+    function eventsDeleteCallback() {
+        document.querySelectorAll('.delete-project').forEach(item => {
             item.addEventListener("click", function() {
                 var modal = document.getElementById("delete_project_modal");
                 modal.classList.remove("hidden");
                 modal.classList.add("block");
-            })
+            });
         });
-        }
+    }
 
-        eventsDeleteCallback();
+    eventsDeleteCallback();
     </script>
 
     @include('project.point-matrix-scripts')
