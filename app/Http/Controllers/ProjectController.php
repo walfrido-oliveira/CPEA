@@ -107,7 +107,7 @@ class ProjectController extends Controller
                 {
                     if($point['campaign_id'] == $campaign['id'])
                     {
-                        $point['campaign_id'] = $projectCampaign->id;
+                        $input['point_matrix'][$key]['campaign_id'] = $projectCampaign->id;
                     }
                 }
             }
