@@ -27,6 +27,7 @@ class CampaignController extends Controller
     public function show($id)
     {
         $campaign = Campaign::findOrFail($id);
+
         $areas = PointIdentification::pluck('area', 'area');
         $identifications = PointIdentification::pluck('identification', 'identification');
         $matrizeces = AnalysisMatrix::pluck('name', 'id');
@@ -34,6 +35,7 @@ class CampaignController extends Controller
         $guidingParameters = GuidingParameter::pluck('environmental_guiding_parameter_id', 'id');
         $parameterAnalyses = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
         $geodeticSystems = GeodeticSystem::pluck("name", "id");
+
         $projectPointMatrices = $campaign->projectPointMatrices()
         ->orderBy("campaign_id", "asc")
         ->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'point_matrix');

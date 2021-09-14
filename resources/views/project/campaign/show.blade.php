@@ -108,7 +108,7 @@
             document.querySelectorAll('.edit-point-matrix').forEach(item => {
                 item.addEventListener('click', editPointMatrix.bind(null, item, item.dataset.row), false);
                 item.addEventListener("click", editPointMatrixAjax, false);
-                //item.addEventListener("click", savePointMatrixAjax, false);
+                item.addEventListener("click", savePointMatrixAjax, false);
             });
         }
 
@@ -236,17 +236,10 @@
                     var resp = JSON.parse(ajax.response);
                     toastr.success(resp.message);
 
-                    if(id > 0) {
-                        that.parentElement.parentElement.parentElement.innerHTML = resp.point_matrix;
-                    } else {
-                        document.getElementById("point_matrix_table_content").insertAdjacentHTML('beforeend', resp.point_matrix);
-                    }
+                    that.parentElement.parentElement.parentElement.innerHTML = resp.point_matrix_show;
 
                     document.getElementById("point_matrix_pagination").innerHTML = resp.pagination;
 
-                    eventsFilterCallback();
-                    selectAllPointMatrices();
-                    deletePointIdentificationCallback();
                     eventsDeleteCallback();
                     editPointMatrixCallback();
 

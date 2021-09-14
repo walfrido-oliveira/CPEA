@@ -6,7 +6,12 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\AnalysisMatrix;
+use App\Models\GeodeticSystem;
+use App\Models\PlanActionLevel;
+use App\Models\GuidingParameter;
+use App\Models\ParameterAnalysis;
 use App\Models\ProjectPointMatrix;
+use App\Models\PointIdentification;
 use Illuminate\Support\Facades\Validator;
 
 class ProjectPointMatrixController extends Controller
@@ -156,10 +161,21 @@ class ProjectPointMatrixController extends Controller
         $paginatePerPage = $request->has('paginate_per_page') ? $request->get('paginate_per_page') : 5;
         $projectPointMatrices = $projectPointMatrix->project->projectPointMatrices() ->paginate($paginatePerPage, ['*'], 'project-point-matrices');
 
+        $areas = PointIdentification::pluck('area', 'area');
+        $identifications = PointIdentification::pluck('identification', 'identification');
+        $matrizeces = AnalysisMatrix::pluck('name', 'id');
+        $planActionLevels = PlanActionLevel::pluck('name', 'id');
+        $guidingParameters = GuidingParameter::pluck('environmental_guiding_parameter_id', 'id');
+        $parameterAnalyses = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
+        $geodeticSystems = GeodeticSystem::pluck("name", "id");
+
         $resp = [
             'message' => __('Ponto/Matriz Atualizado com Sucesso!'),
             'alert-type' => 'success',
             'point_matrix' => view('project.saved-point-matrix', compact('projectPointMatrix', 'key', 'id', 'className'))->render(),
+            'point_matrix_show' => view('project.campaign.saved-point-matrix',
+            compact('projectPointMatrix', 'key', 'id', 'className', 'areas', 'identifications', 'matrizeces',
+                    'planActionLevels', 'guidingParameters', 'parameterAnalyses', 'geodeticSystems'))->render(),
             'pagination' => $this->setPagination($projectPointMatrices, $orderBy, $ascending, $paginatePerPage),
         ];
 
