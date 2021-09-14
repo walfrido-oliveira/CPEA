@@ -73,7 +73,7 @@
                             var elements = document.getElementById("{{ $attributes['id'] }}").dataset.elements;
                             var elementArray = elements.split(',');
                             document.getElementById(elementArray[index]).innerHTML = '';
-                            document.getElementById("confirm_modal").dispatchEvent(respEvent);
+                            document.getElementById("{{isset($attributes['confirm_id']) ? $attributes['confirm_id'] : 'confirm_modal'}}").dispatchEvent(respEvent);
                         @endif
 
                         close();

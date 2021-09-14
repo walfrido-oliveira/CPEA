@@ -42,17 +42,26 @@
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_campaign_modal"
              method="DELETE"
              url="{{ route('project.campaign.destroy', ['campaign' => $campaign->id]) }}"
-             redirect-url="{{ route('project.campaign.index') }}"/>
+             redirect-url="{{ route('project.campaign.index') }}"
+             cancel_modal="campaign_cancel_modal"
+             confirm_id="campaign_confirm_modal"/>
+
+    <x-modal title="{{ __('Excluir Ponto') }}"
+            msg="{{ __('Deseja realmente apagar essa Ponto?') }}"
+            confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_point_matrix_modal"
+            method="DELETE"
+            cancel_modal="point_matrix_cancel_modal"
+            confirm_id="point_matrix_confirm_modal"/>
 
     <script>
         function eventsDeleteCallback() {
             document.querySelectorAll('.delete-campaign').forEach(item => {
-            item.addEventListener("click", function() {
-                var modal = document.getElementById("delete_campaign_modal");
-                modal.classList.remove("hidden");
-                modal.classList.add("block");
-            })
-        });
+                item.addEventListener("click", function() {
+                    var modal = document.getElementById("delete_campaign_modal");
+                    modal.classList.remove("hidden");
+                    modal.classList.add("block");
+                })
+            });
         }
 
         eventsDeleteCallback();
@@ -248,7 +257,7 @@
 
                     document.getElementById("point_matrix_pagination").innerHTML = resp.pagination;
 
-                    eventsDeleteCallback();
+                    eventsPointMatrixDeleteCallback()
                     editPointMatrixCallback();
 
                 } else if (this.readyState == 4 && this.status != 200) {
@@ -298,12 +307,12 @@
                     document.getElementById("point_matrix_table").innerHTML = resp.filter_result_campaign_show;
                     document.getElementById("point_matrix_pagination").innerHTML = resp.pagination;
                     eventsFilterCallback();
-                    eventsDeleteCallback();
+                    eventsPointMatrixDeleteCallback()
                     editPointMatrixCallback();
                 } else if(this.readyState == 4 && this.status != 200) {
                     toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
                     eventsFilterCallback();
-                    eventsDeleteCallback();
+                    eventsPointMatrixDeleteCallback()
                     editPointMatrixCallback();
                 }
             }
@@ -324,6 +333,43 @@
             document.getElementById("q").addEventListener("keyup", filterCallback, false);
             document.getElementById("paginate_per_page_project-point-matrices").addEventListener("change", filterCallback, false);
         }
+
+        function eventsPointMatrixDeleteCallback() {
+            document.querySelectorAll('.delete-point-matrix').forEach(item => {
+                item.addEventListener("click", function() {
+                    if (this.dataset.type == 'edit') {
+                        var url = this.dataset.url;
+                        var modal = document.getElementById("delete_point_matrix_modal");
+                        modal.dataset.url = url;
+                        modal.dataset.elements = this.dataset.id;
+                        modal.classList.remove("hidden");
+                        modal.classList.add("block");
+                    } else if (this.dataset.type == 'multiple') {
+                        var urls = '';
+                        var elements = '';
+                        document.querySelectorAll('input:checked.point-matrix-url').forEach((item, index, arr) => {
+                            urls += item.value;
+                            elements += item.dataset.id;
+                            if (index < (arr.length - 1)) {
+                                urls += ',';
+                                elements += ',';
+                            }
+                        });
+
+                        if (urls.length > 0) {
+                            var modal = document.getElementById("delete_point_matrix_modal");
+                            modal.dataset.url = urls;
+                            modal.dataset.elements = elements;
+                            modal.classList.remove("hidden");
+                            modal.classList.add("block");
+                        }
+                    }
+                });
+            });
+        }
+        eventsPointMatrixDeleteCallback();
+
+        document.getElementById('point_matrix_confirm_modal').addEventListener('resp', filterCallback, false);
 
     </script>
 </x-app-layout>
