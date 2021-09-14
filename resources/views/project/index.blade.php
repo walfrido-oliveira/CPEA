@@ -21,7 +21,6 @@
                     <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full">
                         <div class="w-full md:w-1/2 px-2 mb-6 md:mb-0">
                             <x-jet-label for="project_cod" value="{{ __('Projeto') }}" />
-
                             <x-jet-input id="project_cod" class="form-control block w-full filter-field" type="text" name="project_cod" :value="app('request')->input('project_cod')" autofocus autocomplete="project_cod" />
                         </div>
                         <div class="w-full md:w-1/2 px-2 mb-6 md:mb-0">

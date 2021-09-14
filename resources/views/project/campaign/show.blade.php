@@ -18,31 +18,9 @@
             <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
                 <div class="filter-container md:block">
                     <div class="flex flex-wrap mx-4 px-3 py-2">
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="area" value="{{ __('Área') }}" />
-                            <x-custom-select :options="$areas" name="areas" id="areas" value="" class="mt-1" no-filter="no-filter"/>
-                        </div>
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="point_identifications" value="{{ __('Identificação Ponto') }}"/>
-                            <x-custom-select :options="[]" name="point_identifications" id="point_identifications" value="" class="mt-1" no-filter="no-filter"/>
-                        </div>
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="matriz_id" value="{{ __('Matriz') }}"/>
-                            <x-custom-select :options="$matrizeces" name="matriz_id" id="matriz_id" value="" class="mt-1" no-filter="no-filter"/>
-                        </div>
-                    </div>
-                    <div class="flex flex-wrap mx-4 px-3 py-2">
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="plan_action_level_id" value="{{ __('Tipo Nível Ação Plano') }}"/>
-                            <x-custom-select :options="$planActionLevels" name="plan_action_level_id" id="plan_action_level_id" value="" class="mt-1" no-filter="no-filter"/>
-                        </div>
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="guiding_parameters_id" value="{{ __('Param. Orientador Ambiental') }}"/>
-                            <x-custom-select :options="$guidingParameters" name="guiding_parameters_id" id="guiding_parameters_id" value="" class="mt-1" no-filter="no-filter"/>
-                        </div>
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="analysis_parameter_id" value="{{ __('Param. Análise') }}"/>
-                            <x-custom-select :options="$parameterAnalyses" name="analysis_parameter_id" id="analysis_parameter_id" value="" class="mt-1" no-filter="no-filter"/>
+                        <div class="w-full px-3 mb-6 md:mb-0">
+                            <x-jet-label for="q" value="{{ __('Pesquisa') }}" />
+                            <x-jet-input id="q" class="form-control block w-full filter-field" type="text" name="q" :value="app('request')->input('q')" autofocus autocomplete="project_cod" />
                         </div>
                     </div>
                 </div>

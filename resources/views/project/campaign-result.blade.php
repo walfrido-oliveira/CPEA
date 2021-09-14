@@ -3,7 +3,7 @@
         @if($actions == 'show') <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="<input class='form-checkbox' id='select_all_campaign' type='checkbox' value='all'>"/> @endif
         @if($actions == 'hidden') <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="projects.project_cod" columnText="{{ __('Projeto') }}"/> @endif
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="name" columnText="{{ __('Campanha') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="identification" columnText="{{ __('Identificação Ponto (Matriz)') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="campaign_status_id" columnText="{{ __('Status') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="date_collection" columnText="{{ __('DT/HR da Coleta') }}"/>
         @if($actions == 'show')
             <th scope="col"
@@ -36,33 +36,8 @@
                     {{ $projectCampaign->name }}
                 </a>
             </td>
-            <td style="width: 40%">
-                @if ($projectCampaign->projectPointMatrix)
-
-                    @if ($projectCampaign->projectPointMatrix->pointIdentification)
-                        {{ $projectCampaign->projectPointMatrix->pointIdentification->identification }},
-                    @endif
-
-                    @if ($projectCampaign->projectPointMatrix->analysisMatrix)
-                        {{ $projectCampaign->projectPointMatrix->analysisMatrix->name }},
-                    @endif
-
-                    @if ($projectCampaign->projectPointMatrix->planActionLevel)
-                        {{ $projectCampaign->projectPointMatrix->planActionLevel->name }},
-                    @endif
-
-                    @if ($projectCampaign->projectPointMatrix->guidingParameter)
-                        {{ $projectCampaign->projectPointMatrix->guidingParameter->environmental_guiding_parameter_id }},
-                    @endif
-
-                    @if ($projectCampaign->projectPointMatrix->parameterAnalysis)
-                        {{ $projectCampaign->projectPointMatrix->parameterAnalysis->analysis_parameter_name }},
-                    @endif
-
-                    @if($actions == 'show')
-                        <input type="hidden" name="campaign[{{ $key }}][campaign_point_matrix]" id="campaign_{{ $key }}_campaign_point_matrix" value="{{ $projectCampaign->projectPointMatrix->id }}">
-                    @endif
-                @endif
+            <td>
+                {{ $projectCampaign->campaignStatus->name }}
             </td>
             <td>
                 {{ $projectCampaign->date_collection->format('d/m/Y H:m') }}
