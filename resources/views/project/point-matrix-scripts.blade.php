@@ -43,19 +43,11 @@
         });
 
         var pointIdentification = document.getElementById("point_identifications");
-        var campaignPointMatrix = document.getElementById("campaign_point_matrix");
 
         function cleanPointidentifications() {
             var i, L = pointIdentification.options.length - 1;
             for (i = L; i >= 0; i--) {
                 pointIdentification.remove(i);
-            }
-        }
-
-        function cleanCampaigns() {
-            var i, L = campaignPointMatrix.options.length - 1;
-            for (i = L; i >= 0; i--) {
-                campaignPointMatrix.remove(i);
             }
         }
 
@@ -473,6 +465,23 @@
 
             campaignId.value = document.getElementById('point_matrix_'+ row + '_campaign_id') ?
             document.getElementById('point_matrix_'+ row + '_campaign_id').value : null;
+
+            getFieldsPointMatrix(matriz.value)
+            .then(function(result) {
+                document.getElementById("point_matrix_fields").innerHTML = result;
+
+                /* DINAMIC FIELDS */
+                let customFields = [];
+                document.querySelectorAll('[data-type="campaign-fields"]').forEach(item => {
+                    customFields.push(item);
+                });
+
+                customFields.forEach(item => {
+                    let field = document.getElementById('point_matrix_'+ row + '_' + item.id);
+                    item.value = '';
+                    item.value =  field ? field.value : null;
+                });
+            });
         }
 
         function clearPointMatrixFields() {
@@ -502,13 +511,13 @@
         document.getElementById('confirm_modal').addEventListener('resp', orderByCallback, false);
 
         document.getElementById("matriz_id").addEventListener("change", function() {
-            getFieldsCampaignAjax(this.value)
+            getFieldsPointMatrix(this.value)
             .then(function(result) {
-                document.getElementById("campaign_point_matrix_fields").innerHTML = result;
+                document.getElementById("point_matrix_fields").innerHTML = result;
             });
         });
 
-        function getFieldsCampaignAjax(id) {
+        function getFieldsPointMatrix(id) {
             let ajax = new XMLHttpRequest();
             let url = "{!! route('project.point-matrix.get-fields', ['campaign' => '#']) !!}".replace('#', id);
             let token = document.querySelector('meta[name="csrf-token"]').content;

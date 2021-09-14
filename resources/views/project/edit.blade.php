@@ -135,7 +135,7 @@
                             <x-custom-select :options="$parameterAnalyses" name="analysis_parameter_id" id="analysis_parameter_id" value="" class="mt-1" no-filter="no-filter"/>
                         </div>
                     </div>
-                    <div id="campaign_point_matrix_fields">
+                    <div id="point_matrix_fields">
 
                     </div>
                     <div class="flex mt-4">
