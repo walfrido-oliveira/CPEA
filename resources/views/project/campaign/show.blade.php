@@ -10,7 +10,7 @@
                         <a href="{{ route('project.campaign.duplicate', ['campaign' => $campaign->id])}}" class="btn-outline-info">{{ __('Duplicar') }}</a>
                     </div>
                     <div class="m-2">
-                        <button type="button" class="btn-outline-danger delete-campaign" id="campaign_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $campaign->id }}">{{ __('Apagar') }}</button>
+                        <button type="button" id="delete_point_matrix" class="btn-outline-danger delete-point-matrix" data-type="multiple">{{ __('Apagar') }}</button>
                     </div>
                 </div>
             </div>
@@ -37,35 +37,12 @@
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir Campanha') }}"
-             msg="{{ __('Deseja realmente apagar essa Campanha?') }}"
-             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_campaign_modal"
-             method="DELETE"
-             url="{{ route('project.campaign.destroy', ['campaign' => $campaign->id]) }}"
-             redirect-url="{{ route('project.campaign.index') }}"
-             cancel_modal="campaign_cancel_modal"
-             confirm_id="campaign_confirm_modal"/>
-
-    <x-modal title="{{ __('Excluir Ponto') }}"
-            msg="{{ __('Deseja realmente apagar essa Ponto?') }}"
+    <x-modal title="{{ __('Excluir Ponto(s)') }}"
+            msg="{{ __('Deseja realmente apagar essa Ponto(s)?') }}"
             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_point_matrix_modal"
             method="DELETE"
             cancel_modal="point_matrix_cancel_modal"
             confirm_id="point_matrix_confirm_modal"/>
-
-    <script>
-        function eventsDeleteCallback() {
-            document.querySelectorAll('.delete-campaign').forEach(item => {
-                item.addEventListener("click", function() {
-                    var modal = document.getElementById("delete_campaign_modal");
-                    modal.classList.remove("hidden");
-                    modal.classList.add("block");
-                })
-            });
-        }
-
-        eventsDeleteCallback();
-    </script>
 
     <script>
         function editPointMatrix(elem, row) {
@@ -309,11 +286,13 @@
                     eventsFilterCallback();
                     eventsPointMatrixDeleteCallback()
                     editPointMatrixCallback();
+                    selectAllPointMatrices();
                 } else if(this.readyState == 4 && this.status != 200) {
                     toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
                     eventsFilterCallback();
                     eventsPointMatrixDeleteCallback()
                     editPointMatrixCallback();
+                    selectAllPointMatrices();
                 }
             }
 
@@ -370,6 +349,21 @@
         eventsPointMatrixDeleteCallback();
 
         document.getElementById('point_matrix_confirm_modal').addEventListener('resp', filterCallback, false);
+
+        function selectAllPointMatrices() {
+            document.getElementById('select_all_point_matrix').addEventListener('change', function() {
+                if (this.checked) {
+                    document.querySelectorAll(".point-matrix-url").forEach(item => {
+                        item.checked = true;
+                    });
+                } else {
+                    document.querySelectorAll(".point-matrix-url").forEach(item => {
+                        item.checked = false;
+                    });
+                }
+            });
+        }
+        selectAllPointMatrices();
 
     </script>
 </x-app-layout>
