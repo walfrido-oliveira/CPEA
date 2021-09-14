@@ -180,7 +180,7 @@
                         <!--Search-->
                         <div :class="{'block': open, 'hidden': !open}" class="w-full block" id="search-content">
                             <div class="container mx-auto">
-                                <input id="name_customer" name="name" type="search" placeholder="Buscar..." autofocus="autofocus" class="filter-field w-full form-control border-t-0 border-r-0 border-l-0 focus:outline-none focus:ring-0 focus:border-black pt-0 pb-0">
+                                <input id="name_customer" name="name" type="search" placeholder="Buscar..." autofocus="autofocus" class="filter-field w-full form-control no-border">
                             </div>
                         </div>
                     </div>
@@ -212,7 +212,7 @@
                         <!--Search-->
                         <div :class="{'block': open, 'hidden': !open}" class="w-full block" id="search-content">
                             <div class="container mx-auto">
-                                <input id="name_campaign" name="name" type="search" placeholder="Buscar..." autofocus="autofocus" class="w-full form-control border-t-0 border-r-0 border-l-0 focus:outline-none focus:ring-0 focus:border-black pt-0 pb-0">
+                                <input id="name_campaign" name="name" type="search" placeholder="Buscar..." autofocus="autofocus" class="w-full form-control no-border">
                             </div>
                         </div>
                     </div>

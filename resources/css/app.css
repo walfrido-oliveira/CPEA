@@ -106,6 +106,15 @@ input:read-only {
     @apply inline-block bg-transparent hover:bg-green-500 text-green-500 font-semibold hover:text-white py-1 px-4 border border-green-500 hover:border-transparent rounded-lg;
 }
 
+.custom-select.no-border {
+    border-radius: 0 !important;
+    @apply border-yellow-500;
+}
+
+.no-border {
+    @apply border-t-0 border-r-0 border-l-0 focus:outline-none focus:ring-0 focus:border-black pt-0 pb-0 !important;
+}
+
 .form-input, .custom-select {
     background: #FBFBFB 0% 0% no-repeat padding-box;
     border: 1px solid #C4C4C4;
