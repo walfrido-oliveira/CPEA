@@ -66,27 +66,6 @@ class ProjectController extends Controller
 
         if(isset($input['duplicated_id']))
         {
-            foreach ($input['point_matrix'] as $key => $point)
-            {
-                $validator = Validator::make($point, [
-                    'point_identification_id' => ['required', 'exists:point_identifications,id'],
-                ]);
-
-                if ($validator->fails()) {
-                    return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
-                }
-
-                $projectPointMatrix = ProjectPointMatrix::create([
-                    'project_id' => $project->id,
-                    'campaign_id' => $point['campaign_id'],
-                    'point_identification_id' => $point['point_identification_id'],
-                    'analysis_matrix_id' => $point['analysis_matrix_id'],
-                    'plan_action_level_id' => $point['plan_action_level_id'],
-                    'guiding_parameter_id' => $point['guiding_parameter_id'],
-                    'parameter_analysis_id' => $point['parameter_analysis_id']
-                ]);
-            }
-
             foreach ($input['campaign'] as $key => $campaign)
             {
                 $projectCampaign = Campaign::create([
@@ -122,6 +101,35 @@ class ProjectController extends Controller
                     'humidity' => isset($campaign['humidity']) ? $campaign['humidity'] : null,
                     'pressure' => isset($campaign['pressure']) ? $campaign['pressure'] : null,
 
+                ]);
+
+                foreach ($input['point_matrix'] as $key => $point)
+                {
+                    if($point['campaign_id'] == $campaign['id'])
+                    {
+                        $point['campaign_id'] = $projectCampaign->id;
+                    }
+                }
+            }
+
+            foreach ($input['point_matrix'] as $key => $point)
+            {
+                $validator = Validator::make($point, [
+                    'point_identification_id' => ['required', 'exists:point_identifications,id'],
+                ]);
+
+                if ($validator->fails()) {
+                    return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
+                }
+
+                $projectPointMatrix = ProjectPointMatrix::create([
+                    'project_id' => $project->id,
+                    'campaign_id' => $point['campaign_id'],
+                    'point_identification_id' => $point['point_identification_id'],
+                    'analysis_matrix_id' => $point['analysis_matrix_id'],
+                    'plan_action_level_id' => $point['plan_action_level_id'],
+                    'guiding_parameter_id' => $point['guiding_parameter_id'],
+                    'parameter_analysis_id' => $point['parameter_analysis_id']
                 ]);
             }
         }
