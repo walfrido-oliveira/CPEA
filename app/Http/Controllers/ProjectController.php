@@ -90,7 +90,6 @@ class ProjectController extends Controller
             foreach ($input['campaign'] as $key => $campaign)
             {
                 $projectCampaign = Campaign::create([
-                    'project_point_matrix_id' => $campaign['campaign_point_matrix'],
                     'project_id' => $project->id,
                     'campaign_status_id' => $campaign['campaign_status'],
                     'name' => $campaign['campaign_name'],
