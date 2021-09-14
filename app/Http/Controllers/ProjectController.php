@@ -78,6 +78,7 @@ class ProjectController extends Controller
 
                 $projectPointMatrix = ProjectPointMatrix::create([
                     'project_id' => $project->id,
+                    'campaign_id' => $point['campaign_id'],
                     'point_identification_id' => $point['point_identification_id'],
                     'analysis_matrix_id' => $point['analysis_matrix_id'],
                     'plan_action_level_id' => $point['plan_action_level_id'],
