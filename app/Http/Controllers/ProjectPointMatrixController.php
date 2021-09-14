@@ -225,16 +225,28 @@ class ProjectPointMatrixController extends Controller
      * @param string $id
      * @return \Illuminate\Http\Response
      */
-    public function filter(Request $request, $id)
+    public function filter(Request $request)
     {
-        $projectPointMatrices = ProjectPointMatrix::filter($request->all(), $id);
+        $projectPointMatrices = ProjectPointMatrix::filter($request->all());
         $projectPointMatrices = $projectPointMatrices->setPath('');
         $orderBy = $request->get('order_by');
         $ascending = $request->get('ascending');
         $paginatePerPage = $request->get('paginate_per_page');
 
+        $areas = PointIdentification::pluck('area', 'area');
+        $identifications = PointIdentification::pluck('identification', 'identification');
+        $matrizeces = AnalysisMatrix::pluck('name', 'id');
+        $planActionLevels = PlanActionLevel::pluck('name', 'id');
+        $guidingParameters = GuidingParameter::pluck('environmental_guiding_parameter_id', 'id');
+        $parameterAnalyses = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
+        $geodeticSystems = GeodeticSystem::pluck("name", "id");
+
         return response()->json([
             'filter_result' => view('project.point-matrix-result', compact('projectPointMatrices', 'orderBy', 'ascending'))->render(),
+            'filter_result_campaign_show' => view('project.campaign.point-matrix-result',
+            compact('projectPointMatrices', 'orderBy', 'ascending',
+            'areas', 'identifications', 'matrizeces',
+            'planActionLevels', 'guidingParameters', 'parameterAnalyses', 'geodeticSystems'))->render(),
             'pagination' => $this->setPagination($projectPointMatrices, $orderBy, $ascending, $paginatePerPage),
         ]);
     }

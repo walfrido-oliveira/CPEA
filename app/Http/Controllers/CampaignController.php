@@ -38,7 +38,7 @@ class CampaignController extends Controller
 
         $projectPointMatrices = $campaign->projectPointMatrices()
         ->orderBy("campaign_id", "asc")
-        ->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'point_matrix');
+        ->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'project-point-matrices');
 
         return view('project.campaign.show', compact('campaign', 'areas', 'identifications', 'matrizeces', 'planActionLevels',
                                                      'guidingParameters', 'parameterAnalyses', 'geodeticSystems', 'projectPointMatrices'));

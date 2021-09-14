@@ -118,13 +118,13 @@ class ProjectPointMatrix extends Model
      *
      * @return array
      */
-    public static function filter($query, $project_id)
+    public static function filter($query)
     {
         $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : DEFAULT_PAGINATE_PER_PAGE;
         $ascending = isset($query['ascending']) ? $query['ascending'] : DEFAULT_ASCENDING;
         $orderBy = isset($query['order_by']) ? $query['order_by'] : DEFAULT_ORDER_BY_COLUMN;
 
-        $projects = self::where(function($q) use ($query, $project_id) {
+        $projects = self::where(function($q) use ($query) {
             if(isset($query['id']))
             {
                 if(!is_null($query['id']))
@@ -133,7 +133,25 @@ class ProjectPointMatrix extends Model
                 }
             }
 
-            $q->where('project_id', $project_id);
+            if(isset($query['campaign_id']))
+            {
+                if(!is_null($query['campaign_id']))
+                {
+                    $q->where('campaign_id', $query['campaign_id']);
+                }
+            }
+
+            if(isset($query['q']))
+            {
+                if(!is_null($query['q']))
+                {
+                    $q->whereHas('pointIdentification', function($q) use($query) {
+                        $q->where('point_identifications.area', 'like', '%' . $query['q'] . '%');
+                    });
+                }
+            }
+
+            if(isset($query['project_id'])) $q->where('project_id', $query['project_id']);
         });
 
         if($orderBy == 'identification' || $orderBy == 'area')

@@ -280,5 +280,50 @@
 
             ajax.send(data);
         }
+
+        var filterCallback = function (event) {
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('project.point-matrix.filter') !!}";
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let q = document.getElementById("q").value;
+            let paginationPerPage = document.getElementById("paginate_per_page_project-point-matrices").value;
+            let campaignId = "{{ $campaign->id }}";
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    document.getElementById("point_matrix_table").innerHTML = resp.filter_result_campaign_show;
+                    document.getElementById("point_matrix_pagination").innerHTML = resp.pagination;
+                    eventsFilterCallback();
+                    eventsDeleteCallback();
+                    editPointMatrixCallback();
+                } else if(this.readyState == 4 && this.status != 200) {
+                    toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
+                    eventsFilterCallback();
+                    eventsDeleteCallback();
+                    editPointMatrixCallback();
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('q', q);
+            data.append('paginate_per_page', paginationPerPage);
+            data.append('campaign_id', campaignId);
+
+            ajax.send(data);
+        }
+
+        eventsFilterCallback();
+
+        function eventsFilterCallback() {
+            document.getElementById("q").addEventListener("keyup", filterCallback, false);
+            document.getElementById("paginate_per_page_project-point-matrices").addEventListener("change", filterCallback, false);
+        }
+
     </script>
 </x-app-layout>
