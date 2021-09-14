@@ -46,7 +46,7 @@
                             {{ __('Idet Lab Amostra') }}
                         </div>
                         <div class="text-gray-500 font-bold ">
-                            <x-custom-select :options="$areas" name="point_matrix_edit[{{ $key }}][area]" id="point_matrix_edit_{{ $key }}_area" value="" class="hidden"  select-class="no-border" no-filter="no-filter" arrow-class="text-yellow-500"/>
+                            <x-custom-select :options="$areas" name="point_matrix_edit[{{ $key }}][area]" id="point_matrix_edit_{{ $key }}_area" value="" class="hidden"  select-class="no-border areas" no-filter="no-filter" arrow-class="text-yellow-500"/>
                             <div class="content">
                                 @if ($projectPointMatrix->pointIdentification)
                                     <a class="text-green-600 underline" href="{{ route('registers.point-identification.show', ['point_identification' => $projectPointMatrix->pointIdentification->id]) }}" target="_blank" rel="noopener noreferrer">

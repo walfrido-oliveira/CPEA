@@ -113,9 +113,17 @@
         }
 
         editPointMatrixCallback();
+        filterAreasCallback();
+
+        function filterAreasCallback() {
+            document.querySelectorAll('.areas').forEach(item => {
+                let row = item.id.replace("point_matrix_edit_", "").replace("_area", "");
+                item.addEventListener('click', filterAreas.bind(null, row), false);
+            });
+        }
 
         function filterAreas(row) {
-            var area = document.getElementById('point_matrix_'+ row + '_area').value;
+            var area = document.getElementById('point_matrix_edit_'+ row + '_area').value;
             var pointIdentification = document.getElementById('point_matrix_edit_'+ row + '_point_identification_id');
 
             if (area) {
