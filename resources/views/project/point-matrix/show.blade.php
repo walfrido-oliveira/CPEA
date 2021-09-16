@@ -119,7 +119,12 @@
                             </tr>
                         </thead>
                         <tbody>
-                            for
+                            @foreach ($parameterAnalyses as $key => $parameterAnalysis)
+                                <tr>
+                                    <td>{{ $parameterAnalysis->cas_rn }} - {{ $parameterAnalysis->analysis_parameter_name }} - {{ $parameterAnalysis->parameterAnalysisGroup ? $parameterAnalysis->parameterAnalysisGroup->name : '' }}</td>
+                                    <td></td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
