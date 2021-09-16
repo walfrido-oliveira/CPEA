@@ -25,7 +25,7 @@ class ProjectPointMatrixController extends Controller
     public function show($id)
     {
         $pointMatrix = ProjectPointMatrix::findOrFail($id);
-        $
+
 
         return view('project.point-matrix.show', compact('pointMatrix'));
     }
