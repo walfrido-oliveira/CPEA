@@ -115,14 +115,15 @@
                         <thead>
                             <tr class="thead-light">
                                 <th scope="col" class="cursor-pointer text-center">{{ __('Amostra') }}</th>
-                                <th>{{ __('Ações') }}</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($parameterAnalyses as $key => $parameterAnalysis)
                                 <tr>
-                                    <td>{{ $parameterAnalysis->cas_rn }} - {{ $parameterAnalysis->analysis_parameter_name }} - {{ $parameterAnalysis->parameterAnalysisGroup ? $parameterAnalysis->parameterAnalysisGroup->name : '' }}</td>
-                                    <td></td>
+                                    <td>
+                                        <a class="text-green-600 underline text-item-table" href="{{ route('parameter-analysis.show', ['parameter_analysis' => $parameterAnalysis->id]) }}">
+                                            {{ $parameterAnalysis->cas_rn }} - {{ $parameterAnalysis->analysis_parameter_name }} - {{ $parameterAnalysis->parameterAnalysisGroup ? $parameterAnalysis->parameterAnalysisGroup->name : '' }}</td>
+                                        </a>
                                 </tr>
                             @endforeach
                         </tbody>
