@@ -154,6 +154,7 @@ class ParameterAnalysisController extends Controller
 
         return response()->json([
         'filter_result' => view('parameter-analysis.filter-result', compact('parameterAnalyses', 'orderBy', 'ascending'))->render(),
+        'point_matrix_result' => view('project.point-matrix.parameter-analysis-result', compact('parameterAnalyses', 'orderBy', 'ascending'))->render(),
         'pagination' => view('layouts.pagination', [
             'models' => $parameterAnalyses,
             'order_by' => $orderBy,

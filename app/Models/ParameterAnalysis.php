@@ -71,6 +71,14 @@ class ParameterAnalysis extends Model
                 }
             }
 
+            if(isset($query['q']))
+            {
+                if(!is_null($query['q']))
+                {
+                    $q->where('analysis_parameter_name', 'like','%' . $query['q'] . '%');
+                }
+            }
+
             if(isset($query['analysis_parameter_id']))
             {
                 if(!is_null($query['analysis_parameter_id']))

@@ -25,9 +25,13 @@ class ProjectPointMatrixController extends Controller
     public function show($id)
     {
         $pointMatrix = ProjectPointMatrix::findOrFail($id);
-        $parameterAnalyses = ParameterAnalysis::all();
 
-        return view('project.point-matrix.show', compact('pointMatrix', 'parameterAnalyses'));
+        $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'analysis_parameter_id';
+
+        $parameterAnalyses = ParameterAnalysis::orderBy($orderBy, $ascending)->paginate(DEFAULT_PAGINATE_PER_PAGE);
+
+        return view('project.point-matrix.show', compact('pointMatrix', 'parameterAnalyses', 'ascending', 'orderBy'));
     }
 
     /**

@@ -96,7 +96,7 @@
                             <!--Search-->
                             <div :class="{'block': open, 'hidden': !open}" class="w-full block" id="search-content">
                                 <div class="container mx-auto">
-                                    <input id="name_customer" name="name" type="search" placeholder="Buscar..." autofocus="autofocus" class="filter-field w-full form-control no-border mt-4">
+                                    <input id="q" name="q" type="search" placeholder="Buscar..." autofocus="autofocus" class="filter-field w-full form-control no-border mt-4">
                                 </div>
                             </div>
                             <div class="flex md:flex-row flex-col">
@@ -111,26 +111,107 @@
                     </div>
                 </div>
                 <div class="flex mt-4">
-                    <table id="point_matrix_table" class="table table-responsive md:table w-full">
-                        <thead>
-                            <tr class="thead-light">
-                                <th scope="col" class="cursor-pointer text-center">{{ __('Amostra') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($parameterAnalyses as $key => $parameterAnalysis)
-                                <tr>
-                                    <td class="text-center">
-                                        <a class="text-green-600 underline text-item-table" href="{{ route('parameter-analysis.show', ['parameter_analysis' => $parameterAnalysis->id]) }}">
-                                            {{ $parameterAnalysis->cas_rn }} - {{ $parameterAnalysis->analysis_parameter_name }} - {{ $parameterAnalysis->parameterAnalysisGroup ? $parameterAnalysis->parameterAnalysisGroup->name : '' }}</td>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
+                    <table id="parameter_analysis_table" class="table table-responsive md:table w-full">
+                        @include('project.point-matrix.parameter-analysis-result')
                     </table>
                 </div>
+                <div class="flex mt-4 p-2" id="pagination">
+                    {{ $parameterAnalyses->appends(request()->input())->links() }}
+            </div>
             </div>
         </div>
     </div>
+
+    <script>
+        var filterCallback = function (event) {
+                var ajax = new XMLHttpRequest();
+                var url = "{!! route('parameter-analysis.filter') !!}";
+                var token = document.querySelector('meta[name="csrf-token"]').content;
+                var method = 'POST';
+                var paginationPerPage = document.getElementById("paginate_per_page").value;
+
+                var q = document.getElementById("q").value;
+
+                ajax.open(method, url);
+
+                ajax.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var resp = JSON.parse(ajax.response);
+                        document.getElementById("parameter_analysis_table").innerHTML = resp.point_matrix_result;
+                        document.getElementById("pagination").innerHTML = resp.pagination;
+                        eventsFilterCallback();
+                        eventsDeleteCallback();
+                    } else if(this.readyState == 4 && this.status != 200) {
+                        toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
+                        eventsFilterCallback();
+                        eventsDeleteCallback();
+                    }
+                }
+
+                var data = new FormData();
+                data.append('_token', token);
+                data.append('_method', method);
+                data.append('paginate_per_page', paginationPerPage);
+                if(q) data.append('q', q);
+                data.append('ascending', ascending);
+                data.append('order_by', orderBY);
+
+                ajax.send(data);
+            }
+
+            var ascending = "{!! $ascending !!}";
+            var orderBY = "{!! $orderBy !!}";
+
+            var orderByCallback = function (event) {
+                orderBY = this.dataset.name;
+                ascending = this.dataset.ascending;
+                var that = this;
+                var ajax = new XMLHttpRequest();
+                var url = "{!! route('parameter-analysis.filter') !!}";
+                var token = document.querySelector('meta[name="csrf-token"]').content;
+                var method = 'POST';
+                var paginationPerPage = document.getElementById("paginate_per_page").value;
+
+                var q = document.getElementById("q").value;
+
+                ajax.open(method, url);
+
+                ajax.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var resp = JSON.parse(ajax.response);
+                        document.getElementById("parameter_analysis_table").innerHTML = resp.point_matrix_result;
+                        document.getElementById("pagination").innerHTML = resp.pagination;
+                        that.dataset.ascending = that.dataset.ascending == 'asc' ? that.dataset.ascending = 'desc' : that.dataset.ascending = 'asc';
+                        eventsFilterCallback();
+                        eventsDeleteCallback();
+                    } else if(this.readyState == 4 && this.status != 200) {
+                        toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
+                        eventsFilterCallback();
+                        eventsDeleteCallback();
+                    }
+                }
+
+                var data = new FormData();
+                data.append('_token', token);
+                data.append('_method', method);
+                data.append('paginate_per_page', paginationPerPage);
+                data.append('ascending', ascending);
+                data.append('order_by', orderBY);
+                if(q) data.append('q', q);
+
+                ajax.send(data);
+            }
+
+            function eventsFilterCallback() {
+                document.querySelectorAll('.filter-field').forEach(item => {
+                    item.addEventListener('change', filterCallback, false);
+                    item.addEventListener('keyup', filterCallback, false);
+                });
+                document.querySelectorAll("#parameter_analysis_table thead [data-name]").forEach(item => {
+                    item.addEventListener("click", orderByCallback, false);
+                });
+            }
+
+            eventsFilterCallback();
+    </script>
 </x-app-layout>
