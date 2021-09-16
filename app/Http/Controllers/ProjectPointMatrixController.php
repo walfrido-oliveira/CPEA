@@ -17,6 +17,20 @@ use Illuminate\Support\Facades\Validator;
 class ProjectPointMatrixController extends Controller
 {
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $pointMatrix = ProjectPointMatrix::findOrFail($id);
+        $
+
+        return view('project.point-matrix.show', compact('pointMatrix'));
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  \Illuminate\Http\Request  $request

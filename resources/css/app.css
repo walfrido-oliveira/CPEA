@@ -64,6 +64,10 @@ input:read-only {
     min-width: 88px;
 }
 
+.btn-transition {
+    @apply inline-block transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 cursor-pointer;
+}
+
 .btn-transition-warning {
     @apply inline-block text-yellow-500 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 cursor-pointer;
 }
@@ -227,7 +231,7 @@ input:read-only {
     color: #313131;
     background-color: hsla(0,0%,76.9%,.16);
     border-color: hsla(0,0%,76.9%,.16);
-    text-align: left;
+    text-align: center;
 }
 
 .table tr>th {
