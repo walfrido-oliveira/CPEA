@@ -3,78 +3,11 @@
         <div class="max-w-6xl mx-auto px-4">
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">
-                    <h1>{{ __('Amostra: ') }} <span class="font-normal">{{ $pointMatrix->campaign->name }}</span></h1>
+                    <h1>{{ __('Amostra: ') }} <span class="font-normal">{{ $campaign->name }}</span></h1>
                 </div>
                 <div class="w-full flex justify-end">
                     <div class="m-2">
-                        <a href="{{ route('project.campaign.show', ['campaign' => $pointMatrix->campaign->id])}}" class="btn-outline-danger">{{ __('Voltar') }}</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="py-2 my-2 bg-white rounded-lg">
-                <div class="mx-4 px-3 py-2">
-                    <div class="flex md:flex-row flex-col">
-                        <div class="mx-4 px-3 py-2">
-                            <div class="w-full">
-                                <p class="font-bold">{{ __('Área') }}</p>
-                            </div>
-                            <div class="w-full">
-                                @if ($pointMatrix->pointIdentification)
-                                    <p class="text-gray-500 font-bold">{{ $pointMatrix->pointIdentification->area }}</p>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="mx-4 px-3 py-2">
-                            <div class="w-full">
-                                <p class="font-bold">{{ __('Ponto') }}</p>
-                            </div>
-                            <div class="w-full">
-                                @if ($pointMatrix->pointIdentification)
-                                    <p class="text-gray-500 font-bold">{{ $pointMatrix->pointIdentification->identification }}</p>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="mx-4 px-3 py-2">
-                            <div class="w-full">
-                                <p class="font-bold">{{ __('Matriz') }}</p>
-                            </div>
-                            <div class="w-full">
-                                @if ($pointMatrix->analysisMatrix)
-                                    <p class="text-gray-500 font-bold"> {{ $pointMatrix->analysisMatrix->name }}</p>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="mx-4 px-3 py-2">
-                            <div class="w-full">
-                                <p class="font-bold">{{ __('Tipo Nível Ação') }}</p>
-                            </div>
-                            <div class="w-full">
-                                @if ($pointMatrix->planActionLevel)
-                                    <p class="text-gray-500 font-bold"> {{ $pointMatrix->planActionLevel->name }}</p>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="mx-4 px-3 py-2">
-                            <div class="w-full">
-                                <p class="font-bold">{{ __('Param Orientador Ambiental') }}</p>
-                            </div>
-                            <div class="w-full">
-                                @if ($pointMatrix->guidingParameter)
-                                    <p class="text-gray-500 font-bold"> {{ $pointMatrix->guidingParameter->environmental_guiding_parameter_id }}</p>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="mx-4 px-3 py-2">
-                            <div class="w-full">
-                                <p class="font-bold">{{ __('Param Análise') }}</p>
-                            </div>
-                            <div class="w-full">
-                                @if ($pointMatrix->parameterAnalysis)
-                                    <p class="text-gray-500 font-bold"> {{ $pointMatrix->parameterAnalysis->analysis_parameter_name }}</p>
-                                @endif
-                            </div>
-                        </div>
+                        <a href="{{ route('project.campaign.show', ['campaign' => $campaign->id])}}" class="btn-outline-danger">{{ __('Voltar') }}</a>
                     </div>
                 </div>
             </div>
@@ -116,7 +49,7 @@
                     </table>
                 </div>
                 <div class="flex mt-4 p-2" id="pagination">
-                    {{ $parameterAnalyses->appends(request()->input())->links() }}
+                    {{-- $projectPointMatrices->appends(request()->input())->links() --}}
             </div>
             </div>
         </div>

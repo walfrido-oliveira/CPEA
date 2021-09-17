@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\Campaign;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\AnalysisMatrix;
@@ -22,16 +23,21 @@ class ProjectPointMatrixController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function analysis($id)
     {
-        $pointMatrix = ProjectPointMatrix::findOrFail($id);
+        $campaign = Campaign::findOrFail($id);
 
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'analysis_parameter_id';
 
         $parameterAnalyses = ParameterAnalysis::orderBy($orderBy, $ascending)->paginate(DEFAULT_PAGINATE_PER_PAGE);
+        $projectPointMatrices = $campaign
+        ->projectPointMatrices()
+        ->with('pointIdentification')
+        ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+        ->orderBy('point_identifications.identification')->get();
 
-        return view('project.point-matrix.show', compact('pointMatrix', 'parameterAnalyses', 'ascending', 'orderBy'));
+        return view('project.point-matrix.parameter-analysis', compact('campaign', 'projectPointMatrices', 'ascending', 'orderBy'));
     }
 
     /**

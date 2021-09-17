@@ -520,7 +520,7 @@
 
         function getFieldsPointMatrix(id) {
             let ajax = new XMLHttpRequest();
-            let url = "{!! route('project.point-matrix.get-fields', ['campaign' => '#']) !!}".replace('#', id);
+            let url = "{!! route('project.point-matrix.get-fields', ['analysis_matrix' => '#']) !!}".replace('#', id);
             let token = document.querySelector('meta[name="csrf-token"]').content;
             let method = 'POST';
 
