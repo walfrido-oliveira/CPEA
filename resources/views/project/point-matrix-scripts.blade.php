@@ -1,43 +1,5 @@
 <script>
     window.addEventListener("load", function() {
-        function filterAreas() {
-            var area = document.getElementById("areas").value;
-            cleanPointidentifications();
-
-            if (area) {
-                var ajax = new XMLHttpRequest();
-                var url = "{!! route('registers.point-identification.filter-by-area', ['area' => '#']) !!}".replace("#", area);
-                var token = document.querySelector('meta[name="csrf-token"]').content;
-                var method = 'POST';
-
-                ajax.open(method, url);
-
-                ajax.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        var resp = JSON.parse(ajax.response);
-
-                        let pointIdentifications = resp.point_identifications;
-                        for (let index = 0; index < pointIdentifications.length; index++) {
-                            const item = pointIdentifications[index];
-                            var opt = document.createElement('option');
-                            opt.value = item.id;
-                            opt.text = item.identification;
-                            pointIdentification.add(opt);
-                        }
-                    } else if (this.readyState == 4 && this.status != 200) {
-                        toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
-                    }
-                }
-
-                var data = new FormData();
-                data.append('_token', token);
-                data.append('_method', method);
-                data.append('area', area);
-
-                ajax.send(data);
-            }
-        }
-
         document.querySelectorAll('#areas').forEach(item => {
             item.addEventListener('change', filterAreas, false);
         });
@@ -447,10 +409,10 @@
 
             areas.value = document.getElementById('point_matrix_'+ row + '_area').value
 
-            filterAreas();
-
-            pointIdentifications.value = document.getElementById('point_matrix_'+ row + '_point_identification_id') ?
-            document.getElementById('point_matrix_'+ row + '_point_identification_id').value : null;
+            filterAreas().then(function(result) {
+                pointIdentifications.value = document.getElementById('point_matrix_'+ row + '_point_identification_id') ?
+                document.getElementById('point_matrix_'+ row + '_point_identification_id').value : null;
+            });
 
             matriz.value = document.getElementById('point_matrix_'+ row + '_analysis_matrix_id') ?
             document.getElementById('point_matrix_'+ row + '_analysis_matrix_id').value : null;
@@ -547,6 +509,51 @@
 
                 ajax.send(data);
             });
+        }
+
+        function filterAreas() {
+            var area = document.getElementById("areas").value;
+            cleanPointidentifications();
+
+            if (area) {
+                var ajax = new XMLHttpRequest();
+                var url = "{!! route('registers.point-identification.filter-by-area', ['area' => '#']) !!}".replace("#", area);
+                var token = document.querySelector('meta[name="csrf-token"]').content;
+                var method = 'POST';
+
+                return new Promise(function(resolve, reject) {
+                    ajax.open(method, url);
+
+                    ajax.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            var resp = JSON.parse(ajax.response);
+
+                            let pointIdentifications = resp.point_identifications;
+                            for (let index = 0; index < pointIdentifications.length; index++) {
+                                const item = pointIdentifications[index];
+                                var opt = document.createElement('option');
+                                opt.value = item.id;
+                                opt.text = item.identification;
+                                pointIdentification.add(opt);
+                            }
+                            resolve(resp.point_identifications);
+                        } else if (this.readyState == 4 && this.status != 200) {
+                            var resp = JSON.parse(ajax.response);
+                            reject({
+                                status: this.status,
+                                statusText: ajax.statusText
+                            });
+                        }
+                    }
+
+                    var data = new FormData();
+                    data.append('_token', token);
+                    data.append('_method', method);
+                    data.append('area', area);
+
+                    ajax.send(data);
+                });
+            }
         }
     });
 </script>
