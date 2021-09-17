@@ -4,15 +4,6 @@
             item.addEventListener('change', filterAreas, false);
         });
 
-        var pointIdentification = document.getElementById("point_identifications");
-
-        function cleanPointidentifications() {
-            var i, L = pointIdentification.options.length - 1;
-            for (i = L; i >= 0; i--) {
-                pointIdentification.remove(i);
-            }
-        }
-
         function getPointMatrices() {
             var id = '{{ $project->id }}';
             var ajax = new XMLHttpRequest();
@@ -513,7 +504,6 @@
 
         function filterAreas() {
             var area = document.getElementById("areas").value;
-            cleanPointidentifications();
 
             if (area) {
                 var ajax = new XMLHttpRequest();
@@ -527,6 +517,13 @@
                     ajax.onreadystatechange = function() {
                         if (this.readyState == 4 && this.status == 200) {
                             var resp = JSON.parse(ajax.response);
+
+                            let pointIdentification = document.getElementById("point_identifications");
+
+                            let i, L = pointIdentification.options.length - 1;
+                            for (i = L; i >= 0; i--) {
+                                pointIdentification.remove(i);
+                            }
 
                             let pointIdentifications = resp.point_identifications;
                             for (let index = 0; index < pointIdentifications.length; index++) {
