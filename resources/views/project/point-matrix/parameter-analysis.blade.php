@@ -49,7 +49,7 @@
                     </table>
                 </div>
                 <div class="flex mt-4 p-2" id="pagination">
-                    {{-- $projectPointMatrices->appends(request()->input())->links() --}}
+                    {{ $projectPointMatrices->appends(request()->input())->links() }}
             </div>
             </div>
         </div>
@@ -58,10 +58,10 @@
     <script>
         var filterCallback = function (event) {
                 var ajax = new XMLHttpRequest();
-                var url = "{!! route('parameter-analysis.filter') !!}";
+                var url = "{!! route('project.point-matrix.filter') !!}";
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
-                var paginationPerPage = document.getElementById("paginate_per_page").value;
+                var paginationPerPage = document.getElementById("paginate_per_page_project-point-matrices").value;
 
                 var q = document.getElementById("q").value;
 
@@ -73,11 +73,9 @@
                         document.getElementById("parameter_analysis_table").innerHTML = resp.point_matrix_result;
                         document.getElementById("pagination").innerHTML = resp.pagination;
                         eventsFilterCallback();
-                        eventsDeleteCallback();
                     } else if(this.readyState == 4 && this.status != 200) {
                         toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
                         eventsFilterCallback();
-                        eventsDeleteCallback();
                     }
                 }
 
@@ -88,6 +86,7 @@
                 if(q) data.append('q', q);
                 data.append('ascending', ascending);
                 data.append('order_by', orderBY);
+                data.append('campaign_id', "{{ $campaign->id }}");
 
                 ajax.send(data);
             }
@@ -100,10 +99,10 @@
                 ascending = this.dataset.ascending;
                 var that = this;
                 var ajax = new XMLHttpRequest();
-                var url = "{!! route('parameter-analysis.filter') !!}";
+                var url = "{!! route('project.point-matrix.filter') !!}";
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
-                var paginationPerPage = document.getElementById("paginate_per_page").value;
+                var paginationPerPage = document.getElementById("paginate_per_page_project-point-matrices").value;
 
                 var q = document.getElementById("q").value;
 
@@ -116,11 +115,9 @@
                         document.getElementById("pagination").innerHTML = resp.pagination;
                         that.dataset.ascending = that.dataset.ascending == 'asc' ? that.dataset.ascending = 'desc' : that.dataset.ascending = 'asc';
                         eventsFilterCallback();
-                        eventsDeleteCallback();
                     } else if(this.readyState == 4 && this.status != 200) {
                         toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
                         eventsFilterCallback();
-                        eventsDeleteCallback();
                     }
                 }
 
@@ -130,6 +127,7 @@
                 data.append('paginate_per_page', paginationPerPage);
                 data.append('ascending', ascending);
                 data.append('order_by', orderBY);
+                data.append('campaign_id', "{{ $campaign->id }}");
                 if(q) data.append('q', q);
 
                 ajax.send(data);

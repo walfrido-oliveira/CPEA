@@ -28,14 +28,14 @@ class ProjectPointMatrixController extends Controller
         $campaign = Campaign::findOrFail($id);
 
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
-        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'analysis_parameter_id';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'identification';
 
-        $parameterAnalyses = ParameterAnalysis::orderBy($orderBy, $ascending)->paginate(DEFAULT_PAGINATE_PER_PAGE);
         $projectPointMatrices = $campaign
         ->projectPointMatrices()
         ->with('pointIdentification')
         ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
-        ->orderBy('point_identifications.identification')->get();
+        ->orderBy($orderBy, $ascending)
+        ->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'project-point-matrices');
 
         return view('project.point-matrix.parameter-analysis', compact('campaign', 'projectPointMatrices', 'ascending', 'orderBy'));
     }
@@ -267,6 +267,7 @@ class ProjectPointMatrixController extends Controller
 
         return response()->json([
             'filter_result' => view('project.point-matrix-result', compact('projectPointMatrices', 'orderBy', 'ascending'))->render(),
+            'point_matrix_result' => view('project.point-matrix.parameter-analysis-result', compact('projectPointMatrices', 'orderBy', 'ascending'))->render(),
             'filter_result_campaign_show' => view('project.campaign.point-matrix-result',
             compact('projectPointMatrices', 'orderBy', 'ascending',
             'areas', 'identifications', 'matrizeces',
