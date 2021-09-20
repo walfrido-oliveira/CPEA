@@ -122,6 +122,9 @@
               <div class="px-0 py-0 ">
                 <a class="@if(request()->routeIs('registers.unity.index')) {{ 'active' }} @endif" href="{{ route('registers.unity.index') }}">Unidade</a>
               </div>
+              <div class="px-0 py-0 ">
+                <a class="@if(request()->routeIs('registers.calculation-parameter.index')) {{ 'active' }} @endif" href="{{ route('registers.calculation-parameter.index') }}">Param. Fórmula Cálculo</a>
+              </div>
             </div>
           </div>
       </nav>

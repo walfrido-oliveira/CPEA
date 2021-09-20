@@ -22,7 +22,7 @@
                     <a class="text-green-600 underline text-item-table" href="{{ route('parameter-analysis.show', ['parameter_analysis' => $point->parameterAnalysis->id]) }}">
                         {{ $point->parameterAnalysis->cas_rn }} -
                         {{ $point->parameterAnalysis->analysis_parameter_name }} -
-                        {{ $point->parameterAnalysis->parameterAnalysisGroup ? $point->parameterAnalysis->parameterAnalysisGroup->name : '' }}</td>
+                        {{ $point->parameterAnalysis->parameterAnalysisGroup ? $point->parameterAnalysis->parameterAnalysisGroup->name : '' }}
                     </a>
                 @endif
             </td>

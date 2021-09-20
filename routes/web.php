@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use ChrisKonnertz\StringCalc\StringCalc;
 use App\Http\Controllers\UnityController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\CampaignController;
@@ -22,6 +23,7 @@ use App\Http\Controllers\ProjectPointMatrixController;
 use App\Http\Controllers\TypeGeodeticSystemController;
 use App\Http\Controllers\EnvironmentalAgencyController;
 use App\Http\Controllers\PointIdentificationController;
+use App\Http\Controllers\CalculationParameterController;
 use App\Http\Controllers\GuidingParameterValueController;
 use App\Http\Controllers\ParameterAnalysisGroupController;
 use App\Http\Controllers\GuidingParameterRefValueController;
@@ -36,6 +38,13 @@ use App\Http\Controllers\GuidingParameterRefValueController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/test', function () {
+    $term = "1+3*10/2";
+    $stringCalc = new StringCalc();
+    $result = $stringCalc->calculate($term);
+    dd($result);
+})->name('tests');
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -230,6 +239,14 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         ]);
         Route::prefix('unidades')->name('unity.')->group(function(){
             Route::post('/filter', [UnityController::class, 'filter'])->name('filter');
+        });
+
+        Route::resource('param-formula-calculo', CalculationParameterController::class, [
+            'names' => 'calculation-parameter'])->parameters([
+            'param-formula-calculo' => 'calculation-parameter'
+        ]);
+        Route::prefix('param-formula-calculo')->name('calculation-parameter.')->group(function(){
+            Route::post('/filter', [CalculationParameterController::class, 'filter'])->name('filter');
         });
 
     });
