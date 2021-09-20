@@ -21,6 +21,7 @@ use App\Http\Controllers\EnvironmentalAreaController;
 use App\Http\Controllers\ParameterAnalysisController;
 use App\Http\Controllers\ProjectPointMatrixController;
 use App\Http\Controllers\TypeGeodeticSystemController;
+use App\Http\Controllers\CalculationVariableController;
 use App\Http\Controllers\EnvironmentalAgencyController;
 use App\Http\Controllers\PointIdentificationController;
 use App\Http\Controllers\CalculationParameterController;
@@ -247,6 +248,15 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         ]);
         Route::prefix('param-formula-calculo')->name('calculation-parameter.')->group(function(){
             Route::post('/filter', [CalculationParameterController::class, 'filter'])->name('filter');
+        });
+
+        Route::resource('variavel-formula-calculo', CalculationVariableController::class, [
+            'names' => 'calculation-variable'])->parameters([
+            'variavel-formula-calculo' => 'calculation-variable'
+        ]);
+        Route::prefix('variavel-formula-calculo')->name('calculation-variable.')->group(function(){
+            Route::post('/filter', [CalculationVariableController::class, 'filter'])->name('filter');
+            Route::post('/filter-by-calculation-parameter/{calculation_parameter}', [CalculationVariableController::class, 'filterByCalculationParameter'])->name('filter-by-calculation-parameter');
         });
 
     });

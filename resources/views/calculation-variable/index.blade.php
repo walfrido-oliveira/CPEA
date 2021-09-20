@@ -1,17 +1,17 @@
 <x-app-layout>
-    <div class="py-6 index-calculation-parameter">
+    <div class="py-6 index-calculation-variable">
         <div class="max-w-6xl mx-auto px-4">
 
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">
-                    <h1>{{ __('Lista de Param. Fórmula Cálculo') }}</h1>
+                    <h1>{{ __('Lista de Variável Fórmula Cálculo') }}</h1>
                 </div>
                 <div class="w-full flex justify-end">
                     <div class="m-2 ">
-                        <a class="btn-outline-info" href="{{ route('registers.calculation-parameter.create') }}" >{{ __('Cadastrar') }}</a>
+                        <a class="btn-outline-info" href="{{ route('registers.calculation-variable.create') }}" >{{ __('Cadastrar') }}</a>
                     </div>
                     <div class="m-2">
-                        <button type="button" class="btn-outline-danger delete-calculation-parameter" data-type="multiple">{{ __('Apagar') }}</a>
+                        <button type="button" class="btn-outline-danger delete-calculation-variable" data-type="multiple">{{ __('Apagar') }}</a>
                     </div>
                 </div>
             </div>
@@ -20,34 +20,34 @@
                 <div class="filter-container">
                     <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full">
                         <div class="w-full px-2 mb-6 md:mb-0">
-                            <x-jet-label for="parameter_analysis_id" value="{{ __('Param. Analise') }}" />
-                            <x-custom-select :options="$parameterAnalysis" name="parameter_analysis_id" id="parameter_analysis_id" :value="app('request')->input('parameter_analysis_id')"/>
+                            <x-jet-label for="calculation_parameter_id" value="{{ __('Formula Calculo') }}" />
+                            <x-custom-select :options="$calculationParameters" name="calculation_parameter_id" id="calculation_parameter_id" :value="app('request')->input('calculation_parameter_id')"/>
                         </div>
                     </div>
                 </div>
                 <div class="flex mt-4">
-                    <table id="calculation_parameter_table" class="table table-responsive md:table w-full">
-                        @include('calculation-parameter.filter-result', ['calculationParameters' => $calculationParameters, 'ascending' => $ascending, 'orderBy' => $orderBy])
+                    <table id="calculation_variable_table" class="table table-responsive md:table w-full">
+                        @include('calculation-variable.filter-result', ['calculationVariables' => $calculationVariables, 'ascending' => $ascending, 'orderBy' => $orderBy])
                     </table>
                 </div>
                 <div class="flex mt-4 p-2" id="pagination">
-                        {{ $calculationParameters->appends(request()->input())->links() }}
+                        {{ $calculationVariables->appends(request()->input())->links() }}
                 </div>
             </div>
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir Param. Fórmula Cálculo') }}"
-             msg="{{ __('Deseja realmente apagar essa Param. Fórmula Cálculo?') }}"
-             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_calculation_parameter_modal"
+    <x-modal title="{{ __('Excluir Variável Fórmula Cálculo') }}"
+             msg="{{ __('Deseja realmente apagar essa Variável Fórmula Cálculo?') }}"
+             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_calculation_variable_modal"
              method="DELETE"
-             redirect-url="{{ route('registers.calculation-parameter.index') }}"/>
+             redirect-url="{{ route('registers.calculation-variable.index') }}"/>
 
     <script>
         window.addEventListener("load", function() {
             var filterCallback = function (event) {
                 var ajax = new XMLHttpRequest();
-                var url = "{!! route('registers.calculation-parameter.filter') !!}";
+                var url = "{!! route('registers.calculation-variable.filter') !!}";
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
@@ -58,7 +58,7 @@
                 ajax.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         var resp = JSON.parse(ajax.response);
-                        document.getElementById("calculation_parameter_table").innerHTML = resp.filter_result;
+                        document.getElementById("calculation_variable_table").innerHTML = resp.filter_result;
                         document.getElementById("pagination").innerHTML = resp.pagination;
                         eventsFilterCallback();
                         eventsDeleteCallback();
@@ -88,7 +88,7 @@
                 ascending = this.dataset.ascending;
                 var that = this;
                 var ajax = new XMLHttpRequest();
-                var url = "{!! route('registers.calculation-parameter.filter') !!}";
+                var url = "{!! route('registers.calculation-variable.filter') !!}";
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
@@ -99,7 +99,7 @@
                 ajax.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         var resp = JSON.parse(ajax.response);
-                        document.getElementById("calculation_parameter_table").innerHTML = resp.filter_result;
+                        document.getElementById("calculation_variable_table").innerHTML = resp.filter_result;
                         document.getElementById("pagination").innerHTML = resp.pagination;
                         that.dataset.ascending = that.dataset.ascending == 'asc' ? that.dataset.ascending = 'desc' : that.dataset.ascending = 'asc';
                         eventsFilterCallback();
@@ -127,24 +127,24 @@
                     item.addEventListener('change', filterCallback, false);
                     item.addEventListener('keyup', filterCallback, false);
                 });
-                document.querySelectorAll("#calculation_parameter_table thead [data-name]").forEach(item => {
+                document.querySelectorAll("#calculation_variable_table thead [data-name]").forEach(item => {
                     item.addEventListener("click", orderByCallback, false);
                 });
             }
 
             function eventsDeleteCallback() {
-                document.querySelectorAll('.delete-calculation-parameter').forEach(item => {
+                document.querySelectorAll('.delete-calculation-variable').forEach(item => {
                     item.addEventListener("click", function() {
                         if(this.dataset.type != 'multiple') {
                             var url = this.dataset.url;
-                            var modal = document.getElementById("delete_calculation_parameter_modal");
+                            var modal = document.getElementById("delete_calculation_variable_modal");
                             modal.dataset.url = url;
                             modal.classList.remove("hidden");
                             modal.classList.add("block");
                         }
                         else {
                             var urls = '';
-                            document.querySelectorAll('input:checked.calculation-parameter-url').forEach((item, index, arr) => {
+                            document.querySelectorAll('input:checked.calculation-variable-url').forEach((item, index, arr) => {
                                 urls += item.value ;
                                 if(index < (arr.length - 1)) {
                                     urls += ',';
@@ -152,7 +152,7 @@
                             });
 
                             if(urls.length > 0) {
-                                var modal = document.getElementById("delete_calculation_parameter_modal");
+                                var modal = document.getElementById("delete_calculation_variable_modal");
                                 modal.dataset.url = urls;
                                 modal.classList.remove("hidden");
                                 modal.classList.add("block");

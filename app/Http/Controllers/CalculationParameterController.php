@@ -65,7 +65,7 @@ class CalculationParameterController extends Controller
     {
         $calculationParameter = CalculationParameter::findOrFail($id);
 
-        return view('calculation-parameter.show', compact('calculation-parameter'));
+        return view('calculation-parameter.show', compact('calculationParameter'));
     }
 
     /**

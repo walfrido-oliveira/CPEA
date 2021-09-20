@@ -3,17 +3,17 @@
         <div class="max-w-6xl mx-auto px-4">
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">
-                    <h1>{{ __('Detalhes do Param. Fórmula Cálculo') }}</h1>
+                    <h1>{{ __('Detalhes do Variável Fórmula Cálculo') }}</h1>
                 </div>
                 <div class="w-full flex justify-end">
                     <div class="m-2 ">
-                        <a class="btn-outline-info" href="{{ route('registers.calculation-parameter.index') }}">{{ __('Listar') }}</a>
+                        <a class="btn-outline-info" href="{{ route('registers.calculation-variable.index') }}">{{ __('Listar') }}</a>
                     </div>
                     <div class="m-2">
-                        <a class="btn-outline-warning" href="{{ route('registers.calculation-parameter.edit', ['calculation_parameter' => $calculationParameter->id]) }}">{{ __('Editar') }}</a>
+                        <a class="btn-outline-warning" href="{{ route('registers.calculation-variable.edit', ['calculation_variable' => $calculationVariable->id]) }}">{{ __('Editar') }}</a>
                     </div>
                     <div class="m-2">
-                        <button type="button" class="btn-outline-danger delete-calculation-parameter" id="calculation_parameter_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $calculationParameter->id }}">{{ __('Apagar') }}</button>
+                        <button type="button" class="btn-outline-danger delete-calculation-variable" id="calculation_variable_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $calculationVariable->id }}">{{ __('Apagar') }}</button>
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                         </div>
 
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $calculationParameter->id }}</p>
+                            <p class="text-gray-500 font-bold">{{ $calculationVariable->id }}</p>
                         </div>
                     </div>
 
@@ -36,8 +36,8 @@
                         </div>
                         <div class="w-full md:w-1/2">
                             <p class="text-gray-500 font-bold">
-                                <a class="text-green-600 underline" href="{{ route('parameter-analysis.show', ['parameter_analysis' => $calculationParameter->parameterAnalysis->id ]) }}" target="_blank" rel="noopener noreferrer">
-                                    {{ $calculationParameter->parameterAnalysis->analysis_parameter_name }}
+                                <a class="text-green-600 underline" href="{{ route('parameter-analysis.show', ['parameter_analysis' => $calculationVariable->parameterAnalysis->id ]) }}" target="_blank" rel="noopener noreferrer">
+                                    {{ $calculationVariable->parameterAnalysis->analysis_parameter_name }}
                                 </a>
                             </p>
                         </div>
@@ -48,7 +48,7 @@
                             <p class="font-bold">{{ __('Formula') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $calculationParameter->formula }}</p>
+                            <p class="text-gray-500 font-bold">{{ $calculationVariable->formula }}</p>
                         </div>
                     </div>
 
@@ -57,7 +57,7 @@
                             <p class="font-bold">{{ __('Data de Cadastro') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $calculationParameter->created_at->format('d/m/Y h:i:s')}}</p>
+                            <p class="text-gray-500 font-bold">{{ $calculationVariable->created_at->format('d/m/Y h:i:s')}}</p>
                         </div>
                     </div>
 
@@ -66,7 +66,7 @@
                             <p class="font-bold">{{ __('Última Edição') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $calculationParameter->updated_at->format('d/m/Y h:i:s')}}</p>
+                            <p class="text-gray-500 font-bold">{{ $calculationVariable->updated_at->format('d/m/Y h:i:s')}}</p>
                         </div>
                     </div>
                 </div>
@@ -75,18 +75,18 @@
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir Param. Fórmula Cálculo') }}"
-             msg="{{ __('Deseja realmente apagar essa Param. Fórmula Cálculo?') }}"
-             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_calculation_parameter_modal"
+    <x-modal title="{{ __('Excluir Matriz Análise') }}"
+             msg="{{ __('Deseja realmente apagar essa Matriz Análise?') }}"
+             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_calculation_variable_modal"
              method="DELETE"
-             url="{{ route('registers.calculation-parameter.destroy', ['calculation_parameter' => $calculationParameter->id]) }}"
-             redirect-url="{{ route('registers.calculation-parameter.index') }}"/>
+             url="{{ route('registers.calculation-variable.destroy', ['calculation_variable' => $calculationVariable->id]) }}"
+             redirect-url="{{ route('registers.calculation-variable.index') }}"/>
 
     <script>
         function eventsDeleteCallback() {
-            document.querySelectorAll('.delete-calculation-parameter').forEach(item => {
+            document.querySelectorAll('.delete-calculation-variable').forEach(item => {
             item.addEventListener("click", function() {
-                var modal = document.getElementById("delete_calculation_parameter_modal");
+                var modal = document.getElementById("delete_calculation_variable_modal");
                 modal.classList.remove("hidden");
                 modal.classList.add("block");
             })

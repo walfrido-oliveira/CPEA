@@ -33,6 +33,9 @@
                         <div class="w-full px-3 mb-6 md:mb-0">
                             <x-jet-label for="formula" value="{{ __('Formula Cálculo') }}" required/>
                             <textarea class="form-input w-full" name="formula" id="formula" cols="30" rows="3" required ></textarea>
+                            <div class="mt-4">
+                                <p class="m-0 text-gray-900">{{ __('Variável(eis) Fórmula Cálculo disponíveis:') }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -40,5 +43,31 @@
         </div>
     </div>
 
+    <script>
+        document.getElementById("parameter_analysis_id").addEventListener("change", function() {
+            if(!this.value) return;
+            var ajax = new XMLHttpRequest();
+            var url = "{!! route('registers.calculation-variable.filter-by-calculation-parameter', ['calculation_parameter' => '#']) !!}".replace("#", this.value);
+            var token = document.querySelector('meta[name="csrf-token"]').content;
+            var method = 'POST';
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    document.getElementById("calculation-variables-list").innerHTML = resp.result;
+                } else if(this.readyState == 4 && this.status != 200) {
+                    toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+
+            ajax.send(data);
+        });
+    </script>
 
 </x-app-layout>

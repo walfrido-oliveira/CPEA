@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\ParameterAnalysis;
+use App\Models\CalculationParameter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class CalculationParameter extends Model
+class CalculationVariable extends Model
 {
     use HasFactory;
 
@@ -16,37 +16,15 @@ class CalculationParameter extends Model
      * @var array
      */
     protected $fillable = [
-        'parameter_analysis_id', 'formula'
-    ];
-
-     /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = [
-        'parameter_analysis_name',
+        'calculation_parameter_id', 'name'
     ];
 
     /**
-     * The calculation Variables
+     * The calculation Parameter
      */
-    public function calculationVariables()
+    public function calculationParameter()
     {
-        return $this->hasMany(CalculationVariable::class);
-    }
-
-    public function getParameterAnalysisNameAttribute()
-    {
-        return $this->parameterAnalysis->analysis_parameter_name;
-    }
-
-    /**
-     * The parameter Analysis
-     */
-    public function parameterAnalysis()
-    {
-        return $this->belongsTo(ParameterAnalysis::class);
+        return $this->belongsTo(CalculationParameter::class);
     }
 
     /**
@@ -70,11 +48,20 @@ class CalculationParameter extends Model
                     $q->where('id', $query['id']);
                 }
             }
-            if(isset($query['parameter_analysis_id']))
+
+            if(isset($query['calculation_parameter_id']))
             {
-                if(!is_null($query['parameter_analysis_id']))
+                if(!is_null($query['calculation_parameter_id']))
                 {
-                    $q->where('parameter_analysis_id', $query['parameter_analysis_id']);
+                    $q->where('calculation_parameter_id', $query['calculation_parameter_id']);
+                }
+            }
+
+            if(isset($query['name']))
+            {
+                if(!is_null($query['name']))
+                {
+                    $q->where('name', 'like', '%' . $query['name'] . '%');
                 }
             }
 

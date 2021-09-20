@@ -33,6 +33,14 @@
                         <div class="w-full px-3 mb-6 md:mb-0">
                             <x-jet-label for="formula" value="{{ __('Formula Cálculo') }}" required/>
                             <textarea class="form-input w-full" name="formula" id="formula" cols="30" rows="3" required >{{ $calculationParameter->formula }}</textarea>
+                            <div id="calculation-variables-list">
+                                @foreach ($calculationParameter->calculationVariables as $calculationVariable)
+                                    <small class="tag inlie text-sm text-gray-500 cursor-pointer">{{ $calculationVariable->name }}</small>
+                                @endforeach
+                            </div>
+                            <p>
+                                <a class="text-green-600 underline" href="{{ route('registers.calculation-variable.create') }}">{{ __('Adicione Variável Fórmula Cálculo') }}</a>
+                            </p>
                         </div>
                     </div>
                 </div>
