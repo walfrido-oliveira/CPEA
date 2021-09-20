@@ -231,7 +231,7 @@ input:read-only {
     color: #313131;
     background-color: hsla(0,0%,76.9%,.16);
     border-color: hsla(0,0%,76.9%,.16);
-    text-align: center;
+    text-align: left;
 }
 
 .table tr>th {

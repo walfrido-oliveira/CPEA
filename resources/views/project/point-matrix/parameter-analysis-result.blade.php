@@ -8,7 +8,7 @@
         @if (($index > 0 && $projectPointMatrices[$index]->pointIdentification->identification !=
                             $projectPointMatrices[$index - 1]->pointIdentification->identification) || $index == 0)
             <tr>
-                <td class="text-center font-bold" style="background-color:#e1ede1 ">
+                <td class="font-bold" style="background-color:#e1ede1 ">
                     @if ($point->pointIdentification)
                         {{ $point->pointIdentification->area }} - {{ $point->pointIdentification->identification }}
                     @endif
@@ -17,7 +17,7 @@
         @endif
 
         <tr>
-            <td class="text-center">
+            <td>
                 @if ($point->parameterAnalysis)
                     <a class="text-green-600 underline text-item-table" href="{{ route('parameter-analysis.show', ['parameter_analysis' => $point->parameterAnalysis->id]) }}">
                         {{ $point->parameterAnalysis->cas_rn }} -
