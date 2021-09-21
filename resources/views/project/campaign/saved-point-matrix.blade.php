@@ -11,7 +11,7 @@
     </td>
     <td>
         @if ($projectPointMatrix->pointIdentification)
-            <div class="grid grid-flow-col grid-cols-2 grid-rows-2 gap-x-16 md:gap-x-4 gap-y-0 w-3/5" style="grid-template-rows: auto auto 1fr 1fr 1fr auto auto;">
+            <div class="grid grid-flow-col grid-cols-2 grid-rows-2 gap-x-16 md:gap-x-4 gap-y-0 w-3/5" style="grid-template-rows: auto auto 0fr 0fr 0fr auto auto;">
                 <div class="font-bold text-right ">
                     {{ __('Área') }}
                 </div>
