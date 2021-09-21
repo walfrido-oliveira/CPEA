@@ -80,11 +80,11 @@
             document.getElementById("delete_point_matrix").parentNode.classList.remove("hidden");
 
             document.querySelectorAll(".edit-point-matrix").forEach(item => {
-                item.style.display = "block"
+                item.style.display = "inline"
             });
 
             document.querySelectorAll(".delete-point-matrix").forEach(item => {
-                item.style.display = "block"
+                item.style.display = "inline"
             });
         });
     </script>
