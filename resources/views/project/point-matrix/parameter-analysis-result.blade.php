@@ -10,22 +10,22 @@
             <tr>
                 <td class="font-bold" style="background-color:#e1ede1 ">
                     @if ($point->pointIdentification)
-                        {{ $point->pointIdentification->area }} - {{ $point->pointIdentification->identification }}
+                        <button type="button" id="point_open">{{ $point->pointIdentification->area }} - {{ $point->pointIdentification->identification }}</button>
                     @endif
                 </td>
             </tr>
         @endif
 
         @if (($index > 0 && $projectPointMatrices[$index]->parameterAnalysis->parameter_analysis_group_id !=
-                  $projectPointMatrices[$index - 1]->parameterAnalysis->parameter_analysis_group_id) || $index == 0)
-                <tr>
-                    <td class="font-bold text-black" style="background-color:#ccc">
-                        {{ $point->parameterAnalysis->parameterAnalysisGroup->name }}
-                    </td>
-                </tr>
-            @endif
+                            $projectPointMatrices[$index - 1]->parameterAnalysis->parameter_analysis_group_id) || $index == 0)
+            <tr class="hidden transition-transform duration-200 transform point-items">
+                <td class="font-bold text-black" style="background-color:#ccc">
+                    {{ $point->parameterAnalysis->parameterAnalysisGroup->name }}
+                </td>
+            </tr>
+        @endif
 
-        <tr>
+        <tr class="hidden transition-transform duration-200 transform point-items">
             <td>
                 @if ($point->parameterAnalysis)
                     <a class="text-green-600 underline text-item-table" href="{{ route('parameter-analysis.show', ['parameter_analysis' => $point->parameterAnalysis->id]) }}">
@@ -38,3 +38,16 @@
         </tr>
     @endforeach
 </tbody>
+
+<script>
+    document.getElementById("point_open").addEventListener("click", function() {
+        document.querySelectorAll(".point-items").forEach(item => {
+            if(item.classList.contains("hidden")) {
+                item.classList.remove("hidden");
+            } else {
+                item.classList.add("hidden");
+            }
+
+        });
+    });
+</script>
