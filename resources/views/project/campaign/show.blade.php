@@ -442,7 +442,7 @@
 
             if (area) {
                 var ajax = new XMLHttpRequest();
-                var url = "http://127.0.0.1:8000/cadastros/ponto/filter/#".replace("#", area);
+                var url = "{!! route('registers.point-identification.filter-by-area', ['area' => '#']) !!}".replace("#", area);
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
 
