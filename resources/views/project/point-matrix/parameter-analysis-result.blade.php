@@ -18,8 +18,8 @@
 
         @if ($projectPointMatrices[$index]->parameterAnalysis->parameterAnalysisGroup &&
             $index > 0)
-            @if (($projectPointMatrices[$index]->parameterAnalysis->parameter_analysis_id !=
-                  $projectPointMatrices[$index - 1]->parameter_analysis_id) || $index == 0)
+            @if (($projectPointMatrices[$index]->parameterAnalysis->parameter_analysis_group_id !=
+                  $projectPointMatrices[$index - 1]->parameterAnalysis->parameter_analysis_group_id) || $index == 0)
                 <tr>
                     <td class="font-bold text-black" style="background-color:#ccc">
                         {{ $point->parameterAnalysis->parameterAnalysisGroup->name }}
