@@ -145,9 +145,25 @@ class ProjectPointMatrix extends Model
             {
                 if(!is_null($query['q']))
                 {
-                    $q->whereHas('pointIdentification', function($q) use($query) {
-                        $q->where('point_identifications.area', 'like', '%' . $query['q'] . '%');
+                    $q->where( function($q) use($query){
+                        $q->whereHas('pointIdentification', function($q) use($query) {
+                            $q->where('point_identifications.area', 'like', '%' . $query['q'] . '%')
+                              ->orWhere('point_identifications.identification', 'like', '%' . $query['q'] . '%');
+                        })
+                        ->orWhereHas('analysisMatrix', function($q) use($query) {
+                            $q->where('analysis_matrices.name', 'like', '%' . $query['q'] . '%');
+                        })
+                        ->orWhereHas('planActionLevel', function($q) use($query) {
+                            $q->where('plan_action_levels.name', 'like', '%' . $query['q'] . '%');
+                        })
+                        ->orWhereHas('guidingParameter', function($q) use($query) {
+                            $q->where('guiding_parameters.environmental_guiding_parameter_id', 'like', '%' . $query['q'] . '%');
+                        })
+                        ->orWhereHas('parameterAnalysis', function($q) use($query) {
+                            $q->where('parameter_analyses.analysis_parameter_name', 'like', '%' . $query['q'] . '%');
+                        });
                     });
+
                 }
             }
 
