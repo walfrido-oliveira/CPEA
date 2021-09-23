@@ -10,7 +10,7 @@
             <tr>
                 <td class="font-bold" style="background-color:#e1ede1 ">
                     @if ($point->pointIdentification)
-                        <button type="button" id="point_open" data-id="{{ $point->pointIdentification->id }}">{{ $point->pointIdentification->area }} - {{ $point->pointIdentification->identification }}</button>
+                        <button type="button" class="point-open" data-id="{{ $point->pointIdentification->id }}">{{ $point->pointIdentification->area }} - {{ $point->pointIdentification->identification }}</button>
                     @endif
                 </td>
             </tr>
@@ -40,7 +40,7 @@
 </tbody>
 
 <script>
-    document.getElementById("point_open").addEventListener("click", function() {
+    document.getElementsByClassName("point-open").addEventListener("click", function() {
         document.querySelectorAll(".point-items-" + this.dataset.id).forEach(item => {
             if(item.classList.contains("hidden")) {
                 item.classList.remove("hidden");
