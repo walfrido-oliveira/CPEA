@@ -1,6 +1,6 @@
 <thead>
     <tr class="thead-light">
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="identification" columnText="{{ __('Amostra') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="guiding_parameter_id" columnText="{{ __('Amostra') }}"/>
     </tr>
 </thead>
 <tbody>
@@ -12,6 +12,15 @@
                     @if ($point->pointIdentification)
                         {{ $point->pointIdentification->area }} - {{ $point->pointIdentification->identification }}
                     @endif
+                </td>
+            </tr>
+        @endif
+
+        @if (($index > 0 && $projectPointMatrices[$index]->pointIdentification->parameterAnalysis->parameterAnalysisGroup->name !=
+                            $projectPointMatrices[$index - 1]->parameterAnalysis->parameterAnalysisGroup->name) || $index == 0)
+            <tr>
+                <td class="font-bold text-black" style="background-color:#ccc">
+                    {{ $point->parameterAnalysis->parameterAnalysisGroup->name }}
                 </td>
             </tr>
         @endif
