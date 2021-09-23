@@ -222,7 +222,7 @@ class CampaignController extends Controller
         {
             ProjectPointMatrix::create([
                 'project_id' => $point->project_id,
-                'point_identification_id' => $point->point_identification_id,
+                'point_identification_id' => isset($input['point_identifications']) ? $input['point_identifications'] : $point->point_identification_id,
                 'analysis_matrix_id' => $point->analysis_matrix_id,
                 'plan_action_level_id' => $point->plan_action_level_id,
                 'guiding_parameter_id' => $point->guiding_parameter_id,

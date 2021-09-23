@@ -7,7 +7,6 @@
                 <div class="flex md:flex-row flex-col">
                     <div class="w-full flex items-center">
                         <h1 id="title">{{ __('Campanha: ') }} <span class="font-normal">{{ $campaign->name }}</span></h1>
-                        <x-jet-input id="name" class="form-control hidden block mt-1 w-full" style="border-color: #10b981;" type="text" name="name" maxlength="255" required autofocus autocomplete="name" :value="$campaign->name"/>
                     </div>
                     <div class="flex justify-end">
                         <div class="m-2">
@@ -22,27 +21,54 @@
                         </div>
                     </div>
                 </div>
-            </form>
 
-            <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
-                <div class="filter-container md:block">
-                    <div class="flex flex-wrap mx-4 px-3 py-2">
-                        <div class="w-full px-3 mb-6 md:mb-0">
-                            <x-jet-label for="q" value="{{ __('Pesquisa') }}" />
-                            <x-jet-input id="q" class="form-control block w-full filter-field" type="text" name="q" :value="app('request')->input('q')" autofocus autocomplete="project_cod" />
+                <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
+                    <div class="flex md:flex-row flex-col w-full">
+                        <div class="mx-4 px-3 py-2 w-full flex justify-end" x-data="{ open: false }">
+                            <div class="pr-4 flex">
+                                <button type="button" @click="open = !open" id="nav-toggle" class="w-full block btn-transition-secondary">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                                </button>
+                            </div>
+                            <!--Search-->
+                            <div :class="{'block': open, 'hidden': !open}" class="w-full block" id="search-content">
+                                <div class="container mx-auto">
+                                    <input id="q" name="q" type="search" placeholder="Buscar..." autofocus="autofocus" class="filter-field w-full form-control no-border">
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <div class="filter-container md:block" id="duplicate_container" style="display: none;">
+                        <div class="flex flex-wrap mx-4 px-3 py-2">
+                            <div class="w-full px-3 mb-6 md:mb-0">
+                                <x-jet-label for="q" value="{{ __('Campanha') }}" />
+                                <x-jet-input id="name" class="form-control block mt-1 w-full" type="text" name="name" maxlength="255" required autofocus autocomplete="name" :value="$campaign->name"/>
+                            </div>
+                        </div>
+                        <div class="flex flex-wrap mx-4 px-3 py-2">
+                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                <x-jet-label for="area" value="{{ __('Área') }}" />
+                                <x-custom-select :options="$areas" name="areas" id="areas" value="" class="mt-1" no-filter="no-filter"/>
+                            </div>
+                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                <x-jet-label for="point_identifications" value="{{ __('Identificação Ponto') }}"/>
+                                <x-custom-select :options="[]" name="point_identifications" id="point_identifications" value="" class="mt-1" no-filter="no-filter"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex mt-4">
+                        <table id="point_matrix_table" class="table table-responsive md:table w-full">
+                            @include('project.campaign.point-matrix-result',
+                            ['projectPointMatrices' => $projectPointMatrices, 'orderBy' => 'area', 'ascending' => 'asc'])
+                        </table>
+                    </div>
+                    <div class="flex mt-4 p-2" id="point_matrix_pagination">
+                            {{ $projectPointMatrices->appends(request()->input())->links() }}
+                    </div>
                 </div>
-                <div class="flex mt-4">
-                    <table id="point_matrix_table" class="table table-responsive md:table w-full">
-                        @include('project.campaign.point-matrix-result',
-                        ['projectPointMatrices' => $projectPointMatrices, 'orderBy' => 'area', 'ascending' => 'asc'])
-                    </table>
-                </div>
-                <div class="flex mt-4 p-2" id="point_matrix_pagination">
-                        {{ $projectPointMatrices->appends(request()->input())->links() }}
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -55,8 +81,7 @@
 
     <script>
         document.getElementById("duplicate").addEventListener("click", function() {
-            document.getElementById("title").classList.add("hidden");
-            document.getElementById("name").classList.remove("hidden");
+            document.getElementById("duplicate_container").style.display = "block";
             document.getElementById("duplicate").style.display = "none"
             document.getElementById("confirm").style.display = "block"
             document.getElementById("cancel").parentNode.classList.remove("hidden");
@@ -72,8 +97,7 @@
         });
 
         document.getElementById("cancel").addEventListener("click", function(){
-            document.getElementById("title").classList.remove("hidden");
-            document.getElementById("name").classList.add("hidden");
+            document.getElementById("duplicate_container").style.display = "none";
             document.getElementById("duplicate").style.display = "block"
             document.getElementById("confirm").style.display = "none"
             document.getElementById("cancel").parentNode.classList.add("hidden");
@@ -410,5 +434,59 @@
         }
         selectAllPointMatrices();
 
+    </script>
+
+    <script>
+        function filterAreas() {
+            var area = document.getElementById("areas").value;
+
+            if (area) {
+                var ajax = new XMLHttpRequest();
+                var url = "http://127.0.0.1:8000/cadastros/ponto/filter/#".replace("#", area);
+                var token = document.querySelector('meta[name="csrf-token"]').content;
+                var method = 'POST';
+
+                return new Promise(function(resolve, reject) {
+                    ajax.open(method, url);
+
+                    ajax.onreadystatechange = function() {
+                        if (this.readyState == 4 && this.status == 200) {
+                            var resp = JSON.parse(ajax.response);
+
+                            let pointIdentification = document.getElementById("point_identifications");
+
+                            let i, L = pointIdentification.options.length - 1;
+                            for (i = L; i >= 0; i--) {
+                                pointIdentification.remove(i);
+                            }
+
+                            let pointIdentifications = resp.point_identifications;
+                            for (let index = 0; index < pointIdentifications.length; index++) {
+                                const item = pointIdentifications[index];
+                                var opt = document.createElement('option');
+                                opt.value = item.id;
+                                opt.text = item.identification;
+                                pointIdentification.add(opt);
+                            }
+                            resolve(resp.point_identifications);
+                        } else if (this.readyState == 4 && this.status != 200) {
+                            var resp = JSON.parse(ajax.response);
+                            reject({
+                                status: this.status,
+                                statusText: ajax.statusText
+                            });
+                        }
+                    }
+
+                    var data = new FormData();
+                    data.append('_token', token);
+                    data.append('_method', method);
+                    data.append('area', area);
+
+                    ajax.send(data);
+                });
+            }
+        }
+        document.getElementById("areas").addEventListener("change", filterAreas, false);
     </script>
 </x-app-layout>
