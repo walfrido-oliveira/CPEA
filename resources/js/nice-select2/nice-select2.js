@@ -2,7 +2,6 @@
 
 // utility functions
 function triggerClick(el) {
-    console.log(el);
     el.dispatchEvent(new Event('click'));
 }
 
@@ -232,6 +231,7 @@ NiceSelect.prototype.bindEvent = function() {
   this.dropdown.addEventListener("click", this._onClicked.bind(this));
   this.dropdown.addEventListener("keydown", this._onKeyPressed.bind(this));
   document.addEventListener("click", this._onClickedOutside.bind(this));
+  this.el.addEventListener("DOMNodeInserted", this._change.bind(this));
 
   if (this.config.searchable) {
     this._bindSearchEvent();
@@ -423,3 +423,17 @@ NiceSelect.prototype._onSearchChanged = function(e) {
 export function bind(el, options) {
   return new NiceSelect(el, options);
 }
+
+NiceSelect.prototype._change = function() {
+    this.extractData();
+    if (this.dropdown) {
+        var open = hasClass(this.dropdown, "open");
+        this.dropdown.parentNode.removeChild(this.dropdown);
+        this.create();
+
+        if (open) {
+        triggerClick(this.dropdown);
+        }
+    }
+  };
+
