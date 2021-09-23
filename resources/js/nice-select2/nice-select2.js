@@ -2,9 +2,8 @@
 
 // utility functions
 function triggerClick(el) {
-  var event = document.createEvent("MouseEvents");
-  event.initEvent("click", true, false);
-  el.dispatchEvent(event);
+    console.log(el);
+    el.dispatchEvent(new Event('click'));
 }
 
 function triggerChange(el) {
@@ -321,8 +320,9 @@ NiceSelect.prototype._onKeyPressed = function(e) {
   var open = this.dropdown.classList.contains("open");
 
   // Space or Enter
-  if (e.keyCode == 32) {
+  if (e.keyCode == 13) {
     if (open) {
+      e.preventDefault();
       triggerClick(focusedOption);
     } else {
       triggerClick(this.dropdown);
