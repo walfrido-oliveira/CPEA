@@ -2,6 +2,7 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 @import '../../node_modules/toastr/build/toastr.min.css';
+@import 'nice-select2/nice-select2.css';
 
 main {
     background-color: #ecf0f5;
