@@ -181,7 +181,6 @@
         eventsDeleteCallback();
     </script>
 
-    @include('project.scripts')
     @include('project.point-matrix-scripts')
     @include('project.campaign-scripts')
     @include('project.point-create-modal')

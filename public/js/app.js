@@ -5274,7 +5274,7 @@ NiceSelect.prototype._onKeyPressed = function (e) {
   var focusedOption = this.dropdown.querySelector(".focus");
   var open = this.dropdown.classList.contains("open"); // Space or Enter
 
-  if (e.keyCode == 32 || e.keyCode == 13) {
+  if (e.keyCode == 32) {
     if (open) {
       triggerClick(focusedOption);
     } else {
@@ -5490,6 +5490,14 @@ if (passwordConfirmation) {
     validate.isEmpty(this.value) || password.value !== this.value ? validate.addInvalidClass(this) : validate.addValidClass(this);
   });
 }
+
+window.addEventListener("load", function () {
+  document.querySelectorAll(".custom-select").forEach(function (item) {
+    NiceSelect.bind(item, {
+      searchable: true
+    });
+  });
+});
 
 /***/ }),
 

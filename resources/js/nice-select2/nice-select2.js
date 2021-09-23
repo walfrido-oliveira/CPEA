@@ -321,7 +321,7 @@ NiceSelect.prototype._onKeyPressed = function(e) {
   var open = this.dropdown.classList.contains("open");
 
   // Space or Enter
-  if (e.keyCode == 32 || e.keyCode == 13) {
+  if (e.keyCode == 32) {
     if (open) {
       triggerClick(focusedOption);
     } else {

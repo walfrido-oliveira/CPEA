@@ -2250,6 +2250,14 @@ button.toast-close-button{padding:0;cursor:pointer;background:0 0;border:0;-webk
   display: block; }
 .nice-select .list::-webkit-scrollbar {
   width: 0; }
+.nice-select span.current {
+    display: block;
+    word-wrap: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+    margin-right: 10px;
+  }
 .nice-select .has-multiple {
   white-space: inherit;
   height: auto;
