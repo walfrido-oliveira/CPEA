@@ -16,9 +16,10 @@
             </tr>
         @endif
 
-        @if ($point->parameterAnalysis->parameterAnalysisGroup)
-            @if (($index > 0 && $projectPointMatrices[$index]->pointIdentification->parameterAnalysis->parameterAnalysisGroup->name !=
-            $projectPointMatrices[$index - 1]->parameterAnalysis->parameterAnalysisGroup->name) || $index == 0)
+        @if ($projectPointMatrices[$index]->pointIdentification->parameterAnalysis->parameterAnalysisGroup &&
+            $index > 0)
+            @if (($projectPointMatrices[$index]->pointIdentification->parameterAnalysis->parameter_analysis_id !=
+                  $projectPointMatrices[$index - 1]->parameterAnalysis->parameter_analysis_id) || $index == 0)
                 <tr>
                     <td class="font-bold text-black" style="background-color:#ccc">
                         {{ $point->parameterAnalysis->parameterAnalysisGroup->name }}
