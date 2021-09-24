@@ -32,25 +32,23 @@
 
                     <div class="flex flex-wrap">
                         <div class="w-full md:w-2/12">
-                            <p class="font-bold">{{ __('Param. Analise') }}</p>
+                            <p class="font-bold">{{ __('Fórmula') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
                             <p class="text-gray-500 font-bold">
-                                @if ($calculationVariable->parameterAnalysis)
-                                    <a class="text-green-600 underline" href="{{ route('parameter-analysis.show', ['parameter_analysis' => $calculationVariable->parameterAnalysis->id ]) }}" target="_blank" rel="noopener noreferrer">
-                                        {{ $calculationVariable->parameterAnalysis->analysis_parameter_name }}
-                                    </a>
-                                @endif
+                                <a class="text-green-600 underline" href="{{ route('parameter-analysis.show', ['parameter_analysis' => $calculationVariable->calculationParameter->parameterAnalysis->id ]) }}" target="_blank" rel="noopener noreferrer">
+                                    {{ $calculationVariable->calculationParameter->parameterAnalysis->analysis_parameter_name }}
+                                </a>
                             </p>
                         </div>
                     </div>
 
                     <div class="flex flex-wrap">
                         <div class="w-full md:w-2/12">
-                            <p class="font-bold">{{ __('Formula') }}</p>
+                            <p class="font-bold">{{ __('Nome') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $calculationVariable->formula }}</p>
+                            <p class="text-gray-500 font-bold">{{ $calculationVariable->name }}</p>
                         </div>
                     </div>
 
