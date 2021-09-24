@@ -36,9 +36,11 @@
                         </div>
                         <div class="w-full md:w-1/2">
                             <p class="text-gray-500 font-bold">
-                                <a class="text-green-600 underline" href="{{ route('parameter-analysis.show', ['parameter_analysis' => $calculationVariable->parameterAnalysis->id ]) }}" target="_blank" rel="noopener noreferrer">
-                                    {{ $calculationVariable->parameterAnalysis->analysis_parameter_name }}
-                                </a>
+                                @if ($calculationVariable->parameterAnalysis)
+                                    <a class="text-green-600 underline" href="{{ route('parameter-analysis.show', ['parameter_analysis' => $calculationVariable->parameterAnalysis->id ]) }}" target="_blank" rel="noopener noreferrer">
+                                        {{ $calculationVariable->parameterAnalysis->analysis_parameter_name }}
+                                    </a>
+                                @endif
                             </p>
                         </div>
                     </div>
