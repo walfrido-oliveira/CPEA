@@ -1358,6 +1358,9 @@ select {
 .w-3\/5 {
 	width: 60%;
 }
+.w-1\/2 {
+	width: 50%;
+}
 .min-w-0 {
 	min-width: 0px;
 }
@@ -1523,6 +1526,9 @@ select {
 .truncate {
 	overflow: hidden;
 	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.whitespace-nowrap {
 	white-space: nowrap;
 }
 .break-all {
@@ -3331,6 +3337,11 @@ input:read-only {
 		margin-right: 1.5rem;
 	}
 
+	.md\:mx-4 {
+		margin-left: 1rem;
+		margin-right: 1rem;
+	}
+
 	.md\:my-6 {
 		margin-top: 1.5rem;
 		margin-bottom: 1.5rem;
@@ -3416,6 +3427,14 @@ input:read-only {
 		flex-direction: row;
 	}
 
+	.md\:justify-start {
+		justify-content: flex-start;
+	}
+
+	.md\:justify-end {
+		justify-content: flex-end;
+	}
+
 	.md\:gap-6 {
 		gap: 1.5rem;
 	}
@@ -3435,6 +3454,11 @@ input:read-only {
 
 	.md\:border-l {
 		border-left-width: 1px;
+	}
+
+	.md\:px-3 {
+		padding-left: 0.75rem;
+		padding-right: 0.75rem;
 	}
 
 	.md\:pb-0 {

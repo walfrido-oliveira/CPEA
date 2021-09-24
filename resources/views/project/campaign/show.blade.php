@@ -6,16 +6,16 @@
                 @method("POST")
                 <input type="hidden" name="type" id="type" value="campaign">
                 <div class="flex md:flex-row flex-col">
-                    <div class="w-full flex items-center">
+                    <div class="w-full flex items-center md:justify-start justify-center">
                         <h1 id="title">{{ __('Campanha: ') }} <span class="font-normal">{{ $campaign->name }}</span></h1>
                     </div>
-                    <div class="flex justify-end">
+                    <div class="flex md:flex-row flex-col md:justify-end items-center">
                         <div class="m-2">
-                            <button id="duplicate_campaign" type="button" class="btn-outline-info">{{ __('Duplicar Campanha') }}</button>
+                            <button id="duplicate_campaign" type="button" class="btn-outline-info whitespace-nowrap">{{ __('Duplicar Campanha') }}</button>
                             <button id="confirm" type="submit" class="btn-outline-success" style="display: none;">{{ __('Confirmar') }}</button>
                         </div>
                         <div class="m-2">
-                            <button id="duplicate_point" type="button" class="btn-outline-success">{{ __('Duplicar Pontos') }}</button>
+                            <button id="duplicate_point" type="button" class="btn-outline-success whitespace-nowrap">{{ __('Duplicar Pontos') }}</button>
                         </div>
                         <div class="m-2 hidden">
                             <button id="cancel" type="button" class="btn-outline-danger">{{ __('Cancelar') }}</button>
@@ -28,7 +28,7 @@
 
                 <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
                     <div class="flex md:flex-row flex-col w-full">
-                        <div class="mx-4 px-3 py-2 w-full flex justify-end" x-data="{ open: false }">
+                        <div class="md:mx-4 md:px-3 py-2 w-full flex justify-end" x-data="{ open: false }">
                             <div class="pr-4 flex">
                                 <button type="button" @click="open = !open" id="nav-toggle" class="w-full block btn-transition-secondary">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
