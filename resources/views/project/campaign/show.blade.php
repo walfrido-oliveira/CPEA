@@ -4,14 +4,18 @@
             <form method="POST" action="{{ route('project.campaign.duplicate', ['campaign' => $campaign->id]) }}">
                 @csrf
                 @method("POST")
+                <input type="hidden" name="type" id="type" value="campaign">
                 <div class="flex md:flex-row flex-col">
                     <div class="w-full flex items-center">
                         <h1 id="title">{{ __('Campanha: ') }} <span class="font-normal">{{ $campaign->name }}</span></h1>
                     </div>
                     <div class="flex justify-end">
                         <div class="m-2">
-                            <button id="duplicate" type="button" class="btn-outline-info">{{ __('Duplicar') }}</button>
+                            <button id="duplicate_campaign" type="button" class="btn-outline-info">{{ __('Duplicar Campanha') }}</button>
                             <button id="confirm" type="submit" class="btn-outline-success" style="display: none;">{{ __('Confirmar') }}</button>
+                        </div>
+                        <div class="m-2">
+                            <button id="duplicate_point" type="button" class="btn-outline-success">{{ __('Duplicar Pontos') }}</button>
                         </div>
                         <div class="m-2 hidden">
                             <button id="cancel" type="button" class="btn-outline-danger">{{ __('Cancelar') }}</button>
@@ -40,13 +44,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="filter-container md:block" id="duplicate_container" style="display: none;">
+                    <div class="filter-container md:block" id="duplicate_campaign_container" style="display: none;">
                         <div class="flex flex-wrap mx-4 px-3 py-2">
                             <div class="w-full px-3 mb-6 md:mb-0">
                                 <x-jet-label for="q" value="{{ __('Campanha') }}" />
                                 <x-jet-input id="name" class="form-control block mt-1 w-full" type="text" name="name" maxlength="255" required autofocus autocomplete="name" :value="$campaign->name"/>
                             </div>
                         </div>
+                    </div>
+                    <div class="filter-container md:block" id="duplicate_point_container" style="display: none;">
                         <div class="flex flex-wrap mx-4 px-3 py-2">
                             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                 <x-jet-label for="area" value="{{ __('Área') }}" />
@@ -80,7 +86,61 @@
             confirm_id="point_matrix_confirm_modal"/>
 
     <script>
-        document.getElementById("duplicate").addEventListener("click", function() {
+        document.getElementById("duplicate_campaign").addEventListener("click", function() {
+            document.getElementById("type").value = "campaign";
+            document.getElementById("duplicate_campaign").style.display = "none"
+            document.getElementById("duplicate_point").style.display = "none"
+            document.getElementById("duplicate_campaign_container").style.display = "block";
+            document.getElementById("confirm").style.display = "block"
+            document.getElementById("cancel").parentNode.classList.remove("hidden");
+            document.getElementById("delete_point_matrix").parentNode.classList.add("hidden");
+
+            document.querySelectorAll(".edit-point-matrix").forEach(item => {
+                item.style.display = "none"
+            });
+
+            document.querySelectorAll(".delete-point-matrix").forEach(item => {
+                item.style.display = "none"
+            });
+        });
+
+        document.getElementById("duplicate_point").addEventListener("click", function() {
+            document.getElementById("type").value = "point";
+            document.getElementById("duplicate_campaign").style.display = "none"
+            document.getElementById("duplicate_point").style.display = "none"
+            document.getElementById("duplicate_point_container").style.display = "block";
+            document.getElementById("confirm").style.display = "block"
+            document.getElementById("cancel").parentNode.classList.remove("hidden");
+            document.getElementById("delete_point_matrix").parentNode.classList.add("hidden");
+
+            document.querySelectorAll(".edit-point-matrix").forEach(item => {
+                item.style.display = "none"
+            });
+
+            document.querySelectorAll(".delete-point-matrix").forEach(item => {
+                item.style.display = "none"
+            });
+        });
+
+        document.getElementById("cancel").addEventListener("click", function(){
+            document.getElementById("duplicate_campaign_container").style.display = "none";
+            document.getElementById("duplicate_point_container").style.display = "none";
+            document.getElementById("duplicate_campaign").style.display = "block"
+            document.getElementById("duplicate_point").style.display = "block"
+            document.getElementById("confirm").style.display = "none"
+            document.getElementById("cancel").parentNode.classList.add("hidden");
+            document.getElementById("delete_point_matrix").parentNode.classList.remove("hidden");
+
+            document.querySelectorAll(".edit-point-matrix").forEach(item => {
+                item.style.display = "inline"
+            });
+
+            document.querySelectorAll(".delete-point-matrix").forEach(item => {
+                item.style.display = "inline"
+            });
+        })
+
+        /*document.getElementById("duplicate").addEventListener("click", function() {
             document.getElementById("duplicate_container").style.display = "block";
             document.getElementById("duplicate").style.display = "none"
             document.getElementById("confirm").style.display = "block"
@@ -110,7 +170,7 @@
             document.querySelectorAll(".delete-point-matrix").forEach(item => {
                 item.style.display = "inline"
             });
-        });
+        });*/
     </script>
 
     <script>
