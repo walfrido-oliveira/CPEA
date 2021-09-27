@@ -34,8 +34,8 @@ class ProjectPointMatrixController extends Controller
         ->projectPointMatrices()
         ->with('pointIdentification')
         ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
-        ->orderBy($orderBy, $ascending)
-        ->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'project-point-matrices');
+        ->orderBy($orderBy, $ascending);
+        #->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'project-point-matrices');
 
         return view('project.point-matrix.parameter-analysis', compact('campaign', 'projectPointMatrices', 'ascending', 'orderBy'));
     }
