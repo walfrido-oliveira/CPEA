@@ -1,6 +1,6 @@
 <thead>
     <tr class="thead-light">
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="guiding_parameter_id" columnText="{{ __('Amostra') }}"/>
+        <x-table-sort-header :orderBy="null" :ascending="null" columnName="null" columnText="{{ __('Amostra') }}"/>
     </tr>
 </thead>
 <tbody>

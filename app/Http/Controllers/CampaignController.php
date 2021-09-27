@@ -37,7 +37,7 @@ class CampaignController extends Controller
         $geodeticSystems = GeodeticSystem::pluck("name", "id");
 
         $projectPointMatrices = $campaign->projectPointMatrices()
-        ->orderBy("campaign_id", "asc")
+        ->orderBy("point_identification_id", "asc")
         ->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'project-point-matrices');
 
         return view('project.campaign.show', compact('campaign', 'areas', 'identifications', 'matrizeces', 'planActionLevels',
