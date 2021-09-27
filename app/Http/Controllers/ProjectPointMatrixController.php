@@ -28,13 +28,12 @@ class ProjectPointMatrixController extends Controller
         $campaign = Campaign::findOrFail($id);
 
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
-        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'parameter_analysis_id';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'point_identification_id';
 
         $projectPointMatrices = $campaign
         ->projectPointMatrices()
         ->with('pointIdentification')
         ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
-        #->leftJoin('guiding_parameters', 'guiding_parameter.id', '=', 'point_identifications.guiding_parameter_id')
         ->orderBy($orderBy, $ascending)
         ->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'project-point-matrices');
 
