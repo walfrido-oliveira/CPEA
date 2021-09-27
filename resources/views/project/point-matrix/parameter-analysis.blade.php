@@ -49,7 +49,7 @@
                     </table>
                 </div>
                 <div class="flex mt-4 p-2" id="pagination">
-                    {{ $projectPointMatrices->appends(request()->input())->links() }}
+                    {{-- $projectPointMatrices->appends(request()->input())->links() --}}
             </div>
             </div>
         </div>
@@ -71,7 +71,7 @@
                     if (this.readyState == 4 && this.status == 200) {
                         var resp = JSON.parse(ajax.response);
                         document.getElementById("parameter_analysis_table").innerHTML = resp.point_matrix_result;
-                        document.getElementById("pagination").innerHTML = resp.pagination;
+                        //document.getElementById("pagination").innerHTML = resp.pagination;
                         eventsFilterCallback();
                     } else if(this.readyState == 4 && this.status != 200) {
                         toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
@@ -112,7 +112,7 @@
                     if (this.readyState == 4 && this.status == 200) {
                         var resp = JSON.parse(ajax.response);
                         document.getElementById("parameter_analysis_table").innerHTML = resp.point_matrix_result;
-                        document.getElementById("pagination").innerHTML = resp.pagination;
+                        //document.getElementById("pagination").innerHTML = resp.pagination;
                         that.dataset.ascending = that.dataset.ascending == 'asc' ? that.dataset.ascending = 'desc' : that.dataset.ascending = 'asc';
                         eventsFilterCallback();
                     } else if(this.readyState == 4 && this.status != 200) {
