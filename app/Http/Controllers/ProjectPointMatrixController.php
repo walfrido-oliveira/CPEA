@@ -27,7 +27,7 @@ class ProjectPointMatrixController extends Controller
     {
         $campaign = Campaign::findOrFail($id);
 
-        $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
+        $ascending = isset($query['ascending']) ? $query['ascending'] : 'asc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'point_identifications.identification';
 
         $projectPointMatrices = $campaign
