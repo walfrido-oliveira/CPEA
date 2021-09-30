@@ -18,7 +18,7 @@ class Project extends Model
      * @var array
      */
     protected $fillable = [
-        'project_cod', 'customer_id',
+        'project_cod', 'customer_id', 'status'
     ];
 
     /**
@@ -85,6 +85,24 @@ class Project extends Model
                 if(!is_null($query['project_cod']))
                 {
                     $q->where('project_cod', 'like','%' . $query['project_cod'] . '%');
+                }
+            }
+
+            if(isset($query['campaign']))
+            {
+                if(!is_null($query['campaign']))
+                {
+                    $q->whereHas('campaigns', function($q) use($query) {
+                        $q->where('campaigns.name', 'like', '%' . $query['campaign'] . '%');
+                    });
+                }
+            }
+
+            if(isset($query['lab']))
+            {
+                if(!is_null($query['lab']))
+                {
+                    #$q->where('project_cod', 'like','%' . $query['project_cod'] . '%');
                 }
             }
 

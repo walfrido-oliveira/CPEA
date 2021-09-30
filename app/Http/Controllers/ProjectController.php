@@ -28,7 +28,7 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
-        $projetcs =  Project::filter($request->all());
+        $projetcs =  Campaign::filter($request->all());
 
         $customers = Customer::all()->pluck('name', 'id');
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
@@ -275,7 +275,7 @@ class ProjectController extends Controller
      */
     public function filter(Request $request)
     {
-        $projetcs  = Project::filter($request->all());
+        $projetcs  = Campaign::filter($request->all());
         $projetcs  = $projetcs->setPath('');
         $orderBy = $request->get('order_by');
         $ascending = $request->get('ascending');

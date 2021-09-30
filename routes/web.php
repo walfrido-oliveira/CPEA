@@ -14,6 +14,7 @@ use App\Http\Controllers\TemplateEmailController;
 use App\Http\Controllers\AnalysisMatrixController;
 use App\Http\Controllers\CampaignStatusController;
 use App\Http\Controllers\GeodeticSystemController;
+use App\Http\Controllers\SampleAnalysisController;
 use App\Http\Controllers\PlanActionLevelController;
 use App\Http\Controllers\GuidingParameterController;
 use App\Http\Controllers\AnalysisParameterController;
@@ -106,6 +107,11 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::post('/duplicate/{campaign}', [CampaignController::class, 'duplicate'])->name('duplicate');
             Route::post('/list/{project}', [CampaignController::class, 'getCampaignByProject'])->name('get-campaign-by-project');
         });
+    });
+
+    Route::prefix('analise-de-amostra')->name('sample-analysis.')->group(function(){
+        Route::get('/', [SampleAnalysisController::class, 'index'])->name('index');
+        Route::post('/filter', [SampleAnalysisController::class, 'filter'])->name('filter');
     });
 
     Route::resource('param-analise', ParameterAnalysisController::class, [

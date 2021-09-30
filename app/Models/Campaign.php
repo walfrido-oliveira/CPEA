@@ -86,6 +86,26 @@ class Campaign extends Model
                     $q->where('name', 'like','%' . $query['name'] . '%');
                 }
             }
+
+            if(isset($query['project_cod']))
+            {
+                if(!is_null($query['project_cod']))
+                {
+                    $q->whereHas('project', function($q) use($query) {
+                        $q->where('project_cod', 'like','%' . $query['project_cod'] . '%');
+                    });
+                }
+            }
+
+            if(isset($query['customer_id']))
+            {
+                if(!is_null($query['customer_id']))
+                {
+                    $q->whereHas('project', function($q) use($query) {
+                        $q->where('customer_id', $query['customer_id']);
+                    });
+                }
+            }
         });
 
         if($orderBy == 'identification' || $orderBy == 'area')

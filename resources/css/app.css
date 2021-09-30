@@ -267,8 +267,32 @@ input:read-only {
     @apply inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-green-100 bg-green-600 rounded-full;
 }
 
+.badge-light-success {
+    @apply inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-gray-700 bg-green-200 rounded-full;
+}
+
+.badge-primary {
+    @apply inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-blue-100 bg-blue-600 rounded-full;
+}
+
+.badge-light-primary {
+    @apply inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-gray-700 bg-blue-200 rounded-full;
+}
+
+.badge-warning {
+    @apply inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-yellow-100 bg-yellow-600 rounded-full;
+}
+
+.badge-light-warning {
+    @apply inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-gray-700 bg-yellow-200 rounded-full;
+}
+
 .badge-danger {
     @apply inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full;
+}
+
+.badge-light-danger {
+    @apply inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-gray-700 bg-red-200 rounded-full;
 }
 
 .dropdown-toggle:after {
