@@ -24,8 +24,8 @@
                             <x-jet-input id="lab" class="form-control block w-full filter-field" type="text" name="lab" :value="app('request')->input('lab')" autofocus autocomplete="lab" />
                         </div>
                         <div class="w-full md:w-1/4 px-2 mb-6 md:mb-0">
-                            <x-jet-label for="customer_id" value="{{ __('Cliente') }}" />
-                            <x-custom-select :options="$customers" name="customer_id" id="customer_id" :value="app('request')->input('customer_id')"/>
+                            <x-jet-label for="status" value="{{ __('Status') }}" />
+                            <x-custom-select :options="$status" name="status" id="status" :value="app('request')->input('status')"/>
                         </div>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page_campaigns").value;
-                var customerId = document.getElementById("customer_id").value;
+                var status = document.getElementById("status").value;
                 var projectCod = document.getElementById("project_cod").value;
                 var campaign = document.getElementById("campaign").value;
 
@@ -71,7 +71,7 @@
                 data.append('_token', token);
                 data.append('_method', method);
                 data.append('paginate_per_page', paginationPerPage);
-                if(customerId) data.append('customer_id', customerId);
+                if(status) data.append('status', status);
                 if(projectCod) data.append('project_cod', projectCod);
                 if(campaign) data.append('name', campaign);
 
@@ -90,7 +90,7 @@
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page_campaigns").value;
-                var customerId = document.getElementById("customer_id").value;
+                var status = document.getElementById("status").value;
                 var projectCod = document.getElementById("project_cod").value;
                 var campaign = document.getElementById("campaign").value;
 
@@ -115,7 +115,7 @@
                 data.append('paginate_per_page', paginationPerPage);
                 data.append('ascending', ascending);
                 data.append('order_by', orderBY);
-                if(customerId) data.append('customer_id', customerId);
+                if(status) data.append('status', status);
                 if(projectCod) data.append('project_cod', projectCod);
                 if(campaign) data.append('name', campaign);
 

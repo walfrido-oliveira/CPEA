@@ -97,6 +97,16 @@ class Campaign extends Model
                 }
             }
 
+            if(isset($query['status']))
+            {
+                if(!is_null($query['status']))
+                {
+                    $q->whereHas('project', function($q) use($query) {
+                        $q->where('status', $query['status']);
+                    });
+                }
+            }
+
             if(isset($query['customer_id']))
             {
                 if(!is_null($query['customer_id']))
