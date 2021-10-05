@@ -80,8 +80,6 @@
         item.addEventListener("change", function() {
             if(item.checked) {
                 document.querySelectorAll(".parameter-analysis-group").forEach(item2 => {
-                    console.log(item.dataset.identificationId)
-                    console.log(item2.dataset.identificationId)
                     if(item.dataset.identificationId == item2.dataset.identificationId) {
                         item2.checked = true;
                         item2.dispatchEvent(new Event('change'));
@@ -95,7 +93,8 @@
                     }
                 });
             }
-        })
+        });
+        setSelectedItems();
     });
 
     document.querySelectorAll(".parameter-analysis-group").forEach(item => {
@@ -115,6 +114,7 @@
                     }
                 });
             }
+            setSelectedItems();
         })
     });
 
@@ -122,14 +122,18 @@
         item.addEventListener("change", function() {
             if(!item.checked) {
                 document.querySelectorAll(".parameter-analysis-group").forEach(item2 => {
-                    console.log(item.dataset.groupId);
-                    console.log(item2.dataset.groupId);
                     if(item.dataset.groupId == item2.dataset.groupId &&
                         item.dataset.identificationId == item2.dataset.identificationId) {
                             item2.checked = false;
                     }
                 });
             }
+            setSelectedItems();
         })
     });
+
+    function setSelectedItems() {
+        let count = document.getElementById("cart_amount");
+        count.innerHTML = document.querySelectorAll("input:checked.parameter-analysis-item").length;
+    }
 </script>
