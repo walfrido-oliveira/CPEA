@@ -93,6 +93,10 @@ input:read-only {
     @apply inline-block text-blue-500 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 cursor-pointer;
 }
 
+.btn-transition-success {
+    @apply inline-block text-green-500 transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 cursor-pointer;
+}
+
 .btn-transition-dark {
     @apply inline-block text-black transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110 cursor-pointer;
 }

@@ -34,7 +34,8 @@ class SampleAnalysisController extends Controller
      */
     public function show($id)
     {
-        $campaign= Campaign::findOrFail($id);
+        $campaign = Campaign::findOrFail($id);
+        $status = ['sent' => __('sent'), 'pending' => __('pending'), 'analyzing' => __('analyzing'), 'concluded' => __('concluded')];
 
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'asc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'point_identifications.identification';
@@ -50,7 +51,7 @@ class SampleAnalysisController extends Controller
         ->select('project_point_matrices.*')
         ->get();
 
-        return view('sample-analysis.show', compact('campaign', 'projectPointMatrices'));
+        return view('sample-analysis.show', compact('campaign', 'projectPointMatrices', 'status'));
     }
 
     /**

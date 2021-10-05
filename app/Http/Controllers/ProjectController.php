@@ -292,4 +292,32 @@ class ProjectController extends Controller
             ])->render(),
         ]);
     }
+
+    /**
+     * Change project status
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function status(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'id' => 'required|exists:projects,id',
+            'status' => 'required|in:sent,pending,analyzing,concluded',
+        ]);
+
+        $project= Project::findOrFail($request->get('id'));
+
+        $project->update([
+            'status' => $request->get('status')
+        ]);
+
+        return response()->json([
+            'message' => __('Projeto Atualizado com Sucesso!'),
+            'alert-type' => 'success',
+            'result' => view('sample-analysis.status-project', ['status' => $project->status])->render()
+        ]);
+
+    }
 }

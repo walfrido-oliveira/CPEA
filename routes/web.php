@@ -80,6 +80,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::post('/filter', [ProjectController::class, 'filter'])->name('filter');
         Route::post('/forgot-password/{user}', [ProjectController::class, 'forgotPassword'])->name('forgot-password');
         Route::get('/duplicate/{project}', [ProjectController::class, 'duplicate'])->name('duplicate');
+        Route::post('/status/{project}', [ProjectController::class, 'status'])->name('status');
 
         Route::resource('ponto-matriz', ProjectPointMatrixController::class, [
             'names' => 'point-matrix'])->parameters([
