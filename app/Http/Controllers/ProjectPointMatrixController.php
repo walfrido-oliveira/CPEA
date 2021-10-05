@@ -39,7 +39,6 @@ class ProjectPointMatrixController extends Controller
         ->orderBy($orderBy, $ascending)
         ->orderBy('parameter_analysis_groups.name', 'asc')
         ->get();
-        #->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'project-point-matrices');
 
         return view('project.point-matrix.parameter-analysis', compact('campaign', 'projectPointMatrices', 'ascending', 'orderBy'));
     }

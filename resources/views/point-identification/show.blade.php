@@ -167,7 +167,7 @@
             <div class="py-2 my-2 bg-white rounded-lg flex md:flex-row flex-col flex-wrap">
                 <div class="flex md:flex-row flex-col w-full">
                     <div class="mx-4 px-3 py-2 w-full flex items-center">
-                        <h1>{{ __('Clientes') }}</h1>
+                        <h2>{{ __('Clientes') }}</h2>
                     </div>
                     <div class="mx-4 px-3 py-2 w-full flex justify-end" x-data="{ open: false }">
                         <div class="pr-4 flex">
@@ -199,7 +199,7 @@
             <div class="py-2 my-2 bg-white rounded-lg flex md:flex-row flex-col flex-wrap">
                 <div class="flex md:flex-row flex-col w-full">
                     <div class="mx-4 px-3 py-2 w-full flex items-center">
-                        <h1>{{ __('Projetos/Campanhas') }}</h1>
+                        <h2>{{ __('Projetos/Campanhas') }}</h2>
                     </div>
                     <div class="mx-4 px-3 py-2 w-full flex justify-end" x-data="{ open: false }">
                         <div class="pr-4 flex">

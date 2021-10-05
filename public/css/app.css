@@ -1090,6 +1090,12 @@ select {
 .pointer-events-none {
 	pointer-events: none;
 }
+.visible {
+	visibility: visible;
+}
+.invisible {
+	visibility: hidden;
+}
 .fixed {
 	position: fixed;
 }
@@ -1160,6 +1166,10 @@ select {
 .-mx-3 {
 	margin-left: -0.75rem;
 	margin-right: -0.75rem;
+}
+.mx-1 {
+	margin-left: 0.25rem;
+	margin-right: 0.25rem;
 }
 .my-4 {
 	margin-top: 1rem;
@@ -1668,6 +1678,10 @@ select {
 	--tw-bg-opacity: 1;
 	background-color: rgba(5, 150, 105, var(--tw-bg-opacity));
 }
+.bg-black {
+	--tw-bg-opacity: 1;
+	background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
+}
 .bg-transparent {
 	background-color: transparent;
 }
@@ -1701,6 +1715,9 @@ select {
 }
 .p-4 {
 	padding: 1rem;
+}
+.p-0 {
+	padding: 0px;
 }
 .px-4 {
 	padding-left: 1rem;
@@ -2313,6 +2330,12 @@ h1 {
     color: #0a0a0a;
     opacity: .66;
     margin: 0;
+}
+h2 {
+    font-size: 20px !important;
+}
+h3 {
+    font-size: 15px !important;
 }
 h2, h3 {
     font: var(--default-font-bolder);

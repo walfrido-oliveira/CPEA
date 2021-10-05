@@ -10,45 +10,45 @@
 </thead>
 <tbody id="project_table_content">
 
-    @forelse ($projetcs as $key => $campaing)
+    @forelse ($projetcs as $key => $campaign)
         <tr>
             <td>
-                @if ($campaing->project->customer)
-                    <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">{{ $campaing->project->customer->name }}</a>
+                @if ($campaign->project->customer)
+                    <a class="text-item-table" href="{{ route('sample-analysis.show', ['campaign' => $campaign->id]) }}">{{ $campaign->project->customer->name }}</a>
                 @endif
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">{{ $campaing->project->project_cod }}</a>
+                <a class="text-item-table" href="{{ route('sample-analysis.show', ['campaign' => $campaign->id]) }}">{{ $campaign->project->project_cod }}</a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('project.campaign.show', ['campaign' => $campaing->id]) }}">
-                    {{ $campaing->name }}
+                <a class="text-item-table" href="{{ route('sample-analysis.show', ['campaign' => $campaign->id]) }}">
+                    {{ $campaign->name }}
                 </a>
             </td>
             <td>-</td>
             <td>
-                <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">
-                    @switch($campaing->project->status)
+                <a class="text-item-table" href="{{ route('sample-analysis.show', ['campaign' => $campaign->id]) }}">
+                    @switch($campaign->project->status)
                         @case("sent")
-                            <span class="w-24 py-1 badge-light-primary">{{ __($campaing->project->status) }}</span>
+                            <span class="w-24 py-1 badge-light-primary">{{ __($campaign->project->status) }}</span>
                             @break
                         @case("pending")
-                            <span class="w-24 py-1 badge-light-danger">{{ __($campaing->project->status) }}</span>
+                            <span class="w-24 py-1 badge-light-danger">{{ __($campaign->project->status) }}</span>
                             @break
                         @case("analyzing")
-                            <span class="w-24 py-1 badge-light-warning">{{ __($campaing->project->status) }}</span>
+                            <span class="w-24 py-1 badge-light-warning">{{ __($campaign->project->status) }}</span>
                             @break
                         @case("concluded")
-                            <span class="w-24 py-1 badge-light-success">{{ __($campaing->project->status) }}</span>
+                            <span class="w-24 py-1 badge-light-success">{{ __($campaign->project->status) }}</span>
                             @break
                         @default
                     @endswitch
                 </a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">
-                    <span class="block">{{ $campaing->project->updated_at->format('d/m/Y') }}</span>
-                    <span class="block">{{ $campaing->project->updated_at->format('h:m') }}</span>
+                <a class="text-item-table" href="{{ route('sample-analysis.show', ['campaign' => $campaign->id]) }}">
+                    <span class="block">{{ $campaign->project->updated_at->format('d/m/Y') }}</span>
+                    <span class="block">{{ $campaign->project->updated_at->format('h:m') }}</span>
                 </a>
             </td>
         <tr>

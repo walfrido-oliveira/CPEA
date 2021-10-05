@@ -111,6 +111,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     Route::prefix('analise-de-amostra')->name('sample-analysis.')->group(function(){
         Route::get('/', [SampleAnalysisController::class, 'index'])->name('index');
+        Route::get('/{campaign}', [SampleAnalysisController::class, 'show'])->name('show');
+        Route::get('/historico/{campaign}', [SampleAnalysisController::class, 'historic'])->name('historic');
         Route::post('/filter', [SampleAnalysisController::class, 'filter'])->name('filter');
     });
 
