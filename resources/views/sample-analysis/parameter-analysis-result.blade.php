@@ -10,7 +10,7 @@
                             $projectPointMatrices[$index - 1]->pointIdentification->identification) || $index == 0)
             <tr>
                 <td class="bg-gray-100" style="width: 1%">
-                    <input class="form-checkbox" type="checkbox" name="" value="">
+                    <input class="form-checkbox parameter-analysis-identification" type="checkbox" data-index="{{ $index }}" data-identification-id="{{ $point->pointIdentification->id }}">
                 </td>
                 <td class="bg-gray-100 font-bold">
                     @if ($point->pointIdentification)
@@ -26,7 +26,7 @@
                             $projectPointMatrices[$index - 1]->pointIdentification->identification))
             <tr class="point-items-{{ $point->pointIdentification->id }}">
                 <td class="bg-gray-100" style="width: 1%; background-color:#e1ede1">
-                    <input class="form-checkbox" type="checkbox" name="" value="">
+                    <input class="form-checkbox parameter-analysis-group" type="checkbox" data-index="{{ $index }}" data-group-id="{{ $point->parameterAnalysis->parameterAnalysisGroup->id }}" data-identification-id="{{ $point->pointIdentification->id }}">
                 </td>
                 <td class="font-bold text-black" style="background-color:#e1ede1">
                     {{ $point->parameterAnalysis->parameterAnalysisGroup->name }}
@@ -36,7 +36,7 @@
 
         <tr class="point-items-{{ $point->pointIdentification->id }}">
             <td style="width: 1%">
-                <input class="form-checkbox" type="checkbox" name="" value="">
+                <input class="form-checkbox parameter-analysis-item" type="checkbox" data-index="{{ $index }}" data-group-id="{{ $point->parameterAnalysis->parameterAnalysisGroup->id }}" data-identification-id="{{ $point->pointIdentification->id }}">
             </td>
             <td x-data="{ open: false }">
                 @if ($point->parameterAnalysis)
@@ -73,5 +73,63 @@
                 }
             });
         });
+    });
+
+    document.querySelectorAll(".parameter-analysis-identification").forEach(item => {
+
+        item.addEventListener("change", function() {
+            if(item.checked) {
+                document.querySelectorAll(".parameter-analysis-group").forEach(item2 => {
+                    console.log(item.dataset.identificationId)
+                    console.log(item2.dataset.identificationId)
+                    if(item.dataset.identificationId == item2.dataset.identificationId) {
+                        item2.checked = true;
+                        item2.dispatchEvent(new Event('change'));
+                    }
+                });
+            } else {
+                document.querySelectorAll(".parameter-analysis-group").forEach(item2 => {
+                    if(item.dataset.identificationId == item2.dataset.identificationId) {
+                        item2.checked = false;
+                        item2.dispatchEvent(new Event('change'));
+                    }
+                });
+            }
+        })
+    });
+
+    document.querySelectorAll(".parameter-analysis-group").forEach(item => {
+        item.addEventListener("change", function() {
+            if(item.checked) {
+                document.querySelectorAll(".parameter-analysis-item").forEach(item2 => {
+                    if(item.dataset.groupId == item2.dataset.groupId &&
+                       item.dataset.identificationId == item2.dataset.identificationId) {
+                        item2.checked = true;
+                    }
+                });
+            } else {
+                document.querySelectorAll(".parameter-analysis-item").forEach(item2 => {
+                    if(item.dataset.groupId == item2.dataset.groupId &&
+                       item.dataset.identificationId == item2.dataset.identificationId) {
+                        item2.checked = false;
+                    }
+                });
+            }
+        })
+    });
+
+    document.querySelectorAll(".parameter-analysis-item").forEach(item => {
+        item.addEventListener("change", function() {
+            if(!item.checked) {
+                document.querySelectorAll(".parameter-analysis-group").forEach(item2 => {
+                    console.log(item.dataset.groupId);
+                    console.log(item2.dataset.groupId);
+                    if(item.dataset.groupId == item2.dataset.groupId &&
+                        item.dataset.identificationId == item2.dataset.identificationId) {
+                            item2.checked = false;
+                    }
+                });
+            }
+        })
     });
 </script>
