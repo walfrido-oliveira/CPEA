@@ -36,11 +36,13 @@
 
         <tr class="point-items-{{ $point->pointIdentification->id }}">
             <td style="width: 1%">
-                <input class="form-checkbox parameter-analysis-item" type="checkbox" data-index="{{ $index }}" data-group-id="{{ $point->parameterAnalysis->parameterAnalysisGroup->id }}" data-identification-id="{{ $point->pointIdentification->id }}">
+                <input class="form-checkbox parameter-analysis-item" name="parameter_analysis_item[{{ $index }}]"
+                       type="checkbox" data-group-id="{{ $point->parameterAnalysis->parameterAnalysisGroup->id }}"
+                       data-identification-id="{{ $point->pointIdentification->id }}" value="{{ $point->id }}">
             </td>
             <td x-data="{ open: false }">
                 @if ($point->parameterAnalysis)
-                    <button class="inline">
+                    <button class="inline add-parameter-analysis-item">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 btn-transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
@@ -94,7 +96,6 @@
                 });
             }
         });
-        setSelectedItems();
     });
 
     document.querySelectorAll(".parameter-analysis-group").forEach(item => {
@@ -114,7 +115,6 @@
                     }
                 });
             }
-            setSelectedItems();
         })
     });
 
@@ -128,8 +128,19 @@
                     }
                 });
             }
-            setSelectedItems();
         })
+    });
+
+    document.querySelectorAll(".add-parameter-analysis-item").forEach(item =>{
+      item.addEventListener("click", function() {
+        let item = this.parentNode.parentNode.querySelector('td input');
+        item.checked = !item.checked;
+        setSelectedItems();
+      });
+    });
+
+    document.getElementById("add-parameter-analysis-items").addEventListener("click", function() {
+        setSelectedItems();
     });
 
     function setSelectedItems() {

@@ -47,13 +47,14 @@ class SampleAnalysisController extends Controller
         ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
         ->orderBy($orderBy, $ascending)
         ->orderBy('parameter_analysis_groups.name', 'asc')
+        ->select('project_point_matrices.*')
         ->get();
 
         return view('sample-analysis.show', compact('campaign', 'projectPointMatrices'));
     }
 
     /**
-     * Display the specified resource.
+     * Display the historic.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -61,6 +62,17 @@ class SampleAnalysisController extends Controller
     public function historic($id)
     {
         $campaign= Campaign::findOrFail($id);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function cart(Request $request)
+    {
+        dd($request->all());
     }
 
     /**

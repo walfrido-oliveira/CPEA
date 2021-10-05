@@ -116,50 +116,55 @@
                     </table>
                 </div>
             </div>
+            <form method="POST" action="{{ route('sample-analysis.cart') }}">
+                @csrf
+                @method("POST")
 
-            <div class="py-2 my-2 bg-white rounded-lg flex md:flex-row flex-col flex-wrap">
-                <div class="flex md:flex-row flex-col w-full">
-                    <div class="mx-4 px-3 py-2 w-full flex items-center">
-                        <h2>{{ __('Amostras') }}</h2>
-                    </div>
-                    <div class="py-2 flex justify-end" x-data="{ open: false }">
-                        <div class="flex">
-                            <button @click="open = !open" id="nav-toggle" class="w-full block btn-transition-secondary">
-                              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                              </svg>
-                            </button>
+                <div class="py-2 my-2 bg-white rounded-lg flex md:flex-row flex-col flex-wrap">
+                    <div class="flex md:flex-row flex-col w-full">
+                        <div class="mx-4 px-3 py-2 w-full flex items-center">
+                            <h2>{{ __('Amostras') }}</h2>
                         </div>
-                        <!--Search-->
-                        <div :class="{'block': open, 'hidden': !open}" class="w-full block" id="search-content">
-                            <div class="container mx-auto">
-                                <input id="name_customer" name="name" type="search" placeholder="Buscar..." autofocus="autofocus" class="filter-field w-full form-control no-border">
+                        <div class="py-2 flex justify-end" x-data="{ open: false }">
+                            <div class="flex">
+                                <button @click="open = !open" id="nav-toggle" class="w-full block btn-transition-secondary">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                                </button>
+                            </div>
+                            <!--Search-->
+                            <div :class="{'block': open, 'hidden': !open}" class="w-full block" id="search-content">
+                                <div class="container mx-auto">
+                                    <input id="name_customer" name="name" type="search" placeholder="Buscar..." autofocus="autofocus" class="filter-field w-full form-control no-border">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-end">
+                            <div class="m-2 ">
+                                <button type="button" class="btn-outline-info" id="add-parameter-analysis-items">Adicionar</button>
+                            </div>
+                        </div>
+                        <div class="flex justify-end">
+                            <div class="my-2 mr-2">
+                                <button type="submit" class="btn-transition relative flex py-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="flex-1 w-6 h-6" style="-webkit-transform: scaleX(-1); transform: scaleX(-1);" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                    <span id="cart_amount" class="absolute left-0 top-0 rounded-full bg-green-600 w-4 h-4 top right p-0 m-0 text-white font-mono text-sm  leading-tight text-center">
+                                        0
+                                    </span>
+                                </a>
                             </div>
                         </div>
                     </div>
-                    <div class="flex justify-end">
-                        <div class="m-2 ">
-                            <button class="btn-outline-info">Adicionar</button>
-                        </div>
-                    </div>
-                    <div class="flex justify-end">
-                        <div class="my-2 mr-2">
-                            <a href="#" role="button" class="btn-transition relative flex py-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="flex-1 w-6 h-6" style="-webkit-transform: scaleX(-1); transform: scaleX(-1);" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                                </svg>
-                                <span id="cart_amount" class="absolute left-0 top-0 rounded-full bg-green-600 w-4 h-4 top right p-0 m-0 text-white font-mono text-sm  leading-tight text-center">2
-                                </span>
-                              </a>
-                        </div>
+                    <div class="flex mt-4 w-full">
+                        <table id="parameter_analysis_table" class="table table-responsive md:table w-full">
+                            @include('sample-analysis.parameter-analysis-result')
+                        </table>
                     </div>
                 </div>
-                <div class="flex mt-4 w-full">
-                    <table id="parameter_analysis_table" class="table table-responsive md:table w-full">
-                        @include('sample-analysis.parameter-analysis-result')
-                    </table>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 </x-app-layout>
