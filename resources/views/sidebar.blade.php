@@ -135,6 +135,9 @@
               <div class="px-0 py-0 ">
                 <a class="@if(request()->routeIs('registers.calculation-variable.index')) {{ 'active' }} @endif" href="{{ route('registers.calculation-variable.index') }}">Variável Fórmula Cálculo</a>
               </div>
+              <div class="px-0 py-0 ">
+                <a class="@if(request()->routeIs('registers.lab.index')) {{ 'active' }} @endif" href="{{ route('registers.lab.index') }}">Laboratório</a>
+              </div>
             </div>
           </div>
       </nav>

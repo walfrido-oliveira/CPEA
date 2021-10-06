@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LabController;
 use App\Http\Controllers\UserController;
 use ChrisKonnertz\StringCalc\StringCalc;
 use App\Http\Controllers\UnityController;
@@ -268,6 +269,14 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::prefix('variavel-formula-calculo')->name('calculation-variable.')->group(function(){
             Route::post('/filter', [CalculationVariableController::class, 'filter'])->name('filter');
             Route::post('/filter-by-calculation-parameter/{calculation_parameter}', [CalculationVariableController::class, 'filterByCalculationParameter'])->name('filter-by-calculation-parameter');
+        });
+
+        Route::resource('laboratorio', LabController::class, [
+            'names' => 'lab'])->parameters([
+            'laboratorio' => 'lab'
+        ]);
+        Route::prefix('laboratorio')->name('lab.')->group(function(){
+            Route::post('/filter', [LabController::class, 'filter'])->name('filter');
         });
 
     });

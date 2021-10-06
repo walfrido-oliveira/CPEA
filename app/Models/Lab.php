@@ -2,39 +2,21 @@
 
 namespace App\Models;
 
-use App\Models\Lab;
-use App\Models\Campaign;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class AnalysisOrder extends Model
+class Lab extends Model
 {
     use HasFactory;
 
-     /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'campaign_id', 'lab_id', 'status', 'obs'
+        'name', 'type', 'cod'
     ];
-
-    /**
-     * The campaign
-     */
-    public function campaign()
-    {
-        return $this->belongsTo(Campaign::class);
-    }
-
-    /**
-     * The lab
-     */
-    public function lab()
-    {
-        return $this->belongsTo(Lab::class);
-    }
 
     /**
      * Find users in dabase
@@ -58,19 +40,11 @@ class AnalysisOrder extends Model
                 }
             }
 
-            if(isset($query['campaign_id']))
+            if(isset($query['name']))
             {
-                if(!is_null($query['campaign_id']))
+                if(!is_null($query['name']))
                 {
-                    $q->where('campaign_id', $query['campaign_id']);
-                }
-            }
-
-            if(isset($query['lab_id']))
-            {
-                if(!is_null($query['lab_id']))
-                {
-                    $q->where('lab_id', $query['lab_id']);
+                    $q->where('name', 'like','%' . $query['name'] . '%');
                 }
             }
         });

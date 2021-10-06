@@ -16,8 +16,10 @@ class CreateAnalysisOrdersTable extends Migration
         Schema::create('analysis_orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('campaign_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('lab_id')->constrained()->cascadeOnDelete();
 
             $table->string('status')->default('sent');
+            $table->string('obs')->nullable();
             $table->timestamps();
         });
     }
