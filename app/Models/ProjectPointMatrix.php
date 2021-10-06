@@ -145,7 +145,7 @@ class ProjectPointMatrix extends Model
             {
                 if(!is_null($query['q']))
                 {
-                    $q->where( function($q) use($query){
+                    /*$q->where( function($q) use($query){
                         $q->whereHas('pointIdentification', function($q) use($query) {
                             $q->where('point_identifications.area', 'like', '%' . $query['q'] . '%')
                               ->orWhere('point_identifications.identification', 'like', '%' . $query['q'] . '%');
@@ -162,7 +162,7 @@ class ProjectPointMatrix extends Model
                         ->orWhereHas('parameterAnalysis', function($q) use($query) {
                             $q->where('parameter_analyses.analysis_parameter_name', 'like', '%' . $query['q'] . '%');
                         });
-                    });
+                    });*/
 
                 }
             }
