@@ -67,8 +67,8 @@
                             </div>
                             <div class="flex mx-4 px-3 py-2 md:flex-row flex-col">
                                 <div class="w-full">
-                                    <x-jet-label for="lab_id" value="{{ __('Laboratório') }}" />
-                                    <x-custom-select :options="$labs" name="lab_id" id="lab_id" value=""/>
+                                    <x-jet-label for="lab_id" value="{{ __('Laboratório') }}" required/>
+                                    <x-custom-select :options="$labs" name="lab_id" id="lab_id" value="" required/>
                                 </div>
                             </div>
                             <div class="flex mx-4 px-3 py-2 md:flex-row flex-col">
