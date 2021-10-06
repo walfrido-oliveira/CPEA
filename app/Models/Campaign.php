@@ -135,7 +135,9 @@ class Campaign extends Model
             ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
             ->orderBy($orderBy, $ascending);
         }
-        else if($orderBy == 'projects.project_cod' || $orderBy == 'projects.status')
+        else if($orderBy == 'projects.project_cod' ||
+                $orderBy == 'projects.status' ||
+                $orderBy == 'projects.customer_id')
         {
             $campaigns
             ->with('project')
