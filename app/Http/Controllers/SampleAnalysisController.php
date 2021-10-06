@@ -123,15 +123,16 @@ class SampleAnalysisController extends Controller
     public function filterPointMatrix(Request $request)
     {
         $inputs = $request->except(['parameter_analysis_item']);
-        $inputs['no-paginate'] = true;
 
         $projectPointMatrices = ProjectPointMatrix::filter($inputs);
         $orderBy = $request->get('order_by');
         $ascending = $request->get('ascending');
+        $campaign = Campaign::findOrFail($request->get('campaign_id'));
+
 
         return response()->json([
             'filter_result' => view('sample-analysis.parameter-analysis-result',
-            compact('projectPointMatrices', 'orderBy', 'ascending'))->render(),
+            compact('projectPointMatrices', 'orderBy', 'ascending', 'campaign'))->render(),
         ]);
     }
 }
