@@ -4,8 +4,8 @@
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="projects.project_cod" columnText="{{ __('Projeto') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="campaigns.name" columnText="{{ __('Campanha') }}"/>
         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('Laboratório') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="status" columnText="{!! __('Status') !!}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="updated_at" columnText="{!! __('Modificação') !!}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="projects.status" columnText="{!! __('Status') !!}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="projects.updated_at" columnText="{!! __('Modificação') !!}"/>
     </tr>
 </thead>
 <tbody id="project_table_content">
