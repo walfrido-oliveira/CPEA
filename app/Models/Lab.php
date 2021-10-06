@@ -19,6 +19,26 @@ class Lab extends Model
     ];
 
     /**
+     * Get formatted type
+     *
+     * @return string
+     */
+    public function getFormattedTypeAttribute()
+    {
+        switch ($this->type) {
+            case 'external':
+                return 'Laboratório (Externo)';
+                break;
+
+            case 'internal':
+                return 'Laboratório (Interno)';
+                break;
+        }
+
+        return '';
+    }
+
+    /**
      * Find users in dabase
      *
      * @param Array

@@ -21,7 +21,17 @@ class AnalysisOrder extends Model
     ];
 
     /**
+     * Get formatted id
+     */
+    public function getFormattedIdAttribute()
+    {
+        return \str_pad((string) $this->id, 8, "0", STR_PAD_LEFT) . '-' . $this->created_at->format('Y');
+    }
+
+    /**
      * The campaign
+     *
+     * @return string
      */
     public function campaign()
     {

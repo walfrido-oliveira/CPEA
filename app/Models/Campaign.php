@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Project;
+use App\Models\AnalysisOrder;
 use App\Models\CampaignStatus;
 use App\Models\ProjectPointMatrix;
 use Illuminate\Database\Eloquent\Model;
@@ -45,6 +46,14 @@ class Campaign extends Model
     public function projectPointMatrices()
     {
         return $this->hasMany(ProjectPointMatrix::class);
+    }
+
+    /**
+     * The AnalysisOrder.
+     */
+    public function analysisOrders()
+    {
+        return $this->hasMany(AnalysisOrder::class);
     }
 
     /**

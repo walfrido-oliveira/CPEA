@@ -18,16 +18,7 @@
             </td>
             <td>
                 <a class="text-item-table" href="{{ route('registers.lab.show', ['lab' => $lab->id]) }}">
-                    @switch($lab->type)
-                        @case('external')
-                            {{ __('Laboratório (Externo)') }}
-                            @break
-                        @case('internal')
-                            {{ __('Laboratório (Interno)') }}
-                            @break
-                        @default
-
-                    @endswitch
+                    $lab->formatted_type
                 </a>
             </td>
             <td>

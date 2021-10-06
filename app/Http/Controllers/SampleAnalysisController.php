@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\Campaign;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use App\Models\AnalysisOrder;
 use App\Models\ProjectPointMatrix;
 
 class SampleAnalysisController extends Controller
@@ -37,6 +38,7 @@ class SampleAnalysisController extends Controller
     {
         $campaign = Campaign::findOrFail($id);
         $status = ['sent' => __('sent'), 'pending' => __('pending'), 'analyzing' => __('analyzing'), 'concluded' => __('concluded')];
+        $orders = $campaign->analysisOrders;
 
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'asc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'point_identifications.identification';
@@ -52,7 +54,7 @@ class SampleAnalysisController extends Controller
         ->select('project_point_matrices.*')
         ->get();
 
-        return view('sample-analysis.show', compact('campaign', 'projectPointMatrices', 'status'));
+        return view('sample-analysis.show', compact('campaign', 'projectPointMatrices', 'status', 'orders'));
     }
 
     /**

@@ -112,7 +112,31 @@
                             </tr>
                         </thead>
                         <tbody>
-
+                            @foreach ($orders as $order)
+                                <tr>
+                                    <td>{{ $order->formatted_id }}</td>
+                                    <td>{{ $order->created_at->format('d/m/Y h:m') }}</td>
+                                    <td>{{ $order->lab->name }}</td>
+                                    <td>
+                                        @switch($order->status)
+                                            @case("sent")
+                                                <span class="w-24 py-1 badge-light-primary">{{ __($order->status) }}</span>
+                                                @break
+                                            @case("canceled")
+                                                <span class="w-24 py-1 badge-light-danger">{{ __($order->status) }}</span>
+                                                @break
+                                            @case("analyzing")
+                                                <span class="w-24 py-1 badge-light-warning">{{ __($order->status) }}</span>
+                                                @break
+                                            @case("concluded")
+                                                <span class="w-24 py-1 badge-light-success">{{ __($order->status) }}</span>
+                                                @break
+                                            @default
+                                        @endswitch
+                                    </td>
+                                    <td>{{ $order->updated_at->format('d/m/Y h:m') }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
