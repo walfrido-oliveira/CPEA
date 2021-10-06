@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Models\Lab;
 use App\Models\Campaign;
+use App\Models\ParameterAnalysis;
+use App\Models\ProjectPointMatrix;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -44,6 +46,14 @@ class AnalysisOrder extends Model
     public function lab()
     {
         return $this->belongsTo(Lab::class);
+    }
+
+    /**
+     * The projectPointMatrix
+     */
+    public function projectPointMatrix()
+    {
+        return $this->belongsToMany(ProjectPointMatrix::class);
     }
 
     /**

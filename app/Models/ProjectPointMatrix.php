@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Project;
 use App\Models\Campaign;
+use App\Models\AnalysisOrder;
 use App\Models\AnalysisMatrix;
 use App\Models\PlanActionLevel;
 use App\Models\GuidingParameter;
@@ -108,6 +109,29 @@ class ProjectPointMatrix extends Model
             $result .= ' - ' . $this->analysisMatrix->name;
         }
         return $result;
+    }
+
+    /**
+     * The AnalysisOrder
+     */
+    public function analysisOrders()
+    {
+        return $this->belongsToMany(AnalysisOrder::class);
+    }
+
+    /**
+     * Get status Lab
+     *
+     * @param int $id
+     * @return string
+     */
+    public function getStatusLab($id)
+    {
+        $result = $this->analysisOrders()->where('campaign_id', $id)
+        ->select('analysis_orders.*')
+        ->first();
+
+        return $result ? $result->status : null;
     }
 
      /**
