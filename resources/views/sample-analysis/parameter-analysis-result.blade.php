@@ -10,7 +10,9 @@
                             $projectPointMatrices[$index - 1]->pointIdentification->identification) || $index == 0)
             <tr>
                 <td class="bg-gray-100" style="width: 1%">
-                    <input class="form-checkbox parameter-analysis-identification" type="checkbox" data-index="{{ $index }}" data-identification-id="{{ $point->pointIdentification->id }}">
+                    <input class="form-checkbox parameter-analysis-identification" type="checkbox"
+                           data-identification-id="{{ $point->pointIdentification->id }}"
+                           value="{{ $point->pointIdentification->id }}">
                 </td>
                 <td class="bg-gray-100 font-bold">
                     @if ($point->pointIdentification)
@@ -26,7 +28,10 @@
                             $projectPointMatrices[$index - 1]->pointIdentification->identification))
             <tr class="point-items-{{ $point->pointIdentification->id }}">
                 <td class="bg-gray-100" style="width: 1%; background-color:#e1ede1">
-                    <input class="form-checkbox parameter-analysis-group" type="checkbox" data-index="{{ $index }}" data-group-id="{{ $point->parameterAnalysis->parameterAnalysisGroup->id }}" data-identification-id="{{ $point->pointIdentification->id }}">
+                    <input class="form-checkbox parameter-analysis-group" type="checkbox"
+                           data-group-id="{{ $point->parameterAnalysis->parameterAnalysisGroup->id }}"
+                           data-identification-id="{{ $point->pointIdentification->id }}"
+                           value="{{ $point->parameterAnalysis->parameterAnalysisGroup->id }}">
                 </td>
                 <td class="font-bold text-black" style="background-color:#e1ede1">
                     {{ $point->parameterAnalysis->parameterAnalysisGroup->name }}
@@ -42,7 +47,7 @@
             </td>
             <td x-data="{ open: false }">
                 @if ($point->parameterAnalysis)
-                    <button class="inline add-parameter-analysis-item">
+                    <button class="inline add-parameter-analysis-item" type="button">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 btn-transition" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
@@ -62,89 +67,3 @@
         </tr>
     @endforeach
 </tbody>
-
-<script>
-    document.querySelectorAll(".point-open").forEach(item => {
-        item.addEventListener("click", function() {
-
-            document.querySelectorAll(".point-items-" + this.dataset.id).forEach(item => {
-                if(item.classList.contains("hidden")) {
-                    item.classList.remove("hidden");
-                } else {
-                    item.classList.add("hidden");
-                }
-            });
-        });
-    });
-
-    document.querySelectorAll(".parameter-analysis-identification").forEach(item => {
-
-        item.addEventListener("change", function() {
-            if(item.checked) {
-                document.querySelectorAll(".parameter-analysis-group").forEach(item2 => {
-                    if(item.dataset.identificationId == item2.dataset.identificationId) {
-                        item2.checked = true;
-                        item2.dispatchEvent(new Event('change'));
-                    }
-                });
-            } else {
-                document.querySelectorAll(".parameter-analysis-group").forEach(item2 => {
-                    if(item.dataset.identificationId == item2.dataset.identificationId) {
-                        item2.checked = false;
-                        item2.dispatchEvent(new Event('change'));
-                    }
-                });
-            }
-        });
-    });
-
-    document.querySelectorAll(".parameter-analysis-group").forEach(item => {
-        item.addEventListener("change", function() {
-            if(item.checked) {
-                document.querySelectorAll(".parameter-analysis-item").forEach(item2 => {
-                    if(item.dataset.groupId == item2.dataset.groupId &&
-                       item.dataset.identificationId == item2.dataset.identificationId) {
-                        item2.checked = true;
-                    }
-                });
-            } else {
-                document.querySelectorAll(".parameter-analysis-item").forEach(item2 => {
-                    if(item.dataset.groupId == item2.dataset.groupId &&
-                       item.dataset.identificationId == item2.dataset.identificationId) {
-                        item2.checked = false;
-                    }
-                });
-            }
-        })
-    });
-
-    document.querySelectorAll(".parameter-analysis-item").forEach(item => {
-        item.addEventListener("change", function() {
-            if(!item.checked) {
-                document.querySelectorAll(".parameter-analysis-group").forEach(item2 => {
-                    if(item.dataset.groupId == item2.dataset.groupId &&
-                        item.dataset.identificationId == item2.dataset.identificationId) {
-                            item2.checked = false;
-                    }
-                });
-            }
-        })
-    });
-
-    document.querySelectorAll(".add-parameter-analysis-item").forEach(item =>{
-      item.addEventListener("click", function() {
-        let item = this.parentNode.parentNode.querySelector('td input');
-        item.checked = !item.checked;
-        setSelectedItems();
-      });
-    });
-
-    document.getElementById("add-parameter-analysis-items").addEventListener("click", function() {
-        setSelectedItems();
-    });
-
-    function setSelectedItems() {
-        let count = document.getElementById("cart_amount");
-        count.innerHTML = document.querySelectorAll("input:checked.parameter-analysis-item").length;
-    }
-</script>

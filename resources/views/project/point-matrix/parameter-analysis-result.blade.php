@@ -46,18 +46,3 @@
         </tr>
     @endforeach
 </tbody>
-
-<script>
-    document.querySelectorAll(".point-open").forEach(item => {
-        item.addEventListener("click", function() {
-
-            document.querySelectorAll(".point-items-" + this.dataset.id).forEach(item => {
-                if(item.classList.contains("hidden")) {
-                    item.classList.remove("hidden");
-                } else {
-                    item.classList.add("hidden");
-                }
-            });
-        });
-    });
-</script>

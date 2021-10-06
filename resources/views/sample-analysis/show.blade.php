@@ -137,7 +137,7 @@
                             <!--Search-->
                             <div :class="{'block': open, 'hidden': !open}" class="w-full block" id="search-content">
                                 <div class="container mx-auto">
-                                    <input id="name_customer" name="name" type="search" placeholder="Buscar..." autofocus="autofocus" class="filter-field w-full form-control no-border">
+                                    <input id="q" name="q" type="search" placeholder="Buscar..." autofocus="autofocus" class="filter-field w-full form-control no-border">
                                 </div>
                             </div>
                         </div>
@@ -203,4 +203,171 @@
         });
     </script>
 
+    <script>
+        var cart = [];
+        var groups = [];
+        var identifications = [];
+
+        var filterCallback = function (event) {
+            var ajax = new XMLHttpRequest();
+            var url = "{!! route('sample-analysis.filter-point-matrix') !!}";
+            var token = document.querySelector('meta[name="csrf-token"]').content;
+            var method = 'POST';
+
+            var q = document.getElementById("q").value;
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    document.getElementById("parameter_analysis_table").innerHTML = resp.filter_result;
+
+                    for (let index = 0; index < identifications.length; index++) {
+                        const element = identifications[index];
+                        document.querySelectorAll(".parameter-analysis-identification").forEach(item => {
+                            if(item.value == element) item.checked = true;
+                        });
+                    }
+
+                    for (let index = 0; index < groups.length; index++) {
+                        const element = groups[index];
+                        document.querySelectorAll(".parameter-analysis-group").forEach(item => {
+                            if(item.value == element.group &&
+                              item.dataset.identificationId == element.identification) item.checked = true;
+                        });
+                    }
+
+                    for (let index = 0; index < cart.length; index++) {
+                        const element = cart[index];
+                        document.querySelectorAll(".parameter-analysis-item").forEach(item => {
+                            if(item.value == element) item.checked = true;
+                        });
+                    }
+
+                    eventsFilterCallback();
+                    checkItems();
+                } else if(this.readyState == 4 && this.status != 200) {
+                    toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
+                    eventsFilterCallback();
+                    checkItems();
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            if(q) data.append('q', q);
+            data.append('ascending', 'asc');
+            data.append('order_by', 'point_identifications.identification');
+            data.append('campaign_id', "{{ $campaign->id }}");
+
+            ajax.send(data);
+        }
+
+        function eventsFilterCallback() {
+            document.querySelectorAll('.filter-field').forEach(item => {
+                item.addEventListener('change', filterCallback, false);
+                item.addEventListener('keyup', filterCallback, false);
+            });
+            document.querySelectorAll("#parameter_analysis_table thead [data-name]").forEach(item => {
+                item.addEventListener("click", orderByCallback, false);
+            });
+        }
+
+        eventsFilterCallback();
+
+        checkItems();
+
+        function checkItems() {
+            document.querySelectorAll(".parameter-analysis-identification").forEach(item => {
+
+                item.addEventListener("change", function() {
+                    if(item.checked) {
+                        document.querySelectorAll(".parameter-analysis-group").forEach(item2 => {
+                            if(item.dataset.identificationId == item2.dataset.identificationId) {
+                                item2.checked = true;
+                                item2.dispatchEvent(new Event('change'));
+                            }
+                        });
+                    } else {
+                        document.querySelectorAll(".parameter-analysis-group").forEach(item2 => {
+                            if(item.dataset.identificationId == item2.dataset.identificationId) {
+                                item2.checked = false;
+                                item2.dispatchEvent(new Event('change'));
+                            }
+                        });
+                    }
+                });
+            });
+
+            document.querySelectorAll(".parameter-analysis-group").forEach(item => {
+                item.addEventListener("change", function() {
+                    if(item.checked) {
+                        document.querySelectorAll(".parameter-analysis-item").forEach(item2 => {
+                            if(item.dataset.groupId == item2.dataset.groupId &&
+                            item.dataset.identificationId == item2.dataset.identificationId) {
+                                item2.checked = true;
+                            }
+                        });
+                    } else {
+                        document.querySelectorAll(".parameter-analysis-item").forEach(item2 => {
+                            if(item.dataset.groupId == item2.dataset.groupId &&
+                            item.dataset.identificationId == item2.dataset.identificationId) {
+                                item2.checked = false;
+                            }
+                        });
+                    }
+                })
+            });
+
+            document.querySelectorAll(".parameter-analysis-item").forEach(item => {
+                item.addEventListener("change", function() {
+                    if(!item.checked) {
+                        document.querySelectorAll(".parameter-analysis-group").forEach(item2 => {
+                            if(item.dataset.groupId == item2.dataset.groupId &&
+                                item.dataset.identificationId == item2.dataset.identificationId) {
+                                    item2.checked = false;
+                            }
+                        });
+                    }
+                })
+            });
+
+            document.querySelectorAll(".add-parameter-analysis-item").forEach(item =>{
+                item.addEventListener("click", function() {
+                    let item = this.parentNode.parentNode.querySelector('td input');
+                    item.checked = !item.checked;
+                    setSelectedItems();
+                });
+            });
+
+            document.getElementById("add-parameter-analysis-items").addEventListener("click", function() {
+                setSelectedItems();
+            });
+        }
+
+        function setSelectedItems() {
+            let count = document.getElementById("cart_amount");
+            count.innerHTML = document.querySelectorAll("input:checked.parameter-analysis-item").length;
+
+            identifications = [];
+            document.querySelectorAll("input:checked.parameter-analysis-identification").forEach(item => {
+                identifications.push(item.value);
+            });
+
+            groups = [];
+            document.querySelectorAll("input:checked.parameter-analysis-group").forEach(item => {
+                groups.push({
+                    group: item.value,
+                    identification: item.dataset.identificationId
+                });
+            });
+
+            cart = [];
+            document.querySelectorAll("input:checked.parameter-analysis-item").forEach(item => {
+                cart.push(item.value);
+            });
+        }
+    </script>
 </x-app-layout>

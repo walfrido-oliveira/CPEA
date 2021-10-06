@@ -170,12 +170,17 @@ class ProjectPointMatrix extends Model
             if(isset($query['project_id'])) $q->where('project_id', $query['project_id']);
         });
 
-        if($orderBy == 'identification' || $orderBy == 'area')
+        if($orderBy == 'point_identifications.identification' || $orderBy == 'point_identifications.area')
         {
-            $projects
+             $projects
             ->with('pointIdentification')
             ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
-            ->orderBy($orderBy, $ascending);
+            ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+            ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
+            ->orderBy($orderBy, $ascending)
+            ->orderBy('parameter_analysis_groups.name', 'asc')
+            ->select('project_point_matrices.*')
+            ->get();
         }
         else
         {

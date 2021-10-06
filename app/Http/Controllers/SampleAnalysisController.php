@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\Campaign;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use App\Models\ProjectPointMatrix;
 
 class SampleAnalysisController extends Controller
 {
@@ -99,6 +100,27 @@ class SampleAnalysisController extends Controller
             'ascending' => $ascending,
             'paginate_per_page' => $paginate_per_page,
             ])->render(),
+        ]);
+    }
+
+    /**
+     * Filter
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param string $id
+     * @return \Illuminate\Http\Response
+     */
+    public function filterPointMatrix(Request $request)
+    {
+        $projectPointMatrices = ProjectPointMatrix::filter($request->except(['parameter_analysis_item']));
+        $projectPointMatrices = $projectPointMatrices->setPath('');
+        $orderBy = $request->get('order_by');
+        $ascending = $request->get('ascending');
+        $paginatePerPage = $request->get('paginate_per_page');
+
+        return response()->json([
+            'filter_result' => view('sample-analysis.parameter-analysis-result',
+            compact('projectPointMatrices', 'orderBy', 'ascending'))->render(),
         ]);
     }
 }

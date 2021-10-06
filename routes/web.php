@@ -115,6 +115,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::get('/{campaign}', [SampleAnalysisController::class, 'show'])->name('show');
         Route::get('/historico/{campaign}', [SampleAnalysisController::class, 'historic'])->name('historic');
         Route::post('/filter', [SampleAnalysisController::class, 'filter'])->name('filter');
+        Route::post('/filterPointMatrix', [SampleAnalysisController::class, 'filterPointMatrix'])->name('filter-point-matrix');
         Route::post('/carinho', [SampleAnalysisController::class, 'cart'])->name('cart');
     });
 
