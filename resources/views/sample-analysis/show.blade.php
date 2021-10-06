@@ -349,7 +349,6 @@
 
         function setSelectedItems() {
             let count = document.getElementById("cart_amount");
-            count.innerHTML = document.querySelectorAll("input:checked.parameter-analysis-item").length;
 
             identifications = [];
             document.querySelectorAll("input:checked.parameter-analysis-identification").forEach(item => {
@@ -368,6 +367,8 @@
             document.querySelectorAll("input:checked.parameter-analysis-item").forEach(item => {
                 cart.push(item.value);
             });
+
+            count.innerHTML = cart.length;
         }
     </script>
 </x-app-layout>
