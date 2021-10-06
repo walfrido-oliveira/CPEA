@@ -2,8 +2,8 @@
     <tr class="thead-light">
         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="<input class='form-checkbox' id='select_all_point_matrix' type='checkbox' value='all'>"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="campaign_id" columnText="{{ __('Campanha') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="area" columnText="{{ __('Área') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="identification" columnText="{{ __('Ponto') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="point_identifications.area" columnText="{{ __('Área') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="point_identifications.identification" columnText="{{ __('Ponto') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="analysis_matrix_id" columnText="{{ __('Matriz') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="plan_action_level_id" columnText="{{ __('Tipo Nível Ação') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="guiding_parameter_id" columnText="{{ __('Param. Orientador Ambiental') }}"/>

@@ -187,6 +187,9 @@ class ProjectPointMatrix extends Model
             $projects->orderBy($orderBy, $ascending);
         }
 
-        return $projects->paginate(0, ['*'], 'project-point-matrices');
+        if(isset($query['no-paginate']))
+            return $projects->get();
+        else
+            return $projects->paginate(0, ['*'], 'project-point-matrices');
     }
 }
