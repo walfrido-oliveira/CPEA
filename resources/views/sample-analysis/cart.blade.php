@@ -5,6 +5,7 @@
             <form method="POST" action="{{ route('analysis-order.store') }}">
                 @csrf
                 @method("POST")
+                <input type="hidden" name="campaign_id" id="campaign_id" value="{{ $campaign->id }}">
 
                 <div class="flex md:flex-row flex-col">
                     <div class="w-full flex items-center">
@@ -20,6 +21,16 @@
                     </div>
                 </div>
 
+
+                @if ($errors)
+                    <div>
+                        <ul class="mt-3 list-none list-inside text-sm text-red-600">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
                 <div class="flex md:flex-row flex-col">
 
@@ -68,13 +79,13 @@
                             <div class="flex mx-4 px-3 py-2 md:flex-row flex-col">
                                 <div class="w-full">
                                     <x-jet-label for="lab_id" value="{{ __('Laboratório') }}" required/>
-                                    <x-custom-select :options="$labs" name="lab_id" id="lab_id" value="" required/>
+                                    <x-custom-select :options="$labs" name="lab_id" id="lab_id" :value="old('lab_id')"/>
                                 </div>
                             </div>
                             <div class="flex mx-4 px-3 py-2 md:flex-row flex-col">
                                 <div class="w-full">
                                     <x-jet-label for="lab_id" value="{{ __('Observações') }}" />
-                                    <textarea class="form-input w-full" name="obs" id="obs" cols="30" rows="10"></textarea>
+                                    <textarea class="form-input w-full" name="obs" id="obs" cols="30" rows="10">{{ old('obs') }}</textarea>
                                 </div>
                             </div>
                         </div>

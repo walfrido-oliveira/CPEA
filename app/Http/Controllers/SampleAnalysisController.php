@@ -80,7 +80,7 @@ class SampleAnalysisController extends Controller
         $input = $request->all();
         $cart = isset($input['cart']) ? explode(",", $input['cart']) : [];
         $labs = Lab::pluck('name', 'id');
-        $campaign = isset($input['campaign_id']) ? Campaign::findOrFail($input['campaign_id']) : [];
+        $campaign = isset($input['campaign_id']) ? Campaign::findOrFail($input['campaign_id']) : null;
 
         $projectPointMatrices = ProjectPointMatrix::whereIn('id', $cart)->get();
 

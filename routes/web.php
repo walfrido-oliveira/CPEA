@@ -119,6 +119,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::post('/filter', [SampleAnalysisController::class, 'filter'])->name('filter');
         Route::post('/filterPointMatrix', [SampleAnalysisController::class, 'filterPointMatrix'])->name('filter-point-matrix');
         Route::post('/carinho', [SampleAnalysisController::class, 'cart'])->name('cart');
+        Route::get('/carinho', [SampleAnalysisController::class, 'cart'])->name('cart');
     });
 
     Route::resource('pedidos-de-analise', AnalysisOrderController::class, [
