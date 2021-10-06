@@ -3485,6 +3485,11 @@ input:read-only {
 		margin-right: 1.5rem;
 	}
 
+	.md\:mx-2 {
+		margin-left: 0.5rem;
+		margin-right: 0.5rem;
+	}
+
 	.md\:mx-0 {
 		margin-left: 0px;
 		margin-right: 0px;
@@ -3550,6 +3555,10 @@ input:read-only {
 
 	.md\:w-1\/4 {
 		width: 25%;
+	}
+
+	.md\:w-2\/3 {
+		width: 66.666667%;
 	}
 
 	.md\:w-3\/12 {

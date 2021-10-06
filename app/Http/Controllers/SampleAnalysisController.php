@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Lab;
 use App\Models\Project;
 use App\Models\Campaign;
 use App\Models\Customer;
@@ -76,7 +77,14 @@ class SampleAnalysisController extends Controller
      */
     public function cart(Request $request)
     {
-        dd($request->all());
+        $input = $request->all();
+        $cart = isset($input['cart']) ? explode(",", $input['cart']) : [];
+        $labs = Lab::pluck('name', 'id');
+        $campaign = isset($input['campaign_id']) ? Campaign::findOrFail($input['campaign_id']) : [];
+
+        $projectPointMatrices = ProjectPointMatrix::whereIn('id', $cart)->get();
+
+        return view('sample-analysis.cart', compact('projectPointMatrices', 'labs', 'campaign'));
     }
 
     /**

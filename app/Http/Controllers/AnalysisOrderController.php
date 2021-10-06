@@ -6,5 +6,17 @@ use Illuminate\Http\Request;
 
 class AnalysisOrderController extends Controller
 {
-    //
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $input = $request->all();
+
+        dd($input);
+
+    }
 }

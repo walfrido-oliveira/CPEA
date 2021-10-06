@@ -145,9 +145,12 @@
                     </table>
                 </div>
             </div>
-            <form method="POST" action="{{ route('sample-analysis.cart') }}">
+            <form method="POST" action="{{ route('sample-analysis.cart') }}" id="parameter_analysis_form">
                 @csrf
                 @method("POST")
+
+                <input type="hidden" name="cart" id="cart">
+                <input type="hidden" name="campaign_id" id="campaign_id" value="{{ $campaign->id }}">
 
                 <div class="py-2 my-2 bg-white rounded-lg flex md:flex-row flex-col flex-wrap">
                     <div class="flex w-full md:flex-nowrap flex-wrap">
@@ -162,7 +165,6 @@
                                 </svg>
                                 </button>
                             </div>
-                            <!--Search-->
                             <div :class="{'block': open, 'hidden': !open}" class="w-full block" id="search-content">
                                 <div class="container mx-auto">
                                     <input id="q" name="q" type="search" placeholder="Buscar..." autofocus="autofocus" class="filter-field w-full form-control no-border">
@@ -398,6 +400,8 @@
             document.querySelectorAll("input:checked.parameter-analysis-item").forEach(item => {
                 cart.push(item.value);
             });
+
+            document.getElementById("cart").value = cart;
 
             count.innerHTML = cart.length;
         }
