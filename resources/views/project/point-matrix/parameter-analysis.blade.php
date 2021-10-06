@@ -50,7 +50,7 @@
                 </div>
                 <div class="flex mt-4 p-2" id="pagination">
                     {{-- $projectPointMatrices->appends(request()->input())->links() --}}
-            </div>
+                </div>
             </div>
         </div>
     </div>
