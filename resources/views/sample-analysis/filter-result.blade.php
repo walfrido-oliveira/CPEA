@@ -25,7 +25,7 @@
                     {{ $campaign->name }}
                 </a>
             </td>
-            <td>-</td>
+            <td>{{ implode(", ", $campaign->labs()->groupBy('name')->pluck('name')->toArray()) }}</td>
             <td>
                 <a class="text-item-table" href="{{ route('sample-analysis.show', ['campaign' => $campaign->id]) }}">
                     @switch($campaign->project->status)

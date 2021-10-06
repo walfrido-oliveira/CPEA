@@ -21,7 +21,7 @@
                         </div>
                         <div class="w-full md:w-1/4 px-2 mb-6 md:mb-0">
                             <x-jet-label for="lab" value="{{ __('Laboratório') }}" />
-                            <x-jet-input id="lab" class="form-control block w-full filter-field" type="text" name="lab" :value="app('request')->input('lab')" autofocus autocomplete="lab" />
+                            <x-custom-select :options="$labs" name="lab" id="lab" :value="app('request')->input('lab')" placeholder="Selecione um Laboratório"/>
                         </div>
                         <div class="w-full md:w-1/4 px-2 mb-6 md:mb-0">
                             <x-jet-label for="status" value="{{ __('Status') }}" />
@@ -52,6 +52,7 @@
                 var status = document.getElementById("status").value;
                 var projectCod = document.getElementById("project_cod").value;
                 var campaign = document.getElementById("campaign").value;
+                var lab = document.getElementById("lab").value;
 
                 ajax.open(method, url);
 
@@ -74,6 +75,7 @@
                 if(status) data.append('status', status);
                 if(projectCod) data.append('project_cod', projectCod);
                 if(campaign) data.append('name', campaign);
+                if(lab) data.append('lab_id', lab);
 
                 ajax.send(data);
             }
@@ -93,6 +95,7 @@
                 var status = document.getElementById("status").value;
                 var projectCod = document.getElementById("project_cod").value;
                 var campaign = document.getElementById("campaign").value;
+                var lab = document.getElementById("lab").value;
 
                 ajax.open(method, url);
 
@@ -118,6 +121,7 @@
                 if(status) data.append('status', status);
                 if(projectCod) data.append('project_cod', projectCod);
                 if(campaign) data.append('name', campaign);
+                if(lab) data.append('lab_id', lab);
 
                 ajax.send(data);
             }

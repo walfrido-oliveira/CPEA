@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Lab;
 use App\Models\Project;
 use App\Models\AnalysisOrder;
 use App\Models\CampaignStatus;
@@ -56,6 +57,11 @@ class Campaign extends Model
         return $this->hasMany(AnalysisOrder::class);
     }
 
+    public function labs()
+    {
+        return $this->hasManyThrough(Lab::class, AnalysisOrder::class, 'campaign_id', 'id', 'id', 'lab_id');
+    }
+
     /**
      * The CampaignStatus.
      */
@@ -102,6 +108,16 @@ class Campaign extends Model
                 {
                     $q->whereHas('project', function($q) use($query) {
                         $q->where('project_cod', 'like','%' . $query['project_cod'] . '%');
+                    });
+                }
+            }
+
+            if(isset($query['lab_id']))
+            {
+                if(!is_null($query['lab_id']))
+                {
+                    $q->whereHas('analysisOrders', function($q) use($query) {
+                        $q->where('lab_id',  $query['lab_id']);
                     });
                 }
             }

@@ -23,10 +23,11 @@ class SampleAnalysisController extends Controller
         $projetcs =  Campaign::filter($request->all());
 
         $status = ['pending' => __('pending'), 'sent' => __('sent'), 'analyzing' => __('analyzing'), 'concluded' => __('concluded')];
+        $labs = Lab::pluck('name', 'id');
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'projects.project_cod';
 
-        return view('sample-analysis.index', compact('projetcs', 'status', 'ascending', 'orderBy'));
+        return view('sample-analysis.index', compact('projetcs', 'status', 'ascending', 'orderBy', 'labs'));
     }
 
     /**
