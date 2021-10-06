@@ -172,7 +172,7 @@ class ProjectPointMatrix extends Model
 
         if($orderBy == 'point_identifications.identification' || $orderBy == 'point_identifications.area')
         {
-             /*$projects
+             $projects
             ->with('pointIdentification')
             ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
             ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
@@ -180,7 +180,7 @@ class ProjectPointMatrix extends Model
             ->orderBy($orderBy, $ascending)
             ->orderBy('parameter_analysis_groups.name', 'asc')
             ->select('project_point_matrices.*')
-            ->get();*/
+            ->get();
         }
         else
         {
