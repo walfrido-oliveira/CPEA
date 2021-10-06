@@ -18,7 +18,7 @@
             </td>
             <td>
                 <a class="text-item-table" href="{{ route('registers.lab.show', ['lab' => $lab->id]) }}">
-                    $lab->formatted_type
+                    {{ $lab->formatted_type }}
                 </a>
             </td>
             <td>
