@@ -112,7 +112,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($orders as $order)
+                            @forelse ($orders as $order)
                                 <tr>
                                     <td>{{ $order->formatted_id }}</td>
                                     <td>{{ $order->created_at->format('d/m/Y h:m') }}</td>
@@ -136,7 +136,11 @@
                                     </td>
                                     <td>{{ $order->updated_at->format('d/m/Y h:m') }}</td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td class="text-center" colspan="5">{{ __("Nenhum pedido encontrado") }}</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
