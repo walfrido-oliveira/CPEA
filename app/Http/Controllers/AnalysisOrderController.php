@@ -90,7 +90,7 @@ class AnalysisOrderController extends Controller
             'campaign_id' => $input['campaign_id'],
         ]);
 
-        $analysisOrder->projectPointMatrix()->sync($input['project_point_matrices']);
+        $analysisOrder->projectPointMatrices()->sync($input['project_point_matrices']);
 
         return redirect()->route('analysis-order.show', ['analysis_order' => $analysisOrder->id])->with(defaultSaveMessagemNotification());
 
