@@ -73,6 +73,11 @@ class AnalysisOrderController extends Controller
      */
     public function getCart(Request $request)
     {
+        if(!$request->hasCookie('projectPointMatrices'))
+        {
+            return redirect()->route('sample-analysis.index');
+        }
+
         $projectPointMatrices = ProjectPointMatrix::whereIn('id', json_decode($request->cookie('projectPointMatrices')))->get();
         $labs = json_decode($request->cookie('labs'));
         $campaign = Campaign::findOrFail($request->cookie('campaign'));
