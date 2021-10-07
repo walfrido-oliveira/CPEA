@@ -56,7 +56,9 @@
                                         <p class="font-bold">{{ __('Qtd. Pontos') }}</p>
                                     </div>
                                     <div class="mx-4 px-3 py-2">
-                                        <p class = "text-gray-500 font-bold">{{ 0 }}</p>
+                                        <p class = "text-gray-500 font-bold">
+                                            {{ count($projectPointMatrices->groupBy("point_identification_id")) }}
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="grid" style="grid-template-columns: 4.6fr 1.4fr;">
@@ -64,7 +66,13 @@
                                         <p class="font-bold">{{ __('Qtd. de grupos Param. Análise') }}</p>
                                     </div>
                                     <div class="mx-4 px-3 py-2">
-                                        <p class = "text-gray-500 font-bold">{{ 0 }}</p>
+                                        <p class = "text-gray-500 font-bold">
+                                            {{ count($campaign
+                                                    ->projectPointMatrices()
+                                                    ->whereHas("parameterAnalysis", function($q) {
+                                                        $q->groupBy("parameter_analyses.parameter_analysis_group_id");
+                                                    })->get()) }}
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="grid" style="grid-template-columns: 4.6fr 1.4fr;">
@@ -72,7 +80,9 @@
                                         <p class="font-bold">{{ __('Qtd. de Param. Análise') }}</p>
                                     </div>
                                     <div class="mx-4 px-3 py-2">
-                                        <p class = "text-gray-500 font-bold">{{ 0 }}</p>
+                                        <p class = "text-gray-500 font-bold">
+                                            {{ count($projectPointMatrices) }}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
