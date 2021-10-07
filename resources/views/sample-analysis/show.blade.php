@@ -65,29 +65,9 @@
                                 <div class="mx-1 px-1">
                                     <p class="font-bold">{{ __('Status') }}</p>
                                 </div>
-                                <div class="flex">
-                                    <p class="text-gray-500 font-bold inline" id="status_project_badge">
-                                        @include('sample-analysis.status-project', ['status' => $campaign->project->status ])
-                                    </p>
-                                    <button type="button" class="btn-transition-warning inline status-project-edit" title="{{ __('Analisando') }}" data-status="{{ 'analyzing' }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                                        </svg>
-                                    </button>
-                                    <button type="button" class="btn-transition-primary inline status-project-edit" title="{{ __('Enviado') }}" data-status="{{ 'sent' }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
-                                        </svg>
-                                    </button>
-                                    <button type="button" class="btn-transition-success inline status-project-edit" title="{{ __('Concluído') }}" data-status="{{ 'concluded' }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                    </button>
+                                <div class="mx-1 px-1" id="status_project_badge">
+                                    @include('sample-analysis.status-project', ['status' => $campaign->project->status ])
                                 </div>
-                            </div>
-                            <div class="grid">
-
                             </div>
                         </div>
                     </div>
@@ -119,26 +99,40 @@
                                             {{ $order->formatted_id }}
                                         </a>
                                     </td>
-                                    <td>{{ $order->created_at->format('d/m/Y h:m') }}</td>
-                                    <td>{{ $order->lab->name }}</td>
                                     <td>
-                                        @switch($order->status)
-                                            @case("sent")
-                                                <span class="w-24 py-1 badge-light-primary">{{ __($order->status) }}</span>
-                                                @break
-                                            @case("canceled")
-                                                <span class="w-24 py-1 badge-light-danger">{{ __($order->status) }}</span>
-                                                @break
-                                            @case("analyzing")
-                                                <span class="w-24 py-1 badge-light-warning">{{ __($order->status) }}</span>
-                                                @break
-                                            @case("concluded")
-                                                <span class="w-24 py-1 badge-light-success">{{ __($order->status) }}</span>
-                                                @break
-                                            @default
-                                        @endswitch
+                                        <a class="text-item-table" href="{{ route('analysis-order.show', ['analysis_order' => $order->id]) }}">
+                                            {{ $order->created_at->format('d/m/Y h:m') }}
+                                        </a>
                                     </td>
-                                    <td>{{ $order->updated_at->format('d/m/Y h:m') }}</td>
+                                    <td>
+                                        <a class="text-item-table" href="{{ route('analysis-order.show', ['analysis_order' => $order->id]) }}">
+                                            {{ $order->lab->name }}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a class="text-item-table" href="{{ route('analysis-order.show', ['analysis_order' => $order->id]) }}">
+                                            @switch($order->status)
+                                                @case("sent")
+                                                    <span class="w-24 py-1 badge-light-primary">{{ __($order->status) }}</span>
+                                                    @break
+                                                @case("canceled")
+                                                    <span class="w-24 py-1 badge-light-danger">{{ __($order->status) }}</span>
+                                                    @break
+                                                @case("analyzing")
+                                                    <span class="w-24 py-1 badge-light-warning">{{ __($order->status) }}</span>
+                                                    @break
+                                                @case("concluded")
+                                                    <span class="w-24 py-1 badge-light-success">{{ __($order->status) }}</span>
+                                                    @break
+                                                @default
+                                            @endswitch
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a class="text-item-table" href="{{ route('analysis-order.show', ['analysis_order' => $order->id]) }}">
+                                            {{ $order->updated_at->format('d/m/Y h:m') }}
+                                        </a>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
@@ -216,6 +210,7 @@
                 if (this.readyState == 4 && this.status == 200) {
                     var resp = JSON.parse(ajax.response);
                     document.getElementById("status_project_badge").innerHTML = resp.result;
+                    updateStatusProjectCallback();
                 } else if(this.readyState == 4 && this.status != 200) {
                     toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
                 }
@@ -230,11 +225,15 @@
             ajax.send(data);
         }
 
-        document.querySelectorAll(".status-project-edit").forEach(item => {
-            item.addEventListener("click", function(){
-                updateStatusProject(item.dataset.status);
+        updateStatusProjectCallback();
+
+        function updateStatusProjectCallback() {
+            document.querySelectorAll(".status-project-edit").forEach(item => {
+                item.addEventListener("click", function(){
+                    updateStatusProject(item.dataset.status);
+                });
             });
-        });
+        }
     </script>
 
     <script>
