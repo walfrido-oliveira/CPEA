@@ -212,7 +212,7 @@
     <script>
         var filterCallback = function(event) {
             var ajax = new XMLHttpRequest();
-            var url = "{!! route('sample-analysis.filter-point-matrix') !!}";
+            var url = "{!! route('analysis-order.filter-point-matrix') !!}";
             var token = document.querySelector('meta[name="csrf-token"]').content;
             var method = 'POST';
 
@@ -224,36 +224,10 @@
                 if (this.readyState == 4 && this.status == 200) {
                     var resp = JSON.parse(ajax.response);
                     document.getElementById("parameter_analysis_table").innerHTML = resp.filter_result;
-
-                    for (let index = 0; index < identifications.length; index++) {
-                        const element = identifications[index];
-                        document.querySelectorAll(".parameter-analysis-identification").forEach(item => {
-                            if (item.value == element) item.checked = true;
-                        });
-                    }
-
-                    for (let index = 0; index < groups.length; index++) {
-                        const element = groups[index];
-                        document.querySelectorAll(".parameter-analysis-group").forEach(item => {
-                            if (item.value == element.group &&
-                                item.dataset.identificationId == element.identification) item.checked =
-                            true;
-                        });
-                    }
-
-                    for (let index = 0; index < cart.length; index++) {
-                        const element = cart[index];
-                        document.querySelectorAll(".parameter-analysis-item").forEach(item => {
-                            if (item.value == element) item.checked = true;
-                        });
-                    }
-
                     eventsFilterCallback();
-                    checkItems();
                 } else if (this.readyState == 4 && this.status != 200) {
                     toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
                     eventsFilterCallback();
-                    checkItems();
                 }
             }
 
@@ -264,6 +238,7 @@
             data.append('ascending', 'asc');
             data.append('order_by', 'point_identifications.identification');
             data.append('campaign_id', "{{ $campaign->id }}");
+            data.append('id', "{{ $analysisOrder->id }}");
 
             ajax.send(data);
         }

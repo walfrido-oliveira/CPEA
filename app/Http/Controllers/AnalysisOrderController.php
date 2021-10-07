@@ -96,4 +96,49 @@ class AnalysisOrderController extends Controller
 
     }
 
+    /**
+     * Filter
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param string $id
+     * @return \Illuminate\Http\Response
+     */
+    public function filterPointMatrix(Request $request)
+    {
+        $inputs = $request->except(['parameter_analysis_item']);
+
+        $analysisOrder = AnalysisOrder::findOrFail($request->get('id'));
+        $query = $request->all();
+
+        $projectPointMatrices = $request->has('q') ? $analysisOrder->projectPointMatrices()
+        ->where(function($q) use ($query) {
+            $q->whereHas('pointIdentification', function($q) use($query) {
+                $q->where('point_identifications.area', 'like', '%' . $query['q'] . '%')
+                  ->orWhere('point_identifications.identification', 'like', '%' . $query['q'] . '%');
+            })
+            ->orWhereHas('analysisMatrix', function($q) use($query) {
+                $q->where('analysis_matrices.name', 'like', '%' . $query['q'] . '%');
+            })
+            ->orWhereHas('planActionLevel', function($q) use($query) {
+                $q->where('plan_action_levels.name', 'like', '%' . $query['q'] . '%');
+            })
+            ->orWhereHas('guidingParameter', function($q) use($query) {
+                $q->where('guiding_parameters.environmental_guiding_parameter_id', 'like', '%' . $query['q'] . '%');
+            })
+            ->orWhereHas('parameterAnalysis', function($q) use($query) {
+                $q->where('parameter_analyses.analysis_parameter_name', 'like', '%' . $query['q'] . '%');
+            });
+        })
+        ->get() : $analysisOrder->projectPointMatrices;
+
+        $orderBy = $request->get('order_by');
+        $ascending = $request->get('ascending');
+        $campaign = Campaign::findOrFail($request->get('campaign_id'));
+
+        return response()->json([
+            'filter_result' => view('analysis-order.parameter-analysis-result',
+            compact('projectPointMatrices', 'orderBy', 'ascending', 'campaign'))->render(),
+        ]);
+    }
+
 }

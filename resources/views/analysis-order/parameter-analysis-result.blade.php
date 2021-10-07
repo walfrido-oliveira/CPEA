@@ -4,7 +4,7 @@
     </tr>
 </thead>
 <tbody>
-    @foreach ($projectPointMatrices as $index => $point)
+    @forelse ($projectPointMatrices as $index => $point)
         @if (($index > 0 && $projectPointMatrices[$index]->pointIdentification->identification !=
                             $projectPointMatrices[$index - 1]->pointIdentification->identification) || $index == 0)
             <tr>
@@ -82,5 +82,9 @@
                 @endif
             </td>
         </tr>
-    @endforeach
+    @empty
+        <tr>
+            <td class="text-center" colspan="1">{{ __("Nenhum resultado encontrado") }}</td>
+        </tr>
+    @endforelse
 </tbody>
