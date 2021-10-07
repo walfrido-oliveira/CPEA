@@ -46,7 +46,7 @@
         </tr>
     @empty
         <tr>
-            <td class="text-center" colspan="5">{{ __("Carrinho vázio") }}</td>
+            <td class="text-center" style="border-top: 0" colspan="5">{{ __("Carrinho vázio") }}</td>
         </tr>
     @endforelse
 </tbody>
