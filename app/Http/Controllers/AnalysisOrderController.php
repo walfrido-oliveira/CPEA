@@ -141,4 +141,55 @@ class AnalysisOrderController extends Controller
         ]);
     }
 
+    /**
+     * Change analysis order status
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function status(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'id' => 'required|exists:analysis_orders,id',
+            'status' => 'required|in:sent,analyzing,concluded,canceled',
+        ]);
+
+        $analysisOrder = AnalysisOrder::findOrFail($request->get('id'));
+
+        $analysisOrder->update([
+            'status' => $request->get('status')
+        ]);
+
+        if($request->get('status') == 'analyzing')
+        {
+            $analysisOrder->update([
+                'analyzing_at' => now(),
+                'concluded_at' => null
+            ]);
+        }
+
+        if($request->get('status') == 'concluded')
+        {
+            $analysisOrder->update([
+                'concluded_at' => now()
+            ]);
+        }
+
+        if($request->get('status') == 'canceled')
+        {
+            $analysisOrder->update([
+                'analyzing_at' => null,
+                'concluded_at' => null
+            ]);
+        }
+
+        return response()->json([
+            'message' => __('Pedido Atualizado com Sucesso!'),
+            'alert-type' => 'success',
+            'result' => view('analysis-order.status', compact('analysisOrder'))->render()
+        ]);
+
+    }
+
 }

@@ -23,6 +23,16 @@ class AnalysisOrder extends Model
     ];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'analyzing_at' => 'datetime',
+        'concluded_at' => 'datetime',
+    ];
+
+    /**
      * Get formatted id
      */
     public function getFormattedIdAttribute()

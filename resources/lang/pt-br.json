@@ -73,5 +73,6 @@
     "inactive":"Inativo",
     "sent":"Enviado",
     "analyzing":"Analisando",
-    "concluded":"Concluído"
+    "concluded":"Concluído",
+    "canceled":"Cancelado"
 }

@@ -127,6 +127,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::get('/{analysis_order}', [AnalysisOrderController::class, 'show'])->name('show');
         Route::post('/', [AnalysisOrderController::class, 'store'])->name('store');
         Route::post('/filterPointMatrix', [AnalysisOrderController::class, 'filterPointMatrix'])->name('filter-point-matrix');
+        Route::post('/status/{analysis_order}', [AnalysisOrderController::class, 'status'])->name('status');
     });
 
     Route::resource('param-analise', ParameterAnalysisController::class, [
