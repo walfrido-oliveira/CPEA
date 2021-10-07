@@ -3,7 +3,7 @@
         <div class="max-w-6xl mx-auto px-4">
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">
-                    <h1>{{ $analysisOrder->formatted_id }}</h1>
+                    <h1>Pedido {{ $analysisOrder->formatted_id }}</h1>
                 </div>
                 <div class="w-full flex justify-end">
                     <div class="m-2">
@@ -21,10 +21,10 @@
                 </div>
                 <div class="mx-4 px-3 py-2 flex md:flex-row flex-col w-full">
                     <div class="flex md:flex-row flex-col w-full">
-                        <div class="w-1/2">
+                        <div class="md:w-1/2 w-full">
                             <div class="grid" style="grid-template-columns: 1fr 3fr;">
                                 <div class="mx-1 px-1">
-                                    <p class="font-bold text-right">{{ __('Cliente:') }}</p>
+                                    <p class="font-bold md:text-right">{{ __('Cliente:') }}</p>
                                 </div>
                                 <div class="mx-1 px-1">
                                     <p class="text-gray-500 font-bold">
@@ -33,7 +33,7 @@
                             </div>
                             <div class="grid " style="grid-template-columns: 1fr 3fr;">
                                 <div class="mx-1 px-1">
-                                    <p class="font-bold text-right">{{ __('Projeto:') }}</p>
+                                    <p class="font-bold md:text-right">{{ __('Projeto:') }}</p>
                                 </div>
                                 <div class="mx-1 px-1">
                                     <p class="text-gray-500 font-bold">
@@ -42,17 +42,17 @@
                             </div>
                             <div class="grid " style="grid-template-columns: 1fr 3fr;">
                                 <div class="mx-1 px-1">
-                                    <p class="font-bold text-right">{{ __('Observações:') }}</p>
+                                    <p class="font-bold md:text-right">{{ __('Observações:') }}</p>
                                 </div>
                                 <div class="mx-1 px-1">
                                     <p class="text-gray-500 font-bold">{{ $analysisOrder->obs }}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="w-1/2">
+                        <div class="md:w-1/2 w-full">
                             <div class="grid " style="grid-template-columns: 1fr 3fr;">
                                 <div class="mx-1 px-1">
-                                    <p class="font-bold text-right">{{ __('Campanha:') }}</p>
+                                    <p class="font-bold md:text-right">{{ __('Campanha:') }}</p>
                                 </div>
                                 <div class="mx-1 px-1">
                                     <p class="text-gray-500 font-bold">{{ $analysisOrder->campaign->name }}</p>
@@ -60,7 +60,7 @@
                             </div>
                             <div class="grid " style="grid-template-columns: 1fr 3fr;">
                                 <div class="mx-1 px-1">
-                                    <p class="font-bold text-right">{{ __('Laboratório:') }}</p>
+                                    <p class="font-bold md:text-right">{{ __('Laboratório:') }}</p>
                                 </div>
                                 <div class="mx-1 px-1">
                                     <p class="text-gray-500 font-bold">{{ $analysisOrder->lab->name }}</p>
@@ -68,7 +68,7 @@
                             </div>
                             <div class="grid " style="grid-template-columns: 1fr 3fr;">
                                 <div class="mx-1 px-1">
-                                    <p class="font-bold text-right">{{ __('Pedido:') }}</p>
+                                    <p class="font-bold md:text-right">{{ __('Pedido:') }}</p>
                                 </div>
                                 <div class="mx-1 px-1">
                                     <p class="text-gray-500 font-bold">{{ $analysisOrder->formatted_id }}</p>
@@ -93,7 +93,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
                                         </svg>
                                     </div>
-                                    <div class="absolute top-0 -ml-10 text-center mt-14 w-32 text-gray-500 font-bold text-xs">
+                                    <div class="absolute top-0 -ml-10 text-center mt-14 w-32 text-gray-500 font-bold text-xs md:block hidden">
                                         {{ __('Pedido Enviado') }} <br />
                                         {{ $analysisOrder->created_at->format('d/M h:m') }}
                                     </div>
@@ -131,7 +131,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
                                         </svg>
                                     </div>
-                                    <div class="absolute top-0 -ml-10 text-center mt-14 w-32 text-gray-500 font-bold text-xs">
+                                    <div class="absolute top-0 -ml-10 text-center mt-14 w-32 text-gray-500 font-bold text-xs md:block hidden">
                                         {{ __('Pedido em Análise') }}
                                     </div>
                                 </div>
@@ -157,7 +157,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                     </div>
-                                    <div class="absolute top-0 -ml-10 text-center mt-14 w-32 text-gray-500 font-bold text-xs">
+                                    <div class="absolute top-0 -ml-10 text-center mt-14 w-32 text-gray-500 font-bold text-xs md:block hidden">
                                         {{ __('Pedido Concluído') }}
                                     </div>
                                 </div>
@@ -193,7 +193,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex md:justify-end justify-center md:mx-0 mx-auto w-1/4">
+                    <div class="flex md:justify-end justify-center md:mx-0 mx-auto md:w-1/4 w-full">
                         <div class="m-2 ">
                             <button type="button" class="btn-outline-info"
                                 id="add-parameter-analysis-items">{{ __('Importar Análises') }}</button>
