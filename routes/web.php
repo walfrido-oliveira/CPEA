@@ -125,6 +125,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::post('/carinho', [AnalysisOrderController::class, 'cart'])->name('cart');
         Route::get('/carinho', [AnalysisOrderController::class, 'cart'])->name('cart');
         Route::get('/{analysis_order}', [AnalysisOrderController::class, 'show'])->name('show');
+        Route::post('/', [AnalysisOrderController::class, 'store'])->name('store');
     });
 
     Route::resource('param-analise', ParameterAnalysisController::class, [
