@@ -17,6 +17,7 @@
                 <td class="bg-gray-100 font-bold">
                     @if ($point->pointIdentification)
                         {{ $point->pointIdentification->area }} - {{ $point->pointIdentification->identification }}
+                        ({{ count($point->where("point_identification_id", $point->point_identification_id)->where('campaign_id', $point->campaign_id)->get()) }})
                     @endif
                 </td>
             </tr>
@@ -35,6 +36,7 @@
                 </td>
                 <td class="font-bold text-black" style="background-color:#e1ede1">
                     {{ $point->parameterAnalysis->parameterAnalysisGroup->name }}
+                    ({{ count($point->where("point_identification_id", $point->point_identification_id)->where('campaign_id', $point->campaign_id)->where('parameter_analysis_id', $point->parameter_analysis_id)->get()) }})
                 </td>
             </tr>
         @endif
