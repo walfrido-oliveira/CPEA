@@ -36,7 +36,9 @@
                 </td>
                 <td class="font-bold text-black" style="background-color:#e1ede1">
                     {{ $point->parameterAnalysis->parameterAnalysisGroup->name }}
-                    ({{ count($point->where("point_identification_id", $point->point_identification_id)->where('campaign_id', $point->campaign_id)->where('parameter_analysis_id', $point->parameter_analysis_id)->get()) }})
+                    ({{ count($point->where("point_identification_id", $point->point_identification_id)->where('campaign_id', $point->campaign_id)->whereHas("parameterAnalysis", function($q) use($point) {
+                        $q->where("parameter_analysis_group_id", $point->parameterAnalysis->parameterAnalysisGroup->id);
+                    })->get()) }})
                 </td>
             </tr>
         @endif
