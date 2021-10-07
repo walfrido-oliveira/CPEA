@@ -71,36 +71,6 @@ class SampleAnalysisController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function cart(Request $request)
-    {
-        $input = $request->all();
-        $cart = isset($input['cart']) ? explode(",", $input['cart']) : [];
-        $labs = Lab::pluck('name', 'id');
-        $campaign = isset($input['campaign_id']) ? Campaign::findOrFail($input['campaign_id']) : null;
-
-        $projectPointMatrices = ProjectPointMatrix::whereIn('id', $cart)->get();
-        $totalPoints = count($projectPointMatrices->groupBy("point_identification_id"));
-        $totalGroups = 0;
-        $groupArray = [];
-
-        foreach ($projectPointMatrices as $key => $projectPointMatrix)
-        {
-            $name = $projectPointMatrix->parameterAnalysis->parameterAnalysisGroup->name;
-            if(!in_array($name, $groupArray)) $groupArray[] = $name;
-        }
-
-        $totalGroups = count($groupArray);
-        $totalParamAnalysis = count($projectPointMatrices);
-
-        return view('sample-analysis.cart', compact('projectPointMatrices', 'labs', 'campaign', 'totalPoints', 'totalGroups', 'totalParamAnalysis'));
-    }
-
-    /**
      * Filter Project
      *
      * @param  \Illuminate\Http\Request  $request

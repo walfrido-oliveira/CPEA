@@ -118,14 +118,14 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::get('/historico/{campaign}', [SampleAnalysisController::class, 'historic'])->name('historic');
         Route::post('/filter', [SampleAnalysisController::class, 'filter'])->name('filter');
         Route::post('/filterPointMatrix', [SampleAnalysisController::class, 'filterPointMatrix'])->name('filter-point-matrix');
-        Route::post('/carinho', [SampleAnalysisController::class, 'cart'])->name('cart');
-        Route::get('/carinho', [SampleAnalysisController::class, 'cart'])->name('cart');
+
     });
 
-    Route::resource('pedidos-de-analise', AnalysisOrderController::class, [
-        'names' => 'analysis-order'])->parameters([
-        'pedidos-de-analise' => 'analysis_order'
-    ]);
+    Route::prefix('pedido-de-analise')->name('analysis-order.')->group(function(){
+        Route::post('/carinho', [AnalysisOrderController::class, 'cart'])->name('cart');
+        Route::get('/carinho', [AnalysisOrderController::class, 'cart'])->name('cart');
+        Route::get('/{analysis_order}', [AnalysisOrderController::class, 'show'])->name('show');
+    });
 
     Route::resource('param-analise', ParameterAnalysisController::class, [
         'names' => 'parameter-analysis'])->parameters([

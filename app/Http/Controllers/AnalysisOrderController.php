@@ -13,6 +13,51 @@ use App\Http\Requests\AnalysisOrderRequest;
 class AnalysisOrderController extends Controller
 {
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $analysisOrder = AnalysisOrder::findOrFail($id);
+        $projectPointMatrices  = $analysisOrder->projectPointMatrices;
+        $campaign = $analysisOrder->campaign;
+
+        return view('analysis-order.show', compact('analysisOrder', 'projectPointMatrices', 'campaign'));
+    }
+
+    /**
+     * Display cart.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function cart(Request $request)
+    {
+        $input = $request->all();
+        $cart = isset($input['cart']) ? explode(",", $input['cart']) : [];
+        $labs = Lab::pluck('name', 'id');
+        $campaign = isset($input['campaign_id']) ? Campaign::findOrFail($input['campaign_id']) : null;
+
+        $projectPointMatrices = ProjectPointMatrix::whereIn('id', $cart)->get();
+        $totalPoints = count($projectPointMatrices->groupBy("point_identification_id"));
+        $totalGroups = 0;
+        $groupArray = [];
+
+        foreach ($projectPointMatrices as $key => $projectPointMatrix)
+        {
+            $name = $projectPointMatrix->parameterAnalysis->parameterAnalysisGroup->name;
+            if(!in_array($name, $groupArray)) $groupArray[] = $name;
+        }
+
+        $totalGroups = count($groupArray);
+        $totalParamAnalysis = count($projectPointMatrices);
+
+        return view('analysis-order.cart', compact('projectPointMatrices', 'labs', 'campaign', 'totalPoints', 'totalGroups', 'totalParamAnalysis'));
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -36,7 +81,7 @@ class AnalysisOrderController extends Controller
             $labs = Lab::pluck('name', 'id');
             $erros = $validator->errors();
 
-            return view('sample-analysis.cart', compact('projectPointMatrices', 'campaign', 'labs', 'erros'))->withErrors($validator);
+            return view('analysis-order.cart', compact('projectPointMatrices', 'campaign', 'labs', 'erros'))->withErrors($validator);
         }
 
         $analysisOrder = AnalysisOrder::create([
@@ -47,7 +92,8 @@ class AnalysisOrderController extends Controller
 
         $analysisOrder->projectPointMatrix()->sync($input['project_point_matrices']);
 
-        return redirect()->route('sample-analysis.show', ['campaign' => $input['campaign_id']])->with(defaultSaveMessagemNotification());
+        return redirect()->route('analysis-order.show', ['analysis_order' => $analysisOrder->id])->with(defaultSaveMessagemNotification());
 
     }
+
 }

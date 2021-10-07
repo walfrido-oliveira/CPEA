@@ -51,7 +51,7 @@ class AnalysisOrder extends Model
     /**
      * The projectPointMatrix
      */
-    public function projectPointMatrix()
+    public function projectPointMatrices()
     {
         return $this->belongsToMany(ProjectPointMatrix::class);
     }

@@ -114,7 +114,11 @@
                         <tbody>
                             @forelse ($orders as $order)
                                 <tr>
-                                    <td>{{ $order->formatted_id }}</td>
+                                    <td>
+                                        <a class="text-item-table" href="{{ route('analysis-order.show', ['analysis_order' => $order->id]) }}">
+                                            {{ $order->formatted_id }}
+                                        </a>
+                                    </td>
                                     <td>{{ $order->created_at->format('d/m/Y h:m') }}</td>
                                     <td>{{ $order->lab->name }}</td>
                                     <td>
@@ -145,7 +149,7 @@
                     </table>
                 </div>
             </div>
-            <form method="POST" action="{{ route('sample-analysis.cart') }}" id="parameter_analysis_form">
+            <form method="POST" action="{{ route('analysis-order.cart') }}" id="parameter_analysis_form">
                 @csrf
                 @method("POST")
 
@@ -173,7 +177,7 @@
                         </div>
                         <div class="flex md:justify-end justify-center md:mx-0 mx-auto">
                             <div class="m-2 ">
-                                <button type="button" class="btn-outline-info" id="add-parameter-analysis-items">Adicionar</button>
+                                <button type="button" class="btn-outline-info" id="add-parameter-analysis-items">{{ __('Adicionar') }}</button>
                             </div>
                         </div>
                         <div class="flex md:justify-end justify-center md:mx-0 mx-auto">
@@ -193,9 +197,6 @@
                         <table id="parameter_analysis_table" class="table table-responsive md:table w-full">
                             @include('sample-analysis.parameter-analysis-result')
                         </table>
-                    </div>
-                    <div class="flex mt-4 p-2" id="pagination">
-                        {{-- $projectPointMatrices->appends(request()->input())->links() --}}
                     </div>
                 </div>
             </form>

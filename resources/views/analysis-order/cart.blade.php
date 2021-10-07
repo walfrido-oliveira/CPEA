@@ -40,7 +40,7 @@
                         </div>
                         <div class="mx-4 px-3 py-2 w-full">
                             <table id="parameter_analysis_table" class="table table-responsive md:table w-full">
-                                @include('sample-analysis.cart-items')
+                                @include('analysis-order.cart-items')
                             </table>
                         </div>
                     </div>
