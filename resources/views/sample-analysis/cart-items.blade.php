@@ -44,7 +44,7 @@
                 @endif
             </td>
         </tr>
-    @empty()
+    @empty
         <tr>
             <td class="text-center" colspan="5">{{ __("Carrinho vázio") }}</td>
         </tr>
