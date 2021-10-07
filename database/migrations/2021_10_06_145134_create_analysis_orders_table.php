@@ -20,6 +20,9 @@ class CreateAnalysisOrdersTable extends Migration
 
             $table->string('status')->default('sent');
             $table->string('obs')->nullable();
+
+            $table->timestamp('analyzing_at')->nullable();
+            $table->timestamp('concluded_at')->nullable();
             $table->timestamps();
         });
     }

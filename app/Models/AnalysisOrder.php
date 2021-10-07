@@ -19,7 +19,7 @@ class AnalysisOrder extends Model
      * @var array
      */
     protected $fillable = [
-        'campaign_id', 'lab_id', 'status', 'obs'
+        'campaign_id', 'lab_id', 'status', 'obs', 'analyzing_at', 'concluded_at'
     ];
 
     /**
