@@ -57,7 +57,7 @@
                                     </div>
                                     <div class="mx-4 px-3 py-2">
                                         <p class = "text-gray-500 font-bold">
-                                            {{ count($projectPointMatrices->groupBy("point_identification_id")) }}
+                                            {{ $totalPoints }}
                                         </p>
                                     </div>
                                 </div>
@@ -67,14 +67,7 @@
                                     </div>
                                     <div class="mx-4 px-3 py-2">
                                         <p class = "text-gray-500 font-bold">
-                                            {{ count($campaign
-                                                    ->projectPointMatrices()
-                                                    ->selectRaw('count(*) As total, parameter_analyses.parameter_analysis_group_id As parameter_group')
-                                                    ->join('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
-                                                    ->groupBy('parameter_group')
-                                                    ->get()
-                                                )
-                                            }}
+                                            {{ $totalGroups }}
                                         </p>
                                     </div>
                                 </div>
@@ -84,7 +77,7 @@
                                     </div>
                                     <div class="mx-4 px-3 py-2">
                                         <p class = "text-gray-500 font-bold">
-                                            {{ count($projectPointMatrices) }}
+                                            {{ $totalParamAnalysis }}
                                         </p>
                                     </div>
                                 </div>

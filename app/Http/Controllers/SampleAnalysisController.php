@@ -84,8 +84,20 @@ class SampleAnalysisController extends Controller
         $campaign = isset($input['campaign_id']) ? Campaign::findOrFail($input['campaign_id']) : null;
 
         $projectPointMatrices = ProjectPointMatrix::whereIn('id', $cart)->get();
+        $totalPoints = count($projectPointMatrices->groupBy("point_identification_id"));
+        $totalGroups = 0;
+        $groupArray = [];
 
-        return view('sample-analysis.cart', compact('projectPointMatrices', 'labs', 'campaign'));
+        foreach ($projectPointMatrices as $key => $projectPointMatrix)
+        {
+            $name = $projectPointMatrix->parameterAnalysis->parameterAnalysisGroup->name;
+            if(!in_array($name, $groupArray)) $groupsArray[] = $name;
+        }
+
+        $totalGroups = count($groupArray);
+        $totalParamAnalysis = count($projectPointMatrices);
+
+        return view('sample-analysis.cart', compact('projectPointMatrices', 'labs', 'campaign', 'totalPoints', 'totalGroups', 'totalParamAnalysis'));
     }
 
     /**
