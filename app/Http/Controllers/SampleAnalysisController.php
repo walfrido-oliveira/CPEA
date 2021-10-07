@@ -91,7 +91,7 @@ class SampleAnalysisController extends Controller
         foreach ($projectPointMatrices as $key => $projectPointMatrix)
         {
             $name = $projectPointMatrix->parameterAnalysis->parameterAnalysisGroup->name;
-            if(!in_array($name, $groupArray)) $groupsArray[] = $name;
+            if(!in_array($name, $groupArray)) $groupArray[] = $name;
         }
 
         $totalGroups = count($groupArray);
