@@ -178,7 +178,8 @@ return [
         "tide" => "Maré",
         "environmental_conditions" => "Condições ambientais",
         "unity_cod" => "Unidade de Medida",
-        "lab_id" => "Laboratório"
+        "lab_id" => "Laboratório",
+        "project_point_matrices.*" => " ponto de analise"
     ],
 
 ];

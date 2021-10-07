@@ -73,7 +73,7 @@ class AnalysisOrderController extends Controller
      */
     public function getCart(Request $request)
     {
-        if(!$request->hasCookie('projectPointMatrices'))
+        if(!$request->cookie('projectPointMatrices'))
         {
             return redirect()->route('sample-analysis.index');
         }
@@ -100,7 +100,7 @@ class AnalysisOrderController extends Controller
             'lab_id' => ['required', 'exists:labs,id'],
             'obs' => ['nullable', 'string', 'max:255'],
             'campaign_id' => ['required', 'exists:campaigns,id'],
-            'project_point_matrices.*' => ['required']
+            'project_point_matrices.*' => ['required', 'unique:analysis_order_project_point_matrix,project_point_matrix_id']
         ]);
 
         $input = $request->all();
@@ -110,9 +110,13 @@ class AnalysisOrderController extends Controller
             $projectPointMatrices = ProjectPointMatrix::whereIn('id', $input['project_point_matrices'])->get();
             $campaign = isset($input['campaign_id']) ? Campaign::findOrFail($input['campaign_id']) : null;
             $labs = Lab::pluck('name', 'id');
+            $totalPoints = $request->cookie('totalPoints');
+            $totalGroups = $request->cookie('totalGroups');
+            $totalParamAnalysis = $request->cookie('totalParamAnalysis');
             $erros = $validator->errors();
 
-            return view('analysis-order.cart', compact('projectPointMatrices', 'campaign', 'labs', 'erros'))->withErrors($validator);
+            return view('analysis-order.cart',
+            compact('projectPointMatrices', 'campaign', 'labs', 'erros', 'totalPoints', 'totalGroups', 'totalParamAnalysis'))->withErrors($validator);
         }
 
         $analysisOrder = AnalysisOrder::create([
@@ -122,6 +126,13 @@ class AnalysisOrderController extends Controller
         ]);
 
         $analysisOrder->projectPointMatrices()->sync($input['project_point_matrices']);
+
+        Cookie::queue(Cookie::make('projectPointMatrices', null, 60));
+        Cookie::queue(Cookie::make('labs', null, 60));
+        Cookie::queue(Cookie::make('campaign', 0, 60));
+        Cookie::queue(Cookie::make('totalPoints', 0, 60));
+        Cookie::queue(Cookie::make('totalGroups', 0, 60));
+        Cookie::queue(Cookie::make('totalParamAnalysis', 0, 60));
 
         return redirect()->route('analysis-order.show', ['analysis_order' => $analysisOrder->id])->with(defaultSaveMessagemNotification());
 
