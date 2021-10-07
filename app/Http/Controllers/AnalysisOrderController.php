@@ -7,6 +7,7 @@ use App\Models\Campaign;
 use Illuminate\Http\Request;
 use App\Models\AnalysisOrder;
 use App\Models\ProjectPointMatrix;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\AnalysisOrderRequest;
 
@@ -53,6 +54,31 @@ class AnalysisOrderController extends Controller
 
         $totalGroups = count($groupArray);
         $totalParamAnalysis = count($projectPointMatrices);
+
+        Cookie::queue(Cookie::make('projectPointMatrices', $projectPointMatrices->pluck('id'), 60));
+        Cookie::queue(Cookie::make('labs', $labs, 60));
+        Cookie::queue(Cookie::make('campaign', $campaign->id, 60));
+        Cookie::queue(Cookie::make('totalPoints', $totalPoints, 60));
+        Cookie::queue(Cookie::make('totalGroups', $totalGroups, 60));
+        Cookie::queue(Cookie::make('totalParamAnalysis', $totalParamAnalysis, 60));
+
+        return view('analysis-order.cart', compact('projectPointMatrices', 'labs', 'campaign', 'totalPoints', 'totalGroups', 'totalParamAnalysis'));
+    }
+
+    /**
+     * Display cart.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getCart(Request $request)
+    {
+        $projectPointMatrices = ProjectPointMatrix::whereIn('id', json_decode($request->cookie('projectPointMatrices')))->get();
+        $labs = json_decode($request->cookie('labs'));
+        $campaign = Campaign::findOrFail($request->cookie('campaign'));
+        $totalPoints = $request->cookie('totalPoints');
+        $totalGroups = $request->cookie('totalGroups');
+        $totalParamAnalysis = $request->cookie('totalParamAnalysis');
 
         return view('analysis-order.cart', compact('projectPointMatrices', 'labs', 'campaign', 'totalPoints', 'totalGroups', 'totalParamAnalysis'));
     }
