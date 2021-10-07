@@ -69,9 +69,12 @@
                                         <p class = "text-gray-500 font-bold">
                                             {{ count($campaign
                                                     ->projectPointMatrices()
-                                                    ->whereHas("parameterAnalysis", function($q) {
-                                                        $q->groupBy("parameter_analyses.parameter_analysis_group_id");
-                                                    })->get()) }}
+                                                    ->selectRaw('count(*) As total, parameter_analyses.parameter_analysis_group_id As parameter_group')
+                                                    ->join('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+                                                    ->groupBy('parameter_group')
+                                                    ->get()
+                                                )
+                                            }}
                                         </p>
                                     </div>
                                 </div>
