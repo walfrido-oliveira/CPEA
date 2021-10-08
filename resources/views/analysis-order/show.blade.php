@@ -70,6 +70,7 @@
                     var resp = JSON.parse(ajax.response);
                     document.getElementById("status_analysis_order").innerHTML = resp.result;
                     updateStatusProjectCallback();
+                    toastr.success(resp.message);
                 } else if(this.readyState == 4 && this.status != 200) {
                     toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
                 }

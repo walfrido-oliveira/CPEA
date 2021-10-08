@@ -231,8 +231,10 @@ class AnalysisOrderController extends Controller
             ]);
         }
 
+        $msg = $request->get('status') == 'canceled' ? 'Cancelado' : 'Atualizado';
+
         return response()->json([
-            'message' => __('Pedido Atualizado com Sucesso!'),
+            'message' => __("Pedido $analysisOrder->formatted_id $msg com Sucesso!"),
             'alert-type' => 'success',
             'result' => view('analysis-order.status', compact('analysisOrder'))->render()
         ]);
