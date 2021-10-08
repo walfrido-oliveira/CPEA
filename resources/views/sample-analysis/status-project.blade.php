@@ -1,22 +1,24 @@
-<div class="block cursor-pointer" x-data="{ open: false }">
-    <div class="hidden sm:flex sm:items-center justify-end w-full">
+<div class="block" x-data="{ open: false }">
+    <div class="flex sm:items-center justify-end w-full">
         <x-jet-dropdown align="right" width="48" contentClasses="p-0">
             <x-slot name="trigger">
-                @switch($status)
-                    @case("sent")
-                        <span class="w-24 py-1 badge-light-primary">{{ __($status) }}</span>
-                        @break
-                    @case("pending")
-                        <span class="w-24 py-1 badge-light-danger">{{ __($status) }}</span>
-                        @break
-                    @case("analyzing")
-                        <span class="w-24 py-1 badge-light-warning">{{ __($status) }}</span>
-                        @break
-                    @case("concluded")
-                        <span class="w-24 py-1 badge-light-success">{{ __($status) }}</span>
-                        @break
-                    @default
-                @endswitch
+                <button type="button">
+                    @switch($status)
+                        @case("sent")
+                            <span class="w-24 py-1 badge-light-primary">{{ __($status) }}</span>
+                            @break
+                        @case("pending")
+                            <span class="w-24 py-1 badge-light-danger">{{ __($status) }}</span>
+                            @break
+                        @case("analyzing")
+                            <span class="w-24 py-1 badge-light-warning">{{ __($status) }}</span>
+                            @break
+                        @case("concluded")
+                            <span class="w-24 py-1 badge-light-success">{{ __($status) }}</span>
+                            @break
+                        @default
+                    @endswitch
+                </button>
             </x-slot>
 
             <x-slot name="content">

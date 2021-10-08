@@ -1,27 +1,29 @@
 <div class="py-2 my-2 bg-white rounded-lg flex md:flex-row flex-col flex-wrap">
     <div class="flex md:flex-row flex-col w-full">
-        <div class="mx-4 px-3 py-2 w-full flex items-center">
+        <div class="mx-4 px-3 py-2 w-full flex items-center md:justify-start justify-center">
             <h2>{{ __('Status') }}</h2>
         </div>
-        <div class="block py-2 px-2 cursor-pointer" x-data="{ open: false }">
-            <div class="hidden sm:flex sm:items-center justify-end w-full">
+        <div class="block py-2 px-2" x-data="{ open: false }">
+            <div class="flex sm:items-center justify-end w-full">
                 <x-jet-dropdown align="right" width="48" contentClasses="p-0">
                     <x-slot name="trigger">
-                        @switch($analysisOrder->status)
-                            @case("sent")
-                                <span class="w-24 py-1 badge-light-primary">{{ __($analysisOrder->status) }}</span>
-                                @break
-                            @case("canceled")
-                                <span class="w-24 py-1 badge-light-danger">{{ __($analysisOrder->status) }}</span>
-                                @break
-                            @case("analyzing")
-                                <span class="w-24 py-1 badge-light-warning">{{ __($analysisOrder->status) }}</span>
-                                @break
-                            @case("concluded")
-                                <span class="w-24 py-1 badge-light-success">{{ __($analysisOrder->status) }}</span>
-                                @break
-                            @default
-                        @endswitch
+                        <button type="button">
+                            @switch($analysisOrder->status)
+                                @case("sent")
+                                    <span class="w-24 py-1 badge-light-primary">{{ __($analysisOrder->status) }}</span>
+                                    @break
+                                @case("canceled")
+                                    <span class="w-24 py-1 badge-light-danger">{{ __($analysisOrder->status) }}</span>
+                                    @break
+                                @case("analyzing")
+                                    <span class="w-24 py-1 badge-light-warning">{{ __($analysisOrder->status) }}</span>
+                                    @break
+                                @case("concluded")
+                                    <span class="w-24 py-1 badge-light-success">{{ __($analysisOrder->status) }}</span>
+                                    @break
+                                @default
+                            @endswitch
+                        </button>
                     </x-slot>
 
                     <x-slot name="content">

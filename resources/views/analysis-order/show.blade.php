@@ -5,12 +5,6 @@
                 <div class="w-full flex items-center">
                     <h1>Pedido {{ $analysisOrder->formatted_id }}</h1>
                 </div>
-                <div class="w-full flex justify-end">
-                    <div class="m-2">
-                        <a class="btn-outline-danger"
-                            href="{{ route('sample-analysis.index') }}">{{ __('Cancelar') }}</a>
-                    </div>
-                </div>
             </div>
 
             <div id="status_analysis_order">
