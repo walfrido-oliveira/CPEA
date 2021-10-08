@@ -101,4 +101,11 @@
         </div>
     </div>
 
+    <script>
+        document.querySelectorAll(".delete-parameter-analysis-item").forEach(item => {
+            item.addEventListener("click", function() {
+                item.parentNode.parentNode.innerHTML = "";
+            })
+        });
+    </script>
 </x-app-layout>
