@@ -134,7 +134,12 @@ class AnalysisOrderController extends Controller
         Cookie::queue(Cookie::make('totalGroups', 0, 60));
         Cookie::queue(Cookie::make('totalParamAnalysis', 0, 60));
 
-        return redirect()->route('analysis-order.show', ['analysis_order' => $analysisOrder->id])->with(defaultSaveMessagemNotification());
+        return redirect()->route('analysis-order.show', ['analysis_order' => $analysisOrder->id])->with(
+            array(
+                'message' => __('Pedido de Análise Encaminhado com Sucesso!'),
+                'alert-type' => 'success'
+            )
+        );
 
     }
 
