@@ -76,7 +76,7 @@
                                         <p class="font-bold">{{ __('Qtd. de Param. Análise') }}</p>
                                     </div>
                                     <div class="mx-4 px-3 py-2">
-                                        <p class = "text-gray-500 font-bold">
+                                        <p class = "text-gray-500 font-bold" id="total_param_analysis">
                                             {{ $totalParamAnalysis }}
                                         </p>
                                     </div>
@@ -105,6 +105,8 @@
         document.querySelectorAll(".delete-parameter-analysis-item").forEach(item => {
             item.addEventListener("click", function() {
                 item.parentNode.parentNode.innerHTML = "";
+                let total = document.querySelectorAll(".parameter-analysis").length;
+                document.getElementById("total_param_analysis").innerHTML = total;
             })
         });
     </script>
