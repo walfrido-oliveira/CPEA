@@ -14,6 +14,7 @@ use App\Http\Controllers\AnalysisOrderController;
 use App\Http\Controllers\CampaignStatusCotroller;
 use App\Http\Controllers\TemplateEmailController;
 use App\Http\Controllers\AnalysisMatrixController;
+use App\Http\Controllers\AnalysisResultController;
 use App\Http\Controllers\CampaignStatusController;
 use App\Http\Controllers\GeodeticSystemController;
 use App\Http\Controllers\SampleAnalysisController;
@@ -128,6 +129,10 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::post('/', [AnalysisOrderController::class, 'store'])->name('store');
         Route::post('/filterPointMatrix', [AnalysisOrderController::class, 'filterPointMatrix'])->name('filter-point-matrix');
         Route::post('/status/{analysis_order}', [AnalysisOrderController::class, 'status'])->name('status');
+    });
+
+    Route::prefix('resultado-analise')->name('analysis-result.')->group(function(){
+        Route::post('/import', [AnalysisResultController::class, 'import'])->name('import');
     });
 
     Route::resource('param-analise', ParameterAnalysisController::class, [

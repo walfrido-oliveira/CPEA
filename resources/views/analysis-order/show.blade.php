@@ -42,8 +42,13 @@
                     </div>
                     <div class="flex md:justify-end justify-center md:mx-0 mx-auto md:w-1/4 w-full">
                         <div class="m-2 ">
-                            <button type="button" class="btn-outline-info"
-                                id="add-parameter-analysis-items">{{ __('Importar Análises') }}</button>
+                           <form method="POST" action="{!! route('analysis-result.import') !!}" enctype="multipart/form-data" id="import_result_form">
+                                @csrf
+                                @method("POST")
+                                <input type="hidden" name="order" value="{{ $analysisOrder->id }}">
+                                <button type="button" class="btn-outline-info" id="import_result">{{ __('Importar Análises') }}</button>
+                                <input type="file" name="file" id="file" accept="application/vnd.ms-excel" class="hidden">
+                           </form>
                         </div>
                     </div>
                 </div>
@@ -55,6 +60,20 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById("import_result").addEventListener("click", function() {
+            document.getElementById("file").click();
+        });
+
+        document.getElementById("file").addEventListener("change", function(e) {
+            document.getElementById("import_result_form").submit();
+        });
+
+        function importResults() {
+
+        }
+    </script>
 
     <script>
         function updateStatusProject(status) {
