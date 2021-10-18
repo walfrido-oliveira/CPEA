@@ -45,11 +45,18 @@ class AnalysisResultController extends Controller
         {
             if($key == 0) continue;
 
+            $pointIdentifciation = explode("-", $value[4]);
+            $pointIdentifciation[1] = explode(" ", $pointIdentifciation[1])[0];
+
             $order = AnalysisOrder::findOrFail($orderId);
             $projectPointMatrices = $order->projectPointMatrices()
             ->whereHas('parameterAnalysis', function($q) use($value) {
                 $q->where('parameter_analyses.cas_rn', $value[21]);
-            })->first();
+            })->whereHas('pointIdentification', function($q) use($value, $pointIdentifciation) {
+                $q->where('point_identifications.area', $pointIdentifciation[0])
+                  ->where('point_identifications.identification', $pointIdentifciation[1]);
+            })
+            ->first();
 
             if(!$projectPointMatrices) continue;
 

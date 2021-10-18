@@ -21,13 +21,13 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">
-        <div class="min-h-screen">
+        <div class="flex flex-col min-h-screen justify-between">
 
             <div class="flex md:flex-row flex-col w-full">
                 @include('top-menu')
             </div>
 
-            <div class="flex md:flex-row flex-col">
+            <div class="flex md:flex-row flex-col flex-grow">
                 @include('sidebar')
 
                 <!-- Page Content -->
@@ -39,6 +39,7 @@
             <footer>
                 <p class="text-center">{{ __("© Copyright - CPEA 2021") }}</p>
             </footer>
+
         </div>
 
         @stack('modals')
