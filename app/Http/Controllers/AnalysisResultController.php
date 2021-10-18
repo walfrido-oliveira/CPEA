@@ -61,7 +61,7 @@ class AnalysisResultController extends Controller
             })
             ->first();*/
 
-            dd($projectPointMatrices);
+            dd($projectPointMatrices->pointIdentification);
             if(!$projectPointMatrices) continue;
 
             $analysisResult = AnalysisResult::firstOrCreate([
