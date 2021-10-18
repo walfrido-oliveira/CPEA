@@ -54,7 +54,7 @@ class AnalysisResultController extends Controller
             $projectPointMatrices = $order->projectPointMatrices()
             ->whereHas('parameterAnalysis', function($q) use($value) {
                 $q->where('parameter_analyses.cas_rn', $value[21]);
-            })>whereHas('pointIdentification', function($q) use($pointIdentifciation) {
+            })->whereHas('pointIdentification', function($q) use($pointIdentifciation) {
                 $q->where('point_identifications.area', $pointIdentifciation[0])
                   ->where('point_identifications.identification', 'like', $pointIdentifciation[1] . '%');
             })
