@@ -48,7 +48,7 @@ class AnalysisResultController extends Controller
             $pointIdentifciation = explode("-", $value[4]);
             $pointIdentifciation[1] = explode(" ", $pointIdentifciation[1])[0];
 
-            dd($pointIdentifciation);
+            #dd($pointIdentifciation);
 
             $order = AnalysisOrder::findOrFail($orderId);
             $projectPointMatrices = $order->projectPointMatrices()
@@ -60,7 +60,7 @@ class AnalysisResultController extends Controller
                   ->where('point_identifications.identification', $pointIdentifciation[1]);
             })
             ->first();
-
+            dd($projectPointMatrices);
             if(!$projectPointMatrices) continue;
 
             $analysisResult = AnalysisResult::firstOrCreate([
