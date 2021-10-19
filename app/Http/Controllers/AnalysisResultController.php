@@ -80,14 +80,12 @@ class AnalysisResultController extends Controller
             $column2++;
         }
 
-
-
         $column++;
 
         foreach ($order->projectPointMatrices as $key => $point)
         {
             $cell = $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1, $point->pointIdentification->area . "-" . $point->pointIdentification->identification);
-            foreach(range($column . "1", $column . "1") as $columnID) : $sheet->getColumnDimension($columnID)->setAutoSize(true); endforeach;
+            $sheet->getColumnDimensionByColumn(2 + count($guidingParameters) + 1  + $key)->setAutoSize(true);
             $column++;
         }
 
