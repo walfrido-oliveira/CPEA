@@ -107,6 +107,7 @@ class AnalysisResultController extends Controller
 
         $sheet->setCellValueByColumnAndRow(1, 5, $projectPointMatrices[0]->parameterAnalysis->parameterAnalysisGroup->name);
         $sheet->getStyleByColumnAndRow(1, 5)->getFill() ->setFillType(Fill::FILL_SOLID) ->getStartColor()->setRGB('C0C0C0');
+        $sheet->getStyleByColumnAndRow(2,  $key + 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
         $key = 0;
 
         foreach ($projectPointMatrices as $index => $point)
@@ -117,7 +118,8 @@ class AnalysisResultController extends Controller
                   $projectPointMatrices[$index - 1]->parameterAnalysis->parameter_analysis_group_id)
               {
                   $sheet->setCellValueByColumnAndRow(1,  $key + 6, $point->parameterAnalysis->parameterAnalysisGroup->name);
-                  $sheet->getStyleByColumnAndRow(1,  $key + 6)->getFill() ->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+                  $sheet->getStyleByColumnAndRow(1,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+                  $sheet->getStyleByColumnAndRow(2,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
                   $key++;
               }
             }
