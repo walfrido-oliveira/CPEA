@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\Campaign;
 use App\Models\AnalysisOrder;
 use App\Models\AnalysisMatrix;
+use App\Models\AnalysisResult;
 use App\Models\PlanActionLevel;
 use App\Models\GuidingParameter;
 use App\Models\ParameterAnalysis;
@@ -95,6 +96,14 @@ class ProjectPointMatrix extends Model
     public function parameterAnalysis()
     {
         return $this->belongsTo(ParameterAnalysis::class);
+    }
+
+    /**
+     * The Analysis Result
+     */
+    public function analysisResult()
+    {
+        return $this->hasMany(AnalysisResult::class);
     }
 
     public function getCustomNameAttribute()

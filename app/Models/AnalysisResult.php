@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\ProjectPointMatrix;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AnalysisResult extends Model
 {
@@ -70,5 +71,22 @@ class AnalysisResult extends Model
         'snote9',
         'snote10',
     ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'sampdate' => 'date',
+    ];
+
+     /**
+     * The Project Point Matrix.
+     */
+    public function projectPointMatrix()
+    {
+        return $this->belongsTo(ProjectPointMatrix::class);
+    }
 
 }
