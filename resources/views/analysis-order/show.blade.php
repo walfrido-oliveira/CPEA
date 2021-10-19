@@ -19,10 +19,10 @@
 
             <div class="py-2 my-2 bg-white rounded-lg flex md:flex-row flex-col flex-wrap">
                 <div class="flex w-full md:flex-nowrap flex-wrap">
-                    <div class="mx-4 px-3 py-2 flex items-center md:justify-start justify-center md:w-auto w-full">
+                    <div class="mx-4 px-3 py-2 flex items-center md:justify-start justify-center w-full">
                         <h2>{{ __('Amostras') }}</h2>
                     </div>
-                    <div class="py-2 flex md:justify-end justify-start w-full" x-data="{ open: false }">
+                    <div class="py-2 flex md:justify-end justify-start ml-auto" x-data="{ open: false }">
                         <div class="flex">
                             <button type="button" @click="open = !open" id="nav-toggle"
                                 class="w-full block btn-transition-secondary">
@@ -40,7 +40,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex md:justify-end justify-center md:mx-0 mx-auto md:w-1/4 w-full">
+                    <div class="flex md:justify-end justify-center md:mx-0 mx-auto md:w-1/3 w-full">
+                        <div class="m-2 ">
+                            <a class="btn-transition-secondary" href="{{ route('analysis-result.download', ['order' => $analysisOrder->id]) }}" target="_blank" rel="noopener noreferrer">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                                </svg>
+                            </a>
+                        </div>
                         <div class="m-2 ">
                            <form method="POST" action="{!! route('analysis-result.import') !!}" enctype="multipart/form-data" id="import_result_form">
                                 @csrf

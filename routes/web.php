@@ -133,6 +133,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     Route::prefix('resultado-analise')->name('analysis-result.')->group(function(){
         Route::post('/import', [AnalysisResultController::class, 'import'])->name('import');
+        Route::get('/download/{order}', [AnalysisResultController::class, 'download'])->name('download');
     });
 
     Route::resource('param-analise', ParameterAnalysisController::class, [

@@ -6,10 +6,100 @@ use Illuminate\Http\Request;
 use App\Models\AnalysisOrder;
 use App\Models\AnalysisResult;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use Illuminate\Support\Facades\Validator;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class AnalysisResultController extends Controller
 {
+    /**
+     * Download results
+     *
+     * @param  Request  $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function download(Request $request, $id)
+    {
+        $order = AnalysisOrder::findOrFail($id);
+
+        $guidingParameters = $order->projectPointMatrices()->leftJoin('guiding_parameters', function($join) {
+            $join->on('guiding_parameters.id', '=', 'project_point_matrices.guiding_parameter_id');
+          })->orderBy('environmental_guiding_parameter_id')->distinct()->pluck('environmental_guiding_parameter_id');
+
+        $spreadsheet = new Spreadsheet();
+
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->setCellValue('A1', 'Parâmetro');
+        $sheet->setCellValue('A2', 'Data Coleta');
+        $sheet->setCellValue('A3', 'Hora Coleta');
+        $sheet->setCellValue('A4', 'Ident.Laboratorio');
+
+        $sheet->getStyle('A1')->getFill()
+        ->setFillType(Fill::FILL_SOLID)
+        ->getStartColor()->setRGB('C0C0C0');
+
+        foreach(range('A1','A4') as $columnID)
+        {
+            $sheet->getColumnDimension($columnID)->setAutoSize(true);
+        }
+
+        $sheet->setCellValue('B1', 'Unid');
+        $sheet->getStyle('B1')->getFill()
+        ->setFillType(Fill::FILL_SOLID)
+        ->getStartColor()->setRGB('C0C0C0');
+        $sheet->getStyle('B1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('B1')->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+        $sheet->mergeCells('B1:B4');
+
+        $column = "B";
+
+        foreach ($guidingParameters as $key => $value) : $column++; endforeach;
+
+        $sheet->setCellValue('C1', 'Valores Orientadores');
+        $sheet->getStyle('C1')->getFill()
+        ->setFillType(Fill::FILL_SOLID)
+        ->getStartColor()->setRGB('C0C0C0');
+
+        if(count($guidingParameters) > 1) $sheet->mergeCells('$c1:' . '$' . $column . '1');
+
+        foreach(range($column . "1", $column . "1") as $columnID) : $sheet->getColumnDimension($columnID)->setAutoSize(true); endforeach;
+
+        $column2= "C";
+        $column2Init= "C";
+        foreach ($guidingParameters as $key => $value)
+        {
+            $sheet->setCellValue($column2 . "2", $value);
+            $sheet->getStyle($column2 . "2")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $sheet->getStyle($column2 . "2")->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            $spreadsheet->getActiveSheet()->mergeCells($column2 . "2:" . $column2 . "4");
+            $column2++;
+        }
+
+
+
+        $column++;
+
+        foreach ($order->projectPointMatrices as $key => $point)
+        {
+            $cell = $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1, $point->pointIdentification->area . "-" . $point->pointIdentification->identification);
+            foreach(range($column . "1", $column . "1") as $columnID) : $sheet->getColumnDimension($columnID)->setAutoSize(true); endforeach;
+            $column++;
+        }
+
+        $writer = new Xls($spreadsheet);
+
+        $writer->save(tmpfile());
+
+        return response()->streamDownload(function() use($writer) {
+            $writer->save("php://output");
+        }, 'file.xls');
+    }
+
     /**
      * Import results
      *
@@ -46,9 +136,6 @@ class AnalysisResultController extends Controller
             if($key == 0) continue;
 
             $pointIdentifciation = explode("-", $value[4]);
-            #$pointIdentifciation[1] = explode(" ", $pointIdentifciation[1])[0];
-
-            #dd($pointIdentifciation);
 
             $order = AnalysisOrder::findOrFail($orderId);
             $projectPointMatrices = $order->projectPointMatrices()
