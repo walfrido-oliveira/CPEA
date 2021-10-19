@@ -54,22 +54,25 @@ class AnalysisResultController extends Controller
         foreach ($guidingParameters as $key => $value) : $column++; endforeach;
 
         $sheet->setCellValue('C1', 'Valores Orientadores');
-        $sheet->getStyle('C1')->getFill()
-        ->setFillType(Fill::FILL_SOLID)
-        ->getStartColor()->setRGB('C0C0C0');
+        $sheet->getStyle('C1')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
 
         if(count($guidingParameters) > 1) $sheet->mergeCells('$c1:' . '$' . $column . '1');
 
         foreach(range($column . "1", $column . "1") as $columnID) : $sheet->getColumnDimension($columnID)->setAutoSize(true); endforeach;
 
         $column2= "C";
-        $column2Init= "C";
+        $guidingParametersColors = [];
         foreach ($guidingParameters as $key => $value)
         {
             $sheet->setCellValue($column2 . "2", $value);
             $sheet->getStyle($column2 . "2")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
             $sheet->getStyle($column2 . "2")->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+
+            $guidingParametersColors[] = sprintf('%06X', mt_rand(0, 0xFFFFFF));
+
+            $sheet->getStyle($column2 . "2")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB($guidingParametersColors[$key]);
             $spreadsheet->getActiveSheet()->mergeCells($column2 . "2:" . $column2 . "4");
+
             $column2++;
         }
 
