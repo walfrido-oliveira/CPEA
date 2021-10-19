@@ -102,15 +102,24 @@ class AnalysisResultController extends Controller
             $column++;
         }
 
-        foreach ($order->projectPointMatrices as $index => $point)
+        $sheet->setCellValueByColumnAndRow(1, 5, $projectPointMatrices[0]->parameterAnalysis->parameterAnalysisGroup->name);
+        $sheet->getStyleByColumnAndRow(1, 5)->getFill() ->setFillType(Fill::FILL_SOLID) ->getStartColor()->setRGB('C0C0C0');
+        $key = 0;
+
+        foreach ($projectPointMatrices as $index => $point)
         {
-            if ($projectPointMatrices[$index]->parameterAnalysis->parameter_analysis_group_id !=
-                $projectPointMatrices[$index - 1]->parameterAnalysis->parameter_analysis_group_id)
+            if($index > 0)
             {
-                $sheet->setCellValueByColumnAndRow(1, 5, $point->parameterAnalysis->parameterAnalysisGroup->name);
-                $sheet->getStyleByColumnAndRow(1, 5)->getFill() ->setFillType(Fill::FILL_SOLID) ->getStartColor()->setRGB('C0C0C0');
+              if ($projectPointMatrices[$index]->parameterAnalysis->parameter_analysis_group_id !=
+                  $projectPointMatrices[$index - 1]->parameterAnalysis->parameter_analysis_group_id)
+              {
+                  $sheet->setCellValueByColumnAndRow(1,  $key + 6, $point->parameterAnalysis->parameterAnalysisGroup->name);
+                  $sheet->getStyleByColumnAndRow(1,  $key + 6)->getFill() ->setFillType(Fill::FILL_SOLID) ->getStartColor()->setRGB('C0C0C0');
+                  $key++;
+              }
             }
-            $sheet->setCellValueByColumnAndRow(1, $index + 6, $point->parameterAnalysis->analysis_parameter_name);
+            $sheet->setCellValueByColumnAndRow(1, $key + 6, $point->parameterAnalysis->analysis_parameter_name);
+            $key++;
         }
 
         $writer = new Xls($spreadsheet);
