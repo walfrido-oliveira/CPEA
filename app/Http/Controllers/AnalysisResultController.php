@@ -104,10 +104,8 @@ class AnalysisResultController extends Controller
 
         foreach ($order->projectPointMatrices as $index => $point)
         {
-            if (($index > 0 && $projectPointMatrices[$index]->parameterAnalysis->parameter_analysis_group_id !=
-                 $projectPointMatrices[$index - 1]->parameterAnalysis->parameter_analysis_group_id) || $index == 0 ||
-                ($projectPointMatrices[$index]->pointIdentification->identification !=
-                 $projectPointMatrices[$index - 1]->pointIdentification->identification))
+            if ($projectPointMatrices[$index]->parameterAnalysis->parameter_analysis_group_id !=
+                $projectPointMatrices[$index - 1]->parameterAnalysis->parameter_analysis_group_id)
             {
                 $sheet->setCellValueByColumnAndRow(1, 5, $point->parameterAnalysis->parameterAnalysisGroup->name);
                 $sheet->getStyleByColumnAndRow(1, 5)->getFill() ->setFillType(Fill::FILL_SOLID) ->getStartColor()->setRGB('C0C0C0');
