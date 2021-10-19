@@ -39,19 +39,12 @@ class AnalysisResultController extends Controller
         $sheet->setCellValue('A3', 'Hora Coleta');
         $sheet->setCellValue('A4', 'Ident.Laboratorio');
 
-        $sheet->getStyle('A1')->getFill()
-        ->setFillType(Fill::FILL_SOLID)
-        ->getStartColor()->setRGB('C0C0C0');
+        $sheet->getStyle('A1')->getFill()->setFillType(Fill::FILL_SOLID) ->getStartColor()->setRGB('C0C0C0');
 
-        foreach(range('A1','A4') as $columnID)
-        {
-            $sheet->getColumnDimension($columnID)->setAutoSize(true);
-        }
+        foreach(range('A1','A4') as $columnID) : $sheet->getColumnDimension($columnID)->setAutoSize(true); endforeach;
 
         $sheet->setCellValue('B1', 'Unid');
-        $sheet->getStyle('B1')->getFill()
-        ->setFillType(Fill::FILL_SOLID)
-        ->getStartColor()->setRGB('C0C0C0');
+        $sheet->getStyle('B1')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
         $sheet->getStyle('B1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $sheet->getStyle('B1')->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
         $sheet->mergeCells('B1:B4');
@@ -81,8 +74,9 @@ class AnalysisResultController extends Controller
         }
 
         $column++;
+        $projectPointMatrices = $order->projectPointMatrices;
 
-        foreach ($order->projectPointMatrices as $key => $point)
+        foreach ($projectPointMatrices as $key => $point)
         {
             $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1, $point->pointIdentification->area . "-" . $point->pointIdentification->identification);
 
@@ -106,6 +100,19 @@ class AnalysisResultController extends Controller
             }
             $sheet->getColumnDimensionByColumn(2 + count($guidingParameters) + 1  + $key)->setAutoSize(true);
             $column++;
+        }
+
+        foreach ($order->projectPointMatrices as $index => $point)
+        {
+            if (($index > 0 && $projectPointMatrices[$index]->parameterAnalysis->parameter_analysis_group_id !=
+                 $projectPointMatrices[$index - 1]->parameterAnalysis->parameter_analysis_group_id) || $index == 0 ||
+                ($projectPointMatrices[$index]->pointIdentification->identification !=
+                 $projectPointMatrices[$index - 1]->pointIdentification->identification))
+            {
+                $sheet->setCellValueByColumnAndRow(1, 5, $point->parameterAnalysis->parameterAnalysisGroup->name);
+                $sheet->getStyleByColumnAndRow(1, 5)->getFill() ->setFillType(Fill::FILL_SOLID) ->getStartColor()->setRGB('C0C0C0');
+            }
+            $sheet->setCellValueByColumnAndRow(1, $index + 6, $point->parameterAnalysis->analysis_parameter_name);
         }
 
         $writer = new Xls($spreadsheet);
