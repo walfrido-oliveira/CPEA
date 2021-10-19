@@ -89,19 +89,21 @@ class AnalysisResultController extends Controller
             $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
             $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
 
-            $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2, $point->analysisResult()->first()->sampdate->format('d/m/Y'));
-            $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 3, $point->analysisResult()->first()->sampdate->format('h:m:i'));
-            $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4, $point->analysisResult()->first()->labsampid);
+            if($point->analysisResult()->first())
+            {
+                $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2, $point->analysisResult()->first()->sampdate->format('d/m/Y'));
+                $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 3, $point->analysisResult()->first()->sampdate->format('h:m:i'));
+                $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4, $point->analysisResult()->first()->labsampid);
 
-            $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-            $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+                $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
 
-            $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 3)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-            $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 3)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+                $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 3)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 3)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
 
-            $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-            $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-
+                $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            }
             $sheet->getColumnDimensionByColumn(2 + count($guidingParameters) + 1  + $key)->setAutoSize(true);
             $column++;
         }
