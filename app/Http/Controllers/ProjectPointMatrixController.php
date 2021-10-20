@@ -72,7 +72,6 @@ class ProjectPointMatrixController extends Controller
     public function updateAjax(Request $request, $id)
     {
         $input = $request->all();
-
         $validator = Validator::make($request->all(), [
             'point_identification_id' => ['required', 'exists:point_identifications,id'],
 
@@ -109,7 +108,6 @@ class ProjectPointMatrixController extends Controller
                 'project_id' => $projectPointMatrix->project_id,
                 'point_identification_id' => $input['point_identification_id'],
                 'analysis_matrix_id' => $input['analysis_matrix_id'],
-                'guiding_parameter_id' => $input['guiding_parameter_id'],
                 'parameter_analysis_id' => $input['parameter_analysis_id'],
                 'campaign_id' => $input['campaign_id'],
 
@@ -145,7 +143,6 @@ class ProjectPointMatrixController extends Controller
                 'project_id' => $input['project_id'],
                 'point_identification_id' => $input['point_identification_id'],
                 'analysis_matrix_id' => $input['analysis_matrix_id'],
-                'guiding_parameter_id' => $input['guiding_parameter_id'],
                 'parameter_analysis_id' => $input['parameter_analysis_id'],
                 'campaign_id' => $input['campaign_id'],
 
@@ -177,6 +174,8 @@ class ProjectPointMatrixController extends Controller
                 'pressure' => isset($input['pressure']) ? $input['pressure'] : null,
             ]);
         }
+
+        $projectPointMatrix->guidingParameters()->sync(explode(",", $input['guiding_parameter_id']));
 
         $id = $projectPointMatrix->id;
         $className = 'edit-point-matrix';
