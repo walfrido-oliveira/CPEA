@@ -5189,7 +5189,7 @@ NiceSelect.prototype.bindEvent = function () {
   this.dropdown.addEventListener("click", this._onClicked.bind(this));
   this.dropdown.addEventListener("keydown", this._onKeyPressed.bind(this));
   document.addEventListener("click", this._onClickedOutside.bind(this));
-  this.el.addEventListener("DOMNodeInserted", this._change.bind(this));
+  this.el.addEventListener("change", this._change.bind(this));
 
   if (this.config.searchable) {
     this._bindSearchEvent();
@@ -5388,6 +5388,7 @@ function bind(el, options) {
 }
 
 NiceSelect.prototype._change = function () {
+  console.log(1);
   this.extractData();
 
   if (this.dropdown) {

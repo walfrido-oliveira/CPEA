@@ -270,10 +270,7 @@
                 item.addEventListener('click', editCampaign.bind(null, item, item.dataset.row), false);
                 item.addEventListener("click", editCampaignAjax, false);
                 item.addEventListener("click", function(e) {
-                    saveCampaignAjax()
-                    .then(function(result) {
-                        getCampaigns();
-                    });
+                    saveCampaignAjax();
                 });
             });
         }
@@ -316,49 +313,6 @@
         }
 
         document.getElementById('confirm_modal').addEventListener('resp', campaignOrderByCallback, false);
-
-        var campaign = document.getElementById("campaign_id");
-
-        function getCampaigns() {
-            var id = '{{ $project->id }}';
-            var ajax = new XMLHttpRequest();
-            var url = "{!! route('project.campaign.get-campaign-by-project', ['project' => '#']) !!}".replace('#', id);
-            var token = document.querySelector('meta[name="csrf-token"]').content;
-            var method = 'POST';
-
-            ajax.open(method, url);
-
-            ajax.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var resp = JSON.parse(ajax.response);
-                    cleanCampaigns();
-                    let campaigns = resp.campaigns;
-                    for (let index = 0; index < campaigns.length; index++) {
-                        const item = campaigns[index];
-                        var opt = document.createElement('option');
-                        opt.value = item.id;
-                        opt.text = item.name;
-                        campaign.add(opt);
-                    }
-                } else if (this.readyState == 4 && this.status != 200) {
-                    toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
-                }
-            }
-
-            var data = new FormData();
-            data.append('_token', token);
-            data.append('_method', method);
-            data.append('id', id);
-
-            ajax.send(data);
-        }
-
-        function cleanCampaigns() {
-            var i, L = campaign.options.length - 1;
-            for (i = L; i >= 0; i--) {
-                campaign.remove(i);
-            }
-        }
 
     });
 </script>

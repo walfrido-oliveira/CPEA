@@ -190,9 +190,9 @@ class CampaignController extends Controller
     public function getCampaignByProject(Request $request, $id)
     {
         $project = Project::find($id);
-
+        $campaigns = $project->campaigns()->pluck("name", "id");
         $resp = [
-            'campaigns' => $project->campaigns
+            'campaigns' => view('project.campaign-select', compact('campaigns'))->render()
         ];
 
         return response()->json($resp);
