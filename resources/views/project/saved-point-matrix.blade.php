@@ -33,9 +33,10 @@
         @endif
     </td>
     <td>
-        <input type="hidden" name="point_matrix[{{ $key }}][guiding_parameter_id]" id="point_matrix_{{ $key }}_guiding_parameter_id" value="{{ $projectPointMatrix->guidingParameter ? $projectPointMatrix->guidingParameter->id : null }}">
-        @if ($projectPointMatrix->guidingParameter)
-            {{ $projectPointMatrix->guidingParameter->environmental_guiding_parameter_id }}
+        <input type="hidden" name="point_matrix[{{ $key }}][guiding_parameter_id]" id="point_matrix_{{ $key }}_guiding_parameter_id"
+        value="{{ $projectPointMatrix->guidingParameters ? implode(",", $projectPointMatrix->guidingParameters()->pluck('guiding_parameters.id')->toArray()) : null }}">
+        @if ($projectPointMatrix->guidingParameters)
+            {{ implode(",", $projectPointMatrix->guidingParameters()->pluck('environmental_guiding_parameter_id')->toArray()) }}
         @endif
     </td>
     <td>

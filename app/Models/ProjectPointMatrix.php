@@ -24,8 +24,8 @@ class ProjectPointMatrix extends Model
      * @var array
      */
     protected $fillable = [
-        'project_id', 'point_identification_id', 'analysis_matrix_id', 'plan_action_level_id',
-        'guiding_parameter_id', 'parameter_analysis_id', 'tide', 'environmental_conditions',
+        'project_id', 'point_identification_id', 'analysis_matrix_id',
+        'parameter_analysis_id', 'tide', 'environmental_conditions',
         'sample_depth', 'environmental_regime', 'floating_materials',
         'effluent_type', 'report_identification', 'organism_type', 'popular_name', 'identification_pm',
         'sample_horizon', 'refq', 'utm', 'water_depth', 'sedimentary_layer', 'secchi_record', 'total_depth',
@@ -75,19 +75,11 @@ class ProjectPointMatrix extends Model
     }
 
     /**
-     * The Plan Action Level.
-     */
-    public function planActionLevel()
-    {
-        return $this->belongsTo(PlanActionLevel::class);
-    }
-
-    /**
      * The Guiding Parameter.
      */
-    public function guidingParameter()
+    public function guidingParameters()
     {
-        return $this->belongsTo(GuidingParameter::class);
+        return $this->belongsToMany(GuidingParameter::class);
     }
 
     /**

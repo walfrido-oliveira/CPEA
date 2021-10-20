@@ -132,6 +132,14 @@
     text-overflow: clip;
     margin-right: 10px;
   }
+  .nice-select .multiple-options span.current {
+    display: inline;
+    word-wrap: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+    margin-right: 10px;
+  }
 .nice-select .has-multiple {
   white-space: inherit;
   height: auto;

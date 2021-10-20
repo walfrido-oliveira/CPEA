@@ -298,12 +298,11 @@
 
             let pointIdentifications = document.getElementById("point_identifications").value;
             let matriz = document.getElementById("matriz_id").value;
-            let guidingParameter = document.getElementById("guiding_parameters_id").value;
+            let guidingParameter = Array.from(document.getElementById("guiding_parameters_id").options).filter(o => o.selected).map(o => o.value);
             let analysisParameter = document.getElementById("analysis_parameter_id").value;
             let paginationPerPage = document.getElementById("paginate_per_page_campaigns").value;
             let campaignId = document.getElementById("campaign_id").value;
 
-            /* DINAMIC FIELDS */
             let customFields = [];
             document.querySelectorAll('[data-type="campaign-fields"]').forEach(item => {
                 customFields.push(item);
@@ -397,6 +396,7 @@
                 let areas = document.getElementById("areas");
                 let matriz = document.getElementById("matriz_id");
                 let guidingParameter = document.getElementById("guiding_parameters_id");
+                let guidingParameterOptions = Array.from(document.querySelectorAll('#guiding_parameters_id option'));
                 let analysisParameter = document.getElementById("analysis_parameter_id");
                 let campaignId = document.getElementById("campaign_id");
 
@@ -412,8 +412,18 @@
                 matriz.value = document.getElementById('point_matrix_'+ row + '_analysis_matrix_id') ?
                 document.getElementById('point_matrix_'+ row + '_analysis_matrix_id').value : null;
 
-                guidingParameter.value = document.getElementById('point_matrix_'+ row + '_guiding_parameter_id') ?
-                document.getElementById('point_matrix_'+ row + '_guiding_parameter_id').value : null;
+                var values = document.getElementById('point_matrix_'+ row + '_guiding_parameter_id').value.split(',').map(Number);
+
+                values.forEach(item => {
+                    for (var i = 0; i < guidingParameter.options.length; i++) {
+                        if(guidingParameter.options[i].value == '') {
+                            guidingParameter.options[i].selected = false;
+                            continue;
+                        }
+                        if(item == guidingParameter.options[i].value) guidingParameter.options[i].selected = true;
+                    }
+                });
+
 
                 analysisParameter.value = document.getElementById('point_matrix_'+ row + '_parameter_analysis_id') ?
                 document.getElementById('point_matrix_'+ row + '_parameter_analysis_id').value : null;
@@ -425,7 +435,6 @@
                 .then(function(result) {
                     document.getElementById("point_matrix_fields").innerHTML = result;
 
-                    /* DINAMIC FIELDS */
                     let customFields = [];
                     document.querySelectorAll('[data-type="campaign-fields"]').forEach(item => {
                         customFields.push(item);
@@ -438,9 +447,10 @@
                     });
                 });
 
-                document.querySelectorAll("#point_matrix_container select").forEach(item => {
+                document.querySelectorAll("#point_matrix_container select.custom-select").forEach(item => {
                     window.customSelectArray[item.id].update();
                 });
+
             });
 
         }

@@ -5073,7 +5073,7 @@ NiceSelect.prototype.extractData = function () {
       value: item.value
     };
     var attributes = {
-      selected: item.value == _this.el.value,
+      selected: item.selected || item.value == _this.el.value,
       disabled: item.getAttribute("disabled") != null
     };
     data.push(itemData);
@@ -5253,8 +5253,9 @@ NiceSelect.prototype._onItemClicked = function (option, e) {
 
 NiceSelect.prototype.updateSelectValue = function () {
   if (this.multiple) {
-    this.selectedOptions.each(function (item) {
-      var el = this.el.querySelector('option[value="' + item.data.value + '"]');
+    var elValue = this.el;
+    this.selectedOptions.forEach(function (item) {
+      var el = elValue.querySelector('option[value="' + item.data.value + '"]');
       if (el) el.setAttribute("selected", true);
     });
   } else if (this.selectedOptions.length > 0) {
