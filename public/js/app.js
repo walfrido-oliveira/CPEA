@@ -5388,7 +5388,6 @@ function bind(el, options) {
 }
 
 NiceSelect.prototype._change = function () {
-  console.log(1);
   this.extractData();
 
   if (this.dropdown) {

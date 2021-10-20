@@ -33,12 +33,6 @@
         @endif
     </td>
     <td>
-        <input type="hidden" name="point_matrix[{{ $key }}][plan_action_level_id]" id="point_matrix_{{ $key }}_plan_action_level_id" value="{{ $projectPointMatrix->planActionLevel ? $projectPointMatrix->planActionLevel->id : null }}">
-        @if ($projectPointMatrix->planActionLevel)
-            {{ $projectPointMatrix->planActionLevel->name }}
-        @endif
-    </td>
-    <td>
         <input type="hidden" name="point_matrix[{{ $key }}][guiding_parameter_id]" id="point_matrix_{{ $key }}_guiding_parameter_id" value="{{ $projectPointMatrix->guidingParameter ? $projectPointMatrix->guidingParameter->id : null }}">
         @if ($projectPointMatrix->guidingParameter)
             {{ $projectPointMatrix->guidingParameter->environmental_guiding_parameter_id }}

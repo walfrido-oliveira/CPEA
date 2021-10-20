@@ -1,7 +1,11 @@
 <script>
     window.addEventListener("load", function() {
         document.querySelectorAll('#areas').forEach(item => {
-            item.addEventListener('change', filterAreas, false);
+            item.addEventListener('change', function() {
+                filterAreas().then(function() {
+                    window.customSelectArray["point_identifications"].update();
+                });
+            });
         });
 
         function getPointMatrices() {
@@ -294,7 +298,6 @@
 
             let pointIdentifications = document.getElementById("point_identifications").value;
             let matriz = document.getElementById("matriz_id").value;
-            let plaActionLevel = document.getElementById("plan_action_level_id").value;
             let guidingParameter = document.getElementById("guiding_parameters_id").value;
             let analysisParameter = document.getElementById("analysis_parameter_id").value;
             let paginationPerPage = document.getElementById("paginate_per_page_campaigns").value;
@@ -349,7 +352,6 @@
 
             data.append('point_identification_id', pointIdentifications);
             data.append('analysis_matrix_id', matriz);
-            data.append('plan_action_level_id', plaActionLevel);
             data.append('guiding_parameter_id', guidingParameter);
             data.append('parameter_analysis_id', analysisParameter);
             data.append('campaign_id', campaignId);
@@ -394,7 +396,6 @@
                 let pointIdentifications = document.getElementById("point_identifications");
                 let areas = document.getElementById("areas");
                 let matriz = document.getElementById("matriz_id");
-                let plaActionLevel = document.getElementById("plan_action_level_id");
                 let guidingParameter = document.getElementById("guiding_parameters_id");
                 let analysisParameter = document.getElementById("analysis_parameter_id");
                 let campaignId = document.getElementById("campaign_id");
@@ -405,13 +406,11 @@
                 filterAreas().then(function(result) {
                     pointIdentifications.value = document.getElementById('point_matrix_'+ row + '_point_identification_id') ?
                     document.getElementById('point_matrix_'+ row + '_point_identification_id').value : null;
+                    window.customSelectArray["point_identifications"].update();
                 });
 
                 matriz.value = document.getElementById('point_matrix_'+ row + '_analysis_matrix_id') ?
                 document.getElementById('point_matrix_'+ row + '_analysis_matrix_id').value : null;
-
-                plaActionLevel.value = document.getElementById('point_matrix_'+ row + '_plan_action_level_id') ?
-                document.getElementById('point_matrix_'+ row + '_plan_action_level_id').value : null;
 
                 guidingParameter.value = document.getElementById('point_matrix_'+ row + '_guiding_parameter_id') ?
                 document.getElementById('point_matrix_'+ row + '_guiding_parameter_id').value : null;
@@ -450,7 +449,6 @@
             let pointIdentifications = document.getElementById("point_identifications");
             let areas = document.getElementById("areas");
             let matriz = document.getElementById("matriz_id");
-            let plaActionLevel = document.getElementById("plan_action_level_id");
             let guidingParameter = document.getElementById("guiding_parameters_id");
             let analysisParameter = document.getElementById("analysis_parameter_id");
 
@@ -458,11 +456,10 @@
 
             filterAreas();
 
-            pointIdentifications.value = ''
-            matriz.value = ''
-            plaActionLevel.value = ''
-            guidingParameter.value = ''
-            analysisParameter.value = ''
+            pointIdentifications.value = '';
+            matriz.value = '';
+            guidingParameter.value = '';
+            analysisParameter.value = '';
         }
 
         document.getElementById('confirm_modal').addEventListener('resp', function(e) {

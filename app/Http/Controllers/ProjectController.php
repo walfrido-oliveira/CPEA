@@ -168,7 +168,6 @@ class ProjectController extends Controller
         $areas = PointIdentification::pluck('area', 'area');
         $identifications = PointIdentification::pluck('identification', 'identification');
         $matrizeces = AnalysisMatrix::pluck('name', 'id');
-        $planActionLevels = PlanActionLevel::pluck('name', 'id');
         $guidingParameters = GuidingParameter::pluck('environmental_guiding_parameter_id', 'id');
         $parameterAnalyses = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
         $geodeticSystems = GeodeticSystem::pluck("name", "id");
@@ -185,7 +184,7 @@ class ProjectController extends Controller
         ->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'campaigns')->appends(request()->input());
 
         return view('project.edit', compact('project','customers', 'areas', 'identifications', 'campaignStatuses', 'projectCampaigns',
-        'matrizeces', 'planActionLevels', 'guidingParameters', 'parameterAnalyses', 'projectPointMatrices', 'geodeticSystems',
+        'matrizeces', 'guidingParameters', 'parameterAnalyses', 'projectPointMatrices', 'geodeticSystems',
         'pointMatrices', 'campaigns'));
     }
 

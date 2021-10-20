@@ -5,7 +5,6 @@
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="point_identifications.area" columnText="{{ __('Área') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="point_identifications.identification" columnText="{{ __('Ponto') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="analysis_matrix_id" columnText="{{ __('Matriz') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="plan_action_level_id" columnText="{{ __('Tipo Nível Ação') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="guiding_parameter_id" columnText="{{ __('Param. Orientador Ambiental') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="parameter_analysis_id" columnText="{{ __('Param. Análise') }}"/>
         <th scope="col"
