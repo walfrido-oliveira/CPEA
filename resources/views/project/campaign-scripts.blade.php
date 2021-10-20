@@ -236,7 +236,6 @@
                     deleteCampaignCallback();
                     campaignEventsDeleteCallback();
                     editCampaignCallback();
-                    getCampaigns()
                 } else if (this.readyState == 4 && this.status != 200) {
                     var resp = JSON.parse(ajax.response);
                     var obj = resp;
@@ -270,7 +269,12 @@
             document.querySelectorAll('.edit-campaign').forEach(item => {
                 item.addEventListener('click', editCampaign.bind(null, item, item.dataset.row), false);
                 item.addEventListener("click", editCampaignAjax, false);
-                item.addEventListener("click", saveCampaignAjax, false);
+                item.addEventListener("click", function(e) {
+                    saveCampaignAjax()
+                    .then(function(result) {
+                        getCampaigns();
+                    });
+                });
             });
         }
 
@@ -304,6 +308,10 @@
 
             dateCollection.value = document.getElementById('campaign_'+ row + '_date_collection') ?
             document.getElementById('campaign_'+ row + '_date_collection').value : null;
+
+            document.querySelectorAll("#campaign_container select").forEach(item => {
+                window.customSelectArray[item.id].update();
+            });
 
         }
 

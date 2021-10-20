@@ -89,8 +89,9 @@ if(passwordConfirmation) {
 
 }
 
+window.customSelectArray = {};
 window.addEventListener("load", function() {
     document.querySelectorAll(".custom-select").forEach(item => {
-        NiceSelect.bind(item, {searchable: true});
+        window.customSelectArray[item.id] = NiceSelect.bind(item, {searchable: true});
     });
 });

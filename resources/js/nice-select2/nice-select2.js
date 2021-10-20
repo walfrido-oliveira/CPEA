@@ -95,7 +95,7 @@ NiceSelect.prototype.extractData = function() {
     };
 
     var attributes = {
-      selected: item.getAttribute("selected") != null,
+      selected: item.value == this.el.value,
       disabled: item.getAttribute("disabled") != null
     };
 
@@ -428,7 +428,7 @@ NiceSelect.prototype._change = function() {
     this.extractData();
     if (this.dropdown) {
         var open = hasClass(this.dropdown, "open");
-        this.dropdown.parentNode.removeChild(this.dropdown);
+        if(this.dropdown.parentNode) this.dropdown.parentNode.removeChild(this.dropdown);
         this.create();
 
         if (open) {

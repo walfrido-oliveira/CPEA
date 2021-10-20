@@ -30,6 +30,10 @@ class AnalysisResultController extends Controller
             $join->on('guiding_parameters.id', '=', 'project_point_matrices.guiding_parameter_id');
           })->orderBy('environmental_guiding_parameter_id')->distinct()->pluck('environmental_guiding_parameter_id');
 
+        $guidingParametersValues = $order->projectPointMatrices()->leftJoin('guiding_parameters', function($join) {
+            $join->on('guiding_parameters.id', '=', 'project_point_matrices.guiding_parameter_id');
+          })->orderBy('environmental_guiding_parameter_id')->distinct()->pluck('guiding_legislation_value');
+
         $spreadsheet = new Spreadsheet();
 
         $sheet = $spreadsheet->getActiveSheet();
@@ -128,6 +132,8 @@ class AnalysisResultController extends Controller
             {
               $sheet->setCellValueByColumnAndRow(2,  $key + 6, $point->analysisResult()->first()->units);
             }
+
+
             $key++;
         }
 

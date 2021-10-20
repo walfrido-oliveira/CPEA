@@ -1442,6 +1442,11 @@ select {
 	--tw-scale-y: 1;
 	transform: var(--tw-transform);
 }
+.scale-90 {
+	--tw-scale-x: .9;
+	--tw-scale-y: .9;
+	transform: var(--tw-transform);
+}
 .transform {
 	transform: var(--tw-transform);
 }

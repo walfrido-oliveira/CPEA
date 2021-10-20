@@ -41,7 +41,7 @@
                     </div>
                 </div>
 
-                <div class="py-2 my-2 bg-white rounded-lg">
+                <div class="py-2 my-2 bg-white rounded-lg" x-data="campaignShowFields()">
                     <div class="flex md:flex-row flex-col mx-4 px-3 py-2">
                         <div class="w-full flex items-center">
                             <h2 class="">{{ __("Campanha") }}</h2>
@@ -55,18 +55,27 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-wrap mx-4 px-3 py-2">
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="campaign_name" value="{{ __('Nome da Campanha') }}" required />
-                            <x-jet-input id="campaign_name" class="form-control block mt-1 w-full" type="text" name="campaign_name" maxlength="255" autofocus autocomplete="campaign_name"/>
-                        </div>
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="campaign_status" value="{{ __('Status') }}" required/>
-                            <x-custom-select :options="$campaignStatuses" name="campaign_status" id="campaign_status" value="" class="mt-1" no-filter="no-filter"/>
-                        </div>
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="date_collection" value="{{ __('DT/HR da Coleta') }}" required/>
-                            <x-jet-input id="date_collection" class="form-control block mt-1 w-full" type="datetime-local" name="date_collection" maxlength="255" autofocus autocomplete="date_collection"/>
+                    <div id="campaign_container"
+                        x-show="isOpen()"
+                        x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="opacity-0 transform scale-90"
+                        x-transition:enter-end="opacity-100 transform scale-100"
+                        x-transition:leave="transition ease-in duration-300"
+                        x-transition:leave-start="opacity-100 transform scale-100"
+                        x-transition:leave-end="opacity-0 transform scale-90 hidden">
+                        <div class="flex flex-wrap mx-4 px-3 py-2">
+                            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                <x-jet-label for="campaign_name" value="{{ __('Nome da Campanha') }}" required />
+                                <x-jet-input id="campaign_name" class="form-control block mt-1 w-full" type="text" name="campaign_name" maxlength="255" autofocus autocomplete="campaign_name"/>
+                            </div>
+                            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                <x-jet-label for="campaign_status" value="{{ __('Status') }}" required/>
+                                <x-custom-select :options="$campaignStatuses" name="campaign_status" id="campaign_status" value="" class="mt-1" no-filter="no-filter"/>
+                            </div>
+                            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                <x-jet-label for="date_collection" value="{{ __('DT/HR da Coleta') }}" required/>
+                                <x-jet-input id="date_collection" class="form-control block mt-1 w-full" type="datetime-local" name="date_collection" maxlength="255" autofocus autocomplete="date_collection"/>
+                            </div>
                         </div>
                     </div>
                     <div class="flex mt-4">
@@ -80,7 +89,7 @@
                     </div>
                 </div>
 
-                <div class="py-2 my-2 bg-white rounded-lg">
+                <div class="py-2 my-2 bg-white rounded-lg" x-data="pointMatrixShowFields()">
                     <div class="flex md:flex-row flex-col mx-4 px-3 py-2">
                         <div class="w-full flex items-center">
                             <h2 class="">{{ __("Identificação do Ponto/Matriz") }}</h2>
@@ -101,42 +110,51 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-wrap mx-4 px-3 py-2">
-                        <div class="w-full px-3 mb-6 md:mb-0">
-                            <x-jet-label for="campaign_id" value="{{ __('Campanha') }}" required/>
-                            <x-custom-select :options="$campaigns" name="campaign_id" id="campaign_id" value="" class="mt-1" no-filter="no-filter"/>
+                    <div id="point_matrix_container"
+                        x-show="isOpen()"
+                        x-transition:enter="transition ease-out duration-300"
+                        x-transition:enter-start="opacity-0 transform scale-90"
+                        x-transition:enter-end="opacity-100 transform scale-100"
+                        x-transition:leave="transition ease-in duration-300"
+                        x-transition:leave-start="opacity-100 transform scale-100"
+                        x-transition:leave-end="opacity-0 transform scale-90 hidden">
+                        <div class="flex flex-wrap mx-4 px-3 py-2">
+                            <div class="w-full px-3 mb-6 md:mb-0">
+                                <x-jet-label for="campaign_id" value="{{ __('Campanha') }}" required/>
+                                <x-custom-select :options="$campaigns" name="campaign_id" id="campaign_id" value="" class="mt-1" no-filter="no-filter"/>
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex flex-wrap mx-4 px-3 py-2">
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="area" value="{{ __('Área') }}" required />
-                            <x-custom-select :options="$areas" name="areas" id="areas" value="" class="mt-1" no-filter="no-filter"/>
+                        <div class="flex flex-wrap mx-4 px-3 py-2">
+                            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                <x-jet-label for="area" value="{{ __('Área') }}" required />
+                                <x-custom-select :options="$areas" name="areas" id="areas" value="" class="mt-1" no-filter="no-filter"/>
+                            </div>
+                            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                <x-jet-label for="point_identifications" value="{{ __('Identificação Ponto') }}" required/>
+                                <x-custom-select :options="[]" name="point_identifications" id="point_identifications" value="" class="mt-1" no-filter="no-filter"/>
+                            </div>
+                            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                <x-jet-label for="matriz_id" value="{{ __('Matriz') }}"/>
+                                <x-custom-select :options="$matrizeces" name="matriz_id" id="matriz_id" value="" class="mt-1" no-filter="no-filter"/>
+                            </div>
                         </div>
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="point_identifications" value="{{ __('Identificação Ponto') }}" required/>
-                            <x-custom-select :options="[]" name="point_identifications" id="point_identifications" value="" class="mt-1" no-filter="no-filter"/>
+                        <div class="flex flex-wrap mx-4 px-3 py-2">
+                            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                <x-jet-label for="plan_action_level_id" value="{{ __('Tipo Nível Ação Plano') }}"/>
+                                <x-custom-select :options="$planActionLevels" name="plan_action_level_id" id="plan_action_level_id" value="" class="mt-1" no-filter="no-filter"/>
+                            </div>
+                            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                <x-jet-label for="guiding_parameters_id" value="{{ __('Param. Orientador Ambiental') }}"/>
+                                <x-custom-select :options="$guidingParameters" name="guiding_parameters_id" id="guiding_parameters_id" value="" class="mt-1" no-filter="no-filter"/>
+                            </div>
+                            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                <x-jet-label for="analysis_parameter_id" value="{{ __('Param. Análise') }}"/>
+                                <x-custom-select :options="$parameterAnalyses" name="analysis_parameter_id" id="analysis_parameter_id" value="" class="mt-1" no-filter="no-filter"/>
+                            </div>
                         </div>
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="matriz_id" value="{{ __('Matriz') }}"/>
-                            <x-custom-select :options="$matrizeces" name="matriz_id" id="matriz_id" value="" class="mt-1" no-filter="no-filter"/>
-                        </div>
-                    </div>
-                    <div class="flex flex-wrap mx-4 px-3 py-2">
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="plan_action_level_id" value="{{ __('Tipo Nível Ação Plano') }}"/>
-                            <x-custom-select :options="$planActionLevels" name="plan_action_level_id" id="plan_action_level_id" value="" class="mt-1" no-filter="no-filter"/>
-                        </div>
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="guiding_parameters_id" value="{{ __('Param. Orientador Ambiental') }}"/>
-                            <x-custom-select :options="$guidingParameters" name="guiding_parameters_id" id="guiding_parameters_id" value="" class="mt-1" no-filter="no-filter"/>
-                        </div>
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="analysis_parameter_id" value="{{ __('Param. Análise') }}"/>
-                            <x-custom-select :options="$parameterAnalyses" name="analysis_parameter_id" id="analysis_parameter_id" value="" class="mt-1" no-filter="no-filter"/>
-                        </div>
-                    </div>
-                    <div id="point_matrix_fields">
+                        <div id="point_matrix_fields">
 
+                        </div>
                     </div>
                     <div class="flex mt-4">
                         <table id="point_matrix_table" class="table table-responsive md:table w-full">
@@ -158,14 +176,38 @@
              method="DELETE"
              />
 
-    <x-modal title="{{ __('Excluir Projeto') }}"
-    msg="{{ __('Deseja realmente apagar esse Projeto?') }}"
-    confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_project_modal"
-    method="DELETE"
-    url="{{ route('project.destroy', ['project' => $project->id]) }}"
-    redirect-url="{{ route('project.index') }}"
-    confirm_id="project_confirm_id"
-    cancel_modal="project_cancel_modal"/>
+    <x-modal    title="{{ __('Excluir Projeto') }}"
+                msg="{{ __('Deseja realmente apagar esse Projeto?') }}"
+                confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_project_modal"
+                method="DELETE"
+                url="{{ route('project.destroy', ['project' => $project->id]) }}"
+                redirect-url="{{ route('project.index') }}"
+                confirm_id="project_confirm_id"
+                cancel_modal="project_cancel_modal"/>
+
+    <script>
+        function pointMatrixShowFields() {
+            return {
+                show: false,
+                open() {
+                    this.show = true;
+                },
+                close() { this.show = false },
+                isOpen() { return this.show === true },
+            }
+        }
+
+        function campaignShowFields() {
+            return {
+                show: false,
+                open() {
+                    this.show = true;
+                },
+                close() { this.show = false },
+                isOpen() { return this.show === true },
+            }
+        }
+    </script>
 
     <script>
         function eventsDeleteCallback() {

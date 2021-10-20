@@ -247,9 +247,7 @@
         var editPointMatrixAjax = function(event) {
             if(this.dataset.type != 'edit') return;
 
-            if(document.getElementsByClassName('save-point-matrix').length > 0) {
-                return;
-            }
+            if(document.getElementsByClassName('save-point-matrix').length > 0) return;
 
             var id = this.dataset.id;
             var key = this.dataset.row;
@@ -258,6 +256,7 @@
             var url = "{!! route('project.point-matrix.edit-ajax', ['point_matrix' => '#']) !!}".replace('#', id);
             var token = document.querySelector('meta[name="csrf-token"]').content;
             var method = 'POST';
+            var that = this;
 
             ajax.open(method, url);
 
@@ -265,6 +264,7 @@
                 if (this.readyState == 4 && this.status == 200) {
                     var resp = JSON.parse(ajax.response);
                     that.parentElement.innerHTML = resp;
+
                     savePointMatrixCallback();
 
                 } else if (this.readyState == 4 && this.status != 200) {
@@ -397,7 +397,6 @@
             let campaignId = document.getElementById("campaign_id");
 
             clearPointMatrixFields()
-
             areas.value = document.getElementById('point_matrix_'+ row + '_area').value
 
             filterAreas().then(function(result) {
@@ -435,6 +434,10 @@
                     item.value = '';
                     item.value =  field ? field.value : null;
                 });
+            });
+
+            document.querySelectorAll("#point_matrix_container select").forEach(item => {
+                window.customSelectArray[item.id].update();
             });
         }
 

@@ -5061,6 +5061,8 @@ NiceSelect.prototype.processData = function (data) {
 };
 
 NiceSelect.prototype.extractData = function () {
+  var _this = this;
+
   var options = this.el.querySelectorAll("option");
   var data = [];
   var allOptions = [];
@@ -5071,7 +5073,7 @@ NiceSelect.prototype.extractData = function () {
       value: item.value
     };
     var attributes = {
-      selected: item.getAttribute("selected") != null,
+      selected: item.value == _this.el.value,
       disabled: item.getAttribute("disabled") != null
     };
     data.push(itemData);
@@ -5115,11 +5117,11 @@ NiceSelect.prototype._renderSelectedItems = function () {
 };
 
 NiceSelect.prototype._renderItems = function () {
-  var _this = this;
+  var _this2 = this;
 
   var ul = this.dropdown.querySelector("ul");
   this.options.forEach(function (item) {
-    ul.appendChild(_this._renderItem(item));
+    ul.appendChild(_this2._renderItem(item));
   });
 };
 
@@ -5390,7 +5392,7 @@ NiceSelect.prototype._change = function () {
 
   if (this.dropdown) {
     var open = hasClass(this.dropdown, "open");
-    this.dropdown.parentNode.removeChild(this.dropdown);
+    if (this.dropdown.parentNode) this.dropdown.parentNode.removeChild(this.dropdown);
     this.create();
 
     if (open) {
@@ -5505,9 +5507,10 @@ if (passwordConfirmation) {
   });
 }
 
+window.customSelectArray = {};
 window.addEventListener("load", function () {
   document.querySelectorAll(".custom-select").forEach(function (item) {
-    NiceSelect.bind(item, {
+    window.customSelectArray[item.id] = NiceSelect.bind(item, {
       searchable: true
     });
   });
