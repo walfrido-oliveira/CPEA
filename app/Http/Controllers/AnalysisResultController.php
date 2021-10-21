@@ -150,9 +150,6 @@ class AnalysisResultController extends Controller
 
                 if($guidingParametersValue) $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
             }
-
-
-            $sheet->setCellValueByColumnAndRow(2,  $key + 6, $point->analysisResult()->first()->units);
             $key++;
         }
 
