@@ -252,7 +252,6 @@ class ProjectPointMatrixController extends Controller
     public function filter(Request $request)
     {
         $projectPointMatrices = ProjectPointMatrix::filter($request->all());
-        $projectPointMatrices = $projectPointMatrices->setPath('');
         $orderBy = $request->get('order_by');
         $ascending = $request->get('ascending');
         $paginatePerPage = $request->get('paginate_per_page');
@@ -269,8 +268,7 @@ class ProjectPointMatrixController extends Controller
             'filter_result' => view('project.point-matrix-result', compact('projectPointMatrices', 'orderBy', 'ascending'))->render(),
             'point_matrix_result' => view('project.point-matrix.parameter-analysis-result', compact('projectPointMatrices', 'orderBy', 'ascending'))->render(),
             'filter_result_campaign_show' => view('project.campaign.point-matrix-result',
-            compact('projectPointMatrices', 'orderBy', 'ascending',
-            'areas', 'identifications', 'matrizeces',
+            compact('projectPointMatrices', 'orderBy', 'ascending','areas', 'identifications', 'matrizeces',
             'planActionLevels', 'guidingParameters', 'parameterAnalyses', 'geodeticSystems'))->render(),
             'pagination' => $this->setPagination($projectPointMatrices, $orderBy, $ascending, $paginatePerPage),
         ]);
