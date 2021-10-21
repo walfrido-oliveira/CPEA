@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\AnalysisOrder;
 use App\Models\AnalysisResult;
+use App\Models\GuidingParameter;
+use App\Models\GuidingParameterValue;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
@@ -25,14 +27,16 @@ class AnalysisResultController extends Controller
     public function download(Request $request, $id)
     {
         $order = AnalysisOrder::findOrFail($id);
+        $project = $order->campaign->project;
 
-        $guidingParameters = $order->projectPointMatrices()->leftJoin('guiding_parameters', function($join) {
-            $join->on('guiding_parameters.id', '=', 'project_point_matrices.guiding_parameter_id');
-          })->orderBy('environmental_guiding_parameter_id')->distinct()->pluck('environmental_guiding_parameter_id');
-
-        $guidingParametersValues = $order->projectPointMatrices()->leftJoin('guiding_parameters', function($join) {
-            $join->on('guiding_parameters.id', '=', 'project_point_matrices.guiding_parameter_id');
-          })->orderBy('environmental_guiding_parameter_id')->distinct()->pluck('guiding_legislation_value');
+        if($project->guiding_parameter_order && count(explode(",", $project->guiding_parameter_order)))
+        {
+            $guidingParameters = [];
+            foreach (explode(",", $project->guiding_parameter_order) as $key => $value)
+            {
+                $guidingParameters[] = GuidingParameter::find($value)->environmental_guiding_parameter_id;
+            }
+        }
 
         $spreadsheet = new Spreadsheet();
 
@@ -58,9 +62,11 @@ class AnalysisResultController extends Controller
         foreach ($guidingParameters as $key => $value) : $column++; endforeach;
 
         $sheet->setCellValue('C1', 'Valores Orientadores');
+        $sheet->getStyle('C1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyle('C1')->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
         $sheet->getStyle('C1')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
 
-        if(count($guidingParameters) > 1) $sheet->mergeCells('$c1:' . '$' . $column . '1');
+        if(count($guidingParameters) > 1) $sheet->mergeCells('C1:' . $column . '1');
 
         foreach(range($column . "1", $column . "1") as $columnID) : $sheet->getColumnDimension($columnID)->setAutoSize(true); endforeach;
 
@@ -71,6 +77,8 @@ class AnalysisResultController extends Controller
             $sheet->setCellValue($column2 . "2", $value);
             $sheet->getStyle($column2 . "2")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
             $sheet->getStyle($column2 . "2")->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+
+            foreach(range($column2 . "2", $column2 . "2") as $columnID) : $sheet->getColumnDimension($columnID)->setAutoSize(true); endforeach;
 
             $guidingParametersColors[] = sprintf('%06X', mt_rand(0, 0xFFFFFF));
 
@@ -128,12 +136,23 @@ class AnalysisResultController extends Controller
               }
             }
             $sheet->setCellValueByColumnAndRow(1, $key + 6, $point->parameterAnalysis->analysis_parameter_name);
+
             if($point->analysisResult()->first())
             {
               $sheet->setCellValueByColumnAndRow(2,  $key + 6, $point->analysisResult()->first()->units);
             }
 
+            foreach (explode(",", $project->guiding_parameter_order) as $key2 => $value)
+            {
+                $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $value)
+                ->where('parameter_analysis_id', $point->parameterAnalysis->id)
+                ->first();
 
+                if($guidingParametersValue) $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
+            }
+
+
+            $sheet->setCellValueByColumnAndRow(2,  $key + 6, $point->analysisResult()->first()->units);
             $key++;
         }
 
