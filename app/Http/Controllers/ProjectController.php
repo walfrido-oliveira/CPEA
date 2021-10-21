@@ -237,6 +237,23 @@ class ProjectController extends Controller
             'customer_id' => $input['customer_id'],
         ]);
 
+        if(!$project->guiding_parameter_order)
+        {
+            $project->guiding_parameter_order = $project->projectPointMatrices()
+            ->select('guiding_parameters.*')
+            ->whereHas('guidingParameters')
+            ->leftJoin('guiding_parameter_project_point_matrix', function($join) {
+                $join->on('project_point_matrices.id', '=', 'guiding_parameter_project_point_matrix.project_point_matrix_id');
+            })
+            ->leftJoin('guiding_parameters', function($join) {
+                $join->on('guiding_parameters.id', '=', 'guiding_parameter_project_point_matrix.guiding_parameter_id');
+            })
+            ->orderBy('guiding_parameters.id')
+            ->distinct()
+            ->get();
+            $project->save();
+        }
+
         $resp = [
             'message' => __('Projeto Atualizado com Sucesso!'),
             'alert-type' => 'success'
