@@ -184,6 +184,7 @@ class ProjectPointMatrixController extends Controller
         $ascending = $request->has('ascending') ? $request->get('ascending') : 'desc';
         $paginatePerPage = $request->has('paginate_per_page') ? $request->get('paginate_per_page') : 5;
         $projectPointMatrices = $projectPointMatrix->project->projectPointMatrices() ->paginate($paginatePerPage, ['*'], 'project-point-matrices');
+        $projectPointMatrices->withPath(route('project.edit', ['project' => $input['project_id']]));
 
         $areas = PointIdentification::pluck('area', 'area');
         $identifications = PointIdentification::pluck('identification', 'identification');
