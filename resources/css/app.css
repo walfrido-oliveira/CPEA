@@ -317,3 +317,15 @@ input:read-only {
     border-bottom: 0;
     border-left: .3em solid transparent;
 }
+
+.nice-select.has-multiple {
+    height: auto !important;
+    min-height: 41px;
+    @apply p-2;
+}
+
+.nice-select.has-multiple .multiple-options span.current {
+    line-height: 1rem !important;
+    display: block;
+    @apply font-bold mt-1;
+}
