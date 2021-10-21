@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\AnalysisOrder;
 use App\Models\AnalysisResult;
@@ -148,7 +149,25 @@ class AnalysisResultController extends Controller
                 ->where('parameter_analysis_id', $point->parameterAnalysis->id)
                 ->first();
 
-                if($guidingParametersValue) $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
+                if($guidingParametersValue)
+                {
+                   if($guidingParametersValue->guidingValue)
+                   {
+                        if(Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo', 'Qualitativo']))
+                        {
+                            $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
+                        }
+                        if(Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo']))
+                        {
+                            $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6,
+                            $guidingParametersValue->guiding_legislation_value_1.' - '.$guidingParametersValue->guiding_legislation_value_2);
+                        }
+                   }
+                   else
+                   {
+                        $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
+                   }
+                }
             }
             $key++;
         }
