@@ -296,27 +296,25 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
 
-        if($project->guiding_parameter_order)
+        $guidingParameters = $project->projectPointMatrices()
+        ->select('guiding_parameters.*')
+        ->whereHas('guidingParameters')
+        ->leftJoin('guiding_parameter_project_point_matrix', function($join) {
+            $join->on('project_point_matrices.id', '=', 'guiding_parameter_project_point_matrix.project_point_matrix_id');
+        })
+        ->leftJoin('guiding_parameters', function($join) {
+            $join->on('guiding_parameters.id', '=', 'guiding_parameter_project_point_matrix.guiding_parameter_id');
+        })
+        ->orderBy('guiding_parameters.id')
+        ->distinct()
+        ->get();
+
+        if($project->guiding_parameter_order && count(explode(",", $project->guiding_parameter_order)) == count($guidingParameters))
         {
             foreach (explode(",", $project->guiding_parameter_order) as $key => $value)
             {
                 $guidingParameters[] = GuidingParameter::find($value);
             }
-        }
-        else
-        {
-            $guidingParameters = $project->projectPointMatrices()
-            ->select('guiding_parameters.*')
-            ->whereHas('guidingParameters')
-            ->leftJoin('guiding_parameter_project_point_matrix', function($join) {
-                $join->on('project_point_matrices.id', '=', 'guiding_parameter_project_point_matrix.project_point_matrix_id');
-            })
-            ->leftJoin('guiding_parameters', function($join) {
-                $join->on('guiding_parameters.id', '=', 'guiding_parameter_project_point_matrix.guiding_parameter_id');
-            })
-            ->orderBy('guiding_parameters.id')
-            ->distinct()
-            ->get();
         }
 
         return response()->json([
