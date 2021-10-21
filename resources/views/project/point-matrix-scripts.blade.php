@@ -384,7 +384,7 @@
                 });
 
                 document.querySelectorAll("#point_matrix_container select.custom-select").forEach(item => {
-                    window.customSelectArray[item.id].update();
+                    if(window.customSelectArray[item.id]) window.customSelectArray[item.id].update();
                 });
 
             });
