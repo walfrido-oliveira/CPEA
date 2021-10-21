@@ -313,6 +313,7 @@ class ProjectController extends Controller
         {
             foreach (explode(",", $project->guiding_parameter_order) as $key => $value)
             {
+                $guidingParameters = [];
                 $guidingParameters[] = GuidingParameter::find($value);
             }
         }
