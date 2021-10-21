@@ -215,6 +215,6 @@ class ProjectPointMatrix extends Model
         if(isset($query['no-paginate']))
             return $projects->get();
         else
-            return $projects->paginate(0, ['*'], 'project-point-matrices');
+            return $projects->paginate($perPage, ['*'], 'project-point-matrices');
     }
 }

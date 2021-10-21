@@ -125,7 +125,6 @@
 
         var nodes = Array.prototype.slice.call( document.getElementById('list_item').children);
         nodes.forEach(element => {
-            console.log(element);
             order.push(element.dataset.id);
         });
 
