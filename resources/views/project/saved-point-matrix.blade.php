@@ -36,7 +36,7 @@
         <input type="hidden" name="point_matrix[{{ $key }}][guiding_parameter_id]" id="point_matrix_{{ $key }}_guiding_parameter_id"
         value="{{ $projectPointMatrix->guidingParameters ? implode(",", $projectPointMatrix->guidingParameters()->pluck('guiding_parameters.id')->toArray()) : null }}">
         @if ($projectPointMatrix->guidingParameters)
-            {{ implode(",", $projectPointMatrix->guidingParameters()->pluck('environmental_guiding_parameter_id')->toArray()) }}
+            {!! implode("<br/>", $projectPointMatrix->guidingParameters()->pluck('environmental_guiding_parameter_id')->toArray()) !!}
         @endif
     </td>
     <td>
