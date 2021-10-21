@@ -77,22 +77,6 @@
 
         campaignEventsDeleteCallback();
 
-        document.getElementById("point_create").addEventListener("click", function() {
-            var modal = document.getElementById("point_create_modal");
-            modal.classList.remove("hidden");
-            modal.classList.add("block");
-        });
-
-        function close() {
-            var modal = document.getElementById("point_create_modal");
-            modal.classList.add("hidden");
-            modal.classList.remove("block");
-        }
-
-        document.getElementById("point_cancel_modal").addEventListener("click", function(e) {
-            close();
-        });
-
         var ascendingCampaign = "asc";
         var orderByCampaign = 'name';
 

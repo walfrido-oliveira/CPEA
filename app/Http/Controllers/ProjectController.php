@@ -127,8 +127,6 @@ class ProjectController extends Controller
                     'campaign_id' => $point['campaign_id'],
                     'point_identification_id' => $point['point_identification_id'],
                     'analysis_matrix_id' => $point['analysis_matrix_id'],
-                    'plan_action_level_id' => $point['plan_action_level_id'],
-                    'guiding_parameter_id' => $point['guiding_parameter_id'],
                     'parameter_analysis_id' => $point['parameter_analysis_id']
                 ]);
             }
@@ -201,7 +199,6 @@ class ProjectController extends Controller
         $areas = PointIdentification::pluck('area', 'area');
         $identifications = PointIdentification::pluck('identification', 'identification');
         $matrizeces = AnalysisMatrix::pluck('name', 'id');
-        $planActionLevels = PlanActionLevel::pluck('name', 'id');
         $guidingParameters = GuidingParameter::pluck('environmental_guiding_parameter_id', 'id');
         $parameterAnalyses = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
         $geodeticSystems = GeodeticSystem::pluck("name", "id");
@@ -218,7 +215,7 @@ class ProjectController extends Controller
         ->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'campaigns')->appends(request()->input());
 
         return view('project.duplicate', compact('project','customers', 'areas', 'identifications', 'campaignStatuses', 'projectCampaigns',
-        'matrizeces', 'planActionLevels', 'guidingParameters', 'parameterAnalyses', 'projectPointMatrices', 'geodeticSystems',
+        'matrizeces', 'guidingParameters', 'parameterAnalyses', 'projectPointMatrices', 'geodeticSystems',
         'pointMatrices', 'campaigns'));
     }
 
@@ -246,6 +243,58 @@ class ProjectController extends Controller
         ];
 
         return redirect()->route('project.index')->with($resp);
+    }
+
+    /**
+     * Update order
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateOrder(Request $request, $id)
+    {
+        $project = Project::findOrFail($id);
+
+        $input = $request->all();
+
+        $project->update([
+            'guiding_parameter_order' => isset($input['order']) ? $input['order'] : null
+        ]);
+
+        return response()->json([
+            'message' => __('Projeto Atualizado com Sucesso!'),
+            'alert-type' => 'success'
+        ]);
+    }
+
+    /**
+     * Update order
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getOrder(Request $request, $id)
+    {
+        $project = Project::findOrFail($id);
+
+        $guidingParameters = $project->projectPointMatrices()
+        ->select('guiding_parameters.*')
+        ->whereHas('guidingParameters')
+        ->leftJoin('guiding_parameter_project_point_matrix', function($join) {
+            $join->on('project_point_matrices.id', '=', 'guiding_parameter_project_point_matrix.project_point_matrix_id');
+        })
+        ->leftJoin('guiding_parameters', function($join) {
+            $join->on('guiding_parameters.id', '=', 'guiding_parameter_project_point_matrix.guiding_parameter_id');
+        })
+        ->orderBy('guiding_parameters.id')
+        ->distinct()
+        ->get();
+
+        return response()->json([
+            'guiding_parameters' => view('project.guiding-parameter-list', compact('guidingParameters'))->render(),
+        ]);
     }
 
     /**

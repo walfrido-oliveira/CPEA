@@ -18,6 +18,7 @@ class CreateProjectsTable extends Migration
 
             $table->string('project_cod');
             $table->foreignId('customer_id')->nullable()->constrained()->nullOnDelete();
+            $table->text('guiding_parameter_order')->nullable();
             $table->string('status');
 
             $table->timestamps();
