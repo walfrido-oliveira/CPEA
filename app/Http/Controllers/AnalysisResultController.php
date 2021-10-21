@@ -171,6 +171,7 @@ class AnalysisResultController extends Controller
                    }
                    $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                    $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+                   $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB($guidingParametersColors[$key2]);
                 }
             }
             $key++;
