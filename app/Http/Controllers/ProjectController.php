@@ -239,7 +239,7 @@ class ProjectController extends Controller
 
         if(!$project->guiding_parameter_order)
         {
-            $project->guiding_parameter_order = $project->projectPointMatrices()
+            $project->guiding_parameter_order = implode(",", $project->projectPointMatrices()
             ->select('guiding_parameters.*')
             ->whereHas('guidingParameters')
             ->leftJoin('guiding_parameter_project_point_matrix', function($join) {
@@ -250,7 +250,7 @@ class ProjectController extends Controller
             })
             ->orderBy('guiding_parameters.id')
             ->distinct()
-            ->get();
+            ->pluck('guiding_parameters.id')->toArray());
             $project->save();
         }
 

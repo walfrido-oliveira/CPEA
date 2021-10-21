@@ -175,7 +175,7 @@ class ProjectPointMatrixController extends Controller
             ]);
         }
 
-        $projectPointMatrix->guidingParameters()->sync(explode(",", $input['guiding_parameter_id']));
+        $projectPointMatrix->guidingParameters()->sync(array_diff(explode(",", $input['guiding_parameter_id']), array("")));
 
         $id = $projectPointMatrix->id;
         $className = 'edit-point-matrix';
