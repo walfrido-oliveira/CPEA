@@ -92,7 +92,7 @@ class AnalysisResultController extends Controller
         $column++;
         $projectPointMatrices = $order->projectPointMatrices;
 
-        foreach ($projectPointMatrices->groupBy('point_identification_id') as $key => $point)
+        foreach ($projectPointMatrices()->groupBy('point_identification_id')->get() as $key => $point)
         {
             $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1, $point->pointIdentification->area . "-" . $point->pointIdentification->identification);
 
