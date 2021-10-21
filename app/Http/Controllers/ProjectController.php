@@ -311,9 +311,9 @@ class ProjectController extends Controller
 
         if($project->guiding_parameter_order && count(explode(",", $project->guiding_parameter_order)) == count($guidingParameters))
         {
+            $guidingParameters = [];
             foreach (explode(",", $project->guiding_parameter_order) as $key => $value)
             {
-                $guidingParameters = [];
                 $guidingParameters[] = GuidingParameter::find($value);
             }
         }
