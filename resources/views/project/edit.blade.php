@@ -56,7 +56,7 @@
                         </div>
                     </div>
                     <div id="campaign_container"
-                        x-show="isOpen()"
+                        x-show="isOpen() || true"
                         x-transition:enter="transition ease-out duration-300"
                         x-transition:enter-start="opacity-0 transform scale-90"
                         x-transition:enter-end="opacity-100 transform scale-100"
