@@ -92,7 +92,7 @@ class AnalysisResultController extends Controller
         $column++;
         $projectPointMatrices = $order->projectPointMatrices;
 
-        foreach ($projectPointMatrices as $key => $point)
+        foreach ($projectPointMatrices->groupBy('point_identification_id') as $key => $point)
         {
             $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1, $point->pointIdentification->area . "-" . $point->pointIdentification->identification);
 
@@ -104,6 +104,7 @@ class AnalysisResultController extends Controller
                 $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2, $point->analysisResult()->first()->sampdate->format('d/m/Y'));
                 $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 3, $point->analysisResult()->first()->sampdate->format('h:m:i'));
                 $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4, $point->analysisResult()->first()->labsampid);
+                $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4, $point->analysisResult()->first()->result);
 
                 $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
