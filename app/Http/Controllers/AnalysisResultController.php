@@ -140,7 +140,9 @@ class AnalysisResultController extends Controller
 
             if($point->analysisResult()->first())
             {
-              $sheet->setCellValueByColumnAndRow(2,  $key + 6, $point->analysisResult()->first()->units);
+                $sheet->setCellValueByColumnAndRow(2,  $key + 6, $point->analysisResult()->first()->units);
+                $sheet->getStyleByColumnAndRow(2,  $key + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $sheet->getStyleByColumnAndRow(2,  $key + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
             }
 
             foreach (explode(",", $project->guiding_parameter_order) as $key2 => $value)
@@ -167,6 +169,7 @@ class AnalysisResultController extends Controller
                    {
                         $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
                    }
+                   $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
                 }
             }
             $key++;
