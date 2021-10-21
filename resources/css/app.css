@@ -4,6 +4,10 @@
 @import '../../node_modules/toastr/build/toastr.min.css';
 @import 'nice-select2/nice-select2.css';
 
+html {
+    scroll-behavior: smooth;
+}
+
 main {
     background-color: #ecf0f5;
 }

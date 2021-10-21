@@ -58,9 +58,33 @@ class CampaignController extends Controller
         $className = 'save-campaign';
         $id = $projectCampaign->id;
 
-        return response()->json(view('project.save-icon',
+        return response()->json(view('project.save-campaign-icon',
         compact('key', 'projectCampaign', 'className', 'id'))
         ->render());
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function cancel(Request $request, $id)
+    {
+        $input = $request->all();
+
+        $projectCampaign = Campaign::find($id);
+        $id = $projectCampaign->id;
+        $className = 'edit-campaign';
+        $key = $input['key'];
+        $actions = 'show';
+
+        $resp = [
+            'campaign' => view('project.saved-campaign', compact('projectCampaign', 'key', 'id', 'className', 'actions'))->render(),
+        ];
+
+        return response()->json($resp);
     }
 
     /**
@@ -105,7 +129,7 @@ class CampaignController extends Controller
         }
 
         $id = $projectCampaign->id;
-        $className = 'edit-point-matrix';
+        $className = 'edit-campaign';
         $actions = 'show';
         $orderBy = $request->has('order_by') ?  $request->get('order_by') : 'id';
         $ascending = $request->has('ascending') ? $request->get('ascending') : 'desc';

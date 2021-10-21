@@ -57,7 +57,7 @@ class ProjectPointMatrixController extends Controller
         $className = 'save-point-matrix';
         $id = $projectPointMatrix->id;
 
-        return response()->json(view('project.save-icon',
+        return response()->json(view('project.save-point-matrix-icon',
         compact('key', 'projectPointMatrix', 'className', 'id'))
         ->render());
     }
@@ -202,6 +202,29 @@ class ProjectPointMatrixController extends Controller
             compact('projectPointMatrix', 'key', 'id', 'className', 'areas', 'identifications', 'matrizeces',
                     'planActionLevels', 'guidingParameters', 'parameterAnalyses', 'geodeticSystems'))->render(),
             'pagination' => $this->setPagination($projectPointMatrices, $orderBy, $ascending, $paginatePerPage),
+        ];
+
+        return response()->json($resp);
+    }
+
+     /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function cancel(Request $request, $id)
+    {
+        $input = $request->all();
+
+        $projectPointMatrix = ProjectPointMatrix::find($id);
+        $id = $projectPointMatrix->id;
+        $className = 'edit-point-matrix';
+        $key = $input['key'];
+
+        $resp = [
+            'point_matrix' => view('project.saved-point-matrix', compact('projectPointMatrix', 'key', 'id', 'className'))->render(),
         ];
 
         return response()->json($resp);

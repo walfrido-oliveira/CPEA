@@ -202,6 +202,9 @@
                     that.parentElement.innerHTML = resp;
 
                     savePointMatrixCallback();
+                    document.querySelectorAll(".cancel-point-matrix").forEach(item => {
+                        item.addEventListener("click", cancelPointMatrix, false);
+                    });
 
                 } else if (this.readyState == 4 && this.status != 200) {
                     toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
@@ -260,6 +263,7 @@
                     deletePointIdentificationCallback();
                     eventsDeleteCallback();
                     editPointMatrixCallback();
+                    clearPointMatrixFields();
 
                 } else if (this.readyState == 4 && this.status != 200) {
                     var resp = JSON.parse(ajax.response);
@@ -402,6 +406,10 @@
             matriz.value = '';
             guidingParameter.value = '';
             analysisParameter.value = '';
+
+            document.querySelectorAll("#point_matrix_container select.custom-select").forEach(item => {
+                window.customSelectArray[item.id].update();
+            });
         }
 
         document.getElementById('confirm_modal').addEventListener('resp', function(e) {
@@ -535,6 +543,45 @@
                 ajax.send(data);
 
             });
+        }
+
+        function cancelPointMatrix() {
+            let id = this.dataset.id;
+            let key = this.dataset.row ? this.dataset.row : document.querySelectorAll('.point-matrix-row').length;
+            let that = this;
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('project.point-matrix.cancel', ['point_matrix' => '#']) !!}".replace('#', id);
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+
+                    if(id > 0) {
+                        that.parentElement.parentElement.parentElement.innerHTML = resp.point_matrix;
+                    } else {
+                        document.getElementById("point_matrix_table_content").insertAdjacentHTML('beforeend', resp.point_matrix);
+                    }
+
+                    eventsFilterCallback();
+                    selectAllPointMatrices();
+                    deletePointIdentificationCallback();
+                    eventsDeleteCallback();
+                    editPointMatrixCallback();
+                    clearPointMatrixFields();
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('id', id);
+            data.append('key', key);
+
+            ajax.send(data);
         }
     });
 </script>

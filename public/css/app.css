@@ -2391,6 +2391,9 @@ button.toast-close-button{padding:0;cursor:pointer;background:0 0;border:0;-webk
   height: auto;
   outline: 0 !important;
   font-size: 14px; }
+html {
+    scroll-behavior: smooth;
+}
 main {
     background-color: #ecf0f5;
 }

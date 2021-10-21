@@ -99,6 +99,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::post('/list/{project}', [ProjectPointMatrixController::class, 'getPointMatricesByProject'])->name('get-point-matrices-by-project');
             Route::post('/fields/{analysis_matrix}', [ProjectPointMatrixController::class, 'getFields'])->name('get-fields');
             Route::get('/analysis/{campaign}', [ProjectPointMatrixController::class, 'analysis'])->name('analysis');
+            Route::post('/cancel/{point_matrix}', [ProjectPointMatrixController::class, 'cancel'])->name('cancel');
         });
 
         Route::resource('campanha', CampaignController::class, [
@@ -112,6 +113,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::post('/edit-ajax/{campaign}', [CampaignController::class, 'editAjax'])->name('edit-ajax');
             Route::post('/duplicate/{campaign}', [CampaignController::class, 'duplicate'])->name('duplicate');
             Route::post('/list/{project}', [CampaignController::class, 'getCampaignByProject'])->name('get-campaign-by-project');
+            Route::post('/cancel/{campaign}', [CampaignController::class, 'cancel'])->name('cancel');
         });
     });
 

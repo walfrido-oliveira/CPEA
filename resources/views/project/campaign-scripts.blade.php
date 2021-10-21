@@ -159,6 +159,10 @@
                 if (this.readyState == 4 && this.status == 200) {
                     var resp = JSON.parse(ajax.response);
                     that.parentElement.innerHTML = resp;
+
+                    document.querySelectorAll(".cancel-campaign").forEach(item => {
+                        item.addEventListener("click", cancelCampaign, false);
+                    });
                     saveCampaignCallback();
 
                 } else if (this.readyState == 4 && this.status != 200) {
@@ -175,7 +179,10 @@
             ajax.send(data);
         }
 
+        var campaign = document.getElementById("campaign_id");
+
         var saveCampaignAjax = function(event) {
+            if(!this.dataset) return;
             if(this.dataset.type != 'save') return;
 
             let id = this.dataset.id;
@@ -220,6 +227,8 @@
                     deleteCampaignCallback();
                     campaignEventsDeleteCallback();
                     editCampaignCallback();
+                    clearCampaignFields();
+
                 } else if (this.readyState == 4 && this.status != 200) {
                     var resp = JSON.parse(ajax.response);
                     var obj = resp;
@@ -297,6 +306,59 @@
         }
 
         document.getElementById('confirm_modal').addEventListener('resp', campaignOrderByCallback, false);
+
+        function clearCampaignFields() {
+            let campaignName = document.getElementById("campaign_name");
+            let campaignStatus = document.getElementById("campaign_status");
+            let dateCollection = document.getElementById("date_collection");
+
+            campaignName.value = '';
+            campaignStatus.value = '';
+            dateCollection.value = '';
+
+            document.querySelectorAll("#campaign_container select.custom-select").forEach(item => {
+                window.customSelectArray[item.id].update();
+            });
+        }
+
+        function cancelCampaign() {
+            let id = this.dataset.id;
+            let key = this.dataset.row ? this.dataset.row : document.querySelectorAll('.campaign-row').length;
+            let that = this;
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('project.campaign.cancel', ['campaign' => '#']) !!}".replace('#', id);
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+
+                    if(id > 0) {
+                        that.parentElement.parentElement.parentElement.innerHTML = resp.campaign;
+                    } else {
+                        document.getElementById("campaign_table_content").insertAdjacentHTML('beforeend', resp.campaign);
+                    }
+
+                    campaignEventsFilterCallback();
+                    selectAllCampaigns();
+                    deleteCampaignCallback();
+                    campaignEventsDeleteCallback();
+                    editCampaignCallback();
+                    clearCampaignFields();
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('id', id);
+            data.append('key', key);
+
+            ajax.send(data);
+        }
 
     });
 </script>
