@@ -5035,13 +5035,13 @@ function NiceSelect(element, options) {
 
 NiceSelect.prototype.create = function () {
   this.el.style.display = "none";
-
-  if (this.data) {
+  /*if (this.data) {
     this.processData(this.data);
   } else {
     this.extractData();
-  }
+  }*/
 
+  this.extractData();
   this.renderDropdown();
   this.bindEvent();
 };
@@ -5236,6 +5236,13 @@ NiceSelect.prototype._onItemClicked = function (option, e) {
       if (!hasClass(optionEl, "selected")) {
         addClass(optionEl, "selected");
         this.selectedOptions.push(option);
+      } else {
+        removeClass(optionEl, "selected");
+        var temp = [];
+        this.selectedOptions.forEach(function (item) {
+          if (item.data.value != option.data.value) temp.push(item);
+        });
+        this.selectedOptions = temp;
       }
     } else {
       this.selectedOptions.forEach(function (item) {
@@ -5252,11 +5259,19 @@ NiceSelect.prototype._onItemClicked = function (option, e) {
 };
 
 NiceSelect.prototype.updateSelectValue = function () {
+  var _this3 = this;
+
   if (this.multiple) {
     var elValue = this.el;
-    this.selectedOptions.forEach(function (item) {
-      var el = elValue.querySelector('option[value="' + item.data.value + '"]');
-      if (el) el.setAttribute("selected", true);
+    elValue.querySelectorAll('option').forEach(function (item) {
+      item.selected = false;
+    });
+    elValue.querySelectorAll('option').forEach(function (item2) {
+      _this3.selectedOptions.forEach(function (item) {
+        if (item.data.value == item2.value) item2.selected = true; //var el = elValue.querySelector('option[value="' + item.data.value + '"]');
+        //if(elValue.id='guiding_parameters_id' && el) console.log(el);
+        //if (el) el.selected = true;
+      });
     });
   } else if (this.selectedOptions.length > 0) {
     this.el.value = this.selectedOptions[0].data.value;

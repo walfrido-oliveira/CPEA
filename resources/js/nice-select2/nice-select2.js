@@ -58,19 +58,20 @@ function NiceSelect(element, options) {
 NiceSelect.prototype.create = function() {
   this.el.style.display = "none";
 
-  if (this.data) {
+  /*if (this.data) {
     this.processData(this.data);
   } else {
     this.extractData();
-  }
+  }*/
 
+  this.extractData();
   this.renderDropdown();
   this.bindEvent();
 };
 
 NiceSelect.prototype.processData = function(data) {
   var options = [];
-  data.forEach(function(item) {
+   data.forEach(function(item) {
     options.push({
       data: item,
       attributes: {
@@ -174,7 +175,7 @@ NiceSelect.prototype._renderItem = function(option) {
 
   var classList = [
     "option",
-    option.attributes.selected ? "selected" : null,
+    (option.attributes.selected ) ? "selected" : null,
     option.attributes.disabled ? "disabled" : null
   ];
 
@@ -279,7 +280,16 @@ NiceSelect.prototype._onItemClicked = function(option, e) {
       if (!hasClass(optionEl, "selected")) {
         addClass(optionEl, "selected");
         this.selectedOptions.push(option);
+      }else {
+        removeClass(optionEl, "selected");
+        let temp = [];
+        this.selectedOptions.forEach(item => {
+            if(item.data.value != option.data.value) temp.push(item);
+        });
+
+        this.selectedOptions = temp;
       }
+
     } else {
       this.selectedOptions.forEach(function(item) {
         removeClass(item.element, "selected");
@@ -297,13 +307,24 @@ NiceSelect.prototype._onItemClicked = function(option, e) {
 NiceSelect.prototype.updateSelectValue = function() {
   if (this.multiple) {
     var elValue = this.el;
-    this.selectedOptions.forEach(function(item) {
-      var el = elValue.querySelector('option[value="' + item.data.value + '"]');
-      if (el) el.setAttribute("selected", true);
+
+    elValue.querySelectorAll('option').forEach(item => {
+        item.selected = false;
     });
+
+    elValue.querySelectorAll('option').forEach(item2 => {
+        this.selectedOptions.forEach(function(item) {
+            if(item.data.value == item2.value) item2.selected = true;
+            //var el = elValue.querySelector('option[value="' + item.data.value + '"]');
+            //if(elValue.id='guiding_parameters_id' && el) console.log(el);
+            //if (el) el.selected = true;
+        });
+    });
+
   } else if (this.selectedOptions.length > 0) {
     this.el.value = this.selectedOptions[0].data.value;
   }
+
   triggerChange(this.el);
 };
 

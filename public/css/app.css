@@ -3116,7 +3116,6 @@ input:read-only {
     line-height: 1rem !important;
     display: block;
     margin-top: 0.25rem;
-    font-weight: 700;
 }
 .hover\:border-gray-300:hover {
 	--tw-border-opacity: 1;
