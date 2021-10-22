@@ -168,6 +168,9 @@ class AnalysisResultController extends Controller
         $sheet->getStyleByColumnAndRow(2, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
         $key = 0;
 
+        $groupParameterAnalysis = [];
+        $parameterAnalysis = [];
+
         foreach ($projectPointMatrices->sortByDesc('parameter_analysis_id') as $index => $point)
         {
             if($index > 0)
@@ -175,49 +178,59 @@ class AnalysisResultController extends Controller
               if ($projectPointMatrices[$index]->parameterAnalysis->parameter_analysis_group_id !=
                   $projectPointMatrices[$index - 1]->parameterAnalysis->parameter_analysis_group_id)
               {
-                  $sheet->setCellValueByColumnAndRow(1,  $key + 6, $point->parameterAnalysis->parameterAnalysisGroup->name);
-                  $sheet->getStyleByColumnAndRow(1,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
-                  $sheet->getStyleByColumnAndRow(2,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
-                  $key++;
+                  if(!in_array($point->parameterAnalysis->parameterAnalysisGroup->name, $groupParameterAnalysis))
+                  {
+                    $sheet->setCellValueByColumnAndRow(1,  $key + 6, $point->parameterAnalysis->parameterAnalysisGroup->name);
+                    $groupParameterAnalysis[] = $point->parameterAnalysis->parameterAnalysisGroup->name;
+
+                    $sheet->getStyleByColumnAndRow(1,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+                    $sheet->getStyleByColumnAndRow(2,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+                    $key++;
+                  }
               }
             }
-            $sheet->setCellValueByColumnAndRow(1, $key + 6, $point->parameterAnalysis->analysis_parameter_name);
 
-            if($point->analysisResult()->first())
+            if(!in_array($point->parameterAnalysis->analysis_parameter_name, $parameterAnalysis))
             {
-                $sheet->setCellValueByColumnAndRow(2,  $key + 6, $point->analysisResult()->first()->units);
-                $sheet->getStyleByColumnAndRow(2,  $key + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                $sheet->getStyleByColumnAndRow(2,  $key + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-            }
+              $sheet->setCellValueByColumnAndRow(1, $key + 6, $point->parameterAnalysis->analysis_parameter_name);
+              $parameterAnalysis[] = $point->parameterAnalysis->analysis_parameter_name;
 
-            foreach (explode(",", $project->guiding_parameter_order) as $key2 => $value)
-            {
-                $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $value)
-                ->where('parameter_analysis_id', $point->parameterAnalysis->id)
-                ->first();
+              if($point->analysisResult()->first())
+              {
+                  $sheet->setCellValueByColumnAndRow(2,  $key + 6, $point->analysisResult()->first()->units);
+                  $sheet->getStyleByColumnAndRow(2,  $key + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                  $sheet->getStyleByColumnAndRow(2,  $key + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+              }
 
-                if($guidingParametersValue)
-                {
-                   if($guidingParametersValue->guidingValue)
-                   {
-                        if(Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo', 'Qualitativo']))
-                        {
-                            $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
-                        }
-                        if(Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo']))
-                        {
-                            $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6,
-                            $guidingParametersValue->guiding_legislation_value_1.' - '.$guidingParametersValue->guiding_legislation_value_2);
-                        }
-                   }
-                   else
-                   {
-                        $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
-                   }
-                   $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                   $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-                   $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB($guidingParametersColors[$key2]);
-                }
+              foreach (explode(",", $project->guiding_parameter_order) as $key2 => $value)
+              {
+                  $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $value)
+                  ->where('parameter_analysis_id', $point->parameterAnalysis->id)
+                  ->first();
+
+                  if($guidingParametersValue)
+                  {
+                    if($guidingParametersValue->guidingValue)
+                    {
+                          if(Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo', 'Qualitativo']))
+                          {
+                              $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
+                          }
+                          if(Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo']))
+                          {
+                              $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6,
+                              $guidingParametersValue->guiding_legislation_value_1.' - '.$guidingParametersValue->guiding_legislation_value_2);
+                          }
+                    }
+                    else
+                    {
+                          $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
+                    }
+                    $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                    $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+                    $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB($guidingParametersColors[$key2]);
+                  }
+              }
             }
             $key++;
         }
