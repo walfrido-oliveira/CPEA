@@ -106,20 +106,20 @@ class AnalysisResultController extends Controller
             $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1, $value);
         }
 
-        foreach ($projectPointMatrices as $key => $point)
+        foreach ($projectPointMatrices as $index => $point)
         {
             if($index > 0)
             {
               if ($projectPointMatrices[$index]->parameterAnalysis->parameter_analysis_group_id !=
                   $projectPointMatrices[$index - 1]->parameterAnalysis->parameter_analysis_group_id)
               {
-                  $key++;
+                  $index++;
               }
             }
 
             if($point->analysisResult()->first())
             {
-                $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1, 5 + 1, $point->analysisResult()->first()->result);
+                $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1, 6 + $index, $point->analysisResult()->first()->result);
             }
         }
 
