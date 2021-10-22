@@ -156,9 +156,9 @@ class AnalysisResultController extends Controller
 
             if($point->analysisResult()->first())
             {
-                $sheet->setCellValueByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $key, $point->analysisResult()->first()->result);
-                $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $key)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $key)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+                $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1, 6 + $key, $point->analysisResult()->first()->result);
+                $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1, 6 + $key)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1, 6 + $key)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
             }
             $key++;
         }
