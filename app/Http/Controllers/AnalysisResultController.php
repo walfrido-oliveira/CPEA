@@ -136,6 +136,7 @@ class AnalysisResultController extends Controller
             $key++;
         }
 
+        $key = 0;
         foreach ($projectPointMatrices as $index => $point)
         {
             if($index > 0)
@@ -143,16 +144,17 @@ class AnalysisResultController extends Controller
               if ($projectPointMatrices[$index]->parameterAnalysis->parameter_analysis_group_id !=
                   $projectPointMatrices[$index - 1]->parameterAnalysis->parameter_analysis_group_id)
               {
-                  $index++;
+                  $key++;
               }
             }
 
             if($point->analysisResult()->first())
             {
-                $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1, 6 + $index, $point->analysisResult()->first()->result);
-                $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+                $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1, 6 + $key, $point->analysisResult()->first()->result);
+                $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1, 6 + $key)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1, 6 + $key)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
             }
+            $key++;
         }
 
         $sheet->setCellValueByColumnAndRow(1, 5, $projectPointMatrices[0]->parameterAnalysis->parameterAnalysisGroup->name);
