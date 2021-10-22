@@ -156,9 +156,9 @@ class AnalysisResultController extends Controller
 
             if($point->analysisResult()->first())
             {
-                $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1, 6 + $key, $point->analysisResult()->first()->result);
-                $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1, 6 + $key)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1, 6 + $key)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+                $sheet->setCellValueByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $key, $point->analysisResult()->first()->result);
+                $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $key)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $key)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
             }
             $key++;
         }
@@ -168,7 +168,7 @@ class AnalysisResultController extends Controller
         $sheet->getStyleByColumnAndRow(2, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
         $key = 0;
 
-        foreach ($projectPointMatrices as $index => $point)
+        foreach ($projectPointMatrices->sortByDesc('point_identification_id') as $index => $point)
         {
             if($index > 0)
             {
