@@ -266,7 +266,7 @@ class AnalysisResultController extends Controller
                 $q->where('parameter_analyses.cas_rn', $value[21]);
             })->whereHas('pointIdentification', function($q) use($pointIdentifciation) {
                 $q->where('point_identifications.area', $pointIdentifciation[0])
-                  ->where('point_identifications.identification', 'like', $pointIdentifciation[1]);
+                  ->where('point_identifications.identification', $pointIdentifciation[1]);
             })
             ->first();
 
