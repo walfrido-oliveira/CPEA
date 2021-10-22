@@ -120,36 +120,46 @@ class AnalysisResultController extends Controller
             $sheet->getColumnDimensionByColumn(2 + count($guidingParameters) + 1  + $key)->setAutoSize(true);
         }
 
+        $groupParameterAnalysis = [];
+        $parameterAnalysis = [];
+        $column = 0;
+        $key = 0;
+        $index = 0;
+
+        $projectPointMatrices = $order->projectPointMatrices()
+        ->with('pointIdentification')
+        ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+        ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+        ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
+        ->orderBy('parameter_analysis_groups.name', 'asc')
+        ->select('project_point_matrices.*')
+        ->get();
+
         $sheet->setCellValueByColumnAndRow(1, 5, $projectPointMatrices[0]->parameterAnalysis->parameterAnalysisGroup->name);
         $groupParameterAnalysis[] = $projectPointMatrices[0]->parameterAnalysis->parameterAnalysisGroup->name;
         $sheet->getStyleByColumnAndRow(1, 5)->getFill() ->setFillType(Fill::FILL_SOLID) ->getStartColor()->setRGB('C0C0C0');
         $sheet->getStyleByColumnAndRow(2, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
-        $key = 0;
 
-        $groupParameterAnalysis = [];
-        $parameterAnalysis = [];
-        $column = 0;
-
-        foreach ($projectPointMatrices->sortByDesc('parameter_analysis_id') as $index => $point)
+        foreach ($projectPointMatrices as $point)
         {
             if($index > 0)
             {
               if ($projectPointMatrices[$index]->parameterAnalysis->parameter_analysis_group_id !=
                   $projectPointMatrices[$index - 1]->parameterAnalysis->parameter_analysis_group_id)
-              {
-                  if(!in_array($point->parameterAnalysis->parameterAnalysisGroup->name, $groupParameterAnalysis))
-                  {
-                    $sheet->setCellValueByColumnAndRow(1,  $key + 6, $point->parameterAnalysis->parameterAnalysisGroup->name);
-                    $groupParameterAnalysis[] = $point->parameterAnalysis->parameterAnalysisGroup->name;
+                {
+                if(!in_array($point->parameterAnalysis->parameterAnalysisGroup->name, $groupParameterAnalysis))
+                {
+                $sheet->setCellValueByColumnAndRow(1,  $key + 6, $point->parameterAnalysis->parameterAnalysisGroup->name);
+                $groupParameterAnalysis[] = $point->parameterAnalysis->parameterAnalysisGroup->name;
 
-                    $sheet->getStyleByColumnAndRow(1,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
-                    $sheet->getStyleByColumnAndRow(2,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
-                    $key++;
-                  }
+                $sheet->getStyleByColumnAndRow(1,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+                $sheet->getStyleByColumnAndRow(2,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+                $key++;
+                }
               }
             }
 
-            if(!in_array($point->parameterAnalysis->analysis_parameter_name, $parameterAnalysis))
+            if(!in_array($point->parameterAnalysis->analysis_parameter_name, $parameterAnalysis) || $index == 0)
             {
               $sheet->setCellValueByColumnAndRow(1, $key + 6, $point->parameterAnalysis->analysis_parameter_name);
               $parameterAnalysis[] = $point->parameterAnalysis->analysis_parameter_name;
@@ -169,35 +179,36 @@ class AnalysisResultController extends Controller
 
               foreach (explode(",", $project->guiding_parameter_order) as $key2 => $value)
               {
-                  $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $value)
-                  ->where('parameter_analysis_id', $point->parameterAnalysis->id)
-                  ->first();
+                $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $value)
+                ->where('parameter_analysis_id', $point->parameterAnalysis->id)
+                ->first();
 
-                  if($guidingParametersValue)
-                  {
-                    if($guidingParametersValue->guidingValue)
+                if($guidingParametersValue)
+                {
+                if($guidingParametersValue->guidingValue)
+                {
+                    if(Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo', 'Qualitativo']))
                     {
-                          if(Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo', 'Qualitativo']))
-                          {
-                              $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
-                          }
-                          if(Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo']))
-                          {
-                              $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6,
-                              $guidingParametersValue->guiding_legislation_value_1.' - '.$guidingParametersValue->guiding_legislation_value_2);
-                          }
+                    $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
                     }
-                    else
+                    if(Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo']))
                     {
-                          $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
+                    $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6,
+                    $guidingParametersValue->guiding_legislation_value_1.' - '.$guidingParametersValue->guiding_legislation_value_2);
                     }
-                    $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                    $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-                    $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB($guidingParametersColors[$key2]);
-                  }
+                }
+                else
+                {
+                    $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
+                }
+                $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+                $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB($guidingParametersColors[$key2]);
+                }
               }
               $key++;
             }
+            $index++;
         }
 
         $writer = new Xls($spreadsheet);

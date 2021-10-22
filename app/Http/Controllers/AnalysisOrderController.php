@@ -22,7 +22,14 @@ class AnalysisOrderController extends Controller
     public function show($id)
     {
         $analysisOrder = AnalysisOrder::findOrFail($id);
-        $projectPointMatrices  = $analysisOrder->projectPointMatrices;
+        $projectPointMatrices  = $analysisOrder->projectPointMatrices()
+        ->with('pointIdentification')
+        ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+        ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+        ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
+        ->orderBy('parameter_analysis_groups.name', 'asc')
+        ->select('project_point_matrices.*')
+        ->get();
         $campaign = $analysisOrder->campaign;
 
         return view('analysis-order.show', compact('analysisOrder', 'projectPointMatrices', 'campaign'));
