@@ -94,7 +94,7 @@ class AnalysisResultController extends Controller
         $pointIdentification = [];
         $dataResults = [];
 
-        foreach ($projectPointMatrices as $key => $point)
+        foreach ($projectPointMatrices->sortByDesc('point_identification_id') as $key => $point)
         {
             if(!in_array($point->pointIdentification->area . "-" . $point->pointIdentification->identification, $pointIdentification))
             {
@@ -137,7 +137,9 @@ class AnalysisResultController extends Controller
         }
 
         $key = 0;
-        foreach ($projectPointMatrices as $index => $point)
+        $column = 0;
+
+        foreach ($projectPointMatrices->sortByDesc('point_identification_id') as $index => $point)
         {
             if($index > 0)
             {
@@ -146,13 +148,17 @@ class AnalysisResultController extends Controller
               {
                   $key++;
               }
+              if($point->pointIdentification->id != $projectPointMatrices[$index - 1]->pointIdentification->id)
+              {
+                $column++;
+              }
             }
 
             if($point->analysisResult()->first())
             {
-                $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1, 6 + $key, $point->analysisResult()->first()->result);
-                $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1, 6 + $key)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1, 6 + $key)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+                $sheet->setCellValueByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $key, $point->analysisResult()->first()->result);
+                $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $key)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $key)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
             }
             $key++;
         }
