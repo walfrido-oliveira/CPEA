@@ -168,7 +168,7 @@ class AnalysisResultController extends Controller
         $sheet->getStyleByColumnAndRow(2, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
         $key = 0;
 
-        foreach ($projectPointMatrices->sortByDesc('point_identification_id') as $index => $point)
+        foreach ($projectPointMatrices->sortByDesc('parameter_analysis_id') as $index => $point)
         {
             if($index > 0)
             {
