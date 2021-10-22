@@ -173,6 +173,18 @@ class AnalysisResultController extends Controller
 
         foreach ($projectPointMatrices->sortByDesc('parameter_analysis_id') as $index => $point)
         {
+          if(!in_array($point->parameterAnalysis->parameterAnalysisGroup->name, $groupParameterAnalysis))
+          {
+            $groupParameterAnalysis[] = $point->parameterAnalysis->parameterAnalysisGroup->name;
+          }
+          if(!in_array($point->parameterAnalysis->analysis_parameter_name, $parameterAnalysis))
+          {
+            $parameterAnalysis[] = $point->parameterAnalysis->analysis_parameter_name;
+          }
+        }
+
+        foreach ($projectPointMatrices->sortByDesc('parameter_analysis_id') as $index => $point)
+        {
             if($index > 0)
             {
               if ($projectPointMatrices[$index]->parameterAnalysis->parameter_analysis_group_id !=
@@ -231,8 +243,8 @@ class AnalysisResultController extends Controller
                     $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB($guidingParametersColors[$key2]);
                   }
               }
+              $key++;
             }
-            $key++;
         }
 
         $writer = new Xls($spreadsheet);
