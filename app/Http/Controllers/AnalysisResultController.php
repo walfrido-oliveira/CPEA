@@ -91,10 +91,41 @@ class AnalysisResultController extends Controller
 
         $column++;
         $projectPointMatrices = $order->projectPointMatrices;
+        $pointIdentification = [];
 
-        foreach ($projectPointMatrices()->groupBy('point_identification_id')->get() as $key => $point)
+        foreach ($projectPointMatrices as $key => $point)
         {
-            $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1, $point->pointIdentification->area . "-" . $point->pointIdentification->identification);
+            if(!in_array($point->pointIdentification->area . "-" . $point->pointIdentification->identification, $pointIdentification))
+            {
+                $pointIdentification[] = $point->pointIdentification->area . "-" . $point->pointIdentification->identification;
+            }
+        }
+
+        foreach ($pointIdentification as $key => $value)
+        {
+            $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1, $value);
+        }
+
+        foreach ($projectPointMatrices as $key => $point)
+        {
+            if($index > 0)
+            {
+              if ($projectPointMatrices[$index]->parameterAnalysis->parameter_analysis_group_id !=
+                  $projectPointMatrices[$index - 1]->parameterAnalysis->parameter_analysis_group_id)
+              {
+                  $key++;
+              }
+            }
+
+            if($point->analysisResult()->first())
+            {
+                $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1, 5 + 1, $point->analysisResult()->first()->result);
+            }
+        }
+
+        foreach ($projectPointMatrices as $key => $point)
+        {
+            //$sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1, $point->pointIdentification->area . "-" . $point->pointIdentification->identification);
 
             $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
             $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
@@ -104,7 +135,6 @@ class AnalysisResultController extends Controller
                 $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2, $point->analysisResult()->first()->sampdate->format('d/m/Y'));
                 $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 3, $point->analysisResult()->first()->sampdate->format('h:m:i'));
                 $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4, $point->analysisResult()->first()->labsampid);
-                $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4, $point->analysisResult()->first()->result);
 
                 $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
@@ -116,7 +146,6 @@ class AnalysisResultController extends Controller
                 $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
             }
             $sheet->getColumnDimensionByColumn(2 + count($guidingParameters) + 1  + $key)->setAutoSize(true);
-            $column++;
         }
 
         $sheet->setCellValueByColumnAndRow(1, 5, $projectPointMatrices[0]->parameterAnalysis->parameterAnalysisGroup->name);
