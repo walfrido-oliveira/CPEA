@@ -175,11 +175,11 @@ class AnalysisResultController extends Controller
         {
           if(!in_array($point->parameterAnalysis->parameterAnalysisGroup->name, $groupParameterAnalysis))
           {
-            $groupParameterAnalysis[] = $point->parameterAnalysis->parameterAnalysisGroup->name;
+            //$groupParameterAnalysis[] = $point->parameterAnalysis->parameterAnalysisGroup->name;
           }
           if(!in_array($point->parameterAnalysis->analysis_parameter_name, $parameterAnalysis))
           {
-            $parameterAnalysis[] = $point->parameterAnalysis->analysis_parameter_name;
+            //$parameterAnalysis[] = $point->parameterAnalysis->analysis_parameter_name;
           }
         }
 
