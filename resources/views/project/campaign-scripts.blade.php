@@ -222,6 +222,8 @@
                         campaign.add(opt);
                     }
 
+                    window.customSelectArray["campaign_id"].update();
+
                     campaignEventsFilterCallback();
                     selectAllCampaigns();
                     deleteCampaignCallback();

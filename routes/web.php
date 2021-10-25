@@ -45,10 +45,69 @@ use App\Http\Controllers\GuidingParameterRefValueController;
 */
 
 Route::get('/test', function () {
-    $term = "1+3*10/2";
-    $stringCalc = new StringCalc();
-    $result = $stringCalc->calculate($term);
-    dd($result);
+    $ch = curl_init();
+    $url = "https://www.guiamais.com.br/sao-bernardo-do-campo-sp/jardim-do-mar/restaurantes/restaurante";
+
+    curl_setopt_array($ch, [
+        /* Informa a URL */
+        CURLOPT_URL            => $url,
+
+        /* Informa que deseja capturar o retorno */
+        CURLOPT_RETURNTRANSFER => true,
+
+        /* Permite o redirecionamento */
+        CURLOPT_FOLLOWLOCATION => true,
+
+        /* Informa que o tipo da requisição é POST */
+        CURLOPT_POST           => true,
+
+        /* Converte os dados para application/x-www-form-urlencoded */
+
+        /**
+         * Habilita a escrita de Cookies
+         *(É obrigatório para alguns sites)
+         */
+        CURLOPT_COOKIEJAR      => 'cookies.txt',
+
+        /* Desabilita a verificação do SSL,
+         * caso você possua, pode deixar habilitado
+         */
+        CURLOPT_SSL_VERIFYPEER => false,
+    ]);
+
+    /* Executa a requisição e captura o retorno */
+    $response = curl_exec($ch);
+    /* Captura eventuais erros */
+    $error = curl_error($ch);
+    /* Captura a informação da requisição */
+    $info = curl_getinfo($ch);
+    /* Fecha a conexão */
+    curl_close($ch);
+
+    $dom = new domDocument();
+    @$dom->loadHTML($response);
+
+    $xpath = new DOMXPath($dom);
+    $tables = $xpath->query("//main[@class=\"advertiserContent\"]");
+    $values = $xpath->query("//div[@class=\"free\"]", $tables->item(0));
+
+    $contatos = [];
+
+    foreach ($values as $key => $value)
+    {
+        $item = $xpath->query(".//a", $value);
+        $tel = $xpath->query(".//a[@class=\"seeMore\"]", $value);
+
+        dd($dom->saveHTML($tel->item(0)));
+
+        $contatos[] = [
+            'name' => trim($item->item(0)->textContent),
+            'link' => $tel->item(0)->getAttribute("href"),
+        ];
+    }
+
+    dd($contatos);
+
 })->name('tests');
 
 Route::get('/', function () {

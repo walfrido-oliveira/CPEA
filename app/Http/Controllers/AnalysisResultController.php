@@ -164,19 +164,6 @@ class AnalysisResultController extends Controller
               $sheet->setCellValueByColumnAndRow(1, $key + 6, $point->parameterAnalysis->analysis_parameter_name);
               $parameterAnalysis[] = $point->parameterAnalysis->analysis_parameter_name;
 
-              if($point->analysisResult()->first())
-              {
-                $sheet->setCellValueByColumnAndRow(2,  $key + 6, $point->analysisResult()->first()->units);
-                $sheet->getStyleByColumnAndRow(2,  $key + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                $sheet->getStyleByColumnAndRow(2,  $key + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-
-                $column = array_search($point->pointIdentification->area . "-" . $point->pointIdentification->identification, $pointIdentification);
-
-                $sheet->setCellValueByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $key, $point->analysisResult()->first()->result);
-                $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $key)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $key)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-              }
-
               foreach (explode(",", $project->guiding_parameter_order) as $key2 => $value)
               {
                 $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $value)
@@ -211,6 +198,81 @@ class AnalysisResultController extends Controller
             $index++;
         }
 
+        $key = 0;
+        $index = 0;
+        $groupParameterAnalysis = [];
+
+        foreach ($pointIdentification as $value1)
+        {
+            $key=0;
+            $index=0;
+            $column = 0;
+            $groupParameterAnalysis= [];
+
+            $analysisResults = $order->analysisResults()
+            ->with('projectPointMatrix')
+            ->leftJoin('project_point_matrices', 'analysis_results.project_point_matrix_id', '=', 'project_point_matrices.id')
+            ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+            ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+            ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
+            ->orderBy('parameter_analysis_groups.name', 'asc')
+            ->get();
+
+            $groupParameterAnalysis[] = $analysisResults[0]->projectPointMatrix->parameterAnalysis->parameterAnalysisGroup->name;
+
+            foreach ($analysisResults as $value)
+            {
+                if($value->projectPointMatrix->pointIdentification->area . "-" .
+                   $value->projectPointMatrix->pointIdentification->identification != $value1) continue;
+
+                if($key > 0)
+                {
+                    if ($analysisResults[$key]->projectPointMatrix->parameterAnalysis->parameter_analysis_group_id !=
+                        $analysisResults[$key - 1]->projectPointMatrix->parameterAnalysis->parameter_analysis_group_id)
+                    {
+                        $key++;
+                        if(!in_array($value->projectPointMatrix->parameterAnalysis->parameterAnalysisGroup->name, $groupParameterAnalysis))
+                        {
+                            $groupParameterAnalysis[] = $value->projectPointMatrix->parameterAnalysis->parameterAnalysisGroup->name;
+                        }
+                    }
+                }
+
+                $result= [];
+                $break = false;
+                $index = 0;
+
+                while ($sheet->getCellByColumnAndRow(1, 6 + $index) != $value->projectPointMatrix->parameterAnalysis->analysis_parameter_name)
+                {
+                    $result[] = $sheet->getCellByColumnAndRow(1, 6 + $index) . '  ' . $value->projectPointMatrix->parameterAnalysis->analysis_parameter_name;
+                    $index++;
+                    if($index >= count($analysisResults))
+                    {
+                        $break = true;
+                        break;
+                    }
+                }
+
+                if($break) continue;
+
+                $sheet->setCellValueByColumnAndRow(2,  $key + 6, $value->units);
+                $sheet->getStyleByColumnAndRow(2,  $key + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $sheet->getStyleByColumnAndRow(2,  $key + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+
+                $column = array_search($value->projectPointMatrix->pointIdentification->area . "-" .
+                                       $value->projectPointMatrix->pointIdentification->identification,
+                                       $pointIdentification);
+
+                $sheet->setCellValueByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index, $value->result);
+                $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+
+                $key++;
+            }
+            $column++;
+        }
+
+        //dd($result);
         $writer = new Xls($spreadsheet);
 
         $writer->save(tmpfile());
@@ -271,6 +333,7 @@ class AnalysisResultController extends Controller
 
             $analysisResult = AnalysisResult::firstOrCreate([
                 'project_point_matrix_id' => $projectPointMatrices->id,
+                'analysis_order_id' => $order->id
             ]);
 
             $analysisResult->update([

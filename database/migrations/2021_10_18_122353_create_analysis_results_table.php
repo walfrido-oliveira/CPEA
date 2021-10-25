@@ -16,6 +16,7 @@ class CreateAnalysisResultsTable extends Migration
         Schema::create('analysis_results', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('project_point_matrix_id');
+            $table->foreignId('analysis_order_id')->constrained()->onDelete('cascade');
 
             $table->string('client')->nullable();
             $table->string('project')->nullable();

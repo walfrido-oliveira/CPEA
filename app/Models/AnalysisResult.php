@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\AnalysisOrder;
 use App\Models\ProjectPointMatrix;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,6 +18,7 @@ class AnalysisResult extends Model
      */
     protected $fillable = [
         'project_point_matrix_id',
+        'analysis_order_id',
         'client',
         'project',
         'projectnum',
@@ -81,12 +83,20 @@ class AnalysisResult extends Model
         'sampdate' => 'date',
     ];
 
-     /**
+    /**
      * The Project Point Matrix.
-     */
+    */
     public function projectPointMatrix()
     {
         return $this->belongsTo(ProjectPointMatrix::class);
+    }
+
+    /**
+     * The AnalysisOrder
+    */
+    public function analysisOrder()
+    {
+        return $this->belongsTo(AnalysisOrder::class);
     }
 
 }
