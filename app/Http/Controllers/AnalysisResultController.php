@@ -76,7 +76,6 @@ class AnalysisResultController extends Controller
         foreach(range($column . "1", $column . "1") as $columnID) : $sheet->getColumnDimension($columnID)->setAutoSize(true); endforeach;
 
         $column2= "C";
-        $guidingParametersColors = [];
         foreach ($guidingParameters as $key => $value)
         {
             $sheet->setCellValue($column2 . "2", $value);
@@ -85,10 +84,9 @@ class AnalysisResultController extends Controller
 
             foreach(range($column2 . "2", $column2 . "2") as $columnID) : $sheet->getColumnDimension($columnID)->setAutoSize(true); endforeach;
 
-            $guidingParametersColors[] = sprintf('%06X', mt_rand(0, 0xFFFFFF));
-
             $sheet->getStyle($column2 . "2")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key]));
             $spreadsheet->getActiveSheet()->mergeCells($column2 . "2:" . $column2 . "4");
+            $sheet->getStyle($column2 . "5")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
 
             $column2++;
         }
@@ -145,6 +143,8 @@ class AnalysisResultController extends Controller
         $sheet->getStyleByColumnAndRow(1, 5)->getFill() ->setFillType(Fill::FILL_SOLID) ->getStartColor()->setRGB('C0C0C0');
         $sheet->getStyleByColumnAndRow(2, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
 
+        $guidingParameterOrders = explode(",", $project->guiding_parameter_order);
+
         foreach ($projectPointMatrices as $point)
         {
             if($index > 0)
@@ -154,12 +154,17 @@ class AnalysisResultController extends Controller
                 {
                 if(!in_array($point->parameterAnalysis->parameterAnalysisGroup->name, $groupParameterAnalysis))
                 {
-                $sheet->setCellValueByColumnAndRow(1,  $key + 6, $point->parameterAnalysis->parameterAnalysisGroup->name);
-                $groupParameterAnalysis[] = $point->parameterAnalysis->parameterAnalysisGroup->name;
+                    $sheet->setCellValueByColumnAndRow(1,  $key + 6, $point->parameterAnalysis->parameterAnalysisGroup->name);
+                    $groupParameterAnalysis[] = $point->parameterAnalysis->parameterAnalysisGroup->name;
 
-                $sheet->getStyleByColumnAndRow(1,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
-                $sheet->getStyleByColumnAndRow(2,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
-                $key++;
+                    $sheet->getStyleByColumnAndRow(1,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+                    $sheet->getStyleByColumnAndRow(2,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+
+                    foreach ($guidingParameterOrders as $key2 => $value)
+                    {
+                        $sheet->getStyleByColumnAndRow(2 + ($key2 + 1),  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+                    }
+                    $key++;
                 }
               }
             }
@@ -169,7 +174,7 @@ class AnalysisResultController extends Controller
               $sheet->setCellValueByColumnAndRow(1, $key + 6, $point->parameterAnalysis->analysis_parameter_name);
               $parameterAnalysis[] = $point->parameterAnalysis->analysis_parameter_name;
 
-              foreach (explode(",", $project->guiding_parameter_order) as $key2 => $value)
+              foreach ($guidingParameterOrders as $key2 => $value)
               {
                 $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $value)
                 ->where('parameter_analysis_id', $point->parameterAnalysis->id)
@@ -177,27 +182,31 @@ class AnalysisResultController extends Controller
 
                 if($guidingParametersValue)
                 {
-                if($guidingParametersValue->guidingValue)
-                {
-                    if(Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo', 'Qualitativo']))
+                    if($guidingParametersValue->guidingValue)
                     {
-                    $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
+                        if(Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo', 'Qualitativo']))
+                        {
+                        $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
+                        }
+                        if(Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo']))
+                        {
+                        $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6,
+                        $guidingParametersValue->guiding_legislation_value_1.' - '.$guidingParametersValue->guiding_legislation_value_2);
+                        }
                     }
-                    if(Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo']))
+                    else
                     {
-                    $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6,
-                    $guidingParametersValue->guiding_legislation_value_1.' - '.$guidingParametersValue->guiding_legislation_value_2);
+                        $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
                     }
                 }
                 else
                 {
-                    $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
+                    $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, "-");
                 }
                 $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
                 $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
-                }
-              }
+            }
               $key++;
             }
             $index++;
