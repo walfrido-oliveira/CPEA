@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Colors\RandomColor;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\AnalysisOrder;
@@ -29,6 +30,7 @@ class AnalysisResultController extends Controller
     {
         $order = AnalysisOrder::findOrFail($id);
         $project = $order->campaign->project;
+        $RandomColors = RandomColor::many(30, array('luminosity'=>'light', 'format'=>'hex'));
 
         if($project->guiding_parameter_order && count(explode(",", $project->guiding_parameter_order)))
         {
@@ -83,7 +85,7 @@ class AnalysisResultController extends Controller
 
             $guidingParametersColors[] = sprintf('%06X', mt_rand(0, 0xFFFFFF));
 
-            $sheet->getStyle($column2 . "2")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB($guidingParametersColors[$key]);
+            $sheet->getStyle($column2 . "2")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key]));
             $spreadsheet->getActiveSheet()->mergeCells($column2 . "2:" . $column2 . "4");
 
             $column2++;
@@ -190,7 +192,7 @@ class AnalysisResultController extends Controller
                 }
                 $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-                $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB($guidingParametersColors[$key2]);
+                $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
                 }
               }
               $key++;
