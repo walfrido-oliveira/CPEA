@@ -234,6 +234,7 @@ class CampaignController extends Controller
         $campaign = Campaign::findOrFail($id);
 
         $input = $request->all();
+
         if(!isset($input['type'])) $input['type'] = 'campaign';
 
         switch ($input['type']) {
@@ -242,7 +243,7 @@ class CampaignController extends Controller
                 break;
             case 'point':
                 $result = $campaign;
-                $this->duplicatePoint($input, $campaign);
+                $this->duplicatePoint($input, $campaign, $input['point_identifications_ref']);
                 break;
             default:
                 $result = $this->duplicateCampaign($input, $campaign);
@@ -262,13 +263,16 @@ class CampaignController extends Controller
      *
      * @param Array $input
      * @param Campaign $campaign
+     * @param PointIdentification $point
      * @return Campaign
      */
-    private function duplicatePoint($input, $campaign)
+    private function duplicatePoint($input, $campaign, $point)
     {
-        foreach ($campaign->projectPointMatrices as $key => $point)
+        $projectPointMatrices = $campaign->projectPointMatrices()->where('point_identification_id', $point)->get();
+
+        foreach ($projectPointMatrices as $key => $point)
         {
-            ProjectPointMatrix::create([
+            $projectPointMatrix = ProjectPointMatrix::create([
                 'project_id' => $point->project_id,
                 'point_identification_id' => isset($input['point_identifications']) ? $input['point_identifications'] : $point->point_identification_id,
                 'analysis_matrix_id' => $point->analysis_matrix_id,
@@ -302,6 +306,8 @@ class CampaignController extends Controller
                 'humidity' => $point->humidity,
                 'pressure' => $point->pressure,
             ]);
+
+            $projectPointMatrix->guidingParameters()->sync($point->guidingParameters()->pluck("guiding_parameter_id")->toArray());
         }
     }
 

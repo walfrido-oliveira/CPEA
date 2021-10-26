@@ -48,7 +48,7 @@
                         </div>
                         <div class="w-full flex justify-end">
                             <div class="m-2 ">
-                                <button type="button" class="btn-outline-info" id="campaign_table_add" data-type="save" data-id="0">{{ __('Cadastrar') }}</button>
+                                <button type="button" class="btn-outline-info" id="campaign_table_add" data-type="save" data-id="0" data-row="0">{{ __('Cadastrar') }}</button>
                             </div>
                             <div class="m-2 ">
                                 <button type="button" id="delete_campaign" class="btn-outline-danger delete-campaign" data-type="multiple">{{ __('Apagar') }}</button>
@@ -110,7 +110,7 @@
                                 </button>
                             </div>
                             <div class="m-2 ">
-                                <button type="button" class="btn-outline-info" id="point_matrix_table_add" data-type="save" data-id="0">{{ __('Cadastrar') }}</button>
+                                <button type="button" class="btn-outline-info" id="point_matrix_table_add" data-type="save" data-id="0" data-row="0">{{ __('Cadastrar') }}</button>
                             </div>
                             <div class="m-2 ">
                                 <button type="button" id="delete_point_matrix" class="btn-outline-danger delete-point-matrix" data-type="multiple">{{ __('Apagar') }}</button>
@@ -146,10 +146,12 @@
                             </div>
                         </div>
                         <div class="flex flex-wrap mx-4 px-3 py-2">
-                            <div class="w-full md:w-2/3 px-3 mb-6 md:mb-0">
+                            <div class="w-full px-3 mb-6 md:mb-0">
                                 <x-jet-label for="guiding_parameters_id" value="{{ __('Param. Orientador Ambiental') }}"/>
                                 <x-custom-multi-select multiple :options="$guidingParameters" name="guiding_parameters_id" id="guiding_parameters_id" value="" select-class="form-input" class="mt-1" no-filter="no-filter"/>
                             </div>
+                        </div>
+                        <div class="flex flex-wrap mx-4 px-3 py-2">
                             <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                                 <x-jet-label for="analysis_parameter_id" value="{{ __('Param. Análise') }}"/>
                                 <x-custom-select :options="$parameterAnalyses" name="analysis_parameter_id" id="analysis_parameter_id" value="" class="mt-1" no-filter="no-filter"/>

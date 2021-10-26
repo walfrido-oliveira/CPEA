@@ -54,8 +54,21 @@
                     </div>
                     <div class="filter-container md:block" id="duplicate_point_container" style="display: none;">
                         <div class="flex flex-wrap mx-4 px-3 py-2">
+                            <h2 class="w-full">{{ __('Referência') }}</h2>
                             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                <x-jet-label for="area" value="{{ __('Área') }}" />
+                                <x-jet-label for="area_ref" value="{{ __('Área') }}" required />
+                                <x-custom-select :options="$areas" name="area_ref" id="area_ref" value="" class="mt-1" no-filter="no-filter"/>
+                            </div>
+                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                <x-jet-label for="point_identifications_ref" value="{{ __('Identificação Ponto') }}" required/>
+                                <x-custom-select :options="[]" name="point_identifications_ref" id="point_identifications_ref" value="" class="mt-1" no-filter="no-filter"/>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap mx-4 px-3 py-2">
+                            <h2 class="w-full">{{ __('Novos valores') }}</h2>
+                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                <x-jet-label for="areas" value="{{ __('Área') }}" />
                                 <x-custom-select :options="$areas" name="areas" id="areas" value="" class="mt-1" no-filter="no-filter"/>
                             </div>
                             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -142,8 +155,7 @@
     </script>
 
     <script>
-        function filterAreas() {
-            var area = document.getElementById("areas").value;
+        function filterAreas(area, pointIdentification) {
 
             if (area) {
                 var ajax = new XMLHttpRequest();
@@ -157,8 +169,6 @@
                     ajax.onreadystatechange = function() {
                         if (this.readyState == 4 && this.status == 200) {
                             var resp = JSON.parse(ajax.response);
-
-                            let pointIdentification = document.getElementById("point_identifications");
 
                             let i, L = pointIdentification.options.length - 1;
                             for (i = L; i >= 0; i--) {
@@ -192,10 +202,19 @@
                 });
             }
         }
+
         document.querySelectorAll('#areas').forEach(item => {
             item.addEventListener('change', function() {
-                filterAreas().then(function() {
+                filterAreas(document.getElementById("areas").value, document.getElementById("point_identifications")).then(function() {
                     window.customSelectArray["point_identifications"].update();
+                });
+            });
+        });
+
+        document.querySelectorAll('#area_ref').forEach(item => {
+            item.addEventListener('change', function() {
+                filterAreas(document.getElementById("area_ref").value, document.getElementById("point_identifications_ref")).then(function() {
+                    window.customSelectArray["point_identifications_ref"].update();
                 });
             });
         });

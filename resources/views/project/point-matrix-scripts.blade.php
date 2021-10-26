@@ -251,10 +251,15 @@
                     toastr.success(resp.message);
 
                     if(id > 0) {
-                        that.parentElement.parentElement.parentElement.innerHTML = resp.point_matrix;
+                        let rowUpdated = document.getElementById("point_matrix_row_" + that.dataset.row);
+                        rowUpdated.innerHTML = resp.point_matrix;
                     } else {
                         document.getElementById("point_matrix_table_content").insertAdjacentHTML('beforeend', resp.point_matrix);
                     }
+
+                    that.dataset.id = 0;
+                    that.dataset.row = 0;
+                    that.innerHTML = "Cadastrar";
 
                     document.getElementById("point_matrix_pagination").innerHTML = resp.pagination;
 
@@ -324,6 +329,11 @@
                 toastr.error("{!! __('Salve primeira a linha atual') !!}");
                 return;
             }
+
+            let saveButtom = document.getElementById("point_matrix_table_add");
+            saveButtom.dataset.id = elem.dataset.id;
+            saveButtom.dataset.row = elem.dataset.row;
+            saveButtom.innerHTML = "Salvar";
 
             getCampaigns()
             .then(function() {

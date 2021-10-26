@@ -206,10 +206,15 @@
                     toastr.success(resp.message);
 
                     if(id > 0) {
-                        that.parentElement.parentElement.parentElement.innerHTML = resp.campaign;
+                        let rowUpdated = document.getElementById("campaign_row_" + that.dataset.row);
+                        rowUpdated.innerHTML = resp.campaign;
                     } else {
                         document.getElementById("campaign_table_content").insertAdjacentHTML('beforeend', resp.campaign);
                     }
+
+                    that.dataset.id = 0;
+                    that.dataset.row = 0;
+                    that.innerHTML = "Cadastrar";
 
                     document.getElementById("campaign_pagination").innerHTML = resp.pagination;
 
@@ -286,6 +291,11 @@
                 toastr.error("{!! __('Salve primeira a linha atual') !!}");
                 return;
             }
+
+            let saveButtom = document.getElementById("campaign_table_add");
+            saveButtom.dataset.id = elem.dataset.id;
+            saveButtom.dataset.row = elem.dataset.row;
+            saveButtom.innerHTML = "Salvar";
 
             let campaignPointMatrix = document.getElementById("campaign_point_matrix");
             let campaignName = document.getElementById("campaign_name");
