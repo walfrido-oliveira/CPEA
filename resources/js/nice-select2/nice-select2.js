@@ -128,7 +128,9 @@ NiceSelect.prototype.renderDropdown = function() {
   var html = `<div class="${classes.join(" ")}" tabindex="${
     this.disabled ? null : 0
   }">
-  <span class="${this.multiple ? "multiple-options" : "current"}"></span>
+  <span class="${this.multiple ? "multiple-options" : "current"}">
+
+  </span>
   <div class="nice-select-dropdown">
   ${this.config.searchable ? searchHtml : ""}
   <ul class="list"></ul>
@@ -147,7 +149,17 @@ NiceSelect.prototype._renderSelectedItems = function() {
     var selectedHtml = "";
 
     this.selectedOptions.forEach(function(item) {
-      selectedHtml += `<span class="current">${item.data.text}</span>`;
+        selectedHtml += `<span class="current" data-value="${item.data.value}">`;
+        if(item.data.text != '')
+        {
+            selectedHtml += `<button data-value="${item.data.value}" type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-700 hover:text-gray-800 hover:bg-gray-100 focus:outline-none">
+                                <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>`;
+        }
+        selectedHtml += `${item.data.text}`;
+        selectedHtml += `</span>`;
     });
     selectedHtml = selectedHtml == "" ? this.placeholder : selectedHtml;
 
@@ -230,6 +242,14 @@ NiceSelect.prototype.destroy = function() {
 NiceSelect.prototype.bindEvent = function() {
   var $this = this;
   this.dropdown.addEventListener("click", this._onClicked.bind(this));
+
+  this.dropdown.querySelectorAll(".multiple-options .current button").forEach(item => {
+    item.addEventListener("click", $this._onRemoveItem.bind({
+        el: $this,
+        button: item
+    }));
+  });
+
   this.dropdown.addEventListener("keydown", this._onKeyPressed.bind(this));
   document.addEventListener("click", this._onClickedOutside.bind(this));
   this.el.addEventListener("change", this._change.bind(this));
@@ -249,6 +269,24 @@ NiceSelect.prototype._bindSearchEvent = function() {
 
   searchBox.addEventListener("input", this._onSearchChanged.bind(this));
 };
+
+NiceSelect.prototype._onRemoveItem = function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    let optionEl = this.el.dropdown.querySelector(`.list li[data-value="${this.button.dataset.value}"]`);
+
+    removeClass(optionEl, "selected");
+    let temp = [];
+    this.el.selectedOptions.forEach(item => {
+        if(item.data.value != optionEl.dataset.value) temp.push(item);
+    });
+
+    this.el.selectedOptions = temp;
+
+    this.el._renderSelectedItems();
+    this.el.updateSelectValue();
+}
 
 NiceSelect.prototype._onClicked = function(e) {
   this.dropdown.classList.toggle("open");
