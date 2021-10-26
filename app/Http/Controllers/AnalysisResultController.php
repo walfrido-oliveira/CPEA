@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Colors\RandomColor;
+use App\Models\Campaign;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\AnalysisOrder;
@@ -28,8 +29,9 @@ class AnalysisResultController extends Controller
      */
     public function download(Request $request, $id)
     {
-        $order = AnalysisOrder::findOrFail($id);
-        $project = $order->campaign->project;
+        $campaign = Campaign::findOrFail($id);
+
+        $project = $campaign->project;
         $RandomColors = RandomColor::many(30, array('luminosity'=>'light', 'format'=>'hex'));
 
         if($project->guiding_parameter_order && count(explode(",", $project->guiding_parameter_order)))
@@ -91,11 +93,12 @@ class AnalysisResultController extends Controller
             $column2++;
         }
 
-        $projectPointMatrices = $order->projectPointMatrices;
+        $projectPointMatrices = $campaign->projectPointMatrices;
         $pointIdentification = [];
 
         $analysisResult = AnalysisResult::leftJoin('analysis_order_project_point_matrix', 'analysis_order_project_point_matrix.project_point_matrix_id', '=', 'analysis_results.project_point_matrix_id')
-        ->where('analysis_order_project_point_matrix.analysis_order_id', $order->id)
+        ->leftJoin('analysis_orders',  'analysis_orders.id', 'analysis_order_project_point_matrix.analysis_order_id')
+        ->where('analysis_orders.id', $campaign->id)
         ->groupBy('samplename')->get();
 
         foreach ($analysisResult as $key => $value)
@@ -128,7 +131,7 @@ class AnalysisResultController extends Controller
         $key = 0;
         $index = 0;
 
-        $projectPointMatrices = $order->projectPointMatrices()
+        $projectPointMatrices = $campaign->projectPointMatrices()
         ->with('pointIdentification')
         ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
         ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
@@ -211,7 +214,7 @@ class AnalysisResultController extends Controller
             $column = 0;
             $groupParameterAnalysis= [];
 
-            $analysisResults = $order->analysisResults()
+            $analysisResults = $campaign->analysisResults()
             ->with('projectPointMatrix')
             ->leftJoin('project_point_matrices', 'analysis_results.project_point_matrix_id', '=', 'project_point_matrices.id')
             ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
@@ -257,9 +260,9 @@ class AnalysisResultController extends Controller
 
                 if($break) continue;
 
-                $sheet->setCellValueByColumnAndRow(2,  $key + 6, $value->units);
-                $sheet->getStyleByColumnAndRow(2,  $key + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-                $sheet->getStyleByColumnAndRow(2,  $key + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+                $sheet->setCellValueByColumnAndRow(2,  $index + 6, $value->units);
+                $sheet->getStyleByColumnAndRow(2,  $index + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $sheet->getStyleByColumnAndRow(2,  $index + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
 
                 $column = array_search($value->projectPointMatrix->pointIdentification->area . "-" .
                                        $value->projectPointMatrix->pointIdentification->identification,
@@ -274,7 +277,6 @@ class AnalysisResultController extends Controller
             $column++;
         }
 
-        //dd($result);
         $writer = new Xls($spreadsheet);
 
         $writer->save(tmpfile());

@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Lab;
 use App\Models\Project;
 use App\Models\AnalysisOrder;
+use App\Models\AnalysisResult;
 use App\Models\CampaignStatus;
 use App\Models\ProjectPointMatrix;
 use Illuminate\Database\Eloquent\Model;
@@ -60,6 +61,11 @@ class Campaign extends Model
     public function labs()
     {
         return $this->hasManyThrough(Lab::class, AnalysisOrder::class, 'campaign_id', 'id', 'id', 'lab_id');
+    }
+
+    public function analysisResults()
+    {
+        return $this->hasManyThrough(AnalysisResult::class, AnalysisOrder::class);
     }
 
     /**
