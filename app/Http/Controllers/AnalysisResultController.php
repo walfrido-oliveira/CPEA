@@ -223,7 +223,7 @@ class AnalysisResultController extends Controller
             ->orderBy('parameter_analysis_groups.name', 'asc')
             ->get();
 
-            $groupParameterAnalysis[] = $analysisResults[0]->projectPointMatrix->parameterAnalysis->parameterAnalysisGroup->name;
+            if(count($analysisResults[0]) > 0) $groupParameterAnalysis[] = $analysisResults[0]->projectPointMatrix->parameterAnalysis->parameterAnalysisGroup->name;
 
             foreach ($analysisResults as $value)
             {
