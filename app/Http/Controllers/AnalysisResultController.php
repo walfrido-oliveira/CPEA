@@ -135,7 +135,7 @@ class AnalysisResultController extends Controller
         ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
         ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
         ->orderBy('parameter_analysis_groups.name', 'asc')
-        ->orderBy('parameter_analyses.analysis_parameter_name', 'desc')
+        ->orderBy('parameter_analyses.analysis_parameter_name', 'asc')
         ->select('project_point_matrices.*')
         ->get();
 
@@ -234,7 +234,7 @@ class AnalysisResultController extends Controller
             ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
             ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
             ->orderBy('parameter_analysis_groups.name', 'asc')
-            ->orderBy('parameter_analyses.analysis_parameter_name', 'desc')
+            ->orderBy('parameter_analyses.analysis_parameter_name', 'asc')
             ->get();
 
             if(count($analysisResults) > 0) $groupParameterAnalysis[] = $analysisResults[0]->projectPointMatrix->parameterAnalysis->parameterAnalysisGroup->name;
@@ -282,7 +282,7 @@ class AnalysisResultController extends Controller
                                        $value->projectPointMatrix->pointIdentification->identification,
                                        $pointIdentification);
 
-                $result = explode(" ", $value->result)[0];
+                $result = Str::replace(["*J", " [1]"], "", $value->result);
 
                 $sheet->setCellValueByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index, $result);
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);

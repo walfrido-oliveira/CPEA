@@ -5035,12 +5035,6 @@ function NiceSelect(element, options) {
 
 NiceSelect.prototype.create = function () {
   this.el.style.display = "none";
-  /*if (this.data) {
-    this.processData(this.data);
-  } else {
-    this.extractData();
-  }*/
-
   this.extractData();
   this.renderDropdown();
   this.bindEvent();
@@ -5201,8 +5195,7 @@ NiceSelect.prototype.bindEvent = function () {
     }));
   });
   this.dropdown.addEventListener("keydown", this._onKeyPressed.bind(this));
-  document.addEventListener("click", this._onClickedOutside.bind(this));
-  this.el.addEventListener("change", this._change.bind(this));
+  document.addEventListener("click", this._onClickedOutside.bind(this)); //this.el.addEventListener("change", this._change.bind(this));
 
   if (this.config.searchable) {
     this._bindSearchEvent();
@@ -5258,8 +5251,6 @@ NiceSelect.prototype._onClicked = function (e) {
 };
 
 NiceSelect.prototype._onItemClicked = function (option, e) {
-  e.preventDefault();
-  e.stopPropagation();
   var optionEl = e.target;
 
   if (!hasClass(optionEl, "disabled")) {
@@ -5286,7 +5277,6 @@ NiceSelect.prototype._onItemClicked = function (option, e) {
     this._renderSelectedItems();
 
     this.updateSelectValue();
-    this.dropdown.classList.toggle("open");
   }
 };
 
@@ -5300,15 +5290,14 @@ NiceSelect.prototype.updateSelectValue = function () {
     });
     elValue.querySelectorAll('option').forEach(function (item2) {
       _this3.selectedOptions.forEach(function (item) {
-        if (item.data.value == item2.value) item2.selected = true; //var el = elValue.querySelector('option[value="' + item.data.value + '"]');
-        //if(elValue.id='guiding_parameters_id' && el) console.log(el);
-        //if (el) el.selected = true;
+        if (item.data.value == item2.value) item2.selected = true;
       });
     });
   } else if (this.selectedOptions.length > 0) {
     this.el.value = this.selectedOptions[0].data.value;
   }
 
+  console.log(1);
   triggerChange(this.el);
 };
 
@@ -5447,6 +5436,8 @@ NiceSelect.prototype._change = function () {
       triggerClick(this.dropdown);
     }
   }
+
+  console.log(3);
 };
 
 /***/ }),
