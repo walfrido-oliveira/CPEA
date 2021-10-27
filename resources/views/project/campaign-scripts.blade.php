@@ -212,9 +212,10 @@
                         document.getElementById("campaign_table_content").insertAdjacentHTML('beforeend', resp.campaign);
                     }
 
-                    that.dataset.id = 0;
-                    that.dataset.row = 0;
-                    that.innerHTML = "Cadastrar";
+                    let buttom = document.getElementById("campaign_table_add");
+                    buttom.dataset.id = 0;
+                    buttom.dataset.row = 0;
+                    buttom.innerHTML = "Cadastrar";
 
                     document.getElementById("campaign_pagination").innerHTML = resp.pagination;
 

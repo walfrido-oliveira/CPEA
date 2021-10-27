@@ -309,15 +309,6 @@ class ProjectController extends Controller
         ->distinct()
         ->get();
 
-        if($project->guiding_parameter_order && count(explode(",", $project->guiding_parameter_order)) == count($guidingParameters))
-        {
-            $guidingParameters = [];
-            foreach (explode(",", $project->guiding_parameter_order) as $key => $value)
-            {
-                $guidingParameters[] = GuidingParameter::find($value);
-            }
-        }
-
         return response()->json([
             'guiding_parameters' => view('project.guiding-parameter-list', compact('guidingParameters'))->render(),
         ]);

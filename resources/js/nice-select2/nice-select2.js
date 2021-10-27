@@ -311,7 +311,10 @@ NiceSelect.prototype._onClicked = function(e) {
 };
 
 NiceSelect.prototype._onItemClicked = function(option, e) {
-  var optionEl = e.target;
+    e.preventDefault();
+    e.stopPropagation();
+
+    var optionEl = e.target;
 
   if (!hasClass(optionEl, "disabled")) {
     if (this.multiple) {
@@ -339,6 +342,8 @@ NiceSelect.prototype._onItemClicked = function(option, e) {
 
     this._renderSelectedItems();
     this.updateSelectValue();
+
+    this.dropdown.classList.toggle("open");
   }
 };
 

@@ -135,6 +135,7 @@ class AnalysisResultController extends Controller
         ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
         ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
         ->orderBy('parameter_analysis_groups.name', 'asc')
+        ->orderBy('parameter_analyses.analysis_parameter_name', 'desc')
         ->select('project_point_matrices.*')
         ->get();
 
@@ -189,12 +190,12 @@ class AnalysisResultController extends Controller
                     {
                         if(Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo', 'Qualitativo']))
                         {
-                        $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
+                            $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
                         }
                         if(Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo']))
                         {
-                        $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6,
-                        $guidingParametersValue->guiding_legislation_value_1.' - '.$guidingParametersValue->guiding_legislation_value_2);
+                            $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6,
+                            $guidingParametersValue->guiding_legislation_value_1.' - '.$guidingParametersValue->guiding_legislation_value_2);
                         }
                     }
                     else
@@ -233,6 +234,7 @@ class AnalysisResultController extends Controller
             ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
             ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
             ->orderBy('parameter_analysis_groups.name', 'asc')
+            ->orderBy('parameter_analyses.analysis_parameter_name', 'desc')
             ->get();
 
             if(count($analysisResults) > 0) $groupParameterAnalysis[] = $analysisResults[0]->projectPointMatrix->parameterAnalysis->parameterAnalysisGroup->name;
@@ -280,9 +282,40 @@ class AnalysisResultController extends Controller
                                        $value->projectPointMatrix->pointIdentification->identification,
                                        $pointIdentification);
 
-                $sheet->setCellValueByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index, explode(" ", $value->result)[0]);
+                $result = explode(" ", $value->result)[0];
+
+                $sheet->setCellValueByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index, $result);
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+
+                $result = Str::replace("<", "", $result);
+
+                foreach ($guidingParameterOrders as $key2 => $value3)
+                {
+                    $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $value3)
+                    ->where('parameter_analysis_id', $value->projectPointMatrix->parameterAnalysis->id)
+                    ->first();
+
+                    if($guidingParametersValue)
+                    {
+                        if(Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo', 'Qualitativo']))
+                        {
+                            if($result > $guidingParametersValue->guiding_legislation_value)
+                            {
+                                $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
+                                break;
+                            }
+                        }
+                        if(Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo']))
+                        {
+                            if(($result < $guidingParametersValue->guiding_legislation_value || $result > $guidingParametersValue->guiding_legislation_value_1))
+                            {
+                                $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
+                                break;
+                            }
+                        }
+                    }
+                }
 
                 $key++;
             }
