@@ -75,7 +75,7 @@ class CreateAnalysisResultsTable extends Migration
 
             $table->timestamps();
 
-            $table->foreign('project_point_matrix_id', 'project_point_matrix_id_foreign')->references('id')->on('project_point_matrices');
+            $table->foreign('project_point_matrix_id', 'project_point_matrix_id_foreign')->references('id')->on('project_point_matrices')->onDelete('cascade');;
 
         });
     }

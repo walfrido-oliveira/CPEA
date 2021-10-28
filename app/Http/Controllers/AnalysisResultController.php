@@ -207,6 +207,8 @@ class AnalysisResultController extends Controller
                 {
                     $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, "-");
                 }
+
+
                 $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
                 $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
@@ -257,13 +259,11 @@ class AnalysisResultController extends Controller
                     }
                 }
 
-                $result= [];
                 $break = false;
                 $index = 0;
 
                 while ($sheet->getCellByColumnAndRow(1, 6 + $index) != $value->projectPointMatrix->parameterAnalysis->analysis_parameter_name)
                 {
-                    $result[] = $sheet->getCellByColumnAndRow(1, 6 + $index) . '  ' . $value->projectPointMatrix->parameterAnalysis->analysis_parameter_name;
                     $index++;
                     if($index >= count($analysisResults))
                     {

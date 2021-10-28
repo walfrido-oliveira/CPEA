@@ -276,6 +276,8 @@ class ProjectPointMatrixController extends Controller
     public function filter(Request $request)
     {
         $projectPointMatrices = ProjectPointMatrix::filter($request->all());
+        $projectPointMatrices->withPath(route('project.edit', ['project' => $request->get('project_id')]));
+
         $orderBy = $request->get('order_by');
         $ascending = $request->get('ascending');
         $paginatePerPage = $request->get('paginate_per_page');

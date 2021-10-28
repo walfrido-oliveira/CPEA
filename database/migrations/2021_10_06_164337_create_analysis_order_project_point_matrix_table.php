@@ -18,8 +18,8 @@ class CreateAnalysisOrderProjectPointMatrixTable extends Migration
             $table->unsignedBigInteger('project_point_matrix_id');
             $table->unsignedBigInteger('analysis_order_id');
 
-            $table->foreign('project_point_matrix_id', 'analysis_order_point_matrix_id_foreign')->references('id')->on('project_point_matrices');
-            $table->foreign('analysis_order_id', 'order_point_matrix_analysis_id_foreign')->references('id')->on('analysis_orders');
+            $table->foreign('project_point_matrix_id', 'analysis_order_point_matrix_id_foreign')->references('id')->on('project_point_matrices')->onDelete('cascade');;
+            $table->foreign('analysis_order_id', 'order_point_matrix_analysis_id_foreign')->references('id')->on('analysis_orders')->onDelete('cascade');;
         });
     }
 

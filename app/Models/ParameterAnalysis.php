@@ -50,6 +50,16 @@ class ParameterAnalysis extends Model
     }
 
     /**
+     * Get full name Parameter Nalysis
+     *
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return $this->analysis_parameter_name . '-' . $this->cas_rn . ($this->parameterAnalysisGroup ? '-' . $this->parameterAnalysisGroup->name : '');
+    }
+
+    /**
      * Find users in dabase
      *
      * @param Array
