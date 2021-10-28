@@ -97,7 +97,7 @@ class AnalysisResultController extends Controller
         $analysisResult = AnalysisResult::leftJoin('analysis_order_project_point_matrix', 'analysis_order_project_point_matrix.project_point_matrix_id', '=', 'analysis_results.project_point_matrix_id')
         ->leftJoin('analysis_orders',  'analysis_orders.id', 'analysis_order_project_point_matrix.analysis_order_id')
         ->where('analysis_orders.id', $campaign->id)
-        ->groupBy('samplename')->toSql();
+        ->groupBy('samplename')->get();
         dd($analysisResult);
         foreach ($analysisResult as $key => $value)
         {
