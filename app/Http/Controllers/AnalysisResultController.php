@@ -284,7 +284,10 @@ class AnalysisResultController extends Controller
                                        $pointIdentification);
 
                 $result =  Str::replace(["*J", " [1]"], "", $value->result);
+                $result = Str::replace("<", "< ", $result);
+
                 $rl =  Str::replace(["*J", " [1]"], "", $value->rl);
+                $rl = Str::replace("<", "< ", $rl);
 
                 $resultValue = Str::replace("<", "", $result);
                 $rlValue = Str::replace("<", "", $rl);
