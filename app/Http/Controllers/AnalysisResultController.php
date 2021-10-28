@@ -299,7 +299,7 @@ class AnalysisResultController extends Controller
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
                 if($resultValue < $rlValue) $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getFont()->setBold(true);
 
-                $result = Str::replace("<", "", $result);
+                $result = Str::replace("< ", "", $result);
 
                 foreach ($guidingParameterOrders as $key2 => $value3)
                 {
