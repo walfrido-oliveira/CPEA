@@ -98,7 +98,7 @@ class AnalysisResultController extends Controller
         ->leftJoin('analysis_orders',  'analysis_orders.id', 'analysis_order_project_point_matrix.analysis_order_id')
         ->where('analysis_orders.id', $campaign->id)
         ->groupBy('samplename')->get();
-
+        dd($$analysisResult);
         foreach ($analysisResult as $key => $value)
         {
             $pointIdentification[] = $value->samplename;
