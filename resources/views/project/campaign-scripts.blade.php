@@ -89,6 +89,7 @@
             var token = document.querySelector('meta[name="csrf-token"]').content;
             var method = 'POST';
             var paginationPerPage = document.getElementById("paginate_per_page_campaigns").value;
+            var page = this.dataset.page ? this.dataset.page : document.getElementById("page_campaigns").value;
 
             ajax.open(method, url);
 
@@ -121,6 +122,7 @@
             data.append('paginate_per_page', paginationPerPage);
             data.append('ascending', ascendingCampaign);
             data.append('order_by', orderByCampaign);
+            data.append('page', page);
             data.append('project_id', {{ $project->id }});
 
             ajax.send(data);
@@ -132,6 +134,12 @@
                 item.addEventListener('keyup', campaignOrderByCallback, false);
             });
             document.querySelectorAll("#campaign_table thead [data-name]").forEach(item => {
+                item.addEventListener("click", campaignOrderByCallback, false);
+            });
+            document.querySelectorAll("#campaign_pagination .pagination-item").forEach(item => {
+                item.addEventListener("click", function(e) {
+                    e.preventDefault();
+                });
                 item.addEventListener("click", campaignOrderByCallback, false);
             });
         }

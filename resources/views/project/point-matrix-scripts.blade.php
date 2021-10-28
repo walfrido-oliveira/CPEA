@@ -8,40 +8,6 @@
             });
         });
 
-        function getPointMatrices() {
-            var id = '{{ $project->id }}';
-            var ajax = new XMLHttpRequest();
-            var url = "{!! route('project.point-matrix.get-point-matrices-by-project', ['project' => '#']) !!}".replace('#', id);
-            var token = document.querySelector('meta[name="csrf-token"]').content;
-            var method = 'POST';
-
-            ajax.open(method, url);
-
-            ajax.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var resp = JSON.parse(ajax.response);
-
-                    let pointMatrices = resp.point_matrices;
-                    for (let index = 0; index < pointMatrices.length; index++) {
-                        const item = pointMatrices[index];
-                        var opt = document.createElement('option');
-                        opt.value = item.id;
-                        opt.text = item.custom_name;
-                        campaignPointMatrix.add(opt);
-                    }
-                } else if (this.readyState == 4 && this.status != 200) {
-                    toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
-                }
-            }
-
-            var data = new FormData();
-            data.append('_token', token);
-            data.append('_method', method);
-            data.append('id', id);
-
-            ajax.send(data);
-        }
-
         function deletePointIdentificationCallback() {
             document.querySelectorAll(".delete-point-matrix").forEach(item => {
                 item.addEventListener("click", function() {
@@ -122,15 +88,16 @@
         var orderBY = 'created_at';
 
         var orderByCallback = function(event) {
-            console.log(this.nodeName);
             orderBY = this.dataset.name ? this.dataset.name : orderBY;
             ascending = this.dataset.ascending ? this.dataset.ascending : ascending;
+
             var that = this;
             var ajax = new XMLHttpRequest();
             var url = "{!! route('project.point-matrix.filter') !!}";
             var token = document.querySelector('meta[name="csrf-token"]').content;
             var method = 'POST';
             var paginationPerPage = document.getElementById("paginate_per_page_project-point-matrices").value;
+            var page = this.dataset.page ? this.dataset.page : document.getElementById("page_project-point-matrices").value;
 
             ajax.open(method, url);
 
@@ -163,6 +130,7 @@
             data.append('paginate_per_page', paginationPerPage);
             data.append('ascending', ascending);
             data.append('order_by', orderBY);
+            data.append('page', page);
             data.append('project_id', "{{ $project->id }}");
 
             ajax.send(data);
@@ -174,6 +142,12 @@
                 item.addEventListener('keyup', orderByCallback, false);
             });
             document.querySelectorAll("#point_matrix_table thead [data-name]").forEach(item => {
+                item.addEventListener("click", orderByCallback, false);
+            });
+            document.querySelectorAll("#point_matrix_pagination .pagination-item").forEach(item => {
+                item.addEventListener("click", function(e) {
+                    e.preventDefault();
+                });
                 item.addEventListener("click", orderByCallback, false);
             });
         }
@@ -302,7 +276,6 @@
                 data.append(item.id, item.value);
             });
 
-
             ajax.send(data);
         }
 
@@ -422,11 +395,6 @@
                 if(window.customSelectArray[item.id]) window.customSelectArray[item.id].update();
             });
         }
-
-        document.getElementById('confirm_modal').addEventListener('resp', function(e) {
-            cleanCampaigns();
-            getPointMatrices();
-        }, false);
 
         document.getElementById('confirm_modal').addEventListener('resp', orderByCallback, false);
 

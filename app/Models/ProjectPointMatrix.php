@@ -148,6 +148,7 @@ class ProjectPointMatrix extends Model
         $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : DEFAULT_PAGINATE_PER_PAGE;
         $ascending = isset($query['ascending']) ? $query['ascending'] : DEFAULT_ASCENDING;
         $orderBy = isset($query['order_by']) ? $query['order_by'] : DEFAULT_ORDER_BY_COLUMN;
+        $page = isset($query['page']) ? $query['page'] : 1;
 
         $projects = self::where(function($q) use ($query) {
             if(isset($query['id']))
@@ -215,6 +216,6 @@ class ProjectPointMatrix extends Model
         if(isset($query['no-paginate']))
             return $projects->get();
         else
-            return $projects->paginate($perPage, ['*'], 'project-point-matrices');
+            return $projects->paginate($perPage, ['*'], 'project-point-matrices', $page > (int) ceil($projects->count() / $perPage) ? 1 : $page);
     }
 }

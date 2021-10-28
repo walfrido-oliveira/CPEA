@@ -156,10 +156,11 @@ class ProjectController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
+     * @param  ProjectRequest $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $project = Project::findOrFail($id);
         $customers = Customer::all()->pluck('name', 'id');
@@ -174,16 +175,19 @@ class ProjectController extends Controller
         $campaigns = $project->campaigns()->pluck("name", "id");
 
         $projectPointMatrices = $project->projectPointMatrices()
-        ->orderBy("campaign_id", "asc")
-        ->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'project-point-matrices')->appends(request()->input());
+        ->orderBy(isset(request()->input()['order_by']) ? request()->input()['order_by'] : "campaign_id",
+        isset(request()->input()['ascending']) ? request()->input()['ascending'] : "asc")
+        ->paginate(isset(request()->input()['paginate_per_page']) ? request()->input()['paginate_per_page'] : DEFAULT_PAGINATE_PER_PAGE, ['*'], 'project-point-matrices')->appends(request()->input());
 
         $projectCampaigns = $project->campaigns()
-        ->orderBy("name", "asc")
-        ->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'campaigns')->appends(request()->input());
+        ->orderBy(isset(request()->input()['order_by']) ? request()->input()['order_by'] : "name",
+        isset(request()->input()['ascending']) ? request()->input()['ascending'] : "asc")
+        ->paginate(isset(request()->input()['paginate_per_page']) ? request()->input()['paginate_per_page'] : DEFAULT_PAGINATE_PER_PAGE, ['*'], 'campaigns')->appends(request()->input());
 
         return view('project.edit', compact('project','customers', 'areas', 'identifications', 'campaignStatuses', 'projectCampaigns',
-        'matrizeces', 'guidingParameters', 'parameterAnalyses', 'projectPointMatrices', 'geodeticSystems',
-        'pointMatrices', 'campaigns'));
+                    'matrizeces', 'guidingParameters', 'parameterAnalyses', 'projectPointMatrices', 'geodeticSystems',
+                    'pointMatrices', 'campaigns'));
+
     }
 
     /**

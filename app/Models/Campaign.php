@@ -88,6 +88,7 @@ class Campaign extends Model
         $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : DEFAULT_PAGINATE_PER_PAGE;
         $ascending = isset($query['ascending']) ? $query['ascending'] : DEFAULT_ASCENDING;
         $orderBy = isset($query['order_by']) ? $query['order_by'] : DEFAULT_ORDER_BY_COLUMN;
+        $page = isset($query['page']) ? $query['page'] : 1;
 
         $campaigns = self::where(function($q) use ($query) {
             if(isset($query['id']))
@@ -172,6 +173,6 @@ class Campaign extends Model
             $campaigns->orderBy($orderBy, $ascending);
         }
 
-        return $campaigns->paginate($perPage, ['*'], 'campaigns');
+        return $campaigns->paginate($perPage, ['*'], 'campaigns', $page > (int) ceil($campaigns->count() / $perPage) ? 1 : $page);
     }
 }
