@@ -54,7 +54,7 @@
                                 @method("POST")
                                 <input type="hidden" name="order" value="{{ $analysisOrder->id }}">
                                 <button type="button" class="btn-outline-info" id="import_result">{{ __('Importar Análises') }}</button>
-                                <input type="file" name="file" id="file" accept="application/vnd.ms-excel" class="hidden">
+                                <input type="file" name="file" id="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.ms-excel" class="hidden">
                            </form>
                         </div>
                     </div>

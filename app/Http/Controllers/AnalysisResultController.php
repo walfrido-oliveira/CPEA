@@ -341,7 +341,7 @@ class AnalysisResultController extends Controller
     {
         $validator = Validator::make($request->all(),
         [
-            'file' => 'required|mimes:xls|max:4096',
+            'file' => 'required|mimes:xls,xlsx|max:4096',
             'order' =>  ['required', 'exists:analysis_orders,id'],
         ]);
 
