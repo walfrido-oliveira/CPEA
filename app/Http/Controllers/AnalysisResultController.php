@@ -134,7 +134,7 @@ class AnalysisResultController extends Controller
         ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
         ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
         ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
-        ->orderBy('parameter_analysis_groups.name', 'asc')
+        ->orderBy('parameter_analysis_groups.order', 'asc')
         ->orderBy('parameter_analyses.analysis_parameter_name', 'asc')
         ->select('project_point_matrices.*')
         ->get();
@@ -235,7 +235,7 @@ class AnalysisResultController extends Controller
             ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
             ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
             ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
-            ->orderBy('parameter_analysis_groups.name', 'asc')
+            ->orderBy('parameter_analysis_groups.order', 'asc')
             ->orderBy('parameter_analyses.analysis_parameter_name', 'asc')
             ->get();
 
