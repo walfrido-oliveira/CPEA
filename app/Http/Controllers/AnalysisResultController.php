@@ -145,6 +145,11 @@ class AnalysisResultController extends Controller
             $groupParameterAnalysis[] = $projectPointMatrices[0]->parameterAnalysis->parameterAnalysisGroup->name;
             $sheet->getStyleByColumnAndRow(1, 5)->getFill() ->setFillType(Fill::FILL_SOLID) ->getStartColor()->setRGB('C0C0C0');
             $sheet->getStyleByColumnAndRow(2, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+
+            foreach ($analysisResult as $analysisIndex => $value)
+            {
+                $sheet->getStyleByColumnAndRow(3 + count($guidingParameters) + $analysisIndex, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+            }
         }
 
         $guidingParameterOrders = explode(",", $project->guiding_parameter_order);
@@ -168,6 +173,12 @@ class AnalysisResultController extends Controller
                     {
                         $sheet->getStyleByColumnAndRow(2 + ($key2 + 1),  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
                     }
+
+                    foreach ($analysisResult as $analysisIndex => $value)
+                    {
+                        $sheet->getStyleByColumnAndRow(3 + count($guidingParameters) + $analysisIndex, $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+                    }
+
                     $key++;
                 }
               }
@@ -244,19 +255,9 @@ class AnalysisResultController extends Controller
             foreach ($analysisResults as $value)
             {
                 if($value->projectPointMatrix->pointIdentification->area . "-" .
-                   $value->projectPointMatrix->pointIdentification->identification != $value1) continue;
-
-                if($key > 0)
+                   $value->projectPointMatrix->pointIdentification->identification != $value1)
                 {
-                    if ($analysisResults[$key]->projectPointMatrix->parameterAnalysis->parameter_analysis_group_id !=
-                        $analysisResults[$key - 1]->projectPointMatrix->parameterAnalysis->parameter_analysis_group_id)
-                    {
-                        $key++;
-                        if(!in_array($value->projectPointMatrix->parameterAnalysis->parameterAnalysisGroup->name, $groupParameterAnalysis))
-                        {
-                            $groupParameterAnalysis[] = $value->projectPointMatrix->parameterAnalysis->parameterAnalysisGroup->name;
-                        }
-                    }
+                    continue;
                 }
 
                 $break = false;
