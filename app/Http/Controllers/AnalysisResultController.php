@@ -283,7 +283,13 @@ class AnalysisResultController extends Controller
                                        $value->projectPointMatrix->pointIdentification->identification,
                                        $pointIdentification);
 
-                $result = Str::replace(["*J", " [1]"], "", $value->result);
+                $result =  Str::replace(["*J", " [1]"], "", $value->result);
+                $rl =  Str::replace(["*J", " [1]"], "", $value->rl);
+
+                $resultValue = Str::replace("<", "", $result);
+                $rlValue = Str::replace("<", "", $rl);
+
+                $result = $resultValue > $rlValue ? $result : $rl;
 
                 $sheet->setCellValueByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index, $result);
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
