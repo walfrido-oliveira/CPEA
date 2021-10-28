@@ -289,8 +289,8 @@ class AnalysisResultController extends Controller
                 $rl =  Str::replace(["*J", " [1]"], "", $value->rl);
                 $rl = Str::replace("<", "< ", $rl);
 
-                $resultValue = Str::replace("<", "", $result);
-                $rlValue = Str::replace("<", "", $rl);
+                $resultValue = Str::replace("< ", "", $result);
+                $rlValue = Str::replace("< ", "", $rl);
 
                 $result = $resultValue >= $rlValue ? $result : $rl;
 
