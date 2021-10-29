@@ -52,7 +52,7 @@
                            <form method="POST" action="{!! route('analysis-result.import') !!}" enctype="multipart/form-data" id="import_result_form">
                                 @csrf
                                 @method("POST")
-                                <input type="hidden" name="order" value="{{ $analysisOrder->id }}">
+                                <input type="hidden" name="order" id="order" value="{{ $analysisOrder->id }}">
                                 <button type="button" class="btn-outline-info" id="import_result">{{ __('Importar Análises') }}</button>
                                 <input type="file" name="file" id="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.ms-excel" class="hidden">
                            </form>
@@ -67,6 +67,7 @@
             </div>
         </div>
     </div>
+    <x-spin-load />
 
     <script>
         document.getElementById("import_result").addEventListener("click", function() {
@@ -74,7 +75,37 @@
         });
 
         document.getElementById("file").addEventListener("change", function(e) {
-            document.getElementById("import_result_form").submit();
+            document.getElementById("spin_load").classList.remove("hidden");
+
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('analysis-result.import') !!}";
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let files = document.querySelector('#file').files;
+            let order = document.getElementById("order").value;
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.success(resp.message);
+                } else if(this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('_method', method);
+            data.append('file', files[0]);
+            data.append('order', order);
+
+            ajax.send(data);
+
         });
 
         function importResults() {

@@ -170,12 +170,13 @@
                             </div>
                         </div>
                         <div class="m-2 py-2">
-                            <a class="btn-transition-secondary" href="{{ route('analysis-result.download', ['campaign' => $campaign->id]) }}" target="_blank" rel="noopener noreferrer">
+                            <a class="btn-transition-secondary" id="download_analysis_result" href="{{ route('analysis-result.download', ['campaign' => $campaign->id]) }}" rel="noopener noreferrer">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                 </svg>
                             </a>
                         </div>
+                        <x-spin-load />
                         <div class="flex md:justify-end justify-center md:mx-0 mx-auto">
                             <div class="m-2 ">
                                 <button type="button" class="btn-outline-info" id="add-parameter-analysis-items">{{ __('Adicionar') }}</button>
@@ -203,6 +204,49 @@
             </form>
         </div>
     </div>
+
+    <script>
+        document.getElementById("download_analysis_result").addEventListener("click", function(e) {
+            e.preventDefault();
+            downloadFile(this);
+        });
+
+        function downloadFile(elem) {
+            var blob = "";
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.onload = function(){
+                if (this.status == 200) {
+                    blob = new Blob([xhr.response], { type: 'application/pdf' });
+
+                    var link = document.createElement('a');
+
+                    link.href = window.URL.createObjectURL(blob);
+                    link.download = "result.xls";
+
+                    link.click();
+                    document.getElementById("spin_load").classList.add("hidden");
+                } else {
+                    document.getElementById("spin_load").classList.remove("hidden");
+                    toastr.error("{{ __('Error ao baixar ') }}" + this.status + ".");
+                }
+            };
+
+            try {
+                xhr.open('GET', elem.href, true);
+
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                xhr.responseType = 'blob';
+
+                document.getElementById("spin_load").classList.remove("hidden");
+                xhr.send();
+            } catch (e) {
+                alert(e);
+            }
+        }
+    </script>
 
     <script>
         function updateStatusProject(status) {

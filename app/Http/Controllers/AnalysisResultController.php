@@ -358,12 +358,10 @@ class AnalysisResultController extends Controller
 
         if ($validator->fails())
         {
-            return redirect()->back()->with(
-              array(
+            return response()->json([
                 'message' => implode("<br>", $validator->messages()->all()),
                 'alert-type' => 'error'
-              )
-            );
+            ], 403);
         }
 
         $orderId = $request->get('order');
@@ -460,12 +458,10 @@ class AnalysisResultController extends Controller
             $totalImport++;
         }
 
-        return redirect()->route('analysis-order.show', ['analysis_order' => $orderId])->with(
-            array(
-                'message' => __("$totalImport importada(s) no total de $totalRows pontos"),
-                'alert-type' => 'success'
-            )
-        );
+        return response()->json([
+            'message' => __("$totalImport importada(s) no total de $totalRows pontos"),
+            'alert-type' => 'success'
+        ]);
 
     }
 }
