@@ -218,7 +218,7 @@
 
             xhr.onload = function(){
                 if (this.status == 200) {
-                    blob = new Blob([xhr.response], { type: 'application/pdf' });
+                    blob = new Blob([xhr.response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
 
                     var link = document.createElement('a');
 
