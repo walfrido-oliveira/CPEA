@@ -381,6 +381,9 @@ class AnalysisResultController extends Controller
 
             $order = AnalysisOrder::findOrFail($orderId);
             $projectPointMatrices = $order->projectPointMatrices()
+            ->whereHas("project", function($q) use($value) {
+                $q->where("project_cod", 'like', '%' . $value[2]);
+            })
             ->whereHas('parameterAnalysis', function($q) use($value) {
                 $q->where('parameter_analyses.cas_rn', $value[21]);
             })->whereHas('pointIdentification', function($q) use($pointIdentifciation) {
