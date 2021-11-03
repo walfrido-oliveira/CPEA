@@ -117,6 +117,7 @@ class AnalysisResultController extends Controller
             $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1, $value->samplename);
             $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
             $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
             $sheet->getColumnDimensionByColumn(2 + count($guidingParameters) + 1  + $key)->setAutoSize(true);
 
             $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2, $value->sampdate->format('d/m/Y'));
@@ -354,8 +355,6 @@ class AnalysisResultController extends Controller
         for ($i=0; $i < $count; $i++) : $column++; endfor;
 
         $groupParameterAnalysis[] = $projectPointMatrices[0]->parameterAnalysis->parameterAnalysisGroup->name;
-        //$sheet->mergeCells('A5:F5');
-        //dd('A' . ($row+5) . ':' . $column . ($row+5));
         $sheet->mergeCells('A' . $row . ':' . $column . $row);
 
         foreach ($projectPointMatrices as $point)
