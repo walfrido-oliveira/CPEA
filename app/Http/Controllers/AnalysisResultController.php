@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Color;
 
 class AnalysisResultController extends Controller
 {
@@ -46,6 +48,14 @@ class AnalysisResultController extends Controller
         $spreadsheet = new Spreadsheet();
 
         $sheet = $spreadsheet->getActiveSheet();
+
+        $border = [
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+        ];
 
         $sheet->setCellValue('A1', 'Parâmetro');
         $sheet->setCellValue('A2', 'Data Coleta');
@@ -86,6 +96,7 @@ class AnalysisResultController extends Controller
 
             $sheet->getStyle($column2 . "2")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key]));
             $spreadsheet->getActiveSheet()->mergeCells($column2 . "2:" . $column2 . "4");
+
             $sheet->getStyle($column2 . "5")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
 
             $column2++;
@@ -332,6 +343,40 @@ class AnalysisResultController extends Controller
             }
             $column++;
         }
+
+        $column = "A";
+        $count = count($guidingParameters) + 1 + count($analysisResult);
+        $row = 4;
+        $index = 0;
+        $groupParameterAnalysis = [];
+        $parameterAnalysis = [];
+
+        for ($i=0; $i < $count; $i++) : $column++; endfor;
+
+        foreach ($projectPointMatrices as $point)
+        {
+            if($index > 0)
+            {
+              if ($projectPointMatrices[$index]->parameterAnalysis->parameter_analysis_group_id !=
+                  $projectPointMatrices[$index - 1]->parameterAnalysis->parameter_analysis_group_id)
+                {
+                if(!in_array($point->parameterAnalysis->parameterAnalysisGroup->name, $groupParameterAnalysis))
+                {
+                    $groupParameterAnalysis[] = $point->parameterAnalysis->parameterAnalysisGroup->name;
+                    $row++;
+                }
+              }
+            }
+
+            if(!in_array($point->parameterAnalysis->analysis_parameter_name, $parameterAnalysis) || $index == 0)
+            {
+              $parameterAnalysis[] = $point->parameterAnalysis->analysis_parameter_name;
+              $row++;
+            }
+            $index++;
+        }
+
+        $sheet->getStyle("A1:" . $column . $row)->applyFromArray($border);
 
         $writer = new Xls($spreadsheet);
 

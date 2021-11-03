@@ -228,7 +228,7 @@
                     link.click();
                     document.getElementById("spin_load").classList.add("hidden");
                 } else {
-                    document.getElementById("spin_load").classList.remove("hidden");
+                    document.getElementById("spin_load").classList.add("hidden");
                     toastr.error("{{ __('Error ao baixar ') }}" + this.status + ".");
                 }
             };
