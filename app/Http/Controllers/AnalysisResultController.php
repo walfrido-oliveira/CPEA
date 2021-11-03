@@ -35,10 +35,10 @@ class AnalysisResultController extends Controller
 
         $project = $campaign->project;
         $RandomColors = RandomColor::many(30, array('luminosity'=>'light', 'format'=>'hex'));
+        $guidingParameters = [];
 
         if($project->guiding_parameter_order && count(explode(",", $project->guiding_parameter_order)))
         {
-            $guidingParameters = [];
             foreach (explode(",", $project->guiding_parameter_order) as $key => $value)
             {
                 $guidingParameters[] = GuidingParameter::find($value)->environmental_guiding_parameter_id;
