@@ -351,6 +351,9 @@ class AnalysisResultController extends Controller
         $groupParameterAnalysis = [];
         $parameterAnalysis = [];
 
+        //$groupParameterAnalysis[] = $projectPointMatrices[0]->parameterAnalysis->parameterAnalysisGroup->name;
+        //$sheet->mergeCells('A' . $row . ':' . $column . $row);
+
         for ($i=0; $i < $count; $i++) : $column++; endfor;
 
         foreach ($projectPointMatrices as $point)
@@ -363,6 +366,7 @@ class AnalysisResultController extends Controller
                 if(!in_array($point->parameterAnalysis->parameterAnalysisGroup->name, $groupParameterAnalysis))
                 {
                     $groupParameterAnalysis[] = $point->parameterAnalysis->parameterAnalysisGroup->name;
+                    $sheet->mergeCells('A' . $row . ':' . $column . $row);
                     $row++;
                 }
               }
