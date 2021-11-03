@@ -346,15 +346,17 @@ class AnalysisResultController extends Controller
 
         $column = "A";
         $count = count($guidingParameters) + 1 + count($analysisResult);
-        $row = 4;
+        $row = 5;
         $index = 0;
         $groupParameterAnalysis = [];
         $parameterAnalysis = [];
 
-        //$groupParameterAnalysis[] = $projectPointMatrices[0]->parameterAnalysis->parameterAnalysisGroup->name;
-        //$sheet->mergeCells('A' . $row . ':' . $column . $row);
-
         for ($i=0; $i < $count; $i++) : $column++; endfor;
+
+        $groupParameterAnalysis[] = $projectPointMatrices[0]->parameterAnalysis->parameterAnalysisGroup->name;
+        //$sheet->mergeCells('A5:F5');
+        //dd('A' . ($row+5) . ':' . $column . ($row+5));
+        $sheet->mergeCells('A' . $row . ':' . $column . $row);
 
         foreach ($projectPointMatrices as $point)
         {
@@ -366,8 +368,8 @@ class AnalysisResultController extends Controller
                 if(!in_array($point->parameterAnalysis->parameterAnalysisGroup->name, $groupParameterAnalysis))
                 {
                     $groupParameterAnalysis[] = $point->parameterAnalysis->parameterAnalysisGroup->name;
-                    $sheet->mergeCells('A' . $row . ':' . $column . $row);
                     $row++;
+                    $sheet->mergeCells('A' . $row . ':' . $column . $row);
                 }
               }
             }
