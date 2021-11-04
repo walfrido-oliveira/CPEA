@@ -6,6 +6,7 @@ use App\Models\Lab;
 use App\Models\Project;
 use App\Models\Campaign;
 use App\Models\Customer;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\AnalysisOrder;
 use App\Models\ProjectPointMatrix;
@@ -125,8 +126,11 @@ class SampleAnalysisController extends Controller
                 {
                     $q->where( function($q) use($query){
                         $q->whereHas('pointIdentification', function($q) use($query) {
-                            $q->where('point_identifications.area', 'like', '%' . $query['q'] . '%')
-                                ->orWhere('point_identifications.identification', 'like', '%' . $query['q'] . '%');
+                            $area = Str::contains($query['q'], '-') ? trim(explode("-", $query['q'])[0]) : $query['q'];
+                            $identification = Str::contains($query['q'], '-') ? trim(explode("-", $query['q'])[1]) : $query['q'];
+
+                            $q->where('point_identifications.area', 'like', '%' . $area . '%')
+                              ->orWhere('point_identifications.identification', 'like', '%' . $identification . '%');
                         })
                         ->orWhereHas('analysisMatrix', function($q) use($query) {
                             $q->where('analysis_matrices.name', 'like', '%' . $query['q'] . '%');
