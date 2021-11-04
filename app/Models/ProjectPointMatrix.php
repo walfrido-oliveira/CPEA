@@ -128,7 +128,9 @@ class ProjectPointMatrix extends Model
      */
     public function getStatusLab($id)
     {
-        $result = $this->analysisOrders()->where('campaign_id', $id)
+        $result = $this->analysisOrders()
+        ->where('campaign_id', $id)
+        ->where('status', '!=', 'canceled')
         ->select('analysis_orders.*')
         ->first();
 
