@@ -6,8 +6,8 @@
 </thead>
 <tbody>
     @forelse ($projectPointMatrices as $index => $point)
-        @if (($index > 0 && $projectPointMatrices[$index]->pointIdentification->area !=
-                            $projectPointMatrices[$index - 1]->pointIdentification->area) || $index == 0)
+        @if (($index > 0 && $projectPointMatrices[$index]->point_identification_id !=
+                            $projectPointMatrices[$index - 1]->point_identification_id) || $index == 0)
             <tr>
                 <td class="bg-gray-100" style="width: 1%">
                     <input class="form-checkbox parameter-analysis-identification" type="checkbox"
