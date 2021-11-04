@@ -92,45 +92,31 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($orders as $order)
+                            @forelse ($analysisOrders as $analysisOrder)
                                 <tr>
                                     <td>
-                                        <a class="text-item-table" href="{{ route('analysis-order.show', ['analysis_order' => $order->id]) }}">
-                                            {{ $order->formatted_id }}
+                                        <a class="text-item-table" href="{{ route('analysis-order.show', ['analysis_order' => $analysisOrder->id]) }}">
+                                            {{ $analysisOrder->formatted_id }}
                                         </a>
                                     </td>
                                     <td>
-                                        <a class="text-item-table" href="{{ route('analysis-order.show', ['analysis_order' => $order->id]) }}">
-                                            {{ $order->created_at->format('d/m/Y h:m') }}
+                                        <a class="text-item-table" href="{{ route('analysis-order.show', ['analysis_order' => $analysisOrder->id]) }}">
+                                            {{ $analysisOrder->created_at->format('d/m/Y h:m') }}
                                         </a>
                                     </td>
                                     <td>
-                                        <a class="text-item-table" href="{{ route('analysis-order.show', ['analysis_order' => $order->id]) }}">
-                                            {{ $order->lab->name }}
+                                        <a class="text-item-table" href="{{ route('analysis-order.show', ['analysis_order' => $analysisOrder->id]) }}">
+                                            {{ $analysisOrder->lab->name }}
                                         </a>
                                     </td>
                                     <td>
-                                        <a class="text-item-table" href="{{ route('analysis-order.show', ['analysis_order' => $order->id]) }}">
-                                            @switch($order->status)
-                                                @case("sent")
-                                                    <span class="w-24 py-1 badge-light-primary">{{ __($order->status) }}</span>
-                                                    @break
-                                                @case("canceled")
-                                                    <span class="w-24 py-1 badge-light-danger">{{ __($order->status) }}</span>
-                                                    @break
-                                                @case("analyzing")
-                                                    <span class="w-24 py-1 badge-light-warning">{{ __($order->status) }}</span>
-                                                    @break
-                                                @case("concluded")
-                                                    <span class="w-24 py-1 badge-light-success">{{ __($order->status) }}</span>
-                                                    @break
-                                                @default
-                                            @endswitch
-                                        </a>
+                                        <div id="status_analysis_order_{{ $analysisOrder->id }}">
+                                            @include('sample-analysis.status-order')
+                                        </div>
                                     </td>
                                     <td>
-                                        <a class="text-item-table" href="{{ route('analysis-order.show', ['analysis_order' => $order->id]) }}">
-                                            {{ $order->updated_at->format('d/m/Y h:m') }}
+                                        <a class="text-item-table" href="{{ route('analysis-order.show', ['analysis_order' => $analysisOrder->id]) }}">
+                                            {{ $analysisOrder->updated_at->format('d/m/Y h:m') }}
                                         </a>
                                     </td>
                                 </tr>
@@ -204,6 +190,48 @@
             </form>
         </div>
     </div>
+
+    <script>
+        function updateStatusOrder(status, id) {
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('analysis-order.status', ['analysis_order' => '#']) !!}".replace("#", id);
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    document.getElementById("status_analysis_order_" + id).innerHTML = resp.status;
+                    document.getElementById("parameter_analysis_table").innerHTML = resp.project_point_matrices;
+                    updateStatusOrderCallback();
+                    toastr.success(resp.message);
+                } else if(this.readyState == 4 && this.status != 200) {
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('status', status);
+            data.append('id', id);
+
+            ajax.send(data);
+        }
+
+        updateStatusOrderCallback();
+
+        function updateStatusOrderCallback() {
+            document.querySelectorAll(".status-analysis-order-edit").forEach(item => {
+                item.addEventListener("click", function(){
+                    updateStatusOrder(item.dataset.status, item.dataset.id);
+                });
+            });
+        }
+
+    </script>
 
     <script>
         document.getElementById("download_analysis_result").addEventListener("click", function(e) {

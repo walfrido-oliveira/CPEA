@@ -247,10 +247,25 @@ class AnalysisOrderController extends Controller
 
         $msg = $request->get('status') == 'canceled' ? 'Cancelado' : 'Atualizado';
 
+        $campaign = $analysisOrder->campaign;
+        $projectPointMatrices = $campaign
+        ->projectPointMatrices()
+        ->with('pointIdentification')
+        ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+        ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+        ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
+        ->orderBy('point_identifications.area', 'asc')
+        ->orderBy('point_identifications.identification', 'asc')
+        ->orderBy('parameter_analysis_groups.name', 'asc')
+        ->select('project_point_matrices.*')
+        ->get();
+
         return response()->json([
             'message' => __("Pedido $analysisOrder->formatted_id $msg com Sucesso!"),
             'alert-type' => 'success',
-            'result' => view('analysis-order.status', compact('analysisOrder'))->render()
+            'result' => view('analysis-order.status', compact('analysisOrder'))->render(),
+            'status' => view('sample-analysis.status-order', compact('analysisOrder'))->render(),
+            'project_point_matrices' => view('sample-analysis.parameter-analysis-result', compact('projectPointMatrices', 'campaign'))->render(),
         ]);
 
     }

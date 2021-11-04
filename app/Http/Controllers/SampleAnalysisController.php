@@ -41,7 +41,7 @@ class SampleAnalysisController extends Controller
     {
         $campaign = Campaign::findOrFail($id);
         $status = ['sent' => __('sent'), 'pending' => __('pending'), 'analyzing' => __('analyzing'), 'concluded' => __('concluded')];
-        $orders = $campaign->analysisOrders;
+        $analysisOrders = $campaign->analysisOrders;
 
         $projectPointMatrices = $campaign
         ->projectPointMatrices()
@@ -55,7 +55,7 @@ class SampleAnalysisController extends Controller
         ->select('project_point_matrices.*')
         ->get();
 
-        return view('sample-analysis.show', compact('campaign', 'projectPointMatrices', 'status', 'orders'));
+        return view('sample-analysis.show', compact('campaign', 'projectPointMatrices', 'status', 'analysisOrders'));
     }
 
     /**
