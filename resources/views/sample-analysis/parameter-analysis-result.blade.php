@@ -71,8 +71,8 @@
                         break;
                 }
             @endphp
-            <td style="width: 1%">
-                @if (!$status)
+            <td style="width: 1%" data-status="{{ $status }}">
+                @if (!$status || $status == 'canceled')
                     <input class="form-checkbox parameter-analysis-item" name="parameter_analysis_item[{{ $index }}]"
                         type="checkbox" data-group-id="{{ $point->parameterAnalysis->parameterAnalysisGroup->id }}"
                         data-identification-id="{{ $point->pointIdentification->id }}" value="{{ $point->id }}">

@@ -114,7 +114,7 @@ class AnalysisOrderController extends Controller
             'lab_id' => ['required', 'exists:labs,id'],
             'obs' => ['nullable', 'string', 'max:255'],
             'campaign_id' => ['required', 'exists:campaigns,id'],
-            'project_point_matrices.*' => ['required', 'unique:analysis_order_project_point_matrix,project_point_matrix_id']
+            'project_point_matrices.*' => ['required']
         ]);
 
         $input = $request->all();
