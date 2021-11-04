@@ -44,7 +44,7 @@ class SampleAnalysisController extends Controller
         $orders = $campaign->analysisOrders;
 
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'asc';
-        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'point_identifications.identification';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'project_point_matrices.point_identification_id';
 
         $projectPointMatrices = $campaign
         ->projectPointMatrices()
