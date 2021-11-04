@@ -50,7 +50,7 @@ class SampleAnalysisController extends Controller
         ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
         ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
         ->orderBy('point_identifications.area', 'asc')
-        ->orderBy('point_identifications.identification ', 'asc')
+        ->orderBy('point_identifications.identification', 'asc')
         ->orderBy('parameter_analysis_groups.name', 'asc')
         ->select('project_point_matrices.*')
         ->get();
