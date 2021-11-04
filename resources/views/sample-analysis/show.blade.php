@@ -217,6 +217,7 @@
             data.append('_method', method);
             data.append('status', status);
             data.append('id', id);
+            data.append('type', 'sample-analysis');
 
             ajax.send(data);
         }

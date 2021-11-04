@@ -137,6 +137,7 @@
             data.append('_method', method);
             data.append('status', status);
             data.append('id', {{ $analysisOrder->id }});
+            data.append('type', 'analysis-order');
 
             ajax.send(data);
         }
