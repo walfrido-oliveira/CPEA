@@ -391,14 +391,14 @@
                     if(item.checked) {
                         document.querySelectorAll(".parameter-analysis-item").forEach(item2 => {
                             if(item.dataset.groupId == item2.dataset.groupId &&
-                            item.dataset.identificationId == item2.dataset.identificationId) {
+                               item.dataset.identificationId == item2.dataset.identificationId) {
                                 item2.checked = true;
                             }
                         });
                     } else {
                         document.querySelectorAll(".parameter-analysis-item").forEach(item2 => {
                             if(item.dataset.groupId == item2.dataset.groupId &&
-                            item.dataset.identificationId == item2.dataset.identificationId) {
+                               item.dataset.identificationId == item2.dataset.identificationId) {
                                 item2.checked = false;
                             }
                         });
