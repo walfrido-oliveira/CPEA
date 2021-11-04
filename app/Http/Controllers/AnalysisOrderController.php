@@ -35,9 +35,7 @@ class AnalysisOrderController extends Controller
         ->orderBy($orderBy, $ascending)
         ->orderBy('parameter_analysis_groups.name', 'asc')
         ->select('project_point_matrices.*')
-        ->toSQL();
-
-        dd($projectPointMatrices);
+        ->get();
 
         $campaign = $analysisOrder->campaign;
 

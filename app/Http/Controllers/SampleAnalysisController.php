@@ -55,9 +55,7 @@ class SampleAnalysisController extends Controller
         ->orderBy($orderBy, $ascending)
         ->orderBy('parameter_analysis_groups.name', 'asc')
         ->select('project_point_matrices.*')
-        ->toSql();
-
-        dd($projectPointMatrices);
+        ->get();
 
         return view('sample-analysis.show', compact('campaign', 'projectPointMatrices', 'status', 'orders'));
     }
