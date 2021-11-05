@@ -91,6 +91,11 @@ class ProjectPointMatrix extends Model
         return $this->belongsTo(ParameterAnalysis::class);
     }
 
+    public function calculationParameters()
+    {
+        return $this->hasManyThrough(CalculationParameter::class, ParameterAnalysis::class);
+    }
+
     /**
      * The Analysis Result
      */

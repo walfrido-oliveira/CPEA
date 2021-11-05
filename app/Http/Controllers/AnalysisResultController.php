@@ -508,14 +508,15 @@ class AnalysisResultController extends Controller
             $totalImport++;
         }
 
-        $projectPointMatrices = $order->projectPointMatrices()->whereHas("parameterAnalysis")->get();
+        $projectPointMatrices = $order->projectPointMatrices()->whereHas("parameterAnalysis", function(){
+
+        })->get();
 
         foreach ($projectPointMatrices as $key => $value)
         {
-            dd($value->parameterAnalysis->calculationParameter);
-            if($value->parameterAnalysis->calculationParameter)
+            if($value->calculationParameters)
             {
-                dd($value->parameterAnalysis->calculationParameter->formula);
+                dd($value->calculationParameters);
 
                 $analysisResult = AnalysisResult::firstOrCreate([
                     'project_point_matrix_id' => $value->id,
