@@ -532,8 +532,7 @@ class AnalysisResultController extends Controller
 
                     if($projectPointMatrix)
                     {
-                        $analysisResult = AnalysisResult::where("project_point_matrix_id", $projectPointMatrix->id)->get();
-                        dd($analysisResult->result);
+                        $analysisResult = AnalysisResult::where("project_point_matrix_id", $projectPointMatrix->id)->first();
                         if($analysisResult)
                         {
                             Str::replace($value2[0],  $analysisResult->result, $formula);
