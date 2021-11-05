@@ -540,8 +540,8 @@ class AnalysisResultController extends Controller
                     }
                 }
 
-                $formuala = Str::replace(["*J", " [1]", "< "],  "", $formula);
-                dd($formuala);
+                $formuala = Str::replace(["*J", " [1]", "< ", "<"],  "", $formula);
+                #dd($formuala);
                 $stringCalc = new StringCalc();
                 $result = $stringCalc->calculate($formula);
 
