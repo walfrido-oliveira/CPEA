@@ -508,6 +508,22 @@ class AnalysisResultController extends Controller
             $totalImport++;
         }
 
+        $projectPointMatrices = $order->projectPointMatrices()->whereHas("calculationParameter")->get();
+
+        foreach ($projectPointMatrices as $key => $value)
+        {
+           dd($value->calculationParameter->formula);
+
+            $analysisResult = AnalysisResult::firstOrCreate([
+                'project_point_matrix_id' => $value->id,
+                'analysis_order_id' => $order->id
+            ]);
+
+            $analysisResult->update([
+                'result' => $value[24],
+            ]);
+        }
+
         return response()->json([
             'message' => __("$totalImport importada(s) no total de $totalRows pontos"),
             'alert-type' => 'success'

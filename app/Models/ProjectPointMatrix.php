@@ -11,6 +11,7 @@ use App\Models\PlanActionLevel;
 use App\Models\GuidingParameter;
 use App\Models\ParameterAnalysis;
 use App\Models\PointIdentification;
+use App\Models\CalculationParameter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -118,6 +119,14 @@ class ProjectPointMatrix extends Model
     public function analysisOrders()
     {
         return $this->belongsToMany(AnalysisOrder::class);
+    }
+
+    /**
+     * The calculationParameters
+     */
+    public function calculationParameter()
+    {
+        return $this->belongsTo(CalculationParameter::class);
     }
 
     /**
