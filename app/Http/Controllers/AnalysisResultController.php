@@ -539,6 +539,7 @@ class AnalysisResultController extends Controller
                     }
                 }
 
+                dd($formula);
                 $stringCalc = new StringCalc();
                 $result = $stringCalc->calculate($formula);
 
