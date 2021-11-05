@@ -512,9 +512,9 @@ class AnalysisResultController extends Controller
 
         foreach ($projectPointMatrices as $key => $value)
         {
-            if($value->calculationParameter)
+            if($value->parameterAnalysis->calculationParameter)
             {
-                dd($value->calculationParameter->formula);
+                dd($value->parameterAnalysis->calculationParameter->formula);
 
                 $analysisResult = AnalysisResult::firstOrCreate([
                     'project_point_matrix_id' => $value->id,
