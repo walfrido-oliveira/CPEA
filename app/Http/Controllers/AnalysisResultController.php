@@ -512,6 +512,7 @@ class AnalysisResultController extends Controller
 
         foreach ($projectPointMatrices as $key => $value)
         {
+            dd($value->parameterAnalysis->calculationParameter);
             if($value->parameterAnalysis->calculationParameter)
             {
                 dd($value->parameterAnalysis->calculationParameter->formula);
