@@ -515,7 +515,7 @@ class AnalysisResultController extends Controller
 
         foreach ($projectPointMatrices as $key => $value)
         {
-            if($value->calculationParameters)
+            if(count($value->calculationParameters) > 0)
             {
                 dd($value->calculationParameters);
                 $re = '/{(.*?)}/m';
