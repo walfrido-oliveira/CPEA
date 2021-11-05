@@ -536,13 +536,14 @@ class AnalysisResultController extends Controller
                         if($analysisResult)
                         {
                             $formula = Str::replace($value2[0],  $analysisResult->result, $formula);
+                            $sampdate = $analysisResult->sampdate;
+                            $labsampid = $analysisResult->labsampid;
                         }
                     }
                 }
 
                 $formula = Str::replace(["*J", " [1]", "< ", "<"],  "", $formula);
                 $formula = Str::replace([","],  ".", $formula);
-                #dd($formula);
                 $stringCalc = new StringCalc();
                 $result = $stringCalc->calculate($formula);
 
@@ -553,6 +554,8 @@ class AnalysisResultController extends Controller
 
                 $analysisResult->update([
                     'result' => $result,
+                    'labsampid' => $labsampid,
+                    'sampdate' => $sampdate,
                 ]);
             }
         }
