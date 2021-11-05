@@ -126,7 +126,7 @@ class ProjectPointMatrix extends Model
      */
     public function calculationParameter()
     {
-        return $this->belongsTo(CalculationParameter::class);
+        return $this->belongsToMany(CalculationParameter::class);
     }
 
     /**
