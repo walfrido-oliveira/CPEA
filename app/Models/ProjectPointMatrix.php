@@ -122,14 +122,6 @@ class ProjectPointMatrix extends Model
     }
 
     /**
-     * The calculationParameters
-     */
-    public function calculationParameter()
-    {
-        return $this->hasMany(CalculationParameter::class);
-    }
-
-    /**
      * Get status Lab
      *
      * @param int $id
