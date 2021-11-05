@@ -524,7 +524,7 @@ class AnalysisResultController extends Controller
                 foreach ($matches as $key2 => $value2)
                 {
                     $result = explode("-", $value2[1]);
-                    $projectPointMatrix = $order->projectPointMatrices()->whereHas('parameterAnalysis', function($q) use($value) {
+                    $projectPointMatrix = $order->projectPointMatrices()->whereHas('parameterAnalysis', function($q) use($result) {
                         $q->where('parameter_analyses.analysis_parameter_name', $result[0])
                           ->where('parameter_analyses.cas_rn', $result[1]);
                     })->first();
