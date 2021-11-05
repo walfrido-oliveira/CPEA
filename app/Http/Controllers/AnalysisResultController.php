@@ -517,6 +517,7 @@ class AnalysisResultController extends Controller
         {
             if($value->calculationParameters)
             {
+                dd($value->calculationParameter);
                 $re = '/{(.*?)}/m';
                 $formula = $value->calculationParameters[0]->formula;
                 preg_match_all($re, $formula, $matches, PREG_SET_ORDER, 0);
