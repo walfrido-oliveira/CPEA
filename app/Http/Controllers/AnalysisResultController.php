@@ -11,14 +11,15 @@ use App\Models\AnalysisResult;
 use App\Models\GuidingParameter;
 use App\Models\GuidingParameterValue;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use ChrisKonnertz\StringCalc\StringCalc;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use PhpOffice\PhpSpreadsheet\Style\Alignment;
-use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class AnalysisResultController extends Controller
 {
@@ -516,7 +517,30 @@ class AnalysisResultController extends Controller
         {
             if($value->calculationParameters)
             {
-                dd($value->calculationParameters);
+                $re = '/{(.*?)}/m';
+                $formula = $value->calculationParameters[0]->formula;
+                preg_match_all($re, $formula, $matches, PREG_SET_ORDER, 0);
+
+                foreach ($matches as $key2 => $value2)
+                {
+                    $result = explode("-", $value2[1]);
+                    $projectPointMatrix = $order->projectPointMatrices()->whereHas('parameterAnalysis', function($q) use($value) {
+                        $q->where('parameter_analyses.analysis_parameter_name', $result[0])
+                          ->where('parameter_analyses.cas_rn', $result[1]);
+                    })->first();
+
+                    if($projectPointMatrix)
+                    {
+                        $analysisResult = AnalysisResult::where("project_point_matrix_id", $projectPointMatrix->id)->get();
+                        if($analysisResult)
+                        {
+                            Str::replace($value2[0],  $analysisResult->result, $formula);
+                        }
+                    }
+                }
+
+                $stringCalc = new StringCalc();
+                $result = $stringCalc->calculate($formula);
 
                 $analysisResult = AnalysisResult::firstOrCreate([
                     'project_point_matrix_id' => $value->id,
@@ -524,7 +548,7 @@ class AnalysisResultController extends Controller
                 ]);
 
                 $analysisResult->update([
-                    'result' => $value[24],
+                    'result' => $result,
                 ]);
             }
         }

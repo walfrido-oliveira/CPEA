@@ -93,7 +93,7 @@ class ProjectPointMatrix extends Model
 
     public function calculationParameters()
     {
-        return $this->hasManyThrough(CalculationParameter::class, ParameterAnalysis::class, 'id', 'id', 'id', 'parameter_analysis_id');
+        return $this->hasManyThrough(CalculationParameter::class, ParameterAnalysis::class, 'id', 'parameter_analysis_id', 'parameter_analysis_id', 'id');
     }
 
     /**
