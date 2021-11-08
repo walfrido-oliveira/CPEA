@@ -137,7 +137,7 @@
                             @if(count($analysisOrders) > 0)
                                 <tr>
                                     <td class="text-center" colspan="5">
-                                        <button class="btn-transition-secondary" type="button" id="show_all_orders" @click="isOpen() ? close() : show(); scrollTo();">
+                                        <button class="btn-transition-secondary" type="button" id="show_all_orders" @click="isOpen() ? close() : show();">
                                             <span x-show="isOpen()">
                                                 {{ __('Mostra menos pedidos') }}
                                             </span>
@@ -223,15 +223,13 @@
                 open: false,
                 show() {
                     this.open = true;
-                },
-                close() { this.open = false },
-                isOpen() { return this.open === true },
-                scrollTo() {
-                    const delay = ms => new Promise(res => setTimeout(res, ms));
-                    delay(5000);
                     document.getElementById("order_table").scrollIntoView({ behavior: 'smooth', block: 'end' });
-                    console.log(document.getElementById("order_table"));
-                }
+                },
+                close() {
+                    this.open = false;
+                    document.getElementById("order_table").scrollIntoView({ behavior: 'smooth', block: 'start' });
+                },
+                isOpen() { return this.open === true },
             }
         }
     </script>
