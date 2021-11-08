@@ -71,7 +71,8 @@
     }
 
     document.getElementById("point_cancel_modal").addEventListener("click", function(e) {
-        close();
+        var modal = document.getElementById("point_create_modal");
+        modal.classList.add("hidden");
     });
 
     document.getElementById("point_create").addEventListener("click", function() {

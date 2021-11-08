@@ -228,11 +228,17 @@
                     document.getElementById("campaign_pagination").innerHTML = resp.pagination;
 
                     let campaigns = resp.campaigns;
+
+                    let i, L = campaign.options.length - 1;
+                    for (i = L; i >= 0; i--) {
+                        campaign.remove(i);
+                    }
+
                     for (let index = 0; index < campaigns.length; index++) {
                         const item = campaigns[index];
                         var opt = document.createElement('option');
                         opt.value = item.id;
-                        opt.text = item.custom_name;
+                        opt.text = item.name;
                         campaign.add(opt);
                     }
 
