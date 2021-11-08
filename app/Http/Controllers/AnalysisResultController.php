@@ -109,12 +109,11 @@ class AnalysisResultController extends Controller
         $analysisResult = AnalysisResult::leftJoin('analysis_order_project_point_matrix', 'analysis_order_project_point_matrix.project_point_matrix_id', '=', 'analysis_results.project_point_matrix_id')
         ->leftJoin('analysis_orders',  'analysis_orders.id', 'analysis_order_project_point_matrix.analysis_order_id')
         ->where('analysis_orders.campaign_id', $campaign->id)
+        ->where('samplename', '!=', '')
         ->groupBy('samplename')->get();
 
         foreach ($analysisResult as $key => $value)
         {
-          if($value->samplename == '') continue;
-
             $pointIdentification[] = $value->samplename;
 
             $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1, $value->samplename);
