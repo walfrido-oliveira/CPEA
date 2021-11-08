@@ -81,7 +81,7 @@
                     </div>
                 </div>
                 <div class="flex mt-4 w-full">
-                    <table id="order_table" class="table table-responsive md:table w-full" x-data="{ open: false }">
+                    <table id="order_table" class="table table-responsive md:table w-full" x-data="showOrders()">
                         <thead>
                             <tr class="thead-light">
                                 <th>{{ __('Nº do Pedido') }}</th>
@@ -94,7 +94,7 @@
                         <tbody>
                             @forelse ($analysisOrders as $key => $analysisOrder)
                                 <tr @if($key > 0)
-                                        x-show="open"
+                                        x-show="isOpen()"
                                         x-transition:enter="transition ease-out duration-300"
                                         x-transition:enter-start="opacity-0 transform scale-90"
                                         x-transition:enter-end="opacity-100 transform scale-100"
@@ -134,17 +134,17 @@
                                     <td class="text-center" colspan="5">{{ __("Nenhum pedido encontrado") }}</td>
                                 </tr>
                             @endforelse
-                            @if(count($analysisOrders) > 0)
+                            @if(count($analysisOrders) > 0  )
                                 <tr>
                                     <td class="text-center" colspan="5">
-                                        <button class="btn-transition-secondary" type="button" id="show_all_orders" @click="open = !open">
-                                            <span x-show="open">
+                                        <button class="btn-transition-secondary" type="button" id="show_all_orders" @click="isOpen() ? close() : show(); scrollTo();">
+                                            <span x-show="isOpen()">
                                                 {{ __('Mostra menos pedidos') }}
                                             </span>
-                                            <span x-show="!open">
+                                            <span x-show="!isOpen()">
                                                 {{ __('Mostra todos pedidos') }}
                                             </span>
-                                            <svg xmlns="http://www.w3.org/2000/svg"  :class="{'rotate-180': open, 'rotate-0': !open}" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <svg xmlns="http://www.w3.org/2000/svg"  :class="{'rotate-180': isOpen(), 'rotate-0': !isOpen()}" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
                                             </svg>
                                         </button>
@@ -218,9 +218,19 @@
     </div>
 
     <script>
-        document.getElementById("show_all_orders").addEventListener("click", function() {
-            window.scrollTo({ left: 0, top: document.getElementById("order_table").scrollHeight, behavior: "smooth" });
-        });
+        function showOrders() {
+            return {
+                open: false,
+                show() {
+                    this.open = true;
+                },
+                close() { this.open = false },
+                isOpen() { return this.open === true },
+                scrollTo() {
+                    window.scrollTo({ left: 0, top: document.getElementById("order_table").height, behavior: "smooth" });
+                }
+            }
+        }
     </script>
 
     <script>
