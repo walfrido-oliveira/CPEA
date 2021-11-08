@@ -396,7 +396,7 @@
             });
         }
 
-        document.getElementById('confirm_modal').addEventListener('resp', orderByCallback, false);
+        document.getElementById('point_matrix_confirm_id').addEventListener('resp', orderByCallback, false);
 
         document.getElementById("matriz_id").addEventListener("change", function() {
             getFieldsPointMatrix(this.value)

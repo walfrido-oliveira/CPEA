@@ -156,12 +156,13 @@ class CampaignController extends Controller
     public function destroy($id)
     {
         $campaign = Campaign::findOrFail($id);
-
+        $campaigns = $campaign->project->campaigns;
         $campaign->delete();
 
         return response()->json([
             'message' => __('Campanha Apagada com Sucesso!'),
-            'alert-type' => 'success'
+            'alert-type' => 'success',
+            'campaigns' => $campaigns,
         ]);
     }
 
@@ -216,7 +217,7 @@ class CampaignController extends Controller
         $project = Project::find($id);
         $campaigns = $project->campaigns()->pluck("name", "id");
         $resp = [
-            'campaigns' => view('project.campaign-select', compact('campaigns'))->render()
+            'campaigns' => $campaigns
         ];
 
         return response()->json($resp);

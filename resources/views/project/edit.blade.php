@@ -178,6 +178,8 @@
     <x-modal title="{{ __('Excluir') }}"
              msg="{{ __('Deseja realmente apagar esse Item?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_point_matrix_modal"
+             confirm_id="point_matrix_confirm_id"
+             cancel_modal="point_matrix_cancel_modal"
              method="DELETE"
              />
 
@@ -217,12 +219,12 @@
     <script>
         function eventsDeleteCallback() {
             document.querySelectorAll('.delete-project').forEach(item => {
-            item.addEventListener("click", function() {
-                var modal = document.getElementById("delete_project_modal");
-                modal.classList.remove("hidden");
-                modal.classList.add("block");
+                item.addEventListener("click", function() {
+                    var modal = document.getElementById("delete_project_modal");
+                    modal.classList.remove("hidden");
+                    modal.classList.add("block");
+                });
             });
-        });
         }
 
         eventsDeleteCallback();

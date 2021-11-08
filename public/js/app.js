@@ -5297,7 +5297,6 @@ NiceSelect.prototype.updateSelectValue = function () {
     this.el.value = this.selectedOptions[0].data.value;
   }
 
-  console.log(1);
   triggerChange(this.el);
 };
 

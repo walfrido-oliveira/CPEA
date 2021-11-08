@@ -332,7 +332,7 @@
 
         }
 
-        document.getElementById('confirm_modal').addEventListener('resp', campaignOrderByCallback, false);
+        document.getElementById('point_matrix_confirm_id').addEventListener('resp', campaignOrderByCallback, false);
 
         function clearCampaignFields() {
             let campaignName = document.getElementById("campaign_name");
@@ -386,6 +386,44 @@
 
             ajax.send(data);
         }
+
+        document.getElementById("delete_point_matrix_modal").addEventListener("resp", function() {
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('project.campaign.get-campaign-by-project', ['project' => $project->id]) !!}"
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    let campaigns = resp.campaigns;
+                    console.log(campaigns);
+
+                    let i, L = campaign.options.length - 1;
+                    for (i = L; i >= 0; i--) {
+                        campaign.remove(i);
+                    }
+
+                    for (let index = 0; index < campaigns.length; index++) {
+                        const item = campaigns[index];
+                        var opt = document.createElement('option');
+                        opt.value = item.id;
+                        opt.text = item.name;
+                        campaign.add(opt);
+                    }
+
+                    window.customSelectArray["campaign_id"].update();
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+
+            ajax.send(data);
+        });
 
     });
 </script>
