@@ -109,7 +109,6 @@ class AnalysisResultController extends Controller
         $analysisResult = AnalysisResult::leftJoin('analysis_order_project_point_matrix', 'analysis_order_project_point_matrix.project_point_matrix_id', '=', 'analysis_results.project_point_matrix_id')
         ->leftJoin('analysis_orders',  'analysis_orders.id', 'analysis_order_project_point_matrix.analysis_order_id')
         ->where('analysis_orders.campaign_id', $campaign->id)
-        ->where('samplename', '!=', '')
         ->groupBy('samplename')->get();
 
         foreach ($analysisResult as $key => $value)
@@ -538,6 +537,7 @@ class AnalysisResultController extends Controller
                         {
                             $formula = Str::replace($value2[0],  $analysisResult->result, $formula);
                             $sampdate = $analysisResult->sampdate;
+                            $samplename = $analysisResult->samplename;
                             $labsampid = $analysisResult->labsampid;
                         }
                     }
@@ -557,6 +557,7 @@ class AnalysisResultController extends Controller
                     'result' => $result,
                     'labsampid' => $labsampid,
                     'sampdate' => $sampdate,
+                    'samplename' => $samplename
                 ]);
             }
         }
