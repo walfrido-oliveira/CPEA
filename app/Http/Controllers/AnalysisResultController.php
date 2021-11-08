@@ -113,7 +113,7 @@ class AnalysisResultController extends Controller
 
         foreach ($analysisResult as $key => $value)
         {
-          if(empty($value->samplename)) continue;
+          if($value->samplename == '') continue;
 
             $pointIdentification[] = $value->samplename;
 
