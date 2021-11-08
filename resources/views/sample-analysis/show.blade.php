@@ -209,6 +209,7 @@
                     toastr.success(resp.message);
                 } else if(this.readyState == 4 && this.status != 200) {
                     toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                    updateStatusOrderCallback();
                 }
             }
 
@@ -257,7 +258,7 @@
                     link.click();
                     document.getElementById("spin_load").classList.add("hidden");
                 } else {
-                    document.getElementById("spin_load").classList.add("hidden");
+                    document.getElementById("spin_load").classList.remove("hidden");
                     toastr.error("{{ __('Error ao baixar ') }}" + this.status + ".");
                 }
             };
