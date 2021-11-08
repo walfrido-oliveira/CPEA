@@ -89,13 +89,6 @@
                                 <th>{{ __('Laboratório') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Dt. Modificação') }}</th>
-                                <th>
-                                    <button class="btn-transition-secondary" type="button" id="show_all_orders" @click="open = !open">
-                                        <svg xmlns="http://www.w3.org/2000/svg"  :class="{'rotate-180': open, 'rotate-0': !open}" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
-                                        </svg>
-                                    </button>
-                                </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -142,6 +135,23 @@
                                     <td class="text-center" colspan="5">{{ __("Nenhum pedido encontrado") }}</td>
                                 </tr>
                             @endforelse
+                            @if(count($analysisOrders) > 2)
+                                <tr>
+                                    <td class="text-center" colspan="5">
+                                        <button class="btn-transition-secondary" type="button" id="show_all_orders" @click="open = !open">
+                                            <span x-show="open">
+                                                {{ __('Mostra menos pedidos') }}
+                                            </span>
+                                            <span x-show="!open">
+                                                {{ __('Mostra todos pedidos') }}
+                                            </span>
+                                            <svg xmlns="http://www.w3.org/2000/svg"  :class="{'rotate-180': open, 'rotate-0': !open}" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
+                                            </svg>
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endif
                         </tbody>
                     </table>
                 </div>
