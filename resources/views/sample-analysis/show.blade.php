@@ -223,11 +223,11 @@
                 open: false,
                 show() {
                     this.open = true;
-                    document.getElementById("show_all_orders").scrollIntoView({ behavior: 'smooth', block: 'end' });
+                    setTimeout(() => document.getElementById("show_all_orders").scrollIntoView({ behavior: 'smooth', block: 'end' }), 500);
                 },
                 close() {
                     this.open = false;
-                    document.getElementById("show_all_orders").scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    setTimeout(() => document.getElementById("show_all_orders").scrollIntoView({ behavior: 'smooth', block: 'end' }), 500);
                 },
                 isOpen() { return this.open === true },
             }
