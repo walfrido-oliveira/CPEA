@@ -113,6 +113,8 @@ class AnalysisResultController extends Controller
 
         foreach ($analysisResult as $key => $value)
         {
+          if(empty($value->samplename)) continue;
+
             $pointIdentification[] = $value->samplename;
 
             $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1, $value->samplename);
