@@ -93,8 +93,7 @@
                         </thead>
                         <tbody>
                             @forelse ($analysisOrders as $key => $analysisOrder)
-                                <tr class="@if($key > 2) hidden @endif"
-                                    @if($key > 2)
+                                <tr @if($key > 0)
                                         x-show="open"
                                         x-transition:enter="transition ease-out duration-300"
                                         x-transition:enter-start="opacity-0 transform scale-90"
@@ -135,7 +134,7 @@
                                     <td class="text-center" colspan="5">{{ __("Nenhum pedido encontrado") }}</td>
                                 </tr>
                             @endforelse
-                            @if(count($analysisOrders) > 2)
+                            @if(count($analysisOrders) > 0)
                                 <tr>
                                     <td class="text-center" colspan="5">
                                         <button class="btn-transition-secondary" type="button" id="show_all_orders" @click="open = !open">
@@ -220,9 +219,7 @@
 
     <script>
         document.getElementById("show_all_orders").addEventListener("click", function() {
-            document.querySelectorAll("#order_table tr").forEach(item => {
-                item.classList.remove("hidden");
-            });
+            window.scrollTo({ left: 0, top: document.getElementById("order_table").scrollHeight, behavior: "smooth" });
         });
     </script>
 
