@@ -81,7 +81,7 @@
                     </div>
                 </div>
                 <div class="flex mt-4 w-full">
-                    <table id="order_table" class="table table-responsive md:table w-full">
+                    <table id="order_table" class="table table-responsive md:table w-full" x-data="{ open: false }">
                         <thead>
                             <tr class="thead-light">
                                 <th>{{ __('Nº do Pedido') }}</th>
@@ -89,11 +89,28 @@
                                 <th>{{ __('Laboratório') }}</th>
                                 <th>{{ __('Status') }}</th>
                                 <th>{{ __('Dt. Modificação') }}</th>
+                                <th>
+                                    <button class="btn-transition-secondary" type="button" id="show_all_orders" @click="open = !open">
+                                        <svg xmlns="http://www.w3.org/2000/svg"  :class="{'rotate-180': open, 'rotate-0': !open}" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
+                                        </svg>
+                                    </button>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($analysisOrders as $analysisOrder)
-                                <tr>
+                            @forelse ($analysisOrders as $key => $analysisOrder)
+                                <tr class="@if($key > 2) hidden @endif"
+                                    @if($key > 2)
+                                        x-show="open"
+                                        x-transition:enter="transition ease-out duration-300"
+                                        x-transition:enter-start="opacity-0 transform scale-90"
+                                        x-transition:enter-end="opacity-100 transform scale-100"
+                                        x-transition:leave="transition ease-in duration-300"
+                                        x-transition:leave-start="opacity-100 transform scale-100"
+                                        x-transition:leave-end="opacity-0 transform scale-90 hidden"
+                                    @endif
+                                    >
                                     <td>
                                         <a class="text-item-table" href="{{ route('analysis-order.show', ['analysis_order' => $analysisOrder->id]) }}">
                                             {{ $analysisOrder->formatted_id }}
@@ -190,6 +207,14 @@
             </form>
         </div>
     </div>
+
+    <script>
+        document.getElementById("show_all_orders").addEventListener("click", function() {
+            document.querySelectorAll("#order_table tr").forEach(item => {
+                item.classList.remove("hidden");
+            });
+        });
+    </script>
 
     <script>
         function updateStatusOrder(status, id) {
