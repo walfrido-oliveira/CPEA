@@ -309,10 +309,7 @@
             saveButtom.dataset.row = elem.dataset.row;
             saveButtom.innerHTML = "Salvar";
 
-            getCampaigns()
-            .then(function() {
-
-                let pointIdentifications = document.getElementById("point_identifications");
+            let pointIdentifications = document.getElementById("point_identifications");
                 let areas = document.getElementById("areas");
                 let matriz = document.getElementById("matriz_id");
                 let guidingParameter = document.getElementById("guiding_parameters_id");
@@ -371,11 +368,10 @@
                     if(window.customSelectArray[item.id]) window.customSelectArray[item.id].update();
                 });
 
-            });
-
         }
 
         function clearPointMatrixFields() {
+            let campaign = document.getElementById("campaign_id");
             let pointIdentifications = document.getElementById("point_identifications");
             let areas = document.getElementById("areas");
             let matriz = document.getElementById("matriz_id");
@@ -386,6 +382,7 @@
 
             filterAreas();
 
+            campaign.value = '';
             pointIdentifications.value = '';
             matriz.value = '';
             guidingParameter.value = '';
@@ -488,41 +485,6 @@
         }
 
         var campaign = document.getElementById("campaign_id");
-
-        function getCampaigns() {
-            var id = '{{ $project->id }}';
-            var ajax = new XMLHttpRequest();
-            var url = "{!! route('project.campaign.get-campaign-by-project', ['project' => '#']) !!}".replace('#', id);
-            var token = document.querySelector('meta[name="csrf-token"]').content;
-            var method = 'POST';
-
-            return new Promise(function(resolve, reject) {
-                ajax.open(method, url);
-
-                ajax.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        var resp = JSON.parse(ajax.response);
-                        document.getElementById("campaign_id").parentNode.innerHTML = resp.campaigns;
-                        window.customSelectArray["campaign_id"] = NiceSelect.bind(document.getElementById("campaign_id"), {searchable: true});
-                        resolve("ok");
-                    } else if (this.readyState == 4 && this.status != 200) {
-                        var resp = JSON.parse(ajax.response);
-                        reject({
-                                    status: this.status,
-                                    statusText: ajax.statusText
-                                });
-                    }
-                }
-
-                var data = new FormData();
-                data.append('_token', token);
-                data.append('_method', method);
-                data.append('id', id);
-
-                ajax.send(data);
-
-            });
-        }
 
         function cancelPointMatrix() {
             let id = this.dataset.id;

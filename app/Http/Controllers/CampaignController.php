@@ -330,7 +330,7 @@ class CampaignController extends Controller
 
         foreach ($campaign->projectPointMatrices as $key => $point)
         {
-            ProjectPointMatrix::create([
+            $projectPointMatrix = ProjectPointMatrix::create([
                 'project_id' => $point->project_id,
                 'point_identification_id' => $point->point_identification_id,
                 'analysis_matrix_id' => $point->analysis_matrix_id,
@@ -364,6 +364,8 @@ class CampaignController extends Controller
                 'humidity' => $point->humidity,
                 'pressure' => $point->pressure,
             ]);
+
+            $projectPointMatrix->guidingParameters()->sync($point->guidingParameters()->pluck("guiding_parameter_id")->toArray());
         }
 
         return $result;
