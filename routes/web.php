@@ -141,7 +141,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::prefix('projetos')->name('project.')->group(function(){
         Route::post('/filter', [ProjectController::class, 'filter'])->name('filter');
         Route::post('/forgot-password/{user}', [ProjectController::class, 'forgotPassword'])->name('forgot-password');
-        Route::get('/duplicate/{project}', [ProjectController::class, 'duplicate'])->name('duplicate');
+        Route::get('/duplicar/{project}', [ProjectController::class, 'duplicate'])->name('duplicate');
         Route::post('/status/{project}', [ProjectController::class, 'status'])->name('status');
         Route::post('/update-order/{project}', [ProjectController::class, 'updateOrder'])->name('update-order');
         Route::post('/get-order/{project}', [ProjectController::class, 'getOrder'])->name('get-order');

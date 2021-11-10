@@ -4,9 +4,12 @@
             <form method="POST" action="{{ route('project.store') }}">
                 @csrf
                 @method("POST")
+                @if ($type == "duplicate")
+                    <input type="hidden" name="duplicated_id" value="{{ $project->id }}">
+                @endif
                 <div class="flex md:flex-row flex-col">
                     <div class="w-full flex items-center">
-                        <h1>{{ __('Cadastrar Projeto') }}</h1>
+                        <h1>{{ $type == "duplicate" ? __('Duplicar Projeto') : __('Cadastrar Projeto') }}</h1>
                     </div>
                     <div class="w-full flex justify-end">
                         <div class="m-2 ">
@@ -26,11 +29,12 @@
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="project_cod" value="{{ __('Cód. do Projeto') }}" required />
-                            <x-jet-input id="project_cod" class="form-control block mt-1 w-full" type="text" name="project_cod" maxlength="255" required autofocus autocomplete="project_cod" :value="old('project_cod')"/>
+                            <x-jet-input id="project_cod" class="form-control block mt-1 w-full" type="text" name="project_cod" maxlength="255"
+                            required autofocus autocomplete="project_cod" :value="$project ? $project->project_cod : old('project_cod')"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="customer_id" value="{{ __('Cliente') }}"/>
-                            <x-custom-select :options="$customers" name="customer_id" id="customer_id" :value="old('customer_id')" class="mt-1"/>
+                            <x-custom-select :options="$customers" name="customer_id" id="customer_id" :value="$project ? $project->customer_id : old('customer_id')" class="mt-1"/>
                         </div>
                     </div>
                 </div>
