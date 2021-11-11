@@ -81,8 +81,8 @@
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir usuário') }}"
-             msg="{{ __('Deseja realmente apagar esse usuário?') }}"
+    <x-modal title="{{ __('Excluir Param. Análise') }}"
+             msg="{{ __('Deseja realmente apagar esse Param. Análise?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_parameter_analysis_modal"
              method="DELETE"
              url="{{ route('parameter-analysis.destroy', ['parameter_analysis' => $parameterAnalysis->id]) }}"

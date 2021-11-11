@@ -14,7 +14,7 @@
                             <button type="submit" class="btn-outline-success">{{ __('Confirmar') }}</button>
                         </div>
                         <div class="m-2">
-                            <a href="{{ route('analysis-order.show', ['analysis_order' => $analysisResult->analysisOrder->id]) }}"
+                            <a href="{{ route('analysis-result.show', ['project_point_matrix_id' => $analysisResult->projectPointMatrix->id]) }}"
                                 class="btn-outline-danger">{{ __('Cancelar') }}</a>
                         </div>
                     </div>

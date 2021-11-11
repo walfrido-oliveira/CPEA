@@ -577,13 +577,40 @@ class AnalysisResultController extends Controller
      */
     public function edit($id)
     {
-       # dd($id);
         $analysisResult = AnalysisResult::where("project_point_matrix_id", $id)->first();
-        #dd($analysisResult);
-        if(!$analysisResult) abort(404, __("Valor não encontrado"));
+        if(!$analysisResult)
+        {
+            $resp = [
+                'message' => __('Amostra não localizada!'),
+                'alert-type' => 'warning'
+            ];
 
+            return redirect()->back()->with($resp);
+        }
 
         return view('analysis-result.edit', compact('analysisResult'));
+    }
+
+    /**
+     * Show the form for details the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $analysisResult = AnalysisResult::where("project_point_matrix_id", $id)->first();
+        if(!$analysisResult)
+        {
+            $resp = [
+                'message' => __('Amostra não localizada!'),
+                'alert-type' => 'warning'
+            ];
+
+            return redirect()->back()->with($resp);
+        }
+
+        return view('analysis-result.show', compact('analysisResult'));
     }
 
     /**
@@ -661,5 +688,23 @@ class AnalysisResultController extends Controller
         ];
 
         return redirect()->route('analysis-order.show', ['analysis_order' => $analysisResult->analysisOrder->id])->with($resp);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $analysisResult = AnalysisResult::findOrFail($id);
+
+        $analysisResult->delete();
+
+        return response()->json([
+            'message' => __('Amostra Apagada com Sucesso!!'),
+            'alert-type' => 'success'
+        ]);
     }
 }

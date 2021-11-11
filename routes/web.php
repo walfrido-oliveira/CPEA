@@ -105,7 +105,15 @@ Route::get('/test', function () {
 
     foreach ($arr as $key => $value)
     {
-        echo '"'. $value . '" => $input["'. $value . '"],';
+        echo htmlspecialchars('<div class="flex flex-wrap">
+        <div class="w-full md:w-3/12 mr-2">
+            <p class="font-bold text-right">{{ __("' . ucfirst($value) . '") }}</p>
+        </div>
+
+        <div class="w-full md:w-1/2">
+            <p class = "text-gray-500 font-bold">{{ $analysisResult->' . $value . ' }}</p>
+        </div>
+    </div>');
     }
 
 })->name('tests');
@@ -198,7 +206,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::post('/import', [AnalysisResultController::class, 'import'])->name('import');
         Route::get('/download/{campaign}', [AnalysisResultController::class, 'download'])->name('download');
         Route::get('/edit/{project_point_matrix_id}', [AnalysisResultController::class, 'edit'])->name('edit');
+        Route::get('/{project_point_matrix_id}', [AnalysisResultController::class, 'show'])->name('show');
         Route::put('/update/{analysis_result}', [AnalysisResultController::class, 'update'])->name('update');
+        Route::delete('/{analysis_result}', [AnalysisResultController::class, 'destroy'])->name('destroy');
     });
     /*Route::resource('resultado-analise', ParameterAnalysisController::class, [
         'names' => 'analysis-result'])->parameters([
