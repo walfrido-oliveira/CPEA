@@ -270,8 +270,6 @@ NiceSelect.prototype._onRemoveItem = function(e) {
     e.preventDefault();
     e.stopPropagation();
 
-    console.log(this);
-
     let optionEl = this.el.dropdown.querySelector(`.list li[data-value="${this.button.dataset.value}"]`);
 
     removeClass(optionEl, "selected");

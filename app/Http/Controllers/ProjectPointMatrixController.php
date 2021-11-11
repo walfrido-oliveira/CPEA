@@ -175,7 +175,25 @@ class ProjectPointMatrixController extends Controller
             ]);
         }
 
-        $projectPointMatrix->guidingParameters()->sync(array_diff(explode(",", $input['guiding_parameter_id']), array("")));
+        $guidingParameters = array_diff(explode(",", $input['guiding_parameter_id']), array(""));
+        $projectPointMatrix->guidingParameters()->sync($guidingParameters);
+
+        if(count($guidingParameters) > 0)
+        {
+            $projectPointMatrix->project->guiding_parameter_order = implode(",", $projectPointMatrix->project->projectPointMatrices()
+            ->select('guiding_parameters.*')
+            ->whereHas('guidingParameters')
+            ->leftJoin('guiding_parameter_project_point_matrix', function($join) {
+                $join->on('project_point_matrices.id', '=', 'guiding_parameter_project_point_matrix.project_point_matrix_id');
+            })
+            ->leftJoin('guiding_parameters', function($join) {
+                $join->on('guiding_parameters.id', '=', 'guiding_parameter_project_point_matrix.guiding_parameter_id');
+            })
+            ->orderBy('guiding_parameters.id')
+            ->distinct()
+            ->pluck('guiding_parameters.id')->toArray());
+            $projectPointMatrix->project->save();
+        }
 
         $id = $projectPointMatrix->id;
         $className = 'edit-point-matrix';
