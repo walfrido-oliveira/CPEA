@@ -5,7 +5,7 @@
                 <div class="w-full flex items-center">
                     <h1>({{ $analysisResult->projectPointMatrix->parameterAnalysis->cas_rn }})
                         {{ $analysisResult->projectPointMatrix->parameterAnalysis->analysis_parameter_name }} -
-                        [{{ $analysisResult->analysisOrde->formatted_id }}]
+                        [{{ $analysisResult->analysisOrder->formatted_id }}]
                     </h1>
                 </div>
                 <div class="w-1/4 flex justify-end">
