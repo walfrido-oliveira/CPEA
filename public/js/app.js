@@ -5212,8 +5212,11 @@ NiceSelect.prototype._bindSearchEvent = function () {
 };
 
 NiceSelect.prototype._onRemoveItem = function (e) {
+  var _this3 = this;
+
   e.preventDefault();
   e.stopPropagation();
+  console.log(this);
   var optionEl = this.el.dropdown.querySelector(".list li[data-value=\"".concat(this.button.dataset.value, "\"]"));
   removeClass(optionEl, "selected");
   var temp = [];
@@ -5225,6 +5228,12 @@ NiceSelect.prototype._onRemoveItem = function (e) {
   this.el._renderSelectedItems();
 
   this.el.updateSelectValue();
+  this.el.dropdown.querySelectorAll(".multiple-options .current button").forEach(function (item) {
+    item.addEventListener("click", _this3.el._onRemoveItem.bind({
+      el: _this3.el,
+      button: item
+    }));
+  });
 };
 
 NiceSelect.prototype._onClicked = function (e) {
@@ -5251,6 +5260,8 @@ NiceSelect.prototype._onClicked = function (e) {
 };
 
 NiceSelect.prototype._onItemClicked = function (option, e) {
+  var _this4 = this;
+
   var optionEl = e.target;
 
   if (!hasClass(optionEl, "disabled")) {
@@ -5277,11 +5288,17 @@ NiceSelect.prototype._onItemClicked = function (option, e) {
     this._renderSelectedItems();
 
     this.updateSelectValue();
+    this.dropdown.querySelectorAll(".multiple-options .current button").forEach(function (item) {
+      item.addEventListener("click", _this4._onRemoveItem.bind({
+        el: _this4,
+        button: item
+      }));
+    });
   }
 };
 
 NiceSelect.prototype.updateSelectValue = function () {
-  var _this3 = this;
+  var _this5 = this;
 
   if (this.multiple) {
     var elValue = this.el;
@@ -5289,7 +5306,7 @@ NiceSelect.prototype.updateSelectValue = function () {
       item.selected = false;
     });
     elValue.querySelectorAll('option').forEach(function (item2) {
-      _this3.selectedOptions.forEach(function (item) {
+      _this5.selectedOptions.forEach(function (item) {
         if (item.data.value == item2.value) item2.selected = true;
       });
     });

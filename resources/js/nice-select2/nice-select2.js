@@ -270,6 +270,8 @@ NiceSelect.prototype._onRemoveItem = function(e) {
     e.preventDefault();
     e.stopPropagation();
 
+    console.log(this);
+
     let optionEl = this.el.dropdown.querySelector(`.list li[data-value="${this.button.dataset.value}"]`);
 
     removeClass(optionEl, "selected");
@@ -282,6 +284,13 @@ NiceSelect.prototype._onRemoveItem = function(e) {
 
     this.el._renderSelectedItems();
     this.el.updateSelectValue();
+
+    this.el.dropdown.querySelectorAll(".multiple-options .current button").forEach(item => {
+        item.addEventListener("click", this.el._onRemoveItem.bind({
+            el: this.el,
+            button: item
+        }));
+    });
 }
 
 NiceSelect.prototype._onClicked = function(e) {
@@ -335,6 +344,13 @@ NiceSelect.prototype._onItemClicked = function(option, e) {
 
     this._renderSelectedItems();
     this.updateSelectValue();
+
+    this.dropdown.querySelectorAll(".multiple-options .current button").forEach(item => {
+        item.addEventListener("click", this._onRemoveItem.bind({
+            el: this,
+            button: item
+        }));
+    });
   }
 };
 
