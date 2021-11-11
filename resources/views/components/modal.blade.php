@@ -92,7 +92,7 @@
             }
 
             @if(isset($attributes['redirect-url']))
-                //window.location.href = "{{ $attributes['redirect-url'] }}";
+                window.location.href = "{{ $attributes['redirect-url'] }}";
             @endif
         }
 
