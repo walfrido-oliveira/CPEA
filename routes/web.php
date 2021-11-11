@@ -124,6 +124,12 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
+    Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
+        #return view('dashboard');
+        return redirect()->route('project.index');
+    })->name('dashboard');
+
+
     Route::resource('usuarios', UserController::class, [
         'names' => 'users'])->parameters([
         'usuarios' => 'user'
@@ -378,6 +384,3 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 });
 
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
