@@ -45,68 +45,68 @@ use App\Http\Controllers\GuidingParameterRefValueController;
 */
 
 Route::get('/test', function () {
-    $ch = curl_init();
-    $url = "https://www.guiamais.com.br/sao-bernardo-do-campo-sp/jardim-do-mar/restaurantes/restaurante";
+    $arr = [
+        'project_point_matrix_id',
+        'analysis_order_id',
+        'client',
+        'project',
+        'projectnum',
+        'labname',
+        'samplename',
+        'labsampid',
+        'matrix',
+        'rptmatrix',
+        'solidmatrix',
+        'sampdate',
+        'prepdate',
+        'anadate',
+        'batch',
+        'analysis',
+        'anacode',
+        'methodcode',
+        'methodname',
+        'description',
+        'prepname',
+        'analyte',
+        'analyteorder',
+        'casnumber',
+        'surrogate',
+        'tic',
+        'result',
+        'dl',
+        'rl',
+        'units',
+        'rptomdl',
+        'mrlsolids',
+        'basis',
+        'dilution',
+        'spikelevel',
+        'recovery',
+        'uppercl',
+        'lowercl',
+        'analyst',
+        'psolids',
+        'lnote',
+        'anote',
+        'latitude',
+        'longitude',
+        'scomment',
+        'snote1',
+        'snote2',
+        'snote3',
+        'snote4',
+        'snote5',
+        'snote6',
+        'snote7',
+        'snote8',
+        'snote9',
+        'snote10',
+    ];
 
-    curl_setopt_array($ch, [
-        /* Informa a URL */
-        CURLOPT_URL            => $url,
-
-        /* Informa que deseja capturar o retorno */
-        CURLOPT_RETURNTRANSFER => true,
-
-        /* Permite o redirecionamento */
-        CURLOPT_FOLLOWLOCATION => true,
-
-        /* Informa que o tipo da requisição é POST */
-        CURLOPT_POST           => true,
-
-        /* Converte os dados para application/x-www-form-urlencoded */
-
-        /**
-         * Habilita a escrita de Cookies
-         *(É obrigatório para alguns sites)
-         */
-        CURLOPT_COOKIEJAR      => 'cookies.txt',
-
-        /* Desabilita a verificação do SSL,
-         * caso você possua, pode deixar habilitado
-         */
-        CURLOPT_SSL_VERIFYPEER => false,
-    ]);
-
-    /* Executa a requisição e captura o retorno */
-    $response = curl_exec($ch);
-    /* Captura eventuais erros */
-    $error = curl_error($ch);
-    /* Captura a informação da requisição */
-    $info = curl_getinfo($ch);
-    /* Fecha a conexão */
-    curl_close($ch);
-
-    $dom = new domDocument();
-    @$dom->loadHTML($response);
-
-    $xpath = new DOMXPath($dom);
-    $tables = $xpath->query("//main[@class=\"advertiserContent\"]");
-    $values = $xpath->query("//div[@class=\"free\"]", $tables->item(0));
-
-    $contatos = [];
-
-    foreach ($values as $key => $value)
+    foreach ($arr as $key => $value)
     {
-        $item = $xpath->query(".//a", $value);
-        $tel = $xpath->query(".//a[@class=\"seeMore\"]", $value);
-
-        dd($dom->saveHTML($tel->item(0)));
-
-        $contatos[] = [
-            'name' => trim($item->item(0)->textContent),
-            'link' => $tel->item(0)->getAttribute("href"),
-        ];
+        echo '"'. $value . '" => $input["'. $value . '"],';
     }
-
-    dd($contatos);
 
 })->name('tests');
 
@@ -197,7 +197,13 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::prefix('resultado-analise')->name('analysis-result.')->group(function(){
         Route::post('/import', [AnalysisResultController::class, 'import'])->name('import');
         Route::get('/download/{campaign}', [AnalysisResultController::class, 'download'])->name('download');
+        Route::get('/edit/{project_point_matrix_id}', [AnalysisResultController::class, 'edit'])->name('edit');
+        Route::put('/update/{analysis_result}', [AnalysisResultController::class, 'update'])->name('update');
     });
+    /*Route::resource('resultado-analise', ParameterAnalysisController::class, [
+        'names' => 'analysis-result'])->parameters([
+        'analysis-result' => 'analysis_result'
+    ]);*/
 
     Route::resource('param-analise', ParameterAnalysisController::class, [
         'names' => 'parameter-analysis'])->parameters([

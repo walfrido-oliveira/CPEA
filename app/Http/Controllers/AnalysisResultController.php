@@ -305,7 +305,7 @@ class AnalysisResultController extends Controller
                 $resultValue = Str::replace("< ", "", $result);
                 $rlValue = Str::replace("< ", "", $rl);
 
-                $result =  Str::contains($value->result, '*J') ? $result : ($resultValue >= $rlValue) ? $result : $rl;
+                $result =  Str::contains($value->result, '*J') ? $result : ($resultValue >= $rlValue ? $result : $rl);
 
                 $sheet->setCellValueByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index, $result);
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
@@ -567,5 +567,99 @@ class AnalysisResultController extends Controller
             'alert-type' => 'success'
         ]);
 
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+       # dd($id);
+        $analysisResult = AnalysisResult::where("project_point_matrix_id", $id)->first();
+        #dd($analysisResult);
+        if(!$analysisResult) abort(404, __("Valor não encontrado"));
+
+
+        return view('analysis-result.edit', compact('analysisResult'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $analysisResult = AnalysisResult::findOrFail($id);
+
+        $input = $request->all();
+
+        $analysisResult->update([
+            "client" => $input["client"],
+            "project" => $input["project"],
+            "projectnum" => $input["projectnum"],
+            "labname" => $input["labname"],
+            "samplename" => $input["samplename"],
+            "labsampid" => $input["labsampid"],
+            "matrix" => $input["matrix"],
+            "rptmatrix" => $input["rptmatrix"],
+            "solidmatrix" => $input["solidmatrix"],
+            "sampdate" => $input["sampdate"],
+            "prepdate" => $input["prepdate"],
+            "anadate" => $input["anadate"],
+            "batch" => $input["batch"],
+            "analysis" => $input["analysis"],
+            "anacode" => $input["anacode"],
+            "methodcode" => $input["methodcode"],
+            "methodname" => $input["methodname"],
+            "description" => $input["description"],
+            "prepname" => $input["prepname"],
+            "analyte" => $input["analyte"],
+            "analyteorder" => $input["analyteorder"],
+            "casnumber" => $input["casnumber"],
+            "surrogate" => $input["surrogate"],
+            "tic" => $input["tic"],
+            "result" => $input["result"],
+            "dl" => $input["dl"],
+            "rl" => $input["rl"],
+            "units" => $input["units"],
+            "rptomdl" => $input["rptomdl"],
+            "mrlsolids" => $input["mrlsolids"],
+            "basis" => $input["basis"],
+            "dilution" => $input["dilution"],
+            "spikelevel" => $input["spikelevel"],
+            "recovery" => $input["recovery"],
+            "uppercl" => $input["uppercl"],
+            "lowercl" => $input["lowercl"],
+            "analyst" => $input["analyst"],
+            "psolids" => $input["psolids"],
+            "lnote" => $input["lnote"],
+            "anote" => $input["anote"],
+            "latitude" => $input["latitude"],
+            "longitude" => $input["longitude"],
+            "scomment" => $input["scomment"],
+            "snote1" => $input["snote1"],
+            "snote2" => $input["snote2"],
+            "snote3" => $input["snote3"],
+            "snote4" => $input["snote4"],
+            "snote5" => $input["snote5"],
+            "snote6" => $input["snote6"],
+            "snote7" => $input["snote7"],
+            "snote8" => $input["snote8"],
+            "snote9" => $input["snote9"],
+            "snote10" => $input["snote10"],
+        ]);
+
+        $resp = [
+            'message' => __('Análise da Amostra Atualizada com Sucesso!'),
+            'alert-type' => 'success'
+        ];
+
+        return redirect()->route('analysis-order.show', ['analysis_order' => $analysisResult->analysisOrder->id])->with($resp);
     }
 }
