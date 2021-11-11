@@ -30,11 +30,11 @@
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="project_cod" value="{{ __('Cód. do Projeto') }}" required />
                             <x-jet-input id="project_cod" class="form-control block mt-1 w-full" type="text" name="project_cod" maxlength="255"
-                            required autofocus autocomplete="project_cod" :value="$project ? $project->project_cod : old('project_cod')"/>
+                            required autofocus autocomplete="project_cod" :value="isset($project) ? $project->project_cod : old('project_cod')"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="customer_id" value="{{ __('Cliente') }}"/>
-                            <x-custom-select :options="$customers" name="customer_id" id="customer_id" :value="$project ? $project->customer_id : old('customer_id')" class="mt-1"/>
+                            <x-custom-select :options="$customers" name="customer_id" id="customer_id" :value="isset($project)  ? $project->customer_id : old('customer_id')" class="mt-1"/>
                         </div>
                     </div>
                 </div>
