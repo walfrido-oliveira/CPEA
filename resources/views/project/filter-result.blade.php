@@ -61,7 +61,7 @@
         <tr>
     @empty
         <tr>
-            <td class="text-center" colspan="5">{{ __("Nenhum resultado encontrado") }}</td>
+            <td class="text-center" colspan="8">{{ __("Nenhum resultado encontrado") }}</td>
         </tr>
     @endforelse
 </tbody>
