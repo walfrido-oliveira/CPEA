@@ -46,12 +46,12 @@
                             <x-custom-select :options="[]" name="point_identifications" id="point_identifications" value="" class="mt-1"/>
                         </div>
                         <div class="flex items-end justify-end pr-3 mb-6 md:mb-0 w-full md:w-1/12">
-                            <button type="button" class="btn-transition-secondary" id="point_identifications_add">
+                            <button type="button" class="btn-transition-secondary" id="point_identifications_add" title="Adicionar novo ponto">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                             </button>
-                            <button type="button" class="btn-transition-secondary">
+                            <button type="button" class="btn-transition-secondary" style="display: none">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                 </svg>

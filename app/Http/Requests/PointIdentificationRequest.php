@@ -27,7 +27,7 @@ class PointIdentificationRequest extends FormRequest
         return [
             'area' => ['required', 'string', 'max:255'],
             'identification' => ['required', 'string', 'max:255'],
-            'geodetic_system_id' => ['required', 'exists:geodetic_systems,id'],
+            #'geodetic_system_id' => ['required', 'exists:geodetic_systems,id'],
             'utm_me_coordinate' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
             'utm_mm_coordinate' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
             'pool_depth' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],

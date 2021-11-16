@@ -11,7 +11,7 @@
     </td>
     <td>
         @if ($projectPointMatrix->pointIdentification)
-            <div class="grid grid-flow-col grid-cols-2 grid-rows-2 gap-x-16 md:gap-x-4 gap-y-0 w-3/5" style="grid-template-rows: auto auto 0fr 0fr 0fr auto auto;">
+            <div class="grid grid-flow-col grid-cols-2 grid-rows-2 gap-x-16 md:gap-x-4 gap-y-0 w-3/5" style="grid-template-rows: auto 0fr 0fr 0fr auto auto;">
                 <div class="font-bold text-right ">
                     {{ __('Área') }}
                 </div>
@@ -20,9 +20,6 @@
                 </div>
                 <div class="font-bold text-right ">
                     {{ __('Matriz') }}
-                </div>
-                <div class="font-bold text-right ">
-                    {{ __('Tipo Nível Ação Plano') }}
                 </div>
                 <div class="font-bold text-right ">
                     {{ __('Param. Orientador Ambiental') }}
@@ -62,18 +59,10 @@
                     </div>
                 </div>
                 <div class="text-gray-500 font-bold ">
-                    <x-custom-select :options="$planActionLevels" name="point_matrix_edit[{{ $key }}][plan_action_level_id]" id="point_matrix_edit_{{ $key }}_plan_action_level_id" value="" class="hidden"  select-class="no-border" no-filter="no-filter" arrow-class="text-yellow-500"/>
-                    <div class="content">
-                        @if ($projectPointMatrix->planActionLevel)
-                            {{ $projectPointMatrix->planActionLevel->name }}
-                        @endif
-                    </div>
-                </div>
-                <div class="text-gray-500 font-bold ">
                     <x-custom-select :options="$guidingParameters" name="point_matrix_edit[{{ $key }}][guiding_parameter_id]" id="point_matrix_edit_{{ $key }}_guiding_parameter_id" value="" class="hidden"   select-class="no-border" no-filter="no-filter" arrow-class="text-yellow-500"/>
                     <div class="content">
-                        @if ($projectPointMatrix->guidingParameter)
-                            {{ $projectPointMatrix->guidingParameter->environmental_guiding_parameter_id }}
+                        @if ($projectPointMatrix->guidingParameters)
+                            {!! implode("<br/>", $projectPointMatrix->guidingParameters()->pluck('environmental_guiding_parameter_id')->toArray()) !!}
                         @endif
                     </div>
                 </div>
