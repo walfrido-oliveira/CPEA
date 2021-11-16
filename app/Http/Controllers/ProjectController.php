@@ -44,7 +44,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        $customers = Customer::where('status', 'active')->pluck('name', 'id');
+        $customers = Customer::where('status', 'active')->orderBy("name")->pluck('name', 'id');
         $type = 'create';
 
         return view('project.create', compact('customers', 'type'));
@@ -150,7 +150,7 @@ class ProjectController extends Controller
     public function edit(Request $request, $id)
     {
         $project = Project::findOrFail($id);
-        $customers = Customer::where('status', 'active')->pluck('name', 'id');
+        $customers = Customer::where('status', 'active')->orderBy("name")->pluck('name', 'id');
         $areas = PointIdentification::pluck('area', 'area');
         $identifications = PointIdentification::pluck('identification', 'identification');
         $matrizeces = AnalysisMatrix::pluck('name', 'id');
@@ -186,7 +186,7 @@ class ProjectController extends Controller
     public function duplicate($id)
     {
         $project = Project::findOrFail($id);
-        $customers = Customer::all()->pluck('name', 'id');
+        $customers = Customer::all()->orderBy("name")->pluck('name', 'id');
 
         $type = 'duplicate';
 

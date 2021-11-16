@@ -6,6 +6,7 @@ use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Models\PointIdentification;
 use App\Http\Requests\CustomerRequest;
+use Illuminate\Support\Facades\Validator;
 
 class CustomerController extends Controller
 {
@@ -55,12 +56,48 @@ class CustomerController extends Controller
 
         $customer->pointIdentifications()->sync(isset($input['point_identification']) ? $input['point_identification'] : []);
 
+        if($request->ajax()){
+            return "AJAX";
+        }
+
         $resp = [
             'message' => __('Cliente cadastrado com Sucesso!'),
             'alert-type' => 'success'
         ];
 
         return redirect()->route('customers.index')->with($resp);
+
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  CustomerRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function simpleCreate(Request $request)
+    {
+        $input = $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'name' => ['required', 'string', 'max:255'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
+        }
+
+        $customer = Customer::create([
+            'name' => $input['name'],
+        ]);
+
+        $resp = [
+            'message' => __('Cliente cadastrado com Sucesso!'),
+            'alert-type' => 'success',
+            'customers' => Customer::where('status', 'active')->orderBy("name")->get()
+        ];
+
+        return response()->json($resp);
 
     }
 

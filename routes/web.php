@@ -146,6 +146,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::prefix('clientes')->name('customers.')->group(function(){
         Route::post('/filter', [CustomerController::class, 'filter'])->name('filter');
         Route::post('/forgot-password/{user}', [CustomerController::class, 'forgotPassword'])->name('forgot-password');
+        Route::post('/simple-create', [CustomerController::class, 'simpleCreate'])->name('simple-create');
     });
 
     Route::resource('projetos', ProjectController::class, [
@@ -216,10 +217,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::put('/update/{analysis_result}', [AnalysisResultController::class, 'update'])->name('update');
         Route::delete('/{analysis_result}', [AnalysisResultController::class, 'destroy'])->name('destroy');
     });
-    /*Route::resource('resultado-analise', ParameterAnalysisController::class, [
-        'names' => 'analysis-result'])->parameters([
-        'analysis-result' => 'analysis_result'
-    ]);*/
 
     Route::resource('param-analise', ParameterAnalysisController::class, [
         'names' => 'parameter-analysis'])->parameters([
