@@ -21,17 +21,9 @@ class Campaign extends Model
      * @var array
      */
     protected $fillable = [
-        'project_point_matrix_id', 'campaign_status_id', 'name', 'date_collection', 'project_id',
+        'project_point_matrix_id', 'campaign_status_id', 'name', 'project_id',
     ];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'date_collection' => 'datetime'
-    ];
 
 
     /**

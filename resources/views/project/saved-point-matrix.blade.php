@@ -46,6 +46,10 @@
         @endif
     </td>
     <td>
+        <input type="hidden" name="point_matrix_[{{ $key }}][date_collection]" id="point_matrix_{{ $key }}_date_collection" value="{{ $projectPointMatrix->date_collection->format('Y-m-d\TH:m')  }}">
+        {{ $projectPointMatrix->date_collection->format('d/m/Y H:m') }}
+    </td>
+    <td>
         <div class="edit inline">
             @include('project.edit-point-matrix-icon', ['key' => $key, 'id' => $projectPointMatrix->id, 'className' => 'edit-point-matrix'])
         </div>

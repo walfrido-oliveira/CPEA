@@ -101,7 +101,6 @@ class CampaignController extends Controller
         $validator = Validator::make($request->all(), [
             'campaign_name' => ['required', 'string', 'max:255'],
             'campaign_status' => ['required', 'exists:campaign_statuses,id'],
-            'date_collection' => ['required', 'date'],
         ]);
 
         if ($validator->fails()) {
@@ -117,14 +116,12 @@ class CampaignController extends Controller
                 'project_id' => $input['project_id'],
                 'campaign_status_id' => $input['campaign_status'],
                 'name' => $input['campaign_name'],
-                'date_collection' => $input['date_collection'],
             ]);
         } else {
             $projectCampaign = Campaign::create([
                 'project_id' => $input['project_id'],
                 'campaign_status_id' => $input['campaign_status'],
                 'name' => $input['campaign_name'],
-                'date_collection' => $input['date_collection'],
             ]);
         }
 
@@ -279,6 +276,7 @@ class CampaignController extends Controller
                 'analysis_matrix_id' => $point->analysis_matrix_id,
                 'parameter_analysis_id' => $point->parameter_analysis_id,
                 'campaign_id' => $campaign->id,
+                'date_collection' => $point->date_collection,
 
                 'refq' => $point->refq,
                 'tide' => $point->tide,
@@ -335,6 +333,7 @@ class CampaignController extends Controller
                 'point_identification_id' => $point->point_identification_id,
                 'analysis_matrix_id' => $point->analysis_matrix_id,
                 'parameter_analysis_id' => $point->parameter_analysis_id,
+                'date_collection' => $point->date_collection,
                 'campaign_id' => $result->id,
 
                 'refq' => $point->refq,

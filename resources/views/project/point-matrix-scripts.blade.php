@@ -211,6 +211,7 @@
             let analysisParameter = document.getElementById("analysis_parameter_id").value;
             let paginationPerPage = document.getElementById("paginate_per_page_campaigns").value;
             let campaignId = document.getElementById("campaign_id").value;
+            let dateCollection = document.getElementById("date_collection").value;
 
             let customFields = [];
             document.querySelectorAll('[data-type="campaign-fields"]').forEach(item => {
@@ -270,6 +271,7 @@
             data.append('guiding_parameter_id', guidingParameter);
             data.append('parameter_analysis_id', analysisParameter);
             data.append('campaign_id', campaignId);
+            data.append('date_collection', dateCollection);
             data.append('project_id', {{ isset($project) ? $project->id : null }});
 
             customFields.forEach(item => {
@@ -315,6 +317,7 @@
                 let guidingParameter = document.getElementById("guiding_parameters_id");
                 let guidingParameterOptions = Array.from(document.querySelectorAll('#guiding_parameters_id option'));
                 let analysisParameter = document.getElementById("analysis_parameter_id");
+                let dateCollection = document.getElementById("date_collection");
                 let campaignId = document.getElementById("campaign_id");
 
                 clearPointMatrixFields()
@@ -348,6 +351,9 @@
                 campaignId.value = document.getElementById('point_matrix_'+ row + '_campaign_id') ?
                 document.getElementById('point_matrix_'+ row + '_campaign_id').value : null;
 
+                dateCollection.value = document.getElementById('point_matrix_'+ row + '_date_collection') ?
+                document.getElementById('point_matrix_'+ row + '_date_collection').value : null;
+
                 getFieldsPointMatrix(matriz.value)
                 .then(function(result) {
                     document.getElementById("point_matrix_fields").innerHTML = result;
@@ -377,6 +383,7 @@
             let matriz = document.getElementById("matriz_id");
             let guidingParameter = document.getElementById("guiding_parameters_id");
             let analysisParameter = document.getElementById("analysis_parameter_id");
+            let dateCollection = document.getElementById("date_collection");
 
             areas.value = '';
 
@@ -387,6 +394,7 @@
             matriz.value = '';
             guidingParameter.value = '';
             analysisParameter.value = '';
+            dateCollection.value = '';
 
             document.querySelectorAll("#point_matrix_container select.custom-select").forEach(item => {
                 if(window.customSelectArray[item.id]) window.customSelectArray[item.id].update();

@@ -19,7 +19,6 @@ class CreateCampaignsTable extends Migration
             $table->foreignId('campaign_status_id')->constrained();
 
             $table->string('name');
-            $table->timestamp('date_collection');
 
             $table->timestamps();
         });

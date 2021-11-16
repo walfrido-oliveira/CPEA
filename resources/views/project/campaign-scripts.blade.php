@@ -203,7 +203,6 @@
 
             let campaignName = document.getElementById("campaign_name").value;
             let campaignStatus = document.getElementById("campaign_status").value;
-            let dateCollection = document.getElementById("date_collection").value;
             let paginationPerPage = document.getElementById("paginate_per_page_campaigns").value;
 
             ajax.open(method, url);
@@ -273,7 +272,6 @@
 
             data.append('campaign_name', campaignName);
             data.append('campaign_status', campaignStatus);
-            data.append('date_collection', dateCollection);
 
             data.append('project_id', {{ isset($project) ? $project->id : null }});
 
@@ -323,9 +321,6 @@
             campaignStatus.value = document.getElementById('campaign_'+ row + '_campaign_status') ?
             document.getElementById('campaign_'+ row + '_campaign_status').value : null;
 
-            dateCollection.value = document.getElementById('campaign_'+ row + '_date_collection') ?
-            document.getElementById('campaign_'+ row + '_date_collection').value : null;
-
             document.querySelectorAll("#campaign_container select").forEach(item => {
                 window.customSelectArray[item.id].update();
             });
@@ -337,7 +332,6 @@
         function clearCampaignFields() {
             let campaignName = document.getElementById("campaign_name");
             let campaignStatus = document.getElementById("campaign_status");
-            let dateCollection = document.getElementById("date_collection");
 
             campaignName.value = '';
             campaignStatus.value = '';

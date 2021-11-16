@@ -31,8 +31,18 @@ class ProjectPointMatrix extends Model
         'effluent_type', 'report_identification', 'organism_type', 'popular_name', 'identification_pm',
         'sample_horizon', 'refq', 'utm', 'water_depth', 'sedimentary_layer', 'secchi_record', 'total_depth',
         'sampling_area', 'pm_depth', 'pm_diameter', 'water_level', 'oil_level', 'field_measurements',
-        'temperature', 'humidity', 'pressure', 'campaign_id'
+        'temperature', 'humidity', 'pressure', 'campaign_id', 'date_collection'
     ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'date_collection' => 'datetime'
+    ];
+
 
     /**
      * The accessors to append to the model's array form.

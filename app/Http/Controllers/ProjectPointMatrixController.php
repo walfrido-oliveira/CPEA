@@ -75,6 +75,7 @@ class ProjectPointMatrixController extends Controller
         $validator = Validator::make($request->all(), [
             'point_identification_id' => ['required', 'exists:point_identifications,id'],
 
+            'date_collection' => ['required', 'date'],
             'campaign_id' => ['required', 'exists:campaigns,id'],
             'tide' => ['nullable', 'in:enchente,vazante'],
             'environmental_conditions' => ['nullable', 'in:com-chuva,sem-chuva'],
@@ -110,6 +111,7 @@ class ProjectPointMatrixController extends Controller
                 'analysis_matrix_id' => $input['analysis_matrix_id'],
                 'parameter_analysis_id' => $input['parameter_analysis_id'],
                 'campaign_id' => $input['campaign_id'],
+                'date_collection' => $input['date_collection'],
 
                 'refq' => isset($input['refq']) ? $input['refq'] : null,
                 'tide' => isset($input['tide']) ? $input['tide'] : null,
@@ -145,6 +147,7 @@ class ProjectPointMatrixController extends Controller
                 'analysis_matrix_id' => $input['analysis_matrix_id'],
                 'parameter_analysis_id' => $input['parameter_analysis_id'],
                 'campaign_id' => $input['campaign_id'],
+                'date_collection' => $input['date_collection'],
 
                 'refq' => isset($input['refq']) ? $input['refq'] : null,
                 'tide' => isset($input['tide']) ? $input['tide'] : null,

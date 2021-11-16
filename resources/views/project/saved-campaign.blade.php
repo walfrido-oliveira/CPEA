@@ -22,12 +22,6 @@
     <td>
         {{ $projectCampaign->campaignStatus->name }}
     </td>
-    <td>
-        {{ $projectCampaign->date_collection->format('d/m/Y H:m') }}
-        @if($actions == 'show')
-            <input type="hidden" name="campaign[{{ $key }}][date_collection]" id="campaign_{{ $key }}_date_collection" value="{{ $projectCampaign->date_collection->format('Y-m-d\TH:m')  }}">
-        @endif
-    </td>
     @if($actions == 'show')
         <td>
             <div class="result inline">

@@ -20,8 +20,8 @@ class CreateProjectPointMatricesTable extends Migration
             $table->foreignId('campaign_id')->constrained()->cascadeOnDelete();
             $table->foreignId('point_identification_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('analysis_matrix_id')->nullable()->constrained()->nullOnDelete();
-            #$table->foreignId('guiding_parameter_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('parameter_analysis_id')->nullable()->constrained()->nullOnDelete();
+            $table->timestamp('date_collection');
 
             $table->string('tide')->nullable();
             $table->string('environmental_conditions')->nullable();
