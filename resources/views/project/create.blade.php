@@ -94,7 +94,7 @@
         </div>
       </div>
     </div>
-  </div>
+</div>
 
   <script>
     document.getElementById("customer_create").addEventListener("click", function() {
