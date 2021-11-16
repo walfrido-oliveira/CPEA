@@ -248,6 +248,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     ]);
     Route::prefix('valor-param-orientador')->name('guiding-parameter-value.')->group(function(){
         Route::post('/filter', [GuidingParameterValueController::class, 'filter'])->name('filter');
+        Route::post('/list-by-matrix/{matrix}', [GuidingParameterValueController::class, 'listByMatrix'])->name('list-by-matrix');
+        Route::post('/list-by-guiding-parameter', [GuidingParameterValueController::class, 'listByGuidingParameter'])->name('list-by-guiding-parameter');
     });
 
     Route::prefix('config')->name('config.')->group(function(){

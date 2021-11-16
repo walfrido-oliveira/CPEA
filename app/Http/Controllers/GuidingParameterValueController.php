@@ -11,6 +11,8 @@ use App\Models\ParameterAnalysis;
 use App\Models\GuidingParameterValue;
 use App\Models\GuidingParameterRefValue;
 use App\Http\Requests\GuidingParameterValueRequest;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Response;
 
 class GuidingParameterValueController extends Controller
 {
@@ -170,6 +172,54 @@ class GuidingParameterValueController extends Controller
         return response()->json([
             'message' => __('Valor Param. Orientador Apagado com Sucesso!!'),
             'alert-type' => 'success'
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function listByMatrix($id)
+    {
+        $guidingParameters = GuidingParameterValue::
+        join('guiding_parameters', 'guiding_parameters.id', '=', 'guiding_parameter_values.guiding_parameter_id')
+        ->where("analysis_matrix_id", $id)
+        ->groupBy("guiding_parameter_values.guiding_parameter_id")
+        ->get();
+
+        return response()->json([
+            'guiding_parameters' => $guidingParameters
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function listByGuidingParameter(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'ids.*' => ['required', 'numeric'],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
+        }
+
+        $ids = explode(",", $request->get("ids"));
+
+        $parameterAnalyses = GuidingParameterValue::
+        join('parameter_analyses', 'parameter_analyses.id', '=', 'guiding_parameter_values.parameter_analysis_id')
+        ->whereIn("guiding_parameter_id", $ids)
+        ->groupBy("guiding_parameter_values.parameter_analysis_id")
+        ->get();
+
+        return response()->json([
+            'parameter_analyses' => $parameterAnalyses
         ]);
     }
 

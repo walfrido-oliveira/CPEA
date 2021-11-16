@@ -532,5 +532,101 @@
 
             ajax.send(data);
         }
+
+        function getGuidingParameters(event) {
+            var id = this.value;
+            var that = this;
+            var ajax = new XMLHttpRequest();
+            var url = "{!! route('guiding-parameter-value.list-by-matrix', ['matrix' => '#']) !!}".replace('#', id);
+            var token = document.querySelector('meta[name="csrf-token"]').content;
+            var method = 'POST';
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+
+                    let guidingParametersId = document.getElementById("guiding_parameters_id");
+
+                    let i, L = guidingParametersId.options.length - 1;
+                    for (i = L; i >= 0; i--) {
+                        guidingParametersId.remove(i);
+                    }
+
+                    let guidingParameters = resp.guiding_parameters;
+
+                    for (let index = 0; index < guidingParameters.length; index++) {
+                        const item = guidingParameters[index];
+                        var opt = document.createElement('option');
+                        opt.value = item.guiding_parameter_id;
+                        opt.text = item.name;
+                        guidingParametersId.add(opt);
+                    }
+
+                    if(window.customSelectArray["guiding_parameters_id"]) window.customSelectArray["guiding_parameters_id"].update();
+
+                } else if (this.readyState == 4 && this.status != 200) {
+                    toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('id', id);
+
+            ajax.send(data);
+        }
+
+        document.getElementById("matriz_id").addEventListener("change", getGuidingParameters, false);
+
+        function getParameterAnalyses(event) {
+            var ids = [...this].map(option => option.value);
+            var that = this;
+            var ajax = new XMLHttpRequest();
+            var url = "{!! route('guiding-parameter-value.list-by-guiding-parameter') !!}";
+            var token = document.querySelector('meta[name="csrf-token"]').content;
+            var method = 'POST';
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+
+                    let analysisParameterId = document.getElementById("analysis_parameter_id");
+
+                    let i, L = analysisParameterId.options.length - 1;
+                    for (i = L; i >= 0; i--) {
+                        analysisParameterId.remove(i);
+                    }
+
+                    let parameterAnalyses = resp.parameter_analyses;
+
+                    for (let index = 0; index < parameterAnalyses.length; index++) {
+                        const item = parameterAnalyses[index];
+                        var opt = document.createElement('option');
+                        opt.value = item.parameter_analysis_id;
+                        opt.text = item.analysis_parameter_name;
+                        analysisParameterId.add(opt);
+                    }
+
+                    if(window.customSelectArray["analysis_parameter_id"]) window.customSelectArray["analysis_parameter_id"].update();
+
+                } else if (this.readyState == 4 && this.status != 200) {
+                    toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('ids', ids);
+
+            ajax.send(data);
+        }
+
+        document.getElementById("guiding_parameters_id").addEventListener("change", getParameterAnalyses, false);
     });
 </script>

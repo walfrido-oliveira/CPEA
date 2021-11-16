@@ -52,7 +52,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
-            Param. Orientador
+            Param. Orientador Ambiental
         </a>
 
         <a class="@if(request()->routeIs('guiding-parameter-ref-value.index')) {{ 'active' }} @endif" href="{{ route('guiding-parameter-ref-value.index') }}">
@@ -126,7 +126,7 @@
                 <a class="@if(request()->routeIs('registers.campaign-status.index')) {{ 'active' }} @endif" href="{{ route('registers.campaign-status.index') }}">Status Campanha</a>
               </div>
               <div class="px-0 py-0 ">
-                <a class="@if(request()->routeIs('registers.analysis-matrix.index')) {{ 'active' }} @endif" href="{{ route('registers.analysis-matrix.index') }}">Matrix Análise</a>
+                <a class="@if(request()->routeIs('registers.analysis-matrix.index')) {{ 'active' }} @endif" href="{{ route('registers.analysis-matrix.index') }}">Matriz Análise</a>
               </div>
               <div class="px-0 py-0 ">
                 <a class="@if(request()->routeIs('registers.unity.index')) {{ 'active' }} @endif" href="{{ route('registers.unity.index') }}">Unidade</a>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\PointIdentification;
 use App\Http\Requests\CustomerRequest;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Response;
 
 class CustomerController extends Controller
 {
