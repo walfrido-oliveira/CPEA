@@ -34,12 +34,6 @@
                             <x-jet-input id="identification" class="form-control block mt-1 w-full" type="text" name="identification" maxlength="255" required autofocus autocomplete="identification" :value="old('identification')" />
                         </div>
                     </div>
-                    <div class="flex flex-wrap py-2 mt-4">
-                        <div class="w-full px-3 mb-6 md:mb-0">
-                            <x-jet-label for="geodetic_system_id" value="{{ __('Sistema Geodesico') }}" required/>
-                            <x-custom-select :options="$geodeticSystems" name="geodetic_system_id" id="geodetic_system_id" :value="old('geodetic_system_id')" required/>
-                        </div>
-                    </div>
                 </form>
               </div>
             </div>
@@ -125,7 +119,6 @@
         data.append('_method', method);
         data.append('area', document.getElementById("area").value)
         data.append('identification', document.getElementById("identification").value)
-        data.append('geodetic_system_id', document.getElementById("geodetic_system_id").value)
         data.append('no-redirect', 'no-redirect')
 
         ajax.send(data);
