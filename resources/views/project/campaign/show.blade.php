@@ -92,11 +92,11 @@
     </div>
 
     <x-modal title="{{ __('Excluir Ponto(s)') }}"
-            msg="{{ __('Deseja realmente apagar essa Ponto(s)?') }}"
-            confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_point_matrix_modal"
-            method="DELETE"
-            cancel_modal="point_matrix_cancel_modal"
-            confirm_id="point_matrix_confirm_modal"/>
+             msg="{{ __('Deseja realmente apagar essa Ponto(s)?') }}"
+             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_point_matrix_modal"
+             method="DELETE"
+             cancel_modal="point_matrix_cancel_modal"
+             confirm_id="point_matrix_confirm_modal"/>
 
     <script>
         document.getElementById("duplicate_campaign").addEventListener("click", function() {
@@ -183,6 +183,9 @@
                                 opt.text = item.identification;
                                 pointIdentification.add(opt);
                             }
+
+                            checkPoints();
+
                             resolve(resp.point_identifications);
                         } else if (this.readyState == 4 && this.status != 200) {
                             var resp = JSON.parse(ajax.response);
@@ -218,5 +221,17 @@
                 });
             });
         });
+
+        document.getElementById("point_identifications").addEventListener("change", checkPoints, false);
+        document.getElementById("point_identifications_ref").addEventListener("change", checkPoints, false);
+
+        function checkPoints() {
+            let pointIdentifications = document.getElementById("point_identifications").value
+            let pointIdentificationsRef = document.getElementById("point_identifications_ref").value
+
+            if(pointIdentifications == pointIdentificationsRef) {
+                toastr.warning('{{ __("Atenção! Pontos iguais. Verifique se estão corretos.") }}');
+            }
+        }
     </script>
 </x-app-layout>
