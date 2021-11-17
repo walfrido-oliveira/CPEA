@@ -21,7 +21,7 @@
                             <button id="cancel" type="button" class="btn-outline-danger">{{ __('Cancelar') }}</button>
                         </div>
                         <div class="m-2">
-                            <button type="button" id="delete_point_matrix" class="btn-outline-danger delete-point-matrix" data-type="multiple">{{ __('Apagar') }}</button>
+                            <button type="button" id="delete_campaign'" class="btn-outline-danger delete-campaign" data-type="multiple">{{ __('Apagar') }}</button>
                         </div>
                     </div>
                 </div>
@@ -158,14 +158,7 @@
     });
   </script>
 
-    <x-modal title="{{ __('Excluir Ponto(s)') }}"
-             msg="{{ __('Deseja realmente apagar essa Ponto(s)?') }}"
-             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_point_matrix_modal"
-             method="DELETE"
-             cancel_modal="point_matrix_cancel_modal"
-             confirm_id="point_matrix_confirm_modal"/>
-
-    <script>
+     <script>
         document.getElementById("duplicate_campaign").addEventListener("click", function() {
             document.getElementById("type").value = "campaign";
             document.getElementById("duplicate_campaign").style.display = "none"
@@ -286,5 +279,42 @@
                 });
             });
         });
+
+        campaignEventsDeleteCallback();
+
+        function campaignEventsDeleteCallback() {
+            document.querySelectorAll('.delete-campaign').forEach(item => {
+                item.addEventListener("click", function() {
+                    var urls = '';
+                    var elements = '';
+                    document.querySelectorAll('input:checked.point-matrix-url').forEach((item, index, arr) => {
+                        urls += item.value;
+                        elements += item.dataset.id;
+                        if (index < (arr.length - 1)) {
+                            urls += ',';
+                            elements += ',';
+                        }
+                    });
+
+                    if (urls.length > 0) {
+                        var modal = document.getElementById("delete_point_matrix_modal");
+                        modal.dataset.url = urls;
+                        modal.dataset.elements = elements;
+                        modal.classList.remove("hidden");
+                        modal.classList.add("block");
+                    }
+                });
+            });
+        }
+
+
     </script>
+
+    <x-modal title="{{ __('Excluir') }}"
+        msg="{{ __('Deseja realmente apagar esse(s) ponto(s)?') }}"
+        confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_point_matrix_modal"
+        confirm_id="point_matrix_confirm_id"
+        cancel_modal="point_matrix_cancel_modal"
+        method="DELETE"
+    />
 </x-app-layout>
