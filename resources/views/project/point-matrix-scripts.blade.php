@@ -384,6 +384,7 @@
             let areas = document.getElementById("areas");
             let matriz = document.getElementById("matriz_id");
             let guidingParameter = document.getElementById("guiding_parameters_id");
+            let guidingParameterGroup = document.getElementById("guiding_parameters_group_id");
             let analysisParameter = document.getElementById("analysis_parameter_id");
             let dateCollection = document.getElementById("date_collection");
 
@@ -397,6 +398,7 @@
             guidingParameter.value = '';
             analysisParameter.value = '';
             dateCollection.value = '';
+            guidingParameterGroup = '';
 
             document.querySelectorAll("#point_matrix_container select.custom-select").forEach(item => {
                 if(window.customSelectArray[item.id]) window.customSelectArray[item.id].update();
