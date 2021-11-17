@@ -72,8 +72,14 @@ class ProjectPointMatrixController extends Controller
     public function updateAjax(Request $request, $id)
     {
         $input = $request->all();
+
+        $orderBy = $request->has('order_by') ?  $request->get('order_by') : 'id';
+        $ascending = $request->has('ascending') ? $request->get('ascending') : 'desc';
+        $paginatePerPage = $request->has('paginate_per_page') ? $request->get('paginate_per_page') : 5;
+
         $validator = Validator::make($request->all(), [
             'point_identification_id' => ['required', 'exists:point_identifications,id'],
+            'project_id' => ['required', 'exists:projects,id'],
 
             'date_collection' => ['required', 'date'],
             'campaign_id' => ['required', 'exists:campaigns,id'],
@@ -96,12 +102,16 @@ class ProjectPointMatrixController extends Controller
             'pressure' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
         ]);
 
-        if ($validator->fails()) {
+        if ($validator->fails())
+        {
             return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
         }
 
         $key = $input['key'];
         $projectPointMatrix = ProjectPointMatrix::find($id);
+        $project = Project::find($input['project_id']);
+        $pointMatrixRender = "";
+        $className = 'edit-point-matrix';
 
         if($projectPointMatrix)
         {
@@ -140,71 +150,131 @@ class ProjectPointMatrixController extends Controller
                 'humidity' => isset($input['humidity']) ? $input['humidity'] : null,
                 'pressure' => isset($input['pressure']) ? $input['pressure'] : null,
             ]);
+            $id = $projectPointMatrix->id;
         } else {
-            $projectPointMatrix = ProjectPointMatrix::create([
-                'project_id' => $input['project_id'],
-                'point_identification_id' => $input['point_identification_id'],
-                'analysis_matrix_id' => $input['analysis_matrix_id'],
-                'parameter_analysis_id' => $input['parameter_analysis_id'],
-                'campaign_id' => $input['campaign_id'],
-                'date_collection' => $input['date_collection'],
+            if(isset($input['parameter_analysis_group_id']))
+            {
+                $parameterAnalysis = ParameterAnalysis::where("parameter_analysis_group_id", $input['parameter_analysis_group_id'])->get();
 
-                'refq' => isset($input['refq']) ? $input['refq'] : null,
-                'tide' => isset($input['tide']) ? $input['tide'] : null,
-                'environmental_conditions' => isset($input['environmental_conditions']) ? $input['environmental_conditions'] : null,
-                'utm' => isset($input['utm']) ? $input['utm'] : null,
-                'water_depth' => isset($input['water_depth']) ? $input['water_depth'] : null,
-                'sample_depth' => isset($input['sample_depth']) ? $input['sample_depth'] : null,
-                'environmental_regime' => isset($input['environmental_regime']) ? $input['environmental_regime'] : null,
-                'secchi_record' => isset($input['secchi_record']) ? $input['secchi_record'] : null,
-                'floating_materials' => isset($input['floating_materials']) ? $input['floating_materials'] : null,
-                'total_depth' => isset($input['total_depth']) ? $input['total_depth'] : null,
-                'sedimentary_layer' => isset($input['sedimentary_layer']) ? $input['sedimentary_layer'] : null,
-                'report_identification' => isset($input['report_identification']) ? $input['report_identification'] : null,
-                'sampling_area' => isset($input['sampling_area']) ? $input['sampling_area'] : null,
-                'organism_type' => isset($input['organism_type']) ? $input['organism_type'] : null,
-                'popular_name' => isset($input['popular_name']) ? $input['popular_name'] : null,
-                'effluent_type' => isset($input['effluent_type']) ? $input['effluent_type'] : null,
-                'identification_pm' => isset($input['identification_pm']) ? $input['identification_pm'] : null,
-                'pm_depth' => isset($input['pm_depth']) ? $input['pm_depth'] : null,
-                'pm_diameter' => isset($input['pm_diameter']) ? $input['pm_diameter'] : null,
-                'water_level' => isset($input['water_level']) ? $input['water_level'] : null,
-                'oil_level' => isset($input['oil_level']) ? $input['oil_level'] : null,
-                'sample_horizon' => isset($input['sample_horizon']) ? $input['sample_horizon'] : null,
-                'field_measurements' => isset($input['field_measurements']) ? $input['field_measurements'] : null,
-                'temperature' => isset($input['temperature']) ? $input['temperature'] : null,
-                'humidity' => isset($input['humidity']) ? $input['humidity'] : null,
-                'pressure' => isset($input['pressure']) ? $input['pressure'] : null,
-            ]);
+                foreach ($parameterAnalysis as $key => $value)
+                {
+                    $projectPointMatrix = ProjectPointMatrix::create([
+                        'project_id' => $input['project_id'],
+                        'point_identification_id' => $input['point_identification_id'],
+                        'analysis_matrix_id' => $input['analysis_matrix_id'],
+                        'parameter_analysis_id' => $value->id,
+                        'campaign_id' => $input['campaign_id'],
+                        'date_collection' => $input['date_collection'],
+
+                        'refq' => isset($input['refq']) ? $input['refq'] : null,
+                        'tide' => isset($input['tide']) ? $input['tide'] : null,
+                        'environmental_conditions' => isset($input['environmental_conditions']) ? $input['environmental_conditions'] : null,
+                        'utm' => isset($input['utm']) ? $input['utm'] : null,
+                        'water_depth' => isset($input['water_depth']) ? $input['water_depth'] : null,
+                        'sample_depth' => isset($input['sample_depth']) ? $input['sample_depth'] : null,
+                        'environmental_regime' => isset($input['environmental_regime']) ? $input['environmental_regime'] : null,
+                        'secchi_record' => isset($input['secchi_record']) ? $input['secchi_record'] : null,
+                        'floating_materials' => isset($input['floating_materials']) ? $input['floating_materials'] : null,
+                        'total_depth' => isset($input['total_depth']) ? $input['total_depth'] : null,
+                        'sedimentary_layer' => isset($input['sedimentary_layer']) ? $input['sedimentary_layer'] : null,
+                        'report_identification' => isset($input['report_identification']) ? $input['report_identification'] : null,
+                        'sampling_area' => isset($input['sampling_area']) ? $input['sampling_area'] : null,
+                        'organism_type' => isset($input['organism_type']) ? $input['organism_type'] : null,
+                        'popular_name' => isset($input['popular_name']) ? $input['popular_name'] : null,
+                        'effluent_type' => isset($input['effluent_type']) ? $input['effluent_type'] : null,
+                        'identification_pm' => isset($input['identification_pm']) ? $input['identification_pm'] : null,
+                        'pm_depth' => isset($input['pm_depth']) ? $input['pm_depth'] : null,
+                        'pm_diameter' => isset($input['pm_diameter']) ? $input['pm_diameter'] : null,
+                        'water_level' => isset($input['water_level']) ? $input['water_level'] : null,
+                        'oil_level' => isset($input['oil_level']) ? $input['oil_level'] : null,
+                        'sample_horizon' => isset($input['sample_horizon']) ? $input['sample_horizon'] : null,
+                        'field_measurements' => isset($input['field_measurements']) ? $input['field_measurements'] : null,
+                        'temperature' => isset($input['temperature']) ? $input['temperature'] : null,
+                        'humidity' => isset($input['humidity']) ? $input['humidity'] : null,
+                        'pressure' => isset($input['pressure']) ? $input['pressure'] : null,
+                    ]);
+
+                    $guidingParameters = array_diff(explode(",", $input['guiding_parameter_id']), array(""));
+                    $projectPointMatrix->guidingParameters()->sync($guidingParameters);
+
+                    $projectPointMatrix->project->guiding_parameter_order = implode(",", $projectPointMatrix->project->projectPointMatrices()
+                    ->select('guiding_parameters.*')
+                    ->whereHas('guidingParameters')
+                    ->leftJoin('guiding_parameter_project_point_matrix', function($join) {
+                        $join->on('project_point_matrices.id', '=', 'guiding_parameter_project_point_matrix.project_point_matrix_id');
+                    })
+                    ->leftJoin('guiding_parameters', function($join) {
+                        $join->on('guiding_parameters.id', '=', 'guiding_parameter_project_point_matrix.guiding_parameter_id');
+                    })
+                    ->orderBy('guiding_parameters.id')
+                    ->distinct()
+                    ->pluck('guiding_parameters.id')->toArray());
+                    $projectPointMatrix->project->save();
+
+                    $pointMatrixRender .= view('project.saved-point-matrix', ['projectPointMatrix' => $projectPointMatrix,
+                                                                              'key' => $key,
+                                                                              'id' => $projectPointMatrix->id,
+                                                                              'className' => $className])->render();
+                }
+            }
+            else {
+                $projectPointMatrix = ProjectPointMatrix::create([
+                    'project_id' => $input['project_id'],
+                    'point_identification_id' => $input['point_identification_id'],
+                    'analysis_matrix_id' => $input['analysis_matrix_id'],
+                    'parameter_analysis_id' => $input['parameter_analysis_id'],
+                    'campaign_id' => $input['campaign_id'],
+                    'date_collection' => $input['date_collection'],
+
+                    'refq' => isset($input['refq']) ? $input['refq'] : null,
+                    'tide' => isset($input['tide']) ? $input['tide'] : null,
+                    'environmental_conditions' => isset($input['environmental_conditions']) ? $input['environmental_conditions'] : null,
+                    'utm' => isset($input['utm']) ? $input['utm'] : null,
+                    'water_depth' => isset($input['water_depth']) ? $input['water_depth'] : null,
+                    'sample_depth' => isset($input['sample_depth']) ? $input['sample_depth'] : null,
+                    'environmental_regime' => isset($input['environmental_regime']) ? $input['environmental_regime'] : null,
+                    'secchi_record' => isset($input['secchi_record']) ? $input['secchi_record'] : null,
+                    'floating_materials' => isset($input['floating_materials']) ? $input['floating_materials'] : null,
+                    'total_depth' => isset($input['total_depth']) ? $input['total_depth'] : null,
+                    'sedimentary_layer' => isset($input['sedimentary_layer']) ? $input['sedimentary_layer'] : null,
+                    'report_identification' => isset($input['report_identification']) ? $input['report_identification'] : null,
+                    'sampling_area' => isset($input['sampling_area']) ? $input['sampling_area'] : null,
+                    'organism_type' => isset($input['organism_type']) ? $input['organism_type'] : null,
+                    'popular_name' => isset($input['popular_name']) ? $input['popular_name'] : null,
+                    'effluent_type' => isset($input['effluent_type']) ? $input['effluent_type'] : null,
+                    'identification_pm' => isset($input['identification_pm']) ? $input['identification_pm'] : null,
+                    'pm_depth' => isset($input['pm_depth']) ? $input['pm_depth'] : null,
+                    'pm_diameter' => isset($input['pm_diameter']) ? $input['pm_diameter'] : null,
+                    'water_level' => isset($input['water_level']) ? $input['water_level'] : null,
+                    'oil_level' => isset($input['oil_level']) ? $input['oil_level'] : null,
+                    'sample_horizon' => isset($input['sample_horizon']) ? $input['sample_horizon'] : null,
+                    'field_measurements' => isset($input['field_measurements']) ? $input['field_measurements'] : null,
+                    'temperature' => isset($input['temperature']) ? $input['temperature'] : null,
+                    'humidity' => isset($input['humidity']) ? $input['humidity'] : null,
+                    'pressure' => isset($input['pressure']) ? $input['pressure'] : null,
+                ]);
+
+                $guidingParameters = array_diff(explode(",", $input['guiding_parameter_id']), array(""));
+                $projectPointMatrix->guidingParameters()->sync($guidingParameters);
+                $id = $projectPointMatrix->id;
+
+                $project->guiding_parameter_order = implode(",", $projectPointMatrix->project->projectPointMatrices()
+                ->select('guiding_parameters.*')
+                ->whereHas('guidingParameters')
+                ->leftJoin('guiding_parameter_project_point_matrix', function($join) {
+                    $join->on('project_point_matrices.id', '=', 'guiding_parameter_project_point_matrix.project_point_matrix_id');
+                })
+                ->leftJoin('guiding_parameters', function($join) {
+                    $join->on('guiding_parameters.id', '=', 'guiding_parameter_project_point_matrix.guiding_parameter_id');
+                })
+                ->orderBy('guiding_parameters.id')
+                ->distinct()
+                ->pluck('guiding_parameters.id')->toArray());
+                $project->save();
+            }
         }
 
-        $guidingParameters = array_diff(explode(",", $input['guiding_parameter_id']), array(""));
-        $projectPointMatrix->guidingParameters()->sync($guidingParameters);
-
-        if(count($guidingParameters) > 0)
-        {
-            $projectPointMatrix->project->guiding_parameter_order = implode(",", $projectPointMatrix->project->projectPointMatrices()
-            ->select('guiding_parameters.*')
-            ->whereHas('guidingParameters')
-            ->leftJoin('guiding_parameter_project_point_matrix', function($join) {
-                $join->on('project_point_matrices.id', '=', 'guiding_parameter_project_point_matrix.project_point_matrix_id');
-            })
-            ->leftJoin('guiding_parameters', function($join) {
-                $join->on('guiding_parameters.id', '=', 'guiding_parameter_project_point_matrix.guiding_parameter_id');
-            })
-            ->orderBy('guiding_parameters.id')
-            ->distinct()
-            ->pluck('guiding_parameters.id')->toArray());
-            $projectPointMatrix->project->save();
-        }
-
-        $id = $projectPointMatrix->id;
-        $className = 'edit-point-matrix';
-
-        $orderBy = $request->has('order_by') ?  $request->get('order_by') : 'id';
-        $ascending = $request->has('ascending') ? $request->get('ascending') : 'desc';
-        $paginatePerPage = $request->has('paginate_per_page') ? $request->get('paginate_per_page') : 5;
-        $projectPointMatrices = $projectPointMatrix->project->projectPointMatrices() ->paginate($paginatePerPage, ['*'], 'project-point-matrices');
+        $projectPointMatrices = $project->projectPointMatrices()->paginate($paginatePerPage, ['*'], 'project-point-matrices');
         $projectPointMatrices->withPath(route('project.edit', ['project' => $input['project_id']]));
 
         $areas = PointIdentification::pluck('area', 'area');
@@ -215,10 +285,11 @@ class ProjectPointMatrixController extends Controller
         $parameterAnalyses = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
         $geodeticSystems = GeodeticSystem::pluck("name", "id");
 
-        $resp = [
+        $resp =
+        [
             'message' => __('Ponto/Matriz Atualizado com Sucesso!'),
             'alert-type' => 'success',
-            'point_matrix' => view('project.saved-point-matrix', compact('projectPointMatrix', 'key', 'id', 'className'))->render(),
+            'point_matrix' => $pointMatrixRender != '' ? view('project.saved-point-matrix', compact('projectPointMatrix', 'key', 'id', 'className'))->render() : $pointMatrixRender,
             'point_matrix_show' => view('project.campaign.saved-point-matrix',
             compact('projectPointMatrix', 'key', 'id', 'className', 'areas', 'identifications', 'matrizeces',
                     'planActionLevels', 'guidingParameters', 'parameterAnalyses', 'geodeticSystems'))->render(),

@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Models\Campaign;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\AnalysisMatrix;
 use App\Models\CampaignStatus;
 use App\Models\GeodeticSystem;
@@ -15,8 +16,8 @@ use App\Models\ParameterAnalysis;
 use App\Models\ProjectPointMatrix;
 use App\Models\PointIdentification;
 use App\Http\Requests\ProjectRequest;
+use App\Models\ParameterAnalysisGroup;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Response;
 
 class ProjectController extends Controller
 {
@@ -156,6 +157,7 @@ class ProjectController extends Controller
         $matrizeces = AnalysisMatrix::pluck('name', 'id');
         $guidingParameters = GuidingParameter::orderBy("environmental_guiding_parameter_id", 'asc')->pluck('environmental_guiding_parameter_id', 'id');
         $parameterAnalyses = ParameterAnalysis::all()->pluck('full_name', 'id');
+        $parameterAnalyseGroups = ParameterAnalysisGroup::all()->pluck('name', 'id');
         $geodeticSystems = GeodeticSystem::pluck("name", "id");
         $campaignStatuses = CampaignStatus::pluck("name", "id");
         $pointMatrices = $project->getPointMatricesCustomFields();
@@ -173,7 +175,7 @@ class ProjectController extends Controller
 
         return view('project.edit', compact('project','customers', 'areas', 'identifications', 'campaignStatuses', 'projectCampaigns',
                     'matrizeces', 'guidingParameters', 'parameterAnalyses', 'projectPointMatrices', 'geodeticSystems',
-                    'pointMatrices', 'campaigns'));
+                    'pointMatrices', 'campaigns', 'parameterAnalyseGroups'));
 
     }
 

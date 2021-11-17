@@ -3,7 +3,7 @@
         <div class="max-w-6xl mx-auto px-4">
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">
-                    <h1>{{ __('Detalhes do Ponto') }}</h1>
+                    <h1>{{ $pointIdentification->area }} - {{ $pointIdentification->identification }}</h1>
                 </div>
                 <div class="w-full flex justify-end">
                     <div class="m-2 ">
@@ -199,7 +199,7 @@
             <div class="py-2 my-2 bg-white rounded-lg flex md:flex-row flex-col flex-wrap">
                 <div class="flex md:flex-row flex-col w-full">
                     <div class="mx-4 px-3 py-2 w-full flex items-center">
-                        <h2>{{ __('Projetos/Campanhas') }}</h2>
+                        <h2>{{ __('Projetos/Campanhas/Param Análise') }}</h2>
                     </div>
                     <div class="mx-4 px-3 py-2 w-full flex justify-end" x-data="{ open: false }">
                         <div class="pr-4 flex">
@@ -220,8 +220,7 @@
 
                 <div class="flex w-full">
                     <table id="campaign_table" class="table table-responsive md:table w-full">
-                        @include('project.campaign-result',
-                        ['projectCampaigns' => $projectCampaigns, 'orderBy' => 'name', 'ascending' => 'asc', 'actions' => 'hidden'])
+                        @include('point-identification.filter-result-point', ['orderBy' => 'projects.project_cod', 'ascending' => 'asc'])
                     </table>
                 </div>
                 <div class="flex w-full mt-4 p-2" id="pagination_campaigns">

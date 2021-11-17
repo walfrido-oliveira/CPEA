@@ -209,6 +209,7 @@
             let matriz = document.getElementById("matriz_id").value;
             let guidingParameter = Array.from(document.getElementById("guiding_parameters_id").options).filter(o => o.selected).map(o => o.value);
             let analysisParameter = document.getElementById("analysis_parameter_id").value;
+            let analysisParameterGroup = document.getElementById("analysis_parameter_group_id").value;
             let paginationPerPage = document.getElementById("paginate_per_page_campaigns").value;
             let campaignId = document.getElementById("campaign_id").value;
             let dateCollection = document.getElementById("date_collection").value;
@@ -270,6 +271,7 @@
             data.append('analysis_matrix_id', matriz);
             data.append('guiding_parameter_id', guidingParameter);
             data.append('parameter_analysis_id', analysisParameter);
+            if(analysisParameterGroup) data.append('parameter_analysis_group_id', analysisParameterGroup);
             data.append('campaign_id', campaignId);
             data.append('date_collection', dateCollection);
             data.append('project_id', {{ isset($project) ? $project->id : null }});

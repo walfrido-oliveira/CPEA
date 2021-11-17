@@ -153,8 +153,17 @@
                         </div>
                         <div class="flex flex-wrap mx-4 px-3 py-2">
                             <div class="w-full px-3 mb-6 md:mb-0">
-                                <x-jet-label for="analysis_parameter_id" value="{{ __('Param. Análise') }}"/>
+                                <div>
+                                    <button type="button" class="btn-transition inline text-green-600" id="change_point_add_method" title="Mudar forma de adicionar ponto">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                            <path d="M5 12a1 1 0 102 0V6.414l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L5 6.414V12zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
+                                        </svg>
+                                    </button>
+                                    <x-jet-label class="inline" id="analysis_parameter_id_label" for="analysis_parameter_id" value="{{ __('Param. Análise') }}"/>
+                                    <x-jet-label class="inline hidden" id="analysis_parameter_group_id_label" for="analysis_parameter_group_id" value="{{ __('Param. Análise Grupo') }}"/>
+                                </div>
                                 <x-custom-select :options="$parameterAnalyses" name="analysis_parameter_id" id="analysis_parameter_id" value="" class="mt-1" no-filter="no-filter"/>
+                                <x-custom-select :options="$parameterAnalyseGroups" name="analysis_parameter_group_id" id="analysis_parameter_group_id" value="" class="mt-1 hidden" no-filter="no-filter"/>
                             </div>
                         </div>
                         <div id="point_matrix_fields">
@@ -191,6 +200,26 @@
                 redirect-url="{{ route('project.index') }}"
                 confirm_id="project_confirm_id"
                 cancel_modal="project_cancel_modal"/>
+
+    <script>
+        document.getElementById("change_point_add_method").addEventListener("click", function() {
+            let parameterAnalysis = document.getElementById("analysis_parameter_id");
+            let parameterAnalysisLabel= document.getElementById("analysis_parameter_id_label");
+            let parameterAnalysisGroup = document.getElementById("analysis_parameter_group_id");
+            let parameterAnalysisGroupLabel = document.getElementById("analysis_parameter_group_id_label");
+
+            parameterAnalysis.parentNode.classList.toggle("hidden");
+            parameterAnalysisLabel.classList.toggle("hidden");
+            parameterAnalysisGroup.parentNode.classList.toggle("hidden");
+            parameterAnalysisGroupLabel.classList.toggle("hidden");
+
+            parameterAnalysis.value = '';
+            parameterAnalysisGroup.value = '';
+
+            window.customSelectArray["analysis_parameter_id"].update();
+            window.customSelectArray["analysis_parameter_group_id"].update();
+        });
+    </script>
 
     <script>
         function pointMatrixShowFields() {

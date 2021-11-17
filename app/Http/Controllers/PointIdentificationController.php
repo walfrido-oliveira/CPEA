@@ -274,6 +274,8 @@ class PointIdentificationController extends Controller
         ->leftJoin('projects', 'projects.id', '=', 'campaigns.project_id')
         ->select('campaigns.*')
         ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+        ->join('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+        ->join('analysis_matrices', 'analysis_matrices.id', '=', 'project_point_matrices.analysis_matrix_id')
         ->orderBy($orderBy, $ascending);
 
         $projectCampaigns = $projectCampaigns->paginate($paginatePerPage, ['*'], 'campaigns');
@@ -281,7 +283,7 @@ class PointIdentificationController extends Controller
         $actions = $request->has('actions') ? $request->get('actions') : 'show';
 
         return response()->json([
-            'filter_result' => view('project.campaign-result', compact('projectCampaigns', 'orderBy', 'ascending', 'actions'))->render(),
+            'filter_result' => view('point-identification.filter-result-point', compact('projectCampaigns', 'orderBy', 'ascending', 'actions'))->render(),
             'pagination' => $this->setPagination($projectCampaigns, $orderBy, $ascending, $paginatePerPage),
         ]);
     }
