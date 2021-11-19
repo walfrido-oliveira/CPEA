@@ -34,7 +34,8 @@ class CalculationParameterController extends Controller
     public function create()
     {
         $parameterAnalysis = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
-        return view('calculation-parameter.create', compact('parameterAnalysis'));
+        $parameterAnalysisCalc = ParameterAnalysis::all()->pluck('analysis_parameter_name', 'calc_name');
+        return view('calculation-parameter.create', compact('parameterAnalysis', 'parameterAnalysisCalc'));
     }
 
     /**
