@@ -64,11 +64,11 @@
                         x-transition:leave-start="opacity-100 transform scale-100"
                         x-transition:leave-end="opacity-0 transform scale-90 hidden">
                         <div class="flex flex-wrap mx-4 px-3 py-2">
-                            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                 <x-jet-label for="campaign_name" value="{{ __('Nome da Campanha') }}" required />
                                 <x-jet-input id="campaign_name" class="form-control block mt-1 w-full" type="text" name="campaign_name" maxlength="255" autofocus autocomplete="campaign_name"/>
                             </div>
-                            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                 <x-jet-label for="campaign_status" value="{{ __('Status') }}" required/>
                                 <x-custom-select :options="$campaignStatuses" name="campaign_status" id="campaign_status" value="" class="mt-1" no-filter="no-filter"/>
                             </div>
