@@ -18,8 +18,8 @@
             <td>
                 <a class="text-item-table" href="{{ route('registers.calculation-parameter.show', ['calculation_parameter' => $calculationParameter->id]) }}">
                     {{ $calculationParameter->parameterAnalysis->cas_rn }} -
-                    {{ $calculationParameter->parameterAnalysis->analysis_parameter_name }} -
-                    {{ $calculationParameter->parameterAnalysis->parameterAnalysisGroup ? $calculationParameter->parameterAnalysis->parameterAnalysisGroup->name : '' }}
+                    {{ $calculationParameter->parameterAnalysis->analysis_parameter_name }}
+                    {{ $calculationParameter->parameterAnalysis->parameterAnalysisGroup ?  ' - ' . $calculationParameter->parameterAnalysis->parameterAnalysisGroup->name : '' }}
                 </a>
             </td>
             <td>
