@@ -137,7 +137,7 @@
                                 <x-custom-select :options="[]" name="point_identifications" id="point_identifications" value="" class="mt-1" no-filter="no-filter"/>
                             </div>
                             <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                                <x-jet-label for="matriz_id" value="{{ __('Matriz') }}"/>
+                                <x-jet-label for="matriz_id" value="{{ __('Matriz') }}" required/>
                                 <x-custom-select :options="$matrizeces" name="matriz_id" id="matriz_id" value="" class="mt-1" no-filter="no-filter"/>
                             </div>
                             <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
@@ -159,8 +159,8 @@
                                             <path d="M5 12a1 1 0 102 0V6.414l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L5 6.414V12zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
                                         </svg>
                                     </button>
-                                    <x-jet-label class="inline" id="analysis_parameter_id_label" for="analysis_parameter_id" value="{{ __('Param. Análise') }}"/>
-                                    <x-jet-label class="inline hidden" id="analysis_parameter_group_id_label" for="analysis_parameter_group_id" value="{{ __('Param. Análise Grupo') }}"/>
+                                    <x-jet-label class="inline" id="analysis_parameter_id_label" for="analysis_parameter_id" value="{{ __('Param. Análise') }}" required/>
+                                    <x-jet-label class="inline hidden" id="analysis_parameter_group_id_label" for="analysis_parameter_group_id" value="{{ __('Param. Análise Grupo') }}" required/>
                                 </div>
                                 <x-custom-select :options="$parameterAnalyses" name="analysis_parameter_id" id="analysis_parameter_id" value="" class="mt-1" no-filter="no-filter"/>
                                 <x-custom-select :options="$parameterAnalyseGroups" name="analysis_parameter_group_id" id="analysis_parameter_group_id" value="" class="mt-1 hidden" no-filter="no-filter"/>
