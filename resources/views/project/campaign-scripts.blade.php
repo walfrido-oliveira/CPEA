@@ -335,7 +335,6 @@
 
             campaignName.value = '';
             campaignStatus.value = '';
-            dateCollection.value = '';
 
             document.querySelectorAll("#campaign_container select.custom-select").forEach(item => {
                 window.customSelectArray[item.id].update();

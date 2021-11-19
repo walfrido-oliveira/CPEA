@@ -15,7 +15,7 @@ class CreateAnalysisMatrixTable extends Migration
     {
         Schema::create('analysis_matrices', function (Blueprint $table) {
             $table->id();
-            $table->string('analysis_matrix_id')->unique();
+            $table->string('analysis_matrix_id');
             $table->string('name');
             $table->timestamps();
         });

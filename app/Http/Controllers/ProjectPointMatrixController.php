@@ -197,7 +197,7 @@ class ProjectPointMatrixController extends Controller
                     $guidingParameters = array_diff(explode(",", $input['guiding_parameter_id']), array(""));
                     $projectPointMatrix->guidingParameters()->sync($guidingParameters);
 
-                    $projectPointMatrix->project->guiding_parameter_order = implode(",", $projectPointMatrix->project->projectPointMatrices()
+                    $project->guiding_parameter_order = implode(",", $project->projectPointMatrices()
                     ->select('guiding_parameters.*')
                     ->whereHas('guidingParameters')
                     ->leftJoin('guiding_parameter_project_point_matrix', function($join) {
@@ -209,13 +209,23 @@ class ProjectPointMatrixController extends Controller
                     ->orderBy('guiding_parameters.id')
                     ->distinct()
                     ->pluck('guiding_parameters.id')->toArray());
-                    $projectPointMatrix->project->save();
+                    $project->save();
 
                     $pointMatrixRender .= view('project.saved-point-matrix', ['projectPointMatrix' => $projectPointMatrix,
                                                                               'key' => $key,
                                                                               'id' => $projectPointMatrix->id,
                                                                               'className' => $className])->render();
                 }
+                $projectPointMatrices = $project->projectPointMatrices()->paginate($paginatePerPage, ['*'], 'project-point-matrices');
+                $resp =
+                [
+                    'message' => __('Ponto/Matriz(s) Cadastrados com Sucesso!'),
+                    'alert-type' => 'success',
+                    'point_matrix' => $pointMatrixRender,
+                    'pagination' => $this->setPagination($projectPointMatrices, $orderBy, $ascending, $paginatePerPage),
+                ];
+
+                return response()->json($resp);
             }
             else {
                 $projectPointMatrix = ProjectPointMatrix::create([
@@ -289,7 +299,7 @@ class ProjectPointMatrixController extends Controller
         [
             'message' => __('Ponto/Matriz Atualizado com Sucesso!'),
             'alert-type' => 'success',
-            'point_matrix' => $pointMatrixRender != '' ? view('project.saved-point-matrix', compact('projectPointMatrix', 'key', 'id', 'className'))->render() : $pointMatrixRender,
+            'point_matrix' => view('project.saved-point-matrix', compact('projectPointMatrix', 'key', 'id', 'className'))->render(),
             'point_matrix_show' => view('project.campaign.saved-point-matrix',
             compact('projectPointMatrix', 'key', 'id', 'className', 'areas', 'identifications', 'matrizeces',
                     'planActionLevels', 'guidingParameters', 'parameterAnalyses', 'geodeticSystems'))->render(),
