@@ -69,6 +69,16 @@ class ParameterAnalysis extends Model
     }
 
     /**
+     * Get calc name
+     *
+     * @return string
+     */
+    public function getCalcNameAttribute()
+    {
+        return '{' . $this->analysis_parameter_name . '&' . $this->cas_rn . ($this->parameterAnalysisGroup ? '&' . $this->parameterAnalysisGroup->name : '') . '}';
+    }
+
+    /**
      * Find users in dabase
      *
      * @param Array

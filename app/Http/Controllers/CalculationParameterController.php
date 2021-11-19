@@ -78,7 +78,8 @@ class CalculationParameterController extends Controller
     {
         $calculationParameter = CalculationParameter::findOrFail($id);
         $parameterAnalysis = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
-        return view('calculation-parameter.edit', compact('calculationParameter', 'parameterAnalysis'));
+        $parameterAnalysisCalc = ParameterAnalysis::all()->pluck('analysis_parameter_name', 'calc_name');
+        return view('calculation-parameter.edit', compact('calculationParameter', 'parameterAnalysis', 'parameterAnalysisCalc'));
     }
 
     /**

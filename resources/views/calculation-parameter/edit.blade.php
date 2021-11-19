@@ -32,8 +32,13 @@
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full px-3 mb-6 md:mb-0">
                             <x-jet-label for="formula" value="{{ __('Formula Cálculo') }}" required/>
-                            <div class="w-1/3">
-                                <x-custom-select :options="$parameterAnalysis" name="parameter_analysis_id" id="parameter_analysis_id" :value="$calculationParameter->parameter_analysis_id"/>
+                            <div class="w-1/3 flex py-2">
+                                <x-custom-select :options="$parameterAnalysisCalc" name="param_analisis_add" id="param_analisis_add" value=""/>
+                                <button type="button" class="btn-transition-primary px-2" id="btn_param_analisis_add" title="Adicionar novo param análise">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </button>
                             </div>
                             <textarea class="form-input w-full" name="formula" id="formula" cols="30" rows="3" required >{{ $calculationParameter->formula }}</textarea>
                             <div id="calculation-variables-list">
@@ -51,5 +56,12 @@
         </div>
     </div>
 
+    <script>
+        document.getElementById("btn_param_analisis_add").addEventListener("click", function() {
+            let textAtea = document.getElementById("formula");
+            let paramAnalise = document.getElementById("param_analisis_add")
+            textAtea.value += paramAnalise.value;
+        });
+    </script>
 
 </x-app-layout>
