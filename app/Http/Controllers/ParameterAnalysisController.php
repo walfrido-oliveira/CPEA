@@ -19,7 +19,7 @@ class ParameterAnalysisController extends Controller
     public function index(Request $request)
     {
         $parameterAnalyses =  ParameterAnalysis::filter($request->all());
-        $analysisParameter = AnalysisParameter::all()->pluck('name', 'id');
+        $analysisParameter = AnalysisParameter::all()->pluck('name', 'id')->merge(['' => '']);
         $parameterAnalysisGroup = ParameterAnalysisGroup::all()->pluck('name', 'id');
 
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';

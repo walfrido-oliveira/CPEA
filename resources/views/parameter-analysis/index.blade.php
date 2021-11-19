@@ -23,7 +23,7 @@
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="analysis_parameter_id">
                                 {{ __('Tipo Param. Análise') }}
                             </label>
-                            <x-custom-select :options="$analysisParameter" name="analysis_parameter_id" id="analysis_parameter_id" :value="app('request')->input('analysis_parameter_id')"/>
+                            <x-custom-select :options="$analysisParameter" placeholder="" name="analysis_parameter_id" id="analysis_parameter_id" :value="app('request')->input('analysis_parameter_id')"/>
                         </div>
                         <div class="w-full md:w-1/3 px-2 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="analysis_parameter_name">

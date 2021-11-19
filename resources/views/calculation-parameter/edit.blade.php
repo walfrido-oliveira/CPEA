@@ -32,6 +32,9 @@
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full px-3 mb-6 md:mb-0">
                             <x-jet-label for="formula" value="{{ __('Formula Cálculo') }}" required/>
+                            <div class="w-1/3">
+                                <x-custom-select :options="$parameterAnalysis" name="parameter_analysis_id" id="parameter_analysis_id" :value="$calculationParameter->parameter_analysis_id"/>
+                            </div>
                             <textarea class="form-input w-full" name="formula" id="formula" cols="30" rows="3" required >{{ $calculationParameter->formula }}</textarea>
                             <div id="calculation-variables-list">
                                 @foreach ($calculationParameter->calculationVariables as $calculationVariable)
