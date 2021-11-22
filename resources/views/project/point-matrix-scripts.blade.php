@@ -197,6 +197,8 @@
         var savePointMatrixAjax = function(event) {
             if(this.dataset.type != 'save') return;
 
+            document.getElementById("spin_load").classList.toggle("hidden");
+
             let id = this.dataset.id;
             let key = this.dataset.row ? this.dataset.row : document.querySelectorAll('.point-matrix-row').length;
             let that = this;
@@ -246,6 +248,8 @@
                     eventsDeleteCallback();
                     editPointMatrixCallback();
                     clearPointMatrixFields();
+
+                    document.getElementById("spin_load").classList.toggle("hidden");
 
                 } else if (this.readyState == 4 && this.status != 200) {
                     var resp = JSON.parse(ajax.response);

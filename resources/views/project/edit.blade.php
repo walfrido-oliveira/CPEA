@@ -184,6 +184,8 @@
         </div>
     </div>
 
+    <x-spin-load />
+
     <x-modal title="{{ __('Excluir') }}"
              msg="{{ __('Deseja realmente apagar esse Item?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_point_matrix_modal"
