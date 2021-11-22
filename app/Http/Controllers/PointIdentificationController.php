@@ -96,7 +96,7 @@ class PointIdentificationController extends Controller
         $pointIdentification =   PointIdentification::create([
             'area' => $input['area'],
             'identification' => $input['identification'],
-            'geodetic_system_id' => $input['geodetic_system_id'],
+            'geodetic_system_id' => isset($input['geodetic_system_id']) ? $input['geodetic_system_id'] : null,
             'utm_me_coordinate' => isset($input['utm_me_coordinate']) ? $input['utm_me_coordinate'] : null,
             'utm_mm_coordinate' => isset($input['utm_mm_coordinate']) ? $input['utm_mm_coordinate'] : null,
             'pool_depth' => isset($input['pool_depth']) ? $input['pool_depth'] : null,

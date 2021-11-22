@@ -526,7 +526,10 @@ class AnalysisResultController extends Controller
 
                         $projectPointMatrix = $order->projectPointMatrices()->whereHas('parameterAnalysis', function($q) use($result) {
                             $q->where('parameter_analyses.analysis_parameter_name', $result[0])
-                            ->where('parameter_analyses.cas_rn', $result[1]);
+                            ->where('parameter_analyses.cas_rn', $result[1])
+                            ->whereHas('parameterAnalysisGroup', function($q) use($result) {
+                                $q->where('name', $result[2]);
+                            });
                         })->first();
 
                         if($projectPointMatrix)
