@@ -103,7 +103,9 @@
                     areas.add(opt);
                 });
 
-                close();
+                var modal = document.getElementById("point_create_modal");
+                modal.classList.add("hidden");
+                modal.classList.remove("block");
             } else if (this.readyState == 4 && this.status != 200) {
                 var resp = JSON.parse(ajax.response);
                 var obj = resp;
