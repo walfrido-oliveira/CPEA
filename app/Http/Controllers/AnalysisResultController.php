@@ -571,7 +571,7 @@ class AnalysisResultController extends Controller
         }
 
         return response()->json([
-            'message' => __("$totalImport importada(s) no total de $totalRows pontos.<br>Erros de importação: <br>$importError"),
+            'message' => __("$totalImport importada(s) no total de $totalRows pontos.<br>Não importados: <br><textarea>$importError</textarea"),
             'alert-type' => 'success'
         ]);
 
