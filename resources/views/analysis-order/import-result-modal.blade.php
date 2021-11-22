@@ -17,11 +17,11 @@
               <h3 class="text-lg leading-6 font-medium text-gray-900 sm:ml-4" id="modal-title">
                 {{ __('Resultado da Importação') }}
               </h3>
-              <div class="mt-2">
+              <div class="flex mt-4">
                 <p>{{ __("Importado $totalImport de $totalRows.") }}</p>
                 <table id="import_result_table" class="table table-responsive md:table w-full">
                     <thead>
-                        <tr>
+                        <tr class="thead-light">
                             <th scope="col" class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('Projeto') }}</th>
                             <th scope="col" class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('Ponto') }}</th>
                             <th scope="col" class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('Matriz') }}</th>
