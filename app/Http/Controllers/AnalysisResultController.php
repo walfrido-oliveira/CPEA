@@ -509,58 +509,60 @@ class AnalysisResultController extends Controller
             $totalImport++;
         }
 
-        $projectPointMatrices = $order->projectPointMatrices()->whereHas("parameterAnalysis", function(){
+        $projectPointMatrices = $order->projectPointMatrices;
 
-        })->get();
-
-        foreach ($projectPointMatrices as $key => $value)
-        {
-            if(count($value->calculationParameters) > 0)
+        try {
+            foreach ($projectPointMatrices as $key => $value)
             {
-                $re = '/{(.*?)}/m';
-                $formula = $value->calculationParameters[0]->formula;
-                preg_match_all($re, $formula, $matches, PREG_SET_ORDER, 0);
-                dd($matches);
-                foreach ($matches as $key2 => $value2)
+                if(count($value->calculationParameters) > 0)
                 {
-                    $result = explode("&", $value2[1]);
+                    $re = '/{(.*?)}/m';
+                    $formula = $value->calculationParameters[0]->formula;
+                    preg_match_all($re, $formula, $matches, PREG_SET_ORDER, 0);
 
-                    $projectPointMatrix = $order->projectPointMatrices()->whereHas('parameterAnalysis', function($q) use($result) {
-                        $q->where('parameter_analyses.analysis_parameter_name', $result[0])
-                          ->where('parameter_analyses.cas_rn', $result[1]);
-                    })->first();
-
-                    if($projectPointMatrix)
+                    foreach ($matches as $key2 => $value2)
                     {
-                        $analysisResult = AnalysisResult::where("project_point_matrix_id", $projectPointMatrix->id)->first();
-                        if($analysisResult)
+                        $result = explode("&", $value2[1]);
+
+                        $projectPointMatrix = $order->projectPointMatrices()->whereHas('parameterAnalysis', function($q) use($result) {
+                            $q->where('parameter_analyses.analysis_parameter_name', $result[0])
+                            ->where('parameter_analyses.cas_rn', $result[1]);
+                        })->first();
+
+                        if($projectPointMatrix)
                         {
-                            $formula = Str::replace($value2[0],  $analysisResult->result, $formula);
-                            $sampdate = $analysisResult->sampdate;
-                            $samplename = $analysisResult->samplename;
-                            $labsampid = $analysisResult->labsampid;
+                            $analysisResult = AnalysisResult::where("project_point_matrix_id", $projectPointMatrix->id)->first();
+                            if($analysisResult)
+                            {
+                                $formula = Str::replace($value2[0],  $analysisResult->result, $formula);
+                                $sampdate = $analysisResult->sampdate;
+                                $samplename = $analysisResult->samplename;
+                                $labsampid = $analysisResult->labsampid;
+                            }
                         }
                     }
+
+                    $formula = Str::replace(["*J", " [1]", "< ", "<"],  "", $formula);
+                    $formula = Str::replace([","],  ".", $formula);
+                    $stringCalc = new StringCalc();
+
+                    $result = $stringCalc->calculate($formula);
+
+                    $analysisResult = AnalysisResult::firstOrCreate([
+                        'project_point_matrix_id' => $value->id,
+                        'analysis_order_id' => $order->id
+                    ]);
+
+                    $analysisResult->update([
+                        'result' => $result,
+                        'labsampid' => $labsampid,
+                        'sampdate' => $sampdate,
+                        'samplename' => $samplename
+                    ]);
                 }
-
-                $formula = Str::replace(["*J", " [1]", "< ", "<"],  "", $formula);
-                $formula = Str::replace([","],  ".", $formula);
-                $stringCalc = new StringCalc();
-                dd($formula);
-                $result = $stringCalc->calculate($formula);
-
-                $analysisResult = AnalysisResult::firstOrCreate([
-                    'project_point_matrix_id' => $value->id,
-                    'analysis_order_id' => $order->id
-                ]);
-
-                $analysisResult->update([
-                    'result' => $result,
-                    'labsampid' => $labsampid,
-                    'sampdate' => $sampdate,
-                    'samplename' => $samplename
-                ]);
             }
+        } catch (\Throwable $th) {
+            //throw $th;
         }
 
         return response()->json([
