@@ -80,7 +80,8 @@
             let url = "{!! route('analysis-result.import') !!}";
             let token = document.querySelector('meta[name="csrf-token"]').content;
             let method = 'POST';
-            let files = document.querySelector('#file').files;
+            let that = document.querySelector('#file');
+            let files = that.files;
             let order = document.getElementById("order").value;
 
             ajax.open(method, url);
@@ -90,6 +91,7 @@
                     var resp = JSON.parse(ajax.response);
                     document.getElementById("spin_load").classList.add("hidden");
                     toastr.success(resp.message);
+                    that.files = '';
                 } else if(this.readyState == 4 && this.status != 200) {
                     document.getElementById("spin_load").classList.add("hidden");
                     toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");

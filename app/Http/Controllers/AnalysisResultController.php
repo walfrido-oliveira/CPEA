@@ -421,6 +421,7 @@ class AnalysisResultController extends Controller
         $rows = $worksheet->toArray();
         $totalImport = 0;
         $totalRows = count($rows);
+        $importError = '';
 
         foreach($rows as $key => $value)
         {
@@ -440,7 +441,11 @@ class AnalysisResultController extends Controller
             })
             ->first();
 
-            if(!$projectPointMatrices) continue;
+            if(!$projectPointMatrices)
+            {
+                $importError .= $value[19] . '<br>';
+                continue;
+            }
 
             $analysisResult = AnalysisResult::firstOrCreate([
                 'project_point_matrix_id' => $projectPointMatrices->id,
@@ -566,7 +571,7 @@ class AnalysisResultController extends Controller
         }
 
         return response()->json([
-            'message' => __("$totalImport importada(s) no total de $totalRows pontos"),
+            'message' => __("$totalImport importada(s) no total de $totalRows pontos.<br>Erros de importação: <br>$importError"),
             'alert-type' => 'success'
         ]);
 
