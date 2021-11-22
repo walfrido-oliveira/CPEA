@@ -95,6 +95,9 @@
                     var resp = JSON.parse(ajax.response);
                     document.getElementById("spin_load").classList.add("hidden");
                     document.getElementById("import_result_container_modal").innerHTML = resp.result;
+                    document.getElementById("import_result_confirm_modal").addEventListener("click", function() {
+                        document.getElementById("import_result_modal").classList.add("hidden");
+                    });
                     that.value = '';
                 } else if(this.readyState == 4 && this.status != 200) {
                     document.getElementById("spin_load").classList.add("hidden");

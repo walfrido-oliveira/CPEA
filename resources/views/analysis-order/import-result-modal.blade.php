@@ -17,7 +17,7 @@
               <h3 class="text-lg leading-6 font-medium text-gray-900 sm:ml-4" id="modal-title">
                 {{ __('Resultado da Importação') }}
               </h3>
-              <div class="flex mt-4">
+              <div class="flex flex-col mt-4">
                 <p>{{ __("Importado $totalImport de $totalRows.") }}</p>
                 <table id="import_result_table" class="table table-responsive md:table w-full">
                     <thead>
@@ -70,7 +70,5 @@
 </div>
 
 <script>
-    document.getElementById("import_result_confirm_modal").addEventListener("click", function() {
-        document.getElementById("import_result_modal").classList.add("hidden");
-    });
+
 </script>
