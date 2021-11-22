@@ -152,17 +152,15 @@ class ProjectPointMatrixController extends Controller
             ]);
             $id = $projectPointMatrix->id;
         } else {
-            if(isset($input['parameter_analysis_group_id']))
+            if(isset($input['analysis_parameter_ids']))
             {
-                $parameterAnalysis = ParameterAnalysis::where("parameter_analysis_group_id", $input['parameter_analysis_group_id'])->get();
-
-                foreach ($parameterAnalysis as $key => $value)
+                foreach (array_diff(explode(",", $input['analysis_parameter_ids']), array("")) as $value)
                 {
                     $projectPointMatrix = ProjectPointMatrix::create([
                         'project_id' => $input['project_id'],
                         'point_identification_id' => $input['point_identification_id'],
                         'analysis_matrix_id' => $input['analysis_matrix_id'],
-                        'parameter_analysis_id' => $value->id,
+                        'parameter_analysis_id' => $value,
                         'campaign_id' => $input['campaign_id'],
                         'date_collection' => $input['date_collection'],
 
@@ -217,6 +215,8 @@ class ProjectPointMatrixController extends Controller
                                                                               'className' => $className])->render();
                 }
                 $projectPointMatrices = $project->projectPointMatrices()->paginate($paginatePerPage, ['*'], 'project-point-matrices');
+                $projectPointMatrices->withPath(route('project.edit', ['project' => $input['project_id']]));
+
                 $resp =
                 [
                     'message' => __('Ponto/Matriz(s) Cadastrados com Sucesso!'),

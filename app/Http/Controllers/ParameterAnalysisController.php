@@ -162,4 +162,19 @@ class ParameterAnalysisController extends Controller
             ])->render(),
         ]);
     }
+
+    /**
+     * List By group
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function listByGroup(Request $request, $id)
+    {
+        $parameterAnalyses = ParameterAnalysis::where("parameter_analysis_group_id", $id)->get();
+        return response()->json([
+            'result' => $parameterAnalyses
+        ]);
+    }
 }

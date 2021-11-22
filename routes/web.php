@@ -224,6 +224,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     ]);
     Route::prefix('param-analise')->name('parameter-analysis.')->group(function(){
         Route::post('/filter', [ParameterAnalysisController::class, 'filter'])->name('filter');
+        Route::post('/list-by-group/{group}', [ParameterAnalysisController::class, 'listByGroup'])->name('list-by-group');
     });
 
     Route::resource('param-orientador', GuidingParameterController::class, [

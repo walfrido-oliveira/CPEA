@@ -211,7 +211,7 @@
             let matriz = document.getElementById("matriz_id").value;
             let guidingParameter = Array.from(document.getElementById("guiding_parameters_id").options).filter(o => o.selected).map(o => o.value);
             let analysisParameter = document.getElementById("analysis_parameter_id").value;
-            let analysisParameterGroup = document.getElementById("analysis_parameter_group_id").value;
+            let analysisParameters = Array.from(document.getElementById("analysis_parameter_ids").options).filter(o => o.selected).map(o => o.value);
             let paginationPerPage = document.getElementById("paginate_per_page_campaigns").value;
             let campaignId = document.getElementById("campaign_id").value;
             let dateCollection = document.getElementById("date_collection").value;
@@ -275,7 +275,7 @@
             data.append('analysis_matrix_id', matriz);
             data.append('guiding_parameter_id', guidingParameter);
             data.append('parameter_analysis_id', analysisParameter);
-            if(analysisParameterGroup) data.append('parameter_analysis_group_id', analysisParameterGroup);
+            if(analysisParameters) data.append('analysis_parameter_ids', analysisParameters);
             data.append('campaign_id', campaignId);
             data.append('date_collection', dateCollection);
             data.append('project_id', {{ isset($project) ? $project->id : null }});
@@ -388,8 +388,9 @@
             let areas = document.getElementById("areas");
             let matriz = document.getElementById("matriz_id");
             let guidingParameter = document.getElementById("guiding_parameters_id");
-            let guidingParameterGroup = document.getElementById("guiding_parameters_group_id");
+            let analysisParameterGroup = document.getElementById("analysis_parameter_group_id");
             let analysisParameter = document.getElementById("analysis_parameter_id");
+            let analysisParameters = document.getElementById("analysis_parameter_ids");
             let dateCollection = document.getElementById("date_collection");
 
             areas.value = '';
@@ -401,8 +402,9 @@
             matriz.value = '';
             guidingParameter.value = '';
             analysisParameter.value = '';
+            analysisParameters.value = '';
+            analysisParameterGroup.value = '';
             dateCollection.value = '';
-            guidingParameterGroup = '';
 
             document.querySelectorAll("#point_matrix_container select.custom-select").forEach(item => {
                 if(window.customSelectArray[item.id]) window.customSelectArray[item.id].update();
@@ -636,5 +638,76 @@
         }
 
         document.getElementById("guiding_parameters_id").addEventListener("change", getParameterAnalyses, false);
+
+        document.getElementById("change_point_add_method").addEventListener("click", function() {
+            let parameterAnalysis = document.getElementById("analysis_parameter_id");
+            let parameterAnalysisList = document.getElementById("analysis_parameter_ids");
+            let parameterAnalysisLabel= document.getElementById("analysis_parameter_id_label");
+            let parameterAnalysisGroup = document.getElementById("analysis_parameter_group_id");
+            let parameterAnalysisGroupLabel = document.getElementById("analysis_parameter_group_id_label");
+            let analysisParameterIdsLabel = document.getElementById("analysis_parameter_ids_label");
+
+            parameterAnalysis.parentNode.classList.toggle("hidden");
+            parameterAnalysisLabel.classList.toggle("hidden");
+            analysisParameterIdsLabel.classList.toggle("hidden");
+            parameterAnalysisGroup.parentNode.classList.toggle("hidden");
+            parameterAnalysisGroupLabel.classList.toggle("hidden");
+            parameterAnalysisList.parentNode.classList.toggle("hidden");
+
+            parameterAnalysis.value = '';
+            parameterAnalysisGroup.value = '';
+
+            window.customSelectArray["analysis_parameter_id"].update();
+            window.customSelectArray["analysis_parameter_group_id"].update();
+        });
+
+        function getParameterAnalysesByGroup(event) {
+            var id = this.value;
+            var that = this;
+            var ajax = new XMLHttpRequest();
+            var url = "{!! route('parameter-analysis.list-by-group', ['group' => '#']) !!}".replace('#', id);
+            var token = document.querySelector('meta[name="csrf-token"]').content;
+            var method = 'POST';
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+
+                    let guidingParametersId = document.getElementById("analysis_parameter_ids");
+
+                    let i, L = guidingParametersId.options.length - 1;
+                    for (i = L; i >= 0; i--) {
+                        guidingParametersId.remove(i);
+                    }
+
+                    let guidingParameters = resp.result;
+
+                    for (let index = 0; index < guidingParameters.length; index++) {
+                        const item = guidingParameters[index];
+                        var opt = document.createElement('option');
+                        opt.value = item.id;
+                        opt.text = item.analysis_parameter_name;
+                        guidingParametersId.add(opt);
+                    }
+
+                    if(window.customSelectArray["analysis_parameter_ids"]) window.customSelectArray["analysis_parameter_ids"].update();
+
+                } else if (this.readyState == 4 && this.status != 200) {
+                    toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('id', id);
+
+            ajax.send(data);
+        }
+
+        document.getElementById("analysis_parameter_group_id").addEventListener("change", getParameterAnalysesByGroup, false);
+
     });
 </script>

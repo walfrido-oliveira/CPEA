@@ -164,6 +164,8 @@
                                 </div>
                                 <x-custom-select :options="$parameterAnalyses" name="analysis_parameter_id" id="analysis_parameter_id" value="" class="mt-1" no-filter="no-filter"/>
                                 <x-custom-select :options="$parameterAnalyseGroups" name="analysis_parameter_group_id" id="analysis_parameter_group_id" value="" class="mt-1 hidden" no-filter="no-filter"/>
+                                <x-jet-label class="inline hidden" id="analysis_parameter_ids_label" for="analysis_parameter_ids_label" value="{{ __('Param. Análise') }}" required/>
+                                <x-custom-multi-select multiple :options="[]" name="analysis_parameter_ids" id="analysis_parameter_ids" value="" select-class="form-input" class="mt-1 hidden" no-filter="no-filter"/>
                             </div>
                         </div>
                         <div id="point_matrix_fields">
@@ -202,26 +204,6 @@
                 redirect-url="{{ route('project.index') }}"
                 confirm_id="project_confirm_id"
                 cancel_modal="project_cancel_modal"/>
-
-    <script>
-        document.getElementById("change_point_add_method").addEventListener("click", function() {
-            let parameterAnalysis = document.getElementById("analysis_parameter_id");
-            let parameterAnalysisLabel= document.getElementById("analysis_parameter_id_label");
-            let parameterAnalysisGroup = document.getElementById("analysis_parameter_group_id");
-            let parameterAnalysisGroupLabel = document.getElementById("analysis_parameter_group_id_label");
-
-            parameterAnalysis.parentNode.classList.toggle("hidden");
-            parameterAnalysisLabel.classList.toggle("hidden");
-            parameterAnalysisGroup.parentNode.classList.toggle("hidden");
-            parameterAnalysisGroupLabel.classList.toggle("hidden");
-
-            parameterAnalysis.value = '';
-            parameterAnalysisGroup.value = '';
-
-            window.customSelectArray["analysis_parameter_id"].update();
-            window.customSelectArray["analysis_parameter_group_id"].update();
-        });
-    </script>
 
     <script>
         function pointMatrixShowFields() {
