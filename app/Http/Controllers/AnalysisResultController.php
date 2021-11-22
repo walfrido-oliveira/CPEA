@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use stdClass;
 use Colors\RandomColor;
 use App\Models\Campaign;
 use Illuminate\Support\Str;
@@ -427,7 +428,7 @@ class AnalysisResultController extends Controller
         {
             if($key == 0) continue;
 
-            $obj = new stdObject();
+            $obj = new stdClass();
             $obj->project = $value[2];
             $obj->point = $value[4];
             $obj->matrix = $value[7];
