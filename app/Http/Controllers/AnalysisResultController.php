@@ -520,7 +520,7 @@ class AnalysisResultController extends Controller
                 $re = '/{(.*?)}/m';
                 $formula = $value->calculationParameters[0]->formula;
                 preg_match_all($re, $formula, $matches, PREG_SET_ORDER, 0);
-
+                dd($matches);
                 foreach ($matches as $key2 => $value2)
                 {
                     $result = explode("&", $value2[1]);
