@@ -68,6 +68,10 @@
     </div>
     <x-spin-load />
 
+    <div id="import_result">
+
+    </div>
+
     <script>
         document.getElementById("import_result").addEventListener("click", function() {
             document.getElementById("file").click();
@@ -90,7 +94,7 @@
                 if (this.readyState == 4 && this.status == 200) {
                     var resp = JSON.parse(ajax.response);
                     document.getElementById("spin_load").classList.add("hidden");
-                    toastr.success(resp.message);
+                    document.getElementById("import_result").innerHTML = resp.result;
                     that.value = '';
                 } else if(this.readyState == 4 && this.status != 200) {
                     document.getElementById("spin_load").classList.add("hidden");

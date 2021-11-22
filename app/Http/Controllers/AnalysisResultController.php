@@ -421,11 +421,18 @@ class AnalysisResultController extends Controller
         $rows = $worksheet->toArray();
         $totalImport = 0;
         $totalRows = count($rows);
-        $importError = '';
+        $imports = [];
 
         foreach($rows as $key => $value)
         {
             if($key == 0) continue;
+
+            $obj = new stdObject();
+            $obj->project = $value[2];
+            $obj->point = $value[4];
+            $obj->matrix = $value[7];
+            $obj->analyte = $value[19];
+            $obj->casnumber = $value[21];
 
             $order = AnalysisOrder::findOrFail($orderId);
             $projectPointMatrices = $order->projectPointMatrices()
@@ -443,9 +450,13 @@ class AnalysisResultController extends Controller
 
             if(!$projectPointMatrices)
             {
-                $importError .= $value[19] . '<br>';
+                $obj->status = "not_found";
+                $imports[] = $obj;
                 continue;
             }
+
+            $obj->status = "found";
+            $imports[] = $obj;
 
             $analysisResult = AnalysisResult::firstOrCreate([
                 'project_point_matrix_id' => $projectPointMatrices->id,
@@ -571,7 +582,7 @@ class AnalysisResultController extends Controller
         }
 
         return response()->json([
-            'message' => __("$totalImport importada(s) no total de $totalRows pontos.<br>Não importados: <br><textarea>$importError</textarea"),
+            'result' => view('analysis-order.import-result-modal', compact('totalImport', 'totalRows', 'imports'))->render(),
             'alert-type' => 'success'
         ]);
 
