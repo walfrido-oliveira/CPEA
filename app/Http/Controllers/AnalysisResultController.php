@@ -433,7 +433,7 @@ class AnalysisResultController extends Controller
             })
             ->whereHas('parameterAnalysis', function($q) use($value) {
                 $q->where('parameter_analyses.cas_rn', $value[21]);
-            })->whereHas('pointIdentification', function($q) use($pointIdentifciation) {
+            })->whereHas('pointIdentification', function($q) use($value) {
                 $q->where('point_identifications.identification', $value[4]);
             })->whereHas('analysisMatrix', function($q) use($value) {
                 $q->where('analysis_matrices.name', $value[7]);
