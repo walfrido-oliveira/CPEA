@@ -87,7 +87,6 @@ class PointIdentificationController extends Controller
         $validator = Validator::make($request->all(), [
             'area' => ['required', 'string', 'max:255'],
             'identification' => ['required', 'string', 'max:255'],
-            'geodetic_system_id' => ['required', 'exists:geodetic_systems,id'],
         ]);
 
         if ($validator->fails()) {

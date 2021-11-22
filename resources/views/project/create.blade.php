@@ -65,7 +65,7 @@
                 </svg>
             </div>
             <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
-              <h3 class="text-lg leading-6 font-medium text-gray-900 sm:ml-4 " id="modal-title">
+              <h3 class="text-lg leading-6 font-medium text-gray-900 sm:ml-4" id="modal-title">
                 {{ __('Adicionar novo Cliente') }}
               </h3>
               <div class="mt-2">
