@@ -268,6 +268,7 @@ class AnalysisResultController extends Controller
 
             foreach ($analysisResults as $value)
             {
+                dd('0j');
                 if($value->projectPointMatrix->pointIdentification->area . "-" .
                    $value->projectPointMatrix->pointIdentification->identification != $value1)
                 {
