@@ -253,7 +253,7 @@ class AnalysisResultController extends Controller
             $index=0;
             $column = 0;
             $groupParameterAnalysis= [];
-
+            dd($campaign->analysisResults);
             $analysisResults = $campaign->analysisResults()
             ->with('projectPointMatrix')
             ->leftJoin('project_point_matrices', 'analysis_results.project_point_matrix_id', '=', 'project_point_matrices.id')
