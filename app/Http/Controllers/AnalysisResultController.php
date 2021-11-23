@@ -253,16 +253,16 @@ class AnalysisResultController extends Controller
             $index=0;
             $column = 0;
             $groupParameterAnalysis= [];
-            dd($campaign->analysisResults);
-            $analysisResults = $campaign->analysisResults()
-            ->with('projectPointMatrix')
+            #dd($campaign->analysisResults);
+            $analysisResults = $campaign->analysisResults;
+            /*->with('projectPointMatrix')
             ->leftJoin('project_point_matrices', 'analysis_results.project_point_matrix_id', '=', 'project_point_matrices.id')
             ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
             ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
             ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
             ->orderBy('parameter_analysis_groups.order', 'asc')
             ->orderBy('parameter_analyses.analysis_parameter_name', 'asc')
-            ->get();
+            ->get();*/
 
             if(count($analysisResults) > 0) $groupParameterAnalysis[] = $analysisResults[0]->projectPointMatrix->parameterAnalysis->parameterAnalysisGroup->name;
 
