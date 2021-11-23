@@ -83,7 +83,7 @@
                                     <p class="font-bold">{{ __('Sistema Geodesico') }}</p>
                                 </div>
                                 <div class="w-full">
-                                    <p class="text-gray-500 font-bold">{{ $pointIdentification->geodeticSystem->name }}</p>
+                                    <p class="text-gray-500 font-bold">{{ $pointIdentification->geodeticSystem ? $pointIdentification->geodeticSystem->name : '' }}</p>
                                 </div>
                             </div>
 

@@ -52,7 +52,7 @@
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="geodetic_system_id" value="{{ __('Sistema Geodesico') }}" />
-                            <x-custom-select :options="$geodeticSystems" name="geodetic_system_id" id="geodetic_system_id" :value="$pointIdentification->geodeticSystem->id" />
+                            <x-custom-select :options="$geodeticSystems" name="geodetic_system_id" id="geodetic_system_id" :value="$pointIdentification->geodeticSystem ? $pointIdentification->geodeticSystem->id : null" />
                         </div>
                     </div>
 
