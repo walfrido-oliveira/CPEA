@@ -1118,6 +1118,12 @@ select {
 .top-0 {
 	top: 0px;
 }
+.right-5 {
+	right: 1.25rem;
+}
+.bottom-5 {
+	bottom: 1.25rem;
+}
 .top-1\/2 {
 	top: 50%;
 }
@@ -1763,6 +1769,10 @@ select {
 .bg-green-600 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(5, 150, 105, var(--tw-bg-opacity));
+}
+.bg-gray-300 {
+	--tw-bg-opacity: 1;
+	background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
 }
 .bg-yellow-100 {
 	--tw-bg-opacity: 1;

@@ -217,6 +217,8 @@
         </div>
     </div>
 
+    <x-back-to-top element="parameter_analysis_table" />
+
     <script>
         function showOrders() {
             return {

@@ -68,6 +68,8 @@
 
     </div>
 
+    <x-back-to-top element="parameter_analysis_table" />
+
     <script>
         document.getElementById("import_result").addEventListener("click", function() {
             document.getElementById("file").click();
