@@ -144,7 +144,6 @@ class SampleAnalysisController extends Controller
                 }
             }
         })
-        ->orderBy($orderBy, $ascending)
         ->orderBy('point_identifications.area', 'asc')
         ->orderBy('point_identifications.identification', 'asc')
         ->orderBy('parameter_analysis_groups.name', 'asc')
