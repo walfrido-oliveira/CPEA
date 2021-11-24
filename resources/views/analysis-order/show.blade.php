@@ -68,35 +68,6 @@
 
     </div>
 
-    <style>
-        [class^='point-items-'] {
-            opacity: 0;
-            visibility: collapse;
-            -webkit-transition: visibility 0.2s linear,
-            opacity 0.2s linear;
-            -moz-transition: visibility 0.2s linear,
-            opacity 0.2s linear;
-            -o-transition: visibility 0.2s linear,
-            opacity 0.2s linear;
-        }
-        [class^='point-items-'].active {
-            visibility: visible;
-            opacity: 1;
-        }
-    </style>
-
-    <script>
-        document.querySelectorAll(".show-point").forEach(item => {
-            item.addEventListener("click", function() {
-                console.log(item.childNodes);
-                item.childNodes[1].classList.toggle("rotate-180");
-                document.querySelectorAll(".point-items-" + item.dataset.point).forEach(item => {
-                    item.classList.toggle("active");
-                });
-            });
-        });
-      </script>
-
     <script>
         document.getElementById("import_result").addEventListener("click", function() {
             document.getElementById("file").click();
@@ -208,6 +179,7 @@
                 } else if (this.readyState == 4 && this.status != 200) {
                     toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
                     eventsFilterCallback();
+                    showPoint();
                 }
             }
 
@@ -234,5 +206,19 @@
         }
 
         eventsFilterCallback();
+
+        function showPoint() {
+            document.querySelectorAll(".show-point").forEach(item => {
+                item.addEventListener("click", function() {
+                    console.log(item.childNodes);
+                    item.childNodes[1].classList.toggle("rotate-180");
+                    document.querySelectorAll(".point-items-" + item.dataset.point).forEach(item => {
+                        item.classList.toggle("active");
+                    });
+                });
+            });
+        }
+
+        showPoint();
     </script>
 </x-app-layout>

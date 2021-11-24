@@ -283,6 +283,10 @@ input:read-only {
     border-top: 1px solid #dee2e6;
 }
 
+.badge {
+    @apply inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none rounded-full;
+}
+
 .badge-success {
     @apply inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-green-100 bg-green-600 rounded-full;
 }
@@ -336,4 +340,34 @@ input:read-only {
     line-height: 1rem !important;
     display: block;
     @apply mt-1;
+}
+
+[class^='point-items-'] {
+    opacity: 0;
+    visibility: collapse;
+    -webkit-transition: visibility 0.2s linear,
+    opacity 0.2s linear;
+    -moz-transition: visibility 0.2s linear,
+    opacity 0.2s linear;
+    -o-transition: visibility 0.2s linear,
+    opacity 0.2s linear;
+}
+[class^='point-items-'].active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.table .thead-green th {
+    background-color: #005e10;
+    color: #fff;
+    border-color: #005e10;
+    text-align: left;
+}
+
+.table .header-fixed {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: #fff;
 }

@@ -175,9 +175,9 @@
                             </div>
                             <div class="ml-2">
                                 <button type="button" id="nav-toggle" class="w-full block btn-transition-secondary filter-field">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
                                 </button>
                             </div>
                         </div>
@@ -405,6 +405,7 @@
 
                     eventsFilterCallback();
                     checkItems();
+                    showPoint();
                 } else if(this.readyState == 4 && this.status != 200) {
                     toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
                     eventsFilterCallback();
@@ -530,5 +531,19 @@
 
             count.innerHTML = cart.length;
         }
+
+        function showPoint() {
+            document.querySelectorAll(".show-point").forEach(item => {
+                item.addEventListener("click", function() {
+                    console.log(item.childNodes);
+                    item.childNodes[1].classList.toggle("rotate-180");
+                    document.querySelectorAll(".point-items-" + item.dataset.point).forEach(item => {
+                        item.classList.toggle("active");
+                    });
+                });
+            });
+        }
+
+        showPoint();
     </script>
 </x-app-layout>

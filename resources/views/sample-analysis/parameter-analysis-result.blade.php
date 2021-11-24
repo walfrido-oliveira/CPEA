@@ -1,7 +1,11 @@
 <thead>
-    <tr class="" style="border: 0">
-        <th style="border: 0; padding: 0"></th>
-        <th style="border: 0; padding: 0"></th>
+    <tr class="thead-green header-fixed">
+        <th></th>
+        <th>{{ __('Área/Ponto/Param. Análise') }}</th>
+        <th>{{ __('nº do Pedido') }}</th>
+        <th>{{ __('Laboratório') }}</th>
+        <th>{{ __('Data de Envio') }}</th>
+        <th>{{ __('Status') }}</th>
     </tr>
 </thead>
 <tbody>
@@ -14,10 +18,15 @@
                            data-identification-id="{{ $point->pointIdentification->id }}"
                            value="{{ $point->pointIdentification->id }}">
                 </td>
-                <td class="bg-gray-100 font-bold">
+                <td colspan="5" class="bg-gray-100 font-bold">
                     @if ($point->pointIdentification)
-                        {{ $point->pointIdentification->area }} - {{ $point->pointIdentification->identification }}
-                        ({{ count($point->where("point_identification_id", $point->point_identification_id)->where('campaign_id', $point->campaign_id)->get()) }})
+                        <button type="button" class="show-point" data-point="{{ $point->pointIdentification->id }}">
+                            {{ $point->pointIdentification->area }} - {{ $point->pointIdentification->identification }}
+                            ({{ count($point->where("point_identification_id", $point->point_identification_id)->where('campaign_id', $point->campaign_id)->get()) }})
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline btn-transition-secondary" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M15.707 4.293a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 011.414-1.414L10 8.586l4.293-4.293a1 1 0 011.414 0zm0 6a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L10 14.586l4.293-4.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
                     @endif
                 </td>
             </tr>
@@ -34,7 +43,7 @@
                            data-identification-id="{{ $point->pointIdentification->id }}"
                            value="{{ $point->parameterAnalysis->parameterAnalysisGroup->id }}">
                 </td>
-                <td class="font-bold text-black" style="background-color:#e1ede1">
+                <td colspan="5" class="font-bold text-black" style="background-color:#e1ede1">
                     {{ $point->parameterAnalysis->parameterAnalysisGroup->name }}
                     ({{ count($point->where("point_identification_id", $point->point_identification_id)->where('campaign_id', $point->campaign_id)->whereHas("parameterAnalysis", function($q) use($point) {
                         $q->where("parameter_analysis_group_id", $point->parameterAnalysis->parameterAnalysisGroup->id);
@@ -95,15 +104,34 @@
                     </span>
                     <a class="text-item-table inline font-bold text-gray-500" href="{{ route('parameter-analysis.show', ['parameter_analysis' => $point->parameterAnalysis->id]) }}">
                         ({{ $point->parameterAnalysis->cas_rn }})
-                        {{ $point->parameterAnalysis->analysis_parameter_name }} -
-                        {{ $point->parameterAnalysis->parameterAnalysisGroup ? $point->parameterAnalysis->parameterAnalysisGroup->name : '' }}
+                        {{ $point->parameterAnalysis->analysis_parameter_name }}
                     </a>
                 @endif
+            </td>
+            <td>
+                @if (count($point->analysisOrders) > 0)
+                    <a class="text-item-table" href="{{ route('analysis-order.show', ['analysis_order' =>  $point->analysisOrders()->first()->id]) }}">
+                        {{  $point->analysisOrders()->first()->formatted_id }}
+                    </a>
+                @else
+                    -
+                @endif
+            </td>
+            <td>
+                {{ count($point->analysisOrders) > 0 ? $point->analysisOrders()->first()->lab->name : '-' }}
+            </td>
+            <td style="width: 12%">
+                {{ count($point->analysisOrders) > 0 ? $point->analysisOrders()->first()->lab->created_at->format('d/m/Y h:m') : '-' }}
+            </td>
+            <td>
+                <span class="w-24 py-1 badge text-white text-center" style="background-color: {{ $statusColor }}">
+                    {{ $statusMsg }}
+                </span>
             </td>
         </tr>
     @empty
         <tr>
-            <td class="text-center" colspan="1">{{ __("Nenhum resultado encontrado") }}</td>
+            <td class="text-center" colspan="6">{{ __("Nenhum resultado encontrado") }}</td>
         </tr>
     @endforelse
 </tbody>
