@@ -52,6 +52,7 @@ class AnalysisResultController extends Controller
             $row++;
             foreach ($analysisResult as $key1 => $value)
             {
+                if(!$value->labname) continue;
                 $column = 1;
                 foreach ($value->getAttributes() as $key2 => $value2)
                 {
