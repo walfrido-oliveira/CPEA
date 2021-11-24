@@ -24,6 +24,52 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class AnalysisResultController extends Controller
 {
+
+    /**
+     * Download EDD results
+     *
+     * @param  Request  $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function downloadEDD(Request $request, $id)
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+        $analysisResult = AnalysisResult::where('analysis_order_id', $id)->get();
+        $column = 1;
+        $row = 1;
+
+        if (count($analysisResult) > 0)
+        {
+            foreach ($analysisResult[0]->getAttributes() as $key => $value)
+            {
+                if(Str::contains($key, ['id', 'project_point_matrix_id', 'analysis_order_id', 'created_at', 'updated_at'])) continue;
+                $sheet->setCellValueByColumnAndRow($column, $row, $key);
+                $column++;
+            }
+
+            $row++;
+            foreach ($analysisResult as $key1 => $value)
+            {
+                $column = 1;
+                foreach ($value->getAttributes() as $key2 => $value2)
+                {
+                    $sheet->setCellValueByColumnAndRow($column, $row, $value2);
+                    $column++;
+                }
+                $row++;
+            }
+        }
+
+        $writer = new Xls($spreadsheet);
+
+        $writer->save(tmpfile());
+
+        return response()->streamDownload(function() use($writer) {
+            $writer->save("php://output");
+        }, 'file.xls');
+    }
     /**
      * Download results
      *
