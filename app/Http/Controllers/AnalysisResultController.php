@@ -62,7 +62,7 @@ class AnalysisResultController extends Controller
             }
         }
         else {
-            return response()->json([
+            return redirect()->route('analysis-order.show', ['analysis_order' => $id])->with([
                 'message' => __('Nenhum item de EDD encontrado.'),
                 'alert-type' => 'warning'
             ]);
