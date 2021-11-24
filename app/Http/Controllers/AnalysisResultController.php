@@ -61,6 +61,12 @@ class AnalysisResultController extends Controller
                 $row++;
             }
         }
+        else {
+            return response()->json([
+                'message' => __('Nenhum item de EDD encontrado.'),
+                'alert-type' => 'warning'
+            ]);
+        }
 
         $writer = new Xls($spreadsheet);
 
