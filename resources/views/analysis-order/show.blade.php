@@ -18,29 +18,25 @@
 
             <div class="py-2 my-2 bg-white rounded-lg flex md:flex-row flex-col flex-wrap">
                 <div class="flex w-full md:flex-nowrap flex-wrap">
-                    <div class="mx-4 px-3 py-2 flex items-center md:justify-start justify-center w-full">
+                    <div class="mx-4 px-3 py-2 flex items-center md:justify-start justify-center md:w-auto w-full">
                         <h2>{{ __('Amostras') }}</h2>
                     </div>
-                    <div class="py-2 flex md:justify-end justify-start ml-auto" x-data="{ open: false }">
-                        <div class="flex">
-                            <button type="button" @click="open = !open" id="nav-toggle"
-                                class="w-full block btn-transition-secondary">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                            </button>
-                        </div>
-                        <div :class="{'block': open, 'hidden': !open}" class="w-full block" id="search-content">
+                    <div class="py-2 m-2 flex md:justify-end justify-start w-full" x-data="{ shearch: false }">
+                        <div class="w-full block" id="search-content">
                             <div class="container mx-auto">
-                                <input id="q" name="q" type="search" placeholder="Buscar..." autofocus="autofocus"
-                                    class="filter-field w-full form-control no-border">
+                                <input id="q" name="q" type="search" placeholder="Buscar..." autofocus="autofocus" class="filter-field w-full form-control no-border">
                             </div>
+                        </div>
+                        <div class="ml-2">
+                            <button type="button" id="nav-toggle" class="w-full block btn-transition-secondary filter-field">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            </button>
                         </div>
                     </div>
                     <div class="flex md:justify-end justify-center md:mx-0 mx-auto md:w-1/3 w-full">
-                        <div class="m-2 ">
+                        <div class="m-2 py-2">
                             <a class="btn-transition-secondary" href="{{ route('analysis-result.download-edd', ['analysis_order' => $analysisOrder->id]) }}" target="_self" rel="noopener noreferrer">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
@@ -228,9 +224,9 @@
         }
 
         function eventsFilterCallback() {
-            document.querySelectorAll('.filter-field').forEach(item => {
-                item.addEventListener('change', filterCallback, false);
-                item.addEventListener('keyup', filterCallback, false);
+            document.querySelectorAll('button.filter-field').forEach(item => {
+                //item.addEventListener('change', filterCallback, false);
+                item.addEventListener('click', filterCallback, false);
             });
             document.querySelectorAll("#parameter_analysis_table thead [data-name]").forEach(item => {
                 item.addEventListener("click", orderByCallback, false);

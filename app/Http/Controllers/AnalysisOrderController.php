@@ -180,12 +180,6 @@ class AnalysisOrderController extends Controller
             ->orWhereHas('analysisMatrix', function($q) use($query) {
                 $q->where('analysis_matrices.name', 'like', '%' . $query['q'] . '%');
             })
-            ->orWhereHas('planActionLevel', function($q) use($query) {
-                $q->where('plan_action_levels.name', 'like', '%' . $query['q'] . '%');
-            })
-            ->orWhereHas('guidingParameter', function($q) use($query) {
-                $q->where('guiding_parameters.environmental_guiding_parameter_id', 'like', '%' . $query['q'] . '%');
-            })
             ->orWhereHas('parameterAnalysis', function($q) use($query) {
                 $q->where('parameter_analyses.analysis_parameter_name', 'like', '%' . $query['q'] . '%');
             });
