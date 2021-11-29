@@ -21,7 +21,7 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans antialiased">
-        <div class="flex flex-col min-h-screen justify-between">
+        <div class="flex flex-col  justify-between">
 
             <div class="flex md:flex-row flex-col w-full">
                 @include('top-menu')

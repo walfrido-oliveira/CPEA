@@ -1099,6 +1099,9 @@ select {
 .relative {
 	position: relative;
 }
+.sticky {
+	position: sticky;
+}
 .inset-0 {
 	top: 0px;
 	right: 0px;
@@ -1769,10 +1772,6 @@ select {
 .bg-green-600 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(5, 150, 105, var(--tw-bg-opacity));
-}
-.bg-gray-300 {
-	--tw-bg-opacity: 1;
-	background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
 }
 .bg-yellow-100 {
 	--tw-bg-opacity: 1;
@@ -3233,7 +3232,7 @@ input:read-only {
 }
 .table .header-fixed {
     position: sticky;
-    top: 0;
+    top: 10%;
     z-index: 1;
     background: #fff;
 }
