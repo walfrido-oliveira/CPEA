@@ -36,7 +36,7 @@
         <tr class="hidden transition-transform duration-200 transform point-items-{{ $point->pointIdentification->id }}">
             <td>
                 @if ($point->parameterAnalysis)
-                    <a class="text-green-600 underline text-item-table" href="{{ route('parameter-analysis.show', ['parameter_analysis' => $point->parameterAnalysis->id]) }}">
+                    <a class="text-green-600 underline text-item-table" href="{{ route('analysis-result.show', ['project_point_matrix_id' => $point->id]) }}">
                         {{ $point->parameterAnalysis->cas_rn }} -
                         {{ $point->parameterAnalysis->analysis_parameter_name }} -
                         {{ $point->parameterAnalysis->parameterAnalysisGroup ? $point->parameterAnalysis->parameterAnalysisGroup->name : '' }}

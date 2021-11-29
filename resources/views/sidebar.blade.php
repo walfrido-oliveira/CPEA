@@ -40,35 +40,6 @@
             </svg>
             Analise de Amostras
         </a>
-
-        <a class="@if(request()->routeIs('parameter-analysis.index')) {{ 'active' }} @endif" href="{{ route('parameter-analysis.index') }}">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-            Param. Análise
-        </a>
-
-        <a class="@if(request()->routeIs('guiding-parameter.index')) {{ 'active' }} @endif" href="{{ route('guiding-parameter.index') }}">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-            Param. Orientador Ambiental
-        </a>
-
-        <a class="@if(request()->routeIs('guiding-parameter-ref-value.index')) {{ 'active' }} @endif" href="{{ route('guiding-parameter-ref-value.index') }}">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-            Ref. Vlr. Param. Orientador
-        </a>
-
-        <a class="@if(request()->routeIs('guiding-parameter-value.index')) {{ 'active' }} @endif" href="{{ route('guiding-parameter-value.index') }}">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-            </svg>
-            Valor Param. Orientador
-        </a>
-
         <div class="relative" x-data="{ openConfig: {{ request()->routeIs('config.emails.*') ? 'true' : 'false' }} }">
           <button @click="openConfig = !openConfig" class="submenu">
             <svg xmlns="http://www.w3.org/2000/svg" class="inline h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -98,6 +69,18 @@
               <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': openRegisters, 'rotate-0': !openRegisters}" class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1 text-white"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
             </button>
             <div x-show="openRegisters" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="relative right-0 w-full origin-top-right">
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('parameter-analysis.index')) {{ 'active' }} @endif" href="{{ route('parameter-analysis.index') }}">Param. Análise</a>
+                  </div>
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('guiding-parameter.index')) {{ 'active' }} @endif" href="{{ route('guiding-parameter.index') }}">Param. Orientador Ambiental</a>
+                </div>
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('guiding-parameter-ref-value.index')) {{ 'active' }} @endif" href="{{ route('guiding-parameter-ref-value.index') }}">Ref. Vlr. Param. Orientador</a>
+                </div>
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('guiding-parameter-value.index')) {{ 'active' }} @endif" href="{{ route('guiding-parameter-value.index') }}">Valor Param. Orientador</a>
+                </div>
               <div class="px-0 py-0 ">
                 <a class="@if(request()->routeIs('registers.geodetics.index')) {{ 'active' }} @endif" href="{{ route('registers.geodetics.index') }}">Tipo Sistema Geodésico</a>
               </div>
