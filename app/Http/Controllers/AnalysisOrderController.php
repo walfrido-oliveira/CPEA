@@ -212,6 +212,14 @@ class AnalysisOrderController extends Controller
 
         $analysisOrder = AnalysisOrder::findOrFail($request->get('id'));
 
+        if($request->get('status') == 'concluded' &&
+           count($analysisOrder->projectPointMatrices) > count($analysisOrder->analysisResults))
+        {
+            return response()->json([
+                'message' => __("Favor, incluir o EDD em todos os itens para Concluir o Pedido $analysisOrder->formatted_id!"),
+                'alert-type' => 'warning'], 403);
+        }
+
         $analysisOrder->update([
             'status' => $request->get('status')
         ]);

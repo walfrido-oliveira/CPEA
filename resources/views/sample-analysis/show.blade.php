@@ -253,7 +253,8 @@
                     updateStatusOrderCallback();
                     toastr.success(resp.message);
                 } else if(this.readyState == 4 && this.status != 200) {
-                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                    var resp = JSON.parse(ajax.response);
+                    toastr.error(resp.message);
                     updateStatusOrderCallback();
                 }
             }
