@@ -147,6 +147,9 @@ class ProjectPointMatrix extends Model
         $result = $this->analysisOrders()
         ->where('status', '!=', 'canceled')
         ->first();
+
+        if($result == 'concluded' && count($this->analysisResult) == 0)
+            return null;
         return $result ? $result->status : null;
     }
 
