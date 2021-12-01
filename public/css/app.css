@@ -1127,6 +1127,9 @@ select {
 .bottom-5 {
 	bottom: 1.25rem;
 }
+.top-16 {
+	top: 4rem;
+}
 .top-1\/2 {
 	top: 50%;
 }
@@ -3232,7 +3235,7 @@ input:read-only {
 }
 .table .header-fixed {
     position: sticky;
-    top: 8%;
+    /*top: 8%;*/
     z-index: 1;
     background: #fff;
 }
@@ -3679,6 +3682,10 @@ input:read-only {
 }
 @media (min-width: 768px) {
 
+	.md\:top-14 {
+		top: 3.5rem;
+	}
+
 	.md\:col-span-2 {
 		grid-column: span 2 / span 2;
 	}
@@ -3852,8 +3859,17 @@ input:read-only {
 }
 @media (min-width: 1024px) {
 
+	.lg\:top-16 {
+		top: 4rem;
+	}
+
 	.lg\:col-span-4 {
 		grid-column: span 4 / span 4;
+	}
+
+	.lg\:mx-4 {
+		margin-left: 1rem;
+		margin-right: 1rem;
 	}
 
 	.lg\:hidden {

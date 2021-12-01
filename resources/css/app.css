@@ -367,7 +367,7 @@ input:read-only {
 .table .header-fixed {
     position: -webkit-sticky;
     position: sticky;
-    top: 8%;
+    /*top: 8%;*/
     z-index: 1;
     background: #fff;
 }
