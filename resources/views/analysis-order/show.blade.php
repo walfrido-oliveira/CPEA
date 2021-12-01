@@ -17,7 +17,7 @@
             </div>
 
             <div class="py-2 my-2 bg-white rounded-lg flex md:flex-row flex-col flex-wrap">
-                <div class="flex w-full md:flex-nowrap flex-wrap">
+                <div class="flex w-full md:flex-nowrap flex-wrap bg-white z-10 sticky top-0">
                     <div class="mx-4 px-3 py-2 flex items-center md:justify-start justify-center md:w-auto w-full">
                         <h2>{{ __('Amostras') }}</h2>
                     </div>
