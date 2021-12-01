@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="py-6 index-guiding-parameter-value">
-        <div class="max-w-6xl mx-auto px-4">
+        <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
 
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">

@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="py-6 edit-plan-action-level">
-        <div class="max-w-6xl mx-auto px-4">
+        <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
             <form method="POST" action="{{ route('registers.plan-action-level.update', ['plan_action_level' => $planActionLevel->id]) }}">
                 @csrf
                 @method("PUT")

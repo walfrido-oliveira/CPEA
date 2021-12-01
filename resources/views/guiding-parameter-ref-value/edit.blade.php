@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="py-6 edit-guiding-parameter-ref-value">
-        <div class="max-w-6xl mx-auto px-4">
+        <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
             <form method="POST" action="{{ route('guiding-parameter-ref-value.update', ['guiding_parameter_ref_value' => $guidingParameterRefValue->id]) }}">
                 @csrf
                 @method("PUT")

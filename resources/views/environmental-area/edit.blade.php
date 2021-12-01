@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="py-6 edit-environmental-area">
-        <div class="max-w-6xl mx-auto px-4">
+        <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
             <form method="POST" action="{{ route('registers.environmental-area.update', ['environmental_area' => $environmentalArea->id]) }}">
                 @csrf
                 @method("PUT")

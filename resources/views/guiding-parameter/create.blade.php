@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="py-6 create-guiding-parameter">
-        <div class="max-w-6xl mx-auto px-4">
+        <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
             <form method="POST" action="{{ route('guiding-parameter.store') }}">
                 @csrf
                 @method("POST")

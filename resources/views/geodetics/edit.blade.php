@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="py-6 edit-geodetics">
-        <div class="max-w-6xl mx-auto px-4">
+        <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
             <form method="POST" action="{{ route('registers.geodetics.update', ['geodetic' => $geodetic->id]) }}">
                 @csrf
                 @method("PUT")
