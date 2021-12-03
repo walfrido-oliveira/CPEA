@@ -18,7 +18,7 @@ class CalculationParameterController extends Controller
     public function index(Request $request)
     {
         $calculationParameters =  CalculationParameter::filter($request->all());
-        $parameterAnalysis = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
+        $parameterAnalysis = CalculationParameter::all()->pluck('ParamAnalysisName', 'parameter_analysis_id');
 
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'parameter_analysis_id';

@@ -2314,7 +2314,9 @@ button.toast-close-button{padding:0;cursor:pointer;background:0 0;border:0;-webk
 .nice-select.open .nice-select-dropdown {
     opacity: 1;
     pointer-events: auto;
-    transform: scale(1) translateY(0); }
+    transform: scale(1) translateY(0);
+            overflow: scroll;
+            overflow-x: hidden; }
 .nice-select.disabled {
     border-color: #ededed;
     color: #999;
@@ -2362,7 +2364,7 @@ button.toast-close-button{padding:0;cursor:pointer;background:0 0;border:0;-webk
     overflow: hidden;
     padding: 0;
     max-height: 210px;
-    overflow-y: auto; }
+    overflow: revert;}
 .nice-select .list:hover .option:not(:hover) {
       background-color: transparent !important; }
 .nice-select .option {
@@ -3557,10 +3559,6 @@ input:read-only {
 
 	.sm\:max-w-2xl {
 		max-width: 42rem;
-	}
-
-	.sm\:max-w-6xl {
-		max-width: 72rem;
 	}
 
 	.sm\:flex-1 {

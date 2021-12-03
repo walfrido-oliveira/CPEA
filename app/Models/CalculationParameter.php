@@ -50,6 +50,16 @@ class CalculationParameter extends Model
     }
 
     /**
+     * Get param analysis name
+     *
+     * @return string
+     */
+    public function getParamAnalysisNameAttribute()
+    {
+        return $this->parameterAnalysis->analysis_parameter_name;
+    }
+
+    /**
      * Find unity in dabase
      *
      * @param Array
