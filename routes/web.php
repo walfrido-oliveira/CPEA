@@ -19,6 +19,7 @@ use App\Http\Controllers\AnalysisResultController;
 use App\Http\Controllers\CampaignStatusController;
 use App\Http\Controllers\GeodeticSystemController;
 use App\Http\Controllers\SampleAnalysisController;
+use App\Http\Controllers\ParameterMethodController;
 use App\Http\Controllers\PlanActionLevelController;
 use App\Http\Controllers\GuidingParameterController;
 use App\Http\Controllers\AnalysisParameterController;
@@ -266,6 +267,13 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     });
 
     Route::prefix('cadastros')->name('registers.')->group(function(){
+        Route::resource('metodo', ParameterMethodController::class, [
+            'names' => 'parameter-method'])->parameters([])->parameters([
+            'metodo' => 'parameter-method'
+        ]);
+        Route::prefix('metodo')->name('parameter-method.')->group(function(){
+            Route::post('/filter', [ParameterMethodController::class, 'filter'])->name('filter');
+        });
 
         Route::resource('metodo-analise', AnalysisMethodController::class, [
             'names' => 'analysis-method'])->parameters([])->parameters([

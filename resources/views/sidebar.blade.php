@@ -70,6 +70,9 @@
             </button>
             <div x-show="openRegisters" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="relative right-0 w-full origin-top-right">
                 <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('registers.parameter-method.index')) {{ 'active' }} @endif" href="{{ route('registers.parameter-method.index') }}">Método</a>
+                </div>
+                <div class="px-0 py-0 ">
                     <a class="@if(request()->routeIs('registers.analysis-method.index')) {{ 'active' }} @endif" href="{{ route('registers.analysis-method.index') }}">Método Análise</a>
                 </div>
                 <div class="px-0 py-0 ">

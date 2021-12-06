@@ -179,7 +179,14 @@ return [
         "environmental_conditions" => "Condições ambientais",
         "unity_cod" => "Unidade de Medida",
         "lab_id" => "Laboratório",
-        "project_point_matrices.*" => " ponto de analise"
+        "project_point_matrices.*" => " ponto de analise",
+        "analysis_matrix_id" => "Matriz",
+        "parameter_analysis_id" => "Param. Análise",
+        "preparation_method_id" => "Método Preparo",
+        "analysis_method_id" => "Método Análise",
+        "validate_preparation" => "Validar Preparação",
+        "time_preparation" => "Prazo Preparo",
+        "time_analysis" => "Prazo Análise"
     ],
 
 ];

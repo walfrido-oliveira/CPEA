@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="py-6 edit-preparation-method">
         <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
-            <form method="POST" action="{{ route('registers.preparation-method.update', ['preparation_method' => $campaignStatus->id]) }}">
+            <form method="POST" action="{{ route('registers.preparation-method.update', ['preparation_method' => $preparationMethod->id]) }}">
                 @csrf
                 @method("PUT")
                 <div class="flex md:flex-row flex-col">
@@ -26,7 +26,7 @@
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full px-3 mb-6 md:mb-0">
                             <x-jet-label for="name" value="{{ __('Método Preparo') }}" required/>
-                            <x-jet-input id="name" class="form-control block mt-1 w-full" type="text" name="name" maxlength="255" :value="$campaignStatus->name" required autofocus autocomplete="name" placeholder="{{ __('Nome') }}"/>
+                            <x-jet-input id="name" class="form-control block mt-1 w-full" type="text" name="name" maxlength="255" :value="$preparationMethod->name" required autofocus autocomplete="name" placeholder="{{ __('Nome') }}"/>
                         </div>
                     </div>
                 </div>
