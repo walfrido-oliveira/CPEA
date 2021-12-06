@@ -70,8 +70,14 @@
             </button>
             <div x-show="openRegisters" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="relative right-0 w-full origin-top-right">
                 <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('registers.analysis-method.index')) {{ 'active' }} @endif" href="{{ route('registers.analysis-method.index') }}">Método Análise</a>
+                </div>
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('registers.preparation-method.index')) {{ 'active' }} @endif" href="{{ route('registers.preparation-method.index') }}">Método Preparo</a>
+                </div>
+                <div class="px-0 py-0 ">
                     <a class="@if(request()->routeIs('parameter-analysis.index')) {{ 'active' }} @endif" href="{{ route('parameter-analysis.index') }}">Param. Análise</a>
-                  </div>
+                </div>
                 <div class="px-0 py-0 ">
                     <a class="@if(request()->routeIs('guiding-parameter.index')) {{ 'active' }} @endif" href="{{ route('guiding-parameter.index') }}">Param. Orientador Ambiental</a>
                 </div>
@@ -81,48 +87,48 @@
                 <div class="px-0 py-0 ">
                     <a class="@if(request()->routeIs('guiding-parameter-value.index')) {{ 'active' }} @endif" href="{{ route('guiding-parameter-value.index') }}">Valor Param. Orientador</a>
                 </div>
-              <div class="px-0 py-0 ">
-                <a class="@if(request()->routeIs('registers.geodetics.index')) {{ 'active' }} @endif" href="{{ route('registers.geodetics.index') }}">Tipo Sistema Geodésico</a>
-              </div>
-              <div class="px-0 py-0 ">
-                <a class="@if(request()->routeIs('registers.environmental-area.index')) {{ 'active' }} @endif" href="{{ route('registers.environmental-area.index') }}">Tipo Área Ambiental</a>
-              </div>
-              <div class="px-0 py-0 ">
-                <a class="@if(request()->routeIs('registers.plan-action-level.index')) {{ 'active' }} @endif" href="{{ route('registers.plan-action-level.index') }}">Tipo Nível Ação Plano</a>
-              </div>
-              <div class="px-0 py-0 ">
-                <a class="@if(request()->routeIs('registers.guiding-value.index')) {{ 'active' }} @endif" href="{{ route('registers.guiding-value.index') }}">Tipo Valor Orientador</a>
-              </div>
-              <div class="px-0 py-0 ">
-                <a class="@if(request()->routeIs('registers.environmental-agency.index')) {{ 'active' }} @endif" href="{{ route('registers.environmental-agency.index') }}">Órgão Ambiental</a>
-              </div>
-              <div class="px-0 py-0 ">
-                <a class="@if(request()->routeIs('registers.analysis-parameter.index')) {{ 'active' }} @endif" href="{{ route('registers.analysis-parameter.index') }}">Tipo Param. Análise</a>
-              </div>
-              <div class="px-0 py-0 ">
-                <a class="@if(request()->routeIs('registers.point-identification.index')) {{ 'active' }} @endif" href="{{ route('registers.point-identification.index') }}">Ponto</a>
-              </div>
-              <div class="px-0 py-0 ">
-                <a class="@if(request()->routeIs('registers.parameter-analysis-group.index')) {{ 'active' }} @endif" href="{{ route('registers.parameter-analysis-group.index') }}">Grupo Param. Análise</a>
-              </div>
-              <div class="px-0 py-0 ">
-                <a class="@if(request()->routeIs('registers.campaign-status.index')) {{ 'active' }} @endif" href="{{ route('registers.campaign-status.index') }}">Status Campanha</a>
-              </div>
-              <div class="px-0 py-0 ">
-                <a class="@if(request()->routeIs('registers.analysis-matrix.index')) {{ 'active' }} @endif" href="{{ route('registers.analysis-matrix.index') }}">Matriz Análise</a>
-              </div>
-              <div class="px-0 py-0 ">
-                <a class="@if(request()->routeIs('registers.unity.index')) {{ 'active' }} @endif" href="{{ route('registers.unity.index') }}">Unidade</a>
-              </div>
-              <div class="px-0 py-0 ">
-                <a class="@if(request()->routeIs('registers.calculation-parameter.index')) {{ 'active' }} @endif" href="{{ route('registers.calculation-parameter.index') }}">Param. Fórmula Cálculo</a>
-              </div>
-              <div class="px-0 py-0 ">
-                <a class="@if(request()->routeIs('registers.calculation-variable.index')) {{ 'active' }} @endif" href="{{ route('registers.calculation-variable.index') }}">Variável Fórmula Cálculo</a>
-              </div>
-              <div class="px-0 py-0 ">
-                <a class="@if(request()->routeIs('registers.lab.index')) {{ 'active' }} @endif" href="{{ route('registers.lab.index') }}">Laboratório</a>
-              </div>
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('registers.geodetics.index')) {{ 'active' }} @endif" href="{{ route('registers.geodetics.index') }}">Tipo Sistema Geodésico</a>
+                </div>
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('registers.environmental-area.index')) {{ 'active' }} @endif" href="{{ route('registers.environmental-area.index') }}">Tipo Área Ambiental</a>
+                </div>
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('registers.plan-action-level.index')) {{ 'active' }} @endif" href="{{ route('registers.plan-action-level.index') }}">Tipo Nível Ação Plano</a>
+                </div>
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('registers.guiding-value.index')) {{ 'active' }} @endif" href="{{ route('registers.guiding-value.index') }}">Tipo Valor Orientador</a>
+                </div>
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('registers.environmental-agency.index')) {{ 'active' }} @endif" href="{{ route('registers.environmental-agency.index') }}">Órgão Ambiental</a>
+                </div>
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('registers.analysis-parameter.index')) {{ 'active' }} @endif" href="{{ route('registers.analysis-parameter.index') }}">Tipo Param. Análise</a>
+                </div>
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('registers.point-identification.index')) {{ 'active' }} @endif" href="{{ route('registers.point-identification.index') }}">Ponto</a>
+                </div>
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('registers.parameter-analysis-group.index')) {{ 'active' }} @endif" href="{{ route('registers.parameter-analysis-group.index') }}">Grupo Param. Análise</a>
+                </div>
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('registers.campaign-status.index')) {{ 'active' }} @endif" href="{{ route('registers.campaign-status.index') }}">Status Campanha</a>
+                </div>
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('registers.analysis-matrix.index')) {{ 'active' }} @endif" href="{{ route('registers.analysis-matrix.index') }}">Matriz Análise</a>
+                </div>
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('registers.unity.index')) {{ 'active' }} @endif" href="{{ route('registers.unity.index') }}">Unidade</a>
+                </div>
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('registers.calculation-parameter.index')) {{ 'active' }} @endif" href="{{ route('registers.calculation-parameter.index') }}">Param. Fórmula Cálculo</a>
+                </div>
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('registers.calculation-variable.index')) {{ 'active' }} @endif" href="{{ route('registers.calculation-variable.index') }}">Variável Fórmula Cálculo</a>
+                </div>
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('registers.lab.index')) {{ 'active' }} @endif" href="{{ route('registers.lab.index') }}">Laboratório</a>
+                </div>
             </div>
           </div>
       </nav>

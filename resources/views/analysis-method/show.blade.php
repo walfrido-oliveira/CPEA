@@ -1,19 +1,19 @@
 <x-app-layout>
-    <div class="py-6 show-campaign-status">
+    <div class="py-6 show-analysis-method">
         <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">
-                    <h1>{{ __('Status Campanha') }}</h1>
+                    <h1>{{ __('Método Análise') }}</h1>
                 </div>
                 <div class="w-full flex justify-end">
                     <div class="m-2 ">
-                        <a class="btn-outline-info" href="{{ route('registers.campaign-status.index') }}">{{ __('Listar') }}</a>
+                        <a class="btn-outline-info" href="{{ route('registers.analysis-method.index') }}">{{ __('Listar') }}</a>
                     </div>
                     <div class="m-2">
-                        <a class="btn-outline-warning" href="{{ route('registers.campaign-status.edit', ['campaign_status' => $campaignStatus->id]) }}">{{ __('Editar') }}</a>
+                        <a class="btn-outline-warning" href="{{ route('registers.analysis-method.edit', ['analysis_method' => $analysisMethod->id]) }}">{{ __('Editar') }}</a>
                     </div>
                     <div class="m-2">
-                        <button type="button" class="btn-outline-danger delete-campaign-status" id="campaign_status_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $campaignStatus->id }}">{{ __('Apagar') }}</button>
+                        <button type="button" class="btn-outline-danger delete-analysis-method" id="analysis_method_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $analysisMethod->id }}">{{ __('Apagar') }}</button>
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                         </div>
 
                         <div class="w-full md:w-1/2">
-                            <p class=   "text-gray-500 font-bold">{{ $campaignStatus->id }}</p>
+                            <p class=   "text-gray-500 font-bold">{{ $analysisMethod->id }}</p>
                         </div>
                     </div>
 
@@ -35,7 +35,7 @@
                             <p class="font-bold">{{ __('Nome') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $campaignStatus->name }}</p>
+                            <p class="text-gray-500 font-bold">{{ $analysisMethod->name }}</p>
                         </div>
                     </div>
 
@@ -44,7 +44,7 @@
                             <p class="font-bold">{{ __('Data de Cadastro') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $campaignStatus->created_at->format('d/m/Y h:i:s')}}</p>
+                            <p class="text-gray-500 font-bold">{{ $analysisMethod->created_at->format('d/m/Y h:i:s')}}</p>
                         </div>
                     </div>
 
@@ -53,7 +53,7 @@
                             <p class="font-bold">{{ __('Última Edição') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $campaignStatus->updated_at->format('d/m/Y h:i:s')}}</p>
+                            <p class="text-gray-500 font-bold">{{ $analysisMethod->updated_at->format('d/m/Y h:i:s')}}</p>
                         </div>
                     </div>
                 </div>
@@ -62,18 +62,18 @@
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir Status') }}"
-             msg="{{ __('Deseja realmente apagar esse Status?') }}"
-             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_campaign_status_modal"
+    <x-modal title="{{ __('Excluir Método Análise') }}"
+             msg="{{ __('Deseja realmente apagar esse Método Análise?') }}"
+             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_analysis_method_modal"
              method="DELETE"
-             url="{{ route('registers.campaign-status.destroy', ['campaign_status' => $campaignStatus->id]) }}"
-             redirect-url="{{ route('registers.campaign-status.index') }}"/>
+             url="{{ route('registers.analysis-method.destroy', ['analysis_method' => $analysisMethod->id]) }}"
+             redirect-url="{{ route('registers.analysis-method.index') }}"/>
 
     <script>
         function eventsDeleteCallback() {
-            document.querySelectorAll('.delete-campaign-status').forEach(item => {
+            document.querySelectorAll('.delete-analysis-method').forEach(item => {
             item.addEventListener("click", function() {
-                var modal = document.getElementById("delete_campaign_status_modal");
+                var modal = document.getElementById("delete_analysis_method_modal");
                 modal.classList.remove("hidden");
                 modal.classList.add("block");
             })

@@ -14,6 +14,7 @@ use App\Http\Controllers\AnalysisOrderController;
 use App\Http\Controllers\CampaignStatusCotroller;
 use App\Http\Controllers\TemplateEmailController;
 use App\Http\Controllers\AnalysisMatrixController;
+use App\Http\Controllers\AnalysisMethodController;
 use App\Http\Controllers\AnalysisResultController;
 use App\Http\Controllers\CampaignStatusController;
 use App\Http\Controllers\GeodeticSystemController;
@@ -23,6 +24,7 @@ use App\Http\Controllers\GuidingParameterController;
 use App\Http\Controllers\AnalysisParameterController;
 use App\Http\Controllers\EnvironmentalAreaController;
 use App\Http\Controllers\ParameterAnalysisController;
+use App\Http\Controllers\PreparationMethodController;
 use App\Http\Controllers\ProjectPointMatrixController;
 use App\Http\Controllers\TypeGeodeticSystemController;
 use App\Http\Controllers\CalculationVariableController;
@@ -264,6 +266,23 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     });
 
     Route::prefix('cadastros')->name('registers.')->group(function(){
+
+        Route::resource('metodo-analise', AnalysisMethodController::class, [
+            'names' => 'analysis-method'])->parameters([])->parameters([
+            'metodo-analise' => 'analysis-method'
+        ]);
+        Route::prefix('metodo-analise')->name('analysis-method.')->group(function(){
+            Route::post('/filter', [AnalysisMethodController::class, 'filter'])->name('filter');
+        });
+
+        Route::resource('metodo-preparo', PreparationMethodController::class, [
+            'names' => 'preparation-method'])->parameters([])->parameters([
+            'metodo-preparo' => 'preparation-method'
+        ]);
+        Route::prefix('metodo-preparo')->name('preparation-method.')->group(function(){
+            Route::post('/filter', [PreparationMethodController::class, 'filter'])->name('filter');
+        });
+
         Route::resource('geodesico', GeodeticSystemController::class, [
             'names' => 'geodetics'])->parameters([])->parameters([
             'geodesico' => 'geodetic'
