@@ -2361,10 +2361,10 @@ button.toast-close-button{padding:0;cursor:pointer;background:0 0;border:0;-webk
 .nice-select .list {
     border-radius: 5px;
     box-sizing: border-box;
-    overflow: hidden;
     padding: 0;
     max-height: 210px;
-    overflow: revert;}
+    overflow: scroll;
+    overflow-x: hidden;}
 .nice-select .list:hover .option:not(:hover) {
       background-color: transparent !important; }
 .nice-select .option {
