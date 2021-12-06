@@ -49,7 +49,7 @@
         </div>
     </div>
 
-    @include('projet.customer-create-modal')
+    @include('project.customer-create-modal')
 
   <script>
     document.getElementById("customer_create").addEventListener("click", function() {
