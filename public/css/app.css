@@ -2315,8 +2315,7 @@ button.toast-close-button{padding:0;cursor:pointer;background:0 0;border:0;-webk
     opacity: 1;
     pointer-events: auto;
     transform: scale(1) translateY(0);
-            overflow: scroll;
-            overflow-x: hidden; }
+            overflow: hidden;}
 .nice-select.disabled {
     border-color: #ededed;
     color: #999;
