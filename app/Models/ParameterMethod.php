@@ -34,7 +34,7 @@ class ParameterMethod extends Model
      /**
      * The Analysis Matrix.
      */
-    public function parameterMethod()
+    public function analysisMatrix()
     {
         return $this->belongsTo(AnalysisMatrix::class);
     }

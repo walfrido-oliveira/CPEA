@@ -32,10 +32,90 @@
 
                     <div class="flex flex-wrap">
                         <div class="w-full md:w-2/12">
-                            <p class="font-bold">{{ __('Nome') }}</p>
+                            <p class="font-bold">{{ __('Param. Análise') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $parameterMethod->name }}</p>
+                            <p class="text-gray-500 font-bold">
+                                <a class="text-green-600 underline" href="{{ route('parameter-analysis.show', ['parameter_analysis' =>  $parameterMethod->parameter_analysis_id]) }}" target="_blank" rel="noopener noreferrer">
+                                    {{ $parameterMethod->parameterAnalysis->analysis_parameter_name }}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-2/12">
+                            <p class="font-bold">{{ __('Matriz') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-500 font-bold">
+                                <a class="text-green-600 underline" href="{{ route('registers.analysis-matrix.show', ['analysis_matrix' =>  $parameterMethod->analysis_matrix_id]) }}" target="_blank" rel="noopener noreferrer">
+                                    {{ $parameterMethod->analysisMatrix->name }}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-2/12">
+                            <p class="font-bold">{{ __('Método Preparo') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-500 font-bold">
+                                <a class="text-green-600 underline" href="{{ route('registers.preparation-method.show', ['preparation_method' =>  $parameterMethod->preparation_method_id]) }}" target="_blank" rel="noopener noreferrer">
+                                    {{ $parameterMethod->preparationMethod->name }}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-2/12">
+                            <p class="font-bold">{{ __('Método Análise') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-500 font-bold">
+                                <a class="text-green-600 underline" href="{{ route('registers.analysis-method.show', ['analysis_method' =>  $parameterMethod->analysis_method_id]) }}" target="_blank" rel="noopener noreferrer">
+                                    {{ $parameterMethod->analysisMethod->name }}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-2/12">
+                            <p class="font-bold">{{ __('Prazo Preparo') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-500 font-bold">{{ $parameterMethod->time_preparation }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-2/12">
+                            <p class="font-bold">{{ __('Prazo Análise') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-500 font-bold">{{ $parameterMethod->time_analysis }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-2/12">
+                            <p class="font-bold">{{ __('Validar Preparação') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-500 font-bold">
+                                @if($parameterMethod->validate_preparation)
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                @else
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                                    </svg>
+                                @endif
+                            </p>
                         </div>
                     </div>
 
