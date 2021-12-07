@@ -267,19 +267,19 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     });
 
     Route::prefix('cadastros')->name('registers.')->group(function(){
-        Route::resource('metodo', ParameterMethodController::class, [
+        Route::resource('metodo-prazo', ParameterMethodController::class, [
             'names' => 'parameter-method'])->parameters([])->parameters([
-            'metodo' => 'parameter-method'
+            'metodo-prazo' => 'parameter-method'
         ]);
-        Route::prefix('metodo')->name('parameter-method.')->group(function(){
+        Route::prefix('metodo-prazo')->name('parameter-method.')->group(function(){
             Route::post('/filter', [ParameterMethodController::class, 'filter'])->name('filter');
         });
 
-        Route::resource('metodo-preparo', PreparationMethodController::class, [
+        Route::resource('metodo', PreparationMethodController::class, [
             'names' => 'preparation-method'])->parameters([])->parameters([
-            'metodo-preparo' => 'preparation-method'
+            'metodo' => 'preparation-method'
         ]);
-        Route::prefix('metodo-preparo')->name('preparation-method.')->group(function(){
+        Route::prefix('metodo')->name('preparation-method.')->group(function(){
             Route::post('/filter', [PreparationMethodController::class, 'filter'])->name('filter');
         });
 
