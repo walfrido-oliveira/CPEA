@@ -74,5 +74,7 @@
     "sent":"Enviado",
     "analyzing":"Analisando",
     "concluded":"Concluído",
-    "canceled":"Cancelado"
+    "canceled":"Cancelado",
+    "preparation":"Preparação",
+    "analysis":"Análise"
 }

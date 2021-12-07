@@ -4,7 +4,7 @@
 
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">
-                    <h1>{{ __('Listar Métodos') }}</h1>
+                    <h1>{{ __('Listar Métodos/Prazos') }}</h1>
                 </div>
                 <div class="w-full flex justify-end">
                     <div class="m-2 ">

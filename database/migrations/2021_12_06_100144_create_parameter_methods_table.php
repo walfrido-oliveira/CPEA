@@ -15,14 +15,17 @@ class CreateParameterMethodsTable extends Migration
     {
         Schema::create('parameter_methods', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('analysis_matrix_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('parameter_analysis_id')->constrained()->cascadeOnDelete();
+            #$table->foreignId('analysis_matrix_id')->constrained()->cascadeOnDelete();
+            #$table->foreignId('parameter_analysis_id')->constrained()->cascadeOnDelete();
+
             $table->foreignId('preparation_method_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('analysis_method_id')->constrained()->cascadeOnDelete();
+
+            #$table->foreignId('analysis_method_id')->constrained()->cascadeOnDelete();
 
             $table->boolean("validate_preparation");
             $table->integer("time_preparation");
-            $table->integer("time_analysis");
+            $table->string('type');
+            #$table->integer("time_analysis");
 
             $table->timestamps();
         });

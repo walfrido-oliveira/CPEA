@@ -1,11 +1,9 @@
 <thead>
     <tr class="thead-light">
         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="parameter_analysis_id" columnText="{{ __('Param. Análise') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="preparation_method_id" columnText="{{ __('Método Preparo') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="analysis_method_id" columnText="{{ __('Método Análise') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="time_preparation" columnText="{!! __('Prazo Preparo<br>(dias)') !!}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="time_analysis" columnText="{!! __('Prazo Análise<br>(dias)') !!}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="preparation_method_id" columnText="{{ __('Método') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="type" columnText="{{ __('Tipo') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="time_preparation" columnText="{!! __('Prazo<br>(dias)') !!}"/>
         <th scope="col"
             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
             Ações
@@ -19,19 +17,13 @@
                 <input class="form-checkbox parameter-method-url" type="checkbox" name="parameter-method[{{ $parameterMethod->id }}]" value="{!! route('registers.parameter-method.destroy', ['parameter_method' => $parameterMethod->id]) !!}">
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('registers.parameter-method.show', ['parameter_method' => $parameterMethod->id]) }}">{{ $parameterMethod->parameterAnalysis->analysis_parameter_name }}</a>
-            </td>
-            <td>
                 <a class="text-item-table" href="{{ route('registers.parameter-method.show', ['parameter_method' => $parameterMethod->id]) }}">{{ $parameterMethod->preparationMethod->name }}</a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('registers.parameter-method.show', ['parameter_method' => $parameterMethod->id]) }}">{{ $parameterMethod->analysisMethod->name }}</a>
+                <a class="text-item-table" href="{{ route('registers.parameter-method.show', ['parameter_method' => $parameterMethod->id]) }}">{{ __($parameterMethod->type) }}</a>
             </td>
             <td>
                 <a class="text-item-table" href="{{ route('registers.parameter-method.show', ['parameter_method' => $parameterMethod->id]) }}">{{ $parameterMethod->time_preparation }}</a>
-            </td>
-            <td>
-                <a class="text-item-table" href="{{ route('registers.parameter-method.show', ['parameter_method' => $parameterMethod->id]) }}">{{ $parameterMethod->time_analysis }}</a>
             </td>
             <td>
                 <a class="btn-transition-warning" href="{{ route('registers.parameter-method.edit', ['parameter_method' => $parameterMethod->id]) }}">

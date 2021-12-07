@@ -19,25 +19,9 @@ class ParameterMethod extends Model
      * @var array
      */
     protected $fillable = [
-        'analysis_matrix_id',  'parameter_analysis_id', 'preparation_method_id',
-        'analysis_method_id', 'validate_preparation', 'time_preparation', 'time_analysis'
+        'preparation_method_id', 'type',
+        'validate_preparation', 'time_preparation',
     ];
-
-    /**
-     * The Parameter Analysis.
-     */
-    public function parameterAnalysis()
-    {
-        return $this->belongsTo(ParameterAnalysis::class);
-    }
-
-     /**
-     * The Analysis Matrix.
-     */
-    public function analysisMatrix()
-    {
-        return $this->belongsTo(AnalysisMatrix::class);
-    }
 
      /**
      * The PeparationMethod.
@@ -45,14 +29,6 @@ class ParameterMethod extends Model
     public function preparationMethod()
     {
         return $this->belongsTo(PreparationMethod::class);
-    }
-
-     /**
-     * The AnalysisMethod.
-     */
-    public function analysisMethod()
-    {
-        return $this->belongsTo(AnalysisMethod::class);
     }
 
     /**

@@ -35,12 +35,10 @@ class ParameterMethodController extends Controller
      */
     public function create()
     {
-        $parameterAnalysis = ParameterAnalysis::all()->pluck("analysis_parameter_name", "id");
-        $analysisMatrix = AnalysisMatrix::all()->pluck('name', 'id');
         $preparationMethod = PreparationMethod::all()->pluck('name', 'id');
-        $analysisMethod = AnalysisMethod::all()->pluck('name', 'id');
+        $type = ['preparation' => __('Preparação'), 'analysis' => __('Análise')];
 
-        return view('parameter-method.create', compact('parameterAnalysis', 'analysisMatrix', 'preparationMethod', 'analysisMethod'));
+        return view('parameter-method.create', compact('preparationMethod', 'type'));
     }
 
     /**
@@ -54,13 +52,10 @@ class ParameterMethodController extends Controller
         $input = $request->all();
 
         $parameterMethod =   ParameterMethod::create([
-            'analysis_matrix_id' => $input['analysis_matrix_id'],
-            'parameter_analysis_id' => $input['parameter_analysis_id'],
             'preparation_method_id' => $input['preparation_method_id'],
-            'analysis_method_id' => $input['analysis_method_id'],
             'validate_preparation' => isset($input['validate_preparation']) ? true : false,
             'time_preparation' => $input['time_preparation'],
-            'time_analysis' => $input['time_analysis'],
+            'type' => $input['type'],
         ]);
 
         $resp = [
@@ -92,12 +87,10 @@ class ParameterMethodController extends Controller
     public function edit($id)
     {
         $parameterMethod = ParameterMethod::findOrFail($id);
-        $parameterAnalysis = ParameterAnalysis::all()->pluck("analysis_parameter_name", "id");
-        $analysisMatrix = AnalysisMatrix::all()->pluck('name', 'id');
         $preparationMethod = PreparationMethod::all()->pluck('name', 'id');
-        $analysisMethod = AnalysisMethod::all()->pluck('name', 'id');
+        $type = ['preparation' => __('Preparação'), 'analysis' => __('Análise')];
 
-        return view('parameter-method.edit', compact('parameterMethod', 'parameterAnalysis', 'analysisMatrix', 'preparationMethod', 'analysisMethod'));
+        return view('parameter-method.edit', compact('preparationMethod', 'type', 'parameterMethod'));
     }
 
     /**
@@ -114,13 +107,10 @@ class ParameterMethodController extends Controller
         $input = $request->all();
 
         $parameterMethod->update([
-            'analysis_matrix_id' => $input['analysis_matrix_id'],
-            'parameter_analysis_id' => $input['parameter_analysis_id'],
             'preparation_method_id' => $input['preparation_method_id'],
-            'analysis_method_id' => $input['analysis_method_id'],
             'validate_preparation' => isset($input['validate_preparation']) ? true : false,
             'time_preparation' => $input['time_preparation'],
-            'time_analysis' => $input['time_analysis'],
+            'type' => $input['type'],
         ]);
 
         $resp = [

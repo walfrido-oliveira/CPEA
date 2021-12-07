@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ParameterMethodRequest extends FormRequest
@@ -24,12 +25,9 @@ class ParameterMethodRequest extends FormRequest
     public function rules()
     {
         return [
-            'analysis_matrix_id' => ['required', 'exists:analysis_matrices,id'],
-            'parameter_analysis_id' => ['required', 'exists:parameter_analyses,id'],
             'preparation_method_id' => ['required', 'exists:preparation_methods,id'],
-            'analysis_method_id' => ['required', 'exists:analysis_methods,id'],
             'time_preparation' => ['required', 'numeric', 'max:999'],
-            'time_analysis' => ['required', 'numeric', 'max:999']
+            'type' => ['required', 'string',  Rule::in(['preparation', 'analysis'])],
         ];
     }
 }

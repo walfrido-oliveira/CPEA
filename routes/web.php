@@ -275,14 +275,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::post('/filter', [ParameterMethodController::class, 'filter'])->name('filter');
         });
 
-        Route::resource('metodo-analise', AnalysisMethodController::class, [
-            'names' => 'analysis-method'])->parameters([])->parameters([
-            'metodo-analise' => 'analysis-method'
-        ]);
-        Route::prefix('metodo-analise')->name('analysis-method.')->group(function(){
-            Route::post('/filter', [AnalysisMethodController::class, 'filter'])->name('filter');
-        });
-
         Route::resource('metodo-preparo', PreparationMethodController::class, [
             'names' => 'preparation-method'])->parameters([])->parameters([
             'metodo-preparo' => 'preparation-method'

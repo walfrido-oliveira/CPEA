@@ -4,7 +4,7 @@
 
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">
-                    <h1>{{ __('Método Preparo') }}</h1>
+                    <h1>{{ __('Método') }}</h1>
                 </div>
                 <div class="w-full flex justify-end">
                     <div class="m-2 ">
@@ -45,8 +45,8 @@
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir Método Preparo') }}"
-             msg="{{ __('Deseja realmente apagar esse Método Preparo?') }}"
+    <x-modal title="{{ __('Excluir Método') }}"
+             msg="{{ __('Deseja realmente apagar esse Método?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_preparation_method_modal"
              method="DELETE"
              redirect-url="{{ route('registers.preparation-method.index') }}"/>
