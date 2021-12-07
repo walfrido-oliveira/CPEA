@@ -3,6 +3,8 @@
         <input class="form-checkbox point-matrix-url" type="checkbox" name="point_matrix[{{ $projectPointMatrix->id }}]" value="{!! route('project.point-matrix.destroy', ['point_matrix' => $projectPointMatrix->id]) !!}" data-id="point_matrix_row_{{ $key }}">
         <input type="hidden" name="point_matrix[{{ $key }}][id]" id="point_matrix_{{ $key }}_id" value="{{ $projectPointMatrix->id }}">
         <input type="hidden" name="point_matrix[{{ $key }}][campaign_id]" id="point_matrix_{{ $key }}_campaign_id" value="{{ $projectPointMatrix->campaign_id }}">
+        <input type="hidden" name="point_matrix[{{ $key }}][parameter_method_preparation_id]" id="point_matrix_{{ $key }}_parameter_method_preparation_id" value="{{ $projectPointMatrix->parameter_method_preparation_id }}">
+        <input type="hidden" name="point_matrix[{{ $key }}][parameter_method_analysis_id]" id="point_matrix_{{ $key }}_parameter_method_analysis_id" value="{{ $projectPointMatrix->parameter_method_analysis_id }}">
         @include('project.project-point-matrix-row-fields')
     </td>
     <td>

@@ -32,6 +32,15 @@ class ParameterMethod extends Model
     }
 
     /**
+     * Get name método
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        return $this->preparationMethod->name;
+    }
+
+    /**
      * Find parameterMethod in dabase
      *
      * @param Array

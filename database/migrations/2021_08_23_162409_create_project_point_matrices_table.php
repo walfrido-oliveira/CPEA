@@ -21,6 +21,7 @@ class CreateProjectPointMatricesTable extends Migration
             $table->foreignId('point_identification_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('analysis_matrix_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('parameter_analysis_id')->nullable()->constrained()->nullOnDelete();
+
             $table->timestamp('date_collection');
 
             $table->string('tide')->nullable();
@@ -51,6 +52,7 @@ class CreateProjectPointMatricesTable extends Migration
             $table->decimal("humidity", 18, 5)->nullable();
             $table->decimal("pressure", 18, 5)->nullable();
             $table->timestamps();
+
         });
     }
 

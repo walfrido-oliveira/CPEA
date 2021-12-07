@@ -214,6 +214,8 @@
             let analysisParameters = Array.from(document.getElementById("analysis_parameter_ids").options).filter(o => o.selected).map(o => o.value);
             let paginationPerPage = document.getElementById("paginate_per_page_campaigns").value;
             let campaignId = document.getElementById("campaign_id").value;
+            let parameterMethodPreparationId = document.getElementById("parameter_method_preparation_id").value;
+            let parameterMethodAnalysisId = document.getElementById("parameter_method_analysis_id").value;
             let dateCollection = document.getElementById("date_collection").value;
 
             let customFields = [];
@@ -277,6 +279,8 @@
             data.append('parameter_analysis_id', analysisParameter);
             if(analysisParameters) data.append('analysis_parameter_ids', analysisParameters);
             data.append('campaign_id', campaignId);
+            data.append('parameter_method_preparation_id', parameterMethodPreparationId);
+            data.append('parameter_method_analysis_id', parameterMethodAnalysisId);
             data.append('date_collection', dateCollection);
             data.append('project_id', {{ isset($project) ? $project->id : null }});
 
@@ -325,6 +329,8 @@
                 let analysisParameter = document.getElementById("analysis_parameter_id");
                 let dateCollection = document.getElementById("date_collection");
                 let campaignId = document.getElementById("campaign_id");
+                let parameterMethodPreparationId = document.getElementById("parameter_method_preparation_id");
+                let parameterMethodAnalysisId = document.getElementById("parameter_method_analysis_id");
 
                 clearPointMatrixFields()
                 areas.value = document.getElementById('point_matrix_'+ row + '_area').value
@@ -350,12 +356,17 @@
                     }
                 });
 
-
                 analysisParameter.value = document.getElementById('point_matrix_'+ row + '_parameter_analysis_id') ?
                 document.getElementById('point_matrix_'+ row + '_parameter_analysis_id').value : null;
 
                 campaignId.value = document.getElementById('point_matrix_'+ row + '_campaign_id') ?
                 document.getElementById('point_matrix_'+ row + '_campaign_id').value : null;
+
+                parameterMethodPreparationId.value = document.getElementById('point_matrix_'+ row + '_parameter_method_preparation_id') ?
+                document.getElementById('point_matrix_'+ row + '_parameter_method_preparation_id').value : null;
+
+                parameterMethodAnalysisId.value = document.getElementById('point_matrix_'+ row + '_parameter_method_analysis_id') ?
+                document.getElementById('point_matrix_'+ row + '_parameter_method_analysis_id').value : null;
 
                 dateCollection.value = document.getElementById('point_matrix_'+ row + '_date_collection') ?
                 document.getElementById('point_matrix_'+ row + '_date_collection').value : null;
@@ -384,6 +395,8 @@
 
         function clearPointMatrixFields() {
             let campaign = document.getElementById("campaign_id");
+            let parameterMethodPreparationId = document.getElementById("parameter_method_preparation_id");
+            let parameterMethodAnalysisId = document.getElementById("parameter_method_analysis_id");
             let pointIdentifications = document.getElementById("point_identifications");
             let areas = document.getElementById("areas");
             let matriz = document.getElementById("matriz_id");
@@ -398,6 +411,8 @@
             filterAreas();
 
             campaign.value = '';
+            parameterMethodPreparationId.value = '';
+            parameterMethodAnalysisId.value = '';
             pointIdentifications.value = '';
             matriz.value = '';
             guidingParameter.value = '';

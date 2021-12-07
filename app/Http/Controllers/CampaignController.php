@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\AnalysisMatrix;
 use App\Models\GeodeticSystem;
+use App\Models\ParameterMethod;
 use App\Models\PlanActionLevel;
 use App\Models\GuidingParameter;
 use App\Models\ParameterAnalysis;
@@ -35,13 +36,16 @@ class CampaignController extends Controller
         $guidingParameters = GuidingParameter::pluck('environmental_guiding_parameter_id', 'id');
         $parameterAnalyses = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
         $geodeticSystems = GeodeticSystem::pluck("name", "id");
+        $preparationMethods = ParameterMethod::where('type', 'preparation')->get()->pluck('name', 'id');
+        $analysisMethods = ParameterMethod::where('type', 'analysis')->get()->pluck('name', 'id');
 
         $projectPointMatrices = $campaign->projectPointMatrices()
         ->orderBy("campaign_id", "asc")
         ->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'project-point-matrices');
 
-        return view('project.campaign.show', compact('campaign', 'areas', 'identifications', 'matrizeces', 'planActionLevels',
-                                                     'guidingParameters', 'parameterAnalyses', 'geodeticSystems', 'projectPointMatrices'));
+        return view('project.campaign.show',
+        compact('campaign', 'areas', 'identifications', 'matrizeces', 'planActionLevels',
+                'guidingParameters', 'parameterAnalyses', 'geodeticSystems', 'projectPointMatrices', 'preparationMethods', 'analysisMethods'));
     }
 
     /**
@@ -276,6 +280,9 @@ class CampaignController extends Controller
                 'analysis_matrix_id' => $point->analysis_matrix_id,
                 'parameter_analysis_id' => $point->parameter_analysis_id,
                 'campaign_id' => $campaign->id,
+                'parameter_method_preparation_id' => $point->parameter_method_preparation_id,
+                'parameter_method_analysis_id' => $point->parameter_method_analysis_id,
+
                 'date_collection' => $point->date_collection,
 
                 'refq' => $point->refq,
@@ -333,8 +340,11 @@ class CampaignController extends Controller
                 'point_identification_id' => $point->point_identification_id,
                 'analysis_matrix_id' => $point->analysis_matrix_id,
                 'parameter_analysis_id' => $point->parameter_analysis_id,
-                'date_collection' => $point->date_collection,
+                'parameter_method_preparation_id' => $point->parameter_method_preparation_id,
+                'parameter_method_analysis_id' => $point->parameter_method_analysis_id,
                 'campaign_id' => $result->id,
+
+                'date_collection' => $point->date_collection,
 
                 'refq' => $point->refq,
                 'tide' => $point->tide,

@@ -121,6 +121,10 @@ class ProjectPointMatrixController extends Controller
                 'analysis_matrix_id' => $input['analysis_matrix_id'],
                 'parameter_analysis_id' => $input['parameter_analysis_id'],
                 'campaign_id' => $input['campaign_id'],
+                'parameter_method_preparation_id' => $input['parameter_method_preparation_id'],
+                'parameter_method_analysis_id' => $input['parameter_method_analysis_id'],
+
+
                 'date_collection' => $input['date_collection'],
 
                 'refq' => isset($input['refq']) ? $input['refq'] : null,
@@ -162,6 +166,9 @@ class ProjectPointMatrixController extends Controller
                         'analysis_matrix_id' => $input['analysis_matrix_id'],
                         'parameter_analysis_id' => $value,
                         'campaign_id' => $input['campaign_id'],
+                        'parameter_method_preparation_id' => $input['parameter_method_preparation_id'],
+                        'parameter_method_analysis_id' => $input['parameter_method_analysis_id'],
+
                         'date_collection' => $input['date_collection'],
 
                         'refq' => isset($input['refq']) ? $input['refq'] : null,
@@ -234,6 +241,9 @@ class ProjectPointMatrixController extends Controller
                     'analysis_matrix_id' => $input['analysis_matrix_id'],
                     'parameter_analysis_id' => $input['parameter_analysis_id'],
                     'campaign_id' => $input['campaign_id'],
+                    'parameter_method_preparation_id' => $input['parameter_method_preparation_id'],
+                    'parameter_method_analysis_id' => $input['parameter_method_analysis_id'],
+
                     'date_collection' => $input['date_collection'],
 
                     'refq' => isset($input['refq']) ? $input['refq'] : null,

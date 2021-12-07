@@ -10,9 +10,11 @@ use Illuminate\Http\Response;
 use App\Models\AnalysisMatrix;
 use App\Models\CampaignStatus;
 use App\Models\GeodeticSystem;
+use App\Models\ParameterMethod;
 use App\Models\PlanActionLevel;
 use App\Models\GuidingParameter;
 use App\Models\ParameterAnalysis;
+use App\Models\PreparationMethod;
 use App\Models\ProjectPointMatrix;
 use App\Models\PointIdentification;
 use App\Http\Requests\ProjectRequest;
@@ -86,6 +88,8 @@ class ProjectController extends Controller
                         'point_identification_id' => $point->point_identification_id,
                         'analysis_matrix_id' => $point->analysis_matrix_id,
                         'parameter_analysis_id' => $point->parameter_analysis_id,
+                        'parameter_method_preparation_id' => $point->parameter_method_preparation_id,
+                        'parameter_method_analysis_id' => $point->parameter_method_analysis_id,
 
                         'refq' => $point->refq,
                         'tide' => $point->tide,
@@ -162,6 +166,8 @@ class ProjectController extends Controller
         $campaignStatuses = CampaignStatus::pluck("name", "id");
         $pointMatrices = $project->getPointMatricesCustomFields();
         $campaigns = $project->campaigns()->pluck("name", "id");
+        $preparationMethods = ParameterMethod::where('type', 'preparation')->get()->pluck('name', 'id');
+        $analysisMethods = ParameterMethod::where('type', 'analysis')->get()->pluck('name', 'id');
 
         $projectPointMatrices = $project->projectPointMatrices()
         ->orderBy(isset(request()->input()['order_by']) ? request()->input()['order_by'] : "campaign_id",
@@ -173,9 +179,10 @@ class ProjectController extends Controller
         isset(request()->input()['ascending']) ? request()->input()['ascending'] : "asc")
         ->paginate(isset(request()->input()['paginate_per_page']) ? request()->input()['paginate_per_page'] : DEFAULT_PAGINATE_PER_PAGE, ['*'], 'campaigns')->appends(request()->input());
 
-        return view('project.edit', compact('project','customers', 'areas', 'identifications', 'campaignStatuses', 'projectCampaigns',
+        return view('project.edit',
+                    compact('project','customers', 'areas', 'identifications', 'campaignStatuses', 'projectCampaigns',
                     'matrizeces', 'guidingParameters', 'parameterAnalyses', 'projectPointMatrices', 'geodeticSystems',
-                    'pointMatrices', 'campaigns', 'parameterAnalyseGroups'));
+                    'pointMatrices', 'campaigns', 'parameterAnalyseGroups', 'preparationMethods', 'analysisMethods'));
 
     }
 

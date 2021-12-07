@@ -7,9 +7,11 @@ use App\Models\Campaign;
 use App\Models\AnalysisOrder;
 use App\Models\AnalysisMatrix;
 use App\Models\AnalysisResult;
+use App\Models\ParameterMethod;
 use App\Models\PlanActionLevel;
 use App\Models\GuidingParameter;
 use App\Models\ParameterAnalysis;
+use App\Models\PreparationMethod;
 use App\Models\PointIdentification;
 use App\Models\CalculationParameter;
 use Illuminate\Database\Eloquent\Model;
@@ -25,7 +27,7 @@ class ProjectPointMatrix extends Model
      * @var array
      */
     protected $fillable = [
-        'project_id', 'point_identification_id', 'analysis_matrix_id',
+        'project_id', 'point_identification_id', 'analysis_matrix_id', 'parameter_method_preparation_id', 'parameter_method_analysis_id',
         'parameter_analysis_id', 'tide', 'environmental_conditions',
         'sample_depth', 'environmental_regime', 'floating_materials',
         'effluent_type', 'report_identification', 'organism_type', 'popular_name', 'identification_pm',
@@ -52,6 +54,22 @@ class ProjectPointMatrix extends Model
     protected $appends = [
         'custom_name',
     ];
+
+    /**
+     * The preparationMethod.
+     */
+    public function parameterMethodPreparation()
+    {
+        return $this->belongsTo(ParameterMethod::class, 'parameter_method_preparation_id');
+    }
+
+    /**
+     * The analysisMethod.
+     */
+    public function parameterMethodAnalysis()
+    {
+        return $this->belongsTo(ParameterMethod::class, 'parameter_method_analysis_id');
+    }
 
     /**
      * The campaign.

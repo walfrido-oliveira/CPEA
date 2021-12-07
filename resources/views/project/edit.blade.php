@@ -168,6 +168,16 @@
                                 <x-custom-multi-select multiple :options="[]" name="analysis_parameter_ids" id="analysis_parameter_ids" value="" select-class="form-input" class="mt-1 hidden" no-filter="no-filter"/>
                             </div>
                         </div>
+                        <div class="flex flex-wrap mx-4 px-3 py-2">
+                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                <x-jet-label for="parameter_method_preparation_id" value="{{ __('Método Preparo') }}"/>
+                                <x-custom-select :options="$preparationMethods" name="parameter_method_preparation_id" id="parameter_method_preparation_id" value="" select-class="form-input" class="mt-1" no-filter="no-filter"/>
+                            </div>
+                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                <x-jet-label for="parameter_method_analysis_id" value="{{ __('Método Análise') }}"/>
+                                <x-custom-select :options="$analysisMethods" name="parameter_method_analysis_id" id="parameter_method_analysis_id" value="" select-class="form-input" class="mt-1" no-filter="no-filter"/>
+                            </div>
+                        </div>
                         <div id="point_matrix_fields">
 
                         </div>

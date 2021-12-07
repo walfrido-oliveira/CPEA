@@ -8,10 +8,13 @@
         <input type="hidden" name="point_matrix[{{ $key }}][plan_action_level_id]" id="point_matrix_{{ $key }}_plan_action_level_id" value="{{ $projectPointMatrix->planActionLevel ? $projectPointMatrix->planActionLevel->id : null }}">
         <input type="hidden" name="point_matrix[{{ $key }}][guiding_parameter_id]" id="point_matrix_{{ $key }}_guiding_parameter_id" value="{{ $projectPointMatrix->guidingParameter ? $projectPointMatrix->guidingParameter->id : null }}">
         <input type="hidden" name="point_matrix[{{ $key }}][parameter_analysis_id]" id="point_matrix_{{ $key }}_parameter_analysis_id" value="{{ $projectPointMatrix->parameterAnalysis ? $projectPointMatrix->parameterAnalysis->id : null }}">
+        <input type="hidden" name="point_matrix[{{ $key }}][parameter_method_preparation_id]" id="point_matrix_{{ $key }}_parameter_method_preparation_id" value="{{ $projectPointMatrix->parameter_method_preparation_id }}">
+        <input type="hidden" name="point_matrix[{{ $key }}][parameter_method_analysis_id]" id="point_matrix_{{ $key }}_parameter_method_analysis_id" value="{{ $projectPointMatrix->parameter_method_analysis_id }}">
     </td>
     <td>
         @if ($projectPointMatrix->pointIdentification)
-            <div class="grid grid-flow-col grid-cols-2 grid-rows-2 gap-x-16 md:gap-x-4 gap-y-0 w-3/5" style="grid-template-rows: auto 0fr 0fr 0fr auto auto;">
+            <div class="grid grid-flow-col grid-cols-2 grid-rows-2 gap-x-16 md:gap-x-4 gap-y-0 w-3/5"
+            style="grid-template-columns: repeat(2, 1fr);grid-template-rows: repeat(8, 1fr);grid-column-gap: 20px;grid-row-gap: 0px;;">
                 <div class="font-bold text-right ">
                     {{ __('Área') }}
                 </div>
@@ -26,6 +29,12 @@
                 </div>
                 <div class="font-bold text-right ">
                     {{ __('Param. Análise') }}
+                </div>
+                <div class="font-bold text-right ">
+                    {{ __('Método Preparação') }}
+                </div>
+                <div class="font-bold text-right ">
+                    {{ __('Método Análise') }}
                 </div>
                 <div class="font-bold text-right ">
                     {{ __('Idet Lab Amostra') }}
@@ -71,6 +80,26 @@
                     <div class="content">
                         @if ($projectPointMatrix->parameterAnalysis)
                             {{ $projectPointMatrix->parameterAnalysis->analysis_parameter_name }}
+                        @endif
+                    </div>
+                </div>
+                <div class="text-gray-500 font-bold ">
+                    <x-custom-select :options="$preparationMethods" name="point_matrix_edit[{{ $key }}][parameter_method_preparation_id]" id="point_matrix_edit_{{ $key }}_parameter_method_preparation_id" value="" class="hidden"   select-class="no-border" no-filter="no-filter" arrow-class="text-yellow-500"/>
+                    <div class="content">
+                        @if ($projectPointMatrix->parameter_method_preparation_id)
+                            <a class="text-green-600 underline" href="{{ route('registers.parameter-method.show', ['parameter_method' => $projectPointMatrix->parameter_method_preparation_id]) }}" target="_blank" rel="noopener noreferrer">
+                                {{ $projectPointMatrix->parameterMethodPreparation->name }}
+                            </a>
+                        @endif
+                    </div>
+                </div>
+                <div class="text-gray-500 font-bold ">
+                    <x-custom-select :options="$analysisMethods" name="point_matrix_edit[{{ $key }}][parameter_method_analysis_id]" id="point_matrix_edit_{{ $key }}_parameter_method_analysis_id" value="" class="hidden"   select-class="no-border" no-filter="no-filter" arrow-class="text-yellow-500"/>
+                    <div class="content">
+                        @if ($projectPointMatrix->parameter_method_analysis_id)
+                            <a class="text-green-600 underline" href="{{ route('registers.parameter-method.show', ['parameter_method' => $projectPointMatrix->parameter_method_analysis_id]) }}" target="_blank" rel="noopener noreferrer">
+                                {{ $projectPointMatrix->parameterMethodAnalysis->name }}
+                            </a>
                         @endif
                     </div>
                 </div>
