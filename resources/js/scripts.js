@@ -92,7 +92,7 @@ if(passwordConfirmation) {
 window.customSelectArray = {};
 window.addEventListener("load", function() {
     document.querySelectorAll(".custom-select").forEach(item => {
-        window.customSelectArray[item.id] = NiceSelect.bind(item, {searchable: true});
+        window.customSelectArray[item.id] = NiceSelect.bind(item, {searchable: true, reverse: item.dataset.reverse ? item.dataset.reverse : false});
     });
 });
 

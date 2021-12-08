@@ -35,7 +35,8 @@ function removeClass(el, className) {
 
 var defaultOptions = {
   data: null,
-  searchable: false
+  searchable: false,
+  reverse: false
 };
 function NiceSelect(element, options) {
   this.el = element;
@@ -126,7 +127,7 @@ NiceSelect.prototype.renderDropdown = function() {
   <span class="${this.multiple ? "multiple-options" : "current"}">
 
   </span>
-  <div class="nice-select-dropdown">
+  <div class="nice-select-dropdown ${this.config.reverse ? 'reverse' : ''}">
   ${this.config.searchable ? searchHtml : ""}
   <ul class="list"></ul>
   </div></div>

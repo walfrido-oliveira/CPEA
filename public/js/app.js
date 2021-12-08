@@ -5018,7 +5018,8 @@ function removeClass(el, className) {
 
 var defaultOptions = {
   data: null,
-  searchable: false
+  searchable: false,
+  reverse: false
 };
 
 function NiceSelect(element, options) {
@@ -5087,7 +5088,7 @@ NiceSelect.prototype.extractData = function () {
 NiceSelect.prototype.renderDropdown = function () {
   var classes = ["nice-select", attr(this.el, "class") || "", this.disabled ? "disabled" : "", this.multiple ? "has-multiple" : ""];
   var searchHtml = "<div class=\"nice-select-search-box\">\n<input type=\"text\" class=\"nice-select-search\" placeholder=\"Buscar...\"/>\n</div>";
-  var html = "<div class=\"".concat(classes.join(" "), "\" tabindex=\"").concat(this.disabled ? null : 0, "\">\n  <span class=\"").concat(this.multiple ? "multiple-options" : "current", "\">\n\n  </span>\n  <div class=\"nice-select-dropdown\">\n  ").concat(this.config.searchable ? searchHtml : "", "\n  <ul class=\"list\"></ul>\n  </div></div>\n");
+  var html = "<div class=\"".concat(classes.join(" "), "\" tabindex=\"").concat(this.disabled ? null : 0, "\">\n  <span class=\"").concat(this.multiple ? "multiple-options" : "current", "\">\n\n  </span>\n  <div class=\"nice-select-dropdown ").concat(this.config.reverse ? 'reverse' : '', "\">\n  ").concat(this.config.searchable ? searchHtml : "", "\n  <ul class=\"list\"></ul>\n  </div></div>\n");
   this.el.insertAdjacentHTML("afterend", html);
   this.dropdown = this.el.nextElementSibling;
 
@@ -5589,7 +5590,8 @@ window.customSelectArray = {};
 window.addEventListener("load", function () {
   document.querySelectorAll(".custom-select").forEach(function (item) {
     window.customSelectArray[item.id] = NiceSelect.bind(item, {
-      searchable: true
+      searchable: true,
+      reverse: item.dataset.reverse ? item.dataset.reverse : false
     });
   });
 });
