@@ -311,6 +311,20 @@ NiceSelect.prototype._onClicked = function(e) {
   } else {
     this.dropdown.focus();
   }
+
+    var container = this.dropdown.querySelector('.nice-select-dropdown');
+    console.log(this.dropdown.querySelector('.nice-select-dropdown'));
+    var scrollTop = (((t = document.documentElement) || (t = document.body.parentNode)) &&
+        typeof t.scrollTop == 'number' ? t : document.body).scrollTop;
+    var topOffset = container.getBoundingClientRect().top;
+    var relativeOffset = topOffset - scrollTop;
+    var windowHeight = window.innerHeight;
+
+    if (relativeOffset > windowHeight / 2) {
+        container.classList.add('reverse');
+    } else {
+        container.classList.remove('reverse');
+    }
 };
 
 NiceSelect.prototype._onItemClicked = function(option, e) {
@@ -503,5 +517,4 @@ NiceSelect.prototype._change = function() {
         }
     }
     console.log(3);
-  };
-
+};

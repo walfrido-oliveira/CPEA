@@ -371,3 +371,8 @@ input:read-only {
     z-index: 1;
     background: #fff;
 }
+
+.reverse {
+    top: auto !important;
+    bottom:100% !important;
+}

@@ -95,3 +95,4 @@ window.addEventListener("load", function() {
         window.customSelectArray[item.id] = NiceSelect.bind(item, {searchable: true});
     });
 });
+
