@@ -315,7 +315,8 @@ NiceSelect.prototype._onClicked = function(e) {
   var container = this.dropdown.querySelector('.nice-select-dropdown');
   var bottomContainer = container.getBoundingClientRect().bottom;
   var bottomBody = document.querySelector("body").getBoundingClientRect().bottom;
-
+  console.log(bottomBody);
+  console.log(bottomContainer);
   if (bottomContainer > bottomBody) {
       container.classList.add('reverse');
   } else {
