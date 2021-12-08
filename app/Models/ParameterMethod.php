@@ -37,7 +37,7 @@ class ParameterMethod extends Model
      */
     public function getNameAttribute()
     {
-        return $this->preparationMethod->name;
+        return $this->preparationMethod->name . " / $this->time_preparation (dias)";
     }
 
     /**
