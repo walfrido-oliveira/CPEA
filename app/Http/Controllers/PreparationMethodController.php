@@ -147,7 +147,7 @@ class PreparationMethodController extends Controller
         return response()->json([
             'filter_result' => view('preparation-method.filter-result', compact('preparationMethods', 'orderBy', 'ascending'))->render(),
             'pagination' => view('layouts.pagination', [
-                'models' => $preparationMethod,
+                'models' => $preparationMethods,
                 'order_by' => $orderBy,
                 'ascending' => $ascending,
                 'paginate_per_page' => $paginatePerPage,
