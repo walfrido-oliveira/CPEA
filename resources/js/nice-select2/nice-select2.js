@@ -521,13 +521,10 @@ NiceSelect.prototype._change = function() {
 
 window.addEventListener("load", function() {
     document.querySelectorAll('.nice-select-dropdown').forEach(container => {
-        var scrollTop = (((t = document.documentElement) || (t = document.body.parentNode)) &&
-        typeof t.scrollTop == 'number' ? t : document.body).scrollTop;
-        var topOffset = container.getBoundingClientRect().top;
-        var relativeOffset = topOffset - scrollTop;
-        var windowHeight = window.innerHeight;
+        var bottomContainer = container.getBoundingClientRect().bottom;
+        var bottomBody = document.querySelector("body").getBoundingClientRect().bottom;
 
-        if (relativeOffset > windowHeight / 2) {
+        if (bottomContainer > bottomBody) {
             container.classList.add('reverse');
         } else {
             container.classList.remove('reverse');
