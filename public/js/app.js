@@ -5256,18 +5256,17 @@ NiceSelect.prototype._onClicked = function (e) {
   } else {
     this.dropdown.focus();
   }
-
-  var container = this.dropdown.querySelector('.nice-select-dropdown');
+  /*var container = this.dropdown.querySelector('.nice-select-dropdown');
   var bottomContainer = container.getBoundingClientRect().bottom;
   var bottomBody = document.querySelector("body").getBoundingClientRect().bottom;
   console.log(bottomBody);
   console.log(bottomContainer);
-
   if (bottomContainer > bottomBody) {
-    container.classList.add('reverse');
+      container.classList.add('reverse');
   } else {
-    container.classList.remove('reverse');
-  }
+      container.classList.remove('reverse');
+  }*/
+
 };
 
 NiceSelect.prototype._onItemClicked = function (option, e) {

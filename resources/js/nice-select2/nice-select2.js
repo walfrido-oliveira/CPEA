@@ -312,7 +312,7 @@ NiceSelect.prototype._onClicked = function(e) {
     this.dropdown.focus();
   }
 
-  var container = this.dropdown.querySelector('.nice-select-dropdown');
+  /*var container = this.dropdown.querySelector('.nice-select-dropdown');
   var bottomContainer = container.getBoundingClientRect().bottom;
   var bottomBody = document.querySelector("body").getBoundingClientRect().bottom;
   console.log(bottomBody);
@@ -321,7 +321,7 @@ NiceSelect.prototype._onClicked = function(e) {
       container.classList.add('reverse');
   } else {
       container.classList.remove('reverse');
-  }
+  }*/
 };
 
 NiceSelect.prototype._onItemClicked = function(option, e) {
