@@ -23,7 +23,7 @@ class ParameterMethodController extends Controller
         $parameterMethods =  ParameterMethod::filter($request->all());
 
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
-        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'parameter_analysis_id';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'type';
 
         return view('parameter-method.index', compact('parameterMethods', 'ascending', 'orderBy'));
     }
