@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\AnalysisOrder;
 use App\Models\ProjectPointMatrix;
+use Illuminate\Support\Facades\Cache;
 
 class SampleAnalysisController extends Controller
 {
@@ -43,17 +44,19 @@ class SampleAnalysisController extends Controller
         $status = ['sent' => __('sent'), 'pending' => __('pending'), 'analyzing' => __('analyzing'), 'concluded' => __('concluded')];
         $analysisOrders = $campaign->analysisOrders;
 
-        $projectPointMatrices = $campaign
-        ->projectPointMatrices()
-        ->with('pointIdentification')
-        ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
-        ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
-        ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
-        ->orderBy('point_identifications.area', 'asc')
-        ->orderBy('point_identifications.identification', 'asc')
-        ->orderBy('parameter_analysis_groups.name', 'asc')
-        ->select('project_point_matrices.*')
-        ->get();
+        $projectPointMatrices = Cache::remember('project-point-matrices-sample-analysis' . $campaign->id, SECOND, function () use($campaign) {
+            return $campaign
+            ->projectPointMatrices()
+            ->with('pointIdentification')
+            ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+            ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+            ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
+            ->orderBy('point_identifications.area', 'asc')
+            ->orderBy('point_identifications.identification', 'asc')
+            ->orderBy('parameter_analysis_groups.name', 'asc')
+            ->select('project_point_matrices.*')
+            ->get();
+        });
 
         return view('sample-analysis.show', compact('campaign', 'projectPointMatrices', 'status', 'analysisOrders'));
     }
