@@ -49,7 +49,7 @@
                 switch ($status) {
                     case 'sent':
                         $statusColor = "#2A96A7";
-                        $statusMsg = 'Encaminhado para Laboratório';
+                        $statusMsg = 'Encaminhado';
                         break;
 
                     case 'analyzing':
@@ -59,12 +59,12 @@
 
                     case 'concluded':
                         $statusColor = "#4DB15D";
-                        $statusMsg = 'Análise Concluída';
+                        $statusMsg = 'Concluído';
                         break;
 
                     default:
                         $statusColor = "#374151";
-                        $statusMsg = 'Pendente de Analise';
+                        $statusMsg = 'Pendente';
                         break;
                 }
             @endphp
