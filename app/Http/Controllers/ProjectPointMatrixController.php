@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\AnalysisMatrix;
 use App\Models\GeodeticSystem;
+use App\Models\ParameterMethod;
 use App\Models\PlanActionLevel;
 use App\Models\GuidingParameter;
 use App\Models\ParameterAnalysis;
