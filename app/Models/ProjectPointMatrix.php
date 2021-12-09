@@ -187,7 +187,7 @@ class ProjectPointMatrix extends Model
         $orderBy = isset($query['order_by']) ? $query['order_by'] : DEFAULT_ORDER_BY_COLUMN;
         $page = isset($query['page']) ? $query['page'] : 1;
 
-        $projects = Cache::remember('project-point-matrix', SECONDS, function () use($query, $orderBy, $perPage, $ascending, $page) {
+        $projects = Cache::remember('project-point-matrix' . $page, SECONDS, function () use($query, $orderBy, $perPage, $ascending, $page) {
             $projects = self::where(function($q) use ($query) {
                 if(isset($query['id']))
                 {
