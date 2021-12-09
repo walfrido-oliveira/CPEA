@@ -123,9 +123,15 @@
   display: block; }
 
 .nice-select .list::-webkit-scrollbar {
-  width: 0; }
+    width: 10px;}
+.nice-select .list::-webkit-scrollbar-track {
+    background: #f1f1f1; }
+.nice-select .list::-webkit-scrollbar-thumb {
+    background: #888;}
+.nice-select .list::-webkit-scrollbar-thumb:hover {
+    background: #555;}
 
-  .nice-select span.current {
+.nice-select span.current {
     display: block;
     word-wrap: break-word;
     white-space: nowrap;
