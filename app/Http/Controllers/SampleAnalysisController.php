@@ -44,7 +44,7 @@ class SampleAnalysisController extends Controller
         $status = ['sent' => __('sent'), 'pending' => __('pending'), 'analyzing' => __('analyzing'), 'concluded' => __('concluded')];
         $analysisOrders = $campaign->analysisOrders;
 
-        $projectPointMatrices = Cache::remember('project-point-matrices-sample-analysis' . $campaign->id, SECOND, function () use($campaign) {
+        $projectPointMatrices = Cache::remember('project-point-matrices-sample-analysis' . $campaign->id, SECONDS, function () use($campaign) {
             return $campaign
             ->projectPointMatrices()
             ->with('pointIdentification')
