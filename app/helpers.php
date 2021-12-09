@@ -3,6 +3,7 @@
 const DEFAULT_PAGINATE_PER_PAGE = 10;
 const DEFAULT_ORDER_BY_COLUMN = "created_at";
 const DEFAULT_ASCENDING = "desc";
+const SECONDS = "1000";
 
 if (! function_exists('mask'))
 {

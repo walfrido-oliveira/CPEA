@@ -18,6 +18,7 @@ use App\Models\PreparationMethod;
 use App\Models\ProjectPointMatrix;
 use App\Models\PointIdentification;
 use App\Http\Requests\ProjectRequest;
+use Illuminate\Support\Facades\Cache;
 use App\Models\ParameterAnalysisGroup;
 use Illuminate\Support\Facades\Validator;
 
@@ -155,19 +156,56 @@ class ProjectController extends Controller
     public function edit(Request $request, $id)
     {
         $project = Project::findOrFail($id);
-        $customers = Customer::where('status', 'active')->orderBy("name")->pluck('name', 'id');
-        $areas = PointIdentification::pluck('area', 'area');
-        $identifications = PointIdentification::pluck('identification', 'identification');
-        $matrizeces = AnalysisMatrix::pluck('name', 'id');
-        $guidingParameters = GuidingParameter::orderBy("environmental_guiding_parameter_id", 'asc')->pluck('environmental_guiding_parameter_id', 'id');
-        $parameterAnalyses = ParameterAnalysis::all()->pluck('full_name', 'id');
-        $parameterAnalyseGroups = ParameterAnalysisGroup::all()->pluck('name', 'id');
-        $geodeticSystems = GeodeticSystem::pluck("name", "id");
-        $campaignStatuses = CampaignStatus::pluck("name", "id");
+
+        $customers = Cache::remember('customers', SECONDS, function () {
+            return Customer::where('status', 'active')->orderBy("name")->pluck('name', 'id');
+        });
+
+        $areas = Cache::remember('areas', SECONDS, function () {
+            return PointIdentification::pluck('area', 'area');
+        });
+
+        $identifications = Cache::remember('identifications', SECONDS, function () {
+            return PointIdentification::pluck('identification', 'identification');
+        });
+
+        $matrizeces = Cache::remember('matrizeces', SECONDS, function () {
+            return AnalysisMatrix::pluck('name', 'id');
+        });
+
+        $guidingParameters = Cache::remember('guiding-parameters', SECONDS, function () {
+            return GuidingParameter::orderBy("environmental_guiding_parameter_id", 'asc')->pluck('environmental_guiding_parameter_id', 'id');
+        });
+
+        $parameterAnalyses = Cache::remember('parameter-analyses', SECONDS, function () {
+            return ParameterAnalysis::pluck('analysis_parameter_name', 'id');
+        });
+
+        $geodeticSystems = Cache::remember('geodetic-systems', SECONDS, function () {
+            return GeodeticSystem::pluck("name", "id");
+        });
+
+        $preparationMethods = Cache::remember('preparation-methods', SECONDS, function () {
+            return ParameterMethod::where('type', 'preparation')->get()->pluck('name', 'id');
+        });
+
+        $analysisMethods = Cache::remember('analysis-methods', SECONDS, function () {
+            return ParameterMethod::where('type', 'analysis')->get()->pluck('name', 'id');
+        });
+
+        $campaigns = Cache::remember('campaigns', SECONDS, function () use($project) {
+            return $project->campaigns()->pluck("name", "id");
+        });
+
+        $parameterAnalyseGroups = Cache::remember('parameter-analyse-groups', SECONDS, function () {
+            return ParameterAnalysisGroup::all()->pluck('name', 'id');
+        });
+
+        $campaignStatuses = Cache::remember('campaign-statuses', SECONDS, function () {
+            return CampaignStatus::pluck("name", "id");
+        });
+
         $pointMatrices = $project->getPointMatricesCustomFields();
-        $campaigns = $project->campaigns()->pluck("name", "id");
-        $preparationMethods = ParameterMethod::where('type', 'preparation')->get()->pluck('name', 'id');
-        $analysisMethods = ParameterMethod::where('type', 'analysis')->get()->pluck('name', 'id');
 
         $projectPointMatrices = $project->projectPointMatrices()
         ->orderBy(isset(request()->input()['order_by']) ? request()->input()['order_by'] : "campaign_id",

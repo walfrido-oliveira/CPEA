@@ -15,6 +15,7 @@ use App\Models\ParameterAnalysis;
 use App\Models\ProjectPointMatrix;
 use App\Models\PointIdentification;
 use Illuminate\Support\Facades\Validator;
+use Cache;
 
 class ProjectPointMatrixController extends Controller
 {
@@ -298,13 +299,37 @@ class ProjectPointMatrixController extends Controller
         $projectPointMatrices = $project->projectPointMatrices()->paginate($paginatePerPage, ['*'], 'project-point-matrices');
         $projectPointMatrices->withPath(route('project.edit', ['project' => $input['project_id']]));
 
-        $areas = PointIdentification::pluck('area', 'area');
-        $identifications = PointIdentification::pluck('identification', 'identification');
-        $matrizeces = AnalysisMatrix::pluck('name', 'id');
-        $planActionLevels = PlanActionLevel::pluck('name', 'id');
-        $guidingParameters = GuidingParameter::pluck('environmental_guiding_parameter_id', 'id');
-        $parameterAnalyses = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
-        $geodeticSystems = GeodeticSystem::pluck("name", "id");
+        $areas = Cache::remember('areas', SECONDS, function () {
+            return PointIdentification::pluck('area', 'area');
+        });
+
+        $identifications = Cache::remember('identifications', SECONDS, function () {
+            return PointIdentification::pluck('identification', 'identification');
+        });
+
+        $matrizeces = Cache::remember('matrizeces', SECONDS, function () {
+            return AnalysisMatrix::pluck('name', 'id');
+        });
+
+        $guidingParameters = Cache::remember('guiding-parameters', SECONDS, function () {
+            return GuidingParameter::orderBy("environmental_guiding_parameter_id", 'asc')->pluck('environmental_guiding_parameter_id', 'id');
+        });
+
+        $parameterAnalyses = Cache::remember('parameter-analyses', SECONDS, function () {
+            return ParameterAnalysis::pluck('analysis_parameter_name', 'id');
+        });
+
+        $geodeticSystems = Cache::remember('geodetic-systems', SECONDS, function () {
+            return GeodeticSystem::pluck("name", "id");
+        });
+
+        $preparationMethods = Cache::remember('preparation-methods', SECONDS, function () {
+            return ParameterMethod::where('type', 'preparation')->get()->pluck('name', 'id');
+        });
+
+        $analysisMethods = Cache::remember('analysis-methods', SECONDS, function () {
+            return ParameterMethod::where('type', 'analysis')->get()->pluck('name', 'id');
+        });
 
         $resp =
         [
@@ -388,29 +413,54 @@ class ProjectPointMatrixController extends Controller
      */
     public function filter(Request $request)
     {
-        $projectPointMatrices = ProjectPointMatrix::filter($request->all());
+        $projectPointMatrices = Cache::remember('project-point-matrices', SECONDS, function () use($request) {
+            return ProjectPointMatrix::filter($request->all());
+        });
+
         $projectPointMatrices->withPath(route('project.edit', ['project' => $request->get('project_id')]));
 
         $orderBy = $request->get('order_by');
         $ascending = $request->get('ascending');
         $paginatePerPage = $request->get('paginate_per_page');
 
-        $areas = PointIdentification::pluck('area', 'area');
-        $identifications = PointIdentification::pluck('identification', 'identification');
-        $matrizeces = AnalysisMatrix::pluck('name', 'id');
-        $planActionLevels = PlanActionLevel::pluck('name', 'id');
-        $guidingParameters = GuidingParameter::pluck('environmental_guiding_parameter_id', 'id');
-        $parameterAnalyses = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
-        $geodeticSystems = GeodeticSystem::pluck("name", "id");
-        $preparationMethods = ParameterMethod::where('type', 'preparation')->get()->pluck('name', 'id');
-        $analysisMethods = ParameterMethod::where('type', 'analysis')->get()->pluck('name', 'id');
+        $areas = Cache::remember('areas', SECONDS, function () {
+            return PointIdentification::pluck('area', 'area');
+        });
+
+        $identifications = Cache::remember('identifications', SECONDS, function () {
+            return PointIdentification::pluck('identification', 'identification');
+        });
+
+        $matrizeces = Cache::remember('matrizeces', SECONDS, function () {
+            return AnalysisMatrix::pluck('name', 'id');
+        });
+
+        $guidingParameters = Cache::remember('guiding-parameters', SECONDS, function () {
+            return GuidingParameter::orderBy("environmental_guiding_parameter_id", 'asc')->pluck('environmental_guiding_parameter_id', 'id');
+        });
+
+        $parameterAnalyses = Cache::remember('parameter-analyses', SECONDS, function () {
+            return ParameterAnalysis::pluck('analysis_parameter_name', 'id');
+        });
+
+        $geodeticSystems = Cache::remember('geodetic-systems', SECONDS, function () {
+            return GeodeticSystem::pluck("name", "id");
+        });
+
+        $preparationMethods = Cache::remember('preparation-methods', SECONDS, function () {
+            return ParameterMethod::where('type', 'preparation')->get()->pluck('name', 'id');
+        });
+
+        $analysisMethods = Cache::remember('analysis-methods', SECONDS, function () {
+            return ParameterMethod::where('type', 'analysis')->get()->pluck('name', 'id');
+        });
 
         return response()->json([
             'filter_result' => view('project.point-matrix-result', compact('projectPointMatrices', 'orderBy', 'ascending'))->render(),
             'point_matrix_result' => view('project.point-matrix.parameter-analysis-result', compact('projectPointMatrices', 'orderBy', 'ascending'))->render(),
             'filter_result_campaign_show' => view('project.campaign.point-matrix-result',
             compact('projectPointMatrices', 'orderBy', 'ascending','areas', 'identifications', 'matrizeces',
-            'planActionLevels', 'guidingParameters', 'parameterAnalyses', 'geodeticSystems',
+            'guidingParameters', 'parameterAnalyses', 'geodeticSystems',
             'preparationMethods', 'analysisMethods'))->render(),
             'pagination' => $this->setPagination($projectPointMatrices, $orderBy, $ascending, $paginatePerPage),
         ]);
@@ -506,4 +556,5 @@ class ProjectPointMatrixController extends Controller
         }
 
     }
+
 }
