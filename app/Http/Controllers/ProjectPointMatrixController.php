@@ -401,13 +401,16 @@ class ProjectPointMatrixController extends Controller
         $guidingParameters = GuidingParameter::pluck('environmental_guiding_parameter_id', 'id');
         $parameterAnalyses = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
         $geodeticSystems = GeodeticSystem::pluck("name", "id");
+        $preparationMethods = ParameterMethod::where('type', 'preparation')->get()->pluck('name', 'id');
+        $analysisMethods = ParameterMethod::where('type', 'analysis')->get()->pluck('name', 'id');
 
         return response()->json([
             'filter_result' => view('project.point-matrix-result', compact('projectPointMatrices', 'orderBy', 'ascending'))->render(),
             'point_matrix_result' => view('project.point-matrix.parameter-analysis-result', compact('projectPointMatrices', 'orderBy', 'ascending'))->render(),
             'filter_result_campaign_show' => view('project.campaign.point-matrix-result',
             compact('projectPointMatrices', 'orderBy', 'ascending','areas', 'identifications', 'matrizeces',
-            'planActionLevels', 'guidingParameters', 'parameterAnalyses', 'geodeticSystems'))->render(),
+            'planActionLevels', 'guidingParameters', 'parameterAnalyses', 'geodeticSystems',
+            'preparationMethods', 'analysisMethods'))->render(),
             'pagination' => $this->setPagination($projectPointMatrices, $orderBy, $ascending, $paginatePerPage),
         ]);
     }
