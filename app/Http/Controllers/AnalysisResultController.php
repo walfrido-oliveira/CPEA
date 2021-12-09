@@ -11,6 +11,7 @@ use App\Models\AnalysisOrder;
 use App\Models\AnalysisResult;
 use App\Models\GuidingParameter;
 use App\Models\GuidingParameterValue;
+use Illuminate\Support\Facades\Cache;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use ChrisKonnertz\StringCalc\StringCalc;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
@@ -160,10 +161,12 @@ class AnalysisResultController extends Controller
         $projectPointMatrices = $campaign->projectPointMatrices;
         $pointIdentification = [];
 
-        $analysisResult = AnalysisResult::leftJoin('analysis_order_project_point_matrix', 'analysis_order_project_point_matrix.project_point_matrix_id', '=', 'analysis_results.project_point_matrix_id')
-        ->leftJoin('analysis_orders',  'analysis_orders.id', 'analysis_order_project_point_matrix.analysis_order_id')
-        ->where('analysis_orders.campaign_id', $campaign->id)
-        ->groupBy('samplename')->get();
+        $analysisResult = Cache::remember('analysis-result' . $campaign->id, SECONDS, function () use($campaign) {
+            return AnalysisResult::leftJoin('analysis_order_project_point_matrix', 'analysis_order_project_point_matrix.project_point_matrix_id', '=', 'analysis_results.project_point_matrix_id')
+            ->leftJoin('analysis_orders',  'analysis_orders.id', 'analysis_order_project_point_matrix.analysis_order_id')
+            ->where('analysis_orders.campaign_id', $campaign->id)
+            ->groupBy('samplename')->get();
+        });
 
         foreach ($analysisResult as $key => $value)
         {
@@ -196,15 +199,17 @@ class AnalysisResultController extends Controller
         $key = 0;
         $index = 0;
 
-        $projectPointMatrices = $campaign->projectPointMatrices()
-        ->with('pointIdentification')
-        ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
-        ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
-        ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
-        ->orderBy('parameter_analysis_groups.order', 'asc')
-        ->orderBy('parameter_analyses.analysis_parameter_name', 'asc')
-        ->select('project_point_matrices.*')
-        ->get();
+        $projectPointMatrices = Cache::remember('project-point-matrices' . $campaign->id, SECOND, function () use($campaign) {
+            return $campaign->projectPointMatrices()
+            ->with('pointIdentification')
+            ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+            ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+            ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
+            ->orderBy('parameter_analysis_groups.order', 'asc')
+            ->orderBy('parameter_analyses.analysis_parameter_name', 'asc')
+            ->select('project_point_matrices.*')
+            ->get();
+        });
 
         if(count($projectPointMatrices) > 0)
         {
@@ -307,15 +312,17 @@ class AnalysisResultController extends Controller
             $column = 0;
             $groupParameterAnalysis= [];
 
-            $analysisResults = $campaign->analysisResults()
-            ->with('projectPointMatrix')
-            ->leftJoin('project_point_matrices', 'analysis_results.project_point_matrix_id', '=', 'project_point_matrices.id')
-            ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
-            ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
-            ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
-            ->orderBy('parameter_analysis_groups.order', 'asc')
-            ->orderBy('parameter_analyses.analysis_parameter_name', 'asc')
-            ->get();
+            $analysisResults = Cache::remember('analysis-results-2' . $campaign->id, $ttl, function () use($campaign) {
+                return $campaign->analysisResults()
+                ->with('projectPointMatrix')
+                ->leftJoin('project_point_matrices', 'analysis_results.project_point_matrix_id', '=', 'project_point_matrices.id')
+                ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+                ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+                ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
+                ->orderBy('parameter_analysis_groups.order', 'asc')
+                ->orderBy('parameter_analyses.analysis_parameter_name', 'asc')
+                ->get();
+            });
 
             if(count($analysisResults) > 0) $groupParameterAnalysis[] = $analysisResults[0]->projectPointMatrix->parameterAnalysis->parameterAnalysisGroup->name;
 
