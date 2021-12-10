@@ -302,9 +302,9 @@
                     link.download = "result.xls";
 
                     link.click();
-                    document.getElementById("spin_load").classList.add("hidden");
+                    window.SpinLoad.hidden();
                 } else {
-                    document.getElementById("spin_load").classList.remove("hidden");
+                   window.SpinLoad.hidden();
                     toastr.error("{{ __('Error ao baixar ') }}" + this.status + ".");
                 }
             };
@@ -316,7 +316,7 @@
 
                 xhr.responseType = 'blob';
 
-                document.getElementById("spin_load").classList.remove("hidden");
+                window.SpinLoad.show();
                 xhr.send();
             } catch (e) {
                 alert(e);

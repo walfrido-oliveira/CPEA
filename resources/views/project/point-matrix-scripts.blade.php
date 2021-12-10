@@ -99,6 +99,8 @@
             var paginationPerPage = document.getElementById("paginate_per_page_project-point-matrices").value;
             var page = this.dataset.page ? this.dataset.page : document.getElementById("page_project-point-matrices").value;
 
+            window.SpinLoad.show();
+
             ajax.open(method, url);
 
             ajax.onreadystatechange = function() {
@@ -113,6 +115,8 @@
                     deletePointIdentificationCallback();
                     eventsDeleteCallback();
                     editPointMatrixCallback();
+
+                    window.SpinLoad.hidden();
 
                 } else if (this.readyState == 4 && this.status != 200) {
                     toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");

@@ -94,5 +94,23 @@ window.addEventListener("load", function() {
     document.querySelectorAll(".custom-select").forEach(item => {
         window.customSelectArray[item.id] = NiceSelect.bind(item, {searchable: true, reverse: item.dataset.reverse ? item.dataset.reverse : false});
     });
+    window.SpinLoad = new SpinLoad("spin_load");
 });
 
+class SpinLoad {
+    constructor(id) {
+        this.spinLoad = document.getElementById(id);
+    }
+
+    toggle() {
+        this.spinLoad.classList.toggle("hidden");
+    }
+
+    show() {
+        this.spinLoad.classList.remove("hidden");
+    }
+
+    hidden() {
+        this.spinLoad.classList.add("hidden");
+    }
+}

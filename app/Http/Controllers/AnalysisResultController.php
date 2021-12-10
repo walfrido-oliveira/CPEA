@@ -199,7 +199,7 @@ class AnalysisResultController extends Controller
         $key = 0;
         $index = 0;
 
-        $projectPointMatrices = Cache::remember('project-point-matrices' . $campaign->id, SECOND, function () use($campaign) {
+        $projectPointMatrices = Cache::remember('project-point-matrices' . $campaign->id, SECONDS, function () use($campaign) {
             return $campaign->projectPointMatrices()
             ->with('pointIdentification')
             ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
@@ -312,7 +312,7 @@ class AnalysisResultController extends Controller
             $column = 0;
             $groupParameterAnalysis= [];
 
-            $analysisResults = Cache::remember('analysis-results-2' . $campaign->id, $ttl, function () use($campaign) {
+            $analysisResults = Cache::remember('analysis-results-2' . $campaign->id, SECONDS, function () use($campaign) {
                 return $campaign->analysisResults()
                 ->with('projectPointMatrix')
                 ->leftJoin('project_point_matrices', 'analysis_results.project_point_matrix_id', '=', 'project_point_matrices.id')
