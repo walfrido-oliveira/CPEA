@@ -47,7 +47,7 @@ class PreparationMethodController extends Controller
 
         $input = $request->all();
 
-        $campaignStatus =   PreparationMethod::create([
+        $preparationMethod =   PreparationMethod::create([
             'name' => $input['name']
         ]);
 
@@ -67,8 +67,8 @@ class PreparationMethodController extends Controller
      */
     public function show($id)
     {
-        $campaignStatus = PreparationMethod::findOrFail($id);
-        return view('preparation-method.show', compact('campaignStatus'));
+        $preparationMethod = PreparationMethod::findOrFail($id);
+        return view('preparation-method.show', compact('preparationMethod'));
     }
 
     /**
@@ -79,8 +79,8 @@ class PreparationMethodController extends Controller
      */
     public function edit($id)
     {
-        $campaignStatus = PreparationMethod::findOrFail($id);
-        return view('preparation-method.edit', compact('campaignStatus'));
+        $preparationMethod = PreparationMethod::findOrFail($id);
+        return view('preparation-method.edit', compact('preparationMethod'));
     }
 
     /**
@@ -92,15 +92,15 @@ class PreparationMethodController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $campaignStatus = PreparationMethod::findOrFail($id);
+        $preparationMethod = PreparationMethod::findOrFail($id);
 
         $request->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('preparation_methods', 'name')->ignore($campaignStatus->id)],
+            'name' => ['required', 'string', 'max:255', Rule::unique('preparation_methods', 'name')->ignore($preparationMethod->id)],
         ]);
 
         $input = $request->all();
 
-        $campaignStatus->update([
+        $preparationMethod->update([
             'name' => $input['name'],
         ]);
 
@@ -120,9 +120,9 @@ class PreparationMethodController extends Controller
      */
     public function destroy($id)
     {
-        $campaignStatus = PreparationMethod::findOrFail($id);
+        $preparationMethod = PreparationMethod::findOrFail($id);
 
-        $campaignStatus->delete();
+        $preparationMethod->delete();
 
         return response()->json([
             'message' => __('Método Preparo Apagado com Sucesso!!'),
