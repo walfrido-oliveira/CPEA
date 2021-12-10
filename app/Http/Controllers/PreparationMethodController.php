@@ -52,7 +52,7 @@ class PreparationMethodController extends Controller
         ]);
 
         $resp = [
-            'message' => __('Método Preparo Cadastrado com Sucesso!'),
+            'message' => __('Métado Cadastrado com Sucesso!'),
             'alert-type' => 'success'
         ];
 
@@ -105,7 +105,7 @@ class PreparationMethodController extends Controller
         ]);
 
         $resp = [
-            'message' => __('Método Preparo Atualizado com Sucesso!'),
+            'message' => __('Métado Atualizado com Sucesso!'),
             'alert-type' => 'success'
         ];
 
@@ -125,7 +125,7 @@ class PreparationMethodController extends Controller
         $preparationMethod->delete();
 
         return response()->json([
-            'message' => __('Método Preparo Apagado com Sucesso!!'),
+            'message' => __('Métado Apagado com Sucesso!!'),
             'alert-type' => 'success'
         ]);
     }
