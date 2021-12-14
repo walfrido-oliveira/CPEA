@@ -158,7 +158,7 @@ class ProjectController extends Controller
         $project = Project::findOrFail($id);
 
         $customers = Cache::remember('customers', SECONDS, function () {
-            return Customer::where('status', 'active')->orderBy("name")->pluck('name', 'id');
+            return Customer::where('status', 'active')->orderBy("name")->distinct()->pluck('name', 'id');
         });
 
         $areas = Cache::remember('areas', SECONDS, function () {
