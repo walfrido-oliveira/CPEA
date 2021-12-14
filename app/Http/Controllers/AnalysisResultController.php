@@ -372,6 +372,13 @@ class AnalysisResultController extends Controller
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
                 if($value->rl) if($resultValue > $rlValue) $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getFont()->setBold(true);
 
+                if($value->sampdate->lt($value->analysisOrder->analyzing_at->addDays($value->projectPointMatrix->parameterMethodPreparation->time_preparation)))
+                {
+                    $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)
+                    ->getBorders()>getOutline()
+                    ->setBorderStyle(Border::BORDER_THICK);
+                }
+
                 $result = Str::replace("< ", "", $result);
 
                 foreach ($guidingParameterOrders as $key2 => $value3)
