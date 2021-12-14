@@ -37,7 +37,7 @@
                             ($projectPointMatrices[$index]->pointIdentification->identification !=
                             $projectPointMatrices[$index - 1]->pointIdentification->identification))
             <tr class="point-items-{{ $point->pointIdentification->id }}">
-                @if ($point->parameterAnalysis->parameterAnalysisGroup)
+                @if ($point->parameterAnalysis)
                     <td class="bg-gray-100" style="width: 1%; background-color:#e1ede1">
                         <input class="form-checkbox parameter-analysis-group" type="checkbox"
                             data-group-id="{{ $point->parameterAnalysis->parameterAnalysisGroup->id }}"
@@ -85,7 +85,7 @@
             <td style="width: 1%" data-status="{{ $status }}">
                 @if (!$status || $status == 'canceled')
                     <input class="form-checkbox parameter-analysis-item" name="parameter_analysis_item[{{ $index }}]"
-                        type="checkbox" @if ($point->parameterAnalysis->parameterAnalysisGroup) data-group-id="{{ $point->parameterAnalysis->parameterAnalysisGroup->id }}" @endif
+                        type="checkbox" @if ($point->parameterAnalysis) data-group-id="{{ $point->parameterAnalysis->parameterAnalysisGroup->id }}" @endif
                         data-identification-id="{{ $point->pointIdentification->id }}" value="{{ $point->id }}">
                 @endif
             </td>
