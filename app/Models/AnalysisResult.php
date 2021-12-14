@@ -81,6 +81,8 @@ class AnalysisResult extends Model
      */
     protected $casts = [
         'sampdate' => 'date',
+        'prepdate' => 'date',
+        'anadate' => 'date',
     ];
 
     /**

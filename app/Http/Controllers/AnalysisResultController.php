@@ -374,7 +374,7 @@ class AnalysisResultController extends Controller
 
                 if($value->analysisOrder->analyzing_at)
                 {
-                    if($value->sampdate->lt($value->analysisOrder->analyzing_at->addDays($value->projectPointMatrix->parameterMethodPreparation->time_preparation)))
+                    if($value->prepdate->diffInDays($value->anadate) > $value->projectPointMatrix->parameterMethodPreparation->time_preparation)
                     {
                         $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)
                         ->getBorders()>getOutline()
