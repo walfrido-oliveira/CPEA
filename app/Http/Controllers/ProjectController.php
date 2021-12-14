@@ -161,13 +161,9 @@ class ProjectController extends Controller
             return Customer::where('status', 'active')->orderBy("name")->pluck('name', 'id');
         });
 
-        $areas = Cache::remember('areas', SECONDS, function () {
-            return PointIdentification::distinct()->pluck('area', 'area');
-        });
+        $areas = PointIdentification::distinct()->pluck('area', 'area');
 
-        $identifications = Cache::remember('identifications', SECONDS, function () {
-            return PointIdentification::pluck('identification', 'identification');
-        });
+        $identifications = PointIdentification::pluck('identification', 'identification');
 
         $matrizeces = Cache::remember('matrizeces', SECONDS, function () {
             return AnalysisMatrix::pluck('name', 'id');
