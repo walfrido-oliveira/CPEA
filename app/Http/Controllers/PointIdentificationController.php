@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\GeodeticSystem;
 use App\Models\PointIdentification;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\PointIdentificationRequest;
 
@@ -111,8 +112,10 @@ class PointIdentificationController extends Controller
         $resp = [
             'message' => __('Ponto Cadastrado com Sucesso!'),
             'alert-type' => 'success',
-            'point_identifications' => PointIdentification::all()
+            'point_identifications' => PointIdentification::groupBy('area')->get()
         ];
+
+        Cache::forget('areas');
 
         if(!isset($input['no-redirect']))
             return redirect()->route('registers.point-identification.index')->with($resp);
