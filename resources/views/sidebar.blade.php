@@ -129,6 +129,9 @@
                 <div class="px-0 py-0 ">
                     <a class="@if(request()->routeIs('registers.lab.index')) {{ 'active' }} @endif" href="{{ route('registers.lab.index') }}">Laboratório</a>
                 </div>
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('registers.replace.index')) {{ 'active' }} @endif" href="{{ route('registers.replace.index') }}">De Para</a>
+                </div>
             </div>
           </div>
       </nav>

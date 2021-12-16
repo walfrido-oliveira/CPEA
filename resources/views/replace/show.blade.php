@@ -1,19 +1,19 @@
 <x-app-layout>
-    <div class="py-6 show-lab">
+    <div class="py-6 show-replace">
         <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
             <div class="flex md:flex-row flex-col">
                 <div class="w-full flex items-center">
-                    <h1>{{ __('Laboratório') }}</h1>
+                    <h1>{{ __('De Para') }}</h1>
                 </div>
                 <div class="w-full flex justify-end">
                     <div class="m-2 ">
-                        <a class="btn-outline-info" href="{{ route('registers.lab.index') }}">{{ __('Listar') }}</a>
+                        <a class="btn-outline-info" href="{{ route('registers.replace.index') }}">{{ __('Listar') }}</a>
                     </div>
                     <div class="m-2">
-                        <a class="btn-outline-warning" href="{{ route('registers.lab.edit', ['campaign_status' => $campaignStatus->id]) }}">{{ __('Editar') }}</a>
+                        <a class="btn-outline-warning" href="{{ route('registers.replace.edit', ['campaign_status' => $campaignStatus->id]) }}">{{ __('Editar') }}</a>
                     </div>
                     <div class="m-2">
-                        <button type="button" class="btn-outline-danger delete-lab" id="campaign_status_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $campaignStatus->id }}">{{ __('Apagar') }}</button>
+                        <button type="button" class="btn-outline-danger delete-replace" id="campaign_status_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $campaignStatus->id }}">{{ __('Apagar') }}</button>
                     </div>
                 </div>
             </div>
@@ -66,12 +66,12 @@
              msg="{{ __('Deseja realmente apagar esse Tipo Param. Análise?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_campaign_status_modal"
              method="DELETE"
-             url="{{ route('registers.lab.destroy', ['campaign_status' => $campaignStatus->id]) }}"
-             redirect-url="{{ route('registers.lab.index') }}"/>
+             url="{{ route('registers.replace.destroy', ['campaign_status' => $campaignStatus->id]) }}"
+             redirect-url="{{ route('registers.replace.index') }}"/>
 
     <script>
         function eventsDeleteCallback() {
-            document.querySelectorAll('.delete-lab').forEach(item => {
+            document.querySelectorAll('.delete-replace').forEach(item => {
             item.addEventListener("click", function() {
                 var modal = document.getElementById("delete_campaign_status_modal");
                 modal.classList.remove("hidden");

@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\Replace;
+use App\Models\Lab;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Lab extends Model
+class Replace extends Model
 {
     use HasFactory;
 
@@ -16,35 +16,15 @@ class Lab extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'type', 'cod'
+        'lab_id', 'from', 'to'
     ];
 
     /**
-     * The Replaces.
+     * The Lab.
      */
-    public function replaces()
+    public function lab()
     {
-        return $this->belongsToMany(Replace::class);
-    }
-
-    /**
-     * Get formatted type
-     *
-     * @return string
-     */
-    public function getFormattedTypeAttribute()
-    {
-        switch ($this->type) {
-            case 'external':
-                return 'Laboratório (Externo)';
-                break;
-
-            case 'internal':
-                return 'Laboratório (Interno)';
-                break;
-        }
-
-        return '';
+        return $this->belongsTo(Lab::class);
     }
 
     /**
@@ -69,11 +49,19 @@ class Lab extends Model
                 }
             }
 
-            if(isset($query['name']))
+            if(isset($query['from']))
             {
-                if(!is_null($query['name']))
+                if(!is_null($query['from']))
                 {
-                    $q->where('name', 'like','%' . $query['name'] . '%');
+                    $q->where('from', 'like','%' . $query['from'] . '%');
+                }
+            }
+
+            if(isset($query['to']))
+            {
+                if(!is_null($query['to']))
+                {
+                    $q->where('to', 'like','%' . $query['to'] . '%');
                 }
             }
         });

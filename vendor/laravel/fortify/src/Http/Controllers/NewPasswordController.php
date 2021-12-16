@@ -2,23 +2,18 @@
 
 namespace Laravel\Fortify\Http\Controllers;
 
-use Carbon\Carbon;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Laravel\Fortify\Fortify;
-use App\Events\CreatedCustomer;
-use Illuminate\Routing\Controller;
-use Illuminate\Auth\Events\Verified;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\Auth\PasswordBroker;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\Support\Responsable;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\Password;
 use Laravel\Fortify\Actions\CompletePasswordReset;
-use Laravel\Fortify\Contracts\ResetsUserPasswords;
-use Laravel\Fortify\Contracts\PasswordResetResponse;
-use Laravel\Fortify\Http\Responses\SimpleViewResponse;
-use Laravel\Fortify\Contracts\ResetPasswordViewResponse;
 use Laravel\Fortify\Contracts\FailedPasswordResetResponse;
+use Laravel\Fortify\Contracts\PasswordResetResponse;
+use Laravel\Fortify\Contracts\ResetPasswordViewResponse;
+use Laravel\Fortify\Contracts\ResetsUserPasswords;
+use Laravel\Fortify\Fortify;
 
 class NewPasswordController extends Controller
 {
@@ -32,7 +27,7 @@ class NewPasswordController extends Controller
     /**
      * Create a new controller instance.
      *
-     * @param  \Illuminate\Contracts\Auth\StatefulGuard
+     * @param  \Illuminate\Contracts\Auth\StatefulGuard  $guard
      * @return void
      */
     public function __construct(StatefulGuard $guard)
@@ -46,21 +41,8 @@ class NewPasswordController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Laravel\Fortify\Contracts\ResetPasswordViewResponse
      */
-    public function create(Request $request)
+    public function create(Request $request): ResetPasswordViewResponse
     {
-        if($request->has('new_user'))
-        {
-            if($request->new_user)
-            {
-                $view = view('auth.change-password', [
-                    'token' => $request->token,
-                    'email' => $request->email,
-                    'new_user' => true
-                ]);
-                return $view;
-            }
-        }
-
         return app(ResetPasswordViewResponse::class);
     }
 
@@ -75,6 +57,7 @@ class NewPasswordController extends Controller
         $request->validate([
             'token' => 'required',
             Fortify::email() => 'required|email',
+            'password' => 'required',
         ]);
 
         // Here we will attempt to reset the user's password. If it is successful we
@@ -85,26 +68,9 @@ class NewPasswordController extends Controller
             function ($user) use ($request) {
                 app(ResetsUserPasswords::class)->reset($user, $request->all());
 
-                if(!$user->hasVerifiedEmail())
-                {
-                    $user->forceFill([
-                        'email_verified_at' => Carbon::now(),
-                    ])->save();
-
-                    event(new Verified($user));
-                }
-                else
-                {
-                    app(CompletePasswordReset::class)($this->guard, $user);
-                }
+                app(CompletePasswordReset::class)($this->guard, $user);
             }
         );
-
-
-        if($request->has('new_user'))
-            return $status == Password::PASSWORD_RESET
-                ? app(PasswordResetResponse::class, ['status' => __("Cadastro realizado com sucesso!")])
-                : app(FailedPasswordResetResponse::class, ['status' => $status]);
 
         // If the password was successfully reset, we will redirect the user back to
         // the application's home authenticated view. If there is an error we can

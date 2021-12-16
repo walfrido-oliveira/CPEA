@@ -6,6 +6,7 @@ use App\Http\Controllers\UserController;
 use ChrisKonnertz\StringCalc\StringCalc;
 use App\Http\Controllers\UnityController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ReplaceController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmailConfigController;
@@ -267,6 +268,14 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     });
 
     Route::prefix('cadastros')->name('registers.')->group(function(){
+        Route::resource('de-para', ReplaceController::class, [
+            'names' => 'replace'])->parameters([])->parameters([
+            'de-para' => 'replace'
+        ]);
+        Route::prefix('de-para')->name('replace.')->group(function(){
+            Route::post('/filter', [ReplaceController::class, 'filter'])->name('filter');
+        });
+
         Route::resource('metodo-prazo', ParameterMethodController::class, [
             'names' => 'parameter-method'])->parameters([])->parameters([
             'metodo-prazo' => 'parameter-method'
