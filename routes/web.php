@@ -50,8 +50,6 @@ use App\Http\Controllers\GuidingParameterRefValueController;
 
 Route::get('/test', function () {
     $arr = [
-        'project_point_matrix_id',
-        'analysis_order_id',
         'client',
         'project',
         'projectnum',
@@ -109,15 +107,8 @@ Route::get('/test', function () {
 
     foreach ($arr as $key => $value)
     {
-        echo htmlspecialchars('<div class="flex flex-wrap">
-        <div class="w-full md:w-3/12 mr-2">
-            <p class="font-bold text-right">{{ __("' . ucfirst($value) . '") }}</p>
-        </div>
-
-        <div class="w-full md:w-1/2">
-            <p class = "text-gray-500 font-bold">{{ $analysisResult->' . $value . ' }}</p>
-        </div>
-    </div>');
+        echo htmlspecialchars("'" . $value . '\' => $obj->'. $value . ',');
+        echo '<br>';
     }
 
 })->name('tests');

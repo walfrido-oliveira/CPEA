@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use stdClass;
+use App\Models\Lab;
 use Colors\RandomColor;
 use App\Models\Campaign;
 use Illuminate\Support\Str;
@@ -485,7 +486,7 @@ class AnalysisResultController extends Controller
             ], 403);
         }
 
-        $orderId = $request->get('order');
+        $order = AnalysisOrder::findOrFail($request->get('order'));
         $spreadsheet = IOFactory::load($request->file->path());
         $worksheet = $spreadsheet->getActiveSheet();
         $rows = $worksheet->toArray();
@@ -498,24 +499,71 @@ class AnalysisResultController extends Controller
             if($key == 0) continue;
 
             $obj = new stdClass();
-            $obj->project = $value[2];
-            $obj->point = $value[4];
-            $obj->matrix = $value[7];
-            $obj->analyte = $value[19];
-            $obj->casnumber = $value[21];
+            $obj->client = $this->searchCellByValue("client", $rows[0], $order->lab, $value, 0);#$value[0];
+            $obj->project = $this->searchCellByValue("project", $rows[0], $order->lab, $value, 1);#$value[1];
+            $obj->projectnum = $this->searchCellByValue("projectnum", $rows[0], $order->lab, $value, 2);#$value[2];
+            $obj->labname = $this->searchCellByValue("labname", $rows[0], $order->lab, $value, 3);#$value[3];
+            $obj->samplename = $this->searchCellByValue("samplename", $rows[0], $order->lab, $value, 4);#$value[4];
+            $obj->labsampid = $this->searchCellByValue("labsampid", $rows[0], $order->lab, $value, 5);#$value[5];
+            $obj->matrix = $this->searchCellByValue("matrix", $rows[0], $order->lab, $value, 6);#$value[6];
+            $obj->rptmatrix = $this->searchCellByValue("rptmatrix", $rows[0], $order->lab, $value, 7);#$value[7];
+            $obj->solidmatrix = $this->searchCellByValue("solidmatrix", $rows[0], $order->lab, $value, 8);#$value[8];
+            $obj->sampdate = $this->searchCellByValue("sampdate", $rows[0], $order->lab, $value, 9);#$value[9];
+            $obj->prepdate = $this->searchCellByValue("prepdate", $rows[0], $order->lab, $value, 10);#$value[10];
+            $obj->anadate = $this->searchCellByValue("anadate", $rows[0], $order->lab, $value, 11);#$value[11];
+            $obj->batch = $this->searchCellByValue("batch", $rows[0], $order->lab, $value, 12);#$value[12];
+            $obj->analysis = $this->searchCellByValue("analysis", $rows[0], $order->lab, $value, 13);#$value[13];
+            $obj->anacode = $this->searchCellByValue("anacode", $rows[0], $order->lab, $value, 14);#$value[14];
+            $obj->methodcode = $this->searchCellByValue("methodcode", $rows[0], $order->lab, $value, 15);#$value[15];
+            $obj->methodname = $this->searchCellByValue("methodname", $rows[0], $order->lab, $value, 16);#$value[16];
+            $obj->description = $this->searchCellByValue("description", $rows[0], $order->lab, $value, 17);#$value[17];
+            $obj->prepname = $this->searchCellByValue("prepname", $rows[0], $order->lab, $value, 18);#$value[18];
+            $obj->analyte = $this->searchCellByValue("analyte", $rows[0], $order->lab, $value, 19);#$value[19];
+            $obj->analyteorder = $this->searchCellByValue("analyteorder", $rows[0], $order->lab, $value, 20);#$value[20];
+            $obj->casnumber = $this->searchCellByValue("casnumber", $rows[0], $order->lab, $value, 21);#$value[21];
+            $obj->surrogate = $this->searchCellByValue("surrogate", $rows[0], $order->lab, $value, 22);#$value[22];
+            $obj->tic = $this->searchCellByValue("tic", $rows[0], $order->lab, $value, 23);#$value[23];
+            $obj->result = $this->searchCellByValue("result", $rows[0], $order->lab, $value, 24);#$value[24];
+            $obj->dl = $this->searchCellByValue("dl", $rows[0], $order->lab, $value, 25);#$value[25];
+            $obj->rl = $this->searchCellByValue("rl", $rows[0], $order->lab, $value, 26);#$value[26];
+            $obj->units = $this->searchCellByValue("units", $rows[0], $order->lab, $value, 27);#$value[27];
+            $obj->rptomdl = $this->searchCellByValue("rptomdl", $rows[0], $order->lab, $value, 28);#$value[28];
+            $obj->mrlsolids = $this->searchCellByValue("mrlsolids", $rows[0], $order->lab, $value, 29);#$value[29];
+            $obj->basis = $this->searchCellByValue("basis", $rows[0], $order->lab, $value, 30);#$value[30];
+            $obj->dilution = $this->searchCellByValue("dilution", $rows[0], $order->lab, $value, 31);#$value[31];
+            $obj->spikelevel = $this->searchCellByValue("spikelevel", $rows[0], $order->lab, $value, 32);#$value[32];
+            $obj->recovery = $this->searchCellByValue("recovery", $rows[0], $order->lab, $value, 33);#$value[33];
+            $obj->uppercl = $this->searchCellByValue("uppercl", $rows[0], $order->lab, $value, 34);#$value[34];
+            $obj->lowercl = $this->searchCellByValue("lowercl", $rows[0], $order->lab, $value, 35);#$value[35];
+            $obj->analyst = $this->searchCellByValue("analyst", $rows[0], $order->lab, $value, 36);#$value[36];
+            $obj->psolids = $this->searchCellByValue("psolids", $rows[0], $order->lab, $value, 37);#$value[37];
+            $obj->lnote = $this->searchCellByValue("lnote", $rows[0], $order->lab, $value, 38);#$value[38];
+            $obj->anote = $this->searchCellByValue("anote", $rows[0], $order->lab, $value, 39);#$value[39];
+            $obj->latitude = $this->searchCellByValue("latitude", $rows[0], $order->lab, $value, 40);#$value[40];
+            $obj->longitude = $this->searchCellByValue("longitude", $rows[0], $order->lab, $value, 41);#$value[41];
+            $obj->scomment = $this->searchCellByValue("scomment", $rows[0], $order->lab, $value, 42);#$value[42];
+            $obj->snote1 = $this->searchCellByValue("snote1", $rows[0], $order->lab, $value, 43);#$value[43];
+            $obj->snote2 = $this->searchCellByValue("snote2", $rows[0], $order->lab, $value, 44);#$value[44];
+            $obj->snote3 = $this->searchCellByValue("snote3", $rows[0], $order->lab, $value, 45);#$value[45];
+            $obj->snote4 = $this->searchCellByValue("snote4", $rows[0], $order->lab, $value, 46);#$value[46];
+            $obj->snote5 = $this->searchCellByValue("snote5", $rows[0], $order->lab, $value, 47);#$value[47];
+            $obj->snote6 = $this->searchCellByValue("snote6", $rows[0], $order->lab, $value, 48);#$value[48];
+            $obj->snote7 = $this->searchCellByValue("snote7", $rows[0], $order->lab, $value, 49);#$value[49];
+            $obj->snote8 = $this->searchCellByValue("snote8", $rows[0], $order->lab, $value, 50);#$value[50];
+            $obj->snote9 = $this->searchCellByValue("snote9", $rows[0], $order->lab, $value, 51);#$value[51];
+            $obj->snote10 = $this->searchCellByValue("snote10", $rows[0], $order->lab, $value, 52);#$value[52];
 
-            $order = AnalysisOrder::findOrFail($orderId);
             $projectPointMatrices = $order->projectPointMatrices()
-            ->whereHas("project", function($q) use($value) {
-                $q->where("project_cod", 'like', '%' . $value[2]);
+            ->whereHas("project", function($q) use($obj) {
+                $q->where("project_cod", 'like', '%' . $obj->project);
             })
-            ->whereHas('parameterAnalysis', function($q) use($value) {
-                $q->where('parameter_analyses.cas_rn', $value[21]);
-            })->whereHas('pointIdentification', function($q) use($value) {
-                $q->where('point_identifications.identification', $value[4]);
-            })->whereHas('analysisMatrix', function($q) use($value) {
-                $q->where('analysis_matrices.name', $value[7]);
-            })
+            ->whereHas('parameterAnalysis', function($q) use($obj) {
+                $q->where('parameter_analyses.cas_rn', $obj->casnumber);
+            })->whereHas('pointIdentification', function($q) use($obj) {
+                $q->where('point_identifications.identification', $obj->samplename);
+            })/*->whereHas('analysisMatrix', function($q) use($obj) {
+                $q->where('analysis_matrices.name', $obj->matrix);
+            })*/
             ->first();
 
             if(!$projectPointMatrices)
@@ -534,59 +582,59 @@ class AnalysisResultController extends Controller
             ]);
 
             $analysisResult->update([
-              'client' => $value[0],
-              'project' => $value[1],
-              'projectnum' => $value[2],
-              'labname' => $value[3],
-              'samplename' => $value[4],
-              'labsampid' => $value[5],
-              'matrix' => $value[6],
-              'rptmatrix' => $value[7],
-              'solidmatrix' => $value[8],
-              'sampdate' => $value[9],
-              'prepdate' => $value[10],
-              'anadate' => $value[11],
-              'batch' => $value[12],
-              'analysis' => $value[13],
-              'anacode' => $value[14],
-              'methodcode' => $value[15],
-              'methodname' => $value[16],
-              'description' => $value[17],
-              'prepname' => $value[18],
-              'analyte' => $value[19],
-              'analyteorder' => $value[20],
-              'casnumber' => $value[21],
-              'surrogate' => $value[22],
-              'tic' => $value[23],
-              'result' => $value[24],
-              'dl' => $value[25],
-              'rl' => $value[26],
-              'units' => $value[27],
-              'rptomdl' => $value[28],
-              'mrlsolids' => $value[29],
-              'basis' => $value[30],
-              'dilution' => $value[31],
-              'spikelevel' => $value[32],
-              'recovery' => $value[33],
-              'uppercl' => $value[34],
-              'lowercl' => $value[35],
-              'analyst' => $value[36],
-              'psolids' => $value[37],
-              'lnote' => $value[38],
-              'anote' => $value[39],
-              'latitude' => $value[40],
-              'longitude' => $value[41],
-              'scomment' => $value[42],
-              'snote1' => $value[43],
-              'snote2' => $value[44],
-              'snote3' => $value[45],
-              'snote4' => $value[46],
-              'snote5' => $value[47],
-              'snote6' => $value[48],
-              'snote7' => $value[49],
-              'snote8' => $value[50],
-              'snote9' => $value[51],
-              'snote10' => $value[52],
+                'client' => $obj->client,
+                'project' => $obj->project,
+                'projectnum' => $obj->projectnum,
+                'labname' => $obj->labname,
+                'samplename' => $obj->samplename,
+                'labsampid' => $obj->labsampid,
+                'matrix' => $obj->matrix,
+                'rptmatrix' => $obj->rptmatrix,
+                'solidmatrix' => $obj->solidmatrix,
+                'sampdate' => $obj->sampdate,
+                'prepdate' => $obj->prepdate,
+                'anadate' => $obj->anadate,
+                'batch' => $obj->batch,
+                'analysis' => $obj->analysis,
+                'anacode' => $obj->anacode,
+                'methodcode' => $obj->methodcode,
+                'methodname' => $obj->methodname,
+                'description' => $obj->description,
+                'prepname' => $obj->prepname,
+                'analyte' => $obj->analyte,
+                'analyteorder' => $obj->analyteorder,
+                'casnumber' => $obj->casnumber,
+                'surrogate' => $obj->surrogate,
+                'tic' => $obj->tic,
+                'result' => $obj->result,
+                'dl' => $obj->dl,
+                'rl' => $obj->rl,
+                'units' => $obj->units,
+                'rptomdl' => $obj->rptomdl,
+                'mrlsolids' => $obj->mrlsolids,
+                'basis' => $obj->basis,
+                'dilution' => $obj->dilution,
+                'spikelevel' => $obj->spikelevel,
+                'recovery' => $obj->recovery,
+                'uppercl' => $obj->uppercl,
+                'lowercl' => $obj->lowercl,
+                'analyst' => $obj->analyst,
+                'psolids' => $obj->psolids,
+                'lnote' => $obj->lnote,
+                'anote' => $obj->anote,
+                'latitude' => $obj->latitude,
+                'longitude' => $obj->longitude,
+                'scomment' => $obj->scomment,
+                'snote1' => $obj->snote1,
+                'snote2' => $obj->snote2,
+                'snote3' => $obj->snote3,
+                'snote4' => $obj->snote4,
+                'snote5' => $obj->snote5,
+                'snote6' => $obj->snote6,
+                'snote7' => $obj->snote7,
+                'snote8' => $obj->snote8,
+                'snote9' => $obj->snote9,
+                'snote10' => $obj->snote10,
             ]);
 
             $totalImport++;
@@ -656,6 +704,35 @@ class AnalysisResultController extends Controller
             'alert-type' => 'success'
         ]);
 
+    }
+
+    /**
+     * @param string $value
+     * @param array $row
+     * @param Lab $lab
+     * @param array $value
+     * @param int $original
+     * @return string
+     */
+    private function searchCellByValue($search, $row, $lab, $ref, $original)
+    {
+        $replace = $lab->replaces->where('from', $search)->first();
+
+        $index = -1;
+        if($replace)
+        {
+            foreach($row as $key => $value)
+            {
+                if($replace->to == $value)
+                {
+                    $index = $key;
+                    break;
+                }
+            }
+            return $index != -1 ? $ref[$index] : null ;
+        }
+
+        return null ;
     }
 
     /**

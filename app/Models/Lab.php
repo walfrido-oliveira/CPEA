@@ -24,7 +24,7 @@ class Lab extends Model
      */
     public function replaces()
     {
-        return $this->belongsToMany(Replace::class);
+        return $this->hasMany(Replace::class);
     }
 
     /**

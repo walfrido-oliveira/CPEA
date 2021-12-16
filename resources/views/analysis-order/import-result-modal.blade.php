@@ -34,7 +34,7 @@
                         @foreach ($imports as $item)
                             <tr>
                                 <td>{{ $item->project }}</td>
-                                <td>{{ $item->point }}</td>
+                                <td>{{ $item->samplename }}</td>
                                 <td>{{ $item->matrix }}</td>
                                 <td>{{ $item->analyte }}</td>
                                 <td>{{ $item->casnumber }}</td>
