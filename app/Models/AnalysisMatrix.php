@@ -23,7 +23,7 @@ class AnalysisMatrix extends Model
      *
      * @param Array
      *
-     * @return array
+     * @return object
      */
     public static function filter($query)
     {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\AnalysisMatrix;
 use App\Http\Requests\AnalysisMatrixRequest;
+use App\Http\Requests\ParamAnalysisGroupRequest;
 
 class AnalysisMatrixController extends Controller
 {

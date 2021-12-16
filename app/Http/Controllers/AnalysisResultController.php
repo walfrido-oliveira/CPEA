@@ -378,7 +378,7 @@ class AnalysisResultController extends Controller
                     if($value->prepdate->diffInDays($value->anadate) > $value->projectPointMatrix->parameterMethodPreparation->time_preparation)
                     {
                         $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)
-                        ->getBorders()>getOutline()
+                        ->getBorders()->getOutline()
                         ->setBorderStyle(Border::BORDER_THICK);
                     }
                 }
@@ -716,7 +716,7 @@ class AnalysisResultController extends Controller
      */
     private function searchCellByValue($search, $row, $lab, $ref, $original)
     {
-        $replace = $lab->replaces->where('from', $search)->first();
+        $replace = $lab->replaces->where('to', $search)->first();
 
         $index = -1;
         if($replace)
@@ -731,13 +731,13 @@ class AnalysisResultController extends Controller
             }
             if($index > -1)
             {
-                $replace = $lab->replaces->where('from', $ref[$index])->first();
+                $replace = $lab->replaces->where('to', $ref[$index])->first();
                 if($replace)
                 {
                     return $replace->to;
                 }
             }
-            return $index != -1 ? $ref[$index] : null ;
+            return $index != -1 ? $ref[$index] : $ref[$original] ;
         }
 
         return null ;
