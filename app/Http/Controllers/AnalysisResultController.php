@@ -561,9 +561,9 @@ class AnalysisResultController extends Controller
                 $q->where('parameter_analyses.cas_rn', $obj->casnumber);
             })->whereHas('pointIdentification', function($q) use($obj) {
                 $q->where('point_identifications.identification', $obj->samplename);
-            })/*->whereHas('analysisMatrix', function($q) use($obj) {
+            })->whereHas('analysisMatrix', function($q) use($obj) {
                 $q->where('analysis_matrices.name', $obj->matrix);
-            })*/
+            })
             ->first();
 
             if(!$projectPointMatrices)
@@ -727,6 +727,14 @@ class AnalysisResultController extends Controller
                 {
                     $index = $key;
                     break;
+                }
+            }
+            if($index > -1)
+            {
+                $replace = $lab->replaces->where('from', $ref[$index])->first();
+                if($replace)
+                {
+                    return $replace->to;
                 }
             }
             return $index != -1 ? $ref[$index] : null ;
