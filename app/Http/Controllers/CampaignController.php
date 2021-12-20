@@ -114,7 +114,9 @@ class CampaignController extends Controller
 
         if(Campaign::where('project_id', $input['project_id'])->where('name', $input['campaign_name'])->first())
         {
-            return response()->json("Não é permitido cadastrar Campanha de mesmo nome", Response::HTTP_BAD_REQUEST);
+            return response()->json([
+                "campaign_name" => _("Não é permitido cadastrar Campanha de mesmo nome")
+            ], Response::HTTP_BAD_REQUEST);
         }
 
         $key = $input['key'];
