@@ -178,7 +178,7 @@ class ProjectPointMatrix extends Model
      * @param Array $query
      * @param string $project_id
      *
-     * @return array
+     * @return object
      */
     public static function filter($query)
     {

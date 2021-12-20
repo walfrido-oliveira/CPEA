@@ -9,13 +9,12 @@ use Illuminate\Http\Response;
 use App\Models\AnalysisMatrix;
 use App\Models\GeodeticSystem;
 use App\Models\ParameterMethod;
-use App\Models\PlanActionLevel;
 use App\Models\GuidingParameter;
 use App\Models\ParameterAnalysis;
 use App\Models\ProjectPointMatrix;
 use App\Models\PointIdentification;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
-use Cache;
 
 class ProjectPointMatrixController extends Controller
 {
@@ -338,7 +337,7 @@ class ProjectPointMatrixController extends Controller
             'point_matrix' => view('project.saved-point-matrix', compact('projectPointMatrix', 'key', 'id', 'className'))->render(),
             'point_matrix_show' => view('project.campaign.saved-point-matrix',
             compact('projectPointMatrix', 'key', 'id', 'className', 'areas', 'identifications', 'matrizeces',
-                    'planActionLevels', 'guidingParameters', 'parameterAnalyses', 'geodeticSystems'))->render(),
+                    'guidingParameters', 'parameterAnalyses', 'geodeticSystems'))->render(),
             'pagination' => $this->setPagination($projectPointMatrices, $orderBy, $ascending, $paginatePerPage),
         ];
 
