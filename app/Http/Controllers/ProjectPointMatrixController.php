@@ -337,7 +337,7 @@ class ProjectPointMatrixController extends Controller
             'point_matrix' => view('project.saved-point-matrix', compact('projectPointMatrix', 'key', 'id', 'className'))->render(),
             'point_matrix_show' => view('project.campaign.saved-point-matrix',
             compact('projectPointMatrix', 'key', 'id', 'className', 'areas', 'identifications', 'matrizeces',
-                    'guidingParameters', 'parameterAnalyses', 'geodeticSystems'))->render(),
+                    'guidingParameters', 'parameterAnalyses', 'geodeticSystems', 'preparationMethods', 'analysisMethods'))->render(),
             'pagination' => $this->setPagination($projectPointMatrices, $orderBy, $ascending, $paginatePerPage),
         ];
 
