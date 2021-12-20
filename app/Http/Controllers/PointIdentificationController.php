@@ -86,8 +86,8 @@ class PointIdentificationController extends Controller
         $input = $request->all();
 
         $validator = Validator::make($request->all(), [
-            'area' => ['required', 'string', 'max:255'],
-            'identification' => ['required', 'string', 'max:255'],
+            'area' => ['required', 'string', 'max:255', 'unique:point_identifications,area'],
+            'identification' => ['required', 'string', 'max:255', 'unique:point_identifications,identification'],
         ]);
 
         if ($validator->fails()) {
