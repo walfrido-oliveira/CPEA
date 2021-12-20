@@ -107,8 +107,14 @@ class CampaignController extends Controller
             'campaign_status' => ['required', 'exists:campaign_statuses,id'],
         ]);
 
-        if ($validator->fails()) {
+        if ($validator->fails())
+        {
             return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
+        }
+
+        if(Campaign::where('project_id', $input['project_id'])->where('campaign_name', $input['campaign_name'])->first())
+        {
+            return response()->json("Não é permitido cadastrar Campanha de mesmo nome", Response::HTTP_BAD_REQUEST);
         }
 
         $key = $input['key'];
