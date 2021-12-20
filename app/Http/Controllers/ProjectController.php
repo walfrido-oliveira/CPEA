@@ -189,9 +189,7 @@ class ProjectController extends Controller
             return ParameterMethod::where('type', 'analysis')->get()->pluck('name', 'id');
         });
 
-        $campaigns = Cache::remember('campaigns', SECONDS, function () use($project) {
-            return $project->campaigns()->pluck("name", "id");
-        });
+        $campaigns = $project->campaigns()->pluck("name", "id");
 
         $parameterAnalyseGroups = Cache::remember('parameter-analyse-groups', SECONDS, function () {
             return ParameterAnalysisGroup::all()->pluck('name', 'id');
