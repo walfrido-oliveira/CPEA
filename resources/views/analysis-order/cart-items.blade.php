@@ -8,9 +8,20 @@
         @if (($index > 0 && $projectPointMatrices[$index]->pointIdentification->identification !=
                             $projectPointMatrices[$index - 1]->pointIdentification->identification) || $index == 0)
             <tr>
-                <td class="font-bold text-gray-800" style="border-top: 0">
+                <td class="bg-gray-100" style="width: 1%">
+                    <input class="form-checkbox parameter-analysis-identification" type="checkbox"
+                           data-identification-id="{{ $point->pointIdentification->id }}"
+                           value="{{ $point->pointIdentification->id }}">
+                </td>
+                <td colspan="5" class="bg-gray-100 font-bold">
                     @if ($point->pointIdentification)
-                        {{ $point->pointIdentification->area }} - {{ $point->pointIdentification->identification }}
+                        <button type="button" class="show-point" data-point="{{ $point->pointIdentification->id }}">
+                            {{ $point->pointIdentification->area }} - {{ $point->pointIdentification->identification }}
+                            ({{ count($point->where("point_identification_id", $point->point_identification_id)->where('campaign_id', $point->campaign_id)->get()) }})
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline btn-transition-secondary" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M15.707 4.293a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 011.414-1.414L10 8.586l4.293-4.293a1 1 0 011.414 0zm0 6a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L10 14.586l4.293-4.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                            </svg>
+                        </button>
                     @endif
                 </td>
             </tr>
@@ -21,10 +32,21 @@
                             ($projectPointMatrices[$index]->pointIdentification->identification !=
                             $projectPointMatrices[$index - 1]->pointIdentification->identification))
             <tr class="point-items-{{ $point->pointIdentification->id }}">
-                <td class="font-bold text-black" style="border-top: 0">
-                    {{ $point->parameterAnalysis->parameterAnalysisGroup->name }}
-                </td>
-            </tr>
+                @if ($point->parameterAnalysis)
+                    <td class="bg-gray-100" style="width: 1%; background-color:#e1ede1">
+                        <input class="form-checkbox parameter-analysis-group" type="checkbox"
+                            data-group-id="{{ $point->parameterAnalysis->parameterAnalysisGroup->id }}"
+                            data-identification-id="{{ $point->pointIdentification->id }}"
+                            value="{{ $point->parameterAnalysis->parameterAnalysisGroup->id }}">
+                    </td>
+                    <td colspan="5" class="font-bold text-black" style="background-color:#e1ede1">
+                        {{ $point->parameterAnalysis->parameterAnalysisGroup->name }}
+                        ({{ count($point->where("point_identification_id", $point->point_identification_id)->where('campaign_id', $point->campaign_id)->whereHas("parameterAnalysis", function($q) use($point) {
+                            $q->where("parameter_analysis_group_id", $point->parameterAnalysis->parameterAnalysisGroup->id);
+                        })->get()) }})
+                    </td>
+                @endif
+                </tr>
         @endif
 
         <tr class="point-items-{{ $point->pointIdentification->id }}">
