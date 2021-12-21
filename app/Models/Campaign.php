@@ -73,7 +73,7 @@ class Campaign extends Model
      *
      * @param Array $query
      *
-     * @return array
+     * @return object
      */
     public static function filter($query)
     {
@@ -165,6 +165,6 @@ class Campaign extends Model
             $campaigns->orderBy($orderBy, $ascending);
         }
 
-        return $campaigns->paginate($perPage, ['*'], 'campaigns', $page > (int) ceil($campaigns->count() / $perPage) ? 1 : $page);
+        return $campaigns->paginate($perPage, ['*'], 'campaigns');
     }
 }
