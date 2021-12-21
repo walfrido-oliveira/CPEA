@@ -723,18 +723,10 @@ class AnalysisResultController extends Controller
         {
             foreach($row as $key => $value)
             {
-                if($replace->to == $value)
+                if($replace->from == $value)
                 {
                     $index = $key;
                     break;
-                }
-            }
-            if($index > -1)
-            {
-                $replace = $lab->replaces->where('to', $ref[$index])->first();
-                if($replace)
-                {
-                    return $replace->to;
                 }
             }
             return $index != -1 ? $ref[$index] : $ref[$original] ;
