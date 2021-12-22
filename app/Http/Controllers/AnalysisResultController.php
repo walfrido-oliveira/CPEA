@@ -373,7 +373,7 @@ class AnalysisResultController extends Controller
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
                 if($value->rl) if($resultValue > $rlValue) $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getFont()->setBold(true);
 
-                if($value->analysisOrder->analyzing_at)
+                if($value->analysisOrder->anadate)
                 {
                     if($value->prepdate->diffInDays($value->anadate) > $value->projectPointMatrix->parameterMethodPreparation->time_preparation)
                     {
