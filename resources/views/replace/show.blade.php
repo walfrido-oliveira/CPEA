@@ -32,10 +32,19 @@
 
                     <div class="flex flex-wrap">
                         <div class="w-full md:w-2/12">
-                            <p class="font-bold">{{ __('Nome') }}</p>
+                            <p class="font-bold">{{ __('De') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $replace->name }}</p>
+                            <p class="text-gray-500 font-bold">{{ $replace->from }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap">
+                        <div class="w-full md:w-2/12">
+                            <p class="font-bold">{{ __('Para') }}</p>
+                        </div>
+                        <div class="w-full md:w-1/2">
+                            <p class="text-gray-500 font-bold">{{ $replace->to }}</p>
                         </div>
                     </div>
 
