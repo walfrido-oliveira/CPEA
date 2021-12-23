@@ -10,10 +10,10 @@
                         <a class="btn-outline-info" href="{{ route('registers.replace.index') }}">{{ __('Listar') }}</a>
                     </div>
                     <div class="m-2">
-                        <a class="btn-outline-warning" href="{{ route('registers.replace.edit', ['campaign_status' => $campaignStatus->id]) }}">{{ __('Editar') }}</a>
+                        <a class="btn-outline-warning" href="{{ route('registers.replace.edit', ['replace' => $replace->id]) }}">{{ __('Editar') }}</a>
                     </div>
                     <div class="m-2">
-                        <button type="button" class="btn-outline-danger delete-replace" id="campaign_status_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $campaignStatus->id }}">{{ __('Apagar') }}</button>
+                        <button type="button" class="btn-outline-danger delete-replace" id="campaign_status_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $replace->id }}">{{ __('Apagar') }}</button>
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                         </div>
 
                         <div class="w-full md:w-1/2">
-                            <p class=   "text-gray-500 font-bold">{{ $campaignStatus->id }}</p>
+                            <p class=   "text-gray-500 font-bold">{{ $replace->id }}</p>
                         </div>
                     </div>
 
@@ -35,7 +35,7 @@
                             <p class="font-bold">{{ __('Nome') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $campaignStatus->name }}</p>
+                            <p class="text-gray-500 font-bold">{{ $replace->name }}</p>
                         </div>
                     </div>
 
@@ -44,7 +44,7 @@
                             <p class="font-bold">{{ __('Data de Cadastro') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $campaignStatus->created_at->format('d/m/Y h:i:s')}}</p>
+                            <p class="text-gray-500 font-bold">{{ $replace->created_at->format('d/m/Y h:i:s')}}</p>
                         </div>
                     </div>
 
@@ -53,7 +53,7 @@
                             <p class="font-bold">{{ __('Última Edição') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $campaignStatus->updated_at->format('d/m/Y h:i:s')}}</p>
+                            <p class="text-gray-500 font-bold">{{ $replace->updated_at->format('d/m/Y h:i:s')}}</p>
                         </div>
                     </div>
                 </div>
@@ -62,11 +62,11 @@
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir Tipo Param. Análise') }}"
-             msg="{{ __('Deseja realmente apagar esse Tipo Param. Análise?') }}"
+    <x-modal title="{{ __('Excluir De Para') }}"
+             msg="{{ __('Deseja realmente apagar esse De Para?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_campaign_status_modal"
              method="DELETE"
-             url="{{ route('registers.replace.destroy', ['campaign_status' => $campaignStatus->id]) }}"
+             url="{{ route('registers.replace.destroy', ['replace' => $replace->id]) }}"
              redirect-url="{{ route('registers.replace.index') }}"/>
 
     <script>
