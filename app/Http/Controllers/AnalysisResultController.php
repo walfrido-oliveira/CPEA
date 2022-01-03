@@ -398,8 +398,8 @@ class AnalysisResultController extends Controller
 
                 if($value->anadate && $value->prepdate)
                 {
-                    $anadate = Carbon::createFromFormat('d/m/Y', Str::substr($value->anadate, 10));
-                    $prepdate = Carbon::createFromFormat('d/m/Y', Str::substr($value->prepdate, 10));
+                    $anadate = Carbon::createFromFormat('d/m/Y', Str::substr($value->anadate, 0, 10));
+                    $prepdate = Carbon::createFromFormat('d/m/Y', Str::substr($value->prepdate, 0, 10));
 
                     if($prepdate->diffInDays($anadate) > $value->projectPointMatrix->parameterMethodPreparation->time_preparation)
                     {
