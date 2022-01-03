@@ -232,6 +232,7 @@ class AnalysisResultController extends Controller
             $groupParameterAnalysis[] = $projectPointMatrices[0]->parameterAnalysis->parameterAnalysisGroup->name;
             $sheet->getStyleByColumnAndRow(1, 5)->getFill() ->setFillType(Fill::FILL_SOLID) ->getStartColor()->setRGB('C0C0C0');
             $sheet->getStyleByColumnAndRow(2, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+            $sheet->getStyleByColumnAndRow(1, 5)->applyFromArray($border);
             $sheet->getStyleByColumnAndRow(2, 5)->applyFromArray($border);
 
             foreach ($analysisResult as $analysisIndex => $value)
