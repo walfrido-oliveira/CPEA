@@ -120,9 +120,9 @@ class AnalysisResultController extends Controller
         $sheet->setCellValue('A3', 'Hora Coleta');
         $sheet->setCellValue('A4', 'Ident.Laboratorio');
 
-        $sheet->getStyle('A1:A4')->getFill()->setFillType(Fill::FILL_SOLID) ->getStartColor()->setRGB('C0C0C0');
+        $sheet->getStyle('A1')->getFill()->setFillType(Fill::FILL_SOLID) ->getStartColor()->setRGB('C0C0C0');
 
-        $sheet->getStyle("A1")->applyFromArray($border);
+        $sheet->getStyle("A1:A4")->applyFromArray($border);
 
         foreach(range('A1','A4') as $columnID) : $sheet->getColumnDimension($columnID)->setAutoSize(true); endforeach;
 
