@@ -379,9 +379,16 @@ class AnalysisResultController extends Controller
 
                     if($prepdate->diffInDays($anadate) > $value->projectPointMatrix->parameterMethodPreparation->time_preparation)
                     {
+                        $styleArray = array(
+                            'borders' => array(
+                                'allBorders' => array(
+                                    'borderStyle' => Border::BORDER_THIN,
+                                    'color' => array('argb' => 'FFFF0000'),
+                                ),
+                            ),
+                        );
                         $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)
-                        ->getBorders()->getOutline()
-                        ->setBorderStyle(Border::BORDER_DOUBLE);
+                        ->applyFromArray($styleArray);
                     }
                 }
 
@@ -455,7 +462,7 @@ class AnalysisResultController extends Controller
             $index++;
         }
 
-        $sheet->getStyle("A1:" . $column . $row)->applyFromArray($border);
+        //$sheet->getStyle("A1:" . $column . $row)->applyFromArray($border);
 
         $writer = new Xls($spreadsheet);
 
