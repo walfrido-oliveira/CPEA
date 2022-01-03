@@ -237,6 +237,7 @@ class AnalysisResultController extends Controller
             foreach ($analysisResult as $analysisIndex => $value)
             {
                 $sheet->getStyleByColumnAndRow(3 + count($guidingParameters) + $analysisIndex, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+                $sheet->getStyle(3 + count($guidingParameters) + $analysisIndex, 5)->applyFromArray($border);
             }
         }
 
