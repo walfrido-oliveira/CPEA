@@ -274,10 +274,11 @@ class AnalysisResultController extends Controller
               }
             }
 
+            $sheet->getStyleByColumnAndRow(1, $key + 6)->applyFromArray($border);
+
             if(!in_array($point->parameterAnalysis->analysis_parameter_name, $parameterAnalysis) || $index == 0)
             {
               $sheet->setCellValueByColumnAndRow(1, $key + 6, $point->parameterAnalysis->analysis_parameter_name);
-              $sheet->getStyleByColumnAndRow(1, $key + 6)->applyFromArray($border);
 
               $parameterAnalysis[] = $point->parameterAnalysis->analysis_parameter_name;
 
@@ -358,6 +359,7 @@ class AnalysisResultController extends Controller
                 while ($sheet->getCellByColumnAndRow(1, 6 + $index) != $value->projectPointMatrix->parameterAnalysis->analysis_parameter_name)
                 {
                     $index++;
+                    $sheet->getStyleByColumnAndRow(2,  $index + 6)->applyFromArray($border);
                     if($index >= count($analysisResults))
                     {
                         $break = true;
