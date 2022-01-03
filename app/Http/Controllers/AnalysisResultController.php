@@ -381,7 +381,7 @@ class AnalysisResultController extends Controller
                     {
                         $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)
                         ->getBorders()->getOutline()
-                        ->setBorderStyle(Border::BORDER_THICK);
+                        ->setBorderStyle(Border::BORDER_DOUBLE);
                     }
                 }
 
