@@ -233,7 +233,7 @@ class AnalysisResultController extends Controller
             $sheet->getStyleByColumnAndRow(1, 5)->getFill() ->setFillType(Fill::FILL_SOLID) ->getStartColor()->setRGB('C0C0C0');
             $sheet->getStyleByColumnAndRow(2, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
             $sheet->getStyleByColumnAndRow(1, 5)->applyFromArray($border);
-            $sheet->getStyleByColumnAndRow(2, count($analysisResult))->applyFromArray($border);
+            $sheet->getStyle("A5")->applyFromArray($border);
 
             foreach ($analysisResult as $analysisIndex => $value)
             {
@@ -396,12 +396,12 @@ class AnalysisResultController extends Controller
 
                 if($value->anadate && $value->prepdate)
                 {
-                    $anadate = Carbon::createFromFormat('d/m/Y', $value->anadate);
-                    $prepdate = Carbon::createFromFormat('d/m/Y', $value->prepdate);
+                    #$anadate = Carbon::createFromFormat('d/m/Y', $value->anadate);
+                    #$prepdate = Carbon::createFromFormat('d/m/Y', $value->prepdate);
 
 
 
-                    if($prepdate->diffInDays($anadate) > $value->projectPointMatrix->parameterMethodPreparation->time_preparation)
+                    /*if($prepdate->diffInDays($anadate) > $value->projectPointMatrix->parameterMethodPreparation->time_preparation)
                     {
                         $styleArray = array(
                             'borders' => array(
@@ -412,7 +412,7 @@ class AnalysisResultController extends Controller
                             ),
                         );
                         $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->applyFromArray($styleArray);
-                    }
+                    }*/
                 }
 
                 $result = Str::replace("< ", "", $result);
