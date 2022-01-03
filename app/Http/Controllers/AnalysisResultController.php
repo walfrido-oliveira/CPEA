@@ -120,7 +120,7 @@ class AnalysisResultController extends Controller
         $sheet->setCellValue('A3', 'Hora Coleta');
         $sheet->setCellValue('A4', 'Ident.Laboratorio');
 
-        $sheet->getStyle('A1')->getFill()->setFillType(Fill::FILL_SOLID) ->getStartColor()->setRGB('C0C0C0');
+        $sheet->getStyle('A1:A4')->getFill()->setFillType(Fill::FILL_SOLID) ->getStartColor()->setRGB('C0C0C0');
 
         $sheet->getStyle("A1")->applyFromArray($border);
 
@@ -186,6 +186,7 @@ class AnalysisResultController extends Controller
             $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
             $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
             $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+            $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1)->applyFromArray($border);
             $sheet->getColumnDimensionByColumn(2 + count($guidingParameters) + 1  + $key)->setAutoSize(true);
 
             $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2, $value->sampdate);
@@ -194,12 +195,16 @@ class AnalysisResultController extends Controller
 
             $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
             $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2)->applyFromArray($border);
 
             $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 3)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
             $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 3)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 3)->applyFromArray($border);
 
             $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
             $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4)->applyFromArray($border);
+
             $sheet->getColumnDimensionByColumn(2 + count($guidingParameters) + 1  + $key)->setAutoSize(true);
         }
 
@@ -227,6 +232,7 @@ class AnalysisResultController extends Controller
             $groupParameterAnalysis[] = $projectPointMatrices[0]->parameterAnalysis->parameterAnalysisGroup->name;
             $sheet->getStyleByColumnAndRow(1, 5)->getFill() ->setFillType(Fill::FILL_SOLID) ->getStartColor()->setRGB('C0C0C0');
             $sheet->getStyleByColumnAndRow(2, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+            $sheet->getStyleByColumnAndRow(2, 5)->applyFromArray($border);
 
             foreach ($analysisResult as $analysisIndex => $value)
             {
@@ -250,6 +256,7 @@ class AnalysisResultController extends Controller
 
                     $sheet->getStyleByColumnAndRow(1,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
                     $sheet->getStyleByColumnAndRow(2,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+                    $sheet->getStyleByColumnAndRow(2,  $key + 6)->applyFromArray($border);
 
                     foreach ($guidingParameterOrders as $key2 => $value)
                     {
@@ -305,6 +312,7 @@ class AnalysisResultController extends Controller
                 $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
                 $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
+                $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->applyFromArray($border);
             }
               $key++;
             }
@@ -359,6 +367,7 @@ class AnalysisResultController extends Controller
                 $sheet->setCellValueByColumnAndRow(2,  $index + 6, $value->units);
                 $sheet->getStyleByColumnAndRow(2,  $index + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $sheet->getStyleByColumnAndRow(2,  $index + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+                $sheet->getStyleByColumnAndRow(2,  $index + 6)->applyFromArray($border);
 
                 $column = array_search($value->projectPointMatrix->pointIdentification->area . "-" .
                                        $value->projectPointMatrix->pointIdentification->identification,
@@ -378,6 +387,8 @@ class AnalysisResultController extends Controller
                 $sheet->setCellValueByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index, $result);
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+                $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->applyFromArray($border);
+
                 if($value->rl) if($resultValue > $rlValue) $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getFont()->setBold(true);
 
                 if($value->anadate && $value->prepdate)
@@ -395,8 +406,7 @@ class AnalysisResultController extends Controller
                                 ),
                             ),
                         );
-                        $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)
-                        ->applyFromArray($styleArray);
+                        $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->applyFromArray($styleArray);
                     }
                 }
 
