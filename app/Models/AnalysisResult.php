@@ -80,9 +80,9 @@ class AnalysisResult extends Model
      * @var array
      */
     protected $casts = [
-        'sampdate' => 'date',
-        'prepdate' => 'date',
-        'anadate' => 'date',
+        #'sampdate' => 'date',
+        #'prepdate' => 'date',
+        #'anadate' => 'date',
     ];
 
     /**
