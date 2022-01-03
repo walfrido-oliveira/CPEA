@@ -398,12 +398,10 @@ class AnalysisResultController extends Controller
 
                 if($value->anadate && $value->prepdate)
                 {
-                    #$anadate = Carbon::createFromFormat('d/m/Y', $value->anadate);
-                    #$prepdate = Carbon::createFromFormat('d/m/Y', $value->prepdate);
+                    $anadate = Carbon::createFromFormat('d/m/Y', Str::substr($value->anadate, 10));
+                    $prepdate = Carbon::createFromFormat('d/m/Y', Str::substr($value->prepdate, 10));
 
-
-
-                    /*if($prepdate->diffInDays($anadate) > $value->projectPointMatrix->parameterMethodPreparation->time_preparation)
+                    if($prepdate->diffInDays($anadate) > $value->projectPointMatrix->parameterMethodPreparation->time_preparation)
                     {
                         $styleArray = array(
                             'borders' => array(
@@ -414,7 +412,7 @@ class AnalysisResultController extends Controller
                             ),
                         );
                         $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->applyFromArray($styleArray);
-                    }*/
+                    }
                 }
 
                 $result = Str::replace("< ", "", $result);
