@@ -179,8 +179,8 @@ class AnalysisResultController extends Controller
             $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
             $sheet->getColumnDimensionByColumn(2 + count($guidingParameters) + 1  + $key)->setAutoSize(true);
 
-            $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2, $value->sampdate->format('d/m/Y'));
-            $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 3, $value->sampdate->format('h:m:i'));
+            $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2, $value->sampdate);
+            $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 3, $value->sampdate);
             $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4, $value->labsampid);
 
             $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
