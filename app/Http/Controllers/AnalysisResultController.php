@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use stdClass;
+use Carbon\Carbon;
 use App\Models\Lab;
 use Colors\RandomColor;
 use App\Models\Campaign;
@@ -313,17 +314,15 @@ class AnalysisResultController extends Controller
             $column = 0;
             $groupParameterAnalysis= [];
 
-            $analysisResults = Cache::remember('analysis-results-2' . $campaign->id, SECONDS, function () use($campaign) {
-                return $campaign->analysisResults()
-                ->with('projectPointMatrix')
-                ->leftJoin('project_point_matrices', 'analysis_results.project_point_matrix_id', '=', 'project_point_matrices.id')
-                ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
-                ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
-                ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
-                ->orderBy('parameter_analysis_groups.order', 'asc')
-                ->orderBy('parameter_analyses.analysis_parameter_name', 'asc')
-                ->get();
-            });
+            $analysisResults = $campaign->analysisResults()
+            ->with('projectPointMatrix')
+            ->leftJoin('project_point_matrices', 'analysis_results.project_point_matrix_id', '=', 'project_point_matrices.id')
+            ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+            ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+            ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
+            ->orderBy('parameter_analysis_groups.order', 'asc')
+            ->orderBy('parameter_analyses.analysis_parameter_name', 'asc')
+            ->get();
 
             if(count($analysisResults) > 0) $groupParameterAnalysis[] = $analysisResults[0]->projectPointMatrix->parameterAnalysis->parameterAnalysisGroup->name;
 
@@ -373,9 +372,12 @@ class AnalysisResultController extends Controller
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
                 if($value->rl) if($resultValue > $rlValue) $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getFont()->setBold(true);
 
-                if($value->analysisOrder->anadate)
+                if($value->anadate && $value->prepdate)
                 {
-                    if($value->prepdate->diffInDays($value->anadate) > $value->projectPointMatrix->parameterMethodPreparation->time_preparation)
+                    $anadate = Carbon::createFromFormat('d/m/Y', $value->anadate);
+                    $prepdate = Carbon::createFromFormat('d/m/Y', $value->prepdate);
+
+                    if($prepdate->diffInDays($anadate) > $value->projectPointMatrix->parameterMethodPreparation->time_preparation)
                     {
                         $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)
                         ->getBorders()->getOutline()
