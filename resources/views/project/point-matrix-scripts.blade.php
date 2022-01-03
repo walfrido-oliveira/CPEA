@@ -525,6 +525,11 @@
         var campaign = document.getElementById("campaign_id");
 
         function cancelPointMatrix() {
+            let buttom = document.getElementById("point_matrix_table_add");
+            buttom.dataset.id = 0;
+            buttom.dataset.row = 0;
+            buttom.innerHTML = "Cadastrar";
+
             let id = this.dataset.id;
             let key = this.dataset.row ? this.dataset.row : document.querySelectorAll('.point-matrix-row').length;
             let that = this;
