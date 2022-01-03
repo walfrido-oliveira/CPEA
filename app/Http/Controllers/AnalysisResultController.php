@@ -122,6 +122,8 @@ class AnalysisResultController extends Controller
 
         $sheet->getStyle('A1')->getFill()->setFillType(Fill::FILL_SOLID) ->getStartColor()->setRGB('C0C0C0');
 
+        $sheet->getStyle("A1")->applyFromArray($border);
+
         foreach(range('A1','A4') as $columnID) : $sheet->getColumnDimension($columnID)->setAutoSize(true); endforeach;
 
         $sheet->setCellValue('B1', 'Unid');
@@ -129,6 +131,8 @@ class AnalysisResultController extends Controller
         $sheet->getStyle('B1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $sheet->getStyle('B1')->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
         $sheet->mergeCells('B1:B4');
+
+        $sheet->getStyle("B1:B4")->applyFromArray($border);
 
         $column = "B";
 
@@ -138,6 +142,8 @@ class AnalysisResultController extends Controller
         $sheet->getStyle('C1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $sheet->getStyle('C1')->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
         $sheet->getStyle('C1')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+
+        $sheet->getStyle("C1")->applyFromArray($border);
 
         if(count($guidingParameters) > 1) $sheet->mergeCells('C1:' . $column . '1');
 
@@ -149,6 +155,7 @@ class AnalysisResultController extends Controller
             $sheet->setCellValue($column2 . "2", $value);
             $sheet->getStyle($column2 . "2")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
             $sheet->getStyle($column2 . "2")->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            $sheet->getStyle($column2 . "2")->applyFromArray($border);
 
             foreach(range($column2 . "2", $column2 . "2") as $columnID) : $sheet->getColumnDimension($columnID)->setAutoSize(true); endforeach;
 
@@ -156,6 +163,7 @@ class AnalysisResultController extends Controller
             $spreadsheet->getActiveSheet()->mergeCells($column2 . "2:" . $column2 . "4");
 
             $sheet->getStyle($column2 . "5")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+            $sheet->getStyle($column2 . "5")->applyFromArray($border);
 
             $column2++;
         }
