@@ -491,7 +491,7 @@ class AnalysisResultController extends Controller
         $worksheet = $spreadsheet->getActiveSheet();
         $rows = $worksheet->toArray();
         $totalImport = 0;
-        $totalRows = count($rows - 1);
+        $totalRows = count($rows) -1;
         $imports = [];
 
         foreach($rows as $key => $value)
