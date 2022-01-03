@@ -6,6 +6,7 @@ use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\GeodeticSystem;
+use Illuminate\Validation\Rule;
 use App\Models\PointIdentification;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
@@ -86,8 +87,12 @@ class PointIdentificationController extends Controller
         $input = $request->all();
 
         $validator = Validator::make($request->all(), [
-            'area' => ['required', 'string', 'max:255', 'unique:point_identifications,area'],
-            'identification' => ['required', 'string', 'max:255', 'unique:point_identifications,identification'],
+            'area' => ['required', 'string', 'max:255'],
+            'identification' => ['required', 'string', 'max:255',
+            Rule::unique('point_identifications')->where(function ($query) use($request) {
+                return $query->where('area', $request->get('area'))
+                             ->where('identification', $request->get('identification'));
+            })],
         ]);
 
         if ($validator->fails()) {
