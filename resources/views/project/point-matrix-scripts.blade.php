@@ -258,6 +258,7 @@
                     document.getElementById("spin_load").classList.toggle("hidden");
 
                 } else if (this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.toggle("hidden");
                     var resp = JSON.parse(ajax.response);
                     var obj = resp;
                     for (var key in obj){
