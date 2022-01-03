@@ -277,6 +277,8 @@ class AnalysisResultController extends Controller
             if(!in_array($point->parameterAnalysis->analysis_parameter_name, $parameterAnalysis) || $index == 0)
             {
               $sheet->setCellValueByColumnAndRow(1, $key + 6, $point->parameterAnalysis->analysis_parameter_name);
+              $sheet->getStyleByColumnAndRow(1, $key + 6)->applyFromArray($border);
+
               $parameterAnalysis[] = $point->parameterAnalysis->analysis_parameter_name;
 
               foreach ($guidingParameterOrders as $key2 => $value)
