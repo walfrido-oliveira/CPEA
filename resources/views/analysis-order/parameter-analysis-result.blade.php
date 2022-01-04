@@ -42,11 +42,20 @@
 
         <tr id="point_matrix_row_{{ $index }}" class="point-items-{{ $point->pointIdentification->id }}">
             @php
-                $status = $point->getStatusLab($campaign->id);
+                $status = count($point->analysisResult);//$point->getStatusLab($campaign->id);
                 $statusMsg = 'Pendente de Analise';
                 $statusColor = "#374151";
 
-                switch ($status) {
+                if($status > 0)
+                {
+                    $statusColor = "#4DB15D";
+                    $statusMsg = 'Importado';
+                } else {
+                    $statusColor = "#374151";
+                    $statusMsg = 'Pendente';
+                }
+
+                /*switch ($status) {
                     case 'sent':
                         $statusColor = "#2A96A7";
                         $statusMsg = 'Encaminhado';
@@ -66,7 +75,7 @@
                         $statusColor = "#374151";
                         $statusMsg = 'Pendente';
                         break;
-                }
+                }*/
             @endphp
 
             <td style="padding-left: 2rem">

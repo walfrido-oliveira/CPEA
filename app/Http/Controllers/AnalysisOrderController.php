@@ -6,6 +6,7 @@ use App\Models\Lab;
 use App\Models\Campaign;
 use Illuminate\Http\Request;
 use App\Models\AnalysisOrder;
+use App\Models\AnalysisResult;
 use App\Models\ProjectPointMatrix;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
@@ -293,6 +294,9 @@ class AnalysisOrderController extends Controller
         $analysisOrder = AnalysisOrder::findOrFail($analysisOrder);
 
         $analysisOrder->projectPointMatrices()->detach($item);
+
+        $analysisResult = AnalysisResult::where("project_point_matrix_id", $item)->first();
+        $analysisResult->delete();
 
         return response()->json([
             'message' => __('Ponto/Matriz Apagado com Sucesso!'),
