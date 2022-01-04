@@ -40,7 +40,7 @@
             </tr>
         @endif
 
-        <tr class="point-items-{{ $point->pointIdentification->id }}">
+        <tr id="point_matrix_row_{{ $index }}" class="point-items-{{ $point->pointIdentification->id }}">
             @php
                 $status = $point->getStatusLab($campaign->id);
                 $statusMsg = 'Pendente de Analise';
@@ -68,7 +68,9 @@
                         break;
                 }
             @endphp
+
             <td style="padding-left: 2rem">
+                <input class="form-checkbox point-matrix-url" type="checkbox" name="point_matrix[{{ $point->id }}]" value="{!! route('analysis-order.destroy-item', ['analysis_order' => $analysisOrder->id, 'item' => $point->id]) !!}" data-id="point_matrix_row_{{ $index }}">
                 @if ($point->parameterAnalysis)
                     @if (!$status)
                         <button class="inline add-parameter-analysis-item" type="button">
@@ -104,6 +106,7 @@
                 </span>
             </td>
         </tr>
+
     @empty
         <tr>
             <td class="text-center" colspan="5">{{ __("Nenhum resultado encontrado") }}</td>

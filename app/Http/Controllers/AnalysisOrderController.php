@@ -281,4 +281,23 @@ class AnalysisOrderController extends Controller
 
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $analysisOrder
+     * @param  int  $item
+     * @return \Illuminate\Http\Response
+     */
+    public function destroyItem($analysisOrder, $item)
+    {
+        $analysisOrder = AnalysisOrder::findOrFail($analysisOrder);
+
+        $analysisOrder->projectPointMatrices()->detach($item);
+
+        return response()->json([
+            'message' => __('Ponto/Matriz Apagado com Sucesso!'),
+            'alert-type' => 'success'
+        ]);
+    }
+
 }

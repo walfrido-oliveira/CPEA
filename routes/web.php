@@ -202,6 +202,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::post('/', [AnalysisOrderController::class, 'store'])->name('store');
         Route::post('/filterPointMatrix', [AnalysisOrderController::class, 'filterPointMatrix'])->name('filter-point-matrix');
         Route::post('/status/{analysis_order}', [AnalysisOrderController::class, 'status'])->name('status');
+        Route::delete('/destroy-item/{analysis_order}/{item}', [AnalysisOrderController::class, 'destroyItem'])->name('destroy-item');
     });
 
     Route::prefix('resultado-analise')->name('analysis-result.')->group(function(){

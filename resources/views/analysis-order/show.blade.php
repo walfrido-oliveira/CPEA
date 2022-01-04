@@ -21,7 +21,7 @@
                     <div class="mx-4 px-3 py-2 flex items-center md:justify-start justify-center md:w-auto w-full">
                         <h2>{{ __('Amostras') }}</h2>
                     </div>
-                    <div class="py-2 m-2 flex md:justify-end justify-start w-full" x-data="{ shearch: false }">
+                    <div class="py-2 m-2 flex md:justify-end justify-start w-2/4" x-data="{ shearch: false }">
                         <div class="w-full block" id="search-content">
                             <div class="container mx-auto">
                                 <input id="q" name="q" type="search" placeholder="Buscar..." autofocus="autofocus" class="filter-field w-full form-control no-border">
@@ -52,6 +52,9 @@
                                 <input type="file" name="file" id="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.ms-excel" class="hidden">
                            </form>
                         </div>
+                        <div class="m-2 ">
+                            <button type="button" id="delete_point_matrix" class="btn-outline-danger delete-point-matrix" data-type="multiple">{{ __('Apagar') }}</button>
+                        </div>
                     </div>
                 </div>
                 <div class="flex mt-4 w-full">
@@ -69,6 +72,50 @@
     </div>
 
     <x-back-to-top element="parameter_analysis_table" />
+
+    <x-modal title="{{ __('Excluir') }}"
+            msg="{{ __('Deseja realmente apagar esse Item?') }}"
+            confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_point_matrix_modal"
+            confirm_id="point_matrix_confirm_id"
+            cancel_modal="point_matrix_cancel_modal"
+            method="DELETE"/>
+
+    <script>
+        eventsDeleteCallback();
+
+        function eventsDeleteCallback() {
+            document.querySelectorAll('.delete-point-matrix').forEach(item => {
+                item.addEventListener("click", function() {
+                    if (this.dataset.type == 'multiple') {
+                        var urls = '';
+                        var elements = '';
+                        document.querySelectorAll('input:checked.point-matrix-url').forEach((item, index, arr) => {
+                            urls += item.value;
+                            elements += item.dataset.id;
+                            if (index < (arr.length - 1)) {
+                                urls += ',';
+                                elements += ',';
+                            }
+                        });
+
+                        if (urls.length > 0) {
+                            var modal = document.getElementById("delete_point_matrix_modal");
+                            modal.dataset.url = urls;
+                            modal.dataset.elements = elements;
+                            modal.classList.remove("hidden");
+                            modal.classList.add("block");
+                        }
+                    }
+                });
+            });
+        }
+
+        document.getElementById("point_matrix_confirm_id").addEventListener("resp", function() {
+            document.querySelectorAll('input:checked.point-matrix-url').forEach((item, index, arr) => {
+                //item.parent.parent.innerHTML = '';
+            });
+        });
+    </script>
 
     <script>
         document.getElementById("import_result").addEventListener("click", function() {
