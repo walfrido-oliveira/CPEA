@@ -21,7 +21,7 @@
                     <div class="mx-4 px-3 py-2 flex items-center md:justify-start justify-center md:w-auto w-full">
                         <h2>{{ __('Amostras') }}</h2>
                     </div>
-                    <div class="py-2 m-2 flex md:justify-end justify-start w-2/4" x-data="{ shearch: false }">
+                    <div class="py-2 m-2 flex md:justify-end justify-start w-2/4" x-data="{ shearch: false }" style="width: 55%;">
                         <div class="w-full block" id="search-content">
                             <div class="container mx-auto">
                                 <input id="q" name="q" type="search" placeholder="Buscar..." autofocus="autofocus" class="filter-field w-full form-control no-border">
@@ -105,6 +105,14 @@
                             modal.classList.remove("hidden");
                             modal.classList.add("block");
                         }
+                    } else {
+                        var urls = this.dataset.value;
+                        var elements = this.dataset.id;
+                        var modal = document.getElementById("delete_point_matrix_modal");
+                        modal.dataset.url = urls;
+                        modal.dataset.elements = elements;
+                        modal.classList.remove("hidden");
+                        modal.classList.add("block");
                     }
                 });
             });
