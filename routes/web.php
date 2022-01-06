@@ -48,70 +48,10 @@ use App\Http\Controllers\GuidingParameterRefValueController;
 |
 */
 
-Route::get('/test', function () {
-    $arr = [
-        'client',
-        'project',
-        'projectnum',
-        'labname',
-        'samplename',
-        'labsampid',
-        'matrix',
-        'rptmatrix',
-        'solidmatrix',
-        'sampdate',
-        'prepdate',
-        'anadate',
-        'batch',
-        'analysis',
-        'anacode',
-        'methodcode',
-        'methodname',
-        'description',
-        'prepname',
-        'analyte',
-        'analyteorder',
-        'casnumber',
-        'surrogate',
-        'tic',
-        'result',
-        'dl',
-        'rl',
-        'units',
-        'rptomdl',
-        'mrlsolids',
-        'basis',
-        'dilution',
-        'spikelevel',
-        'recovery',
-        'uppercl',
-        'lowercl',
-        'analyst',
-        'psolids',
-        'lnote',
-        'anote',
-        'latitude',
-        'longitude',
-        'scomment',
-        'snote1',
-        'snote2',
-        'snote3',
-        'snote4',
-        'snote5',
-        'snote6',
-        'snote7',
-        'snote8',
-        'snote9',
-        'snote10',
-    ];
+Route::get('/now', function () {
+    dd(Carbon\Carbon::now());
 
-    foreach ($arr as $key => $value)
-    {
-        echo htmlspecialchars("'" . $value . '\' => $obj->'. $value . ',');
-        echo '<br>';
-    }
-
-})->name('tests');
+})->name('now');
 
 Route::get('/', function () {
     return redirect()->route('login');
