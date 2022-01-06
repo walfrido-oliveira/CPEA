@@ -687,7 +687,7 @@
         });
 
         function getParameterAnalysesByGroup(event) {
-            var id = this.value;
+            var id = Array.from(document.getElementById("analysis_parameter_group_id").options).filter(o => o.selected).map(o => o.value);
             var that = this;
             var ajax = new XMLHttpRequest();
             var url = "{!! route('parameter-analysis.list-by-group', ['group' => '#']) !!}".replace('#', id);

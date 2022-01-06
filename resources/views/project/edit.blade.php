@@ -163,7 +163,7 @@
                                     <x-jet-label class="inline hidden" id="analysis_parameter_group_id_label" for="analysis_parameter_group_id" value="{{ __('Param. Análise Grupo') }}" required/>
                                 </div>
                                 <x-custom-select :options="$parameterAnalyses" name="analysis_parameter_id" id="analysis_parameter_id" value="" class="mt-1" no-filter="no-filter"/>
-                                <x-custom-select :options="$parameterAnalyseGroups" name="analysis_parameter_group_id" id="analysis_parameter_group_id" value="" class="mt-1 hidden" no-filter="no-filter"/>
+                                <x-custom-multi-select multiple :options="$parameterAnalyseGroups" name="analysis_parameter_group_id" id="analysis_parameter_group_id" value="" select-class="form-input" class="mt-1 hidden" no-filter="no-filter"/>
                                 <x-jet-label class="inline hidden" id="analysis_parameter_ids_label" for="analysis_parameter_ids_label" value="{{ __('Param. Análise') }}" required/>
                                 <x-custom-multi-select multiple :options="[]" name="analysis_parameter_ids" id="analysis_parameter_ids" value="" select-class="form-input" class="mt-1 hidden" no-filter="no-filter"/>
                             </div>

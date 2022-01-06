@@ -172,7 +172,8 @@ class ParameterAnalysisController extends Controller
      */
     public function listByGroup(Request $request, $id)
     {
-        $parameterAnalyses = ParameterAnalysis::where("parameter_analysis_group_id", $id)->get();
+        $ids = explode(",", $id);
+        $parameterAnalyses = ParameterAnalysis::whereIn("parameter_analysis_group_id", $ids)->get();
         return response()->json([
             'result' => $parameterAnalyses
         ]);
