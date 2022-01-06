@@ -714,6 +714,7 @@
                         var opt = document.createElement('option');
                         opt.value = item.id;
                         opt.text = item.analysis_parameter_name;
+                        opt.selected = true;
                         guidingParametersId.add(opt);
                     }
 
