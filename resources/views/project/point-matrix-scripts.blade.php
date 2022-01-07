@@ -238,7 +238,7 @@
                         let rowUpdated = document.getElementById("point_matrix_row_" + that.dataset.row);
                         rowUpdated.innerHTML = resp.point_matrix;
                     } else {
-                        document.getElementById("point_matrix_table_content").insertAdjacentHTML('beforeend', resp.point_matrix);
+                        document.getElementById("point_matrix_table_content").insertAdjacentHTML('beforebegin', resp.point_matrix);
                     }
 
                     let buttom = document.getElementById("point_matrix_table_add");

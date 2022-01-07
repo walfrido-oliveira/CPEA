@@ -154,34 +154,22 @@ class ProjectController extends Controller
         $project = Project::findOrFail($id);
 
         $customers = Customer::where('status', 'active')->orderBy("name")->pluck('name', 'id');
-
         $areas = PointIdentification::distinct()->pluck('area', 'area');
-
         $identifications = PointIdentification::pluck('identification', 'identification');
-
         $matrizeces = AnalysisMatrix::pluck('name', 'id');
-
         $guidingParameters = GuidingParameter::orderBy("environmental_guiding_parameter_id", 'asc')->pluck('environmental_guiding_parameter_id', 'id');
-
         $parameterAnalyses = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
-
         $geodeticSystems = GeodeticSystem::pluck("name", "id");
-
         $preparationMethods = ParameterMethod::where('type', 'preparation')->get()->pluck('name', 'id');
-
         $analysisMethods = ParameterMethod::where('type', 'analysis')->get()->pluck('name', 'id');
-
         $campaigns = $project->campaigns()->pluck("name", "id");
-
         $parameterAnalyseGroups = ParameterAnalysisGroup::all()->pluck('name', 'id');
-
         $campaignStatuses = CampaignStatus::pluck("name", "id");
-
         $pointMatrices = $project->getPointMatricesCustomFields();
 
         $projectPointMatrices = $project->projectPointMatrices()
-        ->orderBy(isset(request()->input()['order_by']) ? request()->input()['order_by'] : "campaign_id",
-        isset(request()->input()['ascending']) ? request()->input()['ascending'] : "asc")
+        ->orderBy(isset(request()->input()['order_by']) ? request()->input()['order_by'] : "created_at",
+        isset(request()->input()['ascending']) ? request()->input()['ascending'] : "desc")
         ->paginate(isset(request()->input()['paginate_per_page']) ? request()->input()['paginate_per_page'] : DEFAULT_PAGINATE_PER_PAGE, ['*'], 'project-point-matrices')->appends(request()->input());
 
         $projectCampaigns = $project->campaigns()
