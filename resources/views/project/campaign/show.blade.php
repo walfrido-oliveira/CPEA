@@ -23,6 +23,9 @@
                         <div class="m-2">
                             <button type="button" id="delete_campaign'" class="btn-outline-danger delete-campaign" data-type="multiple">{{ __('Apagar') }}</button>
                         </div>
+                        <div class="m-2">
+                            <a class="btn-outline-info" href="{{ route('project.edit', ['project' => $campaign->project_id]) }}">Voltar</a>
+                        </div>
                     </div>
                 </div>
 
@@ -74,13 +77,17 @@
 
                         <div class="flex flex-wrap mx-4 px-3 py-2">
                             <h2 class="w-full">{{ __('Novos valores') }}</h2>
-                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                                 <x-jet-label for="areas" value="{{ __('Área') }}" />
                                 <x-custom-select :options="$areas" name="areas" id="areas" value="" class="mt-1" no-filter="no-filter"/>
                             </div>
-                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                                 <x-jet-label for="point_identifications" value="{{ __('Identificação Ponto') }}"/>
                                 <x-custom-select :options="[]" name="point_identifications" id="point_identifications" value="" class="mt-1" no-filter="no-filter"/>
+                            </div>
+                            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                <x-jet-label for="date_collection" value="{{ __('DT/HR da Coleta') }}" required/>
+                                <x-jet-input id="date_collection" class="form-control block mt-1 w-full" type="datetime-local" name="date_collection" maxlength="255" autofocus autocomplete="date_collection"/>
                             </div>
                         </div>
                     </div>

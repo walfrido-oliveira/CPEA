@@ -115,11 +115,25 @@
                 </div>
                 <div class="w-full flex">
                     <div class="font-bold pr-4">
+                        {{ __('DT/HR da Coleta') }}
+                    </div>
+                    <div class="text-gray-500 font-bold ">
+                        <div class="content">
+                            {{ $projectPointMatrix->date_collection->format('d/m/Y H:i') }}
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full flex">
+                    <div class="font-bold pr-4">
                         {{ __('Idet Lab Amostra') }}
                     </div>
                     <div class="text-gray-500 font-bold ">
                         <div class="content">
-                           {{ '-' }}
+                            @if (count($projectPointMatrix->analysisOrders))
+                                {{ $projectPointMatrix->analysisOrders[0]->lab->name }}
+                            @else
+                                {{ '-' }}
+                            @endif
                         </div>
                     </div>
                 </div>

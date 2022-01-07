@@ -205,7 +205,7 @@ class ProjectController extends Controller
     public function duplicate($id)
     {
         $project = Project::findOrFail($id);
-        $customers = Customer::all()->orderBy("name")->pluck('name', 'id');
+        $customers = Customer::all()->sortBy("name")->pluck('name', 'id');
 
         $type = 'duplicate';
 
