@@ -28,7 +28,7 @@ class ParameterAnalysisRequest extends FormRequest
             'parameter_analysis_group_id' => ['required', 'exists:parameter_analysis_groups,id'],
             'cas_rn' => ['nullable', 'string', 'max:255'],
             'analysis_parameter_name' => ['required', 'string', 'max:255'],
-            'order' => ['required', 'numeric', 'max:999'],
+            'order' => ['nullable', 'numeric', 'max:999'],
             'decimal_place' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
             'final_validity' => ['date', 'nullable'],
         ];
