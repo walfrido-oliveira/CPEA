@@ -111,19 +111,23 @@
                         @endif
                     </span>
 
-                    <a class="text-item-table inline font-bold text-gray-500" href="{{ route('analysis-result.show', ['project_point_matrix_id' => $point->id]) }}">
+                    <a class="text-item-table inline font-bold text-green-700 underline" href="{{ route('analysis-result.show', ['project_point_matrix_id' => $point->id]) }}">
                         ({{ $point->parameterAnalysis->cas_rn }})
                         {{ $point->parameterAnalysis->analysis_parameter_name }}
                     </a>
                 @endif
             </td>
             <td>
-                @if (count($point->analysisOrders) > 0)
-                    <a class="text-item-table" href="{{ route('analysis-order.show', ['analysis_order' =>  $point->analysisOrders()->first()->id]) }}">
-                        {{  $point->analysisOrders()->first()->formatted_id }}
+                @if (count($point->analysisResult) > 0)
+                    <a class="text-item-table inline font-bold text-green-700 underline" href="{{ route('analysis-result.show', ['project_point_matrix_id' => $point->id]) }}">
+                        ({{ $point->parameterAnalysis->cas_rn }})
+                        {{ $point->parameterAnalysis->analysis_parameter_name }}
                     </a>
                 @else
-                    -
+                    <span>
+                        ({{ $point->parameterAnalysis->cas_rn }})
+                        {{ $point->parameterAnalysis->analysis_parameter_name }}
+                    </span>
                 @endif
             </td>
             <td>

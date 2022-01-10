@@ -159,9 +159,10 @@
         eventsFilterCallback();
 
         var editPointMatrixAjax = function(event) {
+            return;
             if(this.dataset.type != 'edit') return;
 
-            if(document.getElementsByClassName('save-point-matrix').length > 0) return;
+            //if(document.getElementsByClassName('save-point-matrix').length > 0) return;
 
             var id = this.dataset.id;
             var key = this.dataset.row;
@@ -256,6 +257,8 @@
                     clearPointMatrixFields();
 
                     document.getElementById("spin_load").classList.toggle("hidden");
+                    document.getElementById("point_matrix_edit_modal").classList.remove("block");
+                    document.getElementById("point_matrix_edit_modal").classList.add("hidden");
 
                 } else if (this.readyState == 4 && this.status != 200) {
                     document.getElementById("spin_load").classList.toggle("hidden");
@@ -299,8 +302,9 @@
         function editPointMatrixCallback() {
             document.querySelectorAll('.edit-point-matrix').forEach(item => {
                 item.addEventListener('click', editPointMatrix.bind(null, item, item.dataset.row), false);
-                item.addEventListener("click", editPointMatrixAjax, false);
+                //item.addEventListener("click", editPointMatrixAjax, false);
                 item.addEventListener("click", savePointMatrixAjax, false);
+                item.addEventListener("click", editPointMatrixModal, false);
             });
         }
 
@@ -308,7 +312,10 @@
             document.querySelectorAll('.save-point-matrix').forEach(item => {
                 item.addEventListener("click", savePointMatrixAjax, false);
             });
-            document.getElementById("point_matrix_table_add").addEventListener("click", savePointMatrixAjax, false);
+            document.getElementById("point_matrix_table_add").addEventListener("click", function() {
+                clearPointMatrixFields();
+            });
+            document.getElementById("point_matrix_table_add").addEventListener("click", editPointMatrixModal, false);
         }
 
         savePointMatrixCallback();
@@ -316,85 +323,85 @@
 
         function editPointMatrix(elem, row) {
             if(elem.dataset.type != 'edit') return;
-            if(document.getElementsByClassName('save-point-matrix').length > 0) {
+            /*if(document.getElementsByClassName('save-point-matrix').length > 0) {
                 toastr.error("{!! __('Salve primeira a linha atual') !!}");
                 return;
-            }
+            }*/
 
-            let saveButtom = document.getElementById("point_matrix_table_add");
+            /*let saveButtom = document.getElementById("point_matrix_table_add");
             saveButtom.dataset.id = elem.dataset.id;
             saveButtom.dataset.row = elem.dataset.row;
-            saveButtom.innerHTML = "Salvar";
+            saveButtom.innerHTML = "Salvar";*/
 
             let pointIdentifications = document.getElementById("point_identifications");
-                let areas = document.getElementById("areas");
-                let matriz = document.getElementById("matriz_id");
-                let guidingParameter = document.getElementById("guiding_parameters_id");
-                let guidingParameterOptions = Array.from(document.querySelectorAll('#guiding_parameters_id option'));
-                let analysisParameter = document.getElementById("analysis_parameter_id");
-                let dateCollection = document.getElementById("date_collection");
-                let campaignId = document.getElementById("campaign_id");
-                let parameterMethodPreparationId = document.getElementById("parameter_method_preparation_id");
-                let parameterMethodAnalysisId = document.getElementById("parameter_method_analysis_id");
+            let areas = document.getElementById("areas");
+            let matriz = document.getElementById("matriz_id");
+            let guidingParameter = document.getElementById("guiding_parameters_id");
+            let guidingParameterOptions = Array.from(document.querySelectorAll('#guiding_parameters_id option'));
+            let analysisParameter = document.getElementById("analysis_parameter_id");
+            let dateCollection = document.getElementById("date_collection");
+            let campaignId = document.getElementById("campaign_id");
+            let parameterMethodPreparationId = document.getElementById("parameter_method_preparation_id");
+            let parameterMethodAnalysisId = document.getElementById("parameter_method_analysis_id");
 
-                clearPointMatrixFields()
-                areas.value = document.getElementById('point_matrix_'+ row + '_area').value
+            clearPointMatrixFields();
+            areas.value = document.getElementById('point_matrix_'+ row + '_area').value;
 
-                filterAreas().then(function(result) {
-                    pointIdentifications.value = document.getElementById('point_matrix_'+ row + '_point_identification_id') ?
-                    document.getElementById('point_matrix_'+ row + '_point_identification_id').value : null;
-                    window.customSelectArray["point_identifications"].update();
-                });
+            filterAreas().then(function(result) {
+                pointIdentifications.value = document.getElementById('point_matrix_'+ row + '_point_identification_id') ?
+                document.getElementById('point_matrix_'+ row + '_point_identification_id').value : null;
+                window.customSelectArray["point_identifications"].update();
+            });
 
-                matriz.value = document.getElementById('point_matrix_'+ row + '_analysis_matrix_id') ?
-                document.getElementById('point_matrix_'+ row + '_analysis_matrix_id').value : null;
+            matriz.value = document.getElementById('point_matrix_'+ row + '_analysis_matrix_id') ?
+            document.getElementById('point_matrix_'+ row + '_analysis_matrix_id').value : null;
 
-                var values = document.getElementById('point_matrix_'+ row + '_guiding_parameter_id').value.split(',').map(Number);
+            var values = document.getElementById('point_matrix_'+ row + '_guiding_parameter_id').value.split(',').map(Number);
 
-                values.forEach(item => {
-                    for (var i = 0; i < guidingParameter.options.length; i++) {
-                        if(guidingParameter.options[i].value == '') {
-                            guidingParameter.options[i].selected = false;
-                            continue;
-                        }
-                        if(item == guidingParameter.options[i].value) guidingParameter.options[i].selected = true;
+            values.forEach(item => {
+                for (var i = 0; i < guidingParameter.options.length; i++) {
+                    if(guidingParameter.options[i].value == '') {
+                        guidingParameter.options[i].selected = false;
+                        continue;
                     }
+                    if(item == guidingParameter.options[i].value) guidingParameter.options[i].selected = true;
+                }
+            });
+
+            analysisParameter.value = document.getElementById('point_matrix_'+ row + '_parameter_analysis_id') ?
+            document.getElementById('point_matrix_'+ row + '_parameter_analysis_id').value : null;
+
+            campaignId.value = document.getElementById('point_matrix_'+ row + '_campaign_id') ?
+            document.getElementById('point_matrix_'+ row + '_campaign_id').value : null;
+
+            parameterMethodPreparationId.value = document.getElementById('point_matrix_'+ row + '_parameter_method_preparation_id') ?
+            document.getElementById('point_matrix_'+ row + '_parameter_method_preparation_id').value : null;
+
+            parameterMethodAnalysisId.value = document.getElementById('point_matrix_'+ row + '_parameter_method_analysis_id') ?
+            document.getElementById('point_matrix_'+ row + '_parameter_method_analysis_id').value : null;
+
+            dateCollection.value = document.getElementById('point_matrix_'+ row + '_date_collection') ?
+            document.getElementById('point_matrix_'+ row + '_date_collection').value : null;
+
+            getFieldsPointMatrix(matriz.value)
+            .then(function(result) {
+                document.getElementById("point_matrix_fields").innerHTML = result;
+
+                let customFields = [];
+                document.querySelectorAll('[data-type="campaign-fields"]').forEach(item => {
+                    customFields.push(item);
                 });
 
-                analysisParameter.value = document.getElementById('point_matrix_'+ row + '_parameter_analysis_id') ?
-                document.getElementById('point_matrix_'+ row + '_parameter_analysis_id').value : null;
-
-                campaignId.value = document.getElementById('point_matrix_'+ row + '_campaign_id') ?
-                document.getElementById('point_matrix_'+ row + '_campaign_id').value : null;
-
-                parameterMethodPreparationId.value = document.getElementById('point_matrix_'+ row + '_parameter_method_preparation_id') ?
-                document.getElementById('point_matrix_'+ row + '_parameter_method_preparation_id').value : null;
-
-                parameterMethodAnalysisId.value = document.getElementById('point_matrix_'+ row + '_parameter_method_analysis_id') ?
-                document.getElementById('point_matrix_'+ row + '_parameter_method_analysis_id').value : null;
-
-                dateCollection.value = document.getElementById('point_matrix_'+ row + '_date_collection') ?
-                document.getElementById('point_matrix_'+ row + '_date_collection').value : null;
-
-                getFieldsPointMatrix(matriz.value)
-                .then(function(result) {
-                    document.getElementById("point_matrix_fields").innerHTML = result;
-
-                    let customFields = [];
-                    document.querySelectorAll('[data-type="campaign-fields"]').forEach(item => {
-                        customFields.push(item);
-                    });
-
-                    customFields.forEach(item => {
-                        let field = document.getElementById('point_matrix_'+ row + '_' + item.id);
-                        item.value = '';
-                        item.value =  field ? field.value : null;
-                    });
+                customFields.forEach(item => {
+                    let field = document.getElementById('point_matrix_'+ row + '_' + item.id);
+                    item.value = '';
+                    item.value =  field ? field.value : null;
                 });
+            });
 
-                document.querySelectorAll("#point_matrix_container select.custom-select").forEach(item => {
-                    if(window.customSelectArray[item.id]) window.customSelectArray[item.id].update();
-                });
+            document.querySelectorAll("#point_matrix_edit_modal select.custom-select").forEach(item => {
+                if(window.customSelectArray[item.id]) window.customSelectArray[item.id].update();
+            });
 
         }
 
@@ -426,7 +433,7 @@
             analysisParameterGroup.value = '';
             dateCollection.value = '';
 
-            document.querySelectorAll("#point_matrix_container select.custom-select").forEach(item => {
+            document.querySelectorAll("#point_matrix_edit_modal select.custom-select").forEach(item => {
                 if(window.customSelectArray[item.id]) window.customSelectArray[item.id].update();
             });
         }
@@ -545,7 +552,7 @@
                     var resp = JSON.parse(ajax.response);
 
                     if(id > 0) {
-                        that.parentElement.parentElement.parentElement.innerHTML = resp.point_matrix;
+                        document.getElementById("point_matrix_row_" + that.dataset.row).innerHTML = resp.point_matrix;
                     } else {
                         document.getElementById("point_matrix_table_content").insertAdjacentHTML('beforeend', resp.point_matrix);
                     }
@@ -734,6 +741,25 @@
         }
 
         document.getElementById("analysis_parameter_group_id").addEventListener("change", getParameterAnalysesByGroup, false);
+
+        function editPointMatrixModal() {
+            var modal = document.getElementById("point_matrix_edit_modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("block");
+
+            var cancel = document.getElementById("point_matrix_cancel_modal_2");
+            cancel.dataset.id = this.dataset.id;
+            cancel.dataset.row = this.dataset.row;
+
+            var save = document.getElementById("point_matrix_confirm_modal");
+            save.dataset.id = this.dataset.id;
+            save.dataset.row = this.dataset.row;
+        }
+
+        document.getElementById("point_matrix_cancel_modal_2").addEventListener("click", function(e) {
+            var modal = document.getElementById("point_matrix_edit_modal");
+            modal.classList.add("hidden");
+        });
 
     });
 </script>

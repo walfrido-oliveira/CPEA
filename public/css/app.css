@@ -2117,6 +2117,10 @@ select {
 	--tw-text-opacity: 1;
 	color: rgba(6, 78, 59, var(--tw-text-opacity));
 }
+.text-green-700 {
+	--tw-text-opacity: 1;
+	color: rgba(4, 120, 87, var(--tw-text-opacity));
+}
 .text-purple-900 {
 	--tw-text-opacity: 1;
 	color: rgba(76, 29, 149, var(--tw-text-opacity));
@@ -3572,6 +3576,10 @@ input:read-only {
 
 	.sm\:max-w-2xl {
 		max-width: 42rem;
+	}
+
+	.sm\:max-w-5xl {
+		max-width: 64rem;
 	}
 
 	.sm\:flex-1 {

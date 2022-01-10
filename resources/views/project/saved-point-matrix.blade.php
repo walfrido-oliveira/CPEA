@@ -48,7 +48,7 @@
         @endif
     </td>
     <td>
-        <input type="hidden" name="point_matrix_[{{ $key }}][date_collection]" id="point_matrix_{{ $key }}_date_collection" value="{{ $projectPointMatrix->date_collection->format('Y-m-d\TH:m')  }}">
+        <input type="hidden" name="point_matrix_[{{ $key }}][date_collection]" id="point_matrix_{{ $key }}_date_collection" value="{{ $projectPointMatrix->date_collection->format('Y-m-d\TH:i')  }}">
         {{ $projectPointMatrix->date_collection->format('d/m/Y H:i') }}
     </td>
     <td>

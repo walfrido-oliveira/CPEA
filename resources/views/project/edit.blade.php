@@ -113,74 +113,8 @@
                             </div>
                         </div>
                     </div>
-                    <div id="point_matrix_container"
-                        x-show="isOpen() || true"
-                        x-transition:enter="transition ease-out duration-300"
-                        x-transition:enter-start="opacity-0 transform scale-90"
-                        x-transition:enter-end="opacity-100 transform scale-100"
-                        x-transition:leave="transition ease-in duration-300"
-                        x-transition:leave-start="opacity-100 transform scale-100"
-                        x-transition:leave-end="opacity-0 transform scale-90 hidden">
-                        <div class="flex flex-wrap mx-4 px-3 py-2">
-                            <div class="w-full px-3 mb-6 md:mb-0">
-                                <x-jet-label for="campaign_id" value="{{ __('Campanha') }}" required/>
-                                <x-custom-select :options="$campaigns" name="campaign_id" id="campaign_id" value="" class="mt-1" no-filter="no-filter"/>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap mx-4 px-3 py-2">
-                            <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                                <x-jet-label for="area" value="{{ __('Área') }}" required />
-                                <x-custom-select :options="$areas" name="areas" id="areas" value="" class="mt-1" no-filter="no-filter"/>
-                            </div>
-                            <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                                <x-jet-label for="point_identifications" value="{{ __('Identificação Ponto') }}" required/>
-                                <x-custom-select :options="[]" name="point_identifications" id="point_identifications" value="" class="mt-1" no-filter="no-filter"/>
-                            </div>
-                            <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                                <x-jet-label for="matriz_id" value="{{ __('Matriz') }}" required/>
-                                <x-custom-select :options="$matrizeces" name="matriz_id" id="matriz_id" value="" class="mt-1" no-filter="no-filter"/>
-                            </div>
-                            <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                                <x-jet-label for="date_collection" value="{{ __('DT/HR da Coleta') }}" required/>
-                                <x-jet-input id="date_collection" class="form-control block mt-1 w-full" type="datetime-local" name="date_collection" maxlength="255" autofocus autocomplete="date_collection"/>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap mx-4 px-3 py-2">
-                            <div class="w-full px-3 mb-6 md:mb-0">
-                                <x-jet-label for="guiding_parameters_id" value="{{ __('Param. Orientador Ambiental') }}"/>
-                                <x-custom-multi-select multiple :options="$guidingParameters" name="guiding_parameters_id" id="guiding_parameters_id" value="" select-class="form-input" class="mt-1" no-filter="no-filter"/>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap mx-4 px-3 py-2">
-                            <div class="w-full px-3 mb-6 md:mb-0">
-                                <div>
-                                    <button type="button" class="btn-transition inline text-green-600" id="change_point_add_method" title="Mudar forma de adicionar ponto">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                            <path d="M5 12a1 1 0 102 0V6.414l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 001.414 1.414L5 6.414V12zM15 8a1 1 0 10-2 0v5.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L15 13.586V8z" />
-                                        </svg>
-                                    </button>
-                                    <x-jet-label class="inline" id="analysis_parameter_id_label" for="analysis_parameter_id" value="{{ __('Param. Análise') }}" required/>
-                                    <x-jet-label class="inline hidden" id="analysis_parameter_group_id_label" for="analysis_parameter_group_id" value="{{ __('Param. Análise Grupo') }}" required/>
-                                </div>
-                                <x-custom-select :options="$parameterAnalyses" name="analysis_parameter_id" id="analysis_parameter_id" value="" class="mt-1" no-filter="no-filter"/>
-                                <x-custom-multi-select multiple :options="$parameterAnalyseGroups" name="analysis_parameter_group_id" id="analysis_parameter_group_id" value="" select-class="form-input" class="mt-1 hidden" no-filter="no-filter"/>
-                                <x-jet-label class="inline hidden" id="analysis_parameter_ids_label" for="analysis_parameter_ids_label" value="{{ __('Param. Análise') }}" required/>
-                                <x-custom-multi-select multiple :options="[]" name="analysis_parameter_ids" id="analysis_parameter_ids" value="" select-class="form-input" class="mt-1 hidden" no-filter="no-filter"/>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap mx-4 px-3 py-2">
-                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                <x-jet-label for="parameter_method_preparation_id" value="{{ __('Método Preparo') }}"/>
-                                <x-custom-select :options="$preparationMethods" name="parameter_method_preparation_id" id="parameter_method_preparation_id" value="" select-class="form-input" class="mt-1" no-filter="no-filter"/>
-                            </div>
-                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                <x-jet-label for="parameter_method_analysis_id" value="{{ __('Método Análise') }}"/>
-                                <x-custom-select :options="$analysisMethods" name="parameter_method_analysis_id" id="parameter_method_analysis_id" value="" select-class="form-input" class="mt-1" no-filter="no-filter"/>
-                            </div>
-                        </div>
-                        <div id="point_matrix_fields">
+                    <div id="point_matrix_container">
 
-                        </div>
                     </div>
                     <div class="flex mt-4">
                         <table id="point_matrix_table" class="table table-responsive md:table w-full">
@@ -253,8 +187,10 @@
         eventsDeleteCallback();
     </script>
 
-    @include('project.point-matrix-scripts')
-    @include('project.campaign-scripts')
     @include('project.point-create-modal')
     @include('project.guiding-parameter-order-modal')
+    @include('project.point-matrix-edit-modal')
+    @include('project.point-matrix-scripts')
+    @include('project.campaign-scripts')
+
 </x-app-layout>

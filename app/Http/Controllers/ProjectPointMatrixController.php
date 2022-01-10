@@ -156,6 +156,9 @@ class ProjectPointMatrixController extends Controller
                 'pressure' => isset($input['pressure']) ? $input['pressure'] : null,
             ]);
             $id = $projectPointMatrix->id;
+
+            $guidingParameters = array_diff(explode(",", $input['guiding_parameter_id']), array(""));
+            $projectPointMatrix->guidingParameters()->sync($guidingParameters);
         } else {
             if(isset($input['analysis_parameter_ids']))
             {
