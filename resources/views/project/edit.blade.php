@@ -44,9 +44,9 @@
                 <div class="py-2 my-2 bg-white rounded-lg" x-data="campaignShowFields()">
                     <div class="flex md:flex-row flex-col mx-4 px-3 py-2">
                         <div class="w-full flex items-center">
-                            <h2 class="">{{ __("Campanha") }}</h2>
+                            <h2 class="md:text-left text-center">{{ __("Campanha") }}</h2>
                         </div>
-                        <div class="w-full flex justify-end">
+                        <div class="w-full flex md:justify-end justify-center">
                             <div class="m-2 ">
                                 <button type="button" class="btn-outline-info" id="campaign_table_add" data-type="save" data-id="0" data-row="0" title="Cadastrar Campanha">{{ __('Cadastrar') }}</button>
                             </div>
@@ -88,9 +88,9 @@
                 <div class="py-2 my-2 bg-white rounded-lg" x-data="pointMatrixShowFields()">
                     <div class="flex md:flex-row flex-col mx-4 px-3 py-2">
                         <div class="w-full flex items-center">
-                            <h2 class="">{{ __("Identificação do Ponto/Matriz") }}</h2>
+                            <h2 class="md:text-left text-center">{{ __("Identificação do Ponto/Matriz") }}</h2>
                         </div>
-                        <div class="w-full grid md:flex md:justify-end md:flex-nowrap flex-wrap">
+                        <div class="w-full md:flex md:justify-end justify-center">
                             <div class="m-2 ">
                                 <button type="button" class="btn-transition-secondary" id="guiding_parameter_order" title="Ordenar param. orientador ambiental">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
