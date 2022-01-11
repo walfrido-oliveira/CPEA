@@ -8,7 +8,7 @@
                     <div class="w-full flex items-center">
                         <h1>{{ __('Editar Projeto') }}</h1>
                     </div>
-                    <div class="w-full flex justify-end">
+                    <div class="w-full flex md:justify-end md:flex-nowrap flex-wrap">
                         <div class="m-2 ">
                             <button type="submit" class="btn-outline-success">{{ __('Confirmar') }}</button>
                         </div>
@@ -90,7 +90,7 @@
                         <div class="w-full flex items-center">
                             <h2 class="">{{ __("Identificação do Ponto/Matriz") }}</h2>
                         </div>
-                        <div class="w-full flex justify-end">
+                        <div class="w-full grid md:flex md:justify-end md:flex-nowrap flex-wrap">
                             <div class="m-2 ">
                                 <button type="button" class="btn-transition-secondary" id="guiding_parameter_order" title="Ordenar param. orientador ambiental">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
