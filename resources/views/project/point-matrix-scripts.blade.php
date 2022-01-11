@@ -98,7 +98,7 @@
         var orderByCallback = function(event) {
             event.preventDefault();
 
-            if(event.type == "click" && (event.target.tagName != "TH" || event.target.tagName != "a")) return;
+            if(event.type == "click" && (event.target.tagName != "TH" || event.target.tagName != "A")) return;
             if(event.type == "keyup" && (event.key !== 'Enter' || event.keyCode !== 13)) return;
 
             orderBY = this.dataset.name ? this.dataset.name : orderBY;
