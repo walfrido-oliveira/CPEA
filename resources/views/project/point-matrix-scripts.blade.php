@@ -87,9 +87,30 @@
         var ascending = "asc";
         var orderBY = 'created_at';
 
+        document.addEventListener("keypress", function(e) {
+            var code = e.keyCode || e.which;
+            if (code == 13) {
+                e.preventDefault();
+                return false;
+            }
+        });
+
         var orderByCallback = function(event) {
+            event.preventDefault();
+
+            if(event.type == "click" && event.target.tagName != "TH") return;
+            if(event.type == "keyup" && (event.key !== 'Enter' || event.keyCode !== 13)) return;
+
             orderBY = this.dataset.name ? this.dataset.name : orderBY;
             ascending = this.dataset.ascending ? this.dataset.ascending : ascending;
+
+            var campaignNameSearch = document.getElementById("campaign_id_search").value;
+            var areaSearch = document.getElementById("point_identifications.area_search").value;
+            var identificationSearch = document.getElementById("point_identifications.identification_search").value;
+            var analysisMatrixIdSearch = document.getElementById("analysis_matrix_id_search").value;
+            var parameterAnalysisIdSearch = document.getElementById("parameter_analysis_id_search").value;
+            var dateCollectionSearch = document.getElementById("date_collection_search").value;
+            var guidingParameterIdSearch = document.getElementById("guiding_parameter_id_search").value;
 
             var that = this;
             var ajax = new XMLHttpRequest();
@@ -106,9 +127,21 @@
             ajax.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var resp = JSON.parse(ajax.response);
-                    document.getElementById("point_matrix_table").innerHTML = resp.filter_result;
+                    document.querySelector("#point_matrix_table tbody").innerHTML = resp.filter_result;
                     document.getElementById("point_matrix_pagination").innerHTML = resp.pagination;
-                    that.dataset.ascending = that.dataset.ascending == 'asc' ? that.dataset.ascending = 'desc' : that.dataset.ascending = 'asc';
+
+                    if(event.type == "click" && event.target.tagName == "TH") {
+                        that.dataset.ascending = that.dataset.ascending == 'asc' ? that.dataset.ascending = 'desc' : that.dataset.ascending = 'asc';
+                        document.querySelectorAll('th span.asc').forEach(item => {
+                            item.classList.add('hidden');
+                        });
+                        document.querySelectorAll('th span.desc').forEach(item => {
+                            item.classList.add('hidden');
+                        });
+                        that.querySelector('span' + (that.dataset.ascending == 'asc' ? '.asc' : '.desc')).classList.remove('hidden');
+                        that.querySelector('span' + (that.dataset.ascending == 'asc' ? '.desc' : '.asc')).classList.add('hidden');
+                    }
+
 
                     eventsFilterCallback();
                     selectAllPointMatrices();
@@ -125,6 +158,8 @@
                     deletePointIdentificationCallback();
                     eventsDeleteCallback();
                     editPointMatrixCallback();
+
+                    window.SpinLoad.hidden();
                 }
             }
 
@@ -136,6 +171,13 @@
             data.append('order_by', orderBY);
             data.append('page', page);
             data.append('project_id', "{{ $project->id }}");
+            data.append('campaign_name', campaignNameSearch);
+            data.append('area', areaSearch);
+            data.append('identification', identificationSearch);
+            data.append('analysis_matrices_name', analysisMatrixIdSearch);
+            data.append('parameter_analysis_name', parameterAnalysisIdSearch);
+            data.append('date_collection', dateCollectionSearch);
+            data.append('guiding_parameter_name', guidingParameterIdSearch);
 
             ajax.send(data);
         }
@@ -154,6 +196,13 @@
                 });
                 item.addEventListener("click", orderByCallback, false);
             });
+            document.getElementById("campaign_id_search").addEventListener("keyup", orderByCallback, false);
+            document.getElementById("point_identifications.area_search").addEventListener("keyup", orderByCallback, false);
+            document.getElementById("point_identifications.identification_search").addEventListener("keyup", orderByCallback, false);
+            document.getElementById("analysis_matrix_id_search").addEventListener("keyup", orderByCallback, false);
+            document.getElementById("guiding_parameter_id_search").addEventListener("keyup", orderByCallback, false);
+            document.getElementById("parameter_analysis_id_search").addEventListener("keyup", orderByCallback, false);
+            document.getElementById("date_collection_search").addEventListener("keyup", orderByCallback, false);
         }
 
         eventsFilterCallback();

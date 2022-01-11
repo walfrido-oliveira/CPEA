@@ -11,6 +11,7 @@ class TableSortHeader extends Component
     public $ascending;
     public $columnName;
     public $columnText;
+    public $searchable;
 
 
     /**
@@ -18,12 +19,13 @@ class TableSortHeader extends Component
      *
      * @return void
      */
-    public function __construct($orderBy, $ascending, $columnName, $columnText)
+    public function __construct($orderBy, $ascending, $columnName, $columnText, $searchable = false)
     {
         $this->orderBy = $orderBy;
         $this->ascending = $ascending;
         $this->columnName = $columnName;
         $this->columnText = $columnText;
+        $this->searchable = $searchable;
     }
 
     /**

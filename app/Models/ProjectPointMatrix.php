@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\Project;
 use App\Models\Campaign;
 use App\Models\AnalysisOrder;
@@ -187,73 +188,130 @@ class ProjectPointMatrix extends Model
         $orderBy = isset($query['order_by']) ? $query['order_by'] : DEFAULT_ORDER_BY_COLUMN;
         $page = isset($query['page']) ? $query['page'] : 1;
 
-        $projects = Cache::remember('project-point-matrix' . $perPage . $page . $ascending . $orderBy . $query['project_id'], SECONDS,
-        function () use($query, $orderBy, $perPage, $ascending, $page) {
-            $projects = self::where(function($q) use ($query) {
-                if(isset($query['id']))
+        $projects = $projects = self::where(function($q) use ($query) {
+            if(isset($query['id']))
+            {
+                if(!is_null($query['id']))
                 {
-                    if(!is_null($query['id']))
-                    {
-                        $q->where('id', $query['id']);
-                    }
+                    $q->where('id', $query['id']);
                 }
+            }
 
-                if(isset($query['campaign_id']))
+            if(isset($query['campaign_name']))
+            {
+                if(!is_null($query['campaign_name']))
                 {
-                    if(!is_null($query['campaign_id']))
-                    {
-                        $q->where('campaign_id', $query['campaign_id']);
-                    }
+                    $q->whereHas('campaign', function($q) use ($query) {
+                        $q->where('name', 'like', '%' . $query['campaign_name'] . '%');
+                    });
                 }
+            }
 
-                if(isset($query['q']))
+            if(isset($query['area']))
+            {
+                if(!is_null($query['area']))
                 {
-                    if(!is_null($query['q']))
-                    {
-                        $q->where( function($q) use($query){
-                            $q->whereHas('pointIdentification', function($q) use($query) {
-                                $q->where('point_identifications.area', 'like', '%' . $query['q'] . '%')
-                                  ->orWhere('point_identifications.identification', 'like', '%' . $query['q'] . '%');
-                            })
-                            ->orWhereHas('analysisMatrix', function($q) use($query) {
-                                $q->where('analysis_matrices.name', 'like', '%' . $query['q'] . '%');
-                            })
-                            ->orWhereHas('guidingParameters', function($q) use($query) {
-                                $q->where('guiding_parameters.environmental_guiding_parameter_id', 'like', '%' . $query['q'] . '%');
-                            })
-                            ->orWhereHas('parameterAnalysis', function($q) use($query) {
-                                $q->where('parameter_analyses.analysis_parameter_name', 'like', '%' . $query['q'] . '%');
-                            });
+                    $q->whereHas('pointIdentification', function($q) use($query) {
+                        $q->where('point_identifications.area', 'like', '%' . $query['area'] . '%');
+                    });
+                }
+            }
+
+            if(isset($query['identification']))
+            {
+                if(!is_null($query['identification']))
+                {
+                    $q->whereHas('pointIdentification', function($q) use($query) {
+                        $q->where('point_identifications.identification', 'like', '%' . $query['identification'] . '%');
+                    });
+                }
+            }
+
+            if(isset($query['analysis_matrices_name']))
+            {
+                if(!is_null($query['analysis_matrices_name']))
+                {
+                    $q->whereHas('analysisMatrix', function($q) use($query) {
+                        $q->where('analysis_matrices.name', 'like', '%' . $query['analysis_matrices_name'] . '%');
+                    });
+                }
+            }
+
+            if(isset($query['parameter_analysis_name']))
+            {
+                if(!is_null($query['parameter_analysis_name']))
+                {
+                    $q->whereHas('parameterAnalysis', function($q) use($query) {
+                        $q->where('parameter_analyses.analysis_parameter_name', 'like', '%' . $query['parameter_analysis_name'] . '%');
+                    });
+                }
+            }
+
+            if(isset($query['guiding_parameter_name']))
+            {
+                if(!is_null($query['guiding_parameter_name']))
+                {
+                    $q->whereHas('guidingParameters', function($q) use($query) {
+                        $q->where('guiding_parameters.name', 'like', '%' . $query['guiding_parameter_name'] . '%');
+                    });
+                }
+            }
+
+            if(isset($query['date_collection']))
+            {
+                if(!is_null($query['date_collection']))
+                {
+                    $q->whereDate('date_collection', Carbon::createFromFormat('d/m/Y', $query['date_collection']));
+                }
+            }
+
+            if(isset($query['q']))
+            {
+                if(!is_null($query['q']))
+                {
+                    $q->where( function($q) use($query){
+                        $q->whereHas('pointIdentification', function($q) use($query) {
+                            $q->where('point_identifications.area', 'like', '%' . $query['q'] . '%')
+                                ->orWhere('point_identifications.identification', 'like', '%' . $query['q'] . '%');
+                        })
+                        ->orWhereHas('analysisMatrix', function($q) use($query) {
+                            $q->where('analysis_matrices.name', 'like', '%' . $query['q'] . '%');
+                        })
+                        ->orWhereHas('guidingParameters', function($q) use($query) {
+                            $q->where('guiding_parameters.environmental_guiding_parameter_id', 'like', '%' . $query['q'] . '%');
+                        })
+                        ->orWhereHas('parameterAnalysis', function($q) use($query) {
+                            $q->where('parameter_analyses.analysis_parameter_name', 'like', '%' . $query['q'] . '%');
                         });
+                    });
 
-                    }
                 }
-
-                if(isset($query['project_id'])) $q->where('project_id', $query['project_id']);
-            });
-
-            if($orderBy == 'point_identifications.identification' || $orderBy == 'point_identifications.area')
-            {
-                 $projects
-                ->with('pointIdentification')
-                ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
-                ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
-                ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
-                ->orderBy($orderBy, $ascending)
-                ->orderBy('parameter_analysis_groups.name', 'asc')
-                ->select('project_point_matrices.*')
-                ->get();
-            }
-            else
-            {
-                $projects->orderBy($orderBy, $ascending);
             }
 
-            if(isset($query['no-paginate']))
-                return $projects->get();
-            else
-                return $projects->paginate($perPage, ['*'], 'project-point-matrices', $page > (int) ceil($projects->count() / $perPage) ? 1 : $page);
+            if(isset($query['project_id'])) $q->where('project_id', $query['project_id']);
         });
+
+        if($orderBy == 'point_identifications.identification' || $orderBy == 'point_identifications.area')
+        {
+            $projects
+            ->with('pointIdentification')
+            ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+            ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+            ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
+            ->orderBy($orderBy, $ascending)
+            ->orderBy('parameter_analysis_groups.name', 'asc')
+            ->select('project_point_matrices.*')
+            ->get();
+        }
+        else
+        {
+            $projects->orderBy($orderBy, $ascending);
+        }
+
+        if(isset($query['no-paginate']))
+            $projects = $projects->get();
+        else
+            $projects = $projects->paginate($perPage, ['*'], 'project-point-matrices', $page > (int) ceil($projects->count() / $perPage) ? 1 : $page);
 
         return $projects;
     }

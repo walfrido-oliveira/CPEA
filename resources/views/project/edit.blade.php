@@ -118,6 +118,22 @@
                     </div>
                     <div class="flex mt-4">
                         <table id="point_matrix_table" class="table table-responsive md:table w-full">
+                            <thead>
+                                <tr class="thead-light">
+                                    <x-table-sort-header orderBy="created_at" ascending="asc" columnName="" columnText="<input class='form-checkbox' id='select_all_point_matrix' type='checkbox' value='all'>"/>
+                                    <x-table-sort-header orderBy="created_at" ascending="asc" columnName="campaign_id" columnText="{{ __('Campanha') }}" :searchable="true"/>
+                                    <x-table-sort-header orderBy="created_at" ascending="asc" columnName="point_identifications.area" columnText="{{ __('Área') }}" :searchable="true"/>
+                                    <x-table-sort-header orderBy="created_at" ascending="asc" columnName="point_identifications.identification" columnText="{{ __('Ponto') }}" :searchable="true"/>
+                                    <x-table-sort-header orderBy="created_at" ascending="asc" columnName="analysis_matrix_id" columnText="{{ __('Matriz') }}" :searchable="true"/>
+                                    <x-table-sort-header orderBy="created_at" ascending="asc" columnName="guiding_parameter_id" columnText="{{ __('Param. Orientador Ambiental') }}" :searchable="true"/>
+                                    <x-table-sort-header orderBy="created_at" ascending="asc" columnName="parameter_analysis_id" columnText="{{ __('Param. Análise') }}" :searchable="true"/>
+                                    <x-table-sort-header orderBy="created_at" ascending="asc" columnName="date_collection" columnText="{{ __('DT/HR da Coleta') }}" :searchable="true"/>
+                                    <th scope="col"
+                                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Ações
+                                    </th>
+                                </tr>
+                            </thead>
                             @include('project.point-matrix-result',
                             ['projectPointMatrices' => $projectPointMatrices, 'orderBy' => 'campaign_id', 'ascending' => 'asc'])
                         </table>
