@@ -110,7 +110,7 @@
             var analysisMatrixIdSearch = document.getElementById("analysis_matrix_id_search").value;
             var parameterAnalysisIdSearch = document.getElementById("parameter_analysis_id_search").value;
             var dateCollectionSearch = document.getElementById("date_collection_search").value;
-            var guidingParameterIdSearch = document.getElementById("guiding_parameter_id_search").value;
+            var guidingParameterIdSearch = document.getElementById("guiding_parameter_project_point_matrix.guiding_parameter_id_search").value;
 
             var that = this;
             var ajax = new XMLHttpRequest();
@@ -200,7 +200,7 @@
             document.getElementById("point_identifications.area_search").addEventListener("keyup", orderByCallback, false);
             document.getElementById("point_identifications.identification_search").addEventListener("keyup", orderByCallback, false);
             document.getElementById("analysis_matrix_id_search").addEventListener("keyup", orderByCallback, false);
-            document.getElementById("guiding_parameter_id_search").addEventListener("keyup", orderByCallback, false);
+            document.getElementById("guiding_parameter_project_point_matrix.guiding_parameter_id_search").addEventListener("keyup", orderByCallback, false);
             document.getElementById("parameter_analysis_id_search").addEventListener("keyup", orderByCallback, false);
             document.getElementById("date_collection_search").addEventListener("keyup", orderByCallback, false);
         }

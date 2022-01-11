@@ -125,7 +125,7 @@
                                     <x-table-sort-header orderBy="created_at" ascending="asc" columnName="point_identifications.area" columnText="{{ __('Área') }}" :searchable="true"/>
                                     <x-table-sort-header orderBy="created_at" ascending="asc" columnName="point_identifications.identification" columnText="{{ __('Ponto') }}" :searchable="true"/>
                                     <x-table-sort-header orderBy="created_at" ascending="asc" columnName="analysis_matrix_id" columnText="{{ __('Matriz') }}" :searchable="true"/>
-                                    <x-table-sort-header orderBy="created_at" ascending="asc" columnName="guiding_parameter_id" columnText="{{ __('Param. Orientador Ambiental') }}" :searchable="true"/>
+                                    <x-table-sort-header orderBy="created_at" ascending="asc" columnName="guiding_parameter_project_point_matrix.guiding_parameter_id" columnText="{{ __('Param. Orientador Ambiental') }}" :searchable="true"/>
                                     <x-table-sort-header orderBy="created_at" ascending="asc" columnName="parameter_analysis_id" columnText="{{ __('Param. Análise') }}" :searchable="true"/>
                                     <x-table-sort-header orderBy="created_at" ascending="asc" columnName="date_collection" columnText="{{ __('DT/HR da Coleta') }}" :searchable="true"/>
                                     <th scope="col"
