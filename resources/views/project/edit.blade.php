@@ -48,10 +48,10 @@
                         </div>
                         <div class="w-full flex justify-end">
                             <div class="m-2 ">
-                                <button type="button" class="btn-outline-info" id="campaign_table_add" data-type="save" data-id="0" data-row="0">{{ __('Cadastrar') }}</button>
+                                <button type="button" class="btn-outline-info" id="campaign_table_add" data-type="save" data-id="0" data-row="0" title="Cadastrar Campanha">{{ __('Cadastrar') }}</button>
                             </div>
                             <div class="m-2 ">
-                                <button type="button" id="delete_campaign" class="btn-outline-danger delete-campaign" data-type="multiple">{{ __('Apagar') }}</button>
+                                <button type="button" id="delete_campaign" class="btn-outline-danger delete-campaign" data-type="multiple" title="Apagar Campanha">{{ __('Apagar') }}</button>
                             </div>
                         </div>
                     </div>

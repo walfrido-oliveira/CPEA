@@ -2,7 +2,7 @@
     <tr class="thead-green header-fixed top-14 lg:top-16">
         <th></th>
         <th>{{ __('Área/Ponto/Param. Análise') }}</th>
-        <th>{{ __('nº do Pedido') }}</th>
+        <th class="whitespace-nowrap">{{ __('nº do Pedido') }}</th>
         <th>{{ __('Laboratório') }}</th>
         <th class="whitespace-nowrap">{{ __('Data de Envio') }}</th>
         <th>{{ __('Status') }}</th>
