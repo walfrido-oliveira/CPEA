@@ -1,6 +1,6 @@
 
 
-<div class="md:flex flex-col md:flex-row sidebar min-h-screen">
+<div class="md:flex flex-col md:flex-row sidebar md:min-h-screen">
     <div @click.away="open = false" class="flex flex-col w-full md:w-72 text-gray-700 dark-mode:text-gray-200 dark-mode:bg-gray-800 flex-shrink-0" x-data="{ open: false }">
       <div class="flex-shrink-0 px-8 py-4 flex flex-row items-center justify-between h-10">
         <a href="#" class="text-lg font-semibold tracking-widest text-white uppercase rounded-lg focus:outline-none focus:shadow-outline"></a>
