@@ -43,7 +43,7 @@
 
                 <div class="py-2 my-2 bg-white rounded-lg" x-data="campaignShowFields()">
                     <div class="flex md:flex-row flex-col mx-4 px-3 py-2">
-                        <div class="w-full flex items-center">
+                        <div class="w-full flex items-center md:justify-start justify-center">
                             <h2 class="md:text-left text-center">{{ __("Campanha") }}</h2>
                         </div>
                         <div class="w-full flex md:justify-end justify-center">
@@ -87,7 +87,7 @@
 
                 <div class="py-2 my-2 bg-white rounded-lg" x-data="pointMatrixShowFields()">
                     <div class="flex md:flex-row flex-col mx-4 px-3 py-2">
-                        <div class="w-full flex items-center">
+                        <div class="w-full flex items-center md:justify-start justify-center">
                             <h2 class="md:text-left text-center">{{ __("Identificação do Ponto/Matriz") }}</h2>
                         </div>
                         <div class="w-full md:flex md:justify-end justify-center">
