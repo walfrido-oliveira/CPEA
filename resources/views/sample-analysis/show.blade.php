@@ -6,12 +6,15 @@
                 <div class="w-full flex items-center">
                     <h1>{{ __('Custódia de Amostra(s)') }}</h1>
                 </div>
-                <div class="w-full flex justify-end">
+                <div class="w-full flex md:justify-end justify-center">
+                    <div class="m-2 ">
+                        <a class="btn-outline-success" href="{{ route('project.edit', ['project' => $campaign->project->id]) }}">{{ __('Projeto') }}</a>
+                    </div>
                     <div class="m-2 ">
                         <a class="btn-outline-info" href="{{ route('sample-analysis.historic', ['campaign' => $campaign->id]) }}">{{ __('Histórico') }}</a>
                     </div>
                     <div class="m-2">
-                        <a class="btn-outline-danger" href="{{ route('sample-analysis.index') }}">{{ __('Voltar') }}</a>
+                        <a class="btn-outline-danger" href="{{ route('sample-analysis.index') }}">{{ __('Amostras') }}</a>
                     </div>
                 </div>
             </div>
