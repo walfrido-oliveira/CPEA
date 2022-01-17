@@ -549,7 +549,7 @@ class AnalysisResultController extends Controller
             $obj->methodname = $this->searchCellByValue("methodname", $rows[0], $order->lab, $value, 16);#$value[16];
             $obj->description = $this->searchCellByValue("description", $rows[0], $order->lab, $value, 17);#$value[17];
             $obj->prepname = $this->searchCellByValue("prepname", $rows[0], $order->lab, $value, 18);#$value[18];
-            $obj->analyte = $this->searchCellByValue("analyte", $rows[0], $order->lab, $value, 19);#$value[19];
+            $obj->analyte = $this->toReplace($this->searchCellByValue("analyte", $rows[0], $order->lab, $value, 19), $order->lab);#$value[19];
             $obj->analyteorder = $this->searchCellByValue("analyteorder", $rows[0], $order->lab, $value, 20);#$value[20];
             $obj->casnumber = $this->searchCellByValue("casnumber", $rows[0], $order->lab, $value, 21);#$value[21];
             $obj->surrogate = $this->searchCellByValue("surrogate", $rows[0], $order->lab, $value, 22);#$value[22];
@@ -764,6 +764,17 @@ class AnalysisResultController extends Controller
         }
 
         return null ;
+    }
+
+    /**
+     * @param string $value
+     * @param Lab $lab
+     * @return string
+     */
+    private function toReplace($value, $lab)
+    {
+        $replace = $lab->replaces->where('to', $value)->first();
+        return $replace->from;
     }
 
     /**
