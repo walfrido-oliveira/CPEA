@@ -99,13 +99,6 @@
                                 </button>
                             </div>
                             <div class="m-2 ">
-                                <button type="button" class="btn-transition-primary" id="point_create" title="Adicionar novo ponto">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="m-2 ">
                                 <button type="button" class="btn-outline-info" id="point_matrix_table_add" data-type="save" data-id="0" data-row="0" title="Cadastrar Ponto/Matriz">{{ __('Cadastrar') }}</button>
                             </div>
                             <div class="m-2 ">

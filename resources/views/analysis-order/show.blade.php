@@ -152,6 +152,7 @@
                         document.getElementById("import_result_modal").classList.add("hidden");
                     });
                     that.value = '';
+                    location.reload();
                 } else if(this.readyState == 4 && this.status != 200) {
                     document.getElementById("spin_load").classList.add("hidden");
                     toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");

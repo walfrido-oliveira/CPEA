@@ -14,9 +14,16 @@
                   </svg>
             </div>
             <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
-              <h3 class="text-lg leading-6 font-medium text-gray-900 sm:ml-4 " id="modal-title">
-                {{ __('Ponto/Matriz') }}
-              </h3>
+                <div class="flex md:flex-row flex-col">
+                    <h3 class="flex items-center md:justify-start justify-center text-lg leading-6 font-medium text-gray-900 sm:ml-4 " id="modal-title">
+                        {{ __('Ponto/Matriz') }}
+                    </h3>
+                      <div class="w-full flex md:justify-end justify-center md:flex-nowrap flex-wrap px-3">
+                        <button type="button" class="btn-outline-info" id="point_create" title="Adicionar novo ponto">
+                            Novo Ponto
+                        </button>
+                    </div>
+                </div>
               <div class="flex flex-wrap py-2">
                 <div class="w-full px-3 mb-6 md:mb-0">
                     <x-jet-label for="campaign_id" value="{{ __('Campanha') }}" required/>
