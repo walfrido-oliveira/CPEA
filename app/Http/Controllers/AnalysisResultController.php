@@ -774,7 +774,7 @@ class AnalysisResultController extends Controller
     private function toReplace($value, $lab)
     {
         $replace = $lab->replaces->where('to', $value)->first();
-        return $replace->from;
+        return $replace ? $replace->from : $value;
     }
 
     /**
