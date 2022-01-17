@@ -150,6 +150,7 @@
                     document.getElementById("import_result_container_modal").innerHTML = resp.result;
                     document.getElementById("import_result_confirm_modal").addEventListener("click", function() {
                         document.getElementById("import_result_modal").classList.add("hidden");
+                        location.reload();
                     });
                     that.value = '';
                 } else if(this.readyState == 4 && this.status != 200) {
@@ -278,9 +279,5 @@
         }
 
         showPoint();
-
-        document.getElementById("import_result_confirm_modal").addEventListener("click", function() {
-            location.reload();
-        });
     </script>
 </x-app-layout>
