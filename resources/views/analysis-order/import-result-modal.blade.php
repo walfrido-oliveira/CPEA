@@ -70,5 +70,7 @@
 </div>
 
 <script>
-
+    document.getElementById("import_result_confirm_modal").addEventListener("click", function() {
+     location.reload();
+    });
 </script>
