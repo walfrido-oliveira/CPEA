@@ -374,8 +374,7 @@ class AnalysisResultController extends Controller
                 $sheet->getStyleByColumnAndRow(2,  $index + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
                 $sheet->getStyleByColumnAndRow(2,  $index + 6)->applyFromArray($border);
 
-                $column = array_search($value->projectPointMatrix->pointIdentification->area . "-" .
-                                       $value->projectPointMatrix->pointIdentification->identification,
+                $column = array_search($value->projectPointMatrix->pointIdentification->identification,
                                        $pointIdentification);
 
                 $result =  Str::replace(["*J", " [1]"], "", $value->result);
