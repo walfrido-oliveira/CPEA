@@ -396,7 +396,7 @@ class AnalysisResultController extends Controller
 
                 if($value->rl) if($resultValue > $rlValue) $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getFont()->setBold(true);
 
-                if($value->anadate && $value->prepdate)
+                if($value->anadate && $value->prepdate && $value->projectPointMatrix->parameterMethodPreparation)
                 {
                     $anadate = Carbon::createFromFormat('d/m/Y', Str::substr($value->anadate, 0, 10));
                     $prepdate = Carbon::createFromFormat('d/m/Y', Str::substr($value->prepdate, 0, 10));
