@@ -158,6 +158,12 @@
                 confirm_id="project_confirm_id"
                 cancel_modal="project_cancel_modal"/>
 
+    @include('project.point-create-modal')
+    @include('project.guiding-parameter-order-modal')
+    @include('project.point-matrix-edit-modal')
+    @include('project.point-matrix-scripts')
+    @include('project.campaign-scripts')
+
     <script>
         function pointMatrixShowFields() {
             return {
@@ -196,10 +202,84 @@
         eventsDeleteCallback();
     </script>
 
-    @include('project.point-create-modal')
-    @include('project.guiding-parameter-order-modal')
-    @include('project.point-matrix-edit-modal')
-    @include('project.point-matrix-scripts')
-    @include('project.campaign-scripts')
+<script>
+    document.getElementById("point_create").addEventListener("click", function() {
+        var modal = document.getElementById("point_create_modal");
+        modal.classList.remove("hidden");
+        modal.classList.add("block");
+    });
+
+    function close() {
+        var modal = document.getElementById("point_create_modal");
+        modal.classList.add("hidden");
+        modal.classList.remove("block");
+    }
+
+    document.getElementById("point_cancel_modal").addEventListener("click", function(e) {
+        var modal = document.getElementById("point_create_modal");
+        modal.classList.add("hidden");
+    });
+
+    document.getElementById("point_create").addEventListener("click", function() {
+        var modal = document.getElementById("point_create_modal");
+        modal.classList.remove("hidden");
+        modal.classList.add("block");
+    });
+
+    document.getElementById("point_confirm_modal").addEventListener("click", function() {
+        var url = document.querySelector("#poinst_create_form").action;
+        var token = document.querySelector('meta[name="csrf-token"]').content;
+        var method = document.querySelector("#poinst_create_form").method;
+        var ajax = new XMLHttpRequest();
+
+        ajax.open(method, url);
+
+        ajax.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var resp = JSON.parse(ajax.response);
+                toastr.success(resp.message);
+
+                let areas = document.getElementById("areas");
+                var i, L = areas.options.length - 1;
+                for (i = L; i >= 0; i--) {
+                    areas.remove(i);
+                }
+
+                let pointIdentifications = resp.point_identifications;
+
+                pointIdentifications.forEach((item, index, arr) => {
+                    var opt = document.createElement('option');
+                    opt.value = item.area;
+                    opt.text = item.area;
+                    areas.add(opt);
+                });
+
+                var modal = document.getElementById("point_create_modal");
+                modal.classList.add("hidden");
+                modal.classList.remove("block");
+
+                window.customSelectArray["areas"].update();
+
+            } else if (this.readyState == 4 && this.status != 200) {
+                var resp = JSON.parse(ajax.response);
+                var obj = resp;
+                for (var key in obj){
+                    var value = obj[key];
+                    toastr.error("<br>" + value);
+                }
+            }
+        }
+
+        var data = new FormData();
+        data.append('_token', token);
+        data.append('_method', method);
+        data.append('area', document.getElementById("area").value)
+        data.append('identification', document.getElementById("identification").value)
+        data.append('no-redirect', 'no-redirect')
+
+        ajax.send(data);
+
+    });
+  </script>
 
 </x-app-layout>

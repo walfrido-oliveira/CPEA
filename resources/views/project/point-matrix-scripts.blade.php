@@ -351,7 +351,11 @@
         function editPointMatrixCallback() {
             document.querySelectorAll('.edit-point-matrix').forEach(item => {
                 item.addEventListener('click', editPointMatrix.bind(null, item, item.dataset.row), false);
-                //item.addEventListener("click", editPointMatrixAjax, false);
+                item.addEventListener("click", savePointMatrixAjax, false);
+                item.addEventListener("click", editPointMatrixModal, false);
+            });
+            document.querySelectorAll('.duplicate-point-matrix').forEach(item => {
+                item.addEventListener('click', editPointMatrix.bind(null, item, item.dataset.row), false);
                 item.addEventListener("click", savePointMatrixAjax, false);
                 item.addEventListener("click", editPointMatrixModal, false);
             });
@@ -371,16 +375,7 @@
         editPointMatrixCallback();
 
         function editPointMatrix(elem, row) {
-            if(elem.dataset.type != 'edit') return;
-            /*if(document.getElementsByClassName('save-point-matrix').length > 0) {
-                toastr.error("{!! __('Salve primeira a linha atual') !!}");
-                return;
-            }*/
-
-            /*let saveButtom = document.getElementById("point_matrix_table_add");
-            saveButtom.dataset.id = elem.dataset.id;
-            saveButtom.dataset.row = elem.dataset.row;
-            saveButtom.innerHTML = "Salvar";*/
+            if(elem.dataset.type != 'edit' && elem.dataset.type != 'duplicate') return;
 
             let pointIdentifications = document.getElementById("point_identifications");
             let areas = document.getElementById("areas");
@@ -803,6 +798,12 @@
             var save = document.getElementById("point_matrix_confirm_modal");
             save.dataset.id = this.dataset.id;
             save.dataset.row = this.dataset.row;
+
+            if(this.dataset.type == 'duplicate') {
+                save.dataset.id = 0;
+                save.dataset.row = 0;
+            }
+
         }
 
         document.getElementById("point_matrix_cancel_modal_2").addEventListener("click", function(e) {
