@@ -588,9 +588,9 @@ class AnalysisResultController extends Controller
             ->whereHas("project", function($q) use($obj) {
                 $q->where("project_cod", 'like', '%' . $obj->project);
             })
-            ->whereHas('parameterAnalysis', function($q) use($obj) {
-                #$q->where('parameter_analyses.cas_rn', $obj->casnumber);
-            })->whereHas('pointIdentification', function($q) use($obj) {
+            /*->whereHas('parameterAnalysis', function($q) use($obj) {
+                $q->where('parameter_analyses.cas_rn', $obj->casnumber);
+            })*/->whereHas('pointIdentification', function($q) use($obj) {
                 $q->where('point_identifications.identification', $obj->samplename);
             })->whereHas('analysisMatrix', function($q) use($obj) {
                 $q->where('analysis_matrices.name', $obj->matrix);
