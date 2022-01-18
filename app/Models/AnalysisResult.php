@@ -98,7 +98,7 @@ class AnalysisResult extends Model
     */
     public function analysisOrder()
     {
-        return $this->belongsTo(AnalysisOrder::class);
+        return $this->belongsToMany(AnalysisOrder::class);
     }
 
 }
