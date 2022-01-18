@@ -106,7 +106,7 @@
 
                 @endif
             </td>
-            <td>
+            <td class="whitespace-nowrap">
                 @if (count($point->analysisOrders) > 0)
                     <a class="text-item-table inline font-bold text-green-700 underline" href="{{ route('analysis-order.show', ['analysis_order' => $point->analysisOrders()->first()->id]) }}">
                         {{ $point->analysisOrders()->first()->formatted_id }}
