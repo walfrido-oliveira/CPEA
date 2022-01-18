@@ -134,6 +134,15 @@ class ProjectPointMatrix extends Model
         return $this->hasMany(AnalysisResult::class);
     }
 
+    /**
+     * @param int $id
+     * @return AnalysisResult
+     */
+    public function getAnalysisResultById($id)
+    {
+       return $this->analysisResult()->where('analysis_order_id', $id)->first();
+    }
+
     public function getCustomNameAttribute()
     {
         $result = '';
