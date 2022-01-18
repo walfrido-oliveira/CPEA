@@ -157,6 +157,15 @@ class ProjectPointMatrix extends Model
     }
 
     /**
+     * @param int $id
+     * @return AnalysisOrder
+     */
+    public function getAnalysisOrderById($id)
+    {
+       return $this->analysisOrders()->where('analysis_order_id', $id)->first();
+    }
+
+    /**
      * Get status Lab
      *
      * @param int $id

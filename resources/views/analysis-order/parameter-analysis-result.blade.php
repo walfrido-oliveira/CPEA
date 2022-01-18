@@ -107,19 +107,19 @@
                 @endif
             </td>
             <td class="whitespace-nowrap">
-                @if (count($point->analysisOrders) > 0)
-                    <a class="text-item-table inline font-bold text-green-700 underline" href="{{ route('analysis-order.show', ['analysis_order' => $point->analysisOrders()->first()->id]) }}">
-                        {{ $point->analysisOrders()->first()->formatted_id }}
+                @if ($point->getAnalysisOrderById($analysisOrder->id))
+                    <a class="text-item-table inline font-bold text-green-700 underline" href="{{ route('analysis-order.show', ['analysis_order' => $point->getAnalysisOrderById($analysisOrder->id)->id]) }}">
+                        {{ $point->getAnalysisOrderById($analysisOrder->id)->formatted_id }}
                     </a>
                 @else
                     -
                 @endif
             </td>
             <td>
-                {{ count($point->analysisOrders) > 0 ? $point->analysisOrders()->first()->lab->name : '-' }}
+                {{ $point->getAnalysisOrderById($analysisOrder->id) ? $point->getAnalysisOrderById($analysisOrder->id)->lab->name : '-' }}
             </td>
             <td style="width: 12%">
-                {{ count($point->analysisOrders) > 0 ? $point->analysisOrders()->first()->lab->created_at->format('d/m/Y h:m') : '-' }}
+                {{ $point->getAnalysisOrderById($analysisOrder->id) ? $point->getAnalysisOrderById($analysisOrder->id)->lab->created_at->format('d/m/Y h:m') : '-' }}
             </td>
             <td>
                 <span class="w-24 py-1 badge text-white text-center" style="background-color: {{ $statusColor }}">
