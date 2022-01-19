@@ -23,6 +23,8 @@ class ParameterAnalysis extends Model
         'decimal_place', 'final_validity'
     ];
 
+    protected $appends = ['grupo_name'];
+
     /**
      * The attributes that should be cast to native types.
      *
@@ -33,6 +35,15 @@ class ParameterAnalysis extends Model
         'decimal_place' => 'double',
         'order' => 'integer'
     ];
+
+    /**
+     * @return string
+     */
+    public function getGrupoNameAttribute()
+    {
+        if($this->parameterAnalysisGroup) return $this->parameterAnalysisGroup->name;
+        return '';
+    }
 
     /**
      * Get analysis parameter

@@ -764,7 +764,7 @@
                         const item = guidingParameters[index];
                         var opt = document.createElement('option');
                         opt.value = item.id;
-                        opt.text = item.analysis_parameter_name;
+                        opt.text = item.analysis_parameter_name + ` [${item.grupo_name}]`;
                         opt.selected = true;
                         guidingParametersId.add(opt);
                     }
@@ -772,7 +772,15 @@
                     if(window.customSelectArray["analysis_parameter_ids"]) window.customSelectArray["analysis_parameter_ids"].update();
 
                 } else if (this.readyState == 4 && this.status != 200) {
-                    toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
+                    //toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
+                    let guidingParametersId = document.getElementById("analysis_parameter_ids");
+
+                    let i, L = guidingParametersId.options.length - 1;
+                    for (i = L; i >= 0; i--) {
+                        guidingParametersId.remove(i);
+                    }
+
+                    if(window.customSelectArray["analysis_parameter_ids"]) window.customSelectArray["analysis_parameter_ids"].update();
                 }
             }
 
