@@ -191,7 +191,11 @@ class AnalysisOrderController extends Controller
         ->orderBy($orderBy, $ascending)
         ->orderBy('parameter_analysis_groups.name', 'asc')
         ->select('project_point_matrices.*')
-        ->get() : $analysisOrder->projectPointMatrices;
+        ->get() : $analysisOrder->projectPointMatrices()
+        ->orderBy($orderBy, $ascending)
+        ->orderBy('parameter_analysis_groups.name', 'asc')
+        ->select('project_point_matrices.*')
+        ->get();
 
         return response()->json([
             'filter_result' => view('analysis-order.parameter-analysis-result',
