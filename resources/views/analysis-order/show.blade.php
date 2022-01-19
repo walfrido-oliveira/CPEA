@@ -235,6 +235,7 @@
                     var resp = JSON.parse(ajax.response);
                     document.getElementById("parameter_analysis_table").innerHTML = resp.filter_result;
                     eventsFilterCallback();
+                    showPoint();
                 } else if (this.readyState == 4 && this.status != 200) {
                     toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
                     eventsFilterCallback();
