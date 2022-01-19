@@ -808,6 +808,8 @@
             modal.classList.remove("hidden");
             modal.classList.add("block");
 
+            document.querySelector("body").style.overflow = "hidden";
+
             var cancel = document.getElementById("point_matrix_cancel_modal_2");
             cancel.dataset.id = this.dataset.id;
             cancel.dataset.row = this.dataset.row;
@@ -826,6 +828,7 @@
         document.getElementById("point_matrix_cancel_modal_2").addEventListener("click", function(e) {
             var modal = document.getElementById("point_matrix_edit_modal");
             modal.classList.add("hidden");
+            document.querySelector("body").style.overflow = "auto";
         });
 
     });
