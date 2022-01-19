@@ -175,23 +175,30 @@ class AnalysisOrderController extends Controller
         $ascending = $request->get('ascending');
         $campaign = Campaign::findOrFail($request->get('campaign_id'));
 
-        $projectPointMatrices = $request->has('q') ? $analysisOrder->projectPointMatrices()
-        ->where(function($q) use ($query) {
-            $q->whereHas('pointIdentification', function($q) use($query) {
-                $q->where('point_identifications.area', 'like', '%' . $query['q'] . '%')
-                  ->orWhere('point_identifications.identification', 'like', '%' . $query['q'] . '%');
-            })
-            ->orWhereHas('analysisMatrix', function($q) use($query) {
-                $q->where('analysis_matrices.name', 'like', '%' . $query['q'] . '%');
-            })
-            ->orWhereHas('parameterAnalysis', function($q) use($query) {
-                $q->where('parameter_analyses.analysis_parameter_name', 'like', '%' . $query['q'] . '%');
-            });
+        $projectPointMatrices = $analysisOrder->projectPointMatrices()
+        ->where(function($q) use ($query, $campaign) {
+            if(isset($query['q']))
+            {
+                $q->whereHas('pointIdentification', function($q) use($query) {
+                    $q->where('point_identifications.area', 'like', '%' . $query['q'] . '%')
+                      ->orWhere('point_identifications.identification', 'like', '%' . $query['q'] . '%');
+                })
+                ->orWhereHas('analysisMatrix', function($q) use($query) {
+                    $q->where('analysis_matrices.name', 'like', '%' . $query['q'] . '%');
+                })
+                ->orWhereHas('parameterAnalysis', function($q) use($query) {
+                    $q->where('parameter_analyses.analysis_parameter_name', 'like', '%' . $query['q'] . '%');
+                });
+            }
+            if($campaign)
+            {
+                $q->where('campaign_id', $campaign->id);
+            }
         })
-        ->orderBy($orderBy, $ascending)
-        ->orderBy('parameter_analysis_groups.name', 'asc')
-        ->select('project_point_matrices.*')
-        ->get() : $analysisOrder->projectPointMatrices()
+        ->with('pointIdentification')
+        ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+        ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+        ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
         ->orderBy($orderBy, $ascending)
         ->orderBy('parameter_analysis_groups.name', 'asc')
         ->select('project_point_matrices.*')

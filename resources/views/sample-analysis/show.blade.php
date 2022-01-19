@@ -373,6 +373,8 @@
         var identifications = [];
 
         var filterCallback = function (event) {
+            window.SpinLoad.show();
+
             var ajax = new XMLHttpRequest();
             var url = "{!! route('sample-analysis.filter-point-matrix') !!}";
             var token = document.querySelector('meta[name="csrf-token"]').content;
@@ -412,10 +414,12 @@
                     eventsFilterCallback();
                     checkItems();
                     showPoint();
+                    window.SpinLoad.hidden();
                 } else if(this.readyState == 4 && this.status != 200) {
                     toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
                     eventsFilterCallback();
                     checkItems();
+                    window.SpinLoad.hidden();
                 }
             }
 
