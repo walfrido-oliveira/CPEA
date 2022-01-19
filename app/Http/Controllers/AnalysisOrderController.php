@@ -171,6 +171,9 @@ class AnalysisOrderController extends Controller
 
         $analysisOrder = AnalysisOrder::findOrFail($request->get('id'));
         $query = $request->all();
+        $orderBy = $request->get('order_by');
+        $ascending = $request->get('ascending');
+        $campaign = Campaign::findOrFail($request->get('campaign_id'));
 
         $projectPointMatrices = $request->has('q') ? $analysisOrder->projectPointMatrices()
         ->where(function($q) use ($query) {
@@ -187,9 +190,10 @@ class AnalysisOrderController extends Controller
         })
         ->get() : $analysisOrder->projectPointMatrices;
 
-        $orderBy = $request->get('order_by');
-        $ascending = $request->get('ascending');
-        $campaign = Campaign::findOrFail($request->get('campaign_id'));
+        $projectPointMatrices
+        ->orderBy($orderBy, $ascending)
+        ->orderBy('parameter_analysis_groups.name', 'asc')
+        ->select('project_point_matrices.*');
 
         return response()->json([
             'filter_result' => view('analysis-order.parameter-analysis-result',
