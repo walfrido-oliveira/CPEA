@@ -188,12 +188,10 @@ class AnalysisOrderController extends Controller
                 $q->where('parameter_analyses.analysis_parameter_name', 'like', '%' . $query['q'] . '%');
             });
         })
-        ->get() : $analysisOrder->projectPointMatrices;
-
-        $projectPointMatrices
         ->orderBy($orderBy, $ascending)
         ->orderBy('parameter_analysis_groups.name', 'asc')
-        ->select('project_point_matrices.*');
+        ->select('project_point_matrices.*')
+        ->get() : $analysisOrder->projectPointMatrices;
 
         return response()->json([
             'filter_result' => view('analysis-order.parameter-analysis-result',
