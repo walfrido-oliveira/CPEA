@@ -193,7 +193,7 @@ class AnalysisOrderController extends Controller
 
         return response()->json([
             'filter_result' => view('analysis-order.parameter-analysis-result',
-            compact('projectPointMatrices', 'orderBy', 'ascending', 'campaign'))->render(),
+            compact('projectPointMatrices', 'orderBy', 'ascending', 'campaign', 'analysisOrder'))->render(),
         ]);
     }
 
