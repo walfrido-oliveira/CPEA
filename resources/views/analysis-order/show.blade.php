@@ -261,7 +261,6 @@
 
         function eventsFilterCallback() {
             document.querySelectorAll('button.filter-field').forEach(item => {
-                //item.addEventListener('change', filterCallback, false);
                 item.addEventListener('click', filterCallback, false);
             });
             document.querySelectorAll("#parameter_analysis_table thead [data-name]").forEach(item => {
