@@ -13,15 +13,12 @@ use App\Models\AnalysisOrder;
 use App\Models\AnalysisResult;
 use App\Models\GuidingParameter;
 use App\Models\GuidingParameterValue;
-use Illuminate\Support\Facades\Cache;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use ChrisKonnertz\StringCalc\StringCalc;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Style\Color;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
@@ -702,12 +699,12 @@ class AnalysisResultController extends Controller
                             }
                         }
                     }
-
+                    $token = Str::contains($formula, "<") ? "<" : "";
                     $formula = Str::replace(["*J", " [1]", "< ", "<"],  "", $formula);
                     $formula = Str::replace([","],  ".", $formula);
                     $stringCalc = new StringCalc();
 
-                    $result = $stringCalc->calculate($formula);
+                    $result = "$token " . $stringCalc->calculate($formula);
 
                     $analysisResult = AnalysisResult::firstOrCreate([
                         'project_point_matrix_id' => $value->id,

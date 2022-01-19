@@ -3,14 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lab;
-use App\Models\Project;
 use App\Models\Campaign;
-use App\Models\Customer;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\AnalysisOrder;
-use App\Models\ProjectPointMatrix;
-use Illuminate\Support\Facades\Cache;
 
 class SampleAnalysisController extends Controller
 {
