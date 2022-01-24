@@ -76,6 +76,14 @@ class AnalysisOrder extends Model
     }
 
     /**
+     * The AnalysisResultFile
+     */
+    public function analysisResultsFiles()
+    {
+        return $this->hasMany(AnalysisResultFile::class);
+    }
+
+    /**
      * Find users in dabase
      *
      * @param Array

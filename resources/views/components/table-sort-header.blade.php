@@ -16,6 +16,6 @@
         </svg>
     </span>
     @if ($searchable)
-        <input type="text" name="{{ $columnName }}_search" id="{{ $columnName }}_search" class="form-control no-border m-0 w-full p-0">
+        <input type="text" name="{{ $columnName }}_search" id="{{ $columnName }}_search" class="form-control no-border m-0 w-full p-0" style="background-color:hsl(0deg 0% 96%);">
     @endif
 </th>

@@ -37,11 +37,11 @@
                     </div>
                     <div class="flex md:justify-end justify-center md:mx-0 mx-auto md:w-1/3 w-full">
                         <div class="m-2 py-2">
-                            <a class="btn-transition-secondary" href="{{ route('analysis-result.download-edd', ['analysis_order' => $analysisOrder->id]) }}" target="_self" rel="noopener noreferrer">
+                            <button type="button" class="btn-transition-secondary" id="analysis_result_files_download">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                 </svg>
-                            </a>
+                            </button>
                         </div>
                         <div class="m-2 ">
                            <form method="POST" action="{!! route('analysis-result.import') !!}" enctype="multipart/form-data" id="import_result_form">
@@ -68,6 +68,10 @@
     <x-spin-load />
 
     <div id="import_result_container_modal">
+
+    </div>
+
+    <div id="analysis_result_file_container_modal">
 
     </div>
 
@@ -126,6 +130,40 @@
     </script>
 
     <script>
+        document.getElementById("analysis_result_files_download").addEventListener("click", function() {
+            document.getElementById("spin_load").classList.remove("hidden");
+
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('analysis-result-file.show', ['analysis_order' => $analysisOrder->id]) !!}";
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let that = document.querySelector('#file');
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    document.getElementById("spin_load").classList.add("hidden");
+                    document.getElementById("analysis_result_file_container_modal").innerHTML = resp.modal;
+                    document.getElementById("analysis_result_file_confirm_modal").addEventListener("click", function() {
+                        document.getElementById("analysis_result_file_modal").classList.add("hidden");
+                    });
+                } else if(this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('_method', method);
+
+            ajax.send(data);
+
+        });
+
         document.getElementById("import_result").addEventListener("click", function() {
             document.getElementById("file").click();
         });

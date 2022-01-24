@@ -24,6 +24,7 @@ use App\Http\Controllers\AnalysisParameterController;
 use App\Http\Controllers\EnvironmentalAreaController;
 use App\Http\Controllers\ParameterAnalysisController;
 use App\Http\Controllers\PreparationMethodController;
+use App\Http\Controllers\AnalysisResultFileController;
 use App\Http\Controllers\ProjectPointMatrixController;
 use App\Http\Controllers\CalculationVariableController;
 use App\Http\Controllers\EnvironmentalAgencyController;
@@ -149,6 +150,11 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::get('/{project_point_matrix_id}', [AnalysisResultController::class, 'show'])->name('show');
         Route::put('/update/{analysis_result}', [AnalysisResultController::class, 'update'])->name('update');
         Route::delete('/{analysis_result}', [AnalysisResultController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('resultado-analise-arquivo')->name('analysis-result-file.')->group(function(){
+        Route::get('/download/{analysis_result_file}', [AnalysisResultFileController::class, 'download'])->name('download');
+        Route::post('/show/{analysis_order}', [AnalysisResultFileController::class, 'show'])->name('show');
     });
 
     Route::resource('param-analise', ParameterAnalysisController::class, [

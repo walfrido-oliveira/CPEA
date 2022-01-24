@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Models\AnalysisOrder;
 use App\Models\AnalysisResult;
 use App\Models\GuidingParameter;
+use App\Models\AnalysisResultFile;
 use App\Models\GuidingParameterValue;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use ChrisKonnertz\StringCalc\StringCalc;
@@ -517,6 +518,13 @@ class AnalysisResultController extends Controller
         $totalImport = 0;
         $totalRows = count($rows) -1;
         $imports = [];
+
+        $path = $request->file('file')->store('analises/' . $order->formatted_id);
+        $analysisResultFile = AnalysisResultFile::create([
+            'analysis_order_id' =>  $order->id,
+            'file' => $path,
+            'name' => $request->file('file')->getClientOriginalName()
+        ]);
 
         foreach($rows as $key => $value)
         {
