@@ -354,14 +354,16 @@ class AnalysisResultController extends Controller
                 {
                     $index++;
                     $sheet->getStyleByColumnAndRow(2,  $index + 6)->applyFromArray($border);
-                    if($index >= count($analysisResults))
-                    {
-                        $break = true;
-                        break;
-                    }
+                    #if($index >= count($analysisResults))
+                    #{
+                    #    $break = true;
+                    #    break;
+                    #}
                 }
 
-                if($break) continue;
+                #if($value->analyte == 'Tolueno') dd($index . '<br>' . count($analysisResults));
+
+                #if($break) continue;
 
                 $sheet->setCellValueByColumnAndRow(2,  $index + 6, $value->units);
                 $sheet->getStyleByColumnAndRow(2,  $index + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
