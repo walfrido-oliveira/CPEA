@@ -91,6 +91,9 @@ class AnalysisResultController extends Controller
 
         $project = $campaign->project;
         $RandomColors = RandomColor::many(30, array('luminosity'=>'light', 'format'=>'hex'));
+        $RandomColors[0] = "#FFCC99";
+        $RandomColors[1] = "#FFFF99";
+        $RandomColors[2] = "#DAEEF3";
         $guidingParameters = [];
 
         if($project->guiding_parameter_order && count(explode(",", $project->guiding_parameter_order)))
@@ -354,16 +357,7 @@ class AnalysisResultController extends Controller
                 {
                     $index++;
                     $sheet->getStyleByColumnAndRow(2,  $index + 6)->applyFromArray($border);
-                    #if($index >= count($analysisResults))
-                    #{
-                    #    $break = true;
-                    #    break;
-                    #}
                 }
-
-                #if($value->analyte == 'Tolueno') dd($index . '<br>' . count($analysisResults));
-
-                #if($break) continue;
 
                 $sheet->setCellValueByColumnAndRow(2,  $index + 6, $value->units);
                 $sheet->getStyleByColumnAndRow(2,  $index + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
@@ -384,7 +378,7 @@ class AnalysisResultController extends Controller
 
                 $result =  Str::contains($value->result, '*J') ? $result : ($resultValue >= $rlValue ? $result : "< $rl");
 
-                $sheet->setCellValueByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index, $result);
+                $sheet->setCellValueByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index, Str::replace(".", ",", $result));
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->applyFromArray($border);
@@ -537,7 +531,7 @@ class AnalysisResultController extends Controller
             $obj->project = $this->searchCellByValue("project", $rows[0], $order->lab, $value, 1);#$value[1];
             $obj->projectnum = $this->searchCellByValue("projectnum", $rows[0], $order->lab, $value, 2);#$value[2];
             $obj->labname = $this->searchCellByValue("labname", $rows[0], $order->lab, $value, 3);#$value[3];
-            $obj->samplename = $this->searchCellByValue("samplename", $rows[0], $order->lab, $value, 4);#$value[4];
+            $obj->samplename = Str::upper(Str::replace(" ", "", $this->searchCellByValue("samplename", $rows[0], $order->lab, $value, 4))); #$value[4];
             $obj->labsampid = $this->searchCellByValue("labsampid", $rows[0], $order->lab, $value, 5);#$value[5];
             $obj->matrix = $this->searchCellByValue("matrix", $rows[0], $order->lab, $value, 6);#$value[6];
             $obj->rptmatrix = $this->searchCellByValue("rptmatrix", $rows[0], $order->lab, $value, 7);#$value[7];

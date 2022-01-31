@@ -376,3 +376,8 @@ input:read-only {
     top: auto !important;
     bottom:100% !important;
 }
+
+.pagination .current-page {
+    background-color: #005e10;
+    color: white;
+}
