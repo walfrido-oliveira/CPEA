@@ -19,7 +19,7 @@
             <div class="pb-2 my-2 bg-white rounded-lg min-h-screen">
                 <div class="filter-container">
                     <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full">
-                        <div class="w-full md:w-1/2 px-2 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/3 px-2 mb-6 md:mb-0">
                             <x-jet-label for="lab_id" value="{{ __('Custodiante') }}" />
                             <x-custom-select :options="$labs" name="lab_id" id="lab_id" :value="app('request')->input('lab_id')"/>
                         </div>

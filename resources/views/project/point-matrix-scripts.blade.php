@@ -677,6 +677,7 @@
         document.getElementById("matriz_id").addEventListener("change", getGuidingParameters, false);
 
         function getParameterAnalyses(event) {
+            return;
             var ids = [...this].map(option => option.value);
             var that = this;
             var ajax = new XMLHttpRequest();
