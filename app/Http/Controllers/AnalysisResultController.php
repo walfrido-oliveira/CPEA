@@ -592,7 +592,7 @@ class AnalysisResultController extends Controller
 
             $projectPointMatrices = $order->projectPointMatrices()
             ->whereHas("project", function($q) use($obj) {
-                $q->where(DB::raw("replace(project_cod)"), 'like', '%' . Str::of($obj->project)->trim());
+                $q->where(DB::raw("replace(project_cod, ' ', '')"), 'like', '%' . Str::of($obj->project)->trim());
             })
             ->whereHas('parameterAnalysis', function($q) use($obj) {
                 $q->where(DB::raw("replace(parameter_analyses.analysis_parameter_name, ' ', '')"), Str::of($obj->analyte)->trim());
