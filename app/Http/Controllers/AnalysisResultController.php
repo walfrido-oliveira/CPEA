@@ -753,7 +753,7 @@ class AnalysisResultController extends Controller
      */
     private function searchCellByValue($search, $row, $lab, $ref, $original)
     {
-        $replaces = $lab->replaces->where('to', $search)->get();
+        $replaces = $lab->replaces()->where('to', $search)->get();
         foreach($replaces as $key => $replace)
         {
             $index = -1;
