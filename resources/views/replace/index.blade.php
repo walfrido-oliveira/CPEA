@@ -17,19 +17,23 @@
             </div>
 
             <div class="pb-2 my-2 bg-white rounded-lg min-h-screen">
-                <div class="md:hidden sm:hidden lg:hidden filter-container">
+                <div class="filter-container">
                     <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full">
-                        <div class="w-full md:w-1/3 px-2 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="id">
-                                {{ __('ID') }}
-                            </label>
-                            <x-jet-input id="id" class="form-control block w-full filter-field" type="text" name="id" :value="app('request')->input('id')" autofocus autocomplete="id" />
+                        <div class="w-full md:w-1/2 px-2 mb-6 md:mb-0">
+                            <x-jet-label for="lab_id" value="{{ __('Custodiante') }}" />
+                            <x-custom-select :options="$labs" name="lab_id" id="lab_id" :value="app('request')->input('lab_id')"/>
                         </div>
                         <div class="w-full md:w-1/3 px-2 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
-                                {{ __('Nome') }}
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="from">
+                                {{ __('De') }}
                             </label>
-                            <x-jet-input id="name" class="form-control block w-full filter-field" type="text" name="name" :value="app('request')->input('name')" autofocus autocomplete="name" />
+                            <x-jet-input id="from" class="form-control block w-full filter-field" type="text" name="from" :value="app('request')->input('from')" autofocus autocomplete="from" />
+                        </div>
+                        <div class="w-full md:w-1/3 px-2 mb-6 md:mb-0">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="to">
+                                {{ __('Para') }}
+                            </label>
+                            <x-jet-input id="to" class="form-control block w-full filter-field" type="text" name="to" :value="app('request')->input('to')" autofocus autocomplete="to" />
                         </div>
                     </div>
                 </div>
@@ -59,8 +63,9 @@
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
-                var id = document.getElementById("id").value;
-                var name = document.getElementById("name").value;
+                var to = document.getElementById("to").value;
+                var from = document.getElementById("from").value;
+                var labId = document.getElementById("lab_id").value;
 
                 ajax.open(method, url);
 
@@ -84,8 +89,9 @@
                 data.append('paginate_per_page', paginationPerPage);
                 data.append('ascending', ascending);
                 data.append('order_by', orderBY);
-                if(id) data.append('id', id);
-                if(name) data.append('name', name);
+                if(to) data.append('to', to);
+                if(from) data.append('from', from);
+                if(labId) data.append('lab_id', labId);
 
                 ajax.send(data);
             }
@@ -102,8 +108,9 @@
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
-                var id = document.getElementById("id").value;
-                var name = document.getElementById("name").value;
+                var to = document.getElementById("to").value;
+                var from = document.getElementById("from").value;
+                var labId = document.getElementById("lab_id").value;
 
                 ajax.open(method, url);
 
@@ -128,8 +135,9 @@
                 data.append('paginate_per_page', paginationPerPage);
                 data.append('ascending', ascending);
                 data.append('order_by', orderBY);
-                if(id) data.append('id', id);
-                if(name) data.append('name', name);
+                if(to) data.append('to', to);
+                if(from) data.append('from', from);
+                if(labId) data.append('lab_id', labId);
 
                 ajax.send(data);
             }

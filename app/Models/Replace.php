@@ -64,6 +64,14 @@ class Replace extends Model
                     $q->where('to', 'like','%' . $query['to'] . '%');
                 }
             }
+
+            if(isset($query['lab_id']))
+            {
+                if(!is_null($query['lab_id']))
+                {
+                    $q->where('lab_id', $query['lab_id']);
+                }
+            }
         });
 
         $labs->orderBy($orderBy, $ascending);

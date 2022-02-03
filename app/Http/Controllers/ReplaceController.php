@@ -17,10 +17,12 @@ class ReplaceController extends Controller
     public function index(Request $request)
     {
         $replaces =  Replace::filter($request->all());
+        $labs = Lab::all()->pluck('name', 'id');
+
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'lab_id';
 
-        return view('replace.index', compact('replaces', 'ascending', 'orderBy'));
+        return view('replace.index', compact('replaces', 'ascending', 'orderBy', 'labs'));
     }
 
     /**
