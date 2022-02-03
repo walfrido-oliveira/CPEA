@@ -592,14 +592,14 @@ class AnalysisResultController extends Controller
 
             $projectPointMatrices = $order->projectPointMatrices()
             ->whereHas("project", function($q) use($obj) {
-                $q->where(DB::raw("TRIM(project_cod)"), 'like', '%' . Str::of($obj->project)->trim());
+                $q->where(DB::raw("REPLACE(project_cod)"), 'like', '%' . Str::of($obj->project)->trim());
             })
             ->whereHas('parameterAnalysis', function($q) use($obj) {
-                $q->where(DB::raw("TRIM(parameter_analyses.analysis_parameter_name)"), Str::of($obj->analyte)->trim());
+                $q->where(DB::raw("REPLACE(parameter_analyses.analysis_parameter_name, ' ', '')"), Str::of($obj->analyte)->trim());
             })->whereHas('pointIdentification', function($q) use($obj) {
-                $q->where(DB::raw("TRIM(point_identifications.identification)"),Str::of( $obj->samplename)->trim());
+                $q->where(DB::raw("REPLACE(point_identifications.identification, ' ', '')"),Str::of( $obj->samplename)->trim());
             })->whereHas('analysisMatrix', function($q) use($obj) {
-                $q->where(DB::raw("TRIM(analysis_matrices.name)"), Str::of($obj->matrix)->trim());
+                $q->where(DB::raw("REPLACE(analysis_matrices.name, ' ', '')"), Str::of($obj->matrix)->trim());
             })
             ->first();
 
