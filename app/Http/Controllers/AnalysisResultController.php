@@ -13,6 +13,7 @@ use App\Models\AnalysisOrder;
 use App\Models\AnalysisResult;
 use App\Models\GuidingParameter;
 use App\Models\AnalysisResultFile;
+use Illuminate\Support\Facades\DB;
 use App\Models\GuidingParameterValue;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use ChrisKonnertz\StringCalc\StringCalc;
@@ -373,8 +374,7 @@ class AnalysisResultController extends Controller
                 $sheet->getStyleByColumnAndRow(2,  $index + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
                 $sheet->getStyleByColumnAndRow(2,  $index + 6)->applyFromArray($border);
 
-                $column = array_search($value->projectPointMatrix->pointIdentification->identification,
-                                       $pointIdentification);
+                $column = array_search($value->projectPointMatrix->pointIdentification->identification, $pointIdentification);
 
                 $result =  Str::replace(["*J", " [1]"], "", $value->result);
                 $result = Str::replace("<", "< ", $result);
@@ -592,14 +592,14 @@ class AnalysisResultController extends Controller
 
             $projectPointMatrices = $order->projectPointMatrices()
             ->whereHas("project", function($q) use($obj) {
-                $q->where("project_cod", 'like', '%' . $obj->project);
+                $q->where(DB::raw("TRIM(project_cod)"), 'like', '%' . Str::of($obj->project)->trim());
             })
             ->whereHas('parameterAnalysis', function($q) use($obj) {
-                $q->where('parameter_analyses.analysis_parameter_name', $obj->analyte);
+                $q->where(DB::raw("TRIM(parameter_analyses.analysis_parameter_name)"), Str::of($obj->analyte)->trim());
             })->whereHas('pointIdentification', function($q) use($obj) {
-                $q->where('point_identifications.identification', $obj->samplename);
+                $q->where(DB::raw("TRIM(point_identifications.identification)"),Str::of( $obj->samplename)->trim());
             })->whereHas('analysisMatrix', function($q) use($obj) {
-                $q->where('analysis_matrices.name', $obj->matrix);
+                $q->where(DB::raw("TRIM(analysis_matrices.name)"), Str::of($obj->matrix)->trim());
             })
             ->first();
 
