@@ -771,7 +771,7 @@ class AnalysisResultController extends Controller
             }
         }
 
-        return $ref[$original] ;
+        return isset($ref[$original]) ? $ref[$original] : null;
     }
 
     /**
