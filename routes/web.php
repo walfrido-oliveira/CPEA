@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LabController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UnityController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReplaceController;
 use App\Http\Controllers\CampaignController;
@@ -55,6 +56,10 @@ Route::get('/', function () {
 })->name('home');
 
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
+
+    Route::prefix('exportar')->name('users.')->group(function(){
+        Route::get('/valor-param-orientador', [ExportController::class, 'exportGuidingParameterValue'])->name('exportGuidingParameterValue');
+    });
 
     Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
         #return view('dashboard');
