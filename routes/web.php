@@ -5,6 +5,7 @@ use App\Http\Controllers\LabController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UnityController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\ImportController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReplaceController;
 use App\Http\Controllers\CampaignController;
@@ -57,8 +58,12 @@ Route::get('/', function () {
 
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
-    Route::prefix('exportar')->name('users.')->group(function(){
+    Route::prefix('exportar')->name('export.')->group(function(){
         Route::get('/valor-param-orientador', [ExportController::class, 'exportGuidingParameterValue'])->name('exportGuidingParameterValue');
+    });
+
+    Route::prefix('importar')->name('import.')->group(function(){
+        Route::post('/valor-param-orientador', [ImportController::class, 'importGuidingParameterValue'])->name('importGuidingParameterValue');
     });
 
     Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

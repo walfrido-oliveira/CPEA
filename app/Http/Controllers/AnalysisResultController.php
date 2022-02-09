@@ -280,7 +280,6 @@ class AnalysisResultController extends Controller
 
               for ($i=0; $i < count($guidingParameters) ; $i++)
               {
-                $sheet->setCellValueByColumnAndRow(4 + $i, $key + 6, "N/A");
                 $sheet->getStyleByColumnAndRow(4 + $i, $key + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
                 $sheet->getStyleByColumnAndRow(4 + $i, $key + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
                 $sheet->getStyleByColumnAndRow(4 + $i, $key + 6)->applyFromArray($border);
@@ -360,7 +359,6 @@ class AnalysisResultController extends Controller
                     continue;
                 }
 
-                $break = false;
                 $index = 0;
 
                 while ($sheet->getCellByColumnAndRow(1, 6 + $index) != $value->projectPointMatrix->parameterAnalysis->analysis_parameter_name)

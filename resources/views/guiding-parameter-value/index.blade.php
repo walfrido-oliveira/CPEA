@@ -13,6 +13,14 @@
                     <div class="m-2">
                         <button type="button" class="btn-outline-danger delete-guiding-parameter-value" data-type="multiple">{{ __('Apagar') }}</a>
                     </div>
+                    <div class="m-2 ">
+                        <form method="POST" action="{!! route('import.importGuidingParameterValue') !!}" enctype="multipart/form-data" id="import_result_form">
+                             @csrf
+                             @method("POST")
+                             <button type="button" class="btn-outline-info" id="import_result">{{ __('Importar Análises') }}</button>
+                             <input type="file" name="file" id="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.ms-excel" class="hidden">
+                        </form>
+                     </div>
                 </div>
             </div>
 
@@ -44,6 +52,8 @@
             </div>
         </div>
     </div>
+
+    <x-spin-load />
 
     <x-modal title="{{ __('Excluir Ponto') }}"
              msg="{{ __('Deseja realmente apagar esse Ponto?') }}"
@@ -181,6 +191,51 @@
 
             eventsDeleteCallback();
             eventsFilterCallback();
+        });
+    </script>
+
+    <script>
+        document.getElementById("file").addEventListener("change", function(e) {
+            document.getElementById("spin_load").classList.remove("hidden");
+
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('import.importGuidingParameterValue') !!}";
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let that = document.querySelector('#file');
+            let files = that.files;
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    document.getElementById("spin_load").classList.add("hidden");
+                    document.getElementById("import_result_container_modal").innerHTML = resp.result;
+                    document.getElementById("import_result_confirm_modal").addEventListener("click", function() {
+                        document.getElementById("import_result_modal").classList.add("hidden");
+                        location.reload();
+                    });
+                    that.value = '';
+                } else if(this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                    that.value = '';
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('_method', method);
+            data.append('file', files[0]);
+
+            ajax.send(data);
+
+        });
+
+        document.getElementById("import_result").addEventListener("click", function() {
+            document.getElementById("file").click();
         });
     </script>
 
