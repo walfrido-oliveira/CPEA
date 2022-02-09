@@ -551,9 +551,11 @@ class AnalysisResultController extends Controller
             $obj->matrix = $this->searchCellByValue("matrix", $rows[0], $order->lab, $value, 6);#$value[6];
             $obj->rptmatrix = $this->searchCellByValue("rptmatrix", $rows[0], $order->lab, $value, 7);#$value[7];
             $obj->solidmatrix = $this->searchCellByValue("solidmatrix", $rows[0], $order->lab, $value, 8);#$value[8];
-            $obj->sampdate = $this->searchCellByValue("sampdate", $rows[0], $order->lab, $value, 9);#$value[9];
-            $obj->prepdate = $this->searchCellByValue("prepdate", $rows[0], $order->lab, $value, 10);#$value[10];
-            $obj->anadate = $this->searchCellByValue("anadate", $rows[0], $order->lab, $value, 11);#$value[11];
+
+            $obj->sampdate = $this->formatDate($this->searchCellByValue("sampdate", $rows[0], $order->lab, $value, 9), $order->lab);#$value[9];
+            $obj->prepdate = $this->formatDate($this->searchCellByValue("prepdate", $rows[0], $order->lab, $value, 10), $order->lab);#$value[10];
+            $obj->anadate = $this->formatDate($this->searchCellByValue("anadate", $rows[0], $order->lab, $value, 11), $order->lab);#$value[11];
+
             $obj->batch = $this->searchCellByValue("batch", $rows[0], $order->lab, $value, 12);#$value[12];
             $obj->analysis = $this->searchCellByValue("analysis", $rows[0], $order->lab, $value, 13);#$value[13];
             $obj->anacode = $this->searchCellByValue("anacode", $rows[0], $order->lab, $value, 14);#$value[14];
@@ -789,6 +791,31 @@ class AnalysisResultController extends Controller
     {
         $replace = $lab->replaces->where('from', $value)->first();
         return $replace ? $replace->to : $value;
+    }
+
+    /**
+     * @param string $value
+     * @param Lab $lab
+     * @return string
+     */
+    private function formatDate($value, $lab)
+    {
+        $formats = [
+            'Y/m/d h:i',
+            'm/Y/d h:i',
+            'd/m/Y h:i',
+        ];
+
+        foreach($formats as $format)
+        {
+            $replace = $lab->replaces->where('from', $format)->first();
+            if($replace)
+            {
+                return Carbon::createFromFormat('d/m/Y', $value)->toDateString();
+            }
+        }
+
+        return null;
     }
 
     /**
