@@ -30,6 +30,7 @@ class ImportController extends Controller
                 $items[] = fgetcsv($file_handle, 0, ";");
                 $index++;
             }
+            array_pop($items);
 
             foreach ($items as $key => $value)
             {
@@ -42,6 +43,8 @@ class ImportController extends Controller
                     $guidingValue = GuidingValue::where('name', $value[4])->first();
                     $unityLegislation = Unity::where('name', $value[5])->first();
                     $unityAnalysis = Unity::where('name', $value[6])->first();
+
+                    if(!$gruidingParameter || $$analysisMatrix) continue;
 
                     $result = GuidingParameterValue::create([
                         'guiding_parameter_id' => $gruidingParameter ? $gruidingParameter->id : null,
