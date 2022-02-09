@@ -44,7 +44,7 @@ class ImportController extends Controller
                     $unityLegislation = Unity::where('name', $value[5])->first();
                     $unityAnalysis = Unity::where('name', $value[6])->first();
 
-                    if(!$gruidingParameter || $$analysisMatrix) continue;
+                    if(!$gruidingParameter || $analysisMatrix) continue;
 
                     $result = GuidingParameterValue::create([
                         'guiding_parameter_id' => $gruidingParameter ? $gruidingParameter->id : null,
