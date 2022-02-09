@@ -320,9 +320,8 @@ class AnalysisResultController extends Controller
 
                 foreach($analysisResult as $row => $item)
                 {
-                    $sheet->setCellValueByColumnAndRow((3 + $key2) + $row,  $key + 6, 'n/a');
-                $sheet->getStyleByColumnAndRow((3 + $key2) + $row,  $key + 6)->applyFromArray($border);
-
+                    $sheet->setCellValueByColumnAndRow((3 + $key2) + $row + 1,  $key + 6, 'n/a');
+                    $sheet->getStyleByColumnAndRow((3 + $key2) + $row + 1,  $key + 6)->applyFromArray($border);
                 }
 
 
