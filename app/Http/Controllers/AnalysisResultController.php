@@ -558,7 +558,7 @@ class AnalysisResultController extends Controller
 
             $obj->batch = $this->searchCellByValue("batch", $rows[0], $order->lab, $value, 12);#$value[12];
             $obj->analysis = $this->searchCellByValue("analysis", $rows[0], $order->lab, $value, 13);#$value[13];
-            $obj->anacode = $this->searchCellByValue("anacode", $rows[0], $order->lab, $value, 14);#$value[14];
+            $obj->anacode = $this->formatDate($this->searchCellByValue("anacode", $rows[0], $order->lab, $value, 14),$order->lab);#$value[14];
             $obj->methodcode = $this->searchCellByValue("methodcode", $rows[0], $order->lab, $value, 15);#$value[15];
             $obj->methodname = $this->searchCellByValue("methodname", $rows[0], $order->lab, $value, 16);#$value[16];
             $obj->description = $this->searchCellByValue("description", $rows[0], $order->lab, $value, 17);#$value[17];
