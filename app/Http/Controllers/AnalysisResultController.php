@@ -322,6 +322,8 @@ class AnalysisResultController extends Controller
                 {
                     $sheet->setCellValueByColumnAndRow((3 + $key2) + $row + 1,  $key + 6, 'n/a');
                     $sheet->getStyleByColumnAndRow((3 + $key2) + $row + 1,  $key + 6)->applyFromArray($border);
+                    $sheet->getStyleByColumnAndRow((3 + $key2) + $row + 1,  $key + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                    $sheet->getStyleByColumnAndRow((3 + $key2) + $row + 1,  $key + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
                 }
 
 
