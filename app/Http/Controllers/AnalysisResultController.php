@@ -801,9 +801,14 @@ class AnalysisResultController extends Controller
     private function formatDate($value, $lab)
     {
         $formats = [
-            'Y/m/d h:i',
-            'm/Y/d h:i',
-            'd/m/Y h:i',
+          'Y/m/d h:i',
+          'm/Y/d h:i',
+          'm/d/Y h:i',
+          'd/m/Y h:i',
+          'Y/m/d',
+          'm/Y/d',
+          'd/m/Y',
+          'm/j/Y'
         ];
 
         foreach($formats as $format)
@@ -811,7 +816,7 @@ class AnalysisResultController extends Controller
             $replace = $lab->replaces->where('from', $format)->first();
             if($replace)
             {
-                return Carbon::createFromFormat('d/m/Y', $value)->toDateString();
+                return Carbon::createFromFormat($format, $value)->format($replace->to);
             }
         }
 
