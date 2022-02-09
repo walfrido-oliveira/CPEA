@@ -34,7 +34,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    {{ $file->created_at->format("d/m/Y h:i") }}
+                                    {{ $file->created_at->format("d/m/Y H:i") }}
                                 </td>
                             </tr>
                         @endforeach

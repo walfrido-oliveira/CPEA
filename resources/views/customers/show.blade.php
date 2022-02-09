@@ -57,7 +57,7 @@
                             <p class="font-bold">{{ __('Criado em') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $customer->created_at->format('d/m/Y h:i:s')}}</p>
+                            <p class="text-gray-500 font-bold">{{ $customer->created_at->format('d/m/Y H:i:s')}}</p>
                         </div>
                     </div>
 
@@ -66,7 +66,7 @@
                             <p class="font-bold">{{ __('Última Edição') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ $customer->updated_at->format('d/m/Y h:i:s')}}</p>
+                            <p class="text-gray-500 font-bold">{{ $customer->updated_at->format('d/m/Y H:i:s')}}</p>
                         </div>
                     </div>
                 </div>

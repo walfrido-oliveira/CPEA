@@ -38,13 +38,13 @@
                 <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">{{ $campaing->campaignStatus->name }}</a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">{{ $campaing->updated_at->format('d/m/Y h:i') }}</a>
+                <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">{{ $campaing->updated_at->format('d/m/Y H:i') }}</a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">{{ $campaing->created_at->format('d/m/Y h:i') }}</a>
+                <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">{{ $campaing->created_at->format('d/m/Y H:i') }}</a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">{{ $campaing->project->created_at->format('d/m/Y h:i') }}</a>
+                <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">{{ $campaing->project->created_at->format('d/m/Y H:i') }}</a>
             </td>
             <td>
                 <a class="btn-transition-warning" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">
