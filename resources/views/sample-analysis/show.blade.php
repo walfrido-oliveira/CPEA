@@ -59,7 +59,7 @@
                                     <p class="font-bold">{{ __('Dt. Modificação') }}</p>
                                 </div>
                                 <div class="mx-1 px-1">
-                                    <p class="text-gray-500 font-bold">{{ $campaign->updated_at->format('d/m/Y h:m') }}</p>
+                                    <p class="text-gray-500 font-bold">{{ $campaign->updated_at->format('d/m/Y H:i') }}</p>
                                 </div>
                             </div>
                         </div>
