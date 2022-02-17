@@ -19,7 +19,7 @@ class ReplaceController extends Controller
     {
         $replaces =  Replace::filter($request->all());
         $labs = Lab::all()->pluck('name', 'id');
-        $to = To::all()->pluck('name', 'id');
+        $to = To::all()->pluck('name', 'name');
 
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'lab_id';
