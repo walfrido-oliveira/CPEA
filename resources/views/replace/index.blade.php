@@ -33,7 +33,7 @@
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="to">
                                 {{ __('Para') }}
                             </label>
-                            <x-jet-input id="to" class="form-control block w-full filter-field" type="text" name="to" :value="app('request')->input('to')" autofocus autocomplete="to" />
+                            <x-custom-select :options="$to" name="to" id="to" :value="app('request')->input('to')"/>
                         </div>
                     </div>
                 </div>

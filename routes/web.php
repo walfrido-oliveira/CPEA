@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ToController;
 use App\Http\Controllers\LabController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UnityController;
@@ -71,6 +72,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         return redirect()->route('project.index');
     })->name('dashboard');
 
+    Route::prefix('para')->name('tos.')->group(function(){
+        Route::post('/simple-create', [ToController::class, 'simpleCreate'])->name('simple-create');
+    });
 
     Route::resource('usuarios', UserController::class, [
         'names' => 'users'])->parameters([

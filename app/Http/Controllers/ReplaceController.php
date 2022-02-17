@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Lab;
 use App\Models\Replace;
+use App\Models\To;
 use Illuminate\Http\Request;
 
 class ReplaceController extends Controller
@@ -18,11 +19,12 @@ class ReplaceController extends Controller
     {
         $replaces =  Replace::filter($request->all());
         $labs = Lab::all()->pluck('name', 'id');
+        $to = To::all()->pluck('name', 'id');
 
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'lab_id';
 
-        return view('replace.index', compact('replaces', 'ascending', 'orderBy', 'labs'));
+        return view('replace.index', compact('replaces', 'ascending', 'orderBy', 'labs', 'to'));
     }
 
     /**
@@ -33,7 +35,8 @@ class ReplaceController extends Controller
     public function create()
     {
         $labs = Lab::orderBy('name')->pluck('name', 'id');
-        return view('replace.create', compact('labs'));
+        $to = To::all()->pluck('name', 'name');
+        return view('replace.create', compact('labs', 'to'));
     }
 
     /**
@@ -88,8 +91,9 @@ class ReplaceController extends Controller
     {
         $replace = Replace::findOrFail($id);
         $labs = Lab::orderBy('name')->pluck('name', 'id');
+        $to = To::all()->pluck('name', 'name');
 
-        return view('replace.edit', compact('replace', 'labs'));
+        return view('replace.edit', compact('replace', 'labs', 'to'));
     }
 
     /**
