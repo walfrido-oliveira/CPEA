@@ -55,6 +55,10 @@
 
     <x-spin-load />
 
+    <div id="import_result_container_modal">
+
+    </div>
+
     <x-modal title="{{ __('Excluir Ponto') }}"
              msg="{{ __('Deseja realmente apagar esse Ponto?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_guiding_parameter_value_modal"
@@ -199,7 +203,7 @@
             document.getElementById("spin_load").classList.remove("hidden");
 
             let ajax = new XMLHttpRequest();
-            let url = "{!! route('import.importGuidingParameterValue') !!}";
+            let url = "{!! route('import.viewImportGuidingParameterValue') !!}";
             let token = document.querySelector('meta[name="csrf-token"]').content;
             let method = 'POST';
             let that = document.querySelector('#file');

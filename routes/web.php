@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     Route::prefix('importar')->name('import.')->group(function(){
         Route::post('/valor-param-orientador', [ImportController::class, 'importGuidingParameterValue'])->name('importGuidingParameterValue');
+        Route::post('/valor-param-orientador/show', [ImportController::class, 'viewImportGuidingParameterValue'])->name('viewImportGuidingParameterValue');
     });
 
     Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
