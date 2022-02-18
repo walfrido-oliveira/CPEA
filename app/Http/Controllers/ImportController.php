@@ -38,13 +38,13 @@ class ImportController extends Controller
             {
                 if($key > 1)
                 {
-                    $gruidingParameter = GuidingParameter::where('name', $value[0])->first();
-                    $analysisMatrix = AnalysisMatrix::where('name', $value[1])->first();
-                    $parameterAnalysis = ParameterAnalysis::where('analysis_parameter_name', $value[2])->first();
-                    $guidingParameterRefValue = GuidingParameterRefValue::where('guiding_parameter_ref_value_id', $value[3])->first();
-                    $guidingValue = GuidingValue::where('name', $value[4])->first();
-                    $unityLegislation = Unity::where('name', $value[5])->first();
-                    $unityAnalysis = Unity::where('name', $value[6])->first();
+                    $gruidingParameter = GuidingParameter::where('name', utf8_encode($value[0]))->first();
+                    $analysisMatrix = AnalysisMatrix::where('name', utf8_encode($value[1]))->first();
+                    $parameterAnalysis = ParameterAnalysis::where('analysis_parameter_name', utf8_encode($value[2]))->first();
+                    $guidingParameterRefValue = GuidingParameterRefValue::where('guiding_parameter_ref_value_id', utf8_encode($value[3]))->first();
+                    $guidingValue = GuidingValue::where('name', utf8_encode($value[4]))->first();
+                    $unityLegislation = Unity::where('name', utf8_encode($value[5]))->first();
+                    $unityAnalysis = Unity::where('name', utf8_encode($value[6]))->first();
 
                     $obj = new stdClass();
                     $obj->gruidingParameter = $gruidingParameter ? $gruidingParameter->name : null;
