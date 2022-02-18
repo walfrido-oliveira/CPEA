@@ -43,8 +43,8 @@ class ImportController extends Controller
                     $parameterAnalysis = ParameterAnalysis::where('analysis_parameter_name', utf8_encode($value[2]))->first();
                     $guidingParameterRefValue = GuidingParameterRefValue::where('guiding_parameter_ref_value_id', utf8_encode($value[3]))->first();
                     $guidingValue = GuidingValue::where('name', utf8_encode($value[4]))->first();
-                    $unityLegislation = Unity::where('name', utf8_encode($value[5]))->first();
-                    $unityAnalysis = Unity::where('name', utf8_encode($value[6]))->first();
+                    $unityLegislation = Unity::where('unity_cod', utf8_encode($value[5]))->first();
+                    $unityAnalysis = Unity::where('unity_cod', utf8_encode($value[6]))->first();
 
                     $obj = new stdClass();
                     $obj->gruidingParameter = $gruidingParameter ? $gruidingParameter->name : null;
