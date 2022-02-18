@@ -205,7 +205,7 @@
             document.getElementById("spin_load").classList.remove("hidden");
 
             let ajax = new XMLHttpRequest();
-            let url = "{!! route('import.importGuidingParameterValue') !!}";
+            let url = "{!! route('import.viewImportGuidingParameterValue') !!}";
             let token = document.querySelector('meta[name="csrf-token"]').content;
             let method = 'POST';
             let that = document.querySelector('#file');
@@ -217,13 +217,11 @@
                 if (this.readyState == 4 && this.status == 200) {
                     var resp = JSON.parse(ajax.response);
                     document.getElementById("spin_load").classList.add("hidden");
-                    toastr.success(resp.result);
-
-                   /* document.getElementById("import_result_container_modal").innerHTML = resp.result;
+                    document.getElementById("import_result_container_modal").innerHTML = resp.result;
                     document.getElementById("import_result_confirm_modal").addEventListener("click", function() {
                         document.querySelector("#import_result_container_modal div").remove();
-                    })*/
-                    that.value = '';
+                    })
+                    that.value='';
                 } else if(this.readyState == 4 && this.status != 200) {
                     document.getElementById("spin_load").classList.add("hidden");
                     toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
