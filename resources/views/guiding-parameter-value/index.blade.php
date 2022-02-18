@@ -55,15 +55,17 @@
 
     <x-spin-load />
 
-    <div id="import_result_container_modal">
 
-    </div>
 
     <x-modal title="{{ __('Excluir Ponto') }}"
              msg="{{ __('Deseja realmente apagar esse Ponto?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_guiding_parameter_value_modal"
              method="DELETE"
              redirect-url="{{ route('guiding-parameter-value.index') }}"/>
+
+    <div id="import_result_container_modal">
+
+    </div>
 
     <script>
         window.addEventListener("load", function() {
@@ -217,9 +219,8 @@
                     document.getElementById("spin_load").classList.add("hidden");
                     document.getElementById("import_result_container_modal").innerHTML = resp.result;
                     document.getElementById("import_result_confirm_modal").addEventListener("click", function() {
-                        document.getElementById("import_result_modal").classList.add("hidden");
-                        location.reload();
-                    });
+                        document.querySelector("#import_result_container_modal div").remove();
+                    })
                     that.value = '';
                 } else if(this.readyState == 4 && this.status != 200) {
                     document.getElementById("spin_load").classList.add("hidden");
