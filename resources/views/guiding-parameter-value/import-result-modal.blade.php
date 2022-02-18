@@ -40,6 +40,20 @@
                                 <td>{{ $item->guidingValue }}</td>
                                 <td>{{ $item->unityLegislation }}</td>
                                 <td>{{ $item->unityAnalysis }}</td>
+                                <td>
+                                    @switch($item->status)
+                                        @case('found')
+                                            <svg xmlns="http://www.w3.org/2000/svg" title="{{ __('Importado') }}" class="h-5 w-5 text-green-600" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                            </svg>
+                                            @break
+                                        @case('not_found')
+                                            <svg xmlns="http://www.w3.org/2000/svg" title="{{ __('Não importado') }}" class="h-5 w-5 text-red-600" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clip-rule="evenodd" />
+                                            </svg>
+                                            @break
+                                    @endswitch
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

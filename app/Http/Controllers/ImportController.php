@@ -54,6 +54,7 @@ class ImportController extends Controller
                     $obj->guidingValue = $guidingValue ? $guidingValue->name : null;
                     $obj->unityLegislation = $unityLegislation ? $unityLegislation->name : null;
                     $obj->unityAnalysis = $unityAnalysis ? $unityAnalysis->name : null;
+                    $obj->status = $gruidingParameter && !$analysisMatrix && !$parameterAnalysis ? 'found' : 'not_found';
                     $imports[] = $obj;
                 }
             }
@@ -109,7 +110,7 @@ class ImportController extends Controller
                     $obj->unityAnalysis = $unityAnalysis ? $unityAnalysis->name : null;
                     $imports[] = $obj;
 
-                    if(!$gruidingParameter || !$analysisMatrix || $parameterAnalysis) continue;
+                    if(!$gruidingParameter || !$analysisMatrix || !$parameterAnalysis) continue;
 
                     GuidingParameterValue::create([
                         'guiding_parameter_id' => $gruidingParameter ? $gruidingParameter->id : null,
