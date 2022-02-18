@@ -47,13 +47,13 @@ class ImportController extends Controller
                     $unityAnalysis = Unity::where('unity_cod', utf8_encode($value[9]))->first();
 
                     $obj = new stdClass();
-                    $obj->gruidingParameter = $gruidingParameter ? $gruidingParameter->name : null;
-                    $obj->analysisMatrix = $analysisMatrix ? $analysisMatrix->name : null;
-                    $obj->parameterAnalysis = $parameterAnalysis ? $parameterAnalysis->analysis_parameter_name : null;
-                    $obj->guidingParameterRefValue = $guidingParameterRefValue ? $guidingParameterRefValue->guiding_parameter_ref_value_id : null;
-                    $obj->guidingValue = $guidingValue ? $guidingValue->name : null;
-                    $obj->unityLegislation = $unityLegislation ? $unityLegislation->name : null;
-                    $obj->unityAnalysis = $unityAnalysis ? $unityAnalysis->name : null;
+                    $obj->gruidingParameter = $gruidingParameter ? $gruidingParameter->name : "($value[0])";
+                    $obj->analysisMatrix = $analysisMatrix ? $analysisMatrix->name : "($value[1])";
+                    $obj->parameterAnalysis = $parameterAnalysis ? $parameterAnalysis->analysis_parameter_name : "($value[2])";
+                    $obj->guidingParameterRefValue = $guidingParameterRefValue ? $guidingParameterRefValue->guiding_parameter_ref_value_id : "($value[3])";
+                    $obj->guidingValue = $guidingValue ? $guidingValue->name : "($value[4])";
+                    $obj->unityLegislation = $unityLegislation ? $unityLegislation->name : "($value[5])";
+                    $obj->unityAnalysis = $unityAnalysis ? $unityAnalysis->name : "($value[9])";
                     $obj->status = $gruidingParameter && $analysisMatrix && $parameterAnalysis ? 'found' : 'not_found';
                     $imports[] = $obj;
                 }
@@ -101,13 +101,14 @@ class ImportController extends Controller
                     $unityAnalysis = Unity::where('unity_cod', utf8_encode($value[9]))->first();
 
                     $obj = new stdClass();
-                    $obj->gruidingParameter = $gruidingParameter ? $gruidingParameter->name : null;
-                    $obj->analysisMatrix = $analysisMatrix ? $analysisMatrix->name : null;
-                    $obj->parameterAnalysis = $parameterAnalysis ? $parameterAnalysis->analysis_parameter_name : null;
-                    $obj->guidingParameterRefValue = $guidingParameterRefValue ? $guidingParameterRefValue->guiding_parameter_ref_value_id : null;
-                    $obj->guidingValue = $guidingValue ? $guidingValue->name : null;
-                    $obj->unityLegislation = $unityLegislation ? $unityLegislation->name : null;
-                    $obj->unityAnalysis = $unityAnalysis ? $unityAnalysis->name : null;
+                    $obj->gruidingParameter = $gruidingParameter ? $gruidingParameter->name : "($value[0])";
+                    $obj->analysisMatrix = $analysisMatrix ? $analysisMatrix->name : "($value[1])";
+                    $obj->parameterAnalysis = $parameterAnalysis ? $parameterAnalysis->analysis_parameter_name : "($value[2])";
+                    $obj->guidingParameterRefValue = $guidingParameterRefValue ? $guidingParameterRefValue->guiding_parameter_ref_value_id : "($value[3])";
+                    $obj->guidingValue = $guidingValue ? $guidingValue->name : "($value[4])";
+                    $obj->unityLegislation = $unityLegislation ? $unityLegislation->name : "($value[5])";
+                    $obj->unityAnalysis = $unityAnalysis ? $unityAnalysis->name : "($value[9])";
+                    $obj->status = $gruidingParameter && $analysisMatrix && $parameterAnalysis ? 'found' : 'not_found';
                     $imports[] = $obj;
 
                     if(!$gruidingParameter || !$analysisMatrix || !$parameterAnalysis) continue;
@@ -126,12 +127,11 @@ class ImportController extends Controller
                         'guiding_analysis_value' => $value[10],
                         'guiding_analysis_value_1' => $value[11],
                         'guiding_analysis_value_2' => $value[12],
-
                     ]);
                 }
             }
             return response()->json([
-                'message' => __('Importação realizada com sucesso!!'),
+                'result' => view('guiding-parameter-value.import-result-modal', compact('imports'))->render(),
                 'alert-type' => 'success'
             ]);
         }
