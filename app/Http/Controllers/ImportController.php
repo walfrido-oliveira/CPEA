@@ -111,7 +111,7 @@ class ImportController extends Controller
 
                     if(!$gruidingParameter || !$analysisMatrix) continue;
 
-                    $result = GuidingParameterValue::create([
+                    GuidingParameterValue::create([
                         'guiding_parameter_id' => $gruidingParameter ? $gruidingParameter->id : null,
                         'analysis_matrix_id' => $analysisMatrix ? $analysisMatrix->id : null,
                         'parameter_analysis_id'=> $parameterAnalysis ? $parameterAnalysis->id : null,
