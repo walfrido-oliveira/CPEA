@@ -44,7 +44,7 @@ class ImportController extends Controller
                     $guidingParameterRefValue = GuidingParameterRefValue::where('guiding_parameter_ref_value_id', utf8_encode($value[3]))->first();
                     $guidingValue = GuidingValue::where('name', utf8_encode($value[4]))->first();
                     $unityLegislation = Unity::where('unity_cod', utf8_encode($value[5]))->first();
-                    $unityAnalysis = Unity::where('unity_cod', utf8_encode($value[6]))->first();
+                    $unityAnalysis = Unity::where('unity_cod', utf8_encode($value[9]))->first();
 
                     $obj = new stdClass();
                     $obj->gruidingParameter = $gruidingParameter ? $gruidingParameter->name : null;
@@ -91,13 +91,13 @@ class ImportController extends Controller
             {
                 if($key > 1)
                 {
-                    $gruidingParameter = GuidingParameter::where('name', $value[0])->first();
-                    $analysisMatrix = AnalysisMatrix::where('name', $value[1])->first();
-                    $parameterAnalysis = ParameterAnalysis::where('analysis_parameter_name', $value[2])->first();
-                    $guidingParameterRefValue = GuidingParameterRefValue::where('guiding_parameter_ref_value_id', $value[3])->first();
-                    $guidingValue = GuidingValue::where('name', $value[4])->first();
-                    $unityLegislation = Unity::where('name', $value[5])->first();
-                    $unityAnalysis = Unity::where('name', $value[6])->first();
+                    $gruidingParameter = GuidingParameter::where('name', utf8_encode($value[0]))->first();
+                    $analysisMatrix = AnalysisMatrix::where('name', utf8_encode($value[1]))->first();
+                    $parameterAnalysis = ParameterAnalysis::where('analysis_parameter_name', utf8_encode($value[2]))->first();
+                    $guidingParameterRefValue = GuidingParameterRefValue::where('guiding_parameter_ref_value_id', utf8_encode($value[3]))->first();
+                    $guidingValue = GuidingValue::where('name', utf8_encode($value[4]))->first();
+                    $unityLegislation = Unity::where('unity_cod', utf8_encode($value[5]))->first();
+                    $unityAnalysis = Unity::where('unity_cod', utf8_encode($value[9]))->first();
 
                     $obj = new stdClass();
                     $obj->gruidingParameter = $gruidingParameter ? $gruidingParameter->name : null;
@@ -119,12 +119,12 @@ class ImportController extends Controller
                         'guiding_value_id' => $guidingValue ? $guidingValue->id : null,
                         'unity_legislation_id' => $unityLegislation ? $unityLegislation->id : null,
                         'unity_analysis_id' => $unityAnalysis ? $unityAnalysis->id : null,
-                        'guiding_legislation_value' => $value[0][7],
-                        'guiding_legislation_value_1' => $value[0][8],
-                        'guiding_legislation_value_2' => $value[0][9],
-                        'guiding_analysis_value' => $value[0][10],
-                        'guiding_analysis_value_1' => $value[0][11],
-                        'guiding_analysis_value_2' => $value[0][12],
+                        'guiding_legislation_value' => $value[6],
+                        'guiding_legislation_value_1' => $value[7],
+                        'guiding_legislation_value_2' => $value[8],
+                        'guiding_analysis_value' => $value[10],
+                        'guiding_analysis_value_1' => $value[11],
+                        'guiding_analysis_value_2' => $value[12],
 
                     ]);
                 }
