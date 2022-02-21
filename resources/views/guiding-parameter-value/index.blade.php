@@ -205,7 +205,7 @@
             document.getElementById("spin_load").classList.remove("hidden");
 
             let ajax = new XMLHttpRequest();
-            let url = "{!! route('import.viewImportGuidingParameterValue') !!}";
+            let url = "{!! route('import.importGuidingParameterValue') !!}";
             let token = document.querySelector('meta[name="csrf-token"]').content;
             let method = 'POST';
             let that = document.querySelector('#file');
