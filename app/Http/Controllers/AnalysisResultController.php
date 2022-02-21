@@ -597,7 +597,7 @@ class AnalysisResultController extends Controller
             $obj->snote8 = $this->searchCellByValue("snote8", $rows[0], $order->lab, $value, 50);#$value[50];
             $obj->snote9 = $this->searchCellByValue("snote9", $rows[0], $order->lab, $value, 51);#$value[51];
             $obj->snote10 = $this->searchCellByValue("snote10", $rows[0], $order->lab, $value, 52);#$value[52];
-            dd(Str::of($obj->project)->trim());
+
             $projectPointMatrices = $order->projectPointMatrices()
             ->whereHas("project", function($q) use($obj) {
                 $q->where(DB::raw("replace(project_cod, ' ', '')"), Str::of(Str::replace(' ','', $obj->project))->trim());
