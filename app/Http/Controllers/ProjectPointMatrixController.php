@@ -13,7 +13,6 @@ use App\Models\GuidingParameter;
 use App\Models\ParameterAnalysis;
 use App\Models\ProjectPointMatrix;
 use App\Models\PointIdentification;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 
 class ProjectPointMatrixController extends Controller
@@ -106,6 +105,37 @@ class ProjectPointMatrixController extends Controller
         if ($validator->fails())
         {
             return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
+        }
+
+        $result = ProjectPointMatrix::where('campaign_id', $input['campaign_id'])
+                                    ->where('point_identification_id', $input['point_identification_id'])
+                                    ->where('analysis_matrix_id', $input['analysis_matrix_id'])
+                                    ->where('parameter_analysis_id', $input['parameter_analysis_id'])->get();
+        if(count($result) > 0)
+        {
+            $parameterAnalisis = ParameterAnalysis::find($input['parameter_analysis_id']);
+            return response()->json(["error" => "O Param. Análise $parameterAnalisis->analysis_parameter_name já foi cadastrado"], Response::HTTP_BAD_REQUEST);
+        }
+
+        if(isset($input['analysis_parameter_ids']))
+        {
+            $erros = [];
+            foreach (array_diff(explode(",", $input['analysis_parameter_ids']), array("")) as $key => $value)
+            {
+                $result = ProjectPointMatrix::where('campaign_id', $input['campaign_id'])
+                                    ->where('point_identification_id', $input['point_identification_id'])
+                                    ->where('analysis_matrix_id', $input['analysis_matrix_id'])
+                                    ->where('parameter_analysis_id', $value)->get();
+                if(count($result) > 0)
+                {
+                    $parameterAnalisis = ParameterAnalysis::find($value);
+                    $erros["error_$key"] = "O Param. Análise $parameterAnalisis->analysis_parameter_name já foi cadastrado";
+                }
+            }
+            if(count($erros) > 0)
+            {
+                return response()->json($erros, Response::HTTP_BAD_REQUEST);
+            }
         }
 
         $key = $input['key'];
