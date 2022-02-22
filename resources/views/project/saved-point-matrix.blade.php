@@ -17,14 +17,7 @@
             <input type="hidden" name="point_matrix[{{ $key }}][area]" id="point_matrix_{{ $key }}_area" value="{{ $projectPointMatrix->pointIdentification ? $projectPointMatrix->pointIdentification->area : null }}">
         @if ($projectPointMatrix->pointIdentification)
             <a class="text-green-600 underline" href="{{ route('registers.point-identification.show', ['point_identification' => $projectPointMatrix->pointIdentification->id]) }}" target="_blank" rel="noopener noreferrer">
-                {{ $projectPointMatrix->pointIdentification->area }}
-            </a>
-        @endif
-    </td>
-    <td>
-        @if ($projectPointMatrix->pointIdentification)
-            <a class="text-green-600 underline" href="{{ route('registers.point-identification.show', ['point_identification' => $projectPointMatrix->pointIdentification->id]) }}" target="_blank" rel="noopener noreferrer">
-                {{ $projectPointMatrix->pointIdentification->identification }}
+                {{ $projectPointMatrix->pointIdentification->area }} - {{ $projectPointMatrix->pointIdentification->identification }}
             </a>
         @endif
     </td>
@@ -32,6 +25,11 @@
         <input type="hidden" name="point_matrix[{{ $key }}][analysis_matrix_id]" id="point_matrix_{{ $key }}_analysis_matrix_id" value="{{ $projectPointMatrix->analysisMatrix ? $projectPointMatrix->analysisMatrix->id : null }}">
         @if ($projectPointMatrix->analysisMatrix)
             {{ $projectPointMatrix->analysisMatrix->name }}
+        @endif
+    </td>
+    <td>
+        @if ($projectPointMatrix->parameterAnalysis)
+            {{ $projectPointMatrix->parameterAnalysis->parameterAnalysisGroup->name }}
         @endif
     </td>
     <td>

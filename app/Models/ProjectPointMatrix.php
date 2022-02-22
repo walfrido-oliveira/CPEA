@@ -230,7 +230,8 @@ class ProjectPointMatrix extends Model
                 if(!is_null($query['area']))
                 {
                     $q->whereHas('pointIdentification', function($q) use($query) {
-                        $q->where('point_identifications.area', 'like', '%' . $query['area'] . '%');
+                        $q->where('point_identifications.area', 'like', '%' . $query['area'] . '%')
+                        ->orWhere('point_identifications.identification', 'like', '%' . $query['area'] . '%');
                     });
                 }
             }
@@ -241,6 +242,18 @@ class ProjectPointMatrix extends Model
                 {
                     $q->whereHas('pointIdentification', function($q) use($query) {
                         $q->where('point_identifications.identification', 'like', '%' . $query['identification'] . '%');
+                    });
+                }
+            }
+
+            if(isset($query['parameter_analysis_group_name']))
+            {
+                if(!is_null($query['parameter_analysis_group_name']))
+                {
+                    $q->whereHas('parameterAnalysis', function($q) use($query) {
+                        $q->whereHas('parameterAnalysisGroup', function($q) use($query) {
+                            $q->where('parameter_analysis_groups.name', 'like', '%' .$query['parameter_analysis_group_name'] . '%' );
+                        });
                     });
                 }
             }
