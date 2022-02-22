@@ -158,7 +158,7 @@ class ProjectController extends Controller
         $identifications = PointIdentification::pluck('identification', 'identification');
         $matrizeces = AnalysisMatrix::pluck('name', 'id');
         $guidingParameters = GuidingParameter::orderBy("environmental_guiding_parameter_id", 'asc')->pluck('environmental_guiding_parameter_id', 'id');
-        $parameterAnalyses = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
+        $parameterAnalyses = ParameterAnalysis::all()->pluck('with_group_name', 'id');
         $geodeticSystems = GeodeticSystem::pluck("name", "id");
         $preparationMethods = ParameterMethod::where('type', 'preparation')->get()->pluck('name', 'id');
         $analysisMethods = ParameterMethod::where('type', 'analysis')->get()->pluck('name', 'id');

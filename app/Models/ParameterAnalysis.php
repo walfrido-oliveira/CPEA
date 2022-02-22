@@ -23,7 +23,7 @@ class ParameterAnalysis extends Model
         'decimal_place', 'final_validity'
     ];
 
-    protected $appends = ['grupo_name'];
+    protected $appends = ['grupo_name', 'with_group_name'];
 
     /**
      * The attributes that should be cast to native types.
@@ -67,6 +67,16 @@ class ParameterAnalysis extends Model
     public function calculationParameter()
     {
         return $this->belongsTo(CalculationParameter::class);
+    }
+
+    /**
+     * Get with group name Parameter Nalysis
+     *
+     * @return string
+     */
+    public function getWithGroupNameAttribute()
+    {
+        return $this->analysis_parameter_name . " [" . ($this->parameterAnalysisGroup ? $this->parameterAnalysisGroup->name : '') . "]";
     }
 
     /**
