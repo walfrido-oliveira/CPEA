@@ -92,7 +92,18 @@
             }
 
             @if(isset($attributes['redirect-url']))
-                window.location.href = "{{ $attributes['redirect-url'] }}";
+                var url = "{{ $attributes['redirect-url'] }}?";
+                @if(isset($attributes['form-id']))
+                    document.querySelectorAll("#{{ $attributes['form-id'] }} input").forEach(function (item) {
+                        console.log(item.value);
+                        url += `${item.name}=${item.value}&`;
+                    });
+                    document.querySelectorAll("#{{ $attributes['form-id'] }} select").forEach(function (item) {
+                        console.log(item.value);
+                        url += `${item.name}=${item.value}&`;
+                    });
+                @endif
+                window.location.href = url;
             @endif
         }
 

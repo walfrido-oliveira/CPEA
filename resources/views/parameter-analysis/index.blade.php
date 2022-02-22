@@ -17,7 +17,7 @@
             </div>
 
             <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
-                <div class="filter-container">
+                <div class="filter-container" id="filter_container">
                     <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full">
                         <div class="w-full md:w-1/3 px-2 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="analysis_parameter_id">
@@ -61,7 +61,8 @@
              msg="{{ __('Deseja realmente apagar esse Param. Análise?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_parameter_analysis_modal"
              method="DELETE"
-             redirect-url="{{ route('parameter-analysis.index') }}"/>
+             redirect-url="{{ route('parameter-analysis.index') }}"
+             form-id="filter_container"/>
 
     <script>
         window.addEventListener("load", function() {
