@@ -117,11 +117,13 @@ class ProjectPointMatrixController extends Controller
             return response()->json(["error" => "O Param. Análise $parameterAnalisis->analysis_parameter_name já foi cadastrado"], Response::HTTP_BAD_REQUEST);
         }
 
+        $checkParamAnalysis = isset($input['parameter_analysis_id']);
         if(isset($input['analysis_parameter_ids']))
         {
             $erros = [];
             foreach (array_diff(explode(",", $input['analysis_parameter_ids']), array("")) as $key => $value)
             {
+                if($value) $checkParamAnalysis = true;
                 $result = ProjectPointMatrix::where('campaign_id', $input['campaign_id'])
                                     ->where('point_identification_id', $input['point_identification_id'])
                                     ->where('analysis_matrix_id', $input['analysis_matrix_id'])
@@ -137,6 +139,8 @@ class ProjectPointMatrixController extends Controller
                 return response()->json($erros, Response::HTTP_BAD_REQUEST);
             }
         }
+
+        if(!$checkParamAnalysis) return response()->json(["Campo param. análise não selecionado."], Response::HTTP_BAD_REQUEST);
 
         $key = $input['key'];
         $projectPointMatrix = ProjectPointMatrix::find($id);
