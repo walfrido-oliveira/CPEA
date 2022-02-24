@@ -312,7 +312,7 @@ class AnalysisOrderController extends Controller
         $analysisOrder->projectPointMatrices()->detach($item);
 
         $analysisResult = AnalysisResult::where("project_point_matrix_id", $item)->first();
-        $analysisResult->delete();
+        if($analysisResult) $analysisResult->delete();
 
         return response()->json([
             'message' => __('Ponto/Matriz Apagado com Sucesso!'),
