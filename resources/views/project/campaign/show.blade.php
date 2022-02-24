@@ -163,8 +163,13 @@
         ajax.send(data);
 
     });
+
     document.getElementById("point_create").addEventListener("click", function() {
         show();
+    });
+
+    document.getElementById("point_cancel_modal").addEventListener("click", function() {
+        close();
     });
 
     function show() {
@@ -191,8 +196,9 @@
     document.getElementById("duplicate_form").addEventListener("submit", function(e){
         let pointIdentifications = document.getElementById("point_identifications").value
         let pointIdentificationsRef = document.getElementById("point_identifications_ref").value
+        let campain = document.getElementById("name").value;
 
-        if(pointIdentifications == pointIdentificationsRef) {
+        if(pointIdentifications == pointIdentificationsRef && "{{ $campaign->name }}" == campain) {
             e.preventDefault();
             show();
         }
