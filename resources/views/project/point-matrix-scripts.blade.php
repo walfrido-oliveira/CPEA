@@ -783,6 +783,8 @@
 
                     if(window.customSelectArray["analysis_parameter_ids"]) window.customSelectArray["analysis_parameter_ids"].update();
 
+                    setTotalAnalysisParameter();
+
                 } else if (this.readyState == 4 && this.status != 200) {
                     //toastr.error("{!! __('Um erro ocorreu ao gerar a consulta') !!}");
                     let guidingParametersId = document.getElementById("analysis_parameter_ids");
@@ -793,6 +795,8 @@
                     }
 
                     if(window.customSelectArray["analysis_parameter_ids"]) window.customSelectArray["analysis_parameter_ids"].update();
+
+                    setTotalAnalysisParameter();
                 }
             }
 
@@ -833,6 +837,16 @@
             modal.classList.add("hidden");
             document.querySelector("body").style.overflow = "auto";
         });
+
+        document.getElementById("analysis_parameter_ids").addEventListener("change", function() {
+            setTotalAnalysisParameter();
+        });
+
+        function setTotalAnalysisParameter() {
+            let total = document.querySelectorAll("#analysis_parameter_ids option:checked").length;
+            let label = document.querySelector("#analysis_parameter_ids_label span");
+            label.innerHTML = `(${total})`;
+        }
 
     });
 </script>

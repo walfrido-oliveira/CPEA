@@ -64,7 +64,7 @@
                         </div>
                         <x-custom-multi-select multiple :options="$parameterAnalyses" name="analysis_parameter_id" id="analysis_parameter_id" value="" class="mt-1" no-filter="no-filter"/>
                         <x-custom-multi-select multiple :options="$parameterAnalyseGroups" name="analysis_parameter_group_id" id="analysis_parameter_group_id" value="" select-class="form-input" class="mt-1 hidden" no-filter="no-filter"/>
-                        <x-jet-label class="inline hidden" id="analysis_parameter_ids_label" for="analysis_parameter_ids_label" value="{{ __('Param. Análise') }}" required/>
+                        <x-jet-label class="inline hidden" id="analysis_parameter_ids_label" for="analysis_parameter_ids_label" value="{{ __('Param. Análise') }} <span>(0)</span>" required/>
                         <x-custom-multi-select multiple :options="[]" name="analysis_parameter_ids" id="analysis_parameter_ids" value="" select-class="form-input" class="mt-1 hidden" no-filter="no-filter"/>
                     </div>
                 </div>
