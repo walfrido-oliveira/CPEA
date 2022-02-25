@@ -62,42 +62,57 @@
                             </div>
                         </div>
                     </div>
-                    <div class="filter-container md:block" id="duplicate_point_container" style="display: none;">
+                    <div id="duplicate_point_container" style="display: none;">
                         <div class="flex flex-wrap mx-4 px-3 py-2">
-                            <h2 class="w-full">{{ __('Referência') }}</h2>
+                            <h2 class="w-full px-3">{{ __('Referência') }}</h2>
                             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                 <x-jet-label for="area_ref" value="{{ __('Área') }}" required />
-                                <x-custom-select :options="$areas" name="area_ref" id="area_ref" value="" class="mt-1" no-filter="no-filter"/>
+                                <x-custom-select :options="$areas" name="area_ref" value="" class="mt-1" select-class="areas-ref no-nice-select" no-filter="no-filter"/>
                             </div>
                             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                 <x-jet-label for="point_identifications_ref" value="{{ __('Identificação Ponto') }}" required/>
-                                <x-custom-select :options="[]" name="point_identifications_ref" id="point_identifications_ref" value="" class="mt-1" no-filter="no-filter"/>
+                                <x-custom-select :options="[]" name="point_identifications_ref" id="point_identifications_ref" value="" class="mt-1" select-class="point-identifications-ref no-nice-select" no-filter="no-filter" />
                             </div>
                         </div>
 
-                        <div class="flex flex-wrap mx-4 px-3 py-2">
-                            <h2 class="w-full">{{ __('Novos valores') }}</h2>
-                            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                <x-jet-label for="areas" value="{{ __('Área') }}" />
-                                <x-custom-select :options="$areas" name="areas" id="areas" value="" class="mt-1" no-filter="no-filter"/>
+                        <div class="filter-container md:block inputs" id="inputs_1" >
+                            <div class="flex justify-end">
+                                <button type="button" class="btn-transition-primary add-param-analysis" title="Adicionar mais ponto">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                                    </svg>
+                                </button>
+                                <button type="button" class="btn-transition-primary remove-param-analysis" title="Remover ponto" style="display: none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6" />
+                                    </svg>
+                                </button>
                             </div>
-                            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                <x-jet-label for="point_identifications" value="{{ __('Identificação Ponto') }}"/>
-                                <x-custom-select :options="[]" name="point_identifications" id="point_identifications" value="" class="mt-1" no-filter="no-filter"/>
+
+                            <div class="flex flex-wrap mx-4 px-3 py-2">
+                                <h2 class="w-full px-3">{{ __('Novos valores') }}</h2>
+                                <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                    <x-jet-label for="areas" value="{{ __('Área') }}" />
+                                    <x-custom-select :options="$areas" name="inputs[row_1][areas]" value="" class="mt-1" no-filter="no-filter" select-class="areas no-nice-select"/>
+                                </div>
+                                <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                    <x-jet-label for="point_identifications" value="{{ __('Identificação Ponto') }}"/>
+                                    <x-custom-select :options="[]" name="inputs[row_1][point_identifications]" id="point_identifications" value="" class="mt-1" no-filter="no-filter" select-class="point-identifications no-nice-select"/>
+                                </div>
+                                <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                                    <x-jet-label for="date_collection" value="{{ __('DT/HR da Coleta') }}" required/>
+                                    <x-jet-input id="date_collection" class="form-control block mt-1 w-full" type="datetime-local" name="inputs[row_1][date_collection]" maxlength="255" autofocus autocomplete="date_collection"/>
+                                </div>
                             </div>
-                            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                <x-jet-label for="date_collection" value="{{ __('DT/HR da Coleta') }}" required/>
-                                <x-jet-input id="date_collection" class="form-control block mt-1 w-full" type="datetime-local" name="date_collection" maxlength="255" autofocus autocomplete="date_collection"/>
-                            </div>
-                        </div>
-                        <div class="flex flex-wrap mx-4 px-3 py-2">
-                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                <x-jet-label for="matriz_id" value="{{ __('Matriz') }}" required/>
-                                <x-custom-select :options="$matrizeces" name="matriz_id" id="matriz_id" value="" class="mt-1" no-filter="no-filter"/>
-                            </div>
-                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                <x-jet-label for="guiding_parameters_id" value="{{ __('Param. Orientador Ambiental') }}"/>
-                                <x-custom-multi-select multiple :options="$guidingParameters" name="guiding_parameters_id[]" id="guiding_parameters_id" value="" select-class="form-input" class="mt-1" no-filter="no-filter"/>
+                            <div class="flex flex-wrap mx-4 px-3 py-2">
+                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                    <x-jet-label for="matriz_id" value="{{ __('Matriz') }}" required/>
+                                    <x-custom-select :options="$matrizeces" name="inputs[row_1][matriz_id]" id="matriz_id" value="" class="mt-1" no-filter="no-filter" select-class="no-nice-select"/>
+                                </div>
+                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                    <x-jet-label for="guiding_parameters_id" value="{{ __('Param. Orientador Ambiental') }}"/>
+                                    <x-custom-multi-select multiple :options="$guidingParameters" name="inputs[row_1][guiding_parameters_id][]" id="guiding_parameters_id" value="" select-class="form-input no-nice-select" class="mt-1" no-filter="no-filter" />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -118,7 +133,7 @@
     @include('project.campaign.point-alert-modal')
     @include('project.point-create-modal')
 
-  <script>
+    <script>
     document.getElementById("point_confirm_modal").addEventListener("click", function() {
         var url = document.querySelector("#poinst_create_form").action;
         var token = document.querySelector('meta[name="csrf-token"]').content;
@@ -223,7 +238,8 @@
             document.getElementById("duplicate_campaign_container").style.display = "block";
             document.getElementById("confirm").style.display = "block"
             document.getElementById("cancel").parentNode.classList.remove("hidden");
-            document.getElementById("delete_point_matrix").parentNode.classList.add("hidden");
+            document.getElementById("point_matrix_table").style.display = "none"
+            document.getElementById("point_matrix_pagination").style.display = "none"
 
             document.querySelectorAll(".edit-point-matrix").forEach(item => {
                 item.style.display = "none"
@@ -241,7 +257,8 @@
             document.getElementById("duplicate_point_container").style.display = "block";
             document.getElementById("confirm").style.display = "block"
             document.getElementById("cancel").parentNode.classList.remove("hidden");
-            document.getElementById("delete_point_matrix").parentNode.classList.add("hidden");
+            document.getElementById("point_matrix_table").style.display = "none"
+            document.getElementById("point_matrix_pagination").style.display = "none"
 
             document.querySelectorAll(".edit-point-matrix").forEach(item => {
                 item.style.display = "none"
@@ -259,7 +276,8 @@
             document.getElementById("duplicate_point").style.display = "block"
             document.getElementById("confirm").style.display = "none"
             document.getElementById("cancel").parentNode.classList.add("hidden");
-            document.getElementById("delete_point_matrix").parentNode.classList.remove("hidden");
+            document.getElementById("point_matrix_table").style.display = "table"
+            document.getElementById("point_matrix_pagination").style.display = "block"
 
             document.querySelectorAll(".edit-point-matrix").forEach(item => {
                 item.style.display = "inline"
@@ -320,22 +338,82 @@
                 });
             }
         }
+        areasEvents();
 
-        document.querySelectorAll('#areas').forEach(item => {
-            item.addEventListener('change', function() {
-                filterAreas(document.getElementById("areas").value, document.getElementById("point_identifications")).then(function() {
-                    window.customSelectArray["point_identifications"].update();
+        function areasEvents() {
+            document.querySelectorAll(".areas").forEach(item => {
+                item.addEventListener('change', function() {
+                    filterAreas(this.value, this.parentNode.parentNode.parentNode.querySelector(".point-identifications")).then(function() {
+                        updateSelects();
+                    });
                 });
+            });
+
+            document.querySelectorAll('.areas-ref').forEach(item => {
+                item.addEventListener('change', function() {
+                    console.log(this.parentNode.parentNode.parentNode.querySelector(".point-identifications-ref"))
+                    filterAreas(this.value, this.parentNode.parentNode.parentNode.querySelector(".point-identifications-ref")).then(function() {
+                        updateSelects();
+                    });
+                });
+            });
+        }
+
+        function updateSelects() {
+            for (let index = 0; index < selectsArray.length; index++) {
+                const element = selectsArray[index];
+                element.update();
+            }
+            for (let index = 0; index < window.customSelectArray.length; index++) {
+                const element = window.customSelectArray[index];
+                element.update();
+            }
+        }
+
+        var selectsArray = [];
+
+        window.addEventListener("load", function() {
+            document.querySelectorAll(`.custom-select.no-nice-select`).forEach(item => {
+                selectsArray.push(NiceSelect.bind(item, {searchable: true, reverse: item.dataset.reverse ? item.dataset.reverse : false}));
             });
         });
 
-        document.querySelectorAll('#area_ref').forEach(item => {
-            item.addEventListener('change', function() {
-                filterAreas(document.getElementById("area_ref").value, document.getElementById("point_identifications_ref")).then(function() {
-                    window.customSelectArray["point_identifications_ref"].update();
-                });
-            });
+        document.querySelector(".add-param-analysis").addEventListener("click", function() {
+            addInput();
         });
+
+        function addInput() {
+            const nodes = document.querySelectorAll(".inputs");
+            const node = nodes[nodes.length - 1];
+            const clone = node.cloneNode(true);
+            const num = parseInt( clone.id.match(/\d+/g), 10 ) +1;
+            const id = `inputs_${num}`;
+            clone.id = id;
+
+            clone.innerHTML = clone.innerHTML.replaceAll(`row_${num-1}`, `row_${num}`);
+
+            const selects = clone.getElementsByClassName("nice-select");
+            while(selects.length > 0) {
+                selects[0].parentNode.removeChild(selects[0]);
+            }
+
+            document.getElementById("duplicate_point_container").appendChild(clone);
+            document.querySelector(`#${id} .remove-param-analysis`).style.display = "block";
+
+            document.querySelector(`#${id} .remove-param-analysis`).addEventListener("click", function() {
+                this.parentNode.parentNode.remove();
+            });
+
+            document.querySelector(`#${id} .add-param-analysis`).addEventListener("click", function() {
+                addInput();
+            });
+
+            document.querySelectorAll(`#${id} .custom-select`).forEach(item => {
+                selectsArray.push(NiceSelect.bind(item, {searchable: true, reverse: item.dataset.reverse ? item.dataset.reverse : false}));
+            });
+
+            areasEvents();
+        }
 
         campaignEventsDeleteCallback();
 

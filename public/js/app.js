@@ -5595,7 +5595,7 @@ if (passwordConfirmation) {
 window.customSelectArray = {};
 window.addEventListener("load", function () {
   document.querySelectorAll(".custom-select").forEach(function (item) {
-    window.customSelectArray[item.id] = NiceSelect.bind(item, {
+    if (!item.classList.contains("no-nice-select")) window.customSelectArray[item.id] = NiceSelect.bind(item, {
       searchable: true,
       reverse: item.dataset.reverse ? item.dataset.reverse : false
     });

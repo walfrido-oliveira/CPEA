@@ -282,53 +282,55 @@ class CampaignController extends Controller
 
         foreach ($projectPointMatrices as $key => $point)
         {
-            $projectPointMatrix = ProjectPointMatrix::create([
-                'project_id' => $point->project_id,
-                'point_identification_id' => isset($input['point_identifications']) ? $input['point_identifications'] : $point->point_identification_id,
-                'analysis_matrix_id' => isset($input['point_matrix']) ? $input['point_matrix'] : $point->analysis_matrix_id,
-                'parameter_analysis_id' => $point->parameter_analysis_id,
-                'campaign_id' => $campaign->id,
-                'parameter_method_preparation_id' => $point->parameter_method_preparation_id,
-                'parameter_method_analysis_id' => $point->parameter_method_analysis_id,
-
-                'date_collection' => $input['date_collection'],
-
-                'refq' => $point->refq,
-                'tide' => $point->tide,
-                'environmental_conditions' => $point->environmental_conditions,
-                'utm' => $point->utm,
-                'water_depth' => $point->water_depth,
-                'sample_depth' => $point->sample_depth,
-                'environmental_regime' => $point->environmental_regime,
-                'secchi_record' => $point->secchi_record,
-                'floating_materials' => $point->floating_materials,
-                'total_depth' => $point->total_depth,
-                'sedimentary_layer' => $point->sedimentary_layer,
-                'report_identification' => $point->report_identification,
-                'sampling_area' => $point->sampling_area,
-                'organism_type' => $point->organism_type,
-                'popular_name' => $point->popular_name,
-                'effluent_type' => $point->effluent_type,
-                'identification_pm' => $point->identification_pm,
-                'pm_depth' => $point->pm_depth,
-                'pm_diameter' => $point->pm_diameter,
-                'water_level' => $point->water_level,
-                'oil_level' => $point->oil_level,
-                'sample_horizon' => $point->sample_horizon,
-                'field_measurements' => $point->field_measurements,
-                'temperature' => $point->temperature,
-                'humidity' => $point->humidity,
-                'pressure' => $point->pressure,
-            ]);
-
-            if(isset($input['guiding_parameters_id']))
+            foreach ($input['inputs'] as $key2 => $value2)
             {
-                $projectPointMatrix->guidingParameters()->sync(array_filter($input['guiding_parameters_id']));
-            }
-            else {
-                $projectPointMatrix->guidingParameters()->sync($point->guidingParameters()->pluck("guiding_parameter_id")->toArray());
-            }
+                $projectPointMatrix = ProjectPointMatrix::create([
+                    'project_id' => $point->project_id,
+                    'point_identification_id' => isset($value2['point_identifications']) ? $value2['point_identifications'] : $point->point_identification_id,
+                    'analysis_matrix_id' => isset($value2['point_matrix']) ? $value2['point_matrix'] : $point->analysis_matrix_id,
+                    'parameter_analysis_id' => $point->parameter_analysis_id,
+                    'campaign_id' => $campaign->id,
+                    'parameter_method_preparation_id' => $point->parameter_method_preparation_id,
+                    'parameter_method_analysis_id' => $point->parameter_method_analysis_id,
 
+                    'date_collection' => $value2['date_collection'],
+
+                    'refq' => $point->refq,
+                    'tide' => $point->tide,
+                    'environmental_conditions' => $point->environmental_conditions,
+                    'utm' => $point->utm,
+                    'water_depth' => $point->water_depth,
+                    'sample_depth' => $point->sample_depth,
+                    'environmental_regime' => $point->environmental_regime,
+                    'secchi_record' => $point->secchi_record,
+                    'floating_materials' => $point->floating_materials,
+                    'total_depth' => $point->total_depth,
+                    'sedimentary_layer' => $point->sedimentary_layer,
+                    'report_identification' => $point->report_identification,
+                    'sampling_area' => $point->sampling_area,
+                    'organism_type' => $point->organism_type,
+                    'popular_name' => $point->popular_name,
+                    'effluent_type' => $point->effluent_type,
+                    'identification_pm' => $point->identification_pm,
+                    'pm_depth' => $point->pm_depth,
+                    'pm_diameter' => $point->pm_diameter,
+                    'water_level' => $point->water_level,
+                    'oil_level' => $point->oil_level,
+                    'sample_horizon' => $point->sample_horizon,
+                    'field_measurements' => $point->field_measurements,
+                    'temperature' => $point->temperature,
+                    'humidity' => $point->humidity,
+                    'pressure' => $point->pressure,
+                ]);
+
+                if(isset($value2['guiding_parameters_id']))
+                {
+                    $projectPointMatrix->guidingParameters()->sync(array_filter($value2['guiding_parameters_id']));
+                }
+                else {
+                    $projectPointMatrix->guidingParameters()->sync($point->guidingParameters()->pluck("guiding_parameter_id")->toArray());
+                }
+            }
         }
     }
 

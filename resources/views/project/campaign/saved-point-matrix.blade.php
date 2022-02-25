@@ -1,5 +1,6 @@
 <tr id="point_matrix_row_{{ $key }}" class="point-matrix-row">
     <td width="5%">
+        <!--
         <input class="form-checkbox point-matrix-url" type="checkbox" name="point_matrix[{{ $projectPointMatrix->id }}]" value="{!! route('project.point-matrix.destroy', ['point_matrix' => $projectPointMatrix->id]) !!}" data-id="point_matrix_row_{{ $key }}">
         <input type="hidden" name="point_matrix[{{ $key }}][id]" id="point_matrix_{{ $key }}_id" value="{{ $projectPointMatrix->id }}">
         <input type="hidden" name="point_matrix[{{ $key }}][analysis_matrix_id]" id="point_matrix_{{ $key }}_analysis_matrix_id" value="{{ $projectPointMatrix->analysisMatrix ? $projectPointMatrix->analysisMatrix->id : null }}">
@@ -10,6 +11,7 @@
         <input type="hidden" name="point_matrix[{{ $key }}][parameter_analysis_id]" id="point_matrix_{{ $key }}_parameter_analysis_id" value="{{ $projectPointMatrix->parameterAnalysis ? $projectPointMatrix->parameterAnalysis->id : null }}">
         <input type="hidden" name="point_matrix[{{ $key }}][parameter_method_preparation_id]" id="point_matrix_{{ $key }}_parameter_method_preparation_id" value="{{ $projectPointMatrix->parameter_method_preparation_id }}">
         <input type="hidden" name="point_matrix[{{ $key }}][parameter_method_analysis_id]" id="point_matrix_{{ $key }}_parameter_method_analysis_id" value="{{ $projectPointMatrix->parameter_method_analysis_id }}">
+        -->
     </td>
     <td>
         @if ($projectPointMatrix->pointIdentification)
@@ -19,7 +21,9 @@
                         {{ __('Área') }}
                     </div>
                     <div class="text-gray-500 font-bold ">
-                        <x-custom-select :options="$areas" name="point_matrix_edit[{{ $key }}][area]" id="point_matrix_edit_{{ $key }}_area" value="" class="hidden"  select-class="no-border areas" no-filter="no-filter" arrow-class="text-yellow-500"/>
+                        <!--
+                            <x-custom-select :options="$areas" name="point_matrix_edit[{{ $key }}][area]" id="point_matrix_edit_{{ $key }}_area" value="" class="hidden"  select-class="no-border areas" no-filter="no-filter" arrow-class="text-yellow-500"/>
+                        -->
                         <div class="content">
                             @if ($projectPointMatrix->pointIdentification)
                                 <a class="text-green-600 underline" href="{{ route('registers.point-identification.show', ['point_identification' => $projectPointMatrix->pointIdentification->id]) }}" target="_blank" rel="noopener noreferrer">
@@ -34,7 +38,9 @@
                         {{ __('Identificação Ponto') }}
                     </div>
                     <div class="text-gray-500 font-bold">
+                        <!--
                         <x-custom-select :options="[]" name="point_matrix_edit[{{ $key }}][point_identification_id]" id="point_matrix_edit_{{ $key }}_point_identification_id" value="" class="hidden" select-class="no-border" no-filter="no-filter" arrow-class="text-yellow-500"/>
+                        -->
                         <div class="content">
                             @if ($projectPointMatrix->pointIdentification)
                                 <a class="text-green-600 underline" href="{{ route('registers.point-identification.show', ['point_identification' => $projectPointMatrix->pointIdentification->id]) }}" target="_blank" rel="noopener noreferrer">
@@ -49,7 +55,9 @@
                         {{ __('Matriz') }}
                     </div>
                     <div class="text-gray-500 font-bold ">
+                        <!--
                         <x-custom-select :options="$matrizeces" name="point_matrix_edit[{{ $key }}][analysis_matrix_id]" id="point_matrix_edit_{{ $key }}_analysis_matrix_id" value="" class="hidden" select-class="no-border" no-filter="no-filter" arrow-class="text-yellow-500"/>
+                        -->
                         <div class="content">
                             @if ($projectPointMatrix->analysisMatrix)
                                 {{ $projectPointMatrix->analysisMatrix->name }}
@@ -62,7 +70,9 @@
                         {{ __('Param. Orientador Ambiental') }}
                     </div>
                     <div class="text-gray-500 font-bold ">
+                        <!--
                         <x-custom-select :options="$guidingParameters" name="point_matrix_edit[{{ $key }}][guiding_parameter_id]" id="point_matrix_edit_{{ $key }}_guiding_parameter_id" value="" class="hidden"   select-class="no-border" no-filter="no-filter" arrow-class="text-yellow-500"/>
+                        -->
                         <div class="content">
                             @if ($projectPointMatrix->guidingParameters)
                                 {!! implode("<br/>", $projectPointMatrix->guidingParameters()->pluck('environmental_guiding_parameter_id')->toArray()) !!}
@@ -75,7 +85,9 @@
                         {{ __('Param. Análise') }}
                     </div>
                     <div class="text-gray-500 font-bold ">
+                        <!--
                         <x-custom-select :options="$parameterAnalyses" name="point_matrix_edit[{{ $key }}][parameter_analysis_id]" id="point_matrix_edit_{{ $key }}_parameter_analysis_id" value="" class="hidden"   select-class="no-border" no-filter="no-filter" arrow-class="text-yellow-500"/>
+                        -->
                         <div class="content">
                             @if ($projectPointMatrix->parameterAnalysis)
                                 {{ $projectPointMatrix->parameterAnalysis->analysis_parameter_name }}
@@ -88,7 +100,9 @@
                         {{ __('Método Preparação') }}
                     </div>
                     <div class="text-gray-500 font-bold ">
+                        <!--
                         <x-custom-select :options="$preparationMethods" name="point_matrix_edit[{{ $key }}][parameter_method_preparation_id]" id="point_matrix_edit_{{ $key }}_parameter_method_preparation_id" value="" class="hidden"   select-class="no-border" no-filter="no-filter" arrow-class="text-yellow-500"/>
+                        -->
                         <div class="content">
                             @if ($projectPointMatrix->parameter_method_preparation_id)
                                 <a class="text-green-600 underline" href="{{ route('registers.parameter-method.show', ['parameter_method' => $projectPointMatrix->parameter_method_preparation_id]) }}" target="_blank" rel="noopener noreferrer">
@@ -103,7 +117,9 @@
                         {{ __('Método Análise') }}
                     </div>
                     <div class="text-gray-500 font-bold ">
+                        <!--
                         <x-custom-select :options="$analysisMethods" name="point_matrix_edit[{{ $key }}][parameter_method_analysis_id]" id="point_matrix_edit_{{ $key }}_parameter_method_analysis_id" value="" class="hidden"   select-class="no-border" no-filter="no-filter" arrow-class="text-yellow-500"/>
+                        -->
                         <div class="content">
                             @if ($projectPointMatrix->parameter_method_analysis_id)
                                 <a class="text-green-600 underline" href="{{ route('registers.parameter-method.show', ['parameter_method' => $projectPointMatrix->parameter_method_analysis_id]) }}" target="_blank" rel="noopener noreferrer">
