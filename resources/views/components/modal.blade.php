@@ -73,7 +73,10 @@
                             var elements = document.getElementById("{{ $attributes['id'] }}").dataset.elements;
                             var elementArray = elements.split(',');
                             document.getElementById(elementArray[index]).innerHTML = '';
-                            document.getElementById("{{isset($attributes['confirm_id']) ? $attributes['confirm_id'] : 'confirm_modal'}}").dispatchEvent(respEvent);
+
+                            if((index + 1) == urls.length) {
+                                document.getElementById("{{isset($attributes['confirm_id']) ? $attributes['confirm_id'] : 'confirm_modal'}}").dispatchEvent(respEvent);
+                            }
                         @endif
 
                         close();
