@@ -820,12 +820,12 @@ class AnalysisResultController extends Controller
                     return Carbon::createFromFormat($format, $value)->format($replace->to);
                 }
                 catch(\Exception $e) {
-                    return null;
+                    return $value;
                 }
             }
         }
 
-        return null;
+        return $value;
     }
 
     /**
