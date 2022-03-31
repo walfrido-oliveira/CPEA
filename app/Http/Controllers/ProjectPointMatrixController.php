@@ -110,10 +110,12 @@ class ProjectPointMatrixController extends Controller
         $result = ProjectPointMatrix::where('campaign_id', $input['campaign_id'])
                                     ->where('point_identification_id', $input['point_identification_id'])
                                     ->where('analysis_matrix_id', $input['analysis_matrix_id'])
-                                    ->where('parameter_analysis_id', $input['parameter_analysis_id'])->get();
+                                    ->where('parameter_analysis_id', $input['parameter_analysis_id'])
+                                    ->where('id', '!=', $id)
+                                    ->get();
         if(count($result) > 0)
         {
-            $parameterAnalisis = ParameterAnalysis::find($input['parameter_analysis_id']);
+            $parameterAnalisis = ProjectPointMatrix::find($input['parameter_analysis_id']);
             return response()->json(["error" => "O Param. Análise $parameterAnalisis->analysis_parameter_name já foi cadastrado"], Response::HTTP_BAD_REQUEST);
         }
 

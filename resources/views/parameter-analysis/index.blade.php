@@ -66,6 +66,19 @@
 
     <script>
         window.addEventListener("load", function() {
+            document.querySelectorAll('.filter-field').forEach(item => {
+                    item.addEventListener("change", function() {
+                        const getUrl = window.location;
+                        const baseUrl = `${getUrl.protocol}//${getUrl.host}/${getUrl.pathname.split('/')[1]}?`;
+                        const nextURL = `${window.location}${!window.location.href.includes("?") ? '/?' : ''}${this.name}=${this.value}&`;
+                        console.log(nextURL)
+                        const nextTitle = 'My new page title';
+                        const nextState = { additionalInformation: 'Updated the URL with JS' };
+
+                        window.history.pushState(nextState, nextTitle, nextURL);
+                    });
+                });
+
             var filterCallback = function (event) {
                 var ajax = new XMLHttpRequest();
                 var url = "{!! route('parameter-analysis.filter') !!}";

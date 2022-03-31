@@ -320,6 +320,7 @@
                     document.getElementById("spin_load").classList.toggle("hidden");
                     document.getElementById("point_matrix_edit_modal").classList.remove("block");
                     document.getElementById("point_matrix_edit_modal").classList.add("hidden");
+                    document.querySelector("body").style.overflow = "auto";
 
                 } else if (this.readyState == 4 && this.status != 200) {
                     document.getElementById("spin_load").classList.toggle("hidden");
