@@ -816,7 +816,12 @@ class AnalysisResultController extends Controller
             $replace = $lab->replaces->where('from', $format)->first();
             if($replace)
             {
-                return Carbon::createFromFormat($format, $value)->format($replace->to);
+                try {
+                    return Carbon::createFromFormat($format, $value)->format($replace->to);
+                }
+                catch(\Exception $e) {
+                    return null;
+                }
             }
         }
 
