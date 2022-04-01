@@ -32,7 +32,7 @@
             </tr>
         @endif
 
-        @if($projectPointMatrices[$index]->parameterAnalysis && $projectPointMatrices[$index - 1]->parameterAnalysis)
+        @if($projectPointMatrices[$index]->parameterAnalysis)
             @if (($index > 0 && $projectPointMatrices[$index]->parameterAnalysis->parameter_analysis_group_id !=
                                 $projectPointMatrices[$index - 1]->parameterAnalysis->parameter_analysis_group_id) || $index == 0 ||
                                 ($projectPointMatrices[$index]->pointIdentification->identification !=
