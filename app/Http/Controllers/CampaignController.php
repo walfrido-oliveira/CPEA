@@ -361,7 +361,7 @@ class CampaignController extends Controller
                 'parameter_method_analysis_id' => $point->parameter_method_analysis_id,
                 'campaign_id' => $result->id,
 
-                'date_collection' => $point->date_collection,
+                'date_collection' => $input['date_collection'],
 
                 'refq' => $point->refq,
                 'tide' => $point->tide,
