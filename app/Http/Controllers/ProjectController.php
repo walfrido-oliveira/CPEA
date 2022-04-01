@@ -68,13 +68,16 @@ class ProjectController extends Controller
         if(isset($input['duplicated_id']))
         {
             $p = Project::findOrFail($input['duplicated_id']);
+            $campaignName = isset($input['campaign_name']) ? $input['campaign_name'] : null;
+            $dateCollection = isset($input['date_collection']) ? $input['date_collection'] : null;
+
             foreach ($p->campaigns as $key => $campaign)
             {
                 $projectCampaign = Campaign::create([
-                    'name' => $campaign->name,
+                    'name' => $campaignName ? $campaignName : $campaign->name,
                     'project_id' =>$project->id,
                     'campaign_status_id' => $campaign->campaign_status_id,
-                    'date_collection' => $campaign->date_collection,
+                    'date_collection' => $dateCollection ? $dateCollection : $campaign->date_collection,
                 ]);
 
                 foreach ($campaign->projectPointMatrices as $key => $point)

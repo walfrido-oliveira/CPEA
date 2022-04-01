@@ -259,8 +259,10 @@ class AnalysisOrderController extends Controller
                 'analyzing_at' => null,
                 'concluded_at' => null
             ]);
+
             $analysisOrder->analysisResults()->get()->each(function ($item, $key) {
                 $item->delete();
+
             });
         }
 
