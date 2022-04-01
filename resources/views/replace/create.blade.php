@@ -38,7 +38,7 @@
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full px-3 mb-6 md:mb-0">
                             <x-jet-label for="to" value="{{ __('Para') }}" required/>
-                            <x-custom-select :options="$labs" name="to" id="to" value=""/>
+                            <x-custom-select :options="$to" name="to" id="to" value=""/>
                             <small><a href="#" class="text-blue-500 underline" id="to_create" title="Adicionar Para">Adiciona novo Para</a></small>
                         </div>
                     </div>

@@ -68,19 +68,19 @@ class ProjectController extends Controller
         if(isset($input['duplicated_id']))
         {
             $p = Project::findOrFail($input['duplicated_id']);
+
             $campaignName = isset($input['campaign_name']) ? $input['campaign_name'] : null;
             $dateCollection = isset($input['date_collection']) ? $input['date_collection'] : null;
 
-            foreach ($p->campaigns as $key => $campaign)
+            foreach ($p->campaigns as $campaign)
             {
                 $projectCampaign = Campaign::create([
-                    'name' => $campaignName ? $campaignName : $campaign->name,
+                    'name' => $campaignName[$campaign->id] ? $campaignName[$campaign->id] : $campaign->name,
                     'project_id' =>$project->id,
                     'campaign_status_id' => $campaign->campaign_status_id,
-                    'date_collection' => $dateCollection ? $dateCollection : $campaign->date_collection,
                 ]);
 
-                foreach ($campaign->projectPointMatrices as $key => $point)
+                foreach ($campaign->projectPointMatrices as $point)
                 {
                     $projectPointMatrix = ProjectPointMatrix::create([
                         'project_id' => $project->id,
@@ -90,6 +90,7 @@ class ProjectController extends Controller
                         'parameter_analysis_id' => $point->parameter_analysis_id,
                         'parameter_method_preparation_id' => $point->parameter_method_preparation_id,
                         'parameter_method_analysis_id' => $point->parameter_method_analysis_id,
+                        'date_collection' => $dateCollection[$point->point_identification_id] ? $dateCollection[$point->point_identification_id] : $point->date_collection,
 
                         'refq' => $point->refq,
                         'tide' => $point->tide,

@@ -44,16 +44,28 @@
                             <x-custom-select :options="$customers" name="customer_id" id="customer_id" :value="isset($project)  ? $project->customer_id : old('customer_id')" class="mt-1"/>
                         </div>
                     </div>
-                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="campaign_name" value="{{ __('Nome da Campanha') }}" required />
-                            <x-jet-input id="campaign_name" class="form-control block mt-1 w-full" type="text" name="campaign_name" maxlength="255" autofocus autocomplete="campaign_name"/>
+
+                    @if (isset($project))
+                        <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                            @foreach ($project->campaigns as $key => $campaign)
+                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
+                                    <x-jet-label for="campaign_name_{{ $key }}" value="{{ __('Nome da Campanha ') . '#' . $key+1  }}" required />
+                                    <x-jet-input id="campaign_name_{{ $key }}" class="form-control block mt-1 w-full" type="text" name="campaign_name[{{ $campaign->id }}]" maxlength="255" autofocus autocomplete="campaign_name" :value="$campaign->name"/>
+                                </div>
+                            @endforeach
                         </div>
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="date_collection" value="{{ __('DT/HR da Coleta') }}" required/>
-                            <x-jet-input id="date_collection" class="form-control block mt-1 w-full" type="datetime-local" name="date_collection" maxlength="255" autofocus autocomplete="date_collection"/>
+
+                        <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                            @foreach ($project->projectPointMatrices()->groupBy('point_identification_id')->get() as $key => $projectPointMatrix)
+                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                    <x-jet-label for="date_collection_{{ $key }}" value="{{ __('DT/HR da Coleta') . ' ' . $projectPointMatrix->pointIdentification->identification}}" required/>
+                                    <x-jet-input id="date_collection_{{ $key }}" class="form-control block mt-1 w-full"
+                                    type="datetime-local" name="date_collection[{{ $projectPointMatrix->point_identification_id }}]" maxlength="255" autofocus autocomplete="date_collection"/>
+                                </div>
+                            @endforeach
                         </div>
-                    </div>
+                    @endif
+
                 </div>
             </form>
         </div>
