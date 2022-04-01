@@ -131,17 +131,17 @@
             <td class="whitespace-nowrap">
                 @if (count($point->analysisOrders) > 0)
                     <a class="text-item-table inline font-bold text-green-700 underline" href="{{ route('analysis-order.show', ['analysis_order' => $point->analysisOrders()->first()->id]) }}">
-                        {{ $point->analysisOrders()->last()->formatted_id }}
+                        {{ $point->analysisOrders()->orderBy('created_at', 'desc')->first()->formatted_id }}
                     </a>
                 @else
                     -
                 @endif
             </td>
             <td>
-                {{ count($point->analysisOrders) > 0 ? $point->analysisOrders()->last()->lab->name : '-' }}
+                {{ count($point->analysisOrders) > 0 ? $point->analysisOrders()->orderBy('created_at', 'desc')->first()->lab->name : '-' }}
             </td>
             <td style="width: 12%">
-                {{ count($point->analysisOrders) > 0 ? $point->analysisOrders()->last()->lab->created_at->format('d/m/Y h:m') : '-' }}
+                {{ count($point->analysisOrders) > 0 ? $point->analysisOrders()->orderBy('created_at', 'desc')->first()->lab->created_at->format('d/m/Y h:m') : '-' }}
             </td>
             <td>
                 <span class="w-24 py-1 badge text-white text-center" style="background-color: {{ $statusColor }}">
