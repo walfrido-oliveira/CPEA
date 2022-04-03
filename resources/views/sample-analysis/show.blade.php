@@ -556,4 +556,12 @@
 
         showPoint();
     </script>
+    <script>
+        document.getElementById("q").addEventListener("keydown", function(e) {
+            if (e.key == "Enter") {
+                e.preventDefault();
+            }
+        })
+
+    </script>
 </x-app-layout>
