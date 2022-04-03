@@ -82,7 +82,7 @@ class ProjectPointMatrixController extends Controller
             'project_id' => ['required', 'exists:projects,id'],
 
             'analysis_matrix_id' => ['required', 'exists:analysis_matrices,id'],
-            'date_collection' => ['required', 'date'],
+            #'date_collection' => ['required', 'date'],
             'campaign_id' => ['required', 'exists:campaigns,id'],
             'tide' => ['nullable', 'in:enchente,vazante'],
             'environmental_conditions' => ['nullable', 'in:com-chuva,sem-chuva'],
