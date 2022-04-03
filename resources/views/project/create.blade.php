@@ -49,7 +49,7 @@
                         <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                             @foreach ($project->campaigns as $key => $campaign)
                                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
-                                    <x-jet-label for="campaign_name_{{ $key }}" value="{{ __('Nome da Campanha ') . '#' . $key+1  }}" required />
+                                    <x-jet-label for="campaign_name_{{ $key }}" value="{{ __('Nome da Campanha ') . '#' . ($key+1)  }}" required />
                                     <x-jet-input id="campaign_name_{{ $key }}" class="form-control block mt-1 w-full" type="text" name="campaign_name[{{ $campaign->id }}]" maxlength="255" autofocus autocomplete="campaign_name" :value="$campaign->name"/>
                                 </div>
                             @endforeach
