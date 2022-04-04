@@ -106,10 +106,8 @@
 
             var campaignNameSearch = document.getElementById("campaign_id_search").value;
             var areaSearch = document.getElementById("point_identifications.area_search").value;
-            //var identificationSearch = document.getElementById("point_identifications.identification_search").value;
             var analysisMatrixIdSearch = document.getElementById("analysis_matrix_id_search").value;
             var parameterAnalysisIdSearch = document.getElementById("parameter_analysis_id_search").value;
-            //var dateCollectionSearch = document.getElementById("date_collection_search").value;
             var guidingParameterIdSearch = document.getElementById("guiding_parameter_project_point_matrix.guiding_parameter_id_search").value;
             var parameterAnalysisGroupsNameSearch = document.getElementById("parameter_analysis_groups.name_search").value;
 
@@ -174,10 +172,8 @@
             data.append('project_id', "{{ $project->id }}");
             data.append('campaign_name', campaignNameSearch);
             data.append('area', areaSearch);
-            //data.append('identification', identificationSearch);
             data.append('analysis_matrices_name', analysisMatrixIdSearch);
             data.append('parameter_analysis_name', parameterAnalysisIdSearch);
-            //data.append('date_collection', dateCollectionSearch);
             data.append('guiding_parameter_name', guidingParameterIdSearch);
             data.append('parameter_analysis_group_name', parameterAnalysisGroupsNameSearch);
 
@@ -200,11 +196,9 @@
             });
             document.getElementById("campaign_id_search").addEventListener("keyup", orderByCallback, false);
             document.getElementById("point_identifications.area_search").addEventListener("keyup", orderByCallback, false);
-            //document.getElementById("point_identifications.identification_search").addEventListener("keyup", orderByCallback, false);
             document.getElementById("analysis_matrix_id_search").addEventListener("keyup", orderByCallback, false);
             document.getElementById("guiding_parameter_project_point_matrix.guiding_parameter_id_search").addEventListener("keyup", orderByCallback, false);
             document.getElementById("parameter_analysis_id_search").addEventListener("keyup", orderByCallback, false);
-            //document.getElementById("date_collection_search").addEventListener("keyup", orderByCallback, false);
             document.getElementById("parameter_analysis_groups.name_search").addEventListener("keyup", orderByCallback, false);
         }
 
@@ -213,8 +207,6 @@
         var editPointMatrixAjax = function(event) {
             return;
             if(this.dataset.type != 'edit') return;
-
-            //if(document.getElementsByClassName('save-point-matrix').length > 0) return;
 
             var id = this.dataset.id;
             var key = this.dataset.row;
@@ -259,6 +251,7 @@
             let id = this.dataset.id;
             let key = this.dataset.row ? this.dataset.row : document.querySelectorAll('.point-matrix-row').length;
             let that = this;
+            let multiEdit = this.dataset.multiedit == "true" ? true : false;
             let ajax = new XMLHttpRequest();
             let url = "{!! route('project.point-matrix.update-ajax', ['point_matrix' => '#']) !!}".replace('#', id);
             let token = document.querySelector('meta[name="csrf-token"]').content;
@@ -289,12 +282,32 @@
                 customFields.push(item);
             });
 
+            let campaignNameSearch;
+            let areaSearch;
+            let analysisMatrixIdSearch;
+            let parameterAnalysisIdSearch;
+            let guidingParameterIdSearch;
+            let parameterAnalysisGroupsNameSearch;
+
+            if(multiEdit) {
+                campaignNameSearch = document.getElementById("campaign_id_search").value;
+                areaSearch = document.getElementById("point_identifications.area_search").value;
+                analysisMatrixIdSearch = document.getElementById("analysis_matrix_id_search").value;
+                parameterAnalysisIdSearch = document.getElementById("parameter_analysis_id_search").value;
+                guidingParameterIdSearch = document.getElementById("guiding_parameter_project_point_matrix.guiding_parameter_id_search").value;
+                parameterAnalysisGroupsNameSearch = document.getElementById("parameter_analysis_groups.name_search").value;
+            }
+
             ajax.open(method, url);
 
             ajax.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var resp = JSON.parse(ajax.response);
                     toastr.success(resp.message);
+
+                    if(multiEdit) {
+                        location.reload();
+                    }
 
                     if(id > 0) {
                         let rowUpdated = document.getElementById("point_matrix_row_" + that.dataset.row);
@@ -358,6 +371,16 @@
                 data.append(item.id, item.value);
             });
 
+            if(multiEdit) {
+                data.append('multi_edit', true);
+                data.append('campaign_name', campaignNameSearch);
+                data.append('area', areaSearch);
+                data.append('analysis_matrices_name', analysisMatrixIdSearch);
+                data.append('parameter_analysis_name', parameterAnalysisIdSearch);
+                data.append('guiding_parameter_name', guidingParameterIdSearch);
+                data.append('parameter_analysis_group_name', parameterAnalysisGroupsNameSearch);
+            }
+
             ajax.send(data);
         }
 
@@ -372,6 +395,7 @@
                 item.addEventListener("click", savePointMatrixAjax, false);
                 item.addEventListener("click", editPointMatrixModal, false);
             });
+            document.getElementById("point_matrix_table_edit").addEventListener("click", editPointMatrixModal, false);
         }
 
         function savePointMatrixCallback() {
@@ -825,10 +849,17 @@
             var save = document.getElementById("point_matrix_confirm_modal");
             save.dataset.id = this.dataset.id;
             save.dataset.row = this.dataset.row;
+            save.dataset.multiedit = false;
 
             if(this.dataset.type == 'duplicate') {
                 save.dataset.id = 0;
                 save.dataset.row = 0;
+            }
+
+            if(this.dataset.type == 'multi-edit') {
+                save.dataset.id = 0;
+                save.dataset.row = 0;
+                save.dataset.multiedit = true;
             }
 
         }

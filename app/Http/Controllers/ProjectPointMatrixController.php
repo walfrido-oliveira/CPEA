@@ -108,42 +108,45 @@ class ProjectPointMatrixController extends Controller
             return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
         }
 
-        $result = ProjectPointMatrix::where('campaign_id', $input['campaign_id'])
+        if($id > 0)
+        {
+            $result = ProjectPointMatrix::where('campaign_id', $input['campaign_id'])
                                     ->where('point_identification_id', $input['point_identification_id'])
                                     ->where('analysis_matrix_id', $input['analysis_matrix_id'])
                                     ->where('parameter_analysis_id', $input['parameter_analysis_id'])
                                     ->where('id', '!=', $id)
                                     ->get();
-        if(count($result) > 0)
-        {
-            $parameterAnalisis = ProjectPointMatrix::find($input['parameter_analysis_id']);
-            return response()->json(["error" => "O Param. Análise $parameterAnalisis->analysis_parameter_name já foi cadastrado"], Response::HTTP_BAD_REQUEST);
-        }
-
-        $checkParamAnalysis = isset($input['parameter_analysis_id']);
-        if(isset($input['analysis_parameter_ids']))
-        {
-            $erros = [];
-            foreach (array_diff(explode(",", $input['analysis_parameter_ids']), array("")) as $key => $value)
+            if(count($result) > 0)
             {
-                if($value) $checkParamAnalysis = true;
-                $result = ProjectPointMatrix::where('campaign_id', $input['campaign_id'])
-                                    ->where('point_identification_id', $input['point_identification_id'])
-                                    ->where('analysis_matrix_id', $input['analysis_matrix_id'])
-                                    ->where('parameter_analysis_id', $value)->get();
-                if(count($result) > 0)
+                $parameterAnalisis = ProjectPointMatrix::find($input['parameter_analysis_id']);
+                return response()->json(["error" => "O Param. Análise $parameterAnalisis->analysis_parameter_name já foi cadastrado"], Response::HTTP_BAD_REQUEST);
+            }
+
+            $checkParamAnalysis = isset($input['parameter_analysis_id']);
+            if(isset($input['analysis_parameter_ids']))
+            {
+                $erros = [];
+                foreach (array_diff(explode(",", $input['analysis_parameter_ids']), array("")) as $key => $value)
                 {
-                    $parameterAnalisis = ParameterAnalysis::find($value);
-                    $erros["error_$key"] = "O Param. Análise $parameterAnalisis->analysis_parameter_name já foi cadastrado";
+                    if($value) $checkParamAnalysis = true;
+                    $result = ProjectPointMatrix::where('campaign_id', $input['campaign_id'])
+                                        ->where('point_identification_id', $input['point_identification_id'])
+                                        ->where('analysis_matrix_id', $input['analysis_matrix_id'])
+                                        ->where('parameter_analysis_id', $value)->get();
+                    if(count($result) > 0)
+                    {
+                        $parameterAnalisis = ParameterAnalysis::find($value);
+                        $erros["error_$key"] = "O Param. Análise $parameterAnalisis->analysis_parameter_name já foi cadastrado";
+                    }
+                }
+                if(count($erros) > 0)
+                {
+                    return response()->json($erros, Response::HTTP_BAD_REQUEST);
                 }
             }
-            if(count($erros) > 0)
-            {
-                return response()->json($erros, Response::HTTP_BAD_REQUEST);
-            }
-        }
 
-        if(!$checkParamAnalysis) return response()->json(["Campo param. análise não selecionado."], Response::HTTP_BAD_REQUEST);
+            if(!$checkParamAnalysis) return response()->json(["Campo param. análise não selecionado."], Response::HTTP_BAD_REQUEST);
+        }
 
         $key = $input['key'];
         $projectPointMatrix = ProjectPointMatrix::find($id);
@@ -151,51 +154,61 @@ class ProjectPointMatrixController extends Controller
         $pointMatrixRender = "";
         $className = 'edit-point-matrix';
 
-        if($projectPointMatrix)
+        if($projectPointMatrix || isset($input['multi_edit']))
         {
-            $projectPointMatrix->update([
-                'project_id' => $projectPointMatrix->project_id,
-                'point_identification_id' => $input['point_identification_id'],
-                'analysis_matrix_id' => $input['analysis_matrix_id'],
-                'parameter_analysis_id' => $input['parameter_analysis_id'],
-                'campaign_id' => $input['campaign_id'],
-                'parameter_method_preparation_id' => $input['parameter_method_preparation_id'],
-                'parameter_method_analysis_id' => $input['parameter_method_analysis_id'],
+            $projectPointMatrices2 = [];
+
+            if(isset($input['multi_edit'])) {
+                $projectPointMatrices2 = ProjectPointMatrix::simpleFilter($input);
+            } else {
+                $projectPointMatrices2[] = $projectPointMatrix;
+            }
+            foreach ($projectPointMatrices2 as $projectPointMatrix)
+            {
+                $projectPointMatrix->update([
+                    'project_id' => $projectPointMatrix->project_id,
+                    'point_identification_id' => $input['point_identification_id'],
+                    'analysis_matrix_id' => $input['analysis_matrix_id'],
+                    'parameter_analysis_id' => $input['parameter_analysis_id'],
+                    'campaign_id' => $input['campaign_id'],
+                    'parameter_method_preparation_id' => $input['parameter_method_preparation_id'],
+                    'parameter_method_analysis_id' => $input['parameter_method_analysis_id'],
 
 
-                'date_collection' => $input['date_collection'],
+                    'date_collection' => $input['date_collection'],
 
-                'refq' => isset($input['refq']) ? $input['refq'] : null,
-                'tide' => isset($input['tide']) ? $input['tide'] : null,
-                'environmental_conditions' => isset($input['environmental_conditions']) ? $input['environmental_conditions'] : null,
-                'utm' => isset($input['utm']) ? $input['utm'] : null,
-                'water_depth' => isset($input['water_depth']) ? $input['water_depth'] : null,
-                'sample_depth' => isset($input['sample_depth']) ? $input['sample_depth'] : null,
-                'environmental_regime' => isset($input['environmental_regime']) ? $input['environmental_regime'] : null,
-                'secchi_record' => isset($input['secchi_record']) ? $input['secchi_record'] : null,
-                'floating_materials' => isset($input['floating_materials']) ? $input['floating_materials'] : null,
-                'total_depth' => isset($input['total_depth']) ? $input['total_depth'] : null,
-                'sedimentary_layer' => isset($input['sedimentary_layer']) ? $input['sedimentary_layer'] : null,
-                'report_identification' => isset($input['report_identification']) ? $input['report_identification'] : null,
-                'sampling_area' => isset($input['sampling_area']) ? $input['sampling_area'] : null,
-                'organism_type' => isset($input['organism_type']) ? $input['organism_type'] : null,
-                'popular_name' => isset($input['popular_name']) ? $input['popular_name'] : null,
-                'effluent_type' => isset($input['effluent_type']) ? $input['effluent_type'] : null,
-                'identification_pm' => isset($input['identification_pm']) ? $input['identification_pm'] : null,
-                'pm_depth' => isset($input['pm_depth']) ? $input['pm_depth'] : null,
-                'pm_diameter' => isset($input['pm_diameter']) ? $input['pm_diameter'] : null,
-                'water_level' => isset($input['water_level']) ? $input['water_level'] : null,
-                'oil_level' => isset($input['oil_level']) ? $input['oil_level'] : null,
-                'sample_horizon' => isset($input['sample_horizon']) ? $input['sample_horizon'] : null,
-                'field_measurements' => isset($input['field_measurements']) ? $input['field_measurements'] : null,
-                'temperature' => isset($input['temperature']) ? $input['temperature'] : null,
-                'humidity' => isset($input['humidity']) ? $input['humidity'] : null,
-                'pressure' => isset($input['pressure']) ? $input['pressure'] : null,
-            ]);
-            $id = $projectPointMatrix->id;
+                    'refq' => isset($input['refq']) ? $input['refq'] : null,
+                    'tide' => isset($input['tide']) ? $input['tide'] : null,
+                    'environmental_conditions' => isset($input['environmental_conditions']) ? $input['environmental_conditions'] : null,
+                    'utm' => isset($input['utm']) ? $input['utm'] : null,
+                    'water_depth' => isset($input['water_depth']) ? $input['water_depth'] : null,
+                    'sample_depth' => isset($input['sample_depth']) ? $input['sample_depth'] : null,
+                    'environmental_regime' => isset($input['environmental_regime']) ? $input['environmental_regime'] : null,
+                    'secchi_record' => isset($input['secchi_record']) ? $input['secchi_record'] : null,
+                    'floating_materials' => isset($input['floating_materials']) ? $input['floating_materials'] : null,
+                    'total_depth' => isset($input['total_depth']) ? $input['total_depth'] : null,
+                    'sedimentary_layer' => isset($input['sedimentary_layer']) ? $input['sedimentary_layer'] : null,
+                    'report_identification' => isset($input['report_identification']) ? $input['report_identification'] : null,
+                    'sampling_area' => isset($input['sampling_area']) ? $input['sampling_area'] : null,
+                    'organism_type' => isset($input['organism_type']) ? $input['organism_type'] : null,
+                    'popular_name' => isset($input['popular_name']) ? $input['popular_name'] : null,
+                    'effluent_type' => isset($input['effluent_type']) ? $input['effluent_type'] : null,
+                    'identification_pm' => isset($input['identification_pm']) ? $input['identification_pm'] : null,
+                    'pm_depth' => isset($input['pm_depth']) ? $input['pm_depth'] : null,
+                    'pm_diameter' => isset($input['pm_diameter']) ? $input['pm_diameter'] : null,
+                    'water_level' => isset($input['water_level']) ? $input['water_level'] : null,
+                    'oil_level' => isset($input['oil_level']) ? $input['oil_level'] : null,
+                    'sample_horizon' => isset($input['sample_horizon']) ? $input['sample_horizon'] : null,
+                    'field_measurements' => isset($input['field_measurements']) ? $input['field_measurements'] : null,
+                    'temperature' => isset($input['temperature']) ? $input['temperature'] : null,
+                    'humidity' => isset($input['humidity']) ? $input['humidity'] : null,
+                    'pressure' => isset($input['pressure']) ? $input['pressure'] : null,
+                ]);
+                $id = $projectPointMatrix->id;
 
-            $guidingParameters = array_diff(explode(",", $input['guiding_parameter_id']), array(""));
-            $projectPointMatrix->guidingParameters()->sync($guidingParameters);
+                $guidingParameters = array_diff(explode(",", $input['guiding_parameter_id']), array(""));
+                $projectPointMatrix->guidingParameters()->sync($guidingParameters);
+            }
         } else {
             if(isset($input['analysis_parameter_ids']))
             {
@@ -430,7 +443,6 @@ class ProjectPointMatrixController extends Controller
     public function filter(Request $request)
     {
         $projectPointMatrices = ProjectPointMatrix::filter($request->all());
-
         $projectPointMatrices->withPath(route('project.edit', ['project' => $request->get('project_id')]));
 
         $orderBy = $request->get('order_by');

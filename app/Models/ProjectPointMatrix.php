@@ -288,14 +288,6 @@ class ProjectPointMatrix extends Model
                 }
             }
 
-            if(isset($query['date_collection']))
-            {
-                if(!is_null($query['date_collection']))
-                {
-                    $q->whereDate('date_collection', Carbon::createFromFormat('d/m/Y', $query['date_collection']));
-                }
-            }
-
             if(isset($query['q']))
             {
                 if(!is_null($query['q']))
@@ -348,5 +340,95 @@ class ProjectPointMatrix extends Model
             $projects = $projects->paginate($perPage, ['*'], 'project-point-matrices', $page > (int) ceil($projects->count() / $perPage) ? 1 : $page);
 
         return $projects;
+    }
+
+    /**
+     * Find in dabase
+     *
+     * @param Array $query
+     * @param string $project_id
+     *
+     * @return object
+     */
+    public static function simpleFilter($query)
+    {
+        $projects = $projects = self::where(function($q) use ($query) {
+
+            if(isset($query['campaign_name']))
+            {
+                if(!is_null($query['campaign_name']))
+                {
+                    $q->whereHas('campaign', function($q) use ($query) {
+                        $q->where('name', 'like', '%' . $query['campaign_name'] . '%');
+                    });
+                }
+            }
+
+            if(isset($query['area']))
+            {
+                if(!is_null($query['area']))
+                {
+                    $q->whereHas('pointIdentification', function($q) use($query) {
+                        $q->where('point_identifications.area', 'like', '%' . $query['area'] . '%')
+                        ->orWhere('point_identifications.identification', 'like', '%' . $query['area'] . '%');
+                    });
+                }
+            }
+
+            if(isset($query['identification']))
+            {
+                if(!is_null($query['identification']))
+                {
+                    $q->whereHas('pointIdentification', function($q) use($query) {
+                        $q->where('point_identifications.identification', 'like', '%' . $query['identification'] . '%');
+                    });
+                }
+            }
+
+            if(isset($query['parameter_analysis_group_name']))
+            {
+                if(!is_null($query['parameter_analysis_group_name']))
+                {
+                    $q->whereHas('parameterAnalysis', function($q) use($query) {
+                        $q->whereHas('parameterAnalysisGroup', function($q) use($query) {
+                            $q->where('parameter_analysis_groups.name', 'like', '%' .$query['parameter_analysis_group_name'] . '%' );
+                        });
+                    });
+                }
+            }
+
+            if(isset($query['analysis_matrices_name']))
+            {
+                if(!is_null($query['analysis_matrices_name']))
+                {
+                    $q->whereHas('analysisMatrix', function($q) use($query) {
+                        $q->where('analysis_matrices.name', 'like', '%' . $query['analysis_matrices_name'] . '%');
+                    });
+                }
+            }
+
+            if(isset($query['parameter_analysis_name']))
+            {
+                if(!is_null($query['parameter_analysis_name']))
+                {
+                    $q->whereHas('parameterAnalysis', function($q) use($query) {
+                        $q->where('parameter_analyses.analysis_parameter_name', 'like', '%' . $query['parameter_analysis_name'] . '%');
+                    });
+                }
+            }
+
+            if(isset($query['guiding_parameter_name']))
+            {
+                if(!is_null($query['guiding_parameter_name']))
+                {
+                    $q->whereHas('guidingParameters', function($q) use($query) {
+                        $q->where('guiding_parameters.name', 'like', '%' . $query['guiding_parameter_name'] . '%');
+                    });
+                }
+            }
+        });
+
+
+        return $projects->get();
     }
 }
