@@ -41,7 +41,7 @@
                         <x-custom-select :options="$matrizeces" name="matriz_id" id="matriz_id" value="" class="mt-1" no-filter="no-filter"/>
                     </div>
                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                        <x-jet-label for="date_collection" value="{{ __('DT/HR da Coleta') }}" required/>
+                        <x-jet-label for="date_collection" value="{{ __('DT/HR da Coleta') }}"/>
                         <x-jet-input id="date_collection" class="form-control block mt-1 w-full" type="datetime-local" name="date_collection" maxlength="255" autofocus autocomplete="date_collection"/>
                     </div>
                 </div>
