@@ -1508,6 +1508,9 @@ select {
 .cursor-help {
 	cursor: help;
 }
+.cursor-not-allowed {
+	cursor: not-allowed;
+}
 .list-inside {
 	list-style-position: inside;
 }

@@ -97,7 +97,6 @@
 
         var orderByCallback = function(event) {
             event.preventDefault();
-            console.log(event.target.tagName);
             if(event.type == "click" && (event.target.tagName != "TH" && event.target.tagName != "A")) return;
             if(event.type == "keyup" && (event.key !== 'Enter' || event.keyCode !== 13)) return;
 
@@ -193,6 +192,20 @@
                     e.preventDefault();
                 });
                 item.addEventListener("click", orderByCallback, false);
+            });
+            document.querySelectorAll(".search-form").forEach(item => {
+                item.addEventListener("keyup", function() {
+                    if(event.type == "keyup" && (event.key == 'Enter' || event.keyCode == 13)) {
+                        if(item.value.length > 0) {
+                            document.getElementById("point_matrix_table_edit").classList.remove("cursor-not-allowed");
+                            document.getElementById("point_matrix_table_edit").classList.remove("opacity-50");
+                        } else {
+                            document.getElementById("point_matrix_table_edit").classList.add("cursor-not-allowed");
+                            document.getElementById("point_matrix_table_edit").classList.add("opacity-50");
+                        }
+                    }
+
+                });
             });
             document.getElementById("campaign_id_search").addEventListener("keyup", orderByCallback, false);
             document.getElementById("point_identifications.area_search").addEventListener("keyup", orderByCallback, false);

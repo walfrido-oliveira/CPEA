@@ -109,7 +109,7 @@
                                 <button type="button" class="btn-outline-info" id="point_matrix_table_add" data-type="save" data-id="0" data-row="0" title="Cadastrar Ponto/Matriz">{{ __('Cadastrar') }}</button>
                             </div>
                             <div class="m-2 ">
-                                <button type="button" class="btn-outline-warning " id="point_matrix_table_edit" data-type="multi-edit" title="Editar Ponto/Matriz Filtrados">{{ __('Editar') }}</button>
+                                <button type="button" class="btn-outline-warning  opacity-50 cursor-not-allowed" id="point_matrix_table_edit" data-type="multi-edit" title="Editar Ponto/Matriz Filtrados">{{ __('Editar') }}</button>
                             </div>
                             <div class="m-2 ">
                                 <button type="button" id="delete_point_matrix" class="btn-outline-danger delete-point-matrix" data-type="multiple" title="Apagar Ponto/Matriz">{{ __('Apagar') }}</button>
