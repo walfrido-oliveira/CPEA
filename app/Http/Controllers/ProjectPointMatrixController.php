@@ -119,7 +119,7 @@ class ProjectPointMatrixController extends Controller
             if(count($result) > 0)
             {
                 $parameterAnalisis = ProjectPointMatrix::find($input['parameter_analysis_id']);
-                return response()->json(["error" => "O Param. Análise $parameterAnalisis->analysis_parameter_name já foi cadastrado"], Response::HTTP_BAD_REQUEST);
+                if($parameterAnalisis) return response()->json(["error" => "O Param. Análise $parameterAnalisis->analysis_parameter_name já foi cadastrado"], Response::HTTP_BAD_REQUEST);
             }
 
             $checkParamAnalysis = isset($input['parameter_analysis_id']);
@@ -158,7 +158,7 @@ class ProjectPointMatrixController extends Controller
         {
             $projectPointMatrices2 = [];
 
-            if(isset($input['multi_edit'])) {
+            if($input['multi_edit'] == 'true') {
                 $projectPointMatrices2 = ProjectPointMatrix::simpleFilter($input['search']);
             } else {
                 $projectPointMatrices2[] = $projectPointMatrix;
@@ -210,18 +210,20 @@ class ProjectPointMatrixController extends Controller
                 $projectPointMatrix->guidingParameters()->sync($guidingParameters);
             }
 
-            $projectPointMatrices = ProjectPointMatrix::filter($input['search']);
-            $projectPointMatrices->withPath(route('project.edit', ['project' => $input['project_id']]));
+            if($input['multi_edit'] == 'true') {
+                $projectPointMatrices = ProjectPointMatrix::filter($input['search']);
+                $projectPointMatrices->withPath(route('project.edit', ['project' => $input['project_id']]));
 
-            $resp =
-            [
-                'message' => __('Ponto/Matriz(s) Cadastrados com Sucesso!'),
-                'alert-type' => 'success',
-                'filter_result' => view('project.point-matrix-result', compact('projectPointMatrices', 'orderBy', 'ascending'))->render(),
-                'pagination' => $this->setPagination($projectPointMatrices, $orderBy, $ascending, $paginatePerPage),
-            ];
+                $resp =
+                [
+                    'message' => __('Ponto/Matriz(s) Cadastrados com Sucesso!'),
+                    'alert-type' => 'success',
+                    'filter_result' => view('project.point-matrix-result', compact('projectPointMatrices', 'orderBy', 'ascending'))->render(),
+                    'pagination' => $this->setPagination($projectPointMatrices, $orderBy, $ascending, $paginatePerPage),
+                ];
 
-            return response()->json($resp);
+                return response()->json($resp);
+            }
 
         } else {
             if(isset($input['analysis_parameter_ids']))

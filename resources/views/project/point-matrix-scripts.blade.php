@@ -302,14 +302,12 @@
             let guidingParameterIdSearch;
             let parameterAnalysisGroupsNameSearch;
 
-            if(multiEdit) {
-                campaignNameSearch = document.getElementById("campaign_id_search").value;
-                areaSearch = document.getElementById("point_identifications.area_search").value;
-                analysisMatrixIdSearch = document.getElementById("analysis_matrix_id_search").value;
-                parameterAnalysisIdSearch = document.getElementById("parameter_analysis_id_search").value;
-                guidingParameterIdSearch = document.getElementById("guiding_parameter_project_point_matrix.guiding_parameter_id_search").value;
-                parameterAnalysisGroupsNameSearch = document.getElementById("parameter_analysis_groups.name_search").value;
-            }
+            campaignNameSearch = document.getElementById("campaign_id_search").value;
+            areaSearch = document.getElementById("point_identifications.area_search").value;
+            analysisMatrixIdSearch = document.getElementById("analysis_matrix_id_search").value;
+            parameterAnalysisIdSearch = document.getElementById("parameter_analysis_id_search").value;
+            guidingParameterIdSearch = document.getElementById("guiding_parameter_project_point_matrix.guiding_parameter_id_search").value;
+            parameterAnalysisGroupsNameSearch = document.getElementById("parameter_analysis_groups.name_search").value;
 
             ajax.open(method, url);
 
@@ -319,23 +317,24 @@
                     toastr.success(resp.message);
 
                     if(multiEdit) {
-                        document.querySelector("#point_matrix_table tbody").innerHTML = resp.filter_result;
-                        document.getElementById("point_matrix_pagination").innerHTML = resp.pagination;
+                      document.querySelector("#point_matrix_table tbody").innerHTML = resp.filter_result;
+                      document.getElementById("point_matrix_pagination").innerHTML = resp.pagination;
                     }
+                    else {
+                      document.getElementById("point_matrix_pagination").innerHTML = resp.pagination;
 
-                    if(id > 0) {
+                      if(id > 0) {
                         let rowUpdated = document.getElementById("point_matrix_row_" + that.dataset.row);
                         rowUpdated.innerHTML = resp.point_matrix;
-                    } else {
+                      } else {
                         document.getElementById("point_matrix_table_content").insertAdjacentHTML('beforebegin', resp.point_matrix);
+                      }
                     }
 
                     let buttom = document.getElementById("point_matrix_table_add");
                     buttom.dataset.id = 0;
                     buttom.dataset.row = 0;
                     buttom.innerHTML = "Cadastrar";
-
-                    document.getElementById("point_matrix_pagination").innerHTML = resp.pagination;
 
                     eventsFilterCallback();
                     selectAllPointMatrices();
@@ -385,16 +384,14 @@
                 data.append(item.id, item.value);
             });
 
-            if(multiEdit) {
-                data.append('multi_edit', true);
-                data.append('search[campaign_name]', campaignNameSearch);
-                data.append('search[area]', areaSearch);
-                data.append('search[analysis_matrices_name]', analysisMatrixIdSearch);
-                data.append('search[parameter_analysis_name]', parameterAnalysisIdSearch);
-                data.append('search[guiding_parameter_name]', guidingParameterIdSearch);
-                data.append('search[parameter_analysis_group_name]', parameterAnalysisGroupsNameSearch);
-                data.append('search[project_id]', "{{ $project->id }}");
-            }
+            data.append('multi_edit', multiEdit);
+            data.append('search[campaign_name]', campaignNameSearch);
+            data.append('search[area]', areaSearch);
+            data.append('search[analysis_matrices_name]', analysisMatrixIdSearch);
+            data.append('search[parameter_analysis_name]', parameterAnalysisIdSearch);
+            data.append('search[guiding_parameter_name]', guidingParameterIdSearch);
+            data.append('search[parameter_analysis_group_name]', parameterAnalysisGroupsNameSearch);
+            data.append('search[project_id]', "{{ $project->id }}");
 
             ajax.send(data);
         }
@@ -432,6 +429,7 @@
 
         function editPointMatrix(elem, row) {
             if(elem.dataset.type != 'edit' && elem.dataset.type != 'duplicate') return;
+            if(elem.classList.contains("cursor-not-allowed")) return;
 
             let pointIdentifications = document.getElementById("point_identifications");
             let areas = document.getElementById("areas");
@@ -537,8 +535,6 @@
                 if(window.customSelectArray[item.id]) window.customSelectArray[item.id].update();
             });
         }
-
-        //document.getElementById('point_matrix_confirm_id').addEventListener('resp', orderByCallback, false);
 
         document.getElementById("matriz_id").addEventListener("change", function() {
             getFieldsPointMatrix(this.value)
@@ -855,31 +851,33 @@
         document.getElementById("analysis_parameter_group_id").addEventListener("change", getParameterAnalysesByGroup, false);
 
         function editPointMatrixModal() {
-            var modal = document.getElementById("point_matrix_edit_modal");
-            modal.classList.remove("hidden");
-            modal.classList.add("block");
+          if(this.classList.contains("cursor-not-allowed")) return;
 
-            document.querySelector("body").style.overflow = "hidden";
+          var modal = document.getElementById("point_matrix_edit_modal");
+          modal.classList.remove("hidden");
+          modal.classList.add("block");
 
-            var cancel = document.getElementById("point_matrix_cancel_modal_2");
-            cancel.dataset.id = this.dataset.id;
-            cancel.dataset.row = this.dataset.row;
+          document.querySelector("body").style.overflow = "hidden";
 
-            var save = document.getElementById("point_matrix_confirm_modal");
-            save.dataset.id = this.dataset.id;
-            save.dataset.row = this.dataset.row;
-            save.dataset.multiedit = false;
+          var cancel = document.getElementById("point_matrix_cancel_modal_2");
+          cancel.dataset.id = this.dataset.id;
+          cancel.dataset.row = this.dataset.row;
 
-            if(this.dataset.type == 'duplicate') {
-                save.dataset.id = 0;
-                save.dataset.row = 0;
-            }
+          var save = document.getElementById("point_matrix_confirm_modal");
+          save.dataset.id = this.dataset.id;
+          save.dataset.row = this.dataset.row;
+          save.dataset.multiedit = false;
 
-            if(this.dataset.type == 'multi-edit') {
-                save.dataset.id = 0;
-                save.dataset.row = 0;
-                save.dataset.multiedit = true;
-            }
+          if(this.dataset.type == 'duplicate') {
+              save.dataset.id = 0;
+              save.dataset.row = 0;
+          }
+
+          if(this.dataset.type == 'multi-edit') {
+              save.dataset.id = 0;
+              save.dataset.row = 0;
+              save.dataset.multiedit = true;
+          }
 
         }
 
