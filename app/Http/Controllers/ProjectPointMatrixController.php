@@ -159,7 +159,7 @@ class ProjectPointMatrixController extends Controller
             $projectPointMatrices2 = [];
 
             if(isset($input['multi_edit'])) {
-                $projectPointMatrices2 = ProjectPointMatrix::simpleFilter($input);
+                $projectPointMatrices2 = ProjectPointMatrix::simpleFilter($input['search']);
             } else {
                 $projectPointMatrices2[] = $projectPointMatrix;
             }
@@ -209,6 +209,20 @@ class ProjectPointMatrixController extends Controller
                 $guidingParameters = array_diff(explode(",", $input['guiding_parameter_id']), array(""));
                 $projectPointMatrix->guidingParameters()->sync($guidingParameters);
             }
+
+            $projectPointMatrices = ProjectPointMatrix::filter($input['search']);
+            $projectPointMatrices->withPath(route('project.edit', ['project' => $input['project_id']]));
+
+            $resp =
+            [
+                'message' => __('Ponto/Matriz(s) Cadastrados com Sucesso!'),
+                'alert-type' => 'success',
+                'filter_result' => view('project.point-matrix-result', compact('projectPointMatrices', 'orderBy', 'ascending'))->render(),
+                'pagination' => $this->setPagination($projectPointMatrices, $orderBy, $ascending, $paginatePerPage),
+            ];
+
+            return response()->json($resp);
+
         } else {
             if(isset($input['analysis_parameter_ids']))
             {
@@ -270,10 +284,11 @@ class ProjectPointMatrixController extends Controller
                     ->pluck('guiding_parameters.id')->toArray());
                     $project->save();
 
-                    $pointMatrixRender .= view('project.saved-point-matrix', ['projectPointMatrix' => $projectPointMatrix,
-                                                                              'key' => $key,
-                                                                              'id' => $projectPointMatrix->id,
-                                                                              'className' => $className])->render();
+                    $pointMatrixRender .= view('project.saved-point-matrix',
+                    ['projectPointMatrix' => $projectPointMatrix,
+                     'key' => $key,
+                     'id' => $projectPointMatrix->id,
+                     'className' => $className])->render();
                 }
                 $projectPointMatrices = $project->projectPointMatrices()->orderBy('created_at', 'desc')->paginate($paginatePerPage, ['*'], 'project-point-matrices');
                 $projectPointMatrices->withPath(route('project.edit', ['project' => $input['project_id']]));

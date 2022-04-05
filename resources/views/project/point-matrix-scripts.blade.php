@@ -306,7 +306,8 @@
                     toastr.success(resp.message);
 
                     if(multiEdit) {
-                        location.reload();
+                        document.querySelector("#point_matrix_table tbody").innerHTML = resp.filter_result;
+                        document.getElementById("point_matrix_pagination").innerHTML = resp.pagination;
                     }
 
                     if(id > 0) {
@@ -373,12 +374,13 @@
 
             if(multiEdit) {
                 data.append('multi_edit', true);
-                data.append('campaign_name', campaignNameSearch);
-                data.append('area', areaSearch);
-                data.append('analysis_matrices_name', analysisMatrixIdSearch);
-                data.append('parameter_analysis_name', parameterAnalysisIdSearch);
-                data.append('guiding_parameter_name', guidingParameterIdSearch);
-                data.append('parameter_analysis_group_name', parameterAnalysisGroupsNameSearch);
+                data.append('search[campaign_name]', campaignNameSearch);
+                data.append('search[area]', areaSearch);
+                data.append('search[analysis_matrices_name]', analysisMatrixIdSearch);
+                data.append('search[parameter_analysis_name]', parameterAnalysisIdSearch);
+                data.append('search[guiding_parameter_name]', guidingParameterIdSearch);
+                data.append('search[parameter_analysis_group_name]', parameterAnalysisGroupsNameSearch);
+                data.append('search[project_id]', "{{ $project->id }}");
             }
 
             ajax.send(data);
@@ -395,7 +397,11 @@
                 item.addEventListener("click", savePointMatrixAjax, false);
                 item.addEventListener("click", editPointMatrixModal, false);
             });
+
+
             document.getElementById("point_matrix_table_edit").addEventListener("click", editPointMatrixModal, false);
+            var item = document.querySelectorAll('.edit-point-matrix')[0];
+            document.getElementById("point_matrix_table_edit").addEventListener("click", editPointMatrix.bind(null, item, item.dataset.row), false);
         }
 
         function savePointMatrixCallback() {

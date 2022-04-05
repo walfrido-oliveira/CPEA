@@ -426,6 +426,8 @@ class ProjectPointMatrix extends Model
                     });
                 }
             }
+
+            if(isset($query['project_id'])) $q->where('project_id', $query['project_id']);
         });
 
 
