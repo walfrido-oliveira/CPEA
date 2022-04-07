@@ -154,7 +154,7 @@ class ProjectPointMatrixController extends Controller
         $pointMatrixRender = "";
         $className = 'edit-point-matrix';
 
-        if($projectPointMatrix || isset($input['multi_edit']))
+        if(($projectPointMatrix && $id > 0) || $input['multi_edit'] == 'true')
         {
             $projectPointMatrices2 = [];
 

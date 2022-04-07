@@ -874,7 +874,7 @@
           }
 
           if(this.dataset.type == 'multi-edit') {
-              save.dataset.id = 0;
+              save.dataset.id = -1;
               save.dataset.row = 0;
               save.dataset.multiedit = true;
           }
