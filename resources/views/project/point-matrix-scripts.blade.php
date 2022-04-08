@@ -273,15 +273,15 @@
             let pointIdentifications = document.getElementById("point_identifications").value;
             let matriz = document.getElementById("matriz_id").value;
 
-            const temp = Array.from(document.getElementById("analysis_parameter_id").options).filter(o => (o.selected && o.text != '')).map(o => o.value);
             let guidingParameter = Array.from(document.getElementById("guiding_parameters_id").options).filter(o => (o.selected && o.text != '')).map(o => o.value);
+            const temp = Array.from(document.getElementById("analysis_parameter_id").options).filter(o => (o.selected && o.text != '')).map(o => o.value);
             let analysisParameter = Array.from(document.getElementById("analysis_parameter_id").options).filter(o => (o.selected && o.text != '')).map(o => o.value);
             let analysisParameters = Array.from(document.getElementById("analysis_parameter_ids").options).filter(o => (o.selected && o.text != '')).map(o => o.value);
 
             if(temp.length > 1) {
                 analysisParameters = temp;
-            } else if(temp.length > 0) {
-                analysisParameter = document.getElementById("analysis_parameter_id").value;
+            } else if(temp.length == 1) {
+                analysisParameter = temp[1];
             }
 
             let paginationPerPage = document.getElementById("paginate_per_page_campaigns").value;
@@ -411,7 +411,7 @@
 
             document.getElementById("point_matrix_table_edit").addEventListener("click", editPointMatrixModal, false);
             var item = document.querySelectorAll('.edit-point-matrix')[0];
-            document.getElementById("point_matrix_table_edit").addEventListener("click", editPointMatrix.bind(null, item, item.dataset.row), false);
+            if(item.dataset.row) document.getElementById("point_matrix_table_edit").addEventListener("click", editPointMatrix.bind(null, item, item.dataset.row), false);
         }
 
         function savePointMatrixCallback() {
