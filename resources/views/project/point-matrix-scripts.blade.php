@@ -281,7 +281,7 @@
             if(temp.length > 1) {
                 analysisParameters = temp;
             } else if(temp.length == 1) {
-                analysisParameter = temp[1];
+                analysisParameter = temp[0];
             }
 
             let paginationPerPage = document.getElementById("paginate_per_page_campaigns").value;
