@@ -695,6 +695,8 @@ class AnalysisResultController extends Controller
                     $re = '/{(.*?)}/m';
                     $formula = $value->calculationParameters[0]->formula;
                     preg_match_all($re, $formula, $matches, PREG_SET_ORDER, 0);
+                    $zero = true;
+                    $max = 0;
 
                     foreach ($matches as $key2 => $value2)
                     {
@@ -713,19 +715,30 @@ class AnalysisResultController extends Controller
                             $analysisResult = AnalysisResult::where("project_point_matrix_id", $projectPointMatrix->id)->first();
                             if($analysisResult)
                             {
-                                $formula = Str::replace($value2[0],  $analysisResult->result, $formula);
+                                $formula = Str::replace($value2[0],  Str::contains($analysisResult->result, "<") ? 0 : $analysisResult->result, $formula);
                                 $sampdate = $analysisResult->sampdate;
                                 $samplename = $analysisResult->samplename;
                                 $labsampid = $analysisResult->labsampid;
+                                $zero = !Str::contains($analysisResult->result, "<");
+                                $r = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->result);
+                                $max =  $r > $max ? $r : $max;
                             }
                         }
                     }
-                    $token = Str::contains($formula, "<") ? "<" : "";
-                    $formula = Str::replace(["*J", " [1]", "< ", "<"],  "", $formula);
-                    $formula = Str::replace([","],  ".", $formula);
-                    $stringCalc = new StringCalc();
 
-                    $result = "$token " . $stringCalc->calculate($formula);
+
+                    if(!$zero)
+                    {
+                        $token = Str::contains($formula, "<") ? "<" : "";
+                        $formula = Str::replace(["*J", " [1]", "< ", "<"],  "", $formula);
+                        $formula = Str::replace([","],  ".", $formula);
+                        $stringCalc = new StringCalc();
+
+                        $result = "$token " . $stringCalc->calculate($formula);
+                    }
+                    else {
+                        $result = $max;
+                    }
 
                     $analysisResult = AnalysisResult::firstOrCreate([
                         'project_point_matrix_id' => $value->id,
