@@ -702,13 +702,16 @@ class AnalysisResultController extends Controller
                     {
                         $result = explode("&", $value2[1]);
 
-                        $projectPointMatrix = $order->projectPointMatrices()->whereHas('parameterAnalysis', function($q) use($result) {
+                        $projectPointMatrix = $order->projectPointMatrices()
+                        ->whereHas('parameterAnalysis', function($q) use($result) {
                             $q->where('parameter_analyses.analysis_parameter_name', $result[0])
                             ->where('parameter_analyses.cas_rn', $result[1])
                             ->whereHas('parameterAnalysisGroup', function($q) use($result) {
                                 $q->where('name', $result[2]);
                             });
-                        })->first();
+                        })
+                        ->where('point_identification_id', $value->point_identification_id)
+                        ->first();
 
                         if($projectPointMatrix)
                         {
@@ -719,7 +722,7 @@ class AnalysisResultController extends Controller
                                 $sampdate = $analysisResult->sampdate;
                                 $samplename = $analysisResult->samplename;
                                 $labsampid = $analysisResult->labsampid;
-                                $zero = Str::contains($analysisResult->result, "<");
+                                $zero = !Str::contains($analysisResult->result, "<");
                                 $r = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->result);
                                 $max =  $r > $max ? $r : $max;
                             }
