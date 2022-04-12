@@ -719,7 +719,7 @@ class AnalysisResultController extends Controller
                                 $sampdate = $analysisResult->sampdate;
                                 $samplename = $analysisResult->samplename;
                                 $labsampid = $analysisResult->labsampid;
-                                $zero = !Str::contains($analysisResult->result, "<");
+                                $zero = Str::contains($analysisResult->result, "<");
                                 $r = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->result);
                                 $max =  $r > $max ? $r : $max;
                             }
