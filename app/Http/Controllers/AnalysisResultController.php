@@ -189,8 +189,8 @@ class AnalysisResultController extends Controller
             $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 1)->applyFromArray($border);
             $sheet->getColumnDimensionByColumn(2 + count($guidingParameters) + 1  + $key)->setAutoSize(true);
 
-            $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2, $value->sampdate);
-            $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 3, $value->sampdate);
+            $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2, $value->projectPointMatrix->date_collection->format("d/m/Y"));
+            $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 3, $value->projectPointMatrix->date_collection->format("H:i"));
             $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4, $value->labsampid);
 
             $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
