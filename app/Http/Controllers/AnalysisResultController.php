@@ -92,6 +92,12 @@ class AnalysisResultController extends Controller
 
         $project = $campaign->project;
         $RandomColors = RandomColor::many(30, array('luminosity'=>'light', 'format'=>'hex'));
+
+        while(in_array(["#FFCC99", "#FFFF99", "#DAEEF3"], $RandomColors))
+        {
+            $RandomColors = RandomColor::many(30, array('luminosity'=>'light', 'format'=>'hex'));
+        }
+
         $RandomColors[0] = "#FFCC99";
         $RandomColors[1] = "#FFFF99";
         $RandomColors[2] = "#DAEEF3";
