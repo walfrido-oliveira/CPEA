@@ -411,7 +411,7 @@
 
             document.getElementById("point_matrix_table_edit").addEventListener("click", editPointMatrixModal, false);
             var item = document.querySelectorAll('.edit-point-matrix')[0];
-            if(item.dataset.row) document.getElementById("point_matrix_table_edit").addEventListener("click", editPointMatrix.bind(null, item, item.dataset.row), false);
+            if(item) document.getElementById("point_matrix_table_edit").addEventListener("click", editPointMatrix.bind(null, item, item.dataset.row), false);
         }
 
         function savePointMatrixCallback() {
