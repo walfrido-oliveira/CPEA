@@ -134,7 +134,9 @@
             if (this.readyState == 4 && this.status == 200) {
                 var resp = JSON.parse(ajax.response);
                 toastr.success(resp.message);
-                close();
+                var modal = document.getElementById("guiding_parameter_order_modal");
+                modal.classList.add("hidden");
+                modal.classList.remove("block");
             } else if (this.readyState == 4 && this.status != 200) {
                 var resp = JSON.parse(ajax.response);
                 var obj = resp;
@@ -142,6 +144,9 @@
                     var value = obj[key];
                     toastr.error("<br>" + value);
                 }
+                var modal = document.getElementById("guiding_parameter_order_modal");
+                modal.classList.add("hidden");
+                modal.classList.remove("block");
             }
         }
 
