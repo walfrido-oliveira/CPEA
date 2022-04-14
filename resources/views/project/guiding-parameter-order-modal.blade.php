@@ -77,7 +77,9 @@
     }
 
     document.getElementById("guiding_parameter_order_cancel_modal").addEventListener("click", function(e) {
-        close();
+        var modal = document.getElementById("guiding_parameter_order_modal");
+        modal.classList.add("hidden");
+        modal.classList.remove("block");
     });
 
     document.getElementById("guiding_parameter_order").addEventListener("click", function() {
