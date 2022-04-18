@@ -51,7 +51,7 @@ class ExportController extends Controller
                     $row->analysisMatrix->name,
                     $row->parameterAnalysis->analysis_parameter_name,
                     $row->guidingParameterRefValue ? $row->guidingParameterRefValue->guiding_parameter_ref_value_id : null,
-                    $row->guiding_value_id,
+                    $row->guidingParameter ? $row->guidingParameter->name : null,
                     $row->unityLegislation->name,
                     $row->guiding_legislation_value,
                     $row->guiding_legislation_value_1,
