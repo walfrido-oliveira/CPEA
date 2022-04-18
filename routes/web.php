@@ -61,6 +61,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
     Route::prefix('exportar')->name('export.')->group(function(){
         Route::get('/valor-param-orientador', [ExportController::class, 'exportGuidingParameterValue'])->name('exportGuidingParameterValue');
+        Route::get('/param-analise', [ExportController::class, 'exportParameterAnalysis'])->name('exportParameterAnalysis');
     });
 
     Route::prefix('importar')->name('import.')->group(function(){
