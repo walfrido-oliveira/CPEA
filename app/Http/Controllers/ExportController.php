@@ -101,7 +101,7 @@ class ExportController extends Controller
             foreach ($data as $row)
             {
                 $item = [
-                    $row->parameterAnalysis->analysisParameter->name,
+                    $row->analysisParameter->name,
                     $row->cas_rn,
                     $row->ref_cas_rn,
                     $row->analysis_parameter_name,
@@ -154,7 +154,7 @@ class ExportController extends Controller
                     $row->name,
                     $row->environmentalArea ? $row->environmentalArea->name : null,
                     $row->environmentalAgency ? $row->environmentalAgency->name : null,
-                    $row->customer->name,
+                    $row->customer ? $row->customer->name : null,
                     $row->resolutions,
                     $row->articles,
                     $row->observation
