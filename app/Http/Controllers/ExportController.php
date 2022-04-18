@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GuidingParameter;
 use App\Models\ParameterAnalysis;
 use App\Models\GuidingParameterValue;
 
@@ -107,6 +108,56 @@ class ExportController extends Controller
                     $row->parameterAnalysisGroup ? $row->parameterAnalysisGroup->name : null,
                     $row->order,
                     $row->decimal_place,
+                ];
+                fputcsv($hadle, $item, ';');
+            }
+
+            fclose($hadle);
+        }, 200, $headers);
+    }
+
+    /**
+     * Export All
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function exportGuidingParameter()
+    {
+        $data = GuidingParameter::all();
+        $name = 'export.csv';
+        $headers = [
+            'Content-Disposition' => 'attachment; filename='. $name,
+            "Content-Encoding"    => "UTF-8",
+            "Content-type"        => "text/csv; charset=UTF-8",
+        ];
+
+        $headerColumn = [
+           'COD. PARAM. ORIENTADOR AMBIENTAL',
+           'NOME PARAM. ORIENTADOR',
+           'TIPO ÁREA AMBIENTAL',
+           'ÓRGÃO AMBIENTAL',
+           'CLIENTE',
+           'RESOLUÇÕES',
+           'ARTIGOS',
+           'OBS'
+        ];
+
+        return response()->stream(function() use($data, $headerColumn){
+            $hadle = fopen('php://output', 'w+');
+
+            fputcsv($hadle, $headerColumn, ";");
+
+            foreach ($data as $row)
+            {
+                $item = [
+                    $row->environmental_guiding_parameter_id,
+                    $row->name,
+                    $row->environmentalArea ? $row->environmentalArea->name : null,
+                    $row->environmentalAgency ? $row->environmentalAgency->name : null,
+                    $row->customer->name,
+                    $row->resolutions,
+                    $row->articles,
+                    $row->observation
                 ];
                 fputcsv($hadle, $item, ';');
             }
