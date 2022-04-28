@@ -20,7 +20,7 @@
                 </td>
                 <td colspan="5" class="bg-gray-100 font-bold">
                     @if ($point->pointIdentification)
-                        <button type="button" class="show-point" data-point="{{ $point->pointIdentification->id }}">
+                        <button type="button" class="show-point" data-point="{{ $point->pointIdentification ? $point->pointIdentification->id : null }}">
                             {{ $point->pointIdentification->area }} - {{ $point->pointIdentification->identification }}
                             ({{ count($point->where("point_identification_id", $point->point_identification_id)->where('campaign_id', $point->campaign_id)->get()) }})
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline btn-transition-secondary" viewBox="0 0 20 20" fill="currentColor">
@@ -38,12 +38,12 @@
                                     $projectPointMatrices[$index - 1]->parameterAnalysis->parameter_analysis_group_id) || $index == 0 ||
                                     ($projectPointMatrices[$index]->pointIdentification->identification !=
                                     $projectPointMatrices[$index - 1]->pointIdentification->identification))
-                    <tr class="point-items-{{ $point->pointIdentification->id }}">
+                    <tr class="point-items-{{ $point->pointIdentification ? $point->pointIdentification->id : null }}">
                         @if ($point->parameterAnalysis)
                             <td class="bg-gray-100" style="width: 1%; background-color:#e1ede1">
                                 <input class="form-checkbox parameter-analysis-group" type="checkbox"
                                     data-group-id="{{ $point->parameterAnalysis->parameterAnalysisGroup->id }}"
-                                    data-identification-id="{{ $point->pointIdentification->id }}"
+                                    data-identification-id="{{ $point->pointIdentification ? $point->pointIdentification->id : null }}"
                                     value="{{ $point->parameterAnalysis->parameterAnalysisGroup->id }}">
                             </td>
                             <td colspan="5" class="font-bold text-black" style="background-color:#e1ede1">
