@@ -58,7 +58,7 @@
             @endif
         @endif
 
-        <tr class="point-items-{{ $point->pointIdentification->id }}">
+        <tr class="point-items-{{ $point->pointIdentification ? $point->pointIdentification->id : null }}">
             @php
                 $status = $point->getStatusLab($campaign->id);
                 $statusMsg = 'Pendente de Analise';
