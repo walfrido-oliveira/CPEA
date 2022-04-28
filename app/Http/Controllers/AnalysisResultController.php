@@ -627,6 +627,22 @@ class AnalysisResultController extends Controller
             $obj->status = "found";
             $imports[] = $obj;
 
+            /*oreach($projectPointMatrices->guidingParameters as $item)
+            {
+                foreach($item->guidingParameterValues as $item2)
+                {
+                    if($item2->parameter_analysis_id == $item->parameter_analysis_id &&
+                      $item2->unityLegislation->name !=  $obj->units)
+                    {
+                        $obj->result = $obj->result * $item2->unityLegislation->conversion_amount;
+                        $obj->dl = $obj->dl * $item2->unityLegislation->conversion_amount;
+                        $obj->rl = $obj->rl * $item2->unityLegislation->conversion_amount;
+                    }
+                }
+            }
+
+            $projectPointMatrices->guidingParameters()->where('parameter_analysis_id', '1')->get()*/
+
             $analysisResult = AnalysisResult::firstOrCreate([
                 'project_point_matrix_id' => $projectPointMatrices->id,
                 'analysis_order_id' => $order->id
@@ -657,10 +673,14 @@ class AnalysisResultController extends Controller
                 'casnumber' => $obj->casnumber,
                 'surrogate' => $obj->surrogate,
                 'tic' => $obj->tic,
+
+                /** CONVERSÃO */
                 'result' => $obj->result,
                 'dl' => $obj->dl,
                 'rl' => $obj->rl,
                 'units' => $obj->units,
+                /*******/
+
                 'rptomdl' => $obj->rptomdl,
                 'mrlsolids' => $obj->mrlsolids,
                 'basis' => $obj->basis,
