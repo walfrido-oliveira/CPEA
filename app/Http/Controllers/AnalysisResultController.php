@@ -627,7 +627,7 @@ class AnalysisResultController extends Controller
             $obj->status = "found";
             $imports[] = $obj;
 
-            /*oreach($projectPointMatrices->guidingParameters as $item)
+            foreach($projectPointMatrices->guidingParameters as $item)
             {
                 foreach($item->guidingParameterValues as $item2)
                 {
@@ -640,8 +640,6 @@ class AnalysisResultController extends Controller
                     }
                 }
             }
-
-            $projectPointMatrices->guidingParameters()->where('parameter_analysis_id', '1')->get()*/
 
             $analysisResult = AnalysisResult::firstOrCreate([
                 'project_point_matrix_id' => $projectPointMatrices->id,
