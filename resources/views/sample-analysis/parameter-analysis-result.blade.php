@@ -15,8 +15,8 @@
             <tr>
                 <td class="bg-gray-100" style="width: 1%">
                     <input class="form-checkbox parameter-analysis-identification" type="checkbox"
-                           data-identification-id="{{ $point->pointIdentification->id }}"
-                           value="{{ $point->pointIdentification->id }}">
+                           data-identification-id="{{ $point->pointIdentification ? $point->pointIdentification->id : null }}"
+                           value="{{ $point->pointIdentification ? $point->pointIdentification->id : null }}">
                 </td>
                 <td colspan="5" class="bg-gray-100 font-bold">
                     @if ($point->pointIdentification)
