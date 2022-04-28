@@ -90,7 +90,7 @@
                 @if (!$status || $status == 'canceled')
                     <input class="form-checkbox parameter-analysis-item" name="parameter_analysis_item[{{ $index }}]"
                         type="checkbox" @if ($point->parameterAnalysis) data-group-id="{{ $point->parameterAnalysis->parameterAnalysisGroup->id }}" @endif
-                        data-identification-id="{{ $point->pointIdentification->id }}" value="{{ $point->id }}">
+                        data-identification-id="{{ $point->pointIdentification ? $point->pointIdentification->id : null }}" value="{{ $point->id }}">
                 @endif
             </td>
             <td>
