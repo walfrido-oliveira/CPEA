@@ -446,6 +446,12 @@
             });
         }
 
+        document.getElementById("paginate_per_page").addEventListener("change", function() {
+            setTimeout(() => {
+                location.reload();
+            }, 100);
+        });
+
 
     </script>
 

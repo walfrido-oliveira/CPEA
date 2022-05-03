@@ -22,10 +22,11 @@ class CampaignController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param  Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $campaign = Campaign::findOrFail($id);
 
@@ -38,10 +39,11 @@ class CampaignController extends Controller
         $geodeticSystems = GeodeticSystem::pluck("name", "id");
         $preparationMethods = ParameterMethod::where('type', 'preparation')->get()->pluck('name', 'id');
         $analysisMethods = ParameterMethod::where('type', 'analysis')->get()->pluck('name', 'id');
+        $perPage = $request->has('paginate_per_page') ? $request->get('paginate_per_page') : DEFAULT_PAGINATE_PER_PAGE;
 
         $projectPointMatrices = $campaign->projectPointMatrices()
         ->orderBy("campaign_id", "asc")
-        ->paginate(DEFAULT_PAGINATE_PER_PAGE, ['*'], 'project-point-matrices');
+        ->paginate($perPage, ['*']);
 
         return view('project.campaign.show',
         compact('campaign', 'areas', 'identifications', 'matrizeces', 'planActionLevels',
