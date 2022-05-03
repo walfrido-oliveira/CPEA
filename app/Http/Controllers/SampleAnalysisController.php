@@ -37,7 +37,7 @@ class SampleAnalysisController extends Controller
     {
         $campaign = Campaign::findOrFail($id);
         $status = ['sent' => __('sent'), 'pending' => __('pending'), 'analyzing' => __('analyzing'), 'concluded' => __('concluded')];
-        $analysisOrders = $campaign->analysisOrders()->orderBy('status')->orderBy("id")->get();
+        $analysisOrders = $campaign->analysisOrders()->orderBy('status', 'desc')->orderBy("id")->get();
 
         $projectPointMatrices = $campaign
         ->projectPointMatrices()
