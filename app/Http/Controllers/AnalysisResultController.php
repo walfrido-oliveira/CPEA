@@ -631,12 +631,15 @@ class AnalysisResultController extends Controller
             {
                 foreach($item->guidingParameterValues as $item2)
                 {
-                    if($item2->parameter_analysis_id == $item->parameter_analysis_id &&
-                      $item2->unityLegislation->name !=  $obj->units)
+                    if($item2->unityLegislation->unity_cod !=  $obj->units && $item2->parameterAnalysis->analysis_parameter_name == $obj->analyte)
                     {
-                        $obj->result = $obj->result * $item2->unityLegislation->conversion_amount;
-                        $obj->dl = $obj->dl * $item2->unityLegislation->conversion_amount;
-                        $obj->rl = $obj->rl * $item2->unityLegislation->conversion_amount;
+                        $r = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $obj->result);
+                        $dl = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $obj->dl);
+                        $rl = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $obj->rl);
+
+                        $obj->result = $r * $item2->unityLegislation->conversion_amount;
+                        $obj->dl = $dl * $item2->unityLegislation->conversion_amount;
+                        $obj->rl = $rl * $item2->unityLegislation->conversion_amount;
                     }
                 }
             }
