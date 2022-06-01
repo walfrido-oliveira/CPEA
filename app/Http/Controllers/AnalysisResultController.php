@@ -630,10 +630,14 @@ class AnalysisResultController extends Controller
             foreach($projectPointMatrices->guidingParameters as $item)
             {
 
-               foreach($item->guidingParameterValues()
-                    ->where('parameter_analysis_id', $projectPointMatrices->parameter_analysis_id)
-                    ->where('analysis_matrix_id', $projectPointMatrices->analysis_matrix_id)
-                    ->where('guiding_parameter_id',  $item->id)->get() as $item2)
+                $item2 = $item
+                ->guidingParameterValues()
+                ->where('parameter_analysis_id', $projectPointMatrices->parameter_analysis_id)
+                ->where('analysis_matrix_id', $projectPointMatrices->analysis_matrix_id)
+                ->where('guiding_parameter_id',  $item->id)
+                ->first();
+
+               if($item2)
                 {
 
                     if($item2->parameter_analysis_id == $projectPointMatrices->parameterAnalysis->id &&
