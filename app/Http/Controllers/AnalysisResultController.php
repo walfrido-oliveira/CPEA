@@ -629,17 +629,29 @@ class AnalysisResultController extends Controller
 
             foreach($projectPointMatrices->guidingParameters as $item)
             {
-                foreach($item->guidingParameterValues as $item2)
-                {
-                    if($item2->unityLegislation->unity_cod !=  $obj->units && $item2->parameterAnalysis->analysis_parameter_name == $obj->analyte)
-                    {
-                        $r = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $obj->result);
-                        $dl = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $obj->dl);
-                        $rl = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $obj->rl);
 
-                        $obj->result = $r * $item2->unityLegislation->conversion_amount;
+               foreach($item->guidingParameterValues()
+                    ->where('parameter_analysis_id', $projectPointMatrices->parameter_analysis_id)
+                    ->where('analysis_matrix_id', $projectPointMatrices->analysis_matrix_id)
+                    ->where('guiding_parameter_id',  $item->id)->get() as $item2)
+                {
+
+                    if($item2->parameter_analysis_id == $projectPointMatrices->parameterAnalysis->id &&
+                       $item2->unityLegislation->unity_cod !=  $obj->units)
+                    {
+                        $result =  Str::replace(["*J", " [1]"], "", $obj->result);
+                        $result = Str::replace(["<", "< ", " "], "", $result);
+
+                        $dl =  Str::replace(["*J", " [1]"], "", $obj->dl);
+                        $dl = Str::replace(["<", "< ", " "], "", $dl);
+
+                        $rl =  Str::replace(["*J", " [1]"], "", $obj->rl);
+                        $rl = Str::replace(["<", "< ", " "], "", $rl);
+
+                        $obj->result = $result * $item2->unityLegislation->conversion_amount;
                         $obj->dl = $dl * $item2->unityLegislation->conversion_amount;
                         $obj->rl = $rl * $item2->unityLegislation->conversion_amount;
+                        $obj->units = $item2->unityLegislation->unity_cod;
                     }
                 }
             }
