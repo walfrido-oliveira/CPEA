@@ -645,16 +645,19 @@ class AnalysisResultController extends Controller
                     {
                         $result =  Str::replace(["*J", " [1]"], "", $obj->result);
                         $result = Str::replace(["<", "< ", " "], "", $result);
+                        $result = Str::replace([","], ".", $result);
 
                         $dl =  Str::replace(["*J", " [1]"], "", $obj->dl);
                         $dl = Str::replace(["<", "< ", " "], "", $dl);
+                        $dl = Str::replace([","], ".", $dl);
 
                         $rl =  Str::replace(["*J", " [1]"], "", $obj->rl);
                         $rl = Str::replace(["<", "< ", " "], "", $rl);
+                        $rl = Str::replace([","], ".", $rl);
 
-                        $obj->result = $result * $item2->unityLegislation->conversion_amount;
-                        $obj->dl = $dl * $item2->unityLegislation->conversion_amount;
-                        $obj->rl = $rl * $item2->unityLegislation->conversion_amount;
+                        if($result != '') $obj->result = $result * $item2->unityLegislation->conversion_amount;
+                        if($dl != '') $obj->dl = $dl * $item2->unityLegislation->conversion_amount;
+                        if($rl != '') $obj->rl = $rl * $item2->unityLegislation->conversion_amount;
                         $obj->units = $item2->unityLegislation->unity_cod;
                     }
                 }
