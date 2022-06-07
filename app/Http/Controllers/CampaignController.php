@@ -282,14 +282,21 @@ class CampaignController extends Controller
     {
         $projectPointMatrices = $campaign->projectPointMatrices()->where('point_identification_id', $point)->get();
 
-        foreach ($projectPointMatrices as $key => $point)
+        foreach ($projectPointMatrices as $point)
         {
-            foreach ($input['inputs'] as $key2 => $value2)
+            foreach ($input['inputs'] as $value2)
             {
+                $result = $campaign->projectPointMatrices()
+                ->where('point_identification_id', $value2['point_identifications'])
+                ->where('parameter_analysis_id', $point->parameter_analysis_id)
+                ->get();
+
+                if($result->count() > 0) continue;
+
                 $projectPointMatrix = ProjectPointMatrix::create([
                     'project_id' => $point->project_id,
-                    'point_identification_id' => isset($value2['point_identifications']) ? $value2['point_identifications'] : $point->point_identification_id,
-                    'analysis_matrix_id' => isset($value2['point_matrix']) ? $value2['point_matrix'] : $point->analysis_matrix_id,
+                    'point_identification_id' => $value2['point_identifications'],
+                    'analysis_matrix_id' => $value2['point_matrix'],
                     'parameter_analysis_id' => $point->parameter_analysis_id,
                     'campaign_id' => $campaign->id,
                     'parameter_method_preparation_id' => $point->parameter_method_preparation_id,
@@ -329,7 +336,8 @@ class CampaignController extends Controller
                 {
                     $projectPointMatrix->guidingParameters()->sync(array_filter($value2['guiding_parameters_id']));
                 }
-                else {
+                else
+                {
                     $projectPointMatrix->guidingParameters()->sync($point->guidingParameters()->pluck("guiding_parameter_id")->toArray());
                 }
             }
