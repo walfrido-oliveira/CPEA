@@ -592,7 +592,7 @@ class AnalysisResultController extends Controller
       $imports[] = $obj;
 
       foreach ($projectPointMatrices->guidingParameters()
-      ->where('guiding_parameter_id', explode(",", $projectPointMatrices->project->guiding_parameter_order)[0]) as $item) {
+      ->where('guiding_parameter_id', explode(",", $projectPointMatrices->project->guiding_parameter_order)[0])->get() as $item) {
 
         $item2 = $item
           ->guidingParameterValues()
