@@ -137,7 +137,7 @@
                         <div class="absolute top-0 -ml-10 text-center mt-14 w-32 text-gray-500 font-bold text-xs md:block hidden">
                             {{ __('Pedido Enviado') }} <br />
                             @if ($analysisOrder->created_at)
-                                {{ $analysisOrder->created_at->translatedFormat('d/M h:m') }}
+                                {{ $analysisOrder->created_at->translatedFormat('d/M h:i') }}
                             @endif
                         </div>
                     </div>
@@ -175,7 +175,7 @@
                         <div class="absolute top-0 -ml-10 text-center mt-14 w-32 text-gray-500 font-bold text-xs md:block hidden">
                             {{ __('Pedido em Análise') }} <br />
                             @if ($analysisOrder->analyzing_at)
-                                {{ $analysisOrder->analyzing_at->translatedFormat('d/M h:m') }}
+                                {{ $analysisOrder->analyzing_at->translatedFormat('d/M h:i') }}
                             @endif
                         </div>
                     </div>
@@ -204,7 +204,7 @@
                         <div class="absolute top-0 -ml-10 text-center mt-14 w-32 text-gray-500 font-bold text-xs md:block hidden">
                             {{ __('Pedido Concluído') }} <br />
                             @if ($analysisOrder->concluded_at)
-                                {{ $analysisOrder->concluded_at->translatedFormat('d/M h:m') }}
+                                {{ $analysisOrder->concluded_at->translatedFormat('d/M h:i') }}
                             @endif
                         </div>
                     </div>
