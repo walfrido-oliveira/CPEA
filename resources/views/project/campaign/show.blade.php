@@ -71,7 +71,7 @@
                             <h2 class="w-full px-3">{{ __('Referência') }}</h2>
                             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                 <x-jet-label for="area_ref" value="{{ __('Área') }}" required />
-                                <x-custom-select :options="$areas" name="area_ref" value="" class="mt-1" select-class="areas-ref no-nice-select" no-filter="no-filter"/>
+                                <x-custom-select :options="$areas" name="area_ref" id="area_ref" value="" class="mt-1" select-class="areas-ref no-nice-select" no-filter="no-filter"/>
                             </div>
                             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                 <x-jet-label for="point_identifications_ref" value="{{ __('Identificação Ponto') }}" required/>
@@ -96,26 +96,26 @@
                             <div class="flex flex-wrap mx-4 px-3 py-2">
                                 <h2 class="w-full px-3">{{ __('Novos valores') }}</h2>
                                 <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                    <x-jet-label for="areas" value="{{ __('Área') }}" />
-                                    <x-custom-select :options="$areas" name="inputs[row_1][areas]" value="" class="mt-1" no-filter="no-filter" select-class="areas no-nice-select"/>
+                                    <x-jet-label for="area_1" value="{{ __('Área') }}" />
+                                    <x-custom-select :options="$areas" name="inputs[row_1][areas]" id="area_1" value="" class="mt-1" no-filter="no-filter" select-class="areas no-nice-select"/>
                                 </div>
                                 <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                    <x-jet-label for="point_identifications" value="{{ __('Identificação Ponto') }}"/>
-                                    <x-custom-select :options="[]" name="inputs[row_1][point_identifications]" id="point_identifications" value="" class="mt-1" no-filter="no-filter" select-class="point-identifications no-nice-select"/>
+                                    <x-jet-label for="point_identification_1" value="{{ __('Identificação Ponto') }}"/>
+                                    <x-custom-select :options="[]" name="inputs[row_1][point_identifications]" id="point_identification_1" value="" class="mt-1" no-filter="no-filter" select-class="point-identifications no-nice-select"/>
                                 </div>
                                 <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                    <x-jet-label for="date_collection" value="{{ __('DT/HR da Coleta') }}" required/>
-                                    <x-jet-input id="date_collection" class="form-control block mt-1 w-full" type="datetime-local" name="inputs[row_1][date_collection]" maxlength="255" autofocus autocomplete="date_collection"/>
+                                    <x-jet-label for="date_collection_1" value="{{ __('DT/HR da Coleta') }}" required/>
+                                    <x-jet-input id="date_collection_1" class="form-control block mt-1 w-full" type="datetime-local" name="inputs[row_1][date_collection]" maxlength="255" autofocus autocomplete="date_collection"/>
                                 </div>
                             </div>
                             <div class="flex flex-wrap mx-4 px-3 py-2">
                                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <x-jet-label for="matriz_id" value="{{ __('Matriz') }}" required/>
-                                    <x-custom-select :options="$matrizeces" name="inputs[row_1][matriz_id]" id="matriz_id" value="" class="mt-1" no-filter="no-filter" select-class="no-nice-select"/>
+                                    <x-jet-label for="matriz_1" value="{{ __('Matriz') }}" required/>
+                                    <x-custom-select :options="$matrizeces" name="inputs[row_1][matriz_id]" id="matriz_1" value="" class="mt-1" no-filter="no-filter" select-class="no-nice-select"/>
                                 </div>
                                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <x-jet-label for="guiding_parameters_id" value="{{ __('Param. Orientador Ambiental') }}"/>
-                                    <x-custom-multi-select multiple :options="$guidingParameters" name="inputs[row_1][guiding_parameters_id][]" id="guiding_parameters_id" value="" select-class="form-input no-nice-select" class="mt-1" no-filter="no-filter" />
+                                    <x-jet-label for="guiding_parameter_1" value="{{ __('Param. Orientador Ambiental') }}"/>
+                                    <x-custom-multi-select multiple :options="$guidingParameters" name="inputs[row_1][guiding_parameters_id][]" id="guiding_parameter_1" value="" select-class="form-input no-nice-select" class="mt-1" no-filter="no-filter" />
                                 </div>
                             </div>
                         </div>
@@ -151,26 +151,51 @@
                 var resp = JSON.parse(ajax.response);
                 toastr.success(resp.message);
 
-                let areas = document.getElementById("areas");
-                var i, L = areas.options.length - 1;
-                for (i = L; i >= 0; i--) {
-                    areas.remove(i);
-                }
+                document.querySelectorAll("select.areas-ref").forEach(item => {
+                    var i, L = item.options.length - 1;
+                    for (i = L; i >= 0; i--) {
+                        item.remove(i);
+                    }
+                });
+
+                document.querySelectorAll("select.areas").forEach(item => {
+                    var i, L = item.options.length - 1;
+                    for (i = L; i >= 0; i--) {
+                        item.remove(i);
+                    }
+                });
 
                 let pointIdentifications = resp.point_identifications;
 
-                pointIdentifications.forEach((item, index, arr) => {
-                    var opt = document.createElement('option');
-                    opt.value = item.area;
-                    opt.text = item.area;
-                    areas.add(opt);
+                document.querySelectorAll("select.areas-ref").forEach(item2 => {
+                    pointIdentifications.forEach((item, index, arr) => {
+                        var opt = document.createElement('option');
+                        opt.value = item.area;
+                        opt.text = item.area;
+                        item2.add(opt);
+                    });
+                });
+
+                document.querySelectorAll("select.areas").forEach(item2 => {
+                    pointIdentifications.forEach((item, index, arr) => {
+                        var opt = document.createElement('option');
+                        opt.value = item.area;
+                        opt.text = item.area;
+                        item2.add(opt);
+                    });
                 });
 
                 var modal = document.getElementById("point_create_modal");
                 modal.classList.add("hidden");
                 modal.classList.remove("block");
 
-                window.customSelectArray["areas"].update();
+                document.querySelectorAll("select.areas").forEach(item => {
+                    selectsArray[item.id].update();
+                });
+
+                document.querySelectorAll("select.areas-ref").forEach(item => {
+                    selectsArray[item.id].update();
+                });
 
             } else if (this.readyState == 4 && this.status != 200) {
                 var resp = JSON.parse(ajax.response);
@@ -347,17 +372,18 @@
         function areasEvents() {
             document.querySelectorAll(".areas").forEach(item => {
                 item.addEventListener('change', function() {
-                    filterAreas(this.value, this.parentNode.parentNode.parentNode.querySelector(".point-identifications")).then(function() {
-                        updateSelects();
+                    const point = this.parentNode.parentNode.parentNode.querySelector(".point-identifications");
+                    filterAreas(this.value, point).then(function() {
+                        selectsArray[point.id].update();
                     });
                 });
             });
 
             document.querySelectorAll('.areas-ref').forEach(item => {
                 item.addEventListener('change', function() {
-                    console.log(this.parentNode.parentNode.parentNode.querySelector(".point-identifications-ref"))
-                    filterAreas(this.value, this.parentNode.parentNode.parentNode.querySelector(".point-identifications-ref")).then(function() {
-                        updateSelects();
+                    const point = this.parentNode.parentNode.parentNode.querySelector(".point-identifications-ref");
+                    filterAreas(this.value, point).then(function() {
+                        selectsArray[point.id].update();
                     });
                 });
             });
@@ -365,7 +391,7 @@
 
         function updateSelects() {
             for (let index = 0; index < selectsArray.length; index++) {
-                const element = selectsArray[index];
+                const element = selectsArray[elem.id].update();
                 element.update();
             }
             for (let index = 0; index < window.customSelectArray.length; index++) {
@@ -378,7 +404,7 @@
 
         window.addEventListener("load", function() {
             document.querySelectorAll(`.custom-select.no-nice-select`).forEach(item => {
-                selectsArray.push(NiceSelect.bind(item, {searchable: true, reverse: item.dataset.reverse ? item.dataset.reverse : false}));
+                selectsArray[item.id] = NiceSelect.bind(item, {searchable: true, reverse: item.dataset.reverse ? item.dataset.reverse : false});
             });
         });
 
@@ -395,6 +421,11 @@
             clone.id = id;
 
             clone.innerHTML = clone.innerHTML.replaceAll(`row_${num-1}`, `row_${num}`);
+            clone.innerHTML = clone.innerHTML.replaceAll(`area_${num-1}`, `area_${num}`);
+            clone.innerHTML = clone.innerHTML.replaceAll(`point_identification_${num-1}`, `point_identification_${num}`);
+            clone.innerHTML = clone.innerHTML.replaceAll(`date_collection_${num-1}`, `date_collection_${num}`);
+            clone.innerHTML = clone.innerHTML.replaceAll(`matriz_${num-1}`, `matriz_${num}`);
+            clone.innerHTML = clone.innerHTML.replaceAll(`guiding_parameter_${num-1}`, `guiding_parameter_${num}`);
 
             const selects = clone.getElementsByClassName("nice-select");
             while(selects.length > 0) {
@@ -413,7 +444,7 @@
             });
 
             document.querySelectorAll(`#${id} .custom-select`).forEach(item => {
-                selectsArray.push(NiceSelect.bind(item, {searchable: true, reverse: item.dataset.reverse ? item.dataset.reverse : false}));
+                selectsArray[item.id] = NiceSelect.bind(item, {searchable: true, reverse: item.dataset.reverse ? item.dataset.reverse : false});
             });
 
             areasEvents();

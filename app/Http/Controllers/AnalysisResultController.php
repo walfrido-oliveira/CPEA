@@ -334,7 +334,7 @@ class AnalysisResultController extends Controller
     ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
     ->orderBy('parameter_analysis_groups.order', 'asc')
     ->orderBy('parameter_analyses.analysis_parameter_name', 'asc')
-    ->get();
+    ->toSql();
 
     foreach ($pointIdentification as $value1) {
       $key = 0;
