@@ -196,6 +196,7 @@ class UserController extends Controller
         $status = $this->broker()->sendResetLink(
             $request->only(Fortify::email())
         );
+        dd($status);
 
         $notification = $status == Password::RESET_LINK_SENT
             ? array(
