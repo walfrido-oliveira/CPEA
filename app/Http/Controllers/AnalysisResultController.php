@@ -542,7 +542,7 @@ class AnalysisResultController extends Controller
       $obj->result = $this->searchCellByValue("result", $rows[0], $order->lab, $value, 24); #$value[24];
       $obj->dl = $this->searchCellByValue("dl", $rows[0], $order->lab, $value, 25); #$value[25];
       $obj->rl = $this->searchCellByValue("rl", $rows[0], $order->lab, $value, 26); #$value[26];
-      $obj->units = $this->searchCellByValue("units", $rows[0], $order->lab, $value, 27); #$value[27];
+      $obj->units = $this->toReplace($this->searchCellByValue("units", $rows[0], $order->lab, $value, 27), $order->lab); #$value[27];
       $obj->rptomdl = $this->searchCellByValue("rptomdl", $rows[0], $order->lab, $value, 28); #$value[28];
       $obj->mrlsolids = $this->searchCellByValue("mrlsolids", $rows[0], $order->lab, $value, 29); #$value[29];
       $obj->basis = $this->searchCellByValue("basis", $rows[0], $order->lab, $value, 30); #$value[30];
