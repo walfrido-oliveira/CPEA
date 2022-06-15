@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\GeodeticSystem;
@@ -50,9 +51,9 @@ class PointIdentificationController extends Controller
     {
         $input = $request->all();
 
-        $pointIdentification =   PointIdentification::create([
+        PointIdentification::create([
             'area' => $input['area'],
-            'identification' => $input['identification'],
+            'identification' => Str::upper(Str::replace(" ", "", $input['identification'])),
             'geodetic_system_id' => $input['geodetic_system_id'],
             'utm_me_coordinate' => isset($input['utm_me_coordinate']) ? $input['utm_me_coordinate'] : null,
             'utm_mm_coordinate' => isset($input['utm_mm_coordinate']) ? $input['utm_mm_coordinate'] : null,
