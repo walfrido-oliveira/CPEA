@@ -345,7 +345,8 @@ class AnalysisResultController extends Controller
       if (count($analysisResults) > 0) $groupParameterAnalysis[] = $analysisResults[0]->projectPointMatrix->parameterAnalysis->parameterAnalysisGroup->name;
 
       foreach ($analysisResults as $value) {
-        if (Str::of(Str::replace(' ', '', $value->projectPointMatrix->pointIdentification->identification))->trim() != Str::of(Str::replace(' ', '', $value1))->trim()) {
+        if (Str::of(Str::replace(' ', '', $value->projectPointMatrix->pointIdentification->identification))->trim() !=
+            Str::of(Str::replace(' ', '', $value1))->trim()) {
           continue;
         }
 
@@ -361,7 +362,7 @@ class AnalysisResultController extends Controller
         $sheet->getStyleByColumnAndRow(2,  $index + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
         $sheet->getStyleByColumnAndRow(2,  $index + 6)->applyFromArray($border);
 
-        $column = array_search($value->projectPointMatrix->pointIdentification->identification, $pointIdentification);
+        $column = array_search(Str::of(Str::replace(' ', '', $value->projectPointMatrix->pointIdentification->identification))->trim(), $pointIdentification);
 
         $result =  Str::replace(["*J", " [1]"], "", $value->result);
         $result = Str::replace("<", "< ", $result);
@@ -629,72 +630,75 @@ class AnalysisResultController extends Controller
         }
       }
 
-      $analysisResult = AnalysisResult::firstOrCreate([
-        'project_point_matrix_id' => $projectPointMatrices->id,
-        'analysis_order_id' => $order->id
-      ]);
+      if($obj->project) {
 
-      $analysisResult->update([
-        'client' => $obj->client,
-        'project' => $obj->project,
-        'projectnum' => $obj->projectnum,
-        'labname' => $obj->labname,
-        'samplename' => $obj->samplename,
-        'labsampid' => $obj->labsampid,
-        'matrix' => $obj->matrix,
-        'rptmatrix' => $obj->rptmatrix,
-        'solidmatrix' => $obj->solidmatrix,
-        'sampdate' => $obj->sampdate,
-        'prepdate' => $obj->prepdate,
-        'anadate' => $obj->anadate,
-        'batch' => $obj->batch,
-        'analysis' => $obj->analysis,
-        'anacode' => $obj->anacode,
-        'methodcode' => $obj->methodcode,
-        'methodname' => $obj->methodname,
-        'description' => $obj->description,
-        'prepname' => $obj->prepname,
-        'analyte' => $obj->analyte,
-        'analyteorder' => $obj->analyteorder,
-        'casnumber' => $obj->casnumber,
-        'surrogate' => $obj->surrogate,
-        'tic' => $obj->tic,
+        $analysisResult = AnalysisResult::firstOrCreate([
+            'project_point_matrix_id' => $projectPointMatrices->id,
+            'analysis_order_id' => $order->id
+        ]);
 
-        /** CONVERSÃO */
-        'result' => $obj->result,
-        'dl' => $obj->dl,
-        'rl' => $obj->rl,
-        'units' => $obj->units,
-        /*******/
+        $analysisResult->update([
+            'client' => $obj->client,
+            'project' => $obj->project,
+            'projectnum' => $obj->projectnum,
+            'labname' => $obj->labname,
+            'samplename' => $obj->samplename,
+            'labsampid' => $obj->labsampid,
+            'matrix' => $obj->matrix,
+            'rptmatrix' => $obj->rptmatrix,
+            'solidmatrix' => $obj->solidmatrix,
+            'sampdate' => $obj->sampdate,
+            'prepdate' => $obj->prepdate,
+            'anadate' => $obj->anadate,
+            'batch' => $obj->batch,
+            'analysis' => $obj->analysis,
+            'anacode' => $obj->anacode,
+            'methodcode' => $obj->methodcode,
+            'methodname' => $obj->methodname,
+            'description' => $obj->description,
+            'prepname' => $obj->prepname,
+            'analyte' => $obj->analyte,
+            'analyteorder' => $obj->analyteorder,
+            'casnumber' => $obj->casnumber,
+            'surrogate' => $obj->surrogate,
+            'tic' => $obj->tic,
 
-        'rptomdl' => $obj->rptomdl,
-        'mrlsolids' => $obj->mrlsolids,
-        'basis' => $obj->basis,
-        'dilution' => $obj->dilution,
-        'spikelevel' => $obj->spikelevel,
-        'recovery' => $obj->recovery,
-        'uppercl' => $obj->uppercl,
-        'lowercl' => $obj->lowercl,
-        'analyst' => $obj->analyst,
-        'psolids' => $obj->psolids,
-        'lnote' => $obj->lnote,
-        'anote' => $obj->anote,
-        'latitude' => $obj->latitude,
-        'longitude' => $obj->longitude,
-        'scomment' => $obj->scomment,
-        'snote1' => $obj->snote1,
-        'snote2' => $obj->snote2,
-        'snote3' => $obj->snote3,
-        'snote4' => $obj->snote4,
-        'snote5' => $obj->snote5,
-        'snote6' => $obj->snote6,
-        'snote7' => $obj->snote7,
-        'snote8' => $obj->snote8,
-        'snote9' => $obj->snote9,
-        'snote10' => $obj->snote10,
-      ]);
+            /** CONVERSÃO */
+            'result' => $obj->result,
+            'dl' => $obj->dl,
+            'rl' => $obj->rl,
+            'units' => $obj->units,
+            /*******/
 
-      $totalImport++;
+            'rptomdl' => $obj->rptomdl,
+            'mrlsolids' => $obj->mrlsolids,
+            'basis' => $obj->basis,
+            'dilution' => $obj->dilution,
+            'spikelevel' => $obj->spikelevel,
+            'recovery' => $obj->recovery,
+            'uppercl' => $obj->uppercl,
+            'lowercl' => $obj->lowercl,
+            'analyst' => $obj->analyst,
+            'psolids' => $obj->psolids,
+            'lnote' => $obj->lnote,
+            'anote' => $obj->anote,
+            'latitude' => $obj->latitude,
+            'longitude' => $obj->longitude,
+            'scomment' => $obj->scomment,
+            'snote1' => $obj->snote1,
+            'snote2' => $obj->snote2,
+            'snote3' => $obj->snote3,
+            'snote4' => $obj->snote4,
+            'snote5' => $obj->snote5,
+            'snote6' => $obj->snote6,
+            'snote7' => $obj->snote7,
+            'snote8' => $obj->snote8,
+            'snote9' => $obj->snote9,
+            'snote10' => $obj->snote10,
+        ]);
+
+        $totalImport++;
+        }
     }
 
     $projectPointMatrices = $order->projectPointMatrices;
