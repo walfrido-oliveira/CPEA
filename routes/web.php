@@ -34,6 +34,7 @@ use App\Http\Controllers\CalculationVariableController;
 use App\Http\Controllers\EnvironmentalAgencyController;
 use App\Http\Controllers\PointIdentificationController;
 use App\Http\Controllers\CalculationParameterController;
+use App\Http\Controllers\FieldController;
 use App\Http\Controllers\GuidingParameterValueController;
 use App\Http\Controllers\ParameterAnalysisGroupController;
 use App\Http\Controllers\GuidingParameterRefValueController;
@@ -220,6 +221,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     });
 
     Route::prefix('registros-de-campo')->name('fields.')->group(function(){
+        Route::get('/show', [FieldController::class, 'show'])->name('show');
+
         Route::resource('referencias', RefController::class, [
             'names' => 'ref'])->parameters([])->parameters([
             'referencias' => 'ref'
