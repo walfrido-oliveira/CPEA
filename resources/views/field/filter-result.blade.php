@@ -14,7 +14,7 @@
     @forelse ($fields as $key => $field)
         <tr>
             <td>
-                <a class="text-item-table text-green-600" hfield="#">{{ $field->project_id }}</a>
+                <a class="text-item-table text-green-600" href="{{ route('fields.forms.show', ['field' => $field->field_type_id]) }}">{{ $field->project_id }}</a>
             </td>
             <td>
                 {{ $field->obs }}

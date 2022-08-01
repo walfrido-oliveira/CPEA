@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ToController;
 use App\Http\Controllers\LabController;
 use App\Http\Controllers\RefController;
+use App\Http\Controllers\FormController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FieldController;
 use App\Http\Controllers\UnityController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ImportController;
@@ -34,7 +36,6 @@ use App\Http\Controllers\CalculationVariableController;
 use App\Http\Controllers\EnvironmentalAgencyController;
 use App\Http\Controllers\PointIdentificationController;
 use App\Http\Controllers\CalculationParameterController;
-use App\Http\Controllers\FieldController;
 use App\Http\Controllers\GuidingParameterValueController;
 use App\Http\Controllers\ParameterAnalysisGroupController;
 use App\Http\Controllers\GuidingParameterRefValueController;
@@ -228,6 +229,10 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::post('/filter', [FieldController::class, 'filter'])->name('filter');
         Route::put('/update/{field}', [FieldController::class, 'update'])->name('update');
         Route::delete('/destroy/{field}', [FieldController::class, 'destroy'])->name('destroy');
+
+        Route::prefix('formularios')->name('forms.')->group(function(){
+            Route::get('/show/{field}', [FormController::class, 'show'])->name('show');
+        });
 
         Route::resource('referencias', RefController::class, [
             'names' => 'ref'])->parameters([])->parameters([
