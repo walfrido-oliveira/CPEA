@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ToController;
 use App\Http\Controllers\LabController;
+use App\Http\Controllers\RefController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UnityController;
 use App\Http\Controllers\ExportController;
@@ -215,6 +216,16 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::post('/store', [EmailConfigController::class, 'store'])->name('store');
             Route::resource('templates', TemplateEmailController::class);
             Route::get('templates/mail-preview/{template}', [TemplateEmailController::class, 'show'])->name("templates.mail-preview");
+        });
+    });
+
+    Route::prefix('registros-de-campo')->name('fields.')->group(function(){
+        Route::resource('referencias', RefController::class, [
+            'names' => 'ref'])->parameters([])->parameters([
+            'referencias' => 'ref'
+        ]);
+        Route::prefix('referencias')->name('ref.')->group(function(){
+            Route::post('/filter', [RefController::class, 'filter'])->name('filter');
         });
     });
 

@@ -133,7 +133,22 @@
                     <a class="@if(request()->routeIs('registers.replace.index')) {{ 'active' }} @endif" href="{{ route('registers.replace.index') }}">De Para</a>
                 </div>
             </div>
-          </div>
+        </div>
+
+        <div class="relative" x-data="{ openRegisters: {{ request()->routeIs('fields.*') ? 'true' : 'false' }} }">
+            <button @click="openRegisters = !openRegisters" class="submenu">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                </svg>
+              <span>Registros de Campo</span>
+              <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': openRegisters, 'rotate-0': !openRegisters}" class="inline w-4 h-4 mt-1 ml-1 transition-transform duration-200 transform md:-mt-1 text-white"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </button>
+            <div x-show="openRegisters" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="relative right-0 w-full origin-top-right">
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('fields.ref.index')) {{ 'active' }} @endif" href="{{ route('fields.ref.index') }}">Referências</a>
+                </div>
+            </div>
+        </div>
       </nav>
     </div>
   </div>
