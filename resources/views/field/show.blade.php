@@ -14,9 +14,14 @@
                             <p class="font-bold">{{ __('Matrizes') }}</p>
                         </div>
 
-                        <div class="w-full md:w-1/2">
+                        <div class="w-full">
                             @foreach ($fields as $field)
-                                <p class="text-gray-500 font-bold">{{ $field }}</p>
+                                <p class="text-gray-500 font-bold">
+                                    <a class="text-green-600 underline" href="{{ route('fields.index', ['type' => $field->id]) }}" rel="noopener noreferrer">
+                                        {{ $field->name }}
+                                    </a>
+                                </p>
+
                             @endforeach
                         </div>
                     </div>

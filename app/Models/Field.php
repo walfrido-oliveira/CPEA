@@ -2,23 +2,83 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Field extends Model
 {
-    public static function getFieldsArray()
+    use HasFactory;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'project_id', 'obs', 'field_type_id'
+    ];
+
+     /**
+     * Get field type
+     *
+     * @return array
+     */
+    public function fieldType()
     {
-        return [
-            'Água para Consumo Humano' => 'Água para Consumo Humano',
-            'Água Subterrânea por Bailer' => 'Água Subterrânea por Bailer',
-            'Água Subterrânea por Baixa Vazão' => 'Água Subterrânea por Baixa Vazão',
-            'Água Superficial' => 'Água Superficial',
-            'Ar Ambiente' => 'Ar Ambiente',
-            'Ar do solo'=> 'Ar do solo',
-            'Efluente' => 'Efluente',
-            'Resíduo Sólido' => 'Resíduo Sólido',
-            'Sedimento' => 'Sedimento',
-            'Solo' => 'Solo'
-        ];
+        return $this->belongsToMany(FieldType::class);
+    }
+
+
+    /**
+     * Find in dabase
+     *
+     * @param Array
+     *
+     * @return array
+     */
+    public static function filter($query)
+    {
+        $perPage = isset($query['paginate_per_page']) ? $query['paginate_per_page'] : DEFAULT_PAGINATE_PER_PAGE;
+        $ascending = isset($query['ascending']) ? $query['ascending'] : DEFAULT_ASCENDING;
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : DEFAULT_ORDER_BY_COLUMN;
+
+        $envionmentalAreas = self::where(function($q) use ($query) {
+            if(isset($query['id']))
+            {
+                if(!is_null($query['id']))
+                {
+                    $q->where('id', $query['id']);
+                }
+            }
+
+            if(isset($query['project_id']))
+            {
+                if(!is_null($query['project_id']))
+                {
+                    $q->where('project_id', 'like','%' . $query['project_id'] . '%');
+                }
+            }
+
+            if(isset($query['type']))
+            {
+                if(!is_null($query['type']))
+                {
+                    $q->where('type', 'like', $query['type']);
+                }
+            }
+
+            if(isset($query['q']))
+            {
+                if(!is_null($query['q']))
+                {
+                    $q->where('project_id', 'like', '%' . $query['q'] . '%');
+                }
+            }
+
+        });
+
+        $envionmentalAreas->orderBy($orderBy, $ascending);
+
+        return $envionmentalAreas->paginate($perPage);
     }
 }

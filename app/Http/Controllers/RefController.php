@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Field;
 use App\Models\Ref;
+use App\Models\Field;
+use App\Models\FieldType;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -31,7 +32,7 @@ class RefController extends Controller
      */
     public function create()
     {
-        $fields = Field::getFieldsArray();
+        $fields = FieldType::all()->pluck('name', 'id');
 
         return view('ref.create', compact('fields'));
     }
@@ -86,7 +87,7 @@ class RefController extends Controller
     public function edit($id)
     {
         $ref = Ref::findOrFail($id);
-        $fields = Field::getFieldsArray();
+        $fields = FieldType::all()->pluck('name', 'id');
 
         return view('ref.edit', compact('ref', 'fields'));
     }
