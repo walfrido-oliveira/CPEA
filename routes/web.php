@@ -224,7 +224,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::prefix('registros-de-campo')->name('fields.')->group(function(){
         Route::get('/show', [FieldController::class, 'show'])->name('show');
         Route::post('/store', [FieldController::class, 'store'])->name('store');
-        Route::get('/{type}', [FieldController::class, 'index'])->name('index');
+        Route::get('/index/{type}', [FieldController::class, 'index'])->name('index');
         Route::get('/edit/{field}', [FieldController::class, 'edit'])->name('edit');
         Route::post('/filter', [FieldController::class, 'filter'])->name('filter');
         Route::put('/update/{field}', [FieldController::class, 'update'])->name('update');
