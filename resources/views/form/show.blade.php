@@ -21,7 +21,7 @@
                                 @foreach ($forms as $form)
                                 <tr>
                                     <td>
-                                        <a class="text-green-600 text-item-table" href="{{ route('fields.index', ['type' => $form->id]) }}" rel="noopener noreferrer">
+                                        <a class="text-green-600 text-item-table" href="{{ route('fields.forms.create', ['form' => $form->id, 'project_id' => $project_id]) }}" rel="noopener noreferrer">
                                             {{ $form->name }}
                                         </a>
                                     </td>

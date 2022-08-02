@@ -15,7 +15,7 @@ class Form extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'field_type_id'
+        'name', 'field_type_id', 'infos'
     ];
 
      /**
@@ -25,7 +25,15 @@ class Form extends Model
      */
     public function fieldType()
     {
-        return $this->belongsToMany(FieldType::class);
+        return $this->belongsTo(FieldType::class);
+    }
+
+    /**
+     * The form fields.
+     */
+    public function formFields()
+    {
+        return $this->HasMany(FormField::class);
     }
 
 
