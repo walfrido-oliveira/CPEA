@@ -131,7 +131,7 @@
             </td>
             <td class="whitespace-nowrap">
                 @if (count($point->analysisOrders) > 0)
-                    <a class="text-item-table inline font-bold text-green-700 underline" href="{{ route('analysis-order.show', ['analysis_order' => $point->analysisOrders()->first()->id]) }}">
+                    <a class="text-item-table inline font-bold text-green-700 underline" href="{{ route('analysis-order.show', ['analysis_order' => $point->analysisOrders()->orderBy('created_at', 'desc')->first()->id]) }}">
                         {{ $point->analysisOrders()->orderBy('created_at', 'desc')->first()->formatted_id }}
                     </a>
                 @else
