@@ -607,7 +607,7 @@ class AnalysisResultController extends Controller
       $imports[] = $obj;
 
       foreach ($projectPointMatrices->guidingParameters()
-      ->where('guiding_parameter_id', explode(",", $projectPointMatrices->project->guiding_parameter_order)[0])->get() as $item) {
+      ->whereIn('guiding_parameter_id', explode(",", $projectPointMatrices->project->guiding_parameter_order))->get() as $item) {
 
         $item2 = $item
           ->guidingParameterValues()
@@ -637,6 +637,7 @@ class AnalysisResultController extends Controller
             if (is_numeric($result)) $obj->result = $result * $item2->unityLegislation->conversion_amount;
             if (is_numeric($dl)) $obj->dl = $dl * $item2->unityLegislation->conversion_amount;
             if (is_numeric($rl)) $obj->rl = $rl * $item2->unityLegislation->conversion_amount;
+
             $obj->units = $item2->unityLegislation->unity_cod;
           }
         }
