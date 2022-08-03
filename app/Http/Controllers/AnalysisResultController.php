@@ -238,6 +238,7 @@ class AnalysisResultController extends Controller
     }
 
     $guidingParameterOrders = explode(",", $project->guiding_parameter_order);
+    $qualitative = [];
 
     foreach ($projectPointMatrices as $point) {
       if ($index > 0) {
@@ -287,11 +288,12 @@ class AnalysisResultController extends Controller
 
           if ($guidingParametersValue) {
             if ($guidingParametersValue->guidingValue) {
-              if (Str::contains($guidingParametersValue->guidingValue->name, ['Qualitativo'])) {
+              if (Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo'])) {
                 $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
               }
-              if (Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo'])) {
+              if (Str::contains($guidingParametersValue->guidingValue->name, ['Qualitativo'])) {
                 $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, 'Virtualmente ausente');
+                $qualitative[] = $guidingParametersValue;
               }
               if (Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo'])) {
                 $sheet->setCellValueByColumnAndRow(
@@ -385,7 +387,14 @@ class AnalysisResultController extends Controller
         $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
         $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->applyFromArray($border);
 
-        if ($value->rl) if ($resultValue > $rlValue) $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getFont()->setBold(true);
+        if ($resultValue > $rlValue) $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getFont()->setBold(true);
+        foreach ($qualitative as $item)
+        {
+            if($item->parameter_analysis_id == $value->projectPointMatrix->parameter_analysis_id && $resultValue > $rlValue)
+            {
+                $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getFont()->setBold(true);
+            }
+        }
 
         if ($value->anadate && $value->prepdate && $value->projectPointMatrix->parameterMethodPreparation) {
           $anadate = Carbon::createFromFormat('d/m/Y', Str::substr($value->anadate, 0, 10));
