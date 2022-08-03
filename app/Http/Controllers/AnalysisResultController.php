@@ -702,6 +702,9 @@ class AnalysisResultController extends Controller
     }
 
     $projectPointMatrices = $order->projectPointMatrices;
+    $samplename = null;
+    $sampdate = null;
+    $labsampid= null;
 
     try {
       foreach ($projectPointMatrices as $key => $value) {
