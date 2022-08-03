@@ -744,13 +744,20 @@ class AnalysisResultController extends Controller
             if ($projectPointMatrix) {
               $analysisResult = AnalysisResult::where("project_point_matrix_id", $projectPointMatrix->id)->first();
               if ($analysisResult) {
-                $formula = Str::replace($value2[0],  Str::contains($analysisResult->result, "<") ? 0 : $analysisResult->result, $formula);
                 $sampdate = $analysisResult->sampdate;
                 $samplename = $analysisResult->samplename;
                 $labsampid = $analysisResult->labsampid;
-                $zero = !Str::contains($analysisResult->result, "<");
+                $zero = Str::contains($analysisResult->result, "<");
                 $r = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->result);
+                $rl = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->rl);
                 $max =  $r > $max ? $r : $max;
+
+                if($zero == true || ($r < $rl) ) {
+                    $formula = Str::replace($value2[0],  0, $formula);
+                } else {
+                    $formula = Str::replace($value2[0],  $analysisResult->result, $formula);
+                }
+
               }
             }
           }
