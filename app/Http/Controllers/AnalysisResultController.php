@@ -287,8 +287,11 @@ class AnalysisResultController extends Controller
 
           if ($guidingParametersValue) {
             if ($guidingParametersValue->guidingValue) {
-              if (Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo', 'Qualitativo'])) {
+              if (Str::contains($guidingParametersValue->guidingValue->name, ['Qualitativo'])) {
                 $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
+              }
+              if (Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo'])) {
+                $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, 'Virtualmente ausente');
               }
               if (Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo'])) {
                 $sheet->setCellValueByColumnAndRow(
