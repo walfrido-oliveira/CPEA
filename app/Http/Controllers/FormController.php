@@ -11,6 +11,20 @@ use Illuminate\Support\Facades\Validator;
 
 class FormController extends Controller
 {
+    /**
+     * Display a listing of the Ref.
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $forms =  FormValue::filter($request->all());
+        $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'name';
+         return view('form.index', compact('forms', 'ascending', 'orderBy'));
+    }
+
      /**
      * Display a listing of the Ref.
      *

@@ -1,9 +1,9 @@
 <x-app-layout>
     <div class="py-6 ref">
         <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
-            <form method="POST" action="{{ route('fields.forms.store') }}">
+            <form method="@if(!$formValue) POST @else GET @endif" action="@if(!$formValue) {{ route('fields.forms.store') }} @else {{ route('fields.forms.index') }} @endif">
                 @csrf
-                @method("POST")
+                @if(!$formValue) @method("POST") @endif
                 <input type="hidden" name="form_id" value="{{ $form->id }}">
                 <div class="flex md:flex-row flex-col">
                     <div class="w-full flex items-center">
@@ -14,7 +14,7 @@
                             <button type="submit" class="btn-outline-success">{{ __('Confirmar') }}</button>
                         </div>
                         <div class="m-2">
-                            <a href="{{ route('fields.forms.show', ['field' => $form->fieldType, 'project_id' => $project_id])}}" class="btn-outline-danger">{{ __('Cancelar') }}</a>
+                            <a href="{{ route('fields.forms.show', ['field' => $form->fieldType, 'project_id' => $project_id])}}" class="btn-outline-danger">{{ __('Voltar') }}</a>
                         </div>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="client" value="{{ __('Cliente') }}" />
-                            <x-jet-input id="client" class="form-control block mt-1 w-full" type="text" value="{{ isset($formValue) ? $formValue->values['client'] : old('client') }}" name="client" maxlength="255"  placeholder="{{ __('Cliente') }}"/>
+                            <x-jet-input disabled="{{ !$formValue ? false : true}}" id="client" class="form-control block mt-1 w-full" type="text" value="{{ isset($formValue) ? $formValue->values['client'] : old('client') }}" name="client" maxlength="255"  placeholder="{{ __('Cliente') }}"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="project_id" value="{{ __('Projeto') }}"/>
@@ -47,33 +47,33 @@
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full pl-3 mb-6 md:mb-0">
                             <x-jet-label for="field_team" value="{{ __('Equipe de Campo') }}" />
-                            <x-custom-select :options="\App\Models\User::all()->pluck('full_name', 'full_name')" value="{{ isset($formValue) ? $formValue->values['field_team'] : old('field_team') }}" name="field_team" id="field_team" class="mt-1"/>
+                            <x-custom-select disabled="{{ !$formValue ? false : true}}"  :options="\App\Models\User::all()->pluck('full_name', 'full_name')" value="{{ isset($formValue) ? $formValue->values['field_team'] : old('field_team') }}" name="field_team" id="field_team" class="mt-1"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="collect_point" value="{{ __('Ponto de Coleta') }}" />
-                            <x-jet-input id="collect_point" class="form-control block mt-1 w-full" type="text" value="{{ isset($formValue) ? $formValue->values['collect_point'] : old('collect_point') }}" name="collect_point" maxlength="255"  placeholder="{{ __('Ponto de Coleta') }}"/>
+                            <x-jet-input id="collect_point" class="form-control block mt-1 w-full" type="text" disabled="{{ !$formValue ? false : true}}" value="{{ isset($formValue) ? $formValue->values['collect_point'] : old('collect_point') }}" name="collect_point" maxlength="255"  placeholder="{{ __('Ponto de Coleta') }}"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="collected_at" value="{{ __('Data/Hora da Coleta') }}" />
-                            <x-jet-input id="collected_at" class="form-control block mt-1 w-full" type="date" name="collected_at" value="{{ isset($formValue) ? $formValue->values['collected_at'] : old('collected_at') }}"/>
+                            <x-jet-input id="collected_at" class="form-control block mt-1 w-full" type="date" disabled="{{ !$formValue ? false : true}}" name="collected_at" value="{{ isset($formValue) ? $formValue->values['collected_at'] : old('collected_at') }}"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 pl-3 mb-6 md:mb-0">
                             <x-jet-label for="environmental_conditions" value="{{ __('Condições Ambientais nas Últimas 24 hs*') }}" />
-                            <x-custom-select :options="['Com Chuva' => 'Com Chuva', 'Sem Chuva' => 'Sem Chuva']" value="{{ isset($formValue) ? $formValue->values['environmental_conditions'] : old('environmental_conditions') }}" name="environmental_conditions" id="environmental_conditions" class="mt-1"/>
+                            <x-custom-select disabled="{{ !$formValue ? false : true}}" :options="['Com Chuva' => 'Com Chuva', 'Sem Chuva' => 'Sem Chuva']" value="{{ isset($formValue) ? $formValue->values['environmental_conditions'] : old('environmental_conditions') }}" name="environmental_conditions" id="environmental_conditions" class="mt-1"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="well_depth" value="{{ __('Profundidade do poço (m)') }}" />
-                            <x-jet-input id="well_depth" class="form-control block mt-1 w-full" type="number" step="any" name="well_depth" value="{{ isset($formValue) ? $formValue->values['well_depth'] : old('well_depth') }}"/>
+                            <x-jet-input id="well_depth" class="form-control block mt-1 w-full" type="number" disabled="{{ !$formValue ? false : true}}" step="any" name="well_depth" value="{{ isset($formValue) ? $formValue->values['well_depth'] : old('well_depth') }}"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="water_level" value="{{ __('Nível d´água (m)') }}" />
-                            <x-jet-input id="water_level" class="form-control block mt-1 w-full" type="number" step="any" name="water_level" value="{{ isset($formValue) ? $formValue->values['water_level'] : old('water_level') }}"/>
+                            <x-jet-input id="water_level" class="form-control block mt-1 w-full" type="number" disabled="{{ !$formValue ? false : true}}" step="any" name="water_level" value="{{ isset($formValue) ? $formValue->values['water_level'] : old('water_level') }}"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
@@ -83,79 +83,79 @@
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="pump_depth" value="{{ __('Profundidade da bomba') }}" />
-                            <x-jet-input id="pump_depth" class="form-control block mt-1 w-full" type="number" step="any" name="pump_depth" value="{{ isset($formValue) ? $formValue->values['pump_depth'] : old('pump_depth') }}"/>
+                            <x-jet-input id="pump_depth" class="form-control block mt-1 w-full" type="number" disabled="{{ !$formValue ? false : true}}" step="any" name="pump_depth" value="{{ isset($formValue) ? $formValue->values['pump_depth'] : old('pump_depth') }}"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="pressure" value="{{ __('Pressão (psi)') }}" />
-                            <x-jet-input id="pressure" class="form-control block mt-1 w-full" type="number" step="any" name="pressure" value="{{ isset($formValue) ? $formValue->values['pressure'] : old('pressure') }}"/>
+                            <x-jet-input id="pressure" class="form-control block mt-1 w-full" type="number" disabled="{{ !$formValue ? false : true}}" step="any" name="pressure" value="{{ isset($formValue) ? $formValue->values['pressure'] : old('pressure') }}"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="flow_rate" value="{{ __('Vazão (mL/min)') }}" />
-                            <x-jet-input id="flow_rate" class="form-control block mt-1 w-full" type="number" step="any" name="flow_rate" value="{{ isset($formValue) ? $formValue->values['flow_rate'] : old('flow_rate') }}"/>
+                            <x-jet-input id="flow_rate" class="form-control block mt-1 w-full" type="number" disabled="{{ !$formValue ? false : true}}" step="any" name="flow_rate" value="{{ isset($formValue) ? $formValue->values['flow_rate'] : old('flow_rate') }}"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="fq_parameters" value="{{ __('Intervalo de leitura dos parâmetros FQ após estabilização (min)') }}"/>
-                            <x-jet-input id="fq_parameters" class="form-control block mt-1 w-full" readonly type="number" step="any" name="fq_parameters" value="{{ isset($formValue) ? $formValue->values['fq_parameters'] : old('fq_parameters') }}"/>
+                            <x-jet-input id="fq_parameters" class="form-control block mt-1 w-full" readonly type="number"  step="any" name="fq_parameters" value="{{ isset($formValue) ? $formValue->values['fq_parameters'] : old('fq_parameters') }}"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="purged_volume" value="{{ __('Volume purgado (L)') }}" />
-                            <x-jet-input id="purged_volume" class="form-control block mt-1 w-full" type="number" step="any" name="purged_volume" value="{{ isset($formValue) ? $formValue->values['purged_volume'] : old('purged_volume') }}"/>
+                            <x-jet-input id="purged_volume" class="form-control block mt-1 w-full" type="number" disabled="{{ !$formValue ? false : true}}" step="any" name="purged_volume" value="{{ isset($formValue) ? $formValue->values['purged_volume'] : old('purged_volume') }}"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="multiparameters" value="{{ __('Multiparâmetros') }}" />
-                            <x-jet-input id="multiparameters" class="form-control block mt-1 w-full" type="text" name="multiparameters" maxlength="255"  placeholder="{{ __('Multiparâmetros') }}" value="{{ isset($formValue) ? $formValue->values['multiparameters'] : old('multiparameters') }}"/>
+                            <x-jet-input id="multiparameters" class="form-control block mt-1 w-full" type="text" disabled="{{ !$formValue ? false : true}}" name="multiparameters" maxlength="255"  placeholder="{{ __('Multiparâmetros') }}" value="{{ isset($formValue) ? $formValue->values['multiparameters'] : old('multiparameters') }}"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="flow_cell" value="{{ __('Célula de fluxo') }}" />
-                            <x-jet-input id="flow_cell" class="form-control block mt-1 w-full" type="text" name="flow_cell" maxlength="255"  placeholder="{{ __('Célula de fluxo') }}" value="{{ isset($formValue) ? $formValue->values['flow_cell'] : old('flow_cell') }}"/>
+                            <x-jet-input id="flow_cell" class="form-control block mt-1 w-full" type="text" disabled="{{ !$formValue ? false : true}}" name="flow_cell" maxlength="255"  placeholder="{{ __('Célula de fluxo') }}" value="{{ isset($formValue) ? $formValue->values['flow_cell'] : old('flow_cell') }}"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="bladder_pump" value="{{ __('Bomba de bexiga') }}" />
-                            <x-jet-input id="bladder_pump" class="form-control block mt-1 w-full" type="text" name="bladder_pump" maxlength="255"  placeholder="{{ __('Bomba de bexiga') }}" value="{{ isset($formValue) ? $formValue->values['bladder_pump'] : old('bladder_pump') }}"/>
+                            <x-jet-input id="bladder_pump" class="form-control block mt-1 w-full" type="text" disabled="{{ !$formValue ? false : true}}" name="bladder_pump" maxlength="255"  placeholder="{{ __('Bomba de bexiga') }}" value="{{ isset($formValue) ? $formValue->values['bladder_pump'] : old('bladder_pump') }}"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="hose_lot" value="{{ __('Lote da mangueira') }}" />
-                            <x-jet-input id="hose_lot" class="form-control block mt-1 w-full" type="text" name="hose_lot" maxlength="255"  placeholder="{{ __('Lote da mangueira') }}" value="{{ isset($formValue) ? $formValue->values['hose_lot'] : old('hose_lot') }}"/>
+                            <x-jet-input id="hose_lot" class="form-control block mt-1 w-full" type="text" disabled="{{ !$formValue ? false : true}}" name="hose_lot" maxlength="255"  placeholder="{{ __('Lote da mangueira') }}" value="{{ isset($formValue) ? $formValue->values['hose_lot'] : old('hose_lot') }}"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="filter_batch" value="{{ __('Lote do filtro') }}" />
-                            <x-jet-input id="filter_batch" class="form-control block mt-1 w-full" type="text" name="filter_batch" maxlength="255"  placeholder="{{ __('Lote do filtro') }}" value="{{ isset($formValue) ? $formValue->values['filter_batch'] : old('filter_batch') }}"/>
+                            <x-jet-input id="filter_batch" class="form-control block mt-1 w-full" type="text" disabled="{{ !$formValue ? false : true}}" name="filter_batch" maxlength="255"  placeholder="{{ __('Lote do filtro') }}" value="{{ isset($formValue) ? $formValue->values['filter_batch'] : old('filter_batch') }}"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="end_collection" value="{{ __('Hora (final da coleta)') }}" />
-                            <x-jet-input id="end_collection" class="form-control block mt-1 w-full" type="time" name="end_collection" value="{{ isset($formValue) ? $formValue->values['end_collection'] : old('end_collection') }}"/>
+                            <x-jet-input id="end_collection" class="form-control block mt-1 w-full" type="time" disabled="{{ !$formValue ? false : true}}" name="end_collection" value="{{ isset($formValue) ? $formValue->values['end_collection'] : old('end_collection') }}"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 pl-3 mb-6 md:mb-0">
                             <x-jet-label for="suspended" value="{{ __('Material em suspensão?') }}" />
-                            <x-custom-select :options="['SIM' => 'SIM', 'NÃO' => 'NÃO']" name="suspended" id="suspended" value="{{ isset($formValue) ? $formValue->values['suspended'] : old('suspended') }}" class="mt-1"/>
+                            <x-custom-select disabled="{{ !$formValue ? false : true}}" :options="['SIM' => 'SIM', 'NÃO' => 'NÃO']" name="suspended" id="suspended" value="{{ isset($formValue) ? $formValue->values['suspended'] : old('suspended') }}" class="mt-1"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="ph" value="{{ __('pH (frasco com ácido)') }}" />
-                            <x-jet-input id="ph" class="form-control block mt-1 w-full" type="number" step="any" name="ph" value="{{ isset($formValue) ? $formValue->values['ph'] : old('ph') }}"/>
+                            <x-jet-input id="ph" class="form-control block mt-1 w-full" type="number" disabled="{{ !$formValue ? false : true}}" step="any" name="ph" value="{{ isset($formValue) ? $formValue->values['ph'] : old('ph') }}"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full pl-3 mb-6 md:mb-0">
                             <x-jet-label for="technician" value="{{ __('Técnico Responsável') }}" />
-                            <x-jet-input id="technician" class="form-control block mt-1 w-full" type="text" readonly name="technician" maxlength="255" value="{{ isset($formValue) ? $formValue->values['technician'] : old('technician') }}"/>
+                            <x-jet-input id="technician" class="form-control block mt-1 w-full" disabled="{{ !$formValue ? false : true}}" type="text" readonly name="technician" maxlength="255" value="{{ isset($formValue) ? $formValue->values['technician'] : old('technician') }}"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full pl-3 mb-6 md:mb-0">
                             <x-jet-label for="obs" value="{{ __('Observações') }}" />
-                           <textarea class="form-input w-full" name="obs" id="obs" cols="30" rows="10"></textarea>
+                           <textarea class="form-input w-full" name="obs" id="obs" cols="30" rows="10" disabled="{{ !$formValue ? false : true}}"></textarea>
                         </div>
                     </div>
                 </div>

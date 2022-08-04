@@ -10,17 +10,19 @@ class CustomSelect extends Component
     public $options;
     public $value;
     public $ids;
+    public $disabled;
 
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($options, $value, $ids = null)
+    public function __construct($options, $value, $ids = null, $disabled = false)
     {
         $this->options = $options;
         $this->value = $value;
         $this->ids = $ids;
+        $this->disabled = $disabled;
     }
 
     /**

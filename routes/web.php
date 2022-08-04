@@ -235,6 +235,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::get('/create/{form}/{project_id}', [FormController::class, 'create'])->name('create');
             Route::get('/edit/{form_value}', [FormController::class, 'edit'])->name('edit');
             Route::post('/store', [FormController::class, 'store'])->name('store');
+            Route::get('/index', [FormController::class, 'index'])->name('index');
         });
 
         Route::resource('referencias', RefController::class, [

@@ -150,6 +150,9 @@
                 <div class="px-0 py-0 ">
                     <a class="@if(request()->routeIs('fields.ref.index')) {{ 'active' }} @endif" href="{{ route('fields.ref.index') }}">Referências</a>
                 </div>
+                <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('fields.forms.index')) {{ 'active' }} @endif" href="{{ route('fields.forms.index') }}">Formulários Preenchidos</a>
+                </div>
             </div>
         </div>
       </nav>

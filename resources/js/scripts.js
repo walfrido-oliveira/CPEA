@@ -91,7 +91,7 @@ if(passwordConfirmation) {
 
 window.customSelectArray = {};
 window.addEventListener("load", function() {
-    document.querySelectorAll(".custom-select").forEach(item => {
+    document.querySelectorAll(".custom-select:not(:disabled)").forEach(item => {
         if(!item.classList.contains("no-nice-select")) window.customSelectArray[item.id] = NiceSelect.bind(item, {searchable: true, reverse: item.dataset.reverse ? item.dataset.reverse : false});
     });
     window.SpinLoad = new SpinLoad("spin_load");
