@@ -763,16 +763,16 @@ class AnalysisResultController extends Controller
             }
           }
 
+          $token = Str::contains($formula, "<") ? "<" : "";
 
           if (!$zero) {
-            $token = Str::contains($formula, "<") ? "<" : "";
             $formula = Str::replace(["*J", " [1]", "< ", "<"],  "", $formula);
             $formula = Str::replace([","],  ".", $formula);
             $stringCalc = new StringCalc();
 
             $result = "$token " . $stringCalc->calculate($formula);
           } else {
-            $result = $max;
+            $result = "$token " . $max;
           }
 
           $analysisResult = AnalysisResult::firstOrCreate([
