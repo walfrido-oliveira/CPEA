@@ -19,10 +19,12 @@ class FormController extends Controller
      */
     public function index(Request $request)
     {
-        $forms =  FormValue::filter($request->all());
+        $forms = FormValue::filter($request->all());
+        $formsTypes = Form::all()->pluck('name', 'id');
+
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
-        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'name';
-         return view('form.index', compact('forms', 'ascending', 'orderBy'));
+        $orderBy = isset($query['order_by']) ? $query['order_by'] : 'form_id';
+         return view('form.index', compact('forms', 'ascending', 'orderBy', 'formsTypes'));
     }
 
      /**
@@ -85,7 +87,7 @@ class FormController extends Controller
             'alert-type' => 'success'
         ];
 
-        return redirect()->route('fields.forms.edit', ['form_value' => $formValue->id])->with($resp);
+        return redirect()->route('forms.forms.edit', ['form_value' => $formValue->id])->with($resp);
     }
 
     /**
@@ -103,5 +105,30 @@ class FormController extends Controller
         $project_id = $formValue->values['project_id'];
 
         return view('form.RT-GPA-047', compact('form', 'project_id', 'formValue'));
+    }
+
+    /**
+     * Filter Ref
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filter(Request $request)
+    {
+        $forms = FormValue::filter($request->all());
+        $forms = $forms->setPath('');
+        $orderBy = $request->get('order_by');
+        $ascending = $request->get('ascending');
+        $paginatePerPage = $request->get('paginate_per_page');
+
+        return response()->json([
+            'filter_result' => view('form.filter-result', compact('forms', 'orderBy', 'ascending'))->render(),
+            'pagination' => view('layouts.pagination', [
+                'models' => $forms,
+                'order_by' => $orderBy,
+                'ascending' => $ascending,
+                'paginate_per_page' => $paginatePerPage,
+                ])->render(),
+            ]);
     }
 }

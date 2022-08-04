@@ -61,27 +61,19 @@ class FormValue extends Model
                 }
             }
 
-            if(isset($query['name']))
+            if(isset($query['form_id']))
+            {
+                if(!is_null($query['form_id']))
+                {
+                    $q->where('form_id', $query['form_id']);
+                }
+            }
+
+            if(isset($query['project_id']))
             {
                 if(!is_null($query['project_id']))
                 {
-                    $q->where('name', 'like','%' . $query['name'] . '%');
-                }
-            }
-
-            if(isset($query['type']))
-            {
-                if(!is_null($query['type']))
-                {
-                    $q->where('type', 'like', $query['type']);
-                }
-            }
-
-            if(isset($query['q']))
-            {
-                if(!is_null($query['q']))
-                {
-                    $q->where('project_id', 'like', '%' . $query['q'] . '%');
+                    $q->where('values', 'like', '%' . $query['project_id'] . '%');
                 }
             }
 

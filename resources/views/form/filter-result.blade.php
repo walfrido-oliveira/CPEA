@@ -1,7 +1,7 @@
 <thead>
     <tr class="thead-light">
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="id" columnText="{{ __('#') }}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="name" columnText="{{ __('Formulário') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="form_id" columnText="{{ __('Formulário') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="field" columnText="{{ __('Projeto') }}"/>
         <th scope="col"
             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
