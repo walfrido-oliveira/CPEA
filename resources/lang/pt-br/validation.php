@@ -186,7 +186,9 @@ return [
         "analysis_method_id" => "Método Análise",
         "validate_preparation" => "Validar Preparação",
         "time_preparation" => "Prazo Preparo",
-        "time_analysis" => "Prazo Análise"
+        "time_analysis" => "Prazo Análise",
+        "analysis_parameter_ids" => "Parametros de Análise",
+        "campaign_id" => "Campanha"
     ],
 
 ];

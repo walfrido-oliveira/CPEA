@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use App\Models\AnalysisMatrix;
 use App\Models\GeodeticSystem;
 use App\Models\ParameterMethod;
+use Illuminate\Validation\Rule;
 use App\Models\GuidingParameter;
 use App\Models\ParameterAnalysis;
 use App\Models\ProjectPointMatrix;
@@ -78,11 +79,13 @@ class ProjectPointMatrixController extends Controller
         $paginatePerPage = $request->has('paginate_per_page') ? $request->get('paginate_per_page') : 5;
 
         $validator = Validator::make($request->all(), [
+            'parameter_analysis_id' => Rule::requiredIf(!$request->get('analysis_parameter_ids')),
+            'analysis_parameter_ids' => Rule::requiredIf(!$request->get('parameter_analysis_id')),
+
             'point_identification_id' => ['required', 'exists:point_identifications,id'],
             'project_id' => ['required', 'exists:projects,id'],
 
             'analysis_matrix_id' => ['required', 'exists:analysis_matrices,id'],
-            #'date_collection' => ['required', 'date'],
             'campaign_id' => ['required', 'exists:campaigns,id'],
             'tide' => ['nullable', 'in:enchente,vazante'],
             'environmental_conditions' => ['nullable', 'in:com-chuva,sem-chuva'],
