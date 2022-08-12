@@ -53,8 +53,9 @@ class FormController extends Controller
     public function create(Request $request, $id, $project_id)
     {
         $form = Form::findOrFail($id);
+        $formValue = null;
 
-        return view('form.RT-GPA-047', compact('form', 'project_id'));
+        return view('form.RT-GPA-047', compact('form', 'project_id', 'formValue'));
     }
 
     /**
@@ -65,7 +66,6 @@ class FormController extends Controller
      */
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'form_id' => ['required', 'exists:forms,id']
         ]);
