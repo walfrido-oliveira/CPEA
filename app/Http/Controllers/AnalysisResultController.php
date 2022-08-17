@@ -749,13 +749,13 @@ class AnalysisResultController extends Controller
                 $sampdate = $analysisResult->sampdate;
                 $samplename = $analysisResult->samplename;
                 $labsampid = $analysisResult->labsampid;
-                $zero = Str::contains($analysisResult->result, "<");
                 $r = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->result ? $analysisResult->result : $analysisResult->rl);
                 $rl = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->rl);
                 $isToken = !$analysisResult->result || $rl > $r;
                 $max =  $r > $max ? $r : $max;
+                $zero = Str::contains($analysisResult->result, "<") || !$analysisResult->result || $rl > $r;
 
-                if($zero == true || ($r < $rl) ) {
+                if($zero == true) {
                     $formula = Str::replace($value2[0],  0, $formula);
                 } else {
                     $formula = Str::replace($value2[0],  $analysisResult->result ? $analysisResult->result : $analysisResult->rl, $formula);
