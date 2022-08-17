@@ -749,14 +749,14 @@ class AnalysisResultController extends Controller
                 $samplename = $analysisResult->samplename;
                 $labsampid = $analysisResult->labsampid;
                 $zero = Str::contains($analysisResult->result, "<");
-                $r = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->result);
+                $r = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->result ? $analysisResult->result : $analysisResult->rl);
                 $rl = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->rl);
                 $max =  $r > $max ? $r : $max;
 
                 if($zero == true || ($r < $rl) ) {
                     $formula = Str::replace($value2[0],  0, $formula);
                 } else {
-                    $formula = Str::replace($value2[0],  $analysisResult->result, $formula);
+                    $formula = Str::replace($value2[0],  $analysisResult->result ? $analysisResult->result : $analysisResult->rl, $formula);
                 }
 
               }
