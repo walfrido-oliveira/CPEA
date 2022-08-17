@@ -591,7 +591,7 @@ class AnalysisResultController extends Controller
         ->whereHas('parameterAnalysis', function ($q) use ($obj) {
           $q->where(DB::raw("replace(parameter_analyses.analysis_parameter_name, ' ', '')"), Str::of(Str::replace(' ', '', $obj->analyte))->trim());
         })->whereHas('pointIdentification', function ($q) use ($obj) {
-          $q->where(DB::raw("replace(point_identifications.identification, ' ', '')"), Str::of(Str::replace(' ', '',  $obj->samplename))->trim());
+            $q->where(DB::raw("LOWER(replace(point_identifications.identification, ' ', ''))"), Str::lower(Str::of(Str::replace(' ', '',  $obj->samplename))->trim()));
         })->whereHas('analysisMatrix', function ($q) use ($obj) {
           $q->where(DB::raw("replace(analysis_matrices.name, ' ', '')"), Str::of(Str::replace(' ', '', $obj->matrix))->trim());
         })
@@ -727,6 +727,7 @@ class AnalysisResultController extends Controller
           preg_match_all($re, $formula, $matches, PREG_SET_ORDER, 0);
           $zero = true;
           $max = 0;
+          $isToken = false;
 
           foreach ($matches as $key2 => $value2) {
             $result = explode("&", $value2[1]);
@@ -751,6 +752,7 @@ class AnalysisResultController extends Controller
                 $zero = Str::contains($analysisResult->result, "<");
                 $r = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->result ? $analysisResult->result : $analysisResult->rl);
                 $rl = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->rl);
+                $isToken = !$analysisResult->result || $rl > $r;
                 $max =  $r > $max ? $r : $max;
 
                 if($zero == true || ($r < $rl) ) {
@@ -763,7 +765,7 @@ class AnalysisResultController extends Controller
             }
           }
 
-          $token = Str::contains($formula, "<") ? "<" : "";
+          $token = Str::contains($formula, "<") || $isToken  ? "<" : "";
 
           if (!$zero) {
             $formula = Str::replace(["*J", " [1]", "< ", "<"],  "", $formula);
