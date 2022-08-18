@@ -761,9 +761,10 @@ class AnalysisResultController extends Controller
                 $labsampid = $analysisResult->labsampid;
                 $r = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->result ? $analysisResult->result : $analysisResult->rl);
                 $rl = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->rl);
-                $isToken = !$analysisResult->result || $rl > $r;
+
                 $max =  $r > $max ? $r : $max;
                 $zero = Str::contains($analysisResult->result, "<") || !$analysisResult->result || $rl > $r;
+                $isToken = !$analysisResult->result || $rl > $r || Str::contains($analysisResult->result, "<");
 
                 if($zero == true) {
                     $formula = Str::replace($value2[0],  0, $formula);
