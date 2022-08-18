@@ -799,7 +799,8 @@ class AnalysisResultController extends Controller
             'result' => $result,
             'labsampid' => $labsampid,
             'sampdate' => $sampdate,
-            'samplename' => $samplename
+            'samplename' => $samplename,
+            'units' => $analysisResult->units
           ]);
         }
       }
