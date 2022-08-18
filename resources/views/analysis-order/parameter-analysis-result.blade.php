@@ -16,7 +16,8 @@
                     @if ($point->pointIdentification)
                         <button type="button" class="show-point" data-point="{{ $point->pointIdentification->id }}">
                             {{ $point->pointIdentification->area }} - {{ $point->pointIdentification->identification }}
-                            ({{ count($point->where("point_identification_id", $point->point_identification_id)->where('campaign_id', $point->campaign_id)->get()) }})
+                            ({{ count($analysisOrder->projectPointMatrices()
+                                ->where('project_point_matrices.point_identification_id', $point->pointIdentification->id)->get())) }})
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline btn-transition-secondary" viewBox="0 0 20 20" fill="currentColor">
                                 <path fill-rule="evenodd" d="M15.707 4.293a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 011.414-1.414L10 8.586l4.293-4.293a1 1 0 011.414 0zm0 6a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 111.414-1.414L10 14.586l4.293-4.293a1 1 0 011.414 0z" clip-rule="evenodd" />
                             </svg>
