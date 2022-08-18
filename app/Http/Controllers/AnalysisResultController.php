@@ -643,8 +643,8 @@ class AnalysisResultController extends Controller
             if (is_numeric($rl)) $obj->rl = $rl * $item2->unityLegislation->conversion_amount;
 
             if($tokenResult) $obj->result = "< " . $obj->result;
-            if($tokenDl) $obj->dl = "< " . $obj->result;
-            if($tokenRl) $obj->rl = "< " . $obj->result;
+            if($tokenDl) $obj->dl = "< " . $obj->dl;
+            if($tokenRl) $obj->rl = "< " . $obj->rl;
 
             $obj->units = $item2->unityLegislation->unity_cod;
           }
