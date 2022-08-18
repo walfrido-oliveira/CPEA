@@ -717,7 +717,8 @@ class AnalysisResultController extends Controller
     $projectPointMatrices = $order->projectPointMatrices;
     $samplename = null;
     $sampdate = null;
-    $labsampid= null;
+    $labsampid = null;
+    $units = null;
 
     try {
       foreach ($projectPointMatrices as $key => $value) {
@@ -759,6 +760,8 @@ class AnalysisResultController extends Controller
                 $sampdate = $analysisResult->sampdate;
                 $samplename = $analysisResult->samplename;
                 $labsampid = $analysisResult->labsampid;
+                $units = $analysisResult->units;
+
                 $r = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->result ? $analysisResult->result : $analysisResult->rl);
                 $rl = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->rl);
 
@@ -800,7 +803,7 @@ class AnalysisResultController extends Controller
             'labsampid' => $labsampid,
             'sampdate' => $sampdate,
             'samplename' => $samplename,
-            'units' => $analysisResult->units
+            'units' => $units
           ]);
         }
       }
