@@ -732,10 +732,20 @@ class AnalysisResultController extends Controller
           foreach ($matches as $key2 => $value2) {
             $result = explode("&", $value2[1]);
 
-            $projectPointMatrix = $order->projectPointMatrices()
+            $projectPointMatrix = $result[1] ? $order->projectPointMatrices()
               ->whereHas('parameterAnalysis', function ($q) use ($result) {
                 $q->where('parameter_analyses.analysis_parameter_name', $result[0])
                   ->where('parameter_analyses.cas_rn', $result[1])
+                  ->whereHas('parameterAnalysisGroup', function ($q) use ($result) {
+                    $q->where('name', $result[2]);
+                  });
+              })
+              ->where('point_identification_id', $value->point_identification_id)
+              ->first() :
+              $order->projectPointMatrices()
+              ->whereHas('parameterAnalysis', function ($q) use ($result) {
+                $q->where('parameter_analyses.analysis_parameter_name', $result[0])
+                  ->whereNull('parameter_analyses.cas_rn')
                   ->whereHas('parameterAnalysisGroup', function ($q) use ($result) {
                     $q->where('name', $result[2]);
                   });
@@ -764,6 +774,8 @@ class AnalysisResultController extends Controller
               }
             }
           }
+
+          //if( $value->parameterAnalysis->analysis_parameter_name == 'Alifático (C8-C16)') dd($formula);
 
           $token = Str::contains($formula, "<") || $isToken  ? "<" : "";
 
