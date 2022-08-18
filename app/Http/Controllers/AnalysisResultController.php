@@ -350,8 +350,8 @@ class AnalysisResultController extends Controller
       if (count($analysisResults) > 0) $groupParameterAnalysis[] = $analysisResults[0]->projectPointMatrix->parameterAnalysis->parameterAnalysisGroup->name;
 
       foreach ($analysisResults as $value) {
-        if (Str::of(Str::replace(' ', '', $value->projectPointMatrix->pointIdentification->identification))->trim() !=
-            Str::of(Str::replace(' ', '', $value1))->trim()) {
+        if (Str::lower(Str::replace(' ', '', $value->projectPointMatrix->pointIdentification->identification)) !=
+          Str::lower(Str::replace(' ', '', $value1))) {
           continue;
         }
 
