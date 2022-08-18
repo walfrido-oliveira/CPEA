@@ -622,6 +622,10 @@ class AnalysisResultController extends Controller
             $item2->parameter_analysis_id == $projectPointMatrices->parameterAnalysis->id &&
             $item2->unityLegislation->unity_cod !=  $obj->units
           ) {
+            $tokenResult = Str::contains($obj->result, "<");
+            $tokenDl = Str::contains($obj->dl, "<");
+            $tokenRl = Str::contains($obj->rl, "<");
+
             $result =  Str::replace(["*J", " [1]"], "", $obj->result);
             $result = Str::replace(["<", "< ", " "], "", $result);
             $result = Str::replace([","], ".", $result);
@@ -637,6 +641,10 @@ class AnalysisResultController extends Controller
             if (is_numeric($result)) $obj->result = $result * $item2->unityLegislation->conversion_amount;
             if (is_numeric($dl)) $obj->dl = $dl * $item2->unityLegislation->conversion_amount;
             if (is_numeric($rl)) $obj->rl = $rl * $item2->unityLegislation->conversion_amount;
+
+            if($tokenResult) $obj->result = "< " . $obj->result;
+            if($tokenDl) $obj->dl = "< " . $obj->result;
+            if($tokenRl) $obj->rl = "< " . $obj->result;
 
             $obj->units = $item2->unityLegislation->unity_cod;
           }
