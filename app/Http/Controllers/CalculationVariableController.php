@@ -47,7 +47,7 @@ class CalculationVariableController extends Controller
     {
         $input = $request->all();
 
-        $calculationParameter = CalculationVariable::create([
+        CalculationVariable::create([
             'calculation_parameter_id' => $input['calculation_parameter_id'],
             'name' => $input['name'],
         ]);
@@ -154,7 +154,7 @@ class CalculationVariableController extends Controller
     public function filterByCalculationParameter($id)
     {
         $calculationVariables = CalculationVariable::where('calculation_parameter_id', $id)->get();
-        dd($id);
+
         return response()->json([
             'result' => view('calculation-parameter.calculation-variables-list', compact('calculationVariables'))->render()
         ]);
