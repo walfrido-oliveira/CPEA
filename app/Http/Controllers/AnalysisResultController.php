@@ -731,8 +731,14 @@ class AnalysisResultController extends Controller
     try {
       foreach ($projectPointMatrices as $key => $value) {
         if (count($value->calculationParameters) > 0) {
+
+
+        foreach($value->calculationParameters as $calculation)
+        {
+            if($calculation->parameterAnalysis->parameter_analysis_group_id == $value->parameterAnalysis->parameter_analysis_group_id)  $formula = $calculation->formula;
+        }
+
           $re = '/{(.*?)}/m';
-          $formula = $value->calculationParameters[0]->formula;
           preg_match_all($re, $formula, $matches, PREG_SET_ORDER, 0);
           $zero = true;
           $max = 0;
