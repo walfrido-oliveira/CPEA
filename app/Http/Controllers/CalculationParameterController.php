@@ -48,7 +48,7 @@ class CalculationParameterController extends Controller
     {
         $input = $request->all();
 
-        $calculationParameter = CalculationParameter::create([
+        CalculationParameter::create([
             'parameter_analysis_id' => $input['parameter_analysis_id'],
             'formula' => $input['formula'],
         ]);

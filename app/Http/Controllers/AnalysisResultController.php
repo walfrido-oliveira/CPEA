@@ -382,12 +382,13 @@ class AnalysisResultController extends Controller
 
         $result =  Str::contains($value->result, '*J') ? $result : ($resultValue >= $rlValue ? $result : "< $rl");
 
-        $sheet->setCellValueByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index, Str::replace(".", ",", $result));
+        $sheet->setCellValueByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index, Str::replace(".", ",", $result == 0 ? 'N/A' : $result));
         $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
         $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->applyFromArray($border);
 
-        if ($resultValue > $rlValue) $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getFont()->setBold(true);
+        if (is_numeric($rlValue) && $resultValue > $rlValue) $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getFont()->setBold(true);
+
         foreach ($qualitative as $item)
         {
             if($item->parameter_analysis_id == $value->projectPointMatrix->parameter_analysis_id && $resultValue > $rlValue)
@@ -743,6 +744,7 @@ class AnalysisResultController extends Controller
           $zero = true;
           $max = 0;
           $isToken = false;
+          $bolder = false;
 
           foreach ($matches as $key2 => $value2) {
             $result = explode("&", $value2[1]);
@@ -769,8 +771,55 @@ class AnalysisResultController extends Controller
               ->first();
 
             if ($projectPointMatrix) {
+
               $analysisResult = AnalysisResult::where("project_point_matrix_id", $projectPointMatrix->id)->first();
+
               if ($analysisResult) {
+
+                foreach ($projectPointMatrix->guidingParameters()
+                ->whereIn('guiding_parameter_id', explode(",", $projectPointMatrix->project->guiding_parameter_order))->get() as $item) {
+
+                  $item2 = $item
+                    ->guidingParameterValues()
+                    ->where('parameter_analysis_id', $projectPointMatrix->parameter_analysis_id)
+                    ->where('analysis_matrix_id', $projectPointMatrix->analysis_matrix_id)
+                    ->where('guiding_parameter_id',  $item->id)
+                    ->first();
+
+                  if ($item2) {
+
+                    if ($item2->parameter_analysis_id == $projectPointMatrix->parameterAnalysis->id &&
+                        $item2->unityLegislation->unity_cod !=  $analysisResult->units) {
+
+                      $tokenResult = Str::contains($analysisResult->result, "<");
+                      $tokenDl = Str::contains($analysisResult->dl, "<");
+                      $tokenRl = Str::contains($analysisResult->rl, "<");
+
+                      $result =  Str::replace(["*J", " [1]"], "", $analysisResult->result);
+                      $result = Str::replace(["<", "< ", " "], "", $result);
+                      $result = Str::replace([","], ".", $result);
+
+                      $dl =  Str::replace(["*J", " [1]"], "", $analysisResult->dl);
+                      $dl = Str::replace(["<", "< ", " "], "", $dl);
+                      $dl = Str::replace([","], ".", $dl);
+
+                      $rl =  Str::replace(["*J", " [1]"], "", $analysisResult->rl);
+                      $rl = Str::replace(["<", "< ", " "], "", $rl);
+                      $rl = Str::replace([","], ".", $rl);
+
+                      if (is_numeric($result)) $analysisResult->result = $result * $item2->unityLegislation->conversion_amount;
+                      if (is_numeric($dl)) $analysisResult->dl = $dl * $item2->unityLegislation->conversion_amount;
+                      if (is_numeric($rl)) $analysisResult->rl = $rl * $item2->unityLegislation->conversion_amount;
+
+                      if($tokenResult) $analysisResult->result = "< " . $obj->result;
+                      if($tokenDl) $analysisResult->dl = "< " . $obj->dl;
+                      if($tokenRl) $analysisResult->rl = "< " . $obj->rl;
+
+                      $analysisResult->units = $item2->unityLegislation->unity_cod;
+                    }
+                  }
+                }
+
                 $sampdate = $analysisResult->sampdate;
                 $samplename = $analysisResult->samplename;
                 $labsampid = $analysisResult->labsampid;
@@ -778,6 +827,8 @@ class AnalysisResultController extends Controller
 
                 $r = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->result ? $analysisResult->result : $analysisResult->rl);
                 $rl = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->rl);
+
+                if(!$bolder) $bolder = $r > $rl;
 
                 $max =  $r > $max ? $r : $max;
                 $zero = Str::contains($analysisResult->result, "<") || !$analysisResult->result || $rl > $r;
