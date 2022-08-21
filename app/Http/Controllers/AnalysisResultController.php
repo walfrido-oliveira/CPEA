@@ -652,7 +652,7 @@ class AnalysisResultController extends Controller
         }
       }
 
-      if($obj->project) {
+      if($obj->project && $obj->samplename) {
 
         $analysisResult = AnalysisResult::firstOrCreate([
             'project_point_matrix_id' => $projectPointMatrices->id,
@@ -787,31 +787,31 @@ class AnalysisResultController extends Controller
                     if ($item2->parameter_analysis_id == $value->parameterAnalysis->id &&
                         $item2->unityLegislation->unity_cod !=  $analysisResult->units) {
 
-                    $tokenResult = Str::contains($analysisResult->result, "<");
-                    $tokenDl = Str::contains($analysisResult->dl, "<");
-                    $tokenRl = Str::contains($analysisResult->rl, "<");
+                        $tokenResult = Str::contains($analysisResult->result, "<");
+                        $tokenDl = Str::contains($analysisResult->dl, "<");
+                        $tokenRl = Str::contains($analysisResult->rl, "<");
 
-                    $result =  Str::replace(["*J", " [1]"], "", $analysisResult->result);
-                    $result = Str::replace(["<", "< ", " "], "", $result);
-                    $result = Str::replace([","], ".", $result);
+                        $result =  Str::replace(["*J", " [1]"], "", $analysisResult->result);
+                        $result = Str::replace(["<", "< ", " "], "", $result);
+                        $result = Str::replace([","], ".", $result);
 
-                    $dl =  Str::replace(["*J", " [1]"], "", $analysisResult->dl);
-                    $dl = Str::replace(["<", "< ", " "], "", $dl);
-                    $dl = Str::replace([","], ".", $dl);
+                        $dl =  Str::replace(["*J", " [1]"], "", $analysisResult->dl);
+                        $dl = Str::replace(["<", "< ", " "], "", $dl);
+                        $dl = Str::replace([","], ".", $dl);
 
-                    $rl =  Str::replace(["*J", " [1]"], "", $analysisResult->rl);
-                    $rl = Str::replace(["<", "< ", " "], "", $rl);
-                    $rl = Str::replace([","], ".", $rl);
+                        $rl =  Str::replace(["*J", " [1]"], "", $analysisResult->rl);
+                        $rl = Str::replace(["<", "< ", " "], "", $rl);
+                        $rl = Str::replace([","], ".", $rl);
 
-                    if (is_numeric($result)) $analysisResult->result = $result * $item2->unityLegislation->conversion_amount;
-                    if (is_numeric($dl)) $analysisResult->dl = $dl * $item2->unityLegislation->conversion_amount;
-                    if (is_numeric($rl)) $analysisResult->rl = $rl * $item2->unityLegislation->conversion_amount;
+                        if (is_numeric($result)) $analysisResult->result = $result * $item2->unityLegislation->conversion_amount;
+                        if (is_numeric($dl)) $analysisResult->dl = $dl * $item2->unityLegislation->conversion_amount;
+                        if (is_numeric($rl)) $analysisResult->rl = $rl * $item2->unityLegislation->conversion_amount;
 
-                    if($tokenResult) $analysisResult->result = "< " . $analysisResult->result;
-                    if($tokenDl) $analysisResult->dl = "< " . $analysisResult->dl;
-                    if($tokenRl) $analysisResult->rl = "< " . $analysisResult->rl;
+                        if($tokenResult) $analysisResult->result = "< " . $analysisResult->result;
+                        if($tokenDl) $analysisResult->dl = "< " . $analysisResult->dl;
+                        if($tokenRl) $analysisResult->rl = "< " . $analysisResult->rl;
 
-                    $analysisResult->units = $item2->unityLegislation->unity_cod;
+                        $analysisResult->units = $item2->unityLegislation->unity_cod;
 
                     }
                 }
