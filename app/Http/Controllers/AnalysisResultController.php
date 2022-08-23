@@ -341,17 +341,17 @@ class AnalysisResultController extends Controller
     ->orderBy('parameter_analyses.analysis_parameter_name', 'asc')
     ->get();
 
+    $column = 0;
     foreach ($pointIdentification as $value1) {
       $key = 0;
       $index = 0;
-      $column = 0;
+
       $groupParameterAnalysis = [];
 
       if (count($analysisResults) > 0) $groupParameterAnalysis[] = $analysisResults[0]->projectPointMatrix->parameterAnalysis->parameterAnalysisGroup->name;
 
       foreach ($analysisResults as $value) {
-        if (Str::lower(Str::replace(' ', '', $value->projectPointMatrix->pointIdentification->identification)) !=
-          Str::lower(Str::replace(' ', '', $value1))) {
+        if (strcasecmp(Str::replace(' ', '', $value->projectPointMatrix->pointIdentification->identification), Str::replace(' ', '', $value1)) != 0) {
           continue;
         }
 
@@ -367,7 +367,7 @@ class AnalysisResultController extends Controller
         $sheet->getStyleByColumnAndRow(2,  $index + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
         $sheet->getStyleByColumnAndRow(2,  $index + 6)->applyFromArray($border);
 
-        $column = array_search(Str::of(Str::replace(' ', '', $value->projectPointMatrix->pointIdentification->identification))->trim(), $pointIdentification);
+        //$column = array_search(Str::of(Str::replace(' ', '', $value->projectPointMatrix->pointIdentification->identification))->trim(), $pointIdentification);
 
         $result =  Str::replace(["*J", " [1]"], "", $value->result);
         $result = Str::replace("<", "< ", $result);
