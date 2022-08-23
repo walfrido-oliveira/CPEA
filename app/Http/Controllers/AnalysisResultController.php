@@ -380,7 +380,7 @@ class AnalysisResultController extends Controller
         $resultValue = Str::replace("< ", "", $result);
         $rlValue = Str::replace("< ", "", $rl);
 
-        $result =  Str::contains($value->result, '*J') ? $result : ($resultValue >= $rlValue ? $result : "< $rl");
+        $result =  Str::contains($value->result, '*J') ? $result : ($resultValue >= $rlValue ? $resultValue : "< $rl");
         $result = $result == 0 ? 'N/A' : $result;
         $result = Str::replace(".", ",", $result);
 
