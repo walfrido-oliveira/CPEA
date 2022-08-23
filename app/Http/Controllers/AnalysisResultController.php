@@ -381,8 +381,8 @@ class AnalysisResultController extends Controller
         $rlValue = Str::replace("< ", "", $rl);
 
         $result =  Str::contains($value->result, '*J') ? $result : ($resultValue >= $rlValue ? $resultValue : "< $rl");
+        $result = number_format($result, 3, ",", ".");
         $result = $result == 0 ? 'N/A' : $result;
-        $result = Str::replace(".", ",", $result);
 
         $sheet->setCellValueByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index, $result);
         $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
