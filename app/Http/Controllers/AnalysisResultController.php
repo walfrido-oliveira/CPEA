@@ -381,6 +381,7 @@ class AnalysisResultController extends Controller
         $rlValue = $rl;
 
         $result =  Str::contains($value->result, '*J') ? $result : ($resultValue >= $rlValue ? $resultValue : $rlValue);
+        $resultValue = $result;
 
         $result = number_format($result, 3, ",", ".");
         $result = $result == '0,000' ? 'N/A' : $result;
@@ -417,8 +418,6 @@ class AnalysisResultController extends Controller
           }
         }
 
-        $result = Str::replace("< ", "", $result);
-
         foreach ($guidingParameterOrders as $key2 => $value3) {
           $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $value3)
             ->where('parameter_analysis_id', $value->projectPointMatrix->parameterAnalysis->id)
@@ -426,13 +425,13 @@ class AnalysisResultController extends Controller
 
           if ($guidingParametersValue) {
             if (Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo', 'Qualitativo'])) {
-              if ($result > $guidingParametersValue->guiding_legislation_value) {
+              if ($$resultValue > $guidingParametersValue->guiding_legislation_value) {
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
                 break;
               }
             }
             if (Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo'])) {
-              if (($result < $guidingParametersValue->guiding_legislation_value || $result > $guidingParametersValue->guiding_legislation_value_1)) {
+              if (($$resultValue < $guidingParametersValue->guiding_legislation_value || $$resultValue > $guidingParametersValue->guiding_legislation_value_1)) {
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
                 break;
               }
