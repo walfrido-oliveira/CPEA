@@ -862,18 +862,22 @@ class AnalysisResultController extends Controller
             }
           }
 
-          $analysisResult = AnalysisResult::firstOrCreate([
-            'project_point_matrix_id' => $value->id,
-            'analysis_order_id' => $order->id
-          ]);
+          if($samplename)
+          {
+            $analysisResult = AnalysisResult::firstOrCreate([
+              'project_point_matrix_id' => $value->id,
+              'analysis_order_id' => $order->id
+            ]);
 
-          $analysisResult->update([
-            'result' => $result,
-            'labsampid' => $labsampid,
-            'sampdate' => $sampdate,
-            'samplename' => $samplename,
-            'units' => $units
-          ]);
+            $analysisResult->update([
+              'result' => $result,
+              'labsampid' => $labsampid,
+              'sampdate' => $sampdate,
+              'samplename' => $samplename,
+              'units' => $units
+            ]);
+          }
+
         }
       }
     } catch (\Throwable $th) {
