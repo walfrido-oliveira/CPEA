@@ -784,39 +784,37 @@ class AnalysisResultController extends Controller
                 ->where('guiding_parameter_id',  explode(",", $value->project->guiding_parameter_order)[0])
                ->first();
 
-
                 if ($item2) {
 
-                    if ($item2->parameter_analysis_id == $value->parameterAnalysis->id &&
-                        $item2->unityLegislation->unity_cod !=  $analysisResult->units) {
+                  if ($item2->parameter_analysis_id == $value->parameterAnalysis->id &&
+                      $item2->unityLegislation->unity_cod !=  $analysisResult->units) {
 
-                        $tokenResult = Str::contains($analysisResult->result, "<");
-                        $tokenDl = Str::contains($analysisResult->dl, "<");
-                        $tokenRl = Str::contains($analysisResult->rl, "<");
+                    $tokenResult = Str::contains($analysisResult->result, "<");
+                    $tokenDl = Str::contains($analysisResult->dl, "<");
+                    $tokenRl = Str::contains($analysisResult->rl, "<");
 
-                        $result =  Str::replace(["*J", " [1]"], "", $analysisResult->result);
-                        $result = Str::replace(["<", "< ", " "], "", $result);
-                        $result = Str::replace([","], ".", $result);
+                    $result =  Str::replace(["*J", " [1]"], "", $analysisResult->result);
+                    $result = Str::replace(["<", "< ", " "], "", $result);
+                    $result = Str::replace([","], ".", $result);
 
-                        $dl =  Str::replace(["*J", " [1]"], "", $analysisResult->dl);
-                        $dl = Str::replace(["<", "< ", " "], "", $dl);
-                        $dl = Str::replace([","], ".", $dl);
+                    $dl =  Str::replace(["*J", " [1]"], "", $analysisResult->dl);
+                    $dl = Str::replace(["<", "< ", " "], "", $dl);
+                    $dl = Str::replace([","], ".", $dl);
 
-                        $rl =  Str::replace(["*J", " [1]"], "", $analysisResult->rl);
-                        $rl = Str::replace(["<", "< ", " "], "", $rl);
-                        $rl = Str::replace([","], ".", $rl);
+                    $rl =  Str::replace(["*J", " [1]"], "", $analysisResult->rl);
+                    $rl = Str::replace(["<", "< ", " "], "", $rl);
+                    $rl = Str::replace([","], ".", $rl);
 
-                        if (is_numeric($result)) $analysisResult->result = $result * $item2->unityLegislation->conversion_amount;
-                        if (is_numeric($dl)) $analysisResult->dl = $dl * $item2->unityLegislation->conversion_amount;
-                        if (is_numeric($rl)) $analysisResult->rl = $rl * $item2->unityLegislation->conversion_amount;
+                    if (is_numeric($result)) $analysisResult->result = $result * $item2->unityLegislation->conversion_amount;
+                    if (is_numeric($dl)) $analysisResult->dl = $dl * $item2->unityLegislation->conversion_amount;
+                    if (is_numeric($rl)) $analysisResult->rl = $rl * $item2->unityLegislation->conversion_amount;
 
-                        if($tokenResult) $analysisResult->result = "< " . $analysisResult->result;
-                        if($tokenDl) $analysisResult->dl = "< " . $analysisResult->dl;
-                        if($tokenRl) $analysisResult->rl = "< " . $analysisResult->rl;
+                    if($tokenResult) $analysisResult->result = "< " . $analysisResult->result;
+                    if($tokenDl) $analysisResult->dl = "< " . $analysisResult->dl;
+                    if($tokenRl) $analysisResult->rl = "< " . $analysisResult->rl;
 
-                        $analysisResult->units = $item2->unityLegislation->unity_cod;
-
-                    }
+                    $analysisResult->units = $item2->unityLegislation->unity_cod;
+                  }
                 }
 
                 $sampdate = $analysisResult->sampdate;
@@ -834,9 +832,9 @@ class AnalysisResultController extends Controller
                 $isToken = !$analysisResult->result || $rl > $r || Str::contains($analysisResult->result, "<");
 
                 if($zero == true) {
-                    $formula = Str::replace($value2[0],  0, $formula);
+                  $formula = Str::replace($value2[0],  0, $formula);
                 } else {
-                    $formula = Str::replace($value2[0],  $analysisResult->result ? $analysisResult->result : $analysisResult->rl, $formula);
+                  $formula = Str::replace($value2[0],  $analysisResult->result ? $analysisResult->result : $analysisResult->rl, $formula);
                 }
 
               }
@@ -857,6 +855,13 @@ class AnalysisResultController extends Controller
             $result = "$token " . $max;
           }
 
+          if ($item2) {
+            if ($item2->parameter_analysis_id == $value->parameterAnalysis->id &&
+                $item2->unityLegislation->unity_cod !=  $analysisResult->units) {
+              $units = $item2->unityLegislation->unity_cod;
+            }
+          }
+
           $analysisResult = AnalysisResult::firstOrCreate([
             'project_point_matrix_id' => $value->id,
             'analysis_order_id' => $order->id
@@ -867,7 +872,7 @@ class AnalysisResultController extends Controller
             'labsampid' => $labsampid,
             'sampdate' => $sampdate,
             'samplename' => $samplename,
-            #'units' => $units
+            'units' => $units
           ]);
         }
       }
