@@ -342,6 +342,8 @@ class AnalysisResultController extends Controller
     ->get();
 
     $column = 0;
+    $resultValue = 0;
+
     foreach ($pointIdentification as $value1) {
       $key = 0;
       $index = 0;
