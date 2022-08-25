@@ -386,17 +386,18 @@ class AnalysisResultController extends Controller
         $resultValue = $result;
 
         $token = $resultValue < $rlValue;
+        $bold = $resultValue >= $rlValue && !Str::contains($value->result, ["<", "< "]);
 
         $result = number_format($result, 3, ",", ".");
         $result = $result == '0,000' ? 'N/A' : $result;
-        $result = $token && $result != 'N/A' ? "< $result" : $result;
+        $result = ($token && $result != 'N/A') || Str::contains($value->result, ["<", "< "]) ? "< $result" : $result;
 
         $sheet->setCellValueByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index, $result);
         $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
         $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->applyFromArray($border);
 
-        if (is_numeric($rlValue) && $resultValue > $rlValue) $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getFont()->setBold(true);
+        if ($bold) $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getFont()->setBold(true);
 
         foreach ($qualitative as $item)
         {
