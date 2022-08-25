@@ -755,21 +755,21 @@ class AnalysisResultController extends Controller
 
             $projectPointMatrix = $result[1] ? $order->projectPointMatrices()
               ->whereHas('parameterAnalysis', function ($q) use ($result) {
-                $q->where('parameter_analyses.analysis_parameter_name', $result[0])
-                  ->where('parameter_analyses.cas_rn', $result[1])
-                  ->whereHas('parameterAnalysisGroup', function ($q) use ($result) {
-                    $q->where('name', $result[2]);
-                  });
+                $q->where('parameter_analyses.analysis_parameter_name', $result[0]);
+                  //->where('parameter_analyses.cas_rn', $result[1])
+                  //->whereHas('parameterAnalysisGroup', function ($q) use ($result) {
+                    //$q->where('name', $result[2]);
+                  //});
               })
               ->where('point_identification_id', $value->point_identification_id)
               ->first() :
               $order->projectPointMatrices()
               ->whereHas('parameterAnalysis', function ($q) use ($result) {
-                $q->where('parameter_analyses.analysis_parameter_name', $result[0])
-                  ->whereNull('parameter_analyses.cas_rn')
-                  ->whereHas('parameterAnalysisGroup', function ($q) use ($result) {
-                    $q->where('name', $result[2]);
-                  });
+                $q->where('parameter_analyses.analysis_parameter_name', $result[0]);
+                  //->whereNull('parameter_analyses.cas_rn')
+                  //->whereHas('parameterAnalysisGroup', function ($q) use ($result) {
+                  //  $q->where('name', $result[2]);
+                  //});
               })
               ->where('point_identification_id', $value->point_identification_id)
               ->first();
