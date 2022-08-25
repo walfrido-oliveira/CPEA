@@ -371,13 +371,15 @@ class AnalysisResultController extends Controller
 
         //$column = array_search(Str::of(Str::replace(' ', '', $value->projectPointMatrix->pointIdentification->identification))->trim(), $pointIdentification);
 
-        $result =  Str::replace(["*J", " [1]"], "", $value->result);
+         $result =  Str::replace(["*J", " [1]"], "", $value->result);
         $result = Str::replace(["<", "< "], "", $result);
         $result = Str::replace(",", ".", $result);
+        $result = $result == '' ? 0 : $result;
 
         $rl =  Str::replace(["*J", " [1]"], "", $value->rl);
         $rl = Str::replace(["<", "< "], "", $rl);
         $rl = Str::replace(",", ".", $rl);
+        $rl = $rl == '' ? 0 : $rl;
 
         $resultValue = $result;
         $rlValue = $rl;
