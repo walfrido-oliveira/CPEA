@@ -390,7 +390,7 @@ class AnalysisResultController extends Controller
 
         $result = number_format($result, 3, ",", ".");
         $result = $result == '0,000' ? 'N/A' : $result;
-        $result = ($token && $result != 'N/A') || Str::contains($value->result, ["<", "< "]) ? "< $result" : $result;
+        $result = $token || Str::contains($value->result, ["<", "< "]) && !Str::contains($result, 'N/A') ? "< $result" : $result;
 
         $sheet->setCellValueByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index, $result);
         $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
