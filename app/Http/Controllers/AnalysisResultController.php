@@ -746,14 +746,13 @@ class AnalysisResultController extends Controller
 
         foreach($value->calculationParameters as $calculation)
         {
-            if($calculation->parameterAnalysis->parameter_analysis_group_id == $value->parameterAnalysis->parameter_analysis_group_id)  $formula = $calculation->formula;
+          if($calculation->parameterAnalysis->parameter_analysis_group_id == $value->parameterAnalysis->parameter_analysis_group_id)  $formula = $calculation->formula;
         }
 
           $re = '/{(.*?)}/m';
           preg_match_all($re, $formula, $matches, PREG_SET_ORDER, 0);
           $zero = true;
           $max = 0;
-          $maxId = null;
           $maxConvert = null;
           $isToken = false;
 
@@ -801,7 +800,6 @@ class AnalysisResultController extends Controller
                 $rl = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->rl);
 
                 $max =  $r > $max ? $r : $max;
-                $maxId = $r > $max ? $analysisResult : $maxId;
 
                 $zero = Str::contains($analysisResult->result, "<") || !$analysisResult->result || $rl > $r;
                 $isToken = !$analysisResult->result || $rl > $r || Str::contains($analysisResult->result, "<");
@@ -813,7 +811,7 @@ class AnalysisResultController extends Controller
                 }
 
                 if ($item2) {
-                    $maxConvert = $item2->unityLegislation->conversion_amount;
+                  $maxConvert = $item2->unityLegislation->conversion_amount;
                 }
 
               }
