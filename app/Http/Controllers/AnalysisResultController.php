@@ -753,8 +753,9 @@ class AnalysisResultController extends Controller
           preg_match_all($re, $formula, $matches, PREG_SET_ORDER, 0);
           $zero = true;
           $max = 0;
+          $maxId = null;
+          $maxConvert = null;
           $isToken = false;
-          $bolder = false;
 
           foreach ($matches as $key2 => $value2) {
             $result = explode("&", $value2[1]);
@@ -791,39 +792,6 @@ class AnalysisResultController extends Controller
                 ->where('guiding_parameter_id',  explode(",", $value->project->guiding_parameter_order)[0])
                ->first();
 
-                if ($item2) {
-
-                  if ($item2->parameter_analysis_id == $value->parameterAnalysis->id &&
-                      $item2->unityLegislation->unity_cod !=  $analysisResult->units) {
-
-                    $tokenResult = Str::contains($analysisResult->result, "<");
-                    $tokenDl = Str::contains($analysisResult->dl, "<");
-                    $tokenRl = Str::contains($analysisResult->rl, "<");
-
-                    $result =  Str::replace(["*J", " [1]"], "", $analysisResult->result);
-                    $result = Str::replace(["<", "< ", " "], "", $result);
-                    $result = Str::replace([","], ".", $result);
-
-                    $dl =  Str::replace(["*J", " [1]"], "", $analysisResult->dl);
-                    $dl = Str::replace(["<", "< ", " "], "", $dl);
-                    $dl = Str::replace([","], ".", $dl);
-
-                    $rl =  Str::replace(["*J", " [1]"], "", $analysisResult->rl);
-                    $rl = Str::replace(["<", "< ", " "], "", $rl);
-                    $rl = Str::replace([","], ".", $rl);
-
-                    if (is_numeric($result)) $analysisResult->result = $result * $item2->unityLegislation->conversion_amount;
-                    if (is_numeric($dl)) $analysisResult->dl = $dl * $item2->unityLegislation->conversion_amount;
-                    if (is_numeric($rl)) $analysisResult->rl = $rl * $item2->unityLegislation->conversion_amount;
-
-                    if($tokenResult) $analysisResult->result = "< " . $analysisResult->result;
-                    if($tokenDl) $analysisResult->dl = "< " . $analysisResult->dl;
-                    if($tokenRl) $analysisResult->rl = "< " . $analysisResult->rl;
-
-                    $analysisResult->units = $item2->unityLegislation->unity_cod;
-                  }
-                }
-
                 $sampdate = $analysisResult->sampdate;
                 $samplename = $analysisResult->samplename;
                 $labsampid = $analysisResult->labsampid;
@@ -832,9 +800,9 @@ class AnalysisResultController extends Controller
                 $r = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->result ? $analysisResult->result : $analysisResult->rl);
                 $rl = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->rl);
 
-                if(!$bolder) $bolder = $r > $rl;
-
                 $max =  $r > $max ? $r : $max;
+                $maxId = $r > $max ? $analysisResult : $maxId;
+
                 $zero = Str::contains($analysisResult->result, "<") || !$analysisResult->result || $rl > $r;
                 $isToken = !$analysisResult->result || $rl > $r || Str::contains($analysisResult->result, "<");
 
@@ -842,6 +810,10 @@ class AnalysisResultController extends Controller
                   $formula = Str::replace($value2[0],  0, $formula);
                 } else {
                   $formula = Str::replace($value2[0],  $analysisResult->result ? $analysisResult->result : $analysisResult->rl, $formula);
+                }
+
+                if ($item2) {
+                    $maxConvert = $item2->unityLegislation->conversion_amount;
                 }
 
               }
@@ -859,6 +831,8 @@ class AnalysisResultController extends Controller
 
             $result = "$token " . $stringCalc->calculate($formula);
           } else {
+
+            if(is_numeric($maxConvert)) $max *= $maxConvert;
             $result = "$token " . $max;
           }
 
