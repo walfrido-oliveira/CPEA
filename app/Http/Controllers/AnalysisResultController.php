@@ -387,7 +387,7 @@ class AnalysisResultController extends Controller
         $result =  Str::contains($value->result, '*J') ? $result : ($resultValue >= $rlValue ? $resultValue : $rlValue);
         $resultValue = $result;
 
-        $token = $resultValue < $rlValue;
+        $token = $resultValue < $rlValue || !$value->result;
         $bold = $resultValue >= $rlValue && !Str::contains($value->result, ["<", "< "]);
 
         $result = number_format($result, 3, ",", ".");
@@ -799,6 +799,12 @@ class AnalysisResultController extends Controller
                 $r = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->result ? $analysisResult->result : $analysisResult->rl);
                 $rl = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->rl);
 
+                if ($item2 && $item2->unityLegislation->unity_cod != $analysisResult->units) {
+                  $r *= $item2->unityLegislation->conversion_amount;
+                  $rl *= $item2->unityLegislation->conversion_amount;
+                  $maxConvert = $item2->unityLegislation->conversion_amount;
+                }
+
                 $max =  $r > $max ? $r : $max;
 
                 $zero = Str::contains($analysisResult->result, "<") || !$analysisResult->result || $rl > $r;
@@ -808,10 +814,6 @@ class AnalysisResultController extends Controller
                   $formula = Str::replace($value2[0],  0, $formula);
                 } else {
                   $formula = Str::replace($value2[0],  $analysisResult->result ? $analysisResult->result : $analysisResult->rl, $formula);
-                }
-
-                if ($item2) {
-                  $maxConvert = $item2->unityLegislation->conversion_amount;
                 }
 
               }
@@ -830,7 +832,7 @@ class AnalysisResultController extends Controller
             $result = "$token " . $stringCalc->calculate($formula);
           } else {
 
-            if(is_numeric($maxConvert)) $max *= $maxConvert;
+            if ($item2 && $item2->unityLegislation->unity_cod != $analysisResult->units) $max *= $maxConvert;
             $result = "$token " . $max;
           }
 
