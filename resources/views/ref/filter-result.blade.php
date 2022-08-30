@@ -19,7 +19,7 @@
                 <a class="text-item-table" href="{{ route('fields.ref.show', ['ref' => $ref->id]) }}">{{ $ref->name }}</a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('fields.ref.show', ['ref' => $ref->id]) }}">{{ $ref->field }}</a>
+                <a class="text-item-table" href="{{ route('fields.ref.show', ['ref' => $ref->id]) }}">@if($ref->fieldType){{ $ref->fieldType->name }}@endif</a>
             </td>
             <td>
                 <a class="btn-transition-warning" href="{{ route('fields.ref.edit', ['ref' => $ref->id]) }}">

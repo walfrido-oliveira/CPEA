@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ref;
-use App\Models\Field;
 use App\Models\FieldType;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -33,8 +32,9 @@ class RefController extends Controller
     public function create()
     {
         $fields = FieldType::all()->pluck('name', 'id');
+        $types = Ref::types();
 
-        return view('ref.create', compact('fields'));
+        return view('ref.create', compact('fields','types'));
     }
 
     /**
@@ -47,15 +47,17 @@ class RefController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255', Rule::unique('guiding_values', 'name')],
-            'field' => ['required', 'string', 'max:255'],
+            'field_type_id' => ['required', 'string', 'max:255', 'exists:field_types,id'],
+            'type' => ['required', 'string', 'in:Referências,Referência Externa']
         ]);
 
         $input = $request->all();
 
         Ref::create([
             'name' => $input['name'],
-            'field' => $input['field'],
+            'field_type_id' => $input['field_type_id'],
             'turbidity' => isset($input['turbidity']) ? true : false,
+            'type' => $input['type']
         ]);
 
         $resp = [
@@ -88,8 +90,9 @@ class RefController extends Controller
     {
         $ref = Ref::findOrFail($id);
         $fields = FieldType::all()->pluck('name', 'id');
+        $types = Ref::types();
 
-        return view('ref.edit', compact('ref', 'fields'));
+        return view('ref.edit', compact('ref', 'fields', 'types'));
     }
 
     /**
@@ -105,15 +108,17 @@ class RefController extends Controller
 
         $request->validate([
             'name' => ['required', 'string', 'max:255', Rule::unique('guiding_values', 'name')],
-            'field' => ['required', 'string', 'max:255'],
+            'field_type_id' => ['required', 'string', 'max:255', 'exists:field_types,id'],
+            'type' => ['required', 'string', 'in:Referências,Referência Externa']
         ]);
 
         $input = $request->all();
 
         $ref->update([
             'name' => $input['name'],
-            'field' => $input['field'],
+            'field_type_id' => $input['field_type_id'],
             'turbidity' => isset($input['turbidity']) ? true : false,
+            'type' => $input['type']
         ]);
 
         $resp = [

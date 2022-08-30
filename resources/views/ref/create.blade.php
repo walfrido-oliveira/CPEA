@@ -31,16 +31,20 @@
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full px-3 mb-6 md:mb-0">
-                            <x-jet-label for="field" value="{{ __('Matriz') }}" />
-                            <x-custom-select :options="$fields" name="field" id="field" :value="old('field')" class="mt-1"/>
+                            <x-jet-label for="field_type_id" value="{{ __('Matriz') }}" />
+                            <x-custom-select :options="$fields" name="field_type_id" id="field_type_id" :value="old('field_type_id')" class="mt-1"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <div class="w-full px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <label for="turbidity" class="flex items-center">
                                 <input id="turbidity" type="checkbox" class="form-checkbox" name="turbidity">
                                 <span class="ml-2 text-sm text-gray-600">{{ __('Turbidez') }}</span>
                             </label>
+                        </div>
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="type" value="{{ __('Tipo') }}" />
+                            <x-custom-select :options="$types" name="type" id="type" :value="old('type')" class="mt-1"/>
                         </div>
                     </div>
                 </div>

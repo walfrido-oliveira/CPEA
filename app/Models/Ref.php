@@ -15,7 +15,7 @@ class Ref extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'field', 'turbidity'
+        'name', 'field_type_id', 'turbidity', 'type'
     ];
 
 
@@ -56,10 +56,32 @@ class Ref extends Model
                     $q->where('field', 'like','%' . $query['field'] . '%');
                 }
             }
+
+            if(isset($query['type']))
+            {
+                if(!is_null($query['type']))
+                {
+                    $q->where('type', 'like', $query['type']);
+                }
+            }
         });
 
         $envionmentalAreas->orderBy($orderBy, $ascending);
 
         return $envionmentalAreas->paginate($perPage);
     }
+
+    public static function types()
+    {
+        return ['Referência Externa' => 'Referência Externa', 'Referências' => 'Referências'];
+    }
+
+    /**
+     * The Field type.
+     */
+    public function fieldType()
+    {
+        return $this->belongsTo(FieldType::class);
+    }
+
 }
