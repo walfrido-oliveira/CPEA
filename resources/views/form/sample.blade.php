@@ -75,7 +75,7 @@
                 name="{{ isset($i) ? 'samples[row_' . $i + 1 . '][collect]' : 'samples[row_1][collect]' }}" maxlength="255" />
             @else
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="collect" class="form-control block mt-1 w-full"
-                type="text" value=""
+                type="datetime-local" value=""
                 name="samples[row_1][collect]" maxlength="255" />
             @endif
         </div>
