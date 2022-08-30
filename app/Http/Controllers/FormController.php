@@ -55,7 +55,7 @@ class FormController extends Controller
         $form = Form::findOrFail($id);
         $formValue = null;
 
-        return view('form.RT-GPA-047', compact('form', 'project_id', 'formValue'));
+        return view("form.RT-LAB-041-190", compact('form', 'project_id', 'formValue'));
     }
 
     /**
@@ -104,7 +104,9 @@ class FormController extends Controller
         $form = $formValue->form;
         $project_id = $formValue->values['project_id'];
 
-        return view('form.RT-GPA-047', compact('form', 'project_id', 'formValue'));
+        #dd($formValue->values);
+
+        return view("form.$form->name", compact('form', 'project_id', 'formValue'));
     }
 
     /**
