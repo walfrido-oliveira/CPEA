@@ -7,6 +7,7 @@ use App\Models\FieldType;
 use App\Models\FormValue;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use Illuminate\Support\Facades\Validator;
 
 class FormController extends Controller
@@ -103,9 +104,7 @@ class FormController extends Controller
         $formValue = FormValue::findOrFail($id);
         $form = $formValue->form;
         $project_id = $formValue->values['project_id'];
-
-        #dd($formValue->values);
-
+       // dd($formValue->values);
         return view("form.$form->name", compact('form', 'project_id', 'formValue'));
     }
 
@@ -133,4 +132,66 @@ class FormController extends Controller
                 ])->render(),
             ]);
     }
+
+    /**
+   * Import results
+   *
+   * @param  Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function import(Request $request)
+  {
+    $validator = Validator::make(
+      $request->all(),
+      [
+        'file' => 'required|mimes:xls,xlsx|max:4096',
+        'form_value_id' =>  ['required', 'exists:form_values,id'],
+        'sample_index' => ['required']
+      ]
+    );
+
+    if ($validator->fails()) {
+      return response()->json([
+        'message' => implode("<br>", $validator->messages()->all()),
+        'alert-type' => 'error'
+      ], 403);
+    }
+
+    $inputs = $request->all();
+
+    $formValue = FormValue::findOrFail($inputs['form_value_id']);
+
+    $formValue->values['samples'][$inputs['sample_index']];
+
+    $spreadsheet = IOFactory::load($request->file->path());
+    $worksheet = $spreadsheet->getActiveSheet();
+    $rows = $worksheet->toArray();
+
+    $samples = $formValue->values;
+
+    foreach ($rows as $key => $value) {
+        if ($key == 0) continue;
+
+        $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['temperature'] = $value[0];
+        $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['ph'] = $value[1];
+        $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['orp'] = $value[2];
+        $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['conductivity'] = $value[3];
+        $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['salinity'] = $value[4];
+        $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['psi'] = $value[5];
+        $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['sat'] = $value[6];
+        $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['conc'] = $value[7];
+        $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['eh'] = $value[8];
+        $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['ntu'] = $value[9];
+    }
+
+    $formValue->values = $samples;
+    $formValue->save();
+
+    $resp = [
+        'message' => __('Dados importados com sucesso!'),
+        'alert-type' => 'success'
+    ];
+
+    return redirect()->route('fields.forms.edit', ['form_value' => $formValue->id])->with($resp);
+ }
 }
