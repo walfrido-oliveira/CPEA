@@ -144,7 +144,7 @@
                 let url = "{!! route('fields.forms.import') !!}";
                 let token = document.querySelector('meta[name="csrf-token"]').content;
                 let method = 'POST';
-                let that = document.querySelector(`#${this.dataset.index} #file`);
+                let that = this;
                 let files = that.files;
                 let form_value_id = document.querySelector(`#${this.dataset.index} #form_value_id`).value;
                 let sample_index = document.querySelector(`#${this.dataset.index} #sample_index`).value;
@@ -153,6 +153,8 @@
 
                 ajax.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
+                        var resp = JSON.parse(ajax.response);
+                        toastr.success(resp.message);
                         location.reload();
                     } else if(this.readyState == 4 && this.status != 200) {
                         document.getElementById("spin_load").classList.add("hidden");

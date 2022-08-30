@@ -13,7 +13,7 @@
                 </svg>
             </button>
             @if(isset($formValue))
-                <form method="POST" action="{!! route('fields.forms.import') !!}" enctype="multipart/form-data" id="import_result_form_row_{{ isset($i) ? $i + 1 : 1 }}">
+                <div id="import_result_form_row_{{ isset($i) ? $i + 1 : 1 }}">
                     @csrf
                     @method("POST")
                     <input type="hidden" id="form_value_id" name="form_value_id" value="{{ $formValue->id }}">
@@ -24,7 +24,7 @@
                         </svg>
                     </button>
                     <input type="file" name="file" id="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.ms-excel" class="hidden" data-index="import_result_form_row_{{ isset($i) ? $i + 1 : 1 }}">
-                </form>
+                </div>
             @endif
         </div>
     </div>
