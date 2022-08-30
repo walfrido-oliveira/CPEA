@@ -87,7 +87,7 @@ class FormController extends Controller
             'alert-type' => 'success'
         ];
 
-        return redirect()->route('forms.forms.edit', ['form_value' => $formValue->id])->with($resp);
+        return redirect()->route('fields.forms.edit', ['form_value' => $formValue->id])->with($resp);
     }
 
     /**

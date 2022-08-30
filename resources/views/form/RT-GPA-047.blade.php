@@ -1,9 +1,11 @@
 <x-app-layout>
     <div class="py-6 ref">
         <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
-            <form method="@if(!$formValue) POST @else GET @endif" action="@if(!$formValue) {{ route('fields.forms.store') }} @else {{ route('fields.forms.index') }} @endif">
+            <form method="POST" action="@if(!$formValue) {{ route('fields.forms.store') }} @else {{ route('fields.forms.index') }} @endif">
                 @csrf
                 @if(!$formValue) @method("POST") @endif
+                @if($formValue) @method("PUT") @endif
+
                 <input type="hidden" name="form_id" value="{{ $form->id }}">
                 <div class="flex md:flex-row flex-col">
                     <div class="w-full flex items-center">
@@ -155,7 +157,7 @@
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full pl-3 mb-6 md:mb-0">
                             <x-jet-label for="obs" value="{{ __('Observações') }}" />
-                           <textarea class="form-input w-full" name="obs" id="obs" cols="30" rows="10" disabled="{{ !$formValue ? false : true}}"></textarea>
+                           <textarea class="form-input w-full" name="obs" id="obs" cols="30" rows="10" {{ $formValue ? "disabled" : '' }}></textarea>
                         </div>
                     </div>
                 </div>
