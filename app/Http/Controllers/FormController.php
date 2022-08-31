@@ -172,14 +172,14 @@ class FormController extends Controller
     foreach ($rows as $key => $value) {
         if ($key == 0) continue;
 
-        if(isset($value[2]))$samples['samples'][$inputs['sample_index']]['results'][$key - 1]['temperature'] = $value[2];
-        if(isset($value[3]))$samples['samples'][$inputs['sample_index']]['results'][$key - 1]['ph'] = $value[3];
-        if(isset($value[4]))$samples['samples'][$inputs['sample_index']]['results'][$key - 1]['orp'] = $value[4];
-        if(isset($value[5]))$samples['samples'][$inputs['sample_index']]['results'][$key - 1]['conductivity'] = $value[5];
-        if(isset($value[6]))$samples['samples'][$inputs['sample_index']]['results'][$key - 1]['salinity'] = $value[6];
-        if(isset($value[7]))$samples['samples'][$inputs['sample_index']]['results'][$key - 1]['psi'] = $value[7];
-        if(isset($value[8]))$samples['samples'][$inputs['sample_index']]['results'][$key - 1]['sat'] = $value[8];
-        if(isset($value[9]))$samples['samples'][$inputs['sample_index']]['results'][$key - 1]['conc'] = $value[9];
+        if(isset($value[2])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['temperature'] = $value[2];
+        if(isset($value[3])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['ph'] = $value[3];
+        if(isset($value[4])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['orp'] = $value[4];
+        if(isset($value[5])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['conductivity'] = $value[5];
+        if(isset($value[6])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['salinity'] = $value[6];
+        if(isset($value[7])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['psi'] = $value[7];
+        if(isset($value[8])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['sat'] = $value[8];
+        if(isset($value[9])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['conc'] = $value[9];
         if(isset($value[10])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['eh'] = $value[10];
         if(isset($value[11])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['ntu'] = $value[11];
     }

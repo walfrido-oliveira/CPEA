@@ -101,16 +101,16 @@
                     @if(isset($formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1) ]['results']))
                         @foreach ($formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'] as $key => $value)
                             <tr>
-                                <td>{{ $value['temperature'] }}</td>
-                                <td>{{ $value['ph'] }}</td>
-                                <td>{{ $value['orp'] }}</td>
-                                <td>{{ $value['conductivity'] }}</td>
-                                <td>{{ $value['salinity'] }}</td>
-                                <td>{{ $value['psi'] }}</td>
-                                <td>{{ $value['sat'] }}</td>
-                                <td>{{ $value['conc'] }}</td>
-                                <td>{{ $value['eh'] }}</td>
-                                <td>{{ $value['ntu'] }}</td>
+                                <td>@if(isset($value['temperature'])) {{ $value['temperature'] }} @endif</td>
+                                <td>@if(isset($value['ph'])) {{ $value['ph'] }}  @endif</td>
+                                <td>@if(isset($value['orp'])) {{ $value['orp'] }}  @endif</td>
+                                <td>@if(isset($value['conductivity'])) {{ $value['conductivity'] }}  @endif</td>
+                                <td>@if(isset($value['salinity'])) {{ $value['salinity'] }}  @endif</td>
+                                <td>@if(isset($value['psi'])) {{ $value['psi'] }}  @endif</td>
+                                <td>@if(isset($value['sat'])) {{ $value['sat'] }}  @endif</td>
+                                <td>@if(isset($value['conc'])) {{ $value['conc'] }}  @endif</td>
+                                <td>@if(isset($value['eh'])) {{ $value['eh'] }}  @endif</td>
+                                <td>@if(isset($value['ntu'])) {{ $value['ntu'] }}  @endif</td>
                             <tr>
                         @endforeach
                     @endif
