@@ -239,6 +239,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::post('/filter', [FormController::class, 'filter'])->name('filter');
             Route::post('/import', [FormController::class, 'import'])->name('import');
             Route::post('/save-sample', [FormController::class, 'saveSample'])->name('save-sample');
+            Route::post('/delete-sample', [FormController::class, 'deleteSample'])->name('delete-sample');
         });
 
         Route::resource('referencias', RefController::class, [

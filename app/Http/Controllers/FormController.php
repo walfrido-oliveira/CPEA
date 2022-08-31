@@ -133,6 +133,45 @@ class FormController extends Controller
             ]);
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteSample(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+              'form_value_id' =>  ['required', 'exists:form_values,id'],
+              'sample_index' => ['required']
+            ]
+        );
+
+        if ($validator->fails())
+        {
+            return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
+        }
+
+        $input = $request->except('_method', '_token', 'form_id');
+        $formValue = FormValue::findOrFail($input['form_value_id']);
+
+        $samples = $formValue->values;
+
+        unset($samples['samples'][$input['sample_index']]);
+
+        $formValue->values = $samples;
+        $formValue->save();
+
+        $resp = [
+            'message' => __('Formulário atualizado com Sucesso!'),
+            'alert-type' => 'success'
+        ];
+
+        return response()->json($resp);
+    }
+
 
     /**
      * Store a newly created resource in storage.

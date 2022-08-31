@@ -114,6 +114,44 @@
         </div>
     </div>
 
+    <div class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true" id="delete_modal">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+          <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+
+          <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+          <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+              <div class="sm:flex sm:items-start">
+                <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+                  <svg class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
+                <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                  <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                    Deseja Deletar essa amostra?
+                  </h3>
+                  <div class="mt-2">
+                    <p class="text-sm text-gray-500">
+                        Deseja realmente deletar essa amostra?
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <button type="button" id="confirm_delete_modal" class="btn-confirm">
+                Deletar
+              </button>
+              <button type="button" id="cancel_delete_modal" class="btn-cancel" data-index="">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     <x-spin-load />
 
     <script>
@@ -129,56 +167,90 @@
 
         document.querySelectorAll(".save-sample").forEach(item =>{
             item.addEventListener("click", function() {
-                document.getElementById("spin_load").classList.remove("hidden");
-
-                let ajax = new XMLHttpRequest();
-                let url = "{!! route('fields.forms.save-sample') !!}";
-                let token = document.querySelector('meta[name="csrf-token"]').content;
-                let method = 'POST';
-                let that = this;
-                let files = that.files;
-                let form_value_id = document.querySelector(`#${this.dataset.index} #form_value_id`).value;
-                let sample_index = document.querySelector(`#${this.dataset.index} #sample_index`).value;
-
-                let equipment = document.querySelector(`#${this.dataset.index} #equipment`).value;
-                let point = document.querySelector(`#${this.dataset.index} #point`).value;
-                let environment = document.querySelector(`#${this.dataset.index} #environment`).value;
-                let collect = document.querySelector(`#${this.dataset.index} #collect`).value;
-
-                const results = [...document.querySelectorAll(`#${this.dataset.index} #table_result input`)];
-
-                ajax.open(method, url);
-
-                ajax.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        var resp = JSON.parse(ajax.response);
-                        toastr.success(resp.message);
-                        location.reload();
-                    } else if(this.readyState == 4 && this.status != 200) {
-                        document.getElementById("spin_load").classList.add("hidden");
-                        toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
-                        that.value = '';
-                    }
-                }
-
-                var data = new FormData();
-                data.append('_token', token);
-                data.append('_method', method);
-                data.append('_method', method);
-                data.append('form_value_id', form_value_id);
-                data.append('sample_index', sample_index);
-                data.append('equipment', equipment);
-                data.append('point', point);
-                data.append('environment', environment);
-                data.append('collect', collect);
-
-                results.forEach(element => {
-                    data.append(element.name, element.value);
-                });
-
-                ajax.send(data);
+                save(this)
             });
         });
+
+        function save(that) {
+            document.getElementById("spin_load").classList.remove("hidden");
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('fields.forms.save-sample') !!}";
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let files = that.files;
+            let form_value_id = document.querySelector(`#${that.dataset.index} #form_value_id`).value;
+            let sample_index = document.querySelector(`#${that.dataset.index} #sample_index`).value;
+
+            let equipment = document.querySelector(`#${that.dataset.index} #equipment`).value;
+            let point = document.querySelector(`#${that.dataset.index} #point`).value;
+            let environment = document.querySelector(`#${that.dataset.index} #environment`).value;
+            let collect = document.querySelector(`#${that.dataset.index} #collect`).value;
+
+            const results = [...document.querySelectorAll(`#${that.dataset.index} #table_result input`)];
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    toastr.success(resp.message);
+                    location.reload();
+                } else if(this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                    that.value = '';
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('form_value_id', form_value_id);
+            data.append('sample_index', sample_index);
+            data.append('equipment', equipment);
+            data.append('point', point);
+            data.append('environment', environment);
+            data.append('collect', collect);
+
+            results.forEach(element => {
+                data.append(element.name, element.value);
+            });
+
+            ajax.send(data);
+        }
+
+        function deleteSample(that) {
+            document.getElementById("spin_load").classList.remove("hidden");
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('fields.forms.delete-sample') !!}";
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let files = that.files;
+            let form_value_id = document.querySelector(`#${that.dataset.index} #form_value_id`).value;
+            let sample_index = document.querySelector(`#${that.dataset.index} #sample_index`).value;
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    toastr.success(resp.message);
+                    location.reload();
+                } else if(this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                    that.value = '';
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('form_value_id', form_value_id);
+            data.append('sample_index', sample_index);
+
+            ajax.send(data);
+        }
     </script>
 
     <script>
@@ -188,6 +260,19 @@
             modal.classList.add("block");
         });
 
+        document.querySelectorAll(".remove-sample").forEach(item =>{
+            item.addEventListener("click", function() {
+                var modal = document.getElementById("delete_modal");
+                modal.classList.remove("hidden");
+                modal.classList.add("block");
+                document.querySelector("#confirm_delete_modal").dataset.index = this.dataset.index;
+            });
+        });
+
+        document.querySelector("#confirm_delete_modal").addEventListener("click", function() {
+            deleteSample(this);
+        });
+
         document.getElementById("confirm_modal").addEventListener("click", function(e) {
             var modal = document.getElementById("modal");
             modal.classList.add("hidden");
@@ -195,56 +280,58 @@
 
         document.querySelectorAll(".import-sample-result").forEach(item =>{
             item.addEventListener("click", function() {
-                console.log(this.dataset.index);
                 document.querySelector(`#${this.dataset.index} #file`).click();
             });
         });
 
-
         document.querySelectorAll(".sample #file").forEach(item =>{
             item.addEventListener("change", function(e) {
-                document.getElementById("spin_load").classList.remove("hidden");
-
-                let ajax = new XMLHttpRequest();
-                let url = "{!! route('fields.forms.import') !!}";
-                let token = document.querySelector('meta[name="csrf-token"]').content;
-                let method = 'POST';
-                let that = this;
-                let files = that.files;
-                let form_value_id = document.querySelector(`#${this.dataset.index} #form_value_id`).value;
-                let sample_index = document.querySelector(`#${this.dataset.index} #sample_index`).value;
-
-                ajax.open(method, url);
-
-                ajax.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        var resp = JSON.parse(ajax.response);
-                        toastr.success(resp.message);
-                        location.reload();
-                    } else if(this.readyState == 4 && this.status != 200) {
-                        document.getElementById("spin_load").classList.add("hidden");
-                        toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
-                        that.value = '';
-                    }
-                }
-
-                var data = new FormData();
-                data.append('_token', token);
-                data.append('_method', method);
-                data.append('_method', method);
-                data.append('file', files[0]);
-                data.append('form_value_id', form_value_id);
-                data.append('sample_index', sample_index);
-
-                ajax.send(data);
-
+                upload(this);
             });
         });
+
+        function upload(that)  {
+            document.getElementById("spin_load").classList.remove("hidden");
+
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('fields.forms.import') !!}";
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let files = that.files;
+            let form_value_id = document.querySelector(`#${that.dataset.index} #form_value_id`).value;
+            let sample_index = document.querySelector(`#${that.dataset.index} #sample_index`).value;
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    toastr.success(resp.message);
+                    location.reload();
+                } else if(this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                    that.value = '';
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('_method', method);
+            data.append('file', files[0]);
+            data.append('form_value_id', form_value_id);
+            data.append('sample_index', sample_index);
+
+            ajax.send(data);
+        }
     </script>
 
     <script>
-        document.querySelector(".add-sample").addEventListener("click", function() {
-            addInput();
+        document.querySelectorAll(`.add-sample`).forEach(item =>{
+           item.addEventListener("click", function() {
+                addInput();
+           })
         });
 
         function addInput() {
@@ -256,22 +343,63 @@
             clone.id = id;
 
             clone.innerHTML = clone.innerHTML.replaceAll(`row_${num-1}`, `row_${num}`);
+            clone.innerHTML = clone.innerHTML.replaceAll(`sample_${num-1}`, `sample_${num}`);
             clone.innerHTML = clone.innerHTML.replaceAll(`AMOSTRA <span>${num-1}</span>`, `AMOSTRA <span>${num}</span>`);
 
             document.getElementById("samples").appendChild(clone);
 
+            document.querySelectorAll(`#${id} input:not(#form_value_id):not(#sample_index)`).forEach(item =>{
+                item.value = "";
+                item.disabled = false;
+                document.querySelector(`#${id} .save-sample`).style.display = "inline-block";
+                document.querySelector(`#${id} .edit-sample`).style.display = "none";
+            });
+
+            document.querySelectorAll(`#${id} tfoot td`).forEach(item =>{
+                item.innerHTML = "";
+            });
+
             document.querySelector(`#${id} .remove-sample`).style.display = "block";
 
             document.querySelector(`#${id} .remove-sample`).addEventListener("click", function() {
-                document.querySelector(`#${id}`).remove();
+                var modal = document.getElementById("delete_modal");
+                modal.classList.remove("hidden");
+                modal.classList.add("block");
+                document.querySelector("#confirm_delete_modal").dataset.index = this.dataset.index;
             });
 
             document.querySelector(`#${id} .add-sample`).addEventListener("click", function() {
                 addInput();
             });
 
+            document.querySelectorAll(`#${id} .import-sample-result`).forEach(item =>{
+                item.addEventListener("click", function() {
+                    document.querySelector(`#${this.dataset.index} #file`).click();
+                });
+            });
+
+            document.querySelector(`#${id} #file`).addEventListener("click", function() {
+                upload(this);
+            });
+
+            document.querySelectorAll(`#${id} .edit-sample`).forEach(item =>{
+                item.addEventListener("click", function() {
+                    item.nextElementSibling.style.display = "inline-block";
+                    item.style.display = "none";
+                    document.querySelectorAll(`#${this.dataset.index} input`).forEach(item => {
+                        item.disabled = false;
+                    });
+                });
+            });
+
+            document.querySelectorAll(`#${id} .save-sample`).forEach(item =>{
+                item.addEventListener("click", function() {
+                    save(this)
+                });
+            });
 
         }
+
     </script>
 
 </x-app-layout>
