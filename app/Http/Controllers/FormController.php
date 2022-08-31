@@ -133,6 +133,65 @@ class FormController extends Controller
             ]);
     }
 
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function saveSample(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+              'form_value_id' =>  ['required', 'exists:form_values,id'],
+              'sample_index' => ['required']
+            ]
+        );
+
+        if ($validator->fails())
+        {
+            return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
+        }
+
+        $input = $request->except('_method', '_token', 'form_id');
+        $formValue = FormValue::findOrFail($input['form_value_id']);
+
+        $samples = $formValue->values;
+
+
+        $samples['samples'][$input['sample_index']]['equipment'] = $input['equipment'];
+        $samples['samples'][$input['sample_index']]['point'] = $input['point'];
+        $samples['samples'][$input['sample_index']]['environment'] = $input['environment'];
+        $samples['samples'][$input['sample_index']]['collect'] = $input['collect'];
+
+        foreach ($input['samples'][$input['sample_index']]['results']  as $key => $value) {
+            $samples['samples'][$input['sample_index']]['results'][$key]['temperature'] = $value['temperature'];
+            $samples['samples'][$input['sample_index']]['results'][$key]['ph'] = $value['ph'];
+            $samples['samples'][$input['sample_index']]['results'][$key]['eh'] = $value['eh'];
+            $samples['samples'][$input['sample_index']]['results'][$key]['orp'] = $value['orp'];
+            $samples['samples'][$input['sample_index']]['results'][$key]['conductivity'] = $value['conductivity'];
+            $samples['samples'][$input['sample_index']]['results'][$key]['salinity'] = $value['salinity'];
+            $samples['samples'][$input['sample_index']]['results'][$key]['psi'] = $value['psi'];
+            $samples['samples'][$input['sample_index']]['results'][$key]['sat'] = $value['sat'];
+            $samples['samples'][$input['sample_index']]['results'][$key]['conc'] = $value['conc'];
+
+            $samples['samples'][$input['sample_index']]['results'][$key]['eh'] = $value['eh'];
+            $samples['samples'][$input['sample_index']]['results'][$key]['ntu'] = $value['ntu'];
+        }
+
+        $formValue->values = $samples;
+        $formValue->save();
+
+        $resp = [
+            'message' => __('Formulário atualizado com Sucesso!'),
+            'alert-type' => 'success'
+        ];
+
+        return response()->json($resp);
+    }
+
     /**
    * Import results
    *
@@ -161,8 +220,6 @@ class FormController extends Controller
 
     $formValue = FormValue::findOrFail($inputs['form_value_id']);
 
-    $formValue->values['samples'][$inputs['sample_index']];
-
     $spreadsheet = IOFactory::load($request->file->path());
     $worksheet = $spreadsheet->getActiveSheet();
     $rows = $worksheet->toArray();
@@ -171,6 +228,7 @@ class FormController extends Controller
 
     foreach ($rows as $key => $value) {
         if ($key == 0) continue;
+        if ($key == 4) break;
 
         if(isset($value[2])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['temperature'] = floatval($value[2]);
         if(isset($value[3])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['ph'] = floatval($value[3]);
@@ -180,8 +238,8 @@ class FormController extends Controller
         if(isset($value[7])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['psi'] = floatval($value[7]);
         if(isset($value[8])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['sat'] = floatval($value[8]);
         if(isset($value[9])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['conc'] = floatval($value[9]);
-        if(isset($value[10])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['eh'] = floatval($value[10]);
-        if(isset($value[11])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['ntu'] = floatval($value[11]);
+        $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['eh'] = null;
+        $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['ntu'] = null;
     }
 
     $formValue->values = $samples;

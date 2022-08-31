@@ -117,6 +117,71 @@
     <x-spin-load />
 
     <script>
+        document.querySelectorAll(".edit-sample").forEach(item =>{
+            item.addEventListener("click", function() {
+                item.nextElementSibling.style.display = "inline-block";
+                item.style.display = "none";
+                document.querySelectorAll(`#${this.dataset.index} input`).forEach(item => {
+                    item.disabled = false;
+                });
+            });
+        });
+
+        document.querySelectorAll(".save-sample").forEach(item =>{
+            item.addEventListener("click", function() {
+                document.getElementById("spin_load").classList.remove("hidden");
+
+                let ajax = new XMLHttpRequest();
+                let url = "{!! route('fields.forms.save-sample') !!}";
+                let token = document.querySelector('meta[name="csrf-token"]').content;
+                let method = 'POST';
+                let that = this;
+                let files = that.files;
+                let form_value_id = document.querySelector(`#${this.dataset.index} #form_value_id`).value;
+                let sample_index = document.querySelector(`#${this.dataset.index} #sample_index`).value;
+
+                let equipment = document.querySelector(`#${this.dataset.index} #equipment`).value;
+                let point = document.querySelector(`#${this.dataset.index} #point`).value;
+                let environment = document.querySelector(`#${this.dataset.index} #environment`).value;
+                let collect = document.querySelector(`#${this.dataset.index} #collect`).value;
+
+                const results = [...document.querySelectorAll(`#${this.dataset.index} #table_result input`)];
+
+                ajax.open(method, url);
+
+                ajax.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        var resp = JSON.parse(ajax.response);
+                        toastr.success(resp.message);
+                        location.reload();
+                    } else if(this.readyState == 4 && this.status != 200) {
+                        document.getElementById("spin_load").classList.add("hidden");
+                        toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                        that.value = '';
+                    }
+                }
+
+                var data = new FormData();
+                data.append('_token', token);
+                data.append('_method', method);
+                data.append('_method', method);
+                data.append('form_value_id', form_value_id);
+                data.append('sample_index', sample_index);
+                data.append('equipment', equipment);
+                data.append('point', point);
+                data.append('environment', environment);
+                data.append('collect', collect);
+
+                results.forEach(element => {
+                    data.append(element.name, element.value);
+                });
+
+                ajax.send(data);
+            });
+        });
+    </script>
+
+    <script>
         document.getElementById("help").addEventListener("click", function() {
             var modal = document.getElementById("modal");
             modal.classList.remove("hidden");

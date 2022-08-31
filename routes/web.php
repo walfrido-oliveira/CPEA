@@ -238,6 +238,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::get('/index', [FormController::class, 'index'])->name('index');
             Route::post('/filter', [FormController::class, 'filter'])->name('filter');
             Route::post('/import', [FormController::class, 'import'])->name('import');
+            Route::post('/save-sample', [FormController::class, 'saveSample'])->name('save-sample');
         });
 
         Route::resource('referencias', RefController::class, [

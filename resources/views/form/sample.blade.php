@@ -13,7 +13,7 @@
                 </svg>
             </button>
             @if(isset($formValue))
-                <div id="import_result_form_row_{{ isset($i) ? $i + 1 : 1 }}">
+                <div id="import_result_form_row_{{ isset($i) ? $i + 1 : 1 }}" class="">
                     @csrf
                     @method("POST")
                     <input type="hidden" id="form_value_id" name="form_value_id" value="{{ $formValue->id }}">
@@ -24,6 +24,16 @@
                         </svg>
                     </button>
                     <input type="file" name="file" id="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.ms-excel" class="hidden" data-index="import_result_form_row_{{ isset($i) ? $i + 1 : 1 }}">
+                    <button type="button" class="btn-transition-primary edit-sample" title="Editar Amostra" data-index="sample_{{ isset($i) ? $i + 1 : 1 }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <button type="button" class="btn-transition-primary save-sample" title="Salvar Amostra" data-index="sample_{{ isset($i) ? $i + 1 : 1 }}" style="display: none">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-8 w-8">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </button>
                 </div>
             @endif
         </div>
@@ -96,27 +106,186 @@
                     <x-table-sort-header :orderBy="null" :ascending="null" columnName="ntu" columnText="{{ __('Turbidez (NTU)') }}"/>
                 </tr>
             </thead>
-            <tbody id="ref_table_content">
+            <tbody id="table_result">
                 @if(isset($formValue))
                     @if(isset($formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1) ]['results']))
                         @foreach ($formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'] as $key => $value)
                             <tr>
-                                <td>@if(isset($value['temperature'])) {{ $value['temperature'] }} @endif</td>
-                                <td>@if(isset($value['ph'])) {{ $value['ph'] }}  @endif</td>
-                                <td>@if(isset($value['orp'])) {{ $value['orp'] }}  @endif</td>
-                                <td>@if(isset($value['conductivity'])) {{ $value['conductivity'] }}  @endif</td>
-                                <td>@if(isset($value['salinity'])) {{ $value['salinity'] }}  @endif</td>
-                                <td>@if(isset($value['psi'])) {{ $value['psi'] }}  @endif</td>
-                                <td>@if(isset($value['sat'])) {{ $value['sat'] }}  @endif</td>
-                                <td>@if(isset($value['conc'])) {{ $value['conc'] }}  @endif</td>
-                                <td>@if(isset($value['eh'])) {{ $value['eh'] }}  @endif</td>
-                                <td>@if(isset($value['ntu'])) {{ $value['ntu'] }}  @endif</td>
+                                <td>
+                                    <x-jet-input disabled="true" id="temperature" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['temperature']) ? number_format($value['temperature'], 2) : 0}}"
+                                    name="{{ isset($i) ? 'samples[row_' . $i + 1 . '][results][' . $key . '][temperature]' : 'samples[row_1][results]['. $key . '][temperature]' }}" step="any" />
+                                </td>
+                                <td>
+                                    <x-jet-input disabled="true" id="ph" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['ph']) ? number_format($value['ph'], 2) : 0}}"
+                                    name="{{ isset($i) ? 'samples[row_' . $i + 1 . '][results][' . $key . '][ph]' : 'samples[row_1][results]['. $key . '][ph]' }}" step="any" />
+                                </td>
+                                <td>
+                                    <x-jet-input disabled="true" id="orp" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['orp']) ? number_format($value['orp'], 1) : 0}}"
+                                    name="{{ isset($i) ? 'samples[row_' . $i + 1 . '][results][' . $key . '][orp]' : 'samples[row_1][results]['. $key . '][orp]' }}" step="any" />
+                                </td>
+                                <td>
+                                    <x-jet-input disabled="true" id="conductivity" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['conductivity']) ? number_format($value['conductivity'], 3, '.', '') : 0}}"
+                                    name="{{ isset($i) ? 'samples[row_' . $i + 1 . '][results][' . $key . '][conductivity]' : 'samples[row_1][results]['. $key . '][conductivity]' }}" step="any" />
+                                </td>
+                                <td>
+                                    <x-jet-input disabled="true" id="salinity" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['salinity']) ? number_format($value['salinity'], 3) : 0}}"
+                                    name="{{ isset($i) ? 'samples[row_' . $i + 1 . '][results][' . $key . '][salinity]' : 'samples[row_1][results]['. $key . '][salinity]' }}" step="any" />
+                                </td>
+                                <td>
+                                    <x-jet-input disabled="true" id="psi" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['psi']) ? number_format($value['psi'], 3) : 0}}"
+                                    name="{{ isset($i) ? 'samples[row_' . $i + 1 . '][results][' . $key . '][psi]' : 'samples[row_1][results]['. $key . '][psi]' }}" step="any" />
+                                </td>
+                                <td>
+                                    <x-jet-input disabled="true" id="sat" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['sat']) ? number_format($value['sat'], 1) : 0}}"
+                                    name="{{ isset($i) ? 'samples[row_' . $i + 1 . '][results][' . $key . '][sat]' : 'samples[row_1][results]['. $key . '][sat]' }}" step="any" />
+                                </td>
+                                <td><x-jet-input disabled="true" id="conc" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['conc']) ? number_format($value['conc'], 3) : 0}}"
+                                    name="{{ isset($i) ? 'samples[row_' . $i + 1 . '][results][' . $key . '][conc]' : 'samples[row_1][results]['. $key . '][conc]' }}" step="any" />
+                                </td>
+                                <td>
+                                    <x-jet-input disabled="true" id="eh" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['eh']) ? number_format($value['eh'], 1) : 0}}"
+                                    name="{{ isset($i) ? 'samples[row_' . $i + 1 . '][results][' . $key . '][eh]' : 'samples[row_1][results]['. $key . '][eh]' }}" step="any" />
+                                </td>
+                                <td>
+                                    <x-jet-input disabled="true" id="ntu" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['ntu']) ? number_format($value['ntu'], 1) : 0}}"
+                                    name="{{ isset($i) ? 'samples[row_' . $i + 1 . '][results][' . $key . '][ntu]' : 'samples[row_1][results]['. $key . '][ntu]' }}" step="any" />
+                                </td>
                             <tr>
                         @endforeach
                     @endif
                 @endif
-
             </tbody>
+            <tfoot>
+                @if(isset($formValue))
+                    @if(isset($formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1) ]['results']))
+                        <tr>
+                            <td>
+                                @if(isset($value['temperature']))
+                                    @php
+                                        $sum = $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][0]['temperature'] +
+                                                $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][1]['temperature'] +
+                                                $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][2]['temperature'];
+
+                                        $svg = $sum / 3;
+                                    @endphp
+                                    {{ number_format($svg, 2, ",", ".") }}
+                                @else
+                                    -
+                                @endif
+                            </td>
+                            <td>
+                                @if(isset($value['ph']))
+                                    @php
+                                        $sum = $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][0]['ph'] +
+                                            $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][1]['ph'] +
+                                            $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][2]['ph'];
+
+                                        $svg = $sum / 3;
+                                    @endphp
+                                    {{ number_format($svg, 2, ",", ".") }}
+                                @else
+                                    -
+                                @endif
+                            </td>
+                            <td>
+                                @if(isset($value['orp']))
+                                    @php
+                                        $sum = $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][0]['orp'] +
+                                            $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][1]['orp'] +
+                                            $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][2]['orp'];
+
+                                        $svgORP = $sum / 3;
+                                    @endphp
+                                    {{ number_format($svgORP, 1, ",", ".") }}
+                                @else
+                                    -
+                                @endif
+                            </td>
+                            <td>
+                                @if(isset($value['conductivity']))
+                                    @php
+                                        $sum = $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][0]['conductivity'] +
+                                            $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][1]['conductivity'] +
+                                            $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][2]['conductivity'];
+
+                                        $svg = $sum / 3;
+                                    @endphp
+                                    {{ number_format($svg, 3, ",", ".") }}
+                                @else
+                                    -
+                                @endif
+                            </td>
+                            <td>
+                                @if(isset($value['conductivity']))
+                                    @php
+                                        $sum = $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][0]['salinity'] +
+                                            $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][1]['salinity'] +
+                                            $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][2]['salinity'];
+
+                                        $svg = $sum / 3;
+                                    @endphp
+                                    {{ number_format($svg, 3, ",", ".") }}
+                                @else
+                                    -
+                                @endif
+                            </td>
+                            <td>-</td>
+                            <td>
+                                @if(isset($value['sat']))
+                                    @php
+                                        $sum = $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][0]['sat'] +
+                                            $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][1]['sat'] +
+                                            $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][2]['sat'];
+
+                                        $svg = $sum / 3;
+                                    @endphp
+                                    {{ number_format($svg, 1, ",", ".") }}
+                                @else
+                                    -
+                                @endif
+                            </td>
+                            <td>
+                                @if(isset($value['conc']))
+                                    @php
+                                        $sum = $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][0]['conc'] +
+                                            $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][1]['conc'] +
+                                            $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][2]['conc'];
+
+                                        $svg = $sum / 3;
+                                    @endphp
+                                    {{ number_format($svg, 3, ",", ".") }}
+                                @else
+                                    -
+                                @endif
+                            </td>
+                            <td>
+                                @if(isset($value['eh']))
+                                    @php
+                                        $svg = $svgORP + 199;
+                                    @endphp
+                                    {{ number_format($svg, 1, ",", ".") }}
+                                @else
+                                    -
+                                @endif
+                            </td>
+                            <td>
+                                @if(isset($value['ntu']))
+                                    @php
+                                        $sum = $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][0]['ntu'] +
+                                            $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][1]['ntu'] +
+                                            $formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'][2]['ntu'];
+
+                                        $svg = $sum / 3;
+                                    @endphp
+                                    {{ number_format($svg, 1, ",", ".") }}
+                                @else
+                                    -
+                                @endif
+                            </td>
+                        <tr>
+                    @endif
+                @endif
+            </tfoot>
         </table>
     </div>
 </div>
