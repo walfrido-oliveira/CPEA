@@ -260,6 +260,13 @@
             modal.classList.add("block");
         });
 
+        document.getElementById("cancel_delete_modal").addEventListener("click", function() {
+            var modal = document.getElementById("modal");
+            modal.classList.add("hidden");
+            modal.classList.remove("block");
+        });
+
+
         document.querySelectorAll(".remove-sample").forEach(item =>{
             item.addEventListener("click", function() {
                 var modal = document.getElementById("delete_modal");
