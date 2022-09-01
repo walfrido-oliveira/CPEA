@@ -35,7 +35,18 @@
                         })->get()) }})
                     </td>
                 @endif
-                </tr>
+            </tr>
+        @else
+            <tr class="point-items-{{ $point->pointIdentification->id }}">
+                @if ($point->parameterAnalysis)
+                    <td colspan="5" class="font-bold text-black" style="background-color:#e1ede1">
+                        {{ $point->parameterAnalysis->parameterAnalysisGroup->name }}
+                        ({{ count($point->where("point_identification_id", $point->point_identification_id)->where('campaign_id', $point->campaign_id)->whereHas("parameterAnalysis", function($q) use($point) {
+                            $q->where("parameter_analysis_group_id", $point->parameterAnalysis->parameterAnalysisGroup->id);
+                        })->get()) }})
+                    </td>
+                @endif
+            </tr>
         @endif
 
         <tr class="point-items-{{ $point->pointIdentification->id }}">
