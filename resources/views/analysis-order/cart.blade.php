@@ -113,7 +113,6 @@
         function showPoint() {
             document.querySelectorAll(".show-point").forEach(item => {
                 item.addEventListener("click", function() {
-                    console.log(item.childNodes);
                     item.childNodes[1].classList.toggle("rotate-180");
                     document.querySelectorAll(".point-items-" + item.dataset.point).forEach(item => {
                         item.classList.toggle("active");
