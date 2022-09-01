@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PointIdentificationRequest extends FormRequest
@@ -23,11 +24,14 @@ class PointIdentificationRequest extends FormRequest
      */
     public function rules()
     {
-        $user = $this->user;
+        $area = $this->request->get('area');
+        $identification = $this->request->get('identification');
         return [
             'area' => ['required', 'string', 'max:255'],
-            'identification' => ['required', 'string', 'max:255'],
-            #'geodetic_system_id' => ['required', 'exists:geodetic_systems,id'],
+            'identification' => ['required', 'string', 'max:255', Rule::unique('point_identifications')->where(function ($query) use($area, $identification) {
+                return $query->where('area', $area)
+                ->where('identification', $identification);
+            }),],
             'utm_me_coordinate' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
             'utm_mm_coordinate' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
             'pool_depth' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],
