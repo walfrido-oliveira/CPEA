@@ -22,22 +22,27 @@
             </tr>
         @endif
 
-        @if (($index > 0 && $projectPointMatrices[$index]->parameterAnalysis->parameter_analysis_group_id !=
-                            $projectPointMatrices[$index - 1]->parameterAnalysis->parameter_analysis_group_id) || $index == 0 ||
-                            ($projectPointMatrices[$index]->pointIdentification->identification !=
-                            $projectPointMatrices[$index - 1]->pointIdentification->identification))
-            <tr class="point-items-{{ $point->pointIdentification->id }}">
-                @if ($point->parameterAnalysis)
-                    <td colspan="5" class="font-bold text-black" style="background-color:#e1ede1">
-                        {{ $point->parameterAnalysis->parameterAnalysisGroup->name }}
-                        ({{ count($point->where("point_identification_id", $point->point_identification_id)->where('campaign_id', $point->campaign_id)->whereHas("parameterAnalysis", function($q) use($point) {
-                            $q->where("parameter_analysis_group_id", $point->parameterAnalysis->parameterAnalysisGroup->id);
-                        })->get()) }})
-                    </td>
+        @if($index > 0)
+            @if($projectPointMatrices[$index]->parameterAnalysis && $projectPointMatrices[$index - 1]->parameterAnalysis &&
+                $projectPointMatrices[$index]->pointIdentification && $projectPointMatrices[$index - 1]->pointIdentification)
+                @if (($index > 0 && $projectPointMatrices[$index]->parameterAnalysis->parameter_analysis_group_id !=
+                                    $projectPointMatrices[$index - 1]->parameterAnalysis->parameter_analysis_group_id) || $index == 0 ||
+                                    ($projectPointMatrices[$index]->pointIdentification->identification !=
+                                    $projectPointMatrices[$index - 1]->pointIdentification->identification))
+                    <tr class="point-items-{{ $point->pointIdentification ? $point->pointIdentification->id : null }}">
+                        @if ($point->parameterAnalysis)
+                            <td colspan="5" class="font-bold text-black" style="background-color:#e1ede1">
+                                {{ $point->parameterAnalysis->parameterAnalysisGroup->name }}
+                                ({{ count($point->where("point_identification_id", $point->point_identification_id)->where('campaign_id', $point->campaign_id)->whereHas("parameterAnalysis", function($q) use($point) {
+                                    $q->where("parameter_analysis_group_id", $point->parameterAnalysis->parameterAnalysisGroup->id);
+                                })->get()) }})
+                            </td>
+                        @endif
+                    </tr>
                 @endif
-            </tr>
+            @endif
         @else
-            <tr class="point-items-{{ $point->pointIdentification->id }}">
+            <tr class="point-items-{{ $point->pointIdentification ? $point->pointIdentification->id : null }}">
                 @if ($point->parameterAnalysis)
                     <td colspan="5" class="font-bold text-black" style="background-color:#e1ede1">
                         {{ $point->parameterAnalysis->parameterAnalysisGroup->name }}
