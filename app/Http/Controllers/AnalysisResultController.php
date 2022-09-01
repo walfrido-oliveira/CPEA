@@ -390,7 +390,7 @@ class AnalysisResultController extends Controller
         $token = $resultValue < $rlValue || !$value->result;
         $bold = $resultValue >= $rlValue && !Str::contains($value->result, ["<", "< "]);
 
-        $result = number_format($result, 5, ",", ".");
+        if(is_numeric($result)) $result = number_format($result, 5, ",", ".");
         $result = $result == '0,000' ? 'N/A' : $result;
         $result = $token || Str::contains($value->result, ["<", "< "]) && !Str::contains($result, 'N/A') ? "< $result" : $result;
 
