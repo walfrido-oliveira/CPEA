@@ -43,7 +43,7 @@
             <x-jet-label for="equipment" value="{{ __('Equipamento') }}" />
             @if(isset($formValue))
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="equipment" class="form-control block mt-1 w-full"
-                type="text" value="{{ isset($i) ? $formValue->values['samples']['row_' . $i + 1]['equipment'] : $formValue->values['samples']['row_1']['equipment'] }}"
+                type="text" value="{{ isset($i) ? $formValue->values['samples']['row_' . ($i + 1)]['equipment'] : $formValue->values['samples']['row_1']['equipment'] }}"
                 name="{{ isset($i) ? 'samples[row_' . ($i + 1) . '][equipment]' : 'samples[row_1][equipment]' }}" maxlength="255" />
             @else
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="equipment" class="form-control block mt-1 w-full"
@@ -55,7 +55,7 @@
             <x-jet-label for="point" value="{{ __('Ponto de Coleta') }}" />
             @if(isset($formValue))
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="point" class="form-control block mt-1 w-full"
-                type="text" value="{{ isset($i) ? $formValue->values['samples']['row_' . $i + 1]['point'] : $formValue->values['samples']['row_1']['point'] }}"
+                type="text" value="{{ isset($i) ? $formValue->values['samples']['row_' . ($i + 1)]['point'] : $formValue->values['samples']['row_1']['point'] }}"
                 name="{{ isset($i) ? 'samples[row_' . ($i + 1) . '][point]' : 'samples[row_1][point]' }}" maxlength="255" />
             @else
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="point" class="form-control block mt-1 w-full"
@@ -69,7 +69,7 @@
             <x-jet-label for="environment" value="{{ __('Condições ambientais nas últimas 24 hs') }}" />
             @if(isset($formValue))
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="environment" class="form-control block mt-1 w-full"
-                type="text" value="{{ isset($i) ? $formValue->values['samples']['row_' . $i + 1]['environment'] : $formValue->values['samples']['row_1']['environment'] }}"
+                type="text" value="{{ isset($i) ? $formValue->values['samples']['row_' . ($i + 1)]['environment'] : $formValue->values['samples']['row_1']['environment'] }}"
                 name="{{ isset($i) ? 'samples[row_' . ($i + 1) . '][environment]' : 'samples[row_1][environment]' }}" maxlength="255" />
             @else
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="environment" class="form-control block mt-1 w-full"
@@ -81,7 +81,7 @@
             <x-jet-label for="collect" value="{{ __('DT/HR da Coleta') }}" />
             @if(isset($formValue))
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="collect" class="form-control block mt-1 w-full"
-                type="datetime-local" value="{{ isset($i) ? $formValue->values['samples']['row_' . $i + 1]['collect'] : $formValue->values['samples']['row_1']['collect'] }}"
+                type="datetime-local" value="{{ isset($i) ? $formValue->values['samples']['row_' . ($i + 1)]['collect'] : $formValue->values['samples']['row_1']['collect'] }}"
                 name="{{ isset($i) ? 'samples[row_' . ($i + 1) . '][collect]' : 'samples[row_1][collect]' }}" maxlength="255" />
             @else
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="collect" class="form-control block mt-1 w-full"
