@@ -13,7 +13,7 @@
                     </div>
                     <div class="w-full flex justify-end">
                         <div class="m-2 ">
-                            <button type="submit" class="btn-outline-success">{{ !$formValue ? __('Confirmar') : __('Editar') }}</button>
+                            <button type="submit" class="btn-outline-success">{{ __('Salvar') }}</button>
                         </div>
                         <div class="m-2">
                             <a href="{{ route('fields.forms.show', ['field' => $form->fieldType, 'project_id' => $project_id])}}" class="btn-outline-danger">{{ __('Voltar') }}</a>
