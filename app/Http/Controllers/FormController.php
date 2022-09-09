@@ -260,7 +260,7 @@ class FormController extends Controller
     $formValue = FormValue::findOrFail($inputs['form_value_id']);
 
     $spreadsheet = IOFactory::load($request->file->path());
-    $spreadsheet->setActiveSheetIndex(2);
+    $spreadsheet->setActiveSheetIndex(1);
     $worksheet = $spreadsheet->getActiveSheet();
     $rows = $worksheet->toArray();
 
