@@ -3,8 +3,8 @@
         <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
             <form method="POST" action="@if(!$formValue) {{ route('fields.forms.store') }} @else {{ route('fields.forms.index') }} @endif">
                 @csrf
-                @if(!$formValue) @method("POST") @endif
-                @if($formValue) @method("PUT") @endif
+                @if($formValue) @method("POST") @endif
+                @if(!$formValue) @method("PUT") @endif
 
                 <input type="hidden" name="form_id" value="{{ $form->id }}">
                 <div class="flex md:flex-row flex-col">
@@ -13,7 +13,7 @@
                     </div>
                     <div class="w-full flex justify-end">
                         <div class="m-2 ">
-                            <button type="submit" class="btn-outline-success">{{ __('Confirmar') }}</button>
+                            <button type="submit" class="btn-outline-success">{{ !$formValue ? __('Confirmar') : __('Editar') }}</button>
                         </div>
                         <div class="m-2">
                             <a href="{{ route('fields.forms.show', ['field' => $form->fieldType, 'project_id' => $project_id])}}" class="btn-outline-danger">{{ __('Voltar') }}</a>
