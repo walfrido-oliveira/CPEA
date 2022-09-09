@@ -138,7 +138,7 @@ class FormController extends Controller
         $formValue = FormValue::findOrFail($id);
         $form = $formValue->form;
         $project_id = $formValue->values['project_id'];
-        dd($form);
+
         return view("form.$form->name", compact('form', 'project_id', 'formValue'));
     }
 
