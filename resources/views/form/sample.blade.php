@@ -41,7 +41,7 @@
     <div class="flex flex-wrap mt-2 w-full">
         <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
             <x-jet-label for="equipment" value="{{ __('Equipamento') }}" />
-            @if(isset($formValue))
+            @if(isset($formValue->values['samples']['row_' . ($i + 1)]['equipment']) || isset($formValue->values['samples']['row_1']['equipment']))
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="equipment" class="form-control block mt-1 w-full"
                 type="text" value="{{ isset($i) ? $formValue->values['samples']['row_' . ($i + 1)]['equipment'] : $formValue->values['samples']['row_1']['equipment'] }}"
                 name="{{ isset($i) ? 'samples[row_' . ($i + 1) . '][equipment]' : 'samples[row_1][equipment]' }}" maxlength="255" />
