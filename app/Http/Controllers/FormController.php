@@ -88,7 +88,7 @@ class FormController extends Controller
             'alert-type' => 'success'
         ];
 
-        return redirect()->route('fields.forms.edit', ['form_value' => $formValue->id])->with($resp);
+        return redirect()->route('fields.forms.edit', ['form_value' => $request->get('form_id')])->with($resp);
     }
 
     /**
@@ -122,7 +122,7 @@ class FormController extends Controller
             'alert-type' => 'success'
         ];
 
-        return redirect()->route('fields.forms.edit', ['form_value' => $id])->with($resp);
+        return redirect()->route('fields.forms.edit', ['form_value' => $formValue->form_id])->with($resp);
     }
 
     /**
@@ -138,7 +138,7 @@ class FormController extends Controller
         $formValue = FormValue::findOrFail($id);
         $form = $formValue->form;
         $project_id = $formValue->values['project_id'];
-
+        dd($form);
         return view("form.$form->name", compact('form', 'project_id', 'formValue'));
     }
 
