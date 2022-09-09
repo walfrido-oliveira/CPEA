@@ -112,7 +112,7 @@ class FormController extends Controller
         $formValue = FormValue::findOrFail($id);
         $input = $request->except('_method', '_token', 'form_id');
 
-        $formValue = $formValue->update([
+        $formValue->update([
             'values' => $input,
         ]);
 
