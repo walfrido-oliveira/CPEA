@@ -113,7 +113,6 @@ class FormController extends Controller
         $input = $request->except('_method', '_token', 'form_id');
 
         $formValue = $formValue->update([
-            'form_id' => $id,
             'values' => $input,
         ]);
 
