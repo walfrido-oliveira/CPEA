@@ -56,7 +56,7 @@ class FormController extends Controller
         $form = Form::findOrFail($id);
         $formValue = null;
 
-        return view("form.RT-LAB-041-190", compact('form', 'project_id', 'formValue'));
+        return view("form.$form->name", compact('form', 'project_id', 'formValue'));
     }
 
     /**
