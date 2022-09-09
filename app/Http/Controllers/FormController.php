@@ -205,19 +205,22 @@ class FormController extends Controller
         $samples['samples'][$input['sample_index']]['environment'] = $input['environment'];
         $samples['samples'][$input['sample_index']]['collect'] = $input['collect'];
 
-        foreach ($input['samples'][$input['sample_index']]['results']  as $key => $value) {
-            $samples['samples'][$input['sample_index']]['results'][$key]['temperature'] = $value['temperature'];
-            $samples['samples'][$input['sample_index']]['results'][$key]['ph'] = $value['ph'];
-            $samples['samples'][$input['sample_index']]['results'][$key]['eh'] = $value['eh'];
-            $samples['samples'][$input['sample_index']]['results'][$key]['orp'] = $value['orp'];
-            $samples['samples'][$input['sample_index']]['results'][$key]['conductivity'] = $value['conductivity'];
-            $samples['samples'][$input['sample_index']]['results'][$key]['salinity'] = $value['salinity'];
-            $samples['samples'][$input['sample_index']]['results'][$key]['psi'] = $value['psi'];
-            $samples['samples'][$input['sample_index']]['results'][$key]['sat'] = $value['sat'];
-            $samples['samples'][$input['sample_index']]['results'][$key]['conc'] = $value['conc'];
+        if(isset($input['samples'][$input['sample_index']]['results']))
+        {
+            foreach ($input['samples'][$input['sample_index']]['results']  as $key => $value) {
+                $samples['samples'][$input['sample_index']]['results'][$key]['temperature'] = $value['temperature'];
+                $samples['samples'][$input['sample_index']]['results'][$key]['ph'] = $value['ph'];
+                $samples['samples'][$input['sample_index']]['results'][$key]['eh'] = $value['eh'];
+                $samples['samples'][$input['sample_index']]['results'][$key]['orp'] = $value['orp'];
+                $samples['samples'][$input['sample_index']]['results'][$key]['conductivity'] = $value['conductivity'];
+                $samples['samples'][$input['sample_index']]['results'][$key]['salinity'] = $value['salinity'];
+                $samples['samples'][$input['sample_index']]['results'][$key]['psi'] = $value['psi'];
+                $samples['samples'][$input['sample_index']]['results'][$key]['sat'] = $value['sat'];
+                $samples['samples'][$input['sample_index']]['results'][$key]['conc'] = $value['conc'];
 
-            $samples['samples'][$input['sample_index']]['results'][$key]['eh'] = $value['eh'];
-            $samples['samples'][$input['sample_index']]['results'][$key]['ntu'] = $value['ntu'];
+                $samples['samples'][$input['sample_index']]['results'][$key]['eh'] = $value['eh'];
+                $samples['samples'][$input['sample_index']]['results'][$key]['ntu'] = $value['ntu'];
+            }
         }
 
         $formValue->values = $samples;
@@ -278,8 +281,8 @@ class FormController extends Controller
         if(isset($value[7])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['psi'] = floatval($value[7]);
         if(isset($value[8])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['sat'] = floatval($value[8]);
         if(isset($value[9])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['conc'] = floatval($value[9]);
-        $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['eh'] = null;
-        $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['ntu'] = null;
+        if(isset($value[10])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['eh'] = floatval($value[10]);
+        if(isset($value[11])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['ntu'] = floatval($value[11]);
     }
 
     $formValue->values = $samples;
