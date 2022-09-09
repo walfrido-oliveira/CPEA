@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="py-6 ref">
         <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
-            <form method="POST" action="@if(!$formValue) {{ route('fields.forms.store') }} @else {{ route('fields.forms.index') }} @endif">
+            <form method="POST" action="@if(!$formValue) {{ route('fields.forms.store') }} @else {{ route('fields.forms.update', ['form_value' => $formValue->id]) }} @endif">
                 @csrf
                 @if(!$formValue) @method("POST") @endif
                 @if($formValue) @method("PUT") @endif
@@ -13,7 +13,7 @@
                     </div>
                     <div class="w-full flex justify-end">
                         <div class="m-2 ">
-                            <button type="submit" class="btn-outline-success">{{ __('Confirmar') }}</button>
+                            <button type="submit" class="btn-outline-success">{{ !$formValue ? __('Confirmar') : __('Editar') }}</button>
                         </div>
                         <div class="m-2">
                             <a href="{{ route('fields.forms.show', ['field' => $form->fieldType, 'project_id' => $project_id])}}" class="btn-outline-danger">{{ __('Voltar') }}</a>
@@ -43,32 +43,32 @@
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="doc_version" value="{{ __('Versão do Documento') }}"/>
-                            <x-jet-input disabled="{{ !$formValue ? false : true}}" id="doc_version" class="form-control block mt-1 w-full" type="text" name="doc_version" maxlength="255" value="{{ isset($formValue) ? $formValue->values['doc_version'] : old('doc_version') }}" placeholder="{{ __('Digite a Versão do Documento') }}"/>
+                            <x-jet-input  id="doc_version" class="form-control block mt-1 w-full" type="text" name="doc_version" maxlength="255" value="{{ isset($formValue) ? $formValue->values['doc_version'] : old('doc_version') }}" placeholder="{{ __('Digite a Versão do Documento') }}"/>
                         </div>
                     </div>
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="client" value="{{ __('Cliente') }}" />
-                            <x-jet-input disabled="{{ !$formValue ? false : true}}" id="client" class="form-control block mt-1 w-full" type="text" value="{{ isset($formValue) ? $formValue->values['client'] : old('client') }}" name="client" maxlength="255"  placeholder="{{ __('Digite o Nome do Cliente') }}"/>
+                            <x-jet-input  id="client" class="form-control block mt-1 w-full" type="text" value="{{ isset($formValue) ? $formValue->values['client'] : old('client') }}" name="client" maxlength="255"  placeholder="{{ __('Digite o Nome do Cliente') }}"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="client_address" value="{{ __('Endereço do Cliente') }}" />
-                            <x-jet-input disabled="{{ !$formValue ? false : true}}" id="client_address" class="form-control block mt-1 w-full" type="text" value="{{ isset($formValue) ? $formValue->values['client_address'] : old('client_address') }}" name="client_address" maxlength="255"  placeholder="{{ __('Digite o Endereço do Cliente') }}"/>
+                            <x-jet-input  id="client_address" class="form-control block mt-1 w-full" type="text" value="{{ isset($formValue) ? $formValue->values['client_address'] : old('client_address') }}" name="client_address" maxlength="255"  placeholder="{{ __('Digite o Endereço do Cliente') }}"/>
                         </div>
                     </div>
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full px-3 mb-6 md:mb-0">
                             <x-jet-label for="matrix" value="{{ __('Matriz') }}" />
-                            <x-jet-input disabled="{{ !$formValue ? false : true}}" id="matrix" class="form-control block mt-1 w-full" type="text" value="{{ isset($formValue) ? $formValue->values['matrix'] : $form->name }}" name="matrix" maxlength="255" />
+                            <x-jet-input  id="matrix" class="form-control block mt-1 w-full" type="text" value="{{ isset($formValue) ? $formValue->values['matrix'] : $form->name }}" name="matrix" maxlength="255" />
                         </div>
                     </div>
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4" id="samples">
                         <h2 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">AMOSTRAS</h2>
                         @include('form.sample')
-                        @if(isset($formValue))
+                        @if(isset($formValue) && isset($formValue->values['samples']))
                             @for ($i = 1; $i < count($formValue->values['samples']); $i++)
                                 @include('form.sample')
                             @endfor

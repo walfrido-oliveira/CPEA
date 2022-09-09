@@ -14,8 +14,6 @@
             </button>
             @if(isset($formValue))
                 <div id="import_result_form_row_{{ isset($i) ? $i + 1 : 1 }}" class="">
-                    @csrf
-                    @method("POST")
                     <input type="hidden" id="form_value_id" name="form_value_id" value="{{ $formValue->id }}">
                     <input type="hidden" id="sample_index" name="sample_index" value="row_{{ isset($i) ? $i + 1 : 1 }}">
                     <button type="button" class="btn-transition-primary import-sample-result" title="Importar Amostra" data-index="sample_{{ isset($i) ? $i + 1 : 1 }}">
@@ -41,7 +39,7 @@
     <div class="flex flex-wrap mt-2 w-full">
         <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
             <x-jet-label for="equipment" value="{{ __('Equipamento') }}" />
-            @if(isset($formValue))
+            @if(isset($formValue) && isset($formValue->values['samples']))
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="equipment" class="form-control block mt-1 w-full"
                 type="text" value="{{ isset($i) ? $formValue->values['samples']['row_' . ($i + 1)]['equipment'] : $formValue->values['samples']['row_1']['equipment'] }}"
                 name="{{ isset($i) ? 'samples[row_' . ($i + 1) . '][equipment]' : 'samples[row_1][equipment]' }}" maxlength="255" />
@@ -53,7 +51,7 @@
         </div>
         <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
             <x-jet-label for="point" value="{{ __('Ponto de Coleta') }}" />
-            @if(isset($formValue))
+            @if(isset($formValue) && isset($formValue->values['samples']))
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="point" class="form-control block mt-1 w-full"
                 type="text" value="{{ isset($i) ? $formValue->values['samples']['row_' . ($i + 1)]['point'] : $formValue->values['samples']['row_1']['point'] }}"
                 name="{{ isset($i) ? 'samples[row_' . ($i + 1) . '][point]' : 'samples[row_1][point]' }}" maxlength="255" />
@@ -67,7 +65,7 @@
     <div class="flex flex-wrap mt-2 w-full">
         <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
             <x-jet-label for="environment" value="{{ __('Condições ambientais nas últimas 24 hs') }}" />
-            @if(isset($formValue))
+            @if(isset($formValue) && isset($formValue->values['samples']))
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="environment" class="form-control block mt-1 w-full"
                 type="text" value="{{ isset($i) ? $formValue->values['samples']['row_' . ($i + 1)]['environment'] : $formValue->values['samples']['row_1']['environment'] }}"
                 name="{{ isset($i) ? 'samples[row_' . ($i + 1) . '][environment]' : 'samples[row_1][environment]' }}" maxlength="255" />
@@ -79,7 +77,7 @@
         </div>
         <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
             <x-jet-label for="collect" value="{{ __('DT/HR da Coleta') }}" />
-            @if(isset($formValue))
+            @if(isset($formValue) && isset($formValue->values['samples']))
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="collect" class="form-control block mt-1 w-full"
                 type="datetime-local" value="{{ isset($i) ? $formValue->values['samples']['row_' . ($i + 1)]['collect'] : $formValue->values['samples']['row_1']['collect'] }}"
                 name="{{ isset($i) ? 'samples[row_' . ($i + 1) . '][collect]' : 'samples[row_1][collect]' }}" maxlength="255" />
@@ -108,7 +106,7 @@
                     </tr>
                 </thead>
                 <tbody id="table_result">
-                    @if(isset($formValue))
+                    @if(isset($formValue) && isset($formValue->values['samples']))
                         @if(isset($formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1) ]['results']))
                             @foreach ($formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1)]['results'] as $key => $value)
                                 <tr>
@@ -157,7 +155,7 @@
                     @endif
                 </tbody>
                 <tfoot>
-                    @if(isset($formValue))
+                    @if(isset($formValue) && isset($formValue->values['samples']))
                         @if(isset($formValue->values['samples']['row_' . (isset($i) ? $i + 1 : 1) ]['results']))
                             <tr>
                                 <td>
