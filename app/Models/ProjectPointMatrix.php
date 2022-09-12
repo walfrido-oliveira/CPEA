@@ -118,7 +118,7 @@ class ProjectPointMatrix extends Model
      */
     public function parameterAnalysis()
     {
-        return $this->belongsTo(ParameterAnalysis::class);
+        return $this->belongsTo(ParameterAnalysis::class)->withTrashed();
     }
 
     public function calculationParameters()
