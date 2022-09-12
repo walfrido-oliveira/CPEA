@@ -6,11 +6,12 @@ use App\Models\AnalysisParameter;
 use App\Models\CalculationParameter;
 use App\Models\ParameterAnalysisGroup;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ParameterAnalysis extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
