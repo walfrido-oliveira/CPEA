@@ -6,6 +6,7 @@
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="analysis_parameter_name" columnText="{!! __('Nome') !!}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="parameter_analysis_group_id" columnText="{!! __('Grupo') !!}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="order" columnText="{{ __('Ordem') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="deleted_at" columnText="{{ __('Status') }}"/>
         <th scope="col"
             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
             Ações
@@ -46,6 +47,11 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                     </svg>
                 </button>
+            </td>
+            <td>
+                <span class="w-24 py-1 @if(!$parameterAnalysis->deleted_at) badge-success @elseif($parameterAnalysis->status) badge-danger @endif" >
+                    {{ !$parameterAnalysis->deleted_at ? 'ATIVO' : 'INATIVO' }}
+                </span>
             </td>
         <tr>
     @empty
