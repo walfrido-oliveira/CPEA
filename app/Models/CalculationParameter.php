@@ -56,7 +56,7 @@ class CalculationParameter extends Model
      */
     public function getParamAnalysisNameAttribute()
     {
-        return $this->parameterAnalysis->analysis_parameter_name;
+        return $this->parameterAnalysis ? $this->parameterAnalysis->analysis_parameter_name : null;
     }
 
     /**
