@@ -17,7 +17,7 @@
             </td>
             <td>
                 <a class="text-item-table" href="{{ route('registers.calculation-parameter.show', ['calculation_parameter' => $calculationParameter->id]) }}">
-                    {{ $calculationParameter->parameterAnalysis->analysis_parameter_name }}
+                    {{ $calculationParameter->parameterAnalysis ? $calculationParameter->parameterAnalysis->analysis_parameter_name : '' }}
                 </a>
             </td>
             <td>
