@@ -215,7 +215,6 @@ class AnalysisResultController extends Controller
     $index = 0;
 
     $projectPointMatrices = $campaign->projectPointMatrices()
-      ->withTrashed()
       ->with('pointIdentification')
       ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
       ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
