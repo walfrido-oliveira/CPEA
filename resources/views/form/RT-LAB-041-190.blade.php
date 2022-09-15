@@ -176,8 +176,8 @@
             document.querySelectorAll(".inputs").forEach(item => {
                 item.style.display = "block";
             });
-            document.querySelectorAll(".buttons button").forEach(item => {
-                item.style.display = "inline-block";
+            document.querySelectorAll(".buttons").forEach(item => {
+                item.style.display = "flex";
             });
         });
 
@@ -187,7 +187,7 @@
             document.querySelectorAll(".inputs").forEach(item => {
                 item.style.display = "none";
             });
-            document.querySelectorAll(".buttons button").forEach(item => {
+            document.querySelectorAll(".buttons").forEach(item => {
                 item.style.display = "none";
             });
         });
