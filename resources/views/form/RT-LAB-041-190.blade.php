@@ -69,7 +69,7 @@
                         <h2 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">AMOSTRAS</h2>
                         @if(isset($formValue) && isset($formValue->values['samples']))
                             @for ($i = 0; $i < count($formValue->values['samples']); $i++)
-                                @include('form.sample')
+                                @include('form.sample', ['sample' => $formValue->values['samples'][$i]])
                             @endfor
                         @else
                             @include('form.sample')
