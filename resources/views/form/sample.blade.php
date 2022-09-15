@@ -41,20 +41,20 @@
             <x-jet-label for="equipment" value="{{ __('Equipamento') }}" />
             @if(isset($sample['equipment']))
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="equipment" class="form-control block mt-1 w-full"
-                type="text" value="{{ $sample['equipment'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][equipment]' : 'samples[row_1][equipment]' }}" maxlength="255" />
+                type="text" value="{{ $sample['equipment'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][equipment]' : 'samples[row_0][equipment]' }}" maxlength="255" />
             @else
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="equipment" class="form-control block mt-1 w-full"
-                type="text" value="" name="samples[row_1][equipment]" maxlength="255" />
+                type="text" value="" name="samples[row_0][equipment]" maxlength="255" />
             @endif
         </div>
         <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
             <x-jet-label for="point" value="{{ __('Ponto de Coleta') }}" />
             @if(isset($sample['point']))
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="point" class="form-control block mt-1 w-full"
-                type="text" value="{{ $sample['point'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][point]' : 'samples[row_1][point]' }}" maxlength="255" />
+                type="text" value="{{ $sample['point'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][point]' : 'samples[row_0][point]' }}" maxlength="255" />
             @else
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="point" class="form-control block mt-1 w-full"
-                type="text" value="" name="samples[row_1][point]" maxlength="255" />
+                type="text" value="" name="samples[row_0][point]" maxlength="255" />
             @endif
         </div>
     </div>
@@ -63,20 +63,20 @@
             <x-jet-label for="environment" value="{{ __('Condições ambientais nas últimas 24 hs') }}" />
             @if(isset($sample['environment']))
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="environment" class="form-control block mt-1 w-full"
-                type="text" value="{{ $sample['environment'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][environment]' : 'samples[row_1][environment]' }}" maxlength="255" />
+                type="text" value="{{ $sample['environment'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][environment]' : 'samples[row_0][environment]' }}" maxlength="255" />
             @else
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="environment" class="form-control block mt-1 w-full"
-                type="text" value="" name="samples[row_1][environment]" maxlength="255" />
+                type="text" value="" name="samples[row_0][environment]" maxlength="255" />
             @endif
         </div>
         <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
             <x-jet-label for="collect" value="{{ __('DT/HR da Coleta') }}" />
             @if(isset($sample['collect']))
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="collect" class="form-control block mt-1 w-full"
-                type="datetime-local" value="{{ $sample['collect'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][collect]' : 'samples[row_1][collect]' }}" maxlength="255" />
+                type="datetime-local" value="{{ $sample['collect'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][collect]' : 'samples[row_0][collect]' }}" maxlength="255" />
             @else
                 <x-jet-input disabled="{{ !$formValue ? false : true}}" id="collect" class="form-control block mt-1 w-full"
-                type="datetime-local" value="" name="samples[row_1][collect]" maxlength="255" />
+                type="datetime-local" value="" name="samples[row_0][collect]" maxlength="255" />
             @endif
         </div>
     </div>
@@ -102,42 +102,42 @@
                         <tr>
                             <td>
                                 <x-jet-input disabled="true" id="temperature" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['temperature']) ? number_format($value['temperature'], 2) : ''}}"
-                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][temperature]' : 'samples[row_1][results]['. $key . '][temperature]' }}" step="any" />
+                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][temperature]' : 'samples[row_0][results]['. $key . '][temperature]' }}" step="any" />
                             </td>
                             <td>
                                 <x-jet-input disabled="true" id="ph" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['ph']) ? number_format($value['ph'], 2) : ''}}"
-                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][ph]' : 'samples[row_1][results]['. $key . '][ph]' }}" step="any" />
+                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][ph]' : 'samples[row_0][results]['. $key . '][ph]' }}" step="any" />
                             </td>
                             <td>
                                 <x-jet-input disabled="true" id="orp" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['orp']) ? number_format($value['orp'], 1) : ''}}"
-                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][orp]' : 'samples[row_1][results]['. $key . '][orp]' }}" step="any" />
+                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][orp]' : 'samples[row_0][results]['. $key . '][orp]' }}" step="any" />
                             </td>
                             <td>
                                 <x-jet-input disabled="true" id="conductivity" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['conductivity']) ? number_format($value['conductivity'], 3, '.', '') : ''}}"
-                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][conductivity]' : 'samples[row_1][results]['. $key . '][conductivity]' }}" step="any" />
+                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][conductivity]' : 'samples[row_0][results]['. $key . '][conductivity]' }}" step="any" />
                             </td>
                             <td>
                                 <x-jet-input disabled="true" id="salinity" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['salinity']) ? number_format($value['salinity'], 3) : ''}}"
-                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][salinity]' : 'samples[row_1][results]['. $key . '][salinity]' }}" step="any" />
+                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][salinity]' : 'samples[row_0][results]['. $key . '][salinity]' }}" step="any" />
                             </td>
                             <td>
                                 <x-jet-input disabled="true" id="psi" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['psi']) ? number_format($value['psi'], 3) : ''}}"
-                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][psi]' : 'samples[row_1][results]['. $key . '][psi]' }}" step="any" />
+                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][psi]' : 'samples[row_0][results]['. $key . '][psi]' }}" step="any" />
                             </td>
                             <td>
                                 <x-jet-input disabled="true" id="sat" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['sat']) ? number_format($value['sat'], 1) : ''}}"
-                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][sat]' : 'samples[row_1][results]['. $key . '][sat]' }}" step="any" />
+                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][sat]' : 'samples[row_0][results]['. $key . '][sat]' }}" step="any" />
                             </td>
                             <td><x-jet-input disabled="true" id="conc" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['conc']) ? number_format($value['conc'], 3) : ''}}"
-                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][conc]' : 'samples[row_1][results]['. $key . '][conc]' }}" step="any" />
+                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][conc]' : 'samples[row_0][results]['. $key . '][conc]' }}" step="any" />
                             </td>
                             <td>
                                 <x-jet-input disabled="true" id="eh" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['eh']) ? number_format($value['eh'], 1) : ''}}"
-                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][eh]' : 'samples[row_1][results]['. $key . '][eh]' }}" step="any" />
+                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][eh]' : 'samples[row_0][results]['. $key . '][eh]' }}" step="any" />
                             </td>
                             <td>
                                 <x-jet-input disabled="true" id="ntu" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['ntu']) ? number_format($value['ntu'], 1) : ''}}"
-                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][ntu]' : 'samples[row_1][results]['. $key . '][ntu]' }}" step="any" />
+                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][ntu]' : 'samples[row_0][results]['. $key . '][ntu]' }}" step="any" />
                             </td>
                         <tr>
                     @endforeach
