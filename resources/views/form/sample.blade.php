@@ -1,14 +1,14 @@
 <div class="w-full px-3 mt-4 mb-6 md:mb-0 flex flex-wrap sample" id="sample_{{ isset($i) ? $i : 0 }}" data-index="1">
-    <div class="flex w-full">
+    <div class="buttons flex w-full">
         <h3 class="w-full mt-4 mb-6 md:mb-0 title">AMOSTRA <span>{{ isset($i) ? $i + 1 : 1 }}</span></h3>
         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 flex justify-end align-baseline" style="align-items: baseline;">
-            <button class="add-sample btn-transition-primary" type="button" title="Adicionar Amostra">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-900" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <button class="add-sample btn-transition-primary px-1" type="button" title="Adicionar Amostra">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-900" fill="none" viewBox="0 0 24 24" stroke-wiph="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
             </button>
-            <button type="button" class="btn-transition-primary remove-sample" title="Remover Amostra" style="{{ isset($i) ? '': 'display:none' }}" data-index="sample_{{ isset($i) ? $i : 0 }}">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8 text-red-900">
+            <button type="button" class="btn-transition-primary remove-sample px-1" title="Remover Amostra" style="{{ isset($i) ? '': 'display:none' }}" data-index="sample_{{ isset($i) ? $i : 0 }}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-wiph="1.5" stroke="currentColor" class="h-8 w-8 text-red-900">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
             </button>
@@ -16,72 +16,134 @@
                 <div id="import_result_form_row_{{ isset($i) ? $i : 0 }}" class="">
                     <input type="hidden" id="form_value_id" name="form_value_id" value="{{ $formValue->id }}">
                     <input type="hidden" id="sample_index" name="sample_index" value="row_{{ isset($i) ? $i : 0 }}">
-                    <button type="button" class="btn-transition-primary import-sample-result" title="Importar Amostra" data-index="sample_{{ isset($i) ? $i : 0 }}">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8 text-blue-900">
+                    <button type="button" class="btn-transition-primary import-sample-result px-1" title="Importar Amostra" data-index="sample_{{ isset($i) ? $i : 0 }}">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-wiph="1.5" stroke="currentColor" class="h-8 w-8 text-blue-900">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15" />
                         </svg>
                     </button>
                     <input type="file" name="file" id="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.ms-excel" class="hidden" data-index="import_result_form_row_{{ isset($i) ? $i : 0 }}">
-                    <button type="button" class="btn-transition-primary edit-sample" title="Editar Amostra" data-index="sample_{{ isset($i) ? $i : 0 }}">
+                    <button type="button" class="btn-transition-primary edit-sample px-1" title="Editar Amostra" data-index="sample_{{ isset($i) ? $i : 0 }}">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-wiph="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                         </svg>
                     </button>
-                    <button type="button" class="btn-transition-primary save-sample" title="Salvar Amostra" data-index="sample_{{ isset($i) ? $i : 0 }}" style="display: none">
+                    <button type="button" class="btn-transition-primary save-sample px-1" title="Salvar Amostra" data-index="sample_{{ isset($i) ? $i : 0 }}" style="display: none">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-8 w-8">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-wiph="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </button>
                 </div>
             @endif
         </div>
     </div>
-    <div class="flex flex-wrap mt-2 w-full">
-        <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
-            <x-jet-label for="equipment" value="{{ __('Equipamento') }}" />
-            @if(isset($sample['equipment']))
-                <x-jet-input disabled="{{ !$formValue ? false : true}}" id="equipment" class="form-control block mt-1 w-full"
-                type="text" value="{{ $sample['equipment'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][equipment]' : 'samples[row_0][equipment]' }}" maxlength="255" />
-            @else
-                <x-jet-input disabled="{{ !$formValue ? false : true}}" id="equipment" class="form-control block mt-1 w-full"
-                type="text" value="" name="samples[row_0][equipment]" maxlength="255" />
-            @endif
+    <div class="inputs w-full">
+        <div class="flex flex-wrap mt-2 w-full">
+            <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
+                <x-jet-label for="equipment" value="{{ __('Equipamento') }}" />
+                @if(isset($sample['equipment']))
+                    <x-jet-input disabled="{{ !$formValue ? false : true}}" id="equipment" class="form-control block mt-1 w-full"
+                    type="text" value="{{ $sample['equipment'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][equipment]' : 'samples[row_0][equipment]' }}" maxlength="255" />
+                @else
+                    <x-jet-input disabled="{{ !$formValue ? false : true}}" id="equipment" class="form-control block mt-1 w-full"
+                    type="text" value="" name="samples[row_0][equipment]" maxlength="255" />
+                @endif
+            </div>
+            <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
+                <x-jet-label for="point" value="{{ __('Ponto de Coleta') }}" />
+                @if(isset($sample['point']))
+                    <x-jet-input disabled="{{ !$formValue ? false : true}}" id="point" class="form-control block mt-1 w-full"
+                    type="text" value="{{ $sample['point'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][point]' : 'samples[row_0][point]' }}" maxlength="255" />
+                @else
+                    <x-jet-input disabled="{{ !$formValue ? false : true}}" id="point" class="form-control block mt-1 w-full"
+                    type="text" value="" name="samples[row_0][point]" maxlength="255" />
+                @endif
+            </div>
         </div>
-        <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
-            <x-jet-label for="point" value="{{ __('Ponto de Coleta') }}" />
-            @if(isset($sample['point']))
-                <x-jet-input disabled="{{ !$formValue ? false : true}}" id="point" class="form-control block mt-1 w-full"
-                type="text" value="{{ $sample['point'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][point]' : 'samples[row_0][point]' }}" maxlength="255" />
-            @else
-                <x-jet-input disabled="{{ !$formValue ? false : true}}" id="point" class="form-control block mt-1 w-full"
-                type="text" value="" name="samples[row_0][point]" maxlength="255" />
-            @endif
-        </div>
-    </div>
-    <div class="flex flex-wrap mt-2 w-full">
-        <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
-            <x-jet-label for="environment" value="{{ __('Condições ambientais nas últimas 24 hs') }}" />
-            @if(isset($sample['environment']))
-                <x-jet-input disabled="{{ !$formValue ? false : true}}" id="environment" class="form-control block mt-1 w-full"
-                type="text" value="{{ $sample['environment'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][environment]' : 'samples[row_0][environment]' }}" maxlength="255" />
-            @else
-                <x-jet-input disabled="{{ !$formValue ? false : true}}" id="environment" class="form-control block mt-1 w-full"
-                type="text" value="" name="samples[row_0][environment]" maxlength="255" />
-            @endif
-        </div>
-        <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
-            <x-jet-label for="collect" value="{{ __('DT/HR da Coleta') }}" />
-            @if(isset($sample['collect']))
-                <x-jet-input disabled="{{ !$formValue ? false : true}}" id="collect" class="form-control block mt-1 w-full"
-                type="datetime-local" value="{{ $sample['collect'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][collect]' : 'samples[row_0][collect]' }}" maxlength="255" />
-            @else
-                <x-jet-input disabled="{{ !$formValue ? false : true}}" id="collect" class="form-control block mt-1 w-full"
-                type="datetime-local" value="" name="samples[row_0][collect]" maxlength="255" />
-            @endif
+        <div class="flex flex-wrap mt-2 w-full">
+            <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
+                <x-jet-label for="environment" value="{{ __('Condições ambientais nas últimas 24 hs') }}" />
+                @if(isset($sample['environment']))
+                    <x-jet-input disabled="{{ !$formValue ? false : true}}" id="environment" class="form-control block mt-1 w-full"
+                    type="text" value="{{ $sample['environment'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][environment]' : 'samples[row_0][environment]' }}" maxlength="255" />
+                @else
+                    <x-jet-input disabled="{{ !$formValue ? false : true}}" id="environment" class="form-control block mt-1 w-full"
+                    type="text" value="" name="samples[row_0][environment]" maxlength="255" />
+                @endif
+            </div>
+            <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
+                <x-jet-label for="collect" value="{{ __('DT/HR da Coleta') }}" />
+                @if(isset($sample['collect']))
+                    <x-jet-input disabled="{{ !$formValue ? false : true}}" id="collect" class="form-control block mt-1 w-full"
+                    type="datetime-local" value="{{ $sample['collect'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][collect]' : 'samples[row_0][collect]' }}" maxlength="255" />
+                @else
+                    <x-jet-input disabled="{{ !$formValue ? false : true}}" id="collect" class="form-control block mt-1 w-full"
+                    type="datetime-local" value="" name="samples[row_0][collect]" maxlength="255" />
+                @endif
+            </div>
         </div>
     </div>
     @if(isset($sample['results']))
-        <div class="flex flex-wrap mt-2 w-full">
+        <div class="flex flex-wrap mt-2 w-full" id="mode_list" style="display: none;">
+            <div class="flex flex-wrap mt-2 w-full">
+                <div class="mx-1 p-3">
+                    <p class="font-bold">{{ __('Equipamento') }}</p>
+                    <p class="font-bold">{{ __('Ponto de Coleta') }}</p>
+                    <p class="font-bold">{{ __('Condições ambientais nas últimas 24 hs') }}</p>
+                    <p class="font-bold">{{ __('DT/HR da Coleta') }}</p>
+                </div>
+                <div class="mx-1 p-3 bg-gray-100">
+                    <p>
+                        @if(isset($sample['equipment']))
+                            {{ $sample['equipment'] }}
+                        @endif
+                    </p>
+                    <p>
+                        @if(isset($sample['point']))
+                            {{ $sample['point'] }}
+                        @endif
+                    </p>
+                    <p>
+                        @if(isset($sample['environment']))
+                            {{ $sample['environment'] }}
+                        @endif
+                    </p>
+                    <p>
+                        @if(isset($sample['collect']))
+                            {{ Carbon\Carbon::parse($sample['collect'])->format("d/m/Y h:i") }}
+                        @endif
+                    </p>
+                </div>
+            </div>
+            <div class="flex flex-wrap mt-2 w-full">
+                <div class="mx-1 p-3">
+                    <p class="font-bold">{{ __('Temperatura ºC') }}</p>
+                    <p class="font-bold">{{ __('pH') }}</p>
+                    <p class="font-bold">{{ __('ORP (mV)') }}</p>
+                    <p class="font-bold">{{ __('Condutividade') }}</p>
+                    <p class="font-bold">{{ __('Salinidade') }}</p>
+                    <p class="font-bold">{{ __('Press.[psi]') }}</p>
+                    <p class="font-bold">{{ __('Oxigênio Dissolvido (sat) (%)') }}</p>
+                    <p class="font-bold">{{ __('Oxigênio Dissolvido (conc) (mg/L)') }}</p>
+                    <p class="font-bold">{{ __('EH (mV)') }}</p>
+                    <p class="font-bold">{{ __('Turbidez (NTU)') }}</p>
+                </div>
+                @foreach ($sample['results'] as $key => $value)
+                    <div class="mx-1 p-3 bg-gray-100">
+                        <p>{{ isset($value['temperature']) ? number_format($value['temperature'], 2) : ''}}</p>
+                        <p>{{ isset($value['ph']) ? number_format($value['ph'], 2) : ''}}</p>
+                        <p>{{ isset($value['orp']) ? number_format($value['orp'], 2) : ''}}</p>
+                        <p>{{ isset($value['conductivity']) ? number_format($value['conductivity'], 2) : ''}}</p>
+                        <p>{{ isset($value['salinity']) ? number_format($value['salinity'], 2) : ''}}</p>
+                        <p>{{ isset($value['psi']) ? number_format($value['psi'], 2) : ''}}</p>
+                        <p>{{ isset($value['sat']) ? number_format($value['sat'], 2) : ''}}</p>
+                        <p>{{ isset($value['conc']) ? number_format($value['conc'], 2) : ''}}</p>
+                        <p>{{ isset($value['eh']) ? number_format($value['eh'], 2) : ''}}</p>
+                        <p>{{ isset($value['ntu']) ? number_format($value['ntu'], 2) : ''}}</p>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        <div class="flex flex-wrap mt-2 w-full" id="mode_table">
             <table id="guiding_value_table" class="table table-responsive md:table w-full">
                 <thead>
                     <tr class="thead-light">
