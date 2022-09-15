@@ -67,11 +67,12 @@
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4" id="samples">
                         <h2 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">AMOSTRAS</h2>
-                        @include('form.sample')
                         @if(isset($formValue) && isset($formValue->values['samples']))
-                            @for ($i = 1; $i < count($formValue->values['samples']); $i++)
+                            @for ($i = 0; $i < count($formValue->values['samples']); $i++)
                                 @include('form.sample')
                             @endfor
+                        @else
+                            @include('form.sample')
                         @endif
                     </div>
 
