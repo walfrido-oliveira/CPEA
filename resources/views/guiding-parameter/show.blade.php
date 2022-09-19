@@ -103,7 +103,7 @@
                             <a class="text-green-600 underline" href="{{ route('guiding-parameter-value.show', ['guiding_parameter_value' => $guidingParameterValue->id]) }}">
                                 {{ $guidingParameterValue->guidingParameter->name . ' - ' .
                                    $guidingParameterValue->analysisMatrix->name . ' - ' .
-                                   $guidingParameterValue->parameterAnalysis->analysis_parameter_name
+                                   $guidingParameterValue->parameterAnalysis ? $guidingParameterValue->parameterAnalysis->analysis_parameter_name : ''
                                 }}
                             </a>
                         </p>
