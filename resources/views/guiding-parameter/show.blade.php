@@ -102,9 +102,11 @@
                         <p class="text-gray-500 font-bold text-center">
                             <a class="text-green-600 underline" href="{{ route('guiding-parameter-value.show', ['guiding_parameter_value' => $guidingParameterValue->id]) }}">
                                 {{ $guidingParameterValue->guidingParameter->name . ' - ' .
-                                   $guidingParameterValue->analysisMatrix->name . ' - ' .
-                                   $guidingParameterValue->parameterAnalysis ? $guidingParameterValue->parameterAnalysis->analysis_parameter_name : ''
+                                   $guidingParameterValue->analysisMatrix->name . ' - '
                                 }}
+                                @if($guidingParameterValue->parameterAnalysis)
+                                    {{$guidingParameterValue->parameterAnalysis->analysis_parameter_name }}
+                                @endif
                             </a>
                         </p>
                     @endforeach
