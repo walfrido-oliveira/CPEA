@@ -85,6 +85,30 @@
                             @for ($i = 0; $i < count($formValue->values['samples']); $i++)
                                 @include('form.sample', ['sample' => $formValue->values['samples']["row_$i"]])
                             @endfor
+
+                            <div class="flex flex-wrap mt-2 w-full mode-list" style="display: none;">
+                                <div class="flex flex-wrap mt-2 w-full">
+                                    <div class="mx-1 p-3">
+                                        <p class="font-bold">{{ __('Ponto de Coleta') }}</p>
+                                        <p class="font-bold">{{ __('Condições ambientais nas últimas 24 hs') }}</p>
+                                        <p class="font-bold">{{ __('DT/HR da Coleta') }}</p>
+                                        <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 12px; margin-bottom: 12px;">&nbsp;</p>
+                                        <p class="font-bold">{{ __('Temperatura ºC') }}</p>
+                                        <p class="font-bold">{{ __('pH') }}</p>
+                                        <p class="font-bold">{{ __('ORP (mV)') }}</p>
+                                        <p class="font-bold">{{ __('Condutividade') }}</p>
+                                        <p class="font-bold">{{ __('Salinidade') }}</p>
+                                        <p class="font-bold">{{ __('Press.[psi]') }}</p>
+                                        <p class="font-bold">{{ __('Oxigênio Dissolvido (sat) (%)') }}</p>
+                                        <p class="font-bold">{{ __('Oxigênio Dissolvido (conc) (mg/L)') }}</p>
+                                        <p class="font-bold">{{ __('EH (mV)') }}</p>
+                                        <p class="font-bold">{{ __('Turbidez (NTU)') }}</p>
+                                    </div>
+                                    @for ($i = 0; $i < count($formValue->values['samples']); $i++)
+                                        @include('form.sample-list', ['sample' => $formValue->values['samples']["row_$i"]])
+                                    @endfor
+                                </div>
+                            </div>
                         @else
                             @include('form.sample')
                         @endif
@@ -186,6 +210,10 @@
             document.querySelectorAll(".buttons").forEach(item => {
                 item.style.display = "flex";
             });
+
+            document.querySelectorAll(".title").forEach(item => {
+                item.style.display = "flex";
+            });
         });
 
         document.getElementById("view_list").addEventListener("click", function() {
@@ -202,6 +230,10 @@
             });
 
             document.querySelectorAll(".buttons").forEach(item => {
+                item.style.display = "none";
+            });
+
+            document.querySelectorAll(".title").forEach(item => {
                 item.style.display = "none";
             });
         });
