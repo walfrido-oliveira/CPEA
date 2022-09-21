@@ -129,16 +129,16 @@
                 </div>
                 @foreach ($sample['results'] as $key => $value)
                     <div class="mx-1 p-3 bg-gray-100">
-                        <p>{{ isset($value['temperature']) ? number_format($value['temperature'], 2) : ''}}</p>
-                        <p>{{ isset($value['ph']) ? number_format($value['ph'], 2) : ''}}</p>
-                        <p>{{ isset($value['orp']) ? number_format($value['orp'], 2) : ''}}</p>
-                        <p>{{ isset($value['conductivity']) ? number_format($value['conductivity'], 2) : ''}}</p>
-                        <p>{{ isset($value['salinity']) ? number_format($value['salinity'], 2) : ''}}</p>
-                        <p>{{ isset($value['psi']) ? number_format($value['psi'], 2) : ''}}</p>
-                        <p>{{ isset($value['sat']) ? number_format($value['sat'], 2) : ''}}</p>
-                        <p>{{ isset($value['conc']) ? number_format($value['conc'], 2) : ''}}</p>
-                        <p>{{ isset($value['eh']) ? number_format($value['eh'], 2) : ''}}</p>
-                        <p>{{ isset($value['ntu']) ? number_format($value['ntu'], 2) : ''}}</p>
+                        <p>{{ isset($value['temperature']) ? number_format($value['temperature'], 2) : '-'}}</p>
+                        <p>{{ isset($value['ph']) ? number_format($value['ph'], 2) : '-'}}</p>
+                        <p>{{ isset($value['orp']) ? number_format($value['orp'], 2) : '-'}}</p>
+                        <p>{{ isset($value['conductivity']) ? number_format($value['conductivity'], 2) : '-'}}</p>
+                        <p>{{ isset($value['salinity']) ? number_format($value['salinity'], 2) : '-'}}</p>
+                        <p>{{ isset($value['psi']) ? number_format($value['psi'], 2) : '-'}}</p>
+                        <p>{{ isset($value['sat']) ? number_format($value['sat'], 2) : '-'}}</p>
+                        <p>{{ isset($value['conc']) ? number_format($value['conc'], 2) : '-'}}</p>
+                        <p>{{ isset($value['eh']) ? number_format($value['eh'], 2) : '-'}}</p>
+                        <p>{{ isset($value['ntu']) ? number_format($value['ntu'], 2) : '-'}}</p>
                     </div>
                 @endforeach
                 <div class="mx-1 p-3 bg-gray-100">
@@ -272,7 +272,7 @@
                         @else
                             -
                         @endif
-                            </p>
+                    </p>
                 </div>
             </div>
         </div>
