@@ -83,7 +83,7 @@
         </div>
     </div>
     @if(isset($sample['results']))
-        <div class="flex flex-wrap mt-2 w-full" id="mode_list" style="display: none;">
+        <div class="flex flex-wrap mt-2 w-full mode-list" style="display: none;">
             <div class="flex flex-wrap mt-2 w-full">
                 <div class="mx-1 p-3">
                     <p class="font-bold">{{ __('Equipamento') }}</p>
@@ -141,9 +141,142 @@
                         <p>{{ isset($value['ntu']) ? number_format($value['ntu'], 2) : ''}}</p>
                     </div>
                 @endforeach
+                <div class="mx-1 p-3 bg-gray-100">
+                    <p class="font-bold">
+                        @if(isset($value['temperature']))
+                            @php
+                                $sum = 0;
+                                foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+                                    $sum += $value['temperature'];
+                                }
+                                $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
+                                $svg = $sum / $size;
+                            @endphp
+                            {{ number_format($svg, 2, ",", ".") }}
+                        @else
+                            -
+                        @endif
+                    </p>
+                    <p class="font-bold">
+                        @if(isset($value['ph']))
+                            @php
+                                $sum = 0;
+                                foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+                                    $sum += $value['ph'];
+                                }
+                                $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
+                                $svg = $sum / $size;
+                            @endphp
+                            {{ number_format($svg, 2, ",", ".") }}
+                        @else
+                            -
+                        @endif
+                    </p>
+                    <p class="font-bold">
+                        @if(isset($value['orp']))
+                            @php
+                                $sum = 0;
+                                foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+                                    $sum += $value['orp'];
+                                }
+                                $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
+                                $svgORP = $sum / $size;
+                            @endphp
+                            {{ number_format($svgORP, 1, ",", ".") }}
+                        @else
+                            -
+                        @endif
+                    </p>
+                    <p class="font-bold">
+                        @if(isset($value['conductivity']))
+                            @php
+                                $sum = 0;
+                                foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+                                    $sum += $value['conductivity'];
+                                }
+                                $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
+                                $svg = $sum / $size;
+                            @endphp
+                            {{ number_format($svg, 3, ",", ".") }}
+                        @else
+                            -
+                        @endif
+                    </p>
+                    <p class="font-bold">
+                        @if(isset($value['conductivity']))
+                            @php
+                                $sum = 0;
+                                foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+                                    $sum += $value['salinity'];
+                                }
+                                $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
+                                $svg = $sum / $size;
+                            @endphp
+                            {{ number_format($svg, 3, ",", ".") }}
+                        @else
+                            -
+                        @endif
+                    </p>
+                    <p class="font-bold">-</p>
+                    <p class="font-bold">
+                        @if(isset($value['sat']))
+                            @php
+                                $sum = 0;
+                                foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+                                    $sum += $value['sat'];
+                                }
+                                $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
+                                $svg = $sum / $size;
+                            @endphp
+                            {{ number_format($svg, 1, ",", ".") }}
+                        @else
+                            -
+                        @endif
+                    </p>
+                    <p class="font-bold">
+                        @if(isset($value['conc']))
+                            @php
+                                $sum = 0;
+                                foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+                                    $sum += $value['conc'];
+                                }
+                                $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
+                                $svg = $sum / $size;
+                            @endphp
+                            {{ number_format($svg, 3, ",", ".") }}
+                        @else
+                            -
+                        @endif
+                    </p>
+                    <p class="font-bold">
+                        @if(isset($value['eh']))
+                            @php
+                                $svg = $svgORP + 199;
+                            @endphp
+                            {{ number_format($svg, 1, ",", ".") }}
+                        @else
+                            -
+                        @endif
+                    </p>
+                    <p class="font-bold">
+                        @if(isset($value['ntu']))
+                            @php
+                                $sum = 0;
+                                foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+                                    $sum += $value['ntu'];
+                                }
+                                $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
+                                $svg = $sum / $size;
+                            @endphp
+                            {{ number_format($svg, 1, ",", ".") }}
+                        @else
+                            -
+                        @endif
+                            </p>
+                </div>
             </div>
         </div>
-        <div class="flex flex-wrap mt-2 w-full" id="mode_table">
+        <div class="flex flex-wrap mt-2 w-full mode-table">
             <table id="guiding_value_table" class="table table-responsive md:table w-full">
                 <thead>
                     <tr class="thead-light">

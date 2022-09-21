@@ -171,22 +171,36 @@
 
     <script>
         document.getElementById("view_table").addEventListener("click", function() {
-            document.getElementById("mode_table").style.display = "flex";
-            document.getElementById("mode_list").style.display = "none";
+            document.querySelectorAll(".mode-table").forEach(item => {
+                item.style.display = "flex";
+            });
+
+            document.querySelectorAll(".mode-list").forEach(item => {
+                item.style.display = "none";
+            });
+
             document.querySelectorAll(".inputs").forEach(item => {
                 item.style.display = "block";
             });
+
             document.querySelectorAll(".buttons").forEach(item => {
                 item.style.display = "flex";
             });
         });
 
         document.getElementById("view_list").addEventListener("click", function() {
-            document.getElementById("mode_list").style.display = "flex";
-            document.getElementById("mode_table").style.display = "none";
+            document.querySelectorAll(".mode-table").forEach(item => {
+                item.style.display = "none";
+            });
+
+            document.querySelectorAll(".mode-list").forEach(item => {
+                item.style.display = "flex";
+            });
+
             document.querySelectorAll(".inputs").forEach(item => {
                 item.style.display = "none";
             });
+
             document.querySelectorAll(".buttons").forEach(item => {
                 item.style.display = "none";
             });
