@@ -237,7 +237,7 @@ class AnalysisResultController extends Controller
       }
     }
 
-    $guidingParameterOrders = explode(",", $project->guiding_parameter_order);
+    $guidingParameterOrders = $project->guiding_parameter_order ? explode(",", $project->guiding_parameter_order) : [];
     $qualitative = [];
 
     foreach ($projectPointMatrices as $point) {
