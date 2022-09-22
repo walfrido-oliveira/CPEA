@@ -755,6 +755,7 @@ class AnalysisResultController extends Controller
           $max = 0;
           $maxConvert = null;
           $isToken = false;
+          $guidingParameterValue = null;
 
           foreach ($matches as $key2 => $value2) {
             $result = explode("&", $value2[1]);
@@ -786,7 +787,7 @@ class AnalysisResultController extends Controller
 
               if ($analysisResult) {
 
-                $item2 = GuidingParameterValue::where('parameter_analysis_id', $value->parameter_analysis_id)
+                $guidingParameterValue = GuidingParameterValue::where('parameter_analysis_id', $value->parameter_analysis_id)
                 ->where('analysis_matrix_id', $value->analysis_matrix_id)
                 ->where('guiding_parameter_id',  explode(",", $value->project->guiding_parameter_order)[0])
                ->first();
@@ -799,10 +800,12 @@ class AnalysisResultController extends Controller
                 $r = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->result ? $analysisResult->result : $analysisResult->rl);
                 $rl = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->rl);
 
-                if ($item2 && $item2->unityLegislation->unity_cod != $analysisResult->units) {
-                  $r *= $item2->unityLegislation->conversion_amount;
-                  $rl *= $item2->unityLegislation->conversion_amount;
-                  $maxConvert = $item2->unityLegislation->conversion_amount;
+                if($guidingParameterValue) {
+                    if ($guidingParameterValue->unityLegislation->unity_cod != $analysisResult->units) {
+                        $r *= $guidingParameterValue->unityLegislation->conversion_amount;
+                        $rl *= $guidingParameterValue->unityLegislation->conversion_amount;
+                        $maxConvert = $guidingParameterValue->unityLegislation->conversion_amount;
+                    }
                 }
 
                 $max =  $r > $max ? $r : $max;
@@ -832,14 +835,17 @@ class AnalysisResultController extends Controller
             $result = "$token " . $stringCalc->calculate($formula);
           } else {
 
-            if ($item2 && $item2->unityLegislation->unity_cod != $analysisResult->units) $max *= $maxConvert;
+            if($guidingParameterValue) {
+                if ($guidingParameterValue->unityLegislation->unity_cod != $analysisResult->units) $max *= $maxConvert;
+            }
+
             $result = "$token " . $max;
           }
 
-          if ($item2) {
-            if ($item2->parameter_analysis_id == $value->parameterAnalysis->id &&
-                $item2->unityLegislation->unity_cod !=  $analysisResult->units) {
-              $units = $item2->unityLegislation->unity_cod;
+          if ($guidingParameterValue) {
+            if ($guidingParameterValue->parameter_analysis_id == $value->parameterAnalysis->id &&
+                $guidingParameterValue->unityLegislation->unity_cod !=  $analysisResult->units) {
+              $units = $guidingParameterValue->unityLegislation->unity_cod;
             }
           }
 
