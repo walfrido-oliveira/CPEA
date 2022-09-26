@@ -97,6 +97,7 @@
                         <x-table-sort-header :orderBy="null" :ascending="null" columnName="conc" columnText="{{ __('Oxigênio Dissolvido (conc) (mg/L)') }}"/>
                         <x-table-sort-header :orderBy="null" :ascending="null" columnName="eh" columnText="{{ __('EH (mV)') }}"/>
                         <x-table-sort-header :orderBy="null" :ascending="null" columnName="ntu" columnText="{{ __('Turbidez (NTU)') }}"/>
+                        <x-table-sort-header :orderBy="null" :ascending="null" columnName="uncertainty" columnText="{{ __('Incerteza') }}"/>
                     </tr>
                 </thead>
                 <tbody id="table_result">
@@ -140,6 +141,10 @@
                             <td>
                                 <x-jet-input disabled="true" id="ntu" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['ntu']) ? number_format($value['ntu'], 1) : ''}}"
                                 name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][ntu]' : 'samples[row_0][results]['. $key . '][ntu]' }}" step="any" />
+                            </td>
+                            <td>
+                                <x-jet-input disabled="true" id="uncertainty" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['uncertainty']) ? number_format($value['uncertainty'], 1) : ''}}"
+                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][uncertainty]' : 'samples[row_0][results]['. $key . '][uncertainty]' }}" step="any" />
                             </td>
                         <tr>
                     @endforeach
@@ -277,6 +282,7 @@
                                 -
                             @endif
                         </td>
+                        <td>-</td>
                     <tr>
                 </tfoot>
             </table>

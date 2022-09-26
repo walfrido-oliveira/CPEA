@@ -253,6 +253,7 @@ class FormController extends Controller
 
                 $samples['samples'][$input['sample_index']]['results'][$key]['eh'] = $value['eh'];
                 $samples['samples'][$input['sample_index']]['results'][$key]['ntu'] = $value['ntu'];
+                $samples['samples'][$input['sample_index']]['results'][$key]['uncertainty'] = $value['uncertainty'];
             }
         }
 
