@@ -56,7 +56,9 @@
 
     $svg[] = $svg[3] + 199;
 
-    $places = [1, 0, 2, 0, 2, 2]
+    $places = [1, 0, 2, 0, 2, 2];
+
+    $range = ['-', '-1400 +1400', '1 a 13', '-', '4 a 40'];
 
 @endphp
 
@@ -121,7 +123,7 @@
                         {{ $LQ[$key] }}
                     </td>
                     <td>
-                        {{ $form->fieldType->name }}
+                        {{ $$range[$key] }}
                     </td>
                 <tr>
                 @endforeach
