@@ -123,7 +123,7 @@
                         {{ $LQ[$key] }}
                     </td>
                     <td>
-                        {{ $$range[$key] }}
+                        {{ $range[$key] }}
                     </td>
                 <tr>
                 @endforeach
