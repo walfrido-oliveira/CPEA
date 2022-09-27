@@ -305,7 +305,7 @@ class FormController extends Controller
 
     foreach ($rows as $key => $value) {
         if ($key == 0) continue;
-        if ($key == 4) break;
+        //if ($key == 4) break;
 
         if(isset($value[2])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['temperature'] = floatval($value[2]);
         if(isset($value[3])) $samples['samples'][$inputs['sample_index']]['results'][$key - 1]['ph'] = floatval($value[3]);
