@@ -1,66 +1,52 @@
 @if(isset($sample['results']))
     @php
 
-        $parameters = [ "OD", "ORP", "pH", "Condutividade", "Salinidade", "Temperatura" ];
-        $unities = [ "mg/L", "mV", "-", "µS/cm", "-", "°C" ];
-        $LQ = ["0,3", "-", "-", "20", "0,01", "-"];
+        $parameters = [ "Temperatura", "pH", "ORP", "Condutividade", "Salinidade", "OD" ];
+        $unities = [ "°C", "-", "mV", "µS/cm", "-", "mg/L" ];
+        $LQ = ["-", "-", "-", "20", "0,01", "0,3"];
+        $places = [2, 2, 1, 3, 3, 3];
+        $range = ["4 a 40", "1 a 13", "-1400 a +1400", "-", "-", "-" ];
 
         $svg = [];
+        $size = count(array_chunk($sample['results'], 3)[0]);
 
         $sum = 0;
-        foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+        foreach (array_chunk($sample['results'], 3)[0] as $value) {
             $sum += $value['temperature'];
         }
-        $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
         $svg[] = $sum / $size;
 
         $sum = 0;
-        foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+        foreach (array_chunk($sample['results'], 3)[0] as $value) {
             $sum += $value['ph'];
         }
-        $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
         $svg[] = $sum / $size;
 
         $sum = 0;
-        foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+        foreach (array_chunk($sample['results'], 3)[0] as $value) {
             $sum += $value['orp'];
         }
-        $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
         $svg[] = $sum / $size;
 
         $sum = 0;
-        foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+        foreach (array_chunk($sample['results'], 3)[0] as $value) {
             $sum += $value['conductivity'];
         }
-        $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
         $svg[] = $sum / $size;
 
         $sum = 0;
-        foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+        foreach (array_chunk($sample['results'], 3)[0] as $value) {
             $sum += $value['salinity'];
         }
-        $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
         $svg[] = $sum / $size;
 
         $sum = 0;
-        foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
-            $sum += $value['sat'];
-        }
-        $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
-        $svg[] = $sum / $size;
-
-        $sum = 0;
-        foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+        foreach (array_chunk($sample['results'], 3)[0] as $value) {
             $sum += $value['conc'];
         }
-        $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
         $svg[] = $sum / $size;
 
         $svg[] = $svg[3] + 199;
-
-        $places = [1, 0, 2, 0, 2, 2];
-
-        $range = ['-', '-1400 +1400', '1 a 13', '-', '-', '4 a 40'];
 
 
     @endphp
@@ -110,7 +96,6 @@
                     </tr>
                 </thead>
                 <tbody id="table_result">
-
                     @foreach ($parameters as $key => $value)
                     <tr>
                         <td>

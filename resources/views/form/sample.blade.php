@@ -155,10 +155,10 @@
                             @if(isset($value['temperature']))
                                 @php
                                     $sum = 0;
+                                    $size = count(array_chunk($sample['results'], 3)[0]);
                                     foreach (array_chunk($sample['results'], 3)[0] as $value) {
                                         $sum += $value['temperature'];
                                     }
-                                    $size = count(array_chunk($sample['results'], 3)[0]);
                                     $svg = $sum / $size;
                                     $svgs['temperature'] = $svg;
                                 @endphp
@@ -174,7 +174,6 @@
                                     foreach (array_chunk($sample['results'], 3)[0] as $value) {
                                         $sum += $value['ph'];
                                     }
-                                    $size = count(array_chunk($sample['results'], 3)[0]);
                                     $svg = $sum / $size;
                                     $svgs['ph'] = $svg;
                                 @endphp
@@ -190,7 +189,6 @@
                                     foreach (array_chunk($sample['results'], 3)[0] as $value) {
                                         $sum += $value['orp'];
                                     }
-                                    $size = count(array_chunk($sample['results'], 3)[0]);
                                     $svg = $sum / $size;
                                     $svgs['orp'] = $svg;
                                 @endphp
@@ -206,7 +204,6 @@
                                     foreach (array_chunk($sample['results'], 3)[0] as $value) {
                                         $sum += $value['conductivity'];
                                     }
-                                    $size = count(array_chunk($sample['results'], 3)[0]);
                                     $svg = $sum / $size;
                                     $svgs['conductivity'] = $svg;
                                 @endphp
@@ -222,7 +219,6 @@
                                     foreach (array_chunk($sample['results'], 3)[0] as $value) {
                                         $sum += $value['salinity'];
                                     }
-                                    $size = count(array_chunk($sample['results'], 3)[0]);
                                     $svg = $sum / $size;
                                     $svgs['salinity'] = $svg;
                                 @endphp
@@ -238,7 +234,6 @@
                                     foreach (array_chunk($sample['results'], 3)[0] as $value) {
                                         $sum += $value['psi'];
                                     }
-                                    $size = count(array_chunk($sample['results'], 3)[0]);
                                     $svg = $sum / $size;
                                     $svgs['psi'] = $svg;
                                 @endphp
@@ -254,7 +249,6 @@
                                     foreach (array_chunk($sample['results'], 3)[0] as $value) {
                                         $sum += $value['sat'];
                                     }
-                                    $size = count(array_chunk($sample['results'], 3)[0]);
                                     $svg = $sum / $size;
                                     $svgs['sat'] = $svg;
                                 @endphp
@@ -270,7 +264,6 @@
                                     foreach (array_chunk($sample['results'], 3)[0] as $value) {
                                         $sum += $value['conc'];
                                     }
-                                    $size = count(array_chunk($sample['results'], 3)[0]);
                                     $svg = $sum / $size;
                                     $svgs['conc'] = $svg;
                                 @endphp
@@ -297,7 +290,6 @@
                                     foreach (array_chunk($sample['results'], 3)[0] as $value) {
                                         $sum += $value['ntu'];
                                     }
-                                    $size = count(array_chunk($sample['results'], 3)[0]);
                                     $svg = $sum / $size;
                                     $svgs['ntu'] = $svg;
                                 @endphp
@@ -387,10 +379,10 @@
                                     @if(isset($value['temperature']))
                                         @php
                                             $sum = 0;
+                                            $size = count(array_chunk($sample['results'], 3)[1]);
                                             foreach (array_chunk($sample['results'], 3)[1] as $value) {
                                                 $sum += $value['temperature'];
                                             }
-                                            $size = count(array_chunk($sample['results'], 3)[1]);
                                             $svg = $sum / $size;
                                             $svgs2['temperature'] = $svg;
                                         @endphp
@@ -406,7 +398,6 @@
                                             foreach (array_chunk($sample['results'], 3)[1] as $value) {
                                                 $sum += $value['ph'];
                                             }
-                                            $size = count(array_chunk($sample['results'], 3)[1]);
                                             $svg = $sum / $size;
                                             $svgs2['ph'] = $svg;
                                         @endphp
@@ -422,7 +413,6 @@
                                             foreach (array_chunk($sample['results'], 3)[1] as $value) {
                                                 $sum += $value['orp'];
                                             }
-                                            $size = count(array_chunk($sample['results'], 3)[1]);
                                             $svg = $sum / $size;
                                             $svgs2['orp'] = $svg;
                                         @endphp
@@ -438,7 +428,6 @@
                                             foreach (array_chunk($sample['results'], 3)[1] as $value) {
                                                 $sum += $value['conductivity'];
                                             }
-                                            $size = count(array_chunk($sample['results'], 3)[1]);
                                             $svg = $sum / $size;
                                             $svgs2['conductivity'] = $svg;
                                         @endphp
@@ -454,7 +443,6 @@
                                             foreach (array_chunk($sample['results'], 3)[1] as $value) {
                                                 $sum += $value['salinity'];
                                             }
-                                            $size = count(array_chunk($sample['results'], 3)[1]);
                                             $svg = $sum / $size;
                                             $svgs2['salinity'] = $svg;
                                         @endphp
@@ -470,7 +458,6 @@
                                             foreach (array_chunk($sample['results'], 3)[1] as $value) {
                                                 $sum += $value['psi'];
                                             }
-                                            $size = count(array_chunk($sample['results'], 3)[1]);
                                             $svg = $sum / $size;
                                             $svgs2['psi'] = $svg;
                                         @endphp
@@ -486,7 +473,6 @@
                                             foreach (array_chunk($sample['results'], 3)[1] as $value) {
                                                 $sum += $value['sat'];
                                             }
-                                            $size = count(array_chunk($sample['results'], 3)[1]);
                                             $svg = $sum / $size;
                                             $svgs2['sat'] = $svg;
                                         @endphp
@@ -502,7 +488,6 @@
                                             foreach (array_chunk($sample['results'], 3)[1] as $value) {
                                                 $sum += $value['conc'];
                                             }
-                                            $size = count(array_chunk($sample['results'], 3)[1]);
                                             $svg = $sum / $size;
                                             $svgs2['conc'] = $svg;
                                         @endphp
@@ -529,7 +514,6 @@
                                             foreach (array_chunk($sample['results'], 3)[1] as $value) {
                                                 $sum += $value['ntu'];
                                             }
-                                            $size = count(array_chunk($sample['results'], 3)[1]);
                                             $svg = $sum / $size;
                                             $svgs2['ntu'] = $svg;
                                         @endphp

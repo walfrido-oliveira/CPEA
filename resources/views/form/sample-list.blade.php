@@ -19,10 +19,11 @@
         <p class="font-bold">
             @php
                 $sum = 0;
-                foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+                $size = count(array_chunk($sample['results'], 3)[0]);
+
+                foreach (array_chunk($sample['results'], 3)[0] as $value) {
                     $sum += $value['temperature'];
                 }
-                $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
                 $svg = $sum / $size;
             @endphp
             {{ number_format($svg, 2, ",", ".") }}
@@ -30,10 +31,9 @@
         <p class="font-bold">
             @php
                 $sum = 0;
-                foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+                foreach (array_chunk($sample['results'], 3)[0] as $value) {
                     $sum += $value['ph'];
                 }
-                $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
                 $svg = $sum / $size;
             @endphp
             {{ number_format($svg, 2, ",", ".") }}
@@ -41,10 +41,9 @@
         <p class="font-bold">
             @php
                 $sum = 0;
-                foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+                foreach (array_chunk($sample['results'], 3)[0] as $value) {
                     $sum += $value['orp'];
                 }
-                $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
                 $svgORP = $sum / $size;
             @endphp
             {{ number_format($svgORP, 1, ",", ".") }}
@@ -52,10 +51,9 @@
         <p class="font-bold">
             @php
                 $sum = 0;
-                foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+                foreach (array_chunk($sample['results'], 3)[0] as $value) {
                     $sum += $value['conductivity'];
                 }
-                $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
                 $svg = $sum / $size;
             @endphp
             {{ number_format($svg, 3, ",", ".") }}
@@ -63,10 +61,9 @@
         <p class="font-bold">
             @php
                 $sum = 0;
-                foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+                foreach (array_chunk($sample['results'], 3)[0] as $value) {
                     $sum += $value['salinity'];
                 }
-                $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
                 $svg = $sum / $size;
             @endphp
             {{ number_format($svg, 3, ",", ".") }}
@@ -75,10 +72,9 @@
         <p class="font-bold">
             @php
                 $sum = 0;
-                foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+                foreach (array_chunk($sample['results'], 3)[0] as $value) {
                     $sum += $value['sat'];
                 }
-                $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
                 $svg = $sum / $size;
             @endphp
             {{ number_format($svg, 1, ",", ".") }}
@@ -86,10 +82,9 @@
         <p class="font-bold">
             @php
                 $sum = 0;
-                foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+                foreach (array_chunk($sample['results'], 3)[0] as $value) {
                     $sum += $value['conc'];
                 }
-                $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
                 $svg = $sum / $size;
             @endphp
             {{ number_format($svg, 3, ",", ".") }}
@@ -103,10 +98,9 @@
         <p class="font-bold">
             @php
                 $sum = 0;
-                foreach ($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] as $value) {
+                foreach (array_chunk($sample['results'], 3)[0] as $value) {
                     if(isset($value['ntu'])) $sum += $value['ntu'];
                 }
-                $size = count($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results']);
                 $svg = $sum / $size;
             @endphp
             {{ number_format($svg, 1, ",", ".") }}
