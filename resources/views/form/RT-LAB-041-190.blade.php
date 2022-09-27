@@ -87,7 +87,8 @@
                                 </button>
                             </div>
                         </div>
-                        @if(isset($formValue->values['samples']))
+
+                        @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
                             @for ($i = 0; $i < count($formValue->values['samples']); $i++)
                                 @include('form.sample', ['sample' => $formValue->values['samples']["row_$i"]])
                             @endfor

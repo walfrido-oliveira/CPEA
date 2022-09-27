@@ -231,7 +231,22 @@
                                 -
                             @endif
                         </td>
-                        <td>-</td>
+                        <td>
+                            @if(isset($value['psi']))
+                                @php
+                                    $sum = 0;
+                                    foreach (array_chunk($sample['results'], 3)[0] as $value) {
+                                        $sum += $value['psi'];
+                                    }
+                                    $size = count(array_chunk($sample['results'], 3)[0]);
+                                    $svg = $sum / $size;
+                                    $svgs['psi'] = $svg;
+                                @endphp
+                                {{ number_format($svg, 1, ",", ".") }}
+                            @else
+                                -
+                            @endif
+                        </td>
                         <td>
                             @if(isset($value['sat']))
                                 @php
@@ -368,11 +383,8 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="11" class="text-center text-white" style="background-color: rgb(0, 94, 16)">% DPR</td>
-                            </tr>
-                            <tr>
                                 <td>
-                                    @if(isset($value['temperature']) && $svgs['temperature'] != 0)
+                                    @if(isset($value['temperature']))
                                         @php
                                             $sum = 0;
                                             foreach (array_chunk($sample['results'], 3)[1] as $value) {
@@ -380,7 +392,163 @@
                                             }
                                             $size = count(array_chunk($sample['results'], 3)[1]);
                                             $svg = $sum / $size;
-                                            $result =  ($svgs['temperature'] - $svg / ($svgs['temperature'] + $svg / 2)) * 100;
+                                            $svgs2['temperature'] = $svg;
+                                        @endphp
+                                        {{ number_format($svg, 2, ",", ".") }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(isset($value['ph']))
+                                        @php
+                                            $sum = 0;
+                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
+                                                $sum += $value['ph'];
+                                            }
+                                            $size = count(array_chunk($sample['results'], 3)[1]);
+                                            $svg = $sum / $size;
+                                            $svgs2['ph'] = $svg;
+                                        @endphp
+                                        {{ number_format($svg, 2, ",", ".") }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(isset($value['orp']))
+                                        @php
+                                            $sum = 0;
+                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
+                                                $sum += $value['orp'];
+                                            }
+                                            $size = count(array_chunk($sample['results'], 3)[1]);
+                                            $svg = $sum / $size;
+                                            $svgs2['orp'] = $svg;
+                                        @endphp
+                                        {{ number_format($svg, 1, ",", ".") }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(isset($value['conductivity']))
+                                        @php
+                                            $sum = 0;
+                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
+                                                $sum += $value['conductivity'];
+                                            }
+                                            $size = count(array_chunk($sample['results'], 3)[1]);
+                                            $svg = $sum / $size;
+                                            $svgs2['conductivity'] = $svg;
+                                        @endphp
+                                        {{ number_format($svg, 3, ",", ".") }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(isset($value['salinity']))
+                                        @php
+                                            $sum = 0;
+                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
+                                                $sum += $value['salinity'];
+                                            }
+                                            $size = count(array_chunk($sample['results'], 3)[1]);
+                                            $svg = $sum / $size;
+                                            $svgs2['salinity'] = $svg;
+                                        @endphp
+                                        {{ number_format($svg, 3, ",", ".") }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(isset($value['psi']))
+                                        @php
+                                            $sum = 0;
+                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
+                                                $sum += $value['psi'];
+                                            }
+                                            $size = count(array_chunk($sample['results'], 3)[1]);
+                                            $svg = $sum / $size;
+                                            $svgs2['psi'] = $svg;
+                                        @endphp
+                                        {{ number_format($svg, 1, ",", ".") }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(isset($value['sat']))
+                                        @php
+                                            $sum = 0;
+                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
+                                                $sum += $value['sat'];
+                                            }
+                                            $size = count(array_chunk($sample['results'], 3)[1]);
+                                            $svg = $sum / $size;
+                                            $svgs2['sat'] = $svg;
+                                        @endphp
+                                        {{ number_format($svg, 1, ",", ".") }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(isset($value['conc']))
+                                        @php
+                                            $sum = 0;
+                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
+                                                $sum += $value['conc'];
+                                            }
+                                            $size = count(array_chunk($sample['results'], 3)[1]);
+                                            $svg = $sum / $size;
+                                            $svgs2['conc'] = $svg;
+                                        @endphp
+                                        {{ number_format($svg, 3, ",", ".") }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(isset($value['eh']))
+                                        @php
+                                            $svg = $svgs2['orp'] + 199;
+                                            $svgs2['eh'] = $svg;
+                                        @endphp
+                                        {{ number_format($svg, 1, ",", ".") }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(isset($value['ntu']))
+                                        @php
+                                            $sum = 0;
+                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
+                                                $sum += $value['ntu'];
+                                            }
+                                            $size = count(array_chunk($sample['results'], 3)[1]);
+                                            $svg = $sum / $size;
+                                            $svgs2['ntu'] = $svg;
+                                        @endphp
+                                        {{ number_format($svg, 1, ",", ".") }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td colspan="11" class="text-center text-white" style="background-color: rgb(0, 94, 16)">% DPR</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @if(isset($value['temperature']) && $svgs['temperature'] != 0)
+                                        @php
+                                            $svg = ($svgs['temperature'] + $svgs2['temperature']) / 2;
+                                            $result =  (($svgs['temperature'] - $svgs2['temperature']) / $svg) * 100;
                                         @endphp
                                         {{ number_format($result, 2, ",", ".") }}
                                     @else
@@ -390,13 +558,8 @@
                                 <td>
                                     @if(isset($value['ph']) && $svgs['ph'] != 0)
                                         @php
-                                            $sum = 0;
-                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
-                                                $sum += $value['ph'];
-                                            }
-                                            $size = count(array_chunk($sample['results'], 3)[1]);
-                                            $svg = $sum / $size;
-                                            $result =  ($svgs['ph'] - $svg / ($svgs['ph'] + $svg / 2)) * 100;
+                                            $svg = ($svgs['ph'] + $svgs2['ph']) / 2;
+                                            $result =  (($svgs['ph'] - $svgs2['ph']) / $svg) * 100;
                                         @endphp
                                         {{ number_format($result, 2, ",", ".") }}
                                     @else
@@ -406,15 +569,10 @@
                                 <td>
                                     @if(isset($value['orp']) && $svgs['orp'] != 0)
                                         @php
-                                            $sum = 0;
-                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
-                                                $sum += $value['orp'];
-                                            }
-                                            $size = count(array_chunk($sample['results'], 3)[1]);
-                                            $svg = $sum / $size;
-                                            $result =  ($svgs['orp'] - $svg / ($svgs['orp'] + $svg / 2)) * 100;
+                                            $svg = ($svgs['orp'] + $svgs2['orp']) / 2;
+                                            $result =  (($svgs['orp'] - $svgs2['orp']) / $svg) * 100;
                                         @endphp
-                                        {{ number_format($result, 1, ",", ".") }}
+                                        {{ number_format($result, 2, ",", ".") }}
                                     @else
                                         -
                                     @endif
@@ -422,15 +580,10 @@
                                 <td>
                                     @if(isset($value['conductivity']) && $svgs['conductivity'] != 0)
                                         @php
-                                            $sum = 0;
-                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
-                                                $sum += $value['conductivity'];
-                                            }
-                                            $size = count(array_chunk($sample['results'], 3)[1]);
-                                            $svg = $sum / $size;
-                                            $result =  ($svgs['conductivity'] - $svg / ($svgs['conductivity'] + $svg / 2)) * 100;
+                                            $svg = ($svgs['conductivity'] + $svgs2['conductivity']) / 2;
+                                            $result =  (($svgs['conductivity'] - $svgs2['conductivity']) / $svg) * 100;
                                         @endphp
-                                        {{ number_format($result, 3, ",", ".") }}
+                                        {{ number_format($result, 2, ",", ".") }}
                                     @else
                                         -
                                     @endif
@@ -438,32 +591,32 @@
                                 <td>
                                     @if(isset($value['salinity']) && $svgs['salinity'] != 0)
                                         @php
-                                            $sum = 0;
-                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
-                                                $sum += $value['salinity'];
-                                            }
-                                            $size = count(array_chunk($sample['results'], 3)[1]);
-                                            $svg = $sum / $size;
-                                            $result =  ($svgs['salinity'] - $svg / ($svgs['salinity'] + $svg / 2)) * 100;
+                                            $svg = ($svgs['salinity'] + $svgs2['salinity']) / 2;
+                                            $result =  (($svgs['salinity'] - $svgs2['salinity']) / $svg) * 100;
                                         @endphp
-                                        {{ number_format($result, 3, ",", ".") }}
+                                        {{ number_format($result, 2, ",", ".") }}
                                     @else
                                         -
                                     @endif
                                 </td>
-                                <td>-</td>
+                                <td>
+                                    @if(isset($value['psi']) && $svgs['psi'] != 0)
+                                        @php
+                                            $svg = ($svgs['psi'] + $svgs2['psi']) / 2;
+                                            $result =  (($svgs['psi'] - $svgs2['psi']) / $svg) * 100;
+                                        @endphp
+                                        {{ number_format($result, 2, ",", ".") }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
                                 <td>
                                     @if(isset($value['sat']) && $svgs['sat'] != 0)
                                         @php
-                                            $sum = 0;
-                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
-                                                $sum += $value['sat'];
-                                            }
-                                            $size = count(array_chunk($sample['results'], 3)[1]);
-                                            $svg = $sum / $size;
-                                            $result =  ($svgs['sat'] - $svg / ($svgs['sat'] + $svg / 2)) * 100;
+                                            $svg = ($svgs['sat'] + $svgs2['sat']) / 2;
+                                            $result =  (($svgs['sat'] - $svgs2['sat']) / $svg) * 100;
                                         @endphp
-                                        {{ number_format($result, 1, ",", ".") }}
+                                        {{ number_format($result, 2, ",", ".") }}
                                     @else
                                         -
                                     @endif
@@ -471,15 +624,10 @@
                                 <td>
                                     @if(isset($value['conc']) && $svgs['conc'] != 0)
                                         @php
-                                            $sum = 0;
-                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
-                                                $sum += $value['conc'];
-                                            }
-                                            $size = count(array_chunk($sample['results'], 3)[1]);
-                                            $svg = $sum / $size;
-                                            $result =  ($svgs['conc'] - $svg / ($svgs['conc'] + $svg / 2)) * 100;
+                                            $svg = ($svgs['conc'] + $svgs2['conc']) / 2;
+                                            $result =  (($svgs['conc'] - $svgs2['conc']) / $svg) * 100;
                                         @endphp
-                                        {{ number_format($result, 3, ",", ".") }}
+                                        {{ number_format($result, 2, ",", ".") }}
                                     @else
                                         -
                                     @endif
@@ -487,13 +635,8 @@
                                 <td>
                                     @if(isset($value['eh']) && $svgs['eh'] != 0)
                                         @php
-                                            $sum = 0;
-                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
-                                                $sum += $value['eh'];
-                                            }
-                                            $size = count(array_chunk($sample['results'], 3)[1]);
-                                            $svg = $sum / $size;
-                                            $result =  ($svgs['eh'] - $svg / ($svgs['eh'] + $svg / 2)) * 100;
+                                            $svg = ($svgs['eh'] + $svgs2['eh']) / 2;
+                                            $result =  (($svgs['eh'] - $svgs2['eh']) / $svg) * 100;
                                         @endphp
                                         {{ number_format($result, 1, ",", ".") }}
                                     @else
@@ -503,13 +646,8 @@
                                 <td>
                                     @if(isset($value['ntu']) && $svgs['ntu'] != 0)
                                         @php
-                                            $sum = 0;
-                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
-                                                $sum += $value['ntu'];
-                                            }
-                                            $size = count(array_chunk($sample['results'], 3)[1]);
-                                            $svg = $sum / $size;
-                                            $result =  ($svgs['ntu'] - $svg / ($svgs['ntu'] + $svg / 2)) * 100;
+                                            $svg = ($svgs['ntu'] + $svgs2['ntu']) / 2;
+                                            $result =  (($svgs['ntu'] - $svgs2['ntu']) / $svg) * 100;
                                         @endphp
                                         {{ number_format($result, 1, ",", ".") }}
                                     @else
