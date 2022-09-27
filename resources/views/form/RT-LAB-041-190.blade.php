@@ -205,6 +205,11 @@
     <x-spin-load />
 
     <script>
+        window.addEventListener("load", function() {
+            const view_table = localStorage.getItem("view_mode");
+            document.getElementById(view_table).click();
+        });
+
         document.getElementById("view_table").addEventListener("click", function() {
             document.querySelectorAll(".mode-table").forEach(item => {
                 item.style.display = "flex";
@@ -229,6 +234,8 @@
             document.querySelectorAll(".title").forEach(item => {
                 item.style.display = "flex";
             });
+
+            localStorage.setItem("view_mode", "view_table");
         });
 
         document.getElementById("view_list").addEventListener("click", function() {
@@ -259,6 +266,8 @@
             document.querySelectorAll(".title").forEach(item => {
                 item.style.display = "none";
             });
+
+            localStorage.setItem("view_mode", "view_list");
         });
 
         document.getElementById("view_sample_table").addEventListener("click", function() {
@@ -289,6 +298,8 @@
             document.querySelectorAll(".title").forEach(item => {
                 item.style.display = "none";
             });
+
+            localStorage.setItem("view_mode", "view_sample_table");
         });
     </script>
 
