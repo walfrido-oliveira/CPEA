@@ -235,6 +235,10 @@
                 item.style.display = "flex";
             });
 
+            document.querySelectorAll(".mode-list").forEach(item => {
+                item.style.display = "none";
+            });
+
             localStorage.setItem("view_mode", "view_table");
         });
 
@@ -309,7 +313,7 @@
                 item.nextElementSibling.style.display = "inline-block";
                 item.style.display = "none";
                 document.querySelectorAll(`#${this.dataset.index} input`).forEach(item => {
-                    item.disabled = false;
+                    item.readOnly = false;
                 });
             });
         });
