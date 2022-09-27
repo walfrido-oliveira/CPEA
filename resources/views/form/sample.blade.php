@@ -295,231 +295,234 @@
                     <tr>
                 </tfoot>
             </table>
-            <div class="w-full mt-2" >
-                <h2 class="text-center text-white opacity-100 p-2 w-full" style="background-color: rgb(0, 94, 16)">DUPLICATA</h2>
-                <table id="guiding_value_table" class="table table-responsive md:table w-full">
-                    <thead>
-                        <tr class="thead-light">
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="temperature" columnText="{{ __('Temperatura ºC') }}"/>
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="ph" columnText="{{ __('pH') }}"/>
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="orp" columnText="{{ __('ORP (mV)') }}"/>
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="conductivity" columnText="{{ __('Condutividade') }}"/>
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="salinity" columnText="{{ __('Salinidade') }}"/>
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="psi" columnText="{{ __('Press.[psi]') }}"/>
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="sat" columnText="{{ __('Oxigênio Dissolvido (sat) (%)') }}"/>
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="conc" columnText="{{ __('Oxigênio Dissolvido (conc) (mg/L)') }}"/>
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="eh" columnText="{{ __('EH (mV)') }}"/>
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="ntu" columnText="{{ __('Turbidez (NTU)') }}"/>
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="uncertainty" columnText="{{ __('Incerteza') }}"/>
-                        </tr>
-                    </thead>
-                    <tbody id="table_result">
-                        @foreach (array_chunk($sample['results'], 3)[1] as $key2 => $value)
-                            @php
-                                $key++;
-                            @endphp
+            @if (isset(array_chunk($sample['results'], 3)[1]))
+                <div class="w-full mt-2" >
+                    <h2 class="text-center text-white opacity-100 p-2 w-full" style="background-color: rgb(0, 94, 16)">DUPLICATA</h2>
+                    <table id="guiding_value_table" class="table table-responsive md:table w-full">
+                        <thead>
+                            <tr class="thead-light">
+                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="temperature" columnText="{{ __('Temperatura ºC') }}"/>
+                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="ph" columnText="{{ __('pH') }}"/>
+                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="orp" columnText="{{ __('ORP (mV)') }}"/>
+                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="conductivity" columnText="{{ __('Condutividade') }}"/>
+                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="salinity" columnText="{{ __('Salinidade') }}"/>
+                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="psi" columnText="{{ __('Press.[psi]') }}"/>
+                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="sat" columnText="{{ __('Oxigênio Dissolvido (sat) (%)') }}"/>
+                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="conc" columnText="{{ __('Oxigênio Dissolvido (conc) (mg/L)') }}"/>
+                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="eh" columnText="{{ __('EH (mV)') }}"/>
+                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="ntu" columnText="{{ __('Turbidez (NTU)') }}"/>
+                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="uncertainty" columnText="{{ __('Incerteza') }}"/>
+                            </tr>
+                        </thead>
+                        <tbody id="table_result">
+                            @foreach (array_chunk($sample['results'], 3)[1] as $key2 => $value)
+                                @php
+                                    $key++;
+                                @endphp
+                                <tr>
+                                    <td>
+                                        <x-jet-input readonly="true" id="temperature" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['temperature']) ? number_format($value['temperature'], 2) : ''}}"
+                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][temperature]' : 'samples[row_0][results]['. $key . '][temperature]' }}" step="any" />
+                                    </td>
+                                    <td>
+                                        <x-jet-input readonly="true" id="ph" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['ph']) ? number_format($value['ph'], 2) : ''}}"
+                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][ph]' : 'samples[row_0][results]['. $key . '][ph]' }}" step="any" />
+                                    </td>
+                                    <td>
+                                        <x-jet-input readonly="true" id="orp" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['orp']) ? number_format($value['orp'], 1) : ''}}"
+                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][orp]' : 'samples[row_0][results]['. $key . '][orp]' }}" step="any" />
+                                    </td>
+                                    <td>
+                                        <x-jet-input readonly="true" id="conductivity" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['conductivity']) ? number_format($value['conductivity'], 3, '.', '') : ''}}"
+                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][conductivity]' : 'samples[row_0][results]['. $key . '][conductivity]' }}" step="any" />
+                                    </td>
+                                    <td>
+                                        <x-jet-input readonly="true" id="salinity" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['salinity']) ? number_format($value['salinity'], 3) : ''}}"
+                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][salinity]' : 'samples[row_0][results]['. $key . '][salinity]' }}" step="any" />
+                                    </td>
+                                    <td>
+                                        <x-jet-input readonly="true" id="psi" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['psi']) ? number_format($value['psi'], 3) : ''}}"
+                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][psi]' : 'samples[row_0][results]['. $key . '][psi]' }}" step="any" />
+                                    </td>
+                                    <td>
+                                        <x-jet-input readonly="true" id="sat" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['sat']) ? number_format($value['sat'], 1) : ''}}"
+                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][sat]' : 'samples[row_0][results]['. $key . '][sat]' }}" step="any" />
+                                    </td>
+                                    <td><x-jet-input readonly="true" id="conc" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['conc']) ? number_format($value['conc'], 3) : ''}}"
+                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][conc]' : 'samples[row_0][results]['. $key . '][conc]' }}" step="any" />
+                                    </td>
+                                    <td>
+                                        <x-jet-input readonly="true" id="eh" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['eh']) ? number_format($value['eh'], 1) : ''}}"
+                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][eh]' : 'samples[row_0][results]['. $key . '][eh]' }}" step="any" />
+                                    </td>
+                                    <td>
+                                        <x-jet-input readonly="true" id="ntu" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['ntu']) ? number_format($value['ntu'], 1) : ''}}"
+                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][ntu]' : 'samples[row_0][results]['. $key . '][ntu]' }}" step="any" />
+                                    </td>
+                                    <td>
+                                        <x-jet-input readonly="true" id="uncertainty" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['uncertainty']) ? number_format($value['uncertainty'], 1) : ''}}"
+                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][uncertainty]' : 'samples[row_0][results]['. $key . '][uncertainty]' }}" step="any" />
+                                    </td>
+                                <tr>
+                            @endforeach
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="11" class="text-center text-white" style="background-color: rgb(0, 94, 16)">% DPR</td>
+                            </tr>
                             <tr>
                                 <td>
-                                    <x-jet-input readonly="true" id="temperature" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['temperature']) ? number_format($value['temperature'], 2) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][temperature]' : 'samples[row_0][results]['. $key . '][temperature]' }}" step="any" />
+                                    @if(isset($value['temperature']) && $svgs['temperature'] != 0)
+                                        @php
+                                            $sum = 0;
+                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
+                                                $sum += $value['temperature'];
+                                            }
+                                            $size = count(array_chunk($sample['results'], 3)[1]);
+                                            $svg = $sum / $size;
+                                            $result =  ($svgs['temperature'] - $svg / ($svgs['temperature'] + $svg / 2)) * 100;
+                                        @endphp
+                                        {{ number_format($result, 2, ",", ".") }}
+                                    @else
+                                        -
+                                    @endif
                                 </td>
                                 <td>
-                                    <x-jet-input readonly="true" id="ph" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['ph']) ? number_format($value['ph'], 2) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][ph]' : 'samples[row_0][results]['. $key . '][ph]' }}" step="any" />
+                                    @if(isset($value['ph']) && $svgs['ph'] != 0)
+                                        @php
+                                            $sum = 0;
+                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
+                                                $sum += $value['ph'];
+                                            }
+                                            $size = count(array_chunk($sample['results'], 3)[1]);
+                                            $svg = $sum / $size;
+                                            $result =  ($svgs['ph'] - $svg / ($svgs['ph'] + $svg / 2)) * 100;
+                                        @endphp
+                                        {{ number_format($result, 2, ",", ".") }}
+                                    @else
+                                        -
+                                    @endif
                                 </td>
                                 <td>
-                                    <x-jet-input readonly="true" id="orp" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['orp']) ? number_format($value['orp'], 1) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][orp]' : 'samples[row_0][results]['. $key . '][orp]' }}" step="any" />
+                                    @if(isset($value['orp']) && $svgs['orp'] != 0)
+                                        @php
+                                            $sum = 0;
+                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
+                                                $sum += $value['orp'];
+                                            }
+                                            $size = count(array_chunk($sample['results'], 3)[1]);
+                                            $svg = $sum / $size;
+                                            $result =  ($svgs['orp'] - $svg / ($svgs['orp'] + $svg / 2)) * 100;
+                                        @endphp
+                                        {{ number_format($result, 1, ",", ".") }}
+                                    @else
+                                        -
+                                    @endif
                                 </td>
                                 <td>
-                                    <x-jet-input readonly="true" id="conductivity" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['conductivity']) ? number_format($value['conductivity'], 3, '.', '') : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][conductivity]' : 'samples[row_0][results]['. $key . '][conductivity]' }}" step="any" />
+                                    @if(isset($value['conductivity']) && $svgs['conductivity'] != 0)
+                                        @php
+                                            $sum = 0;
+                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
+                                                $sum += $value['conductivity'];
+                                            }
+                                            $size = count(array_chunk($sample['results'], 3)[1]);
+                                            $svg = $sum / $size;
+                                            $result =  ($svgs['conductivity'] - $svg / ($svgs['conductivity'] + $svg / 2)) * 100;
+                                        @endphp
+                                        {{ number_format($result, 3, ",", ".") }}
+                                    @else
+                                        -
+                                    @endif
                                 </td>
                                 <td>
-                                    <x-jet-input readonly="true" id="salinity" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['salinity']) ? number_format($value['salinity'], 3) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][salinity]' : 'samples[row_0][results]['. $key . '][salinity]' }}" step="any" />
+                                    @if(isset($value['salinity']) && $svgs['salinity'] != 0)
+                                        @php
+                                            $sum = 0;
+                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
+                                                $sum += $value['salinity'];
+                                            }
+                                            $size = count(array_chunk($sample['results'], 3)[1]);
+                                            $svg = $sum / $size;
+                                            $result =  ($svgs['salinity'] - $svg / ($svgs['salinity'] + $svg / 2)) * 100;
+                                        @endphp
+                                        {{ number_format($result, 3, ",", ".") }}
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                                <td>-</td>
+                                <td>
+                                    @if(isset($value['sat']) && $svgs['sat'] != 0)
+                                        @php
+                                            $sum = 0;
+                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
+                                                $sum += $value['sat'];
+                                            }
+                                            $size = count(array_chunk($sample['results'], 3)[1]);
+                                            $svg = $sum / $size;
+                                            $result =  ($svgs['sat'] - $svg / ($svgs['sat'] + $svg / 2)) * 100;
+                                        @endphp
+                                        {{ number_format($result, 1, ",", ".") }}
+                                    @else
+                                        -
+                                    @endif
                                 </td>
                                 <td>
-                                    <x-jet-input readonly="true" id="psi" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['psi']) ? number_format($value['psi'], 3) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][psi]' : 'samples[row_0][results]['. $key . '][psi]' }}" step="any" />
+                                    @if(isset($value['conc']) && $svgs['conc'] != 0)
+                                        @php
+                                            $sum = 0;
+                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
+                                                $sum += $value['conc'];
+                                            }
+                                            $size = count(array_chunk($sample['results'], 3)[1]);
+                                            $svg = $sum / $size;
+                                            $result =  ($svgs['conc'] - $svg / ($svgs['conc'] + $svg / 2)) * 100;
+                                        @endphp
+                                        {{ number_format($result, 3, ",", ".") }}
+                                    @else
+                                        -
+                                    @endif
                                 </td>
                                 <td>
-                                    <x-jet-input readonly="true" id="sat" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['sat']) ? number_format($value['sat'], 1) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][sat]' : 'samples[row_0][results]['. $key . '][sat]' }}" step="any" />
-                                </td>
-                                <td><x-jet-input readonly="true" id="conc" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['conc']) ? number_format($value['conc'], 3) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][conc]' : 'samples[row_0][results]['. $key . '][conc]' }}" step="any" />
+                                    @if(isset($value['eh']) && $svgs['eh'] != 0)
+                                        @php
+                                            $sum = 0;
+                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
+                                                $sum += $value['eh'];
+                                            }
+                                            $size = count(array_chunk($sample['results'], 3)[1]);
+                                            $svg = $sum / $size;
+                                            $result =  ($svgs['eh'] - $svg / ($svgs['eh'] + $svg / 2)) * 100;
+                                        @endphp
+                                        {{ number_format($result, 1, ",", ".") }}
+                                    @else
+                                        -
+                                    @endif
                                 </td>
                                 <td>
-                                    <x-jet-input readonly="true" id="eh" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['eh']) ? number_format($value['eh'], 1) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][eh]' : 'samples[row_0][results]['. $key . '][eh]' }}" step="any" />
+                                    @if(isset($value['ntu']) && $svgs['ntu'] != 0)
+                                        @php
+                                            $sum = 0;
+                                            foreach (array_chunk($sample['results'], 3)[1] as $value) {
+                                                $sum += $value['ntu'];
+                                            }
+                                            $size = count(array_chunk($sample['results'], 3)[1]);
+                                            $svg = $sum / $size;
+                                            $result =  ($svgs['ntu'] - $svg / ($svgs['ntu'] + $svg / 2)) * 100;
+                                        @endphp
+                                        {{ number_format($result, 1, ",", ".") }}
+                                    @else
+                                        -
+                                    @endif
                                 </td>
-                                <td>
-                                    <x-jet-input readonly="true" id="ntu" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['ntu']) ? number_format($value['ntu'], 1) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][ntu]' : 'samples[row_0][results]['. $key . '][ntu]' }}" step="any" />
-                                </td>
-                                <td>
-                                    <x-jet-input readonly="true" id="uncertainty" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['uncertainty']) ? number_format($value['uncertainty'], 1) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][uncertainty]' : 'samples[row_0][results]['. $key . '][uncertainty]' }}" step="any" />
-                                </td>
+                                <td>-</td>
                             <tr>
-                        @endforeach
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="11" class="text-center text-white" style="background-color: rgb(0, 94, 16)">% DPR</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                @if(isset($value['temperature']) && $svgs['temperature'] != 0)
-                                    @php
-                                        $sum = 0;
-                                        foreach (array_chunk($sample['results'], 3)[1] as $value) {
-                                            $sum += $value['temperature'];
-                                        }
-                                        $size = count(array_chunk($sample['results'], 3)[1]);
-                                        $svg = $sum / $size;
-                                        $result =  ($svgs['temperature'] - $svg / ($svgs['temperature'] + $svg / 2)) * 100;
-                                    @endphp
-                                    {{ number_format($result, 2, ",", ".") }}
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td>
-                                @if(isset($value['ph']) && $svgs['ph'] != 0)
-                                    @php
-                                        $sum = 0;
-                                        foreach (array_chunk($sample['results'], 3)[1] as $value) {
-                                            $sum += $value['ph'];
-                                        }
-                                        $size = count(array_chunk($sample['results'], 3)[1]);
-                                        $svg = $sum / $size;
-                                        $result =  ($svgs['ph'] - $svg / ($svgs['ph'] + $svg / 2)) * 100;
-                                    @endphp
-                                    {{ number_format($result, 2, ",", ".") }}
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td>
-                                @if(isset($value['orp']) && $svgs['orp'] != 0)
-                                    @php
-                                        $sum = 0;
-                                        foreach (array_chunk($sample['results'], 3)[1] as $value) {
-                                            $sum += $value['orp'];
-                                        }
-                                        $size = count(array_chunk($sample['results'], 3)[1]);
-                                        $svg = $sum / $size;
-                                        $result =  ($svgs['orp'] - $svg / ($svgs['orp'] + $svg / 2)) * 100;
-                                    @endphp
-                                    {{ number_format($result, 1, ",", ".") }}
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td>
-                                @if(isset($value['conductivity']) && $svgs['conductivity'] != 0)
-                                    @php
-                                        $sum = 0;
-                                        foreach (array_chunk($sample['results'], 3)[1] as $value) {
-                                            $sum += $value['conductivity'];
-                                        }
-                                        $size = count(array_chunk($sample['results'], 3)[1]);
-                                        $svg = $sum / $size;
-                                        $result =  ($svgs['conductivity'] - $svg / ($svgs['conductivity'] + $svg / 2)) * 100;
-                                    @endphp
-                                    {{ number_format($result, 3, ",", ".") }}
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td>
-                                @if(isset($value['salinity']) && $svgs['salinity'] != 0)
-                                    @php
-                                        $sum = 0;
-                                        foreach (array_chunk($sample['results'], 3)[1] as $value) {
-                                            $sum += $value['salinity'];
-                                        }
-                                        $size = count(array_chunk($sample['results'], 3)[1]);
-                                        $svg = $sum / $size;
-                                        $result =  ($svgs['salinity'] - $svg / ($svgs['salinity'] + $svg / 2)) * 100;
-                                    @endphp
-                                    {{ number_format($result, 3, ",", ".") }}
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td>-</td>
-                            <td>
-                                @if(isset($value['sat']) && $svgs['sat'] != 0)
-                                    @php
-                                        $sum = 0;
-                                        foreach (array_chunk($sample['results'], 3)[1] as $value) {
-                                            $sum += $value['sat'];
-                                        }
-                                        $size = count(array_chunk($sample['results'], 3)[1]);
-                                        $svg = $sum / $size;
-                                        $result =  ($svgs['sat'] - $svg / ($svgs['sat'] + $svg / 2)) * 100;
-                                    @endphp
-                                    {{ number_format($result, 1, ",", ".") }}
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td>
-                                @if(isset($value['conc']) && $svgs['conc'] != 0)
-                                    @php
-                                        $sum = 0;
-                                        foreach (array_chunk($sample['results'], 3)[1] as $value) {
-                                            $sum += $value['conc'];
-                                        }
-                                        $size = count(array_chunk($sample['results'], 3)[1]);
-                                        $svg = $sum / $size;
-                                        $result =  ($svgs['conc'] - $svg / ($svgs['conc'] + $svg / 2)) * 100;
-                                    @endphp
-                                    {{ number_format($result, 3, ",", ".") }}
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td>
-                                @if(isset($value['eh']) && $svgs['eh'] != 0)
-                                    @php
-                                        $sum = 0;
-                                        foreach (array_chunk($sample['results'], 3)[1] as $value) {
-                                            $sum += $value['eh'];
-                                        }
-                                        $size = count(array_chunk($sample['results'], 3)[1]);
-                                        $svg = $sum / $size;
-                                        $result =  ($svgs['eh'] - $svg / ($svgs['eh'] + $svg / 2)) * 100;
-                                    @endphp
-                                    {{ number_format($result, 1, ",", ".") }}
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td>
-                                @if(isset($value['ntu']) && $svgs['ntu'] != 0)
-                                    @php
-                                        $sum = 0;
-                                        foreach (array_chunk($sample['results'], 3)[1] as $value) {
-                                            $sum += $value['ntu'];
-                                        }
-                                        $size = count(array_chunk($sample['results'], 3)[1]);
-                                        $svg = $sum / $size;
-                                        $result =  ($svgs['ntu'] - $svg / ($svgs['ntu'] + $svg / 2)) * 100;
-                                    @endphp
-                                    {{ number_format($result, 1, ",", ".") }}
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td>-</td>
-                        <tr>
-                    </tfoot>
-                </table>
-            </div>
+                        </tfoot>
+                    </table>
+                </div>
+            @endif
+
         </div>
     @endif
 </div>
