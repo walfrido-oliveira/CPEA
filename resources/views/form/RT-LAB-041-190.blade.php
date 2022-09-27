@@ -210,8 +210,8 @@
                 item.style.display = "flex";
             });
 
-            document.querySelectorAll(".mode-list").forEach(item => {
-                item.style.display = "none";
+            document.querySelectorAll(".sample").forEach(item => {
+                item.style.display = "flex";
             });
 
             document.querySelectorAll(".mode-sample-table").forEach(item => {
@@ -233,6 +233,10 @@
 
         document.getElementById("view_list").addEventListener("click", function() {
             document.querySelectorAll(".mode-table").forEach(item => {
+                item.style.display = "none";
+            });
+
+            document.querySelectorAll(".sample").forEach(item => {
                 item.style.display = "none";
             });
 
@@ -259,6 +263,10 @@
 
         document.getElementById("view_sample_table").addEventListener("click", function() {
             document.querySelectorAll(".mode-table").forEach(item => {
+                item.style.display = "none";
+            });
+
+            document.querySelectorAll(".sample").forEach(item => {
                 item.style.display = "none";
             });
 
