@@ -1,5 +1,4 @@
-<div class="w-full px-3 mt-4 mb-6 md:mb-0 flex flex-wrap sample @if(count(array_chunk($sample['results'], 3)) > 1) duplicates-table @else default-table @endif" id="sample_{{ isset($i) ? $i : 0 }}" data-index="1"
-     style="@if(count(array_chunk($sample['results'], 3)) > 1) display: none;@endif">
+<div class="w-full px-3 mt-4 mb-6 md:mb-0 flex flex-wrap sample @if(count(array_chunk($sample['results'], 3)) > 1) duplicates-table @else default-table @endif" id="sample_{{ isset($i) ? $i : 0 }}" data-index="1">
     <div class="flex w-full">
         <h3 class="w-full mt-4 mb-6 md:mb-0 title">AMOSTRA <span>{{ isset($i) ? $i + 1 : 1 }}</span></h3>
         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 flex justify-end align-baseline buttons" style="align-items: baseline;">
@@ -306,9 +305,9 @@
                 </table>
             </div>
             @if (isset(array_chunk($sample['results'], 3)[1]))
-                <div class="w-full mt-2">
+                <div class="w-full mt-2 duplicate" style="display: none;">
                     <h2 class="text-center text-white opacity-100 p-2 w-full" style="background-color: rgb(0, 94, 16)">DUPLICATA</h2>
-                    <table id="guiding_value_table" class="table table-responsive md:table w-full">
+                    <table class="table table-responsive md:table w-full">
                         <thead>
                             <tr class="thead-light">
                                 <x-table-sort-header :orderBy="null" :ascending="null" columnName="temperature" columnText="{{ __('Temperatura ºC') }}"/>
