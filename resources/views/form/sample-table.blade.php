@@ -51,8 +51,7 @@
 
     @endphp
 
-    <div class="flex flex-wrap mt-2 w-full flex-col mode-sample-table @if(count(array_chunk($sample['results'], 3)) > 1) duplicates-table @else default-table @endif"
-         style="@if(count(array_chunk($sample['results'], 3)) > 1) display: none;@endif">
+    <div class="flex flex-wrap mt-2 w-full flex-col mode-sample-table">
         <div class="border-2 my-2">
             <table class="table table-responsive md:table w-full">
                 <thead>

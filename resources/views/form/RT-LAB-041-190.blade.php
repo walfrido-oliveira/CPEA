@@ -121,7 +121,8 @@
                             </div>
                             <div id="mode_list">
                                 @foreach (array_chunk($formValue->values['samples'], 3) as $sampleArray)
-                                    <div class="flex flex-wrap mt-2 w-full mode-list">
+                                    <div class="flex flex-wrap mt-2 w-full mode-list @if(count(array_chunk($sample['results'], 3)) > 1) duplicates-table @else default-table @endif"
+                                         style="@if(count(array_chunk($sample['results'], 3)) > 1) display: none;@endif">
                                         <div class="flex flex-wrap mt-2 w-full">
                                             <div class="mx-1 p-3">
                                                 <p class="font-bold">{{ __('Ponto de Coleta') }}</p>
@@ -146,7 +147,8 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <div id="mode_sample_table">
+                            <div id="mode_sample_table"class="@if(count(array_chunk($sample['results'], 3)) > 1) duplicates-table @else default-table @endif"
+                                 style="@if(count(array_chunk($sample['results'], 3)) > 1) display: none;@endif">
                                 @for ($i = 0; $i < count($formValue->values['samples']); $i++)
                                     @include('form.sample-table', ['sample' => $formValue->values['samples']["row_$i"]])
                                 @endfor
