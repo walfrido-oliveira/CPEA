@@ -146,8 +146,7 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <div id="mode_sample_table"class="@if(count(array_chunk($sample['results'], 3)) > 1) duplicates-table @else default-table @endif"
-                                 style="@if(count(array_chunk($sample['results'], 3)) > 1) display: none;@endif">
+                            <div id="mode_sample_table">
                                 @for ($i = 0; $i < count($formValue->values['samples']); $i++)
                                     @include('form.sample-table', ['sample' => $formValue->values['samples']["row_$i"]])
                                 @endfor
