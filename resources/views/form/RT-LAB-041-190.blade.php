@@ -232,13 +232,21 @@
 
     <script>
         document.getElementById("filter_default").addEventListener("click", function() {
-            document.getElementById("default_table").style.display = "block";
-            document.getElementById("duplicates_table").style.display = "none";
+            document.querySelectorAll(".default-table").forEach(item => {
+                item..style.display = "block";
+            });
+            document.querySelectorAll(".duplicates-table").forEach(item => {
+                item..style.display = "none";
+            });
         });
 
         document.getElementById("filter_duplicate").addEventListener("click", function() {
-            document.getElementById("default_table").style.display = "none";
-            document.getElementById("duplicates_table").style.display = "block";
+            document.querySelectorAll(".default-table").forEach(item => {
+                item..style.display = "none";
+            });
+            document.querySelectorAll(".duplicates-table").forEach(item => {
+                item..style.display = "block";
+            });
         });
     </script>
 

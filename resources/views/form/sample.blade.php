@@ -84,7 +84,7 @@
     </div>
     @if(isset($sample['results']))
         <div class="flex flex-wrap mt-2 w-full mode-table">
-            <div id="default_table" class="w-full">
+            <div class="w-full default-table">
                 <table class="table table-responsive md:table w-full">
                     <thead>
                         <tr class="thead-light">
@@ -305,7 +305,7 @@
                 </table>
             </div>
             @if (isset(array_chunk($sample['results'], 3)[1]))
-                <div class="w-full mt-2" id="duplicates_table" style="display: none">
+                <div class="w-full mt-2 duplicates-table" style="display: none">
                     <h2 class="text-center text-white opacity-100 p-2 w-full" style="background-color: rgb(0, 94, 16)">DUPLICATA</h2>
                     <table id="guiding_value_table" class="table table-responsive md:table w-full">
                         <thead>
