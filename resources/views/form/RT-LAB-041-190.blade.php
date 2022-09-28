@@ -79,12 +79,37 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                                     </svg>
                                 </button>
-
                                 <button type="button" id="view_sample_table" class="btn-transition-primary px-1" title="Modo de visualização em tabela">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8 text-green-900">
                                       <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
                                     </svg>
                                 </button>
+                                <div class="block py-2 px-2" x-data="{ open: false }">
+                                    <div class="flex sm:items-center justify-end w-full">
+                                        <x-jet-dropdown align="right" width="48" contentClasses="p-0">
+                                            <x-slot name="trigger">
+                                                <button type="button" id="filter_results" class="btn-transition-primary px-1" title="Filtrar">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8 text-yellow-500">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z" />
+                                                    </svg>
+                                                </button>
+                                            </x-slot>
+
+                                            <x-slot name="content">
+                                                <button class='status-analysis-order-edit block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 bg-yellow-100 focus:outline-none focus:bg-gray-100
+                                                              transition w-full' data-status="default" id="filter_default" type="button">Dados</button>
+
+                                                <div class="border-t border-gray-100"></div>
+
+                                                <button class='status-analysis-order-edit block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 bg-green-100 focus:outline-none focus:bg-gray-100
+                                                              transition w-full' data-status="duplicate" id="filter_duplicate" type="button">Duplicatas</button>
+
+                                                <div class="border-t border-gray-100"></div>
+
+                                            </x-slot>
+                                        </x-jet-dropdown>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -204,6 +229,18 @@
       </div>
 
     <x-spin-load />
+
+    <script>
+        document.getElementById("filter_default").addEventListener("click", function() {
+            document.getElementById("default_table").style.display = "block";
+            document.getElementById("duplicates_table").style.display = "none";
+        });
+
+        document.getElementById("filter_duplicate").addEventListener("click", function() {
+            document.getElementById("default_table").style.display = "none";
+            document.getElementById("duplicates_table").style.display = "block";
+        });
+    </script>
 
     <script>
         window.addEventListener("load", function() {
