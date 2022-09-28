@@ -1,5 +1,4 @@
-<div class="mx-1 p-3 bg-gray-100"
-     style="@if(count(array_chunk($sample['results'], 3)) > 1) display: none;@endif">
+<div class="mx-1 p-3 bg-gray-100">
     @if (isset($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] ))
         <p>
             @if(isset($sample['point']))
