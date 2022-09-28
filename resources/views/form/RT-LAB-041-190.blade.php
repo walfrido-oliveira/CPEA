@@ -114,38 +114,43 @@
                         </div>
 
                         @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
-                            @for ($i = 0; $i < count($formValue->values['samples']); $i++)
-                                @include('form.sample', ['sample' => $formValue->values['samples']["row_$i"]])
-                            @endfor
-                            @foreach (array_chunk($formValue->values['samples'], 3) as $sampleArray)
-                                <div class="flex flex-wrap mt-2 w-full mode-list" style="display: none;">
-                                    <div class="flex flex-wrap mt-2 w-full">
-                                        <div class="mx-1 p-3">
-                                            <p class="font-bold">{{ __('Ponto de Coleta') }}</p>
-                                            <p class="font-bold">{{ __('Condições ambientais nas últimas 24 hs') }}</p>
-                                            <p class="font-bold">{{ __('DT/HR da Coleta') }}</p>
-                                            <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 12px; margin-bottom: 12px;">&nbsp;</p>
-                                            <p class="font-bold">{{ __('Temperatura ºC') }}</p>
-                                            <p class="font-bold">{{ __('pH') }}</p>
-                                            <p class="font-bold">{{ __('ORP (mV)') }}</p>
-                                            <p class="font-bold">{{ __('Condutividade') }}</p>
-                                            <p class="font-bold">{{ __('Salinidade') }}</p>
-                                            <p class="font-bold">{{ __('Press.[psi]') }}</p>
-                                            <p class="font-bold">{{ __('Oxigênio Dissolvido (sat) (%)') }}</p>
-                                            <p class="font-bold">{{ __('Oxigênio Dissolvido (conc) (mg/L)') }}</p>
-                                            <p class="font-bold">{{ __('EH (mV)') }}</p>
-                                            <p class="font-bold">{{ __('Turbidez (NTU)') }}</p>
+                            <div id="mode_table">
+                                @for ($i = 0; $i < count($formValue->values['samples']); $i++)
+                                    @include('form.sample', ['sample' => $formValue->values['samples']["row_$i"]])
+                                @endfor
+                            </div>
+                            <div id="mode_list">
+                                @foreach (array_chunk($formValue->values['samples'], 3) as $sampleArray)
+                                    <div class="flex flex-wrap mt-2 w-full mode-list">
+                                        <div class="flex flex-wrap mt-2 w-full">
+                                            <div class="mx-1 p-3">
+                                                <p class="font-bold">{{ __('Ponto de Coleta') }}</p>
+                                                <p class="font-bold">{{ __('Condições ambientais nas últimas 24 hs') }}</p>
+                                                <p class="font-bold">{{ __('DT/HR da Coleta') }}</p>
+                                                <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 12px; margin-bottom: 12px;">&nbsp;</p>
+                                                <p class="font-bold">{{ __('Temperatura ºC') }}</p>
+                                                <p class="font-bold">{{ __('pH') }}</p>
+                                                <p class="font-bold">{{ __('ORP (mV)') }}</p>
+                                                <p class="font-bold">{{ __('Condutividade') }}</p>
+                                                <p class="font-bold">{{ __('Salinidade') }}</p>
+                                                <p class="font-bold">{{ __('Press.[psi]') }}</p>
+                                                <p class="font-bold">{{ __('Oxigênio Dissolvido (sat) (%)') }}</p>
+                                                <p class="font-bold">{{ __('Oxigênio Dissolvido (conc) (mg/L)') }}</p>
+                                                <p class="font-bold">{{ __('EH (mV)') }}</p>
+                                                <p class="font-bold">{{ __('Turbidez (NTU)') }}</p>
+                                            </div>
+                                            @for ($i = 0; $i < count($sampleArray); $i++)
+                                                @if(isset($sampleArray[$i]['results'])) @include('form.sample-list', ['sample' => $sampleArray[$i]]) @endif
+                                            @endfor
                                         </div>
-                                        @for ($i = 0; $i < count($sampleArray); $i++)
-                                            @if(isset($sampleArray[$i]['results'])) @include('form.sample-list', ['sample' => $sampleArray[$i]]) @endif
-                                        @endfor
                                     </div>
-                                </div>
-                            @endforeach
-
-                            @for ($i = 0; $i < count($formValue->values['samples']); $i++)
-                                @include('form.sample-table', ['sample' => $formValue->values['samples']["row_$i"]])
-                            @endfor
+                                @endforeach
+                            </div>
+                            <div id="mode_sample_table">
+                                @for ($i = 0; $i < count($formValue->values['samples']); $i++)
+                                    @include('form.sample-table', ['sample' => $formValue->values['samples']["row_$i"]])
+                                @endfor
+                            </div>
                         @else
                             @include('form.sample')
                         @endif
@@ -257,31 +262,15 @@
         });
 
         document.getElementById("view_table").addEventListener("click", function() {
-            document.querySelectorAll(".mode-table").forEach(item => {
+            document.querySelectorAll("#mode_table").forEach(item => {
                 item.style.display = "flex";
             });
 
-            document.querySelectorAll(".sample").forEach(item => {
-                item.style.display = "flex";
-            });
-
-            document.querySelectorAll(".mode-sample-table").forEach(item => {
+            document.querySelectorAll("#mode_sample_table").forEach(item => {
                 item.style.display = "none";
             });
 
-            document.querySelectorAll(".inputs").forEach(item => {
-                item.style.display = "block";
-            });
-
-            document.querySelectorAll(".buttons").forEach(item => {
-                item.style.display = "flex";
-            });
-
-            document.querySelectorAll(".title").forEach(item => {
-                item.style.display = "flex";
-            });
-
-            document.querySelectorAll(".mode-list").forEach(item => {
+            document.querySelectorAll("#mode_list").forEach(item => {
                 item.style.display = "none";
             });
 
@@ -289,63 +278,31 @@
         });
 
         document.getElementById("view_list").addEventListener("click", function() {
-            document.querySelectorAll(".mode-table").forEach(item => {
+            document.querySelectorAll("#mode_table").forEach(item => {
                 item.style.display = "none";
             });
 
-            document.querySelectorAll(".sample").forEach(item => {
+            document.querySelectorAll("#mode_sample_table").forEach(item => {
                 item.style.display = "none";
             });
 
-            document.querySelectorAll(".mode-sample-table").forEach(item => {
-                item.style.display = "none";
-            });
-
-            document.querySelectorAll(".mode-list").forEach(item => {
+            document.querySelectorAll("#mode_list").forEach(item => {
                 item.style.display = "flex";
-            });
-
-            document.querySelectorAll(".inputs").forEach(item => {
-                item.style.display = "none";
-            });
-
-            document.querySelectorAll(".buttons").forEach(item => {
-                item.style.display = "none";
-            });
-
-            document.querySelectorAll(".title").forEach(item => {
-                item.style.display = "none";
             });
 
             localStorage.setItem("view_mode", "view_list");
         });
 
         document.getElementById("view_sample_table").addEventListener("click", function() {
-            document.querySelectorAll(".mode-table").forEach(item => {
+            document.querySelectorAll("#mode_table").forEach(item => {
                 item.style.display = "none";
             });
 
-            document.querySelectorAll(".sample").forEach(item => {
-                item.style.display = "none";
-            });
-
-            document.querySelectorAll(".mode-sample-table").forEach(item => {
+            document.querySelectorAll("#mode_sample_table").forEach(item => {
                 item.style.display = "flex";
             });
 
-            document.querySelectorAll(".mode-list").forEach(item => {
-                item.style.display = "none";
-            });
-
-            document.querySelectorAll(".inputs").forEach(item => {
-                item.style.display = "none";
-            });
-
-            document.querySelectorAll(".buttons").forEach(item => {
-                item.style.display = "none";
-            });
-
-            document.querySelectorAll(".title").forEach(item => {
+            document.querySelectorAll("#mode_list").forEach(item => {
                 item.style.display = "none";
             });
 
