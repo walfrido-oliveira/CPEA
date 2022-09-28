@@ -227,6 +227,7 @@
     </div>
 
     <x-spin-load />
+    <x-back-to-top element="mode_table" />
 
     <script>
         document.getElementById("filter_default").addEventListener("click", function() {
