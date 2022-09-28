@@ -239,9 +239,6 @@
         });
 
         document.getElementById("filter_duplicate").addEventListener("click", function() {
-            document.querySelectorAll(".default-table").forEach(item => {
-                item.style.display = "none";
-            });
             document.querySelectorAll(".duplicates-table, .duplicate").forEach(item => {
                 item.style.display = "block";
             });
