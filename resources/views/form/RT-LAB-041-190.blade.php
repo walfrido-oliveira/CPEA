@@ -263,7 +263,7 @@
 
         document.getElementById("view_table").addEventListener("click", function() {
             document.querySelectorAll("#mode_table").forEach(item => {
-                item.style.display = "flex";
+                item.style.display = "block";
             });
 
             document.querySelectorAll("#mode_sample_table").forEach(item => {
@@ -287,7 +287,7 @@
             });
 
             document.querySelectorAll("#mode_list").forEach(item => {
-                item.style.display = "flex";
+                item.style.display = "block";
             });
 
             localStorage.setItem("view_mode", "view_list");
@@ -299,7 +299,7 @@
             });
 
             document.querySelectorAll("#mode_sample_table").forEach(item => {
-                item.style.display = "flex";
+                item.style.display = "block";
             });
 
             document.querySelectorAll("#mode_list").forEach(item => {
