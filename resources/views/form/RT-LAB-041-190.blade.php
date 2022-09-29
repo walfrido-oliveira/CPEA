@@ -133,7 +133,6 @@
                                                 <p class="font-bold">{{ __('ORP (mV)') }}</p>
                                                 <p class="font-bold">{{ __('Condutividade') }}</p>
                                                 <p class="font-bold">{{ __('Salinidade') }}</p>
-                                                <p class="font-bold">{{ __('Press.[psi]') }}</p>
                                                 <p class="font-bold">{{ __('Oxigênio Dissolvido (sat) (%)') }}</p>
                                                 <p class="font-bold">{{ __('Oxigênio Dissolvido (conc) (mg/L)') }}</p>
                                                 <p class="font-bold">{{ __('EH (mV)') }}</p>

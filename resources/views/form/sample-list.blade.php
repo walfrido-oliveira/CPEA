@@ -26,7 +26,7 @@
                 }
                 $svg = $sum / $size;
             @endphp
-            {{ number_format($svg, 3, ",", ".") }}
+            {{ number_format($svg, 2, ",", ".") }}
         </p>
         <p class="font-bold">
             @php
@@ -68,7 +68,6 @@
             @endphp
             {{ number_format($svg, 3, ",", ".") }}
         </p>
-        <p class="font-bold">-</p>
         <p class="font-bold">
             @php
                 $sum = 0;
