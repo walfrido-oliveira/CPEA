@@ -238,7 +238,7 @@
                                         $svg = $sum / $size;
                                         $svgs['psi'] = $svg;
                                     @endphp
-                                    {{ number_format($svg, 3, ",", ".") }}
+                                    -
                                 @else
                                     -
                                 @endif
