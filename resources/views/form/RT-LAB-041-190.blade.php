@@ -110,6 +110,11 @@
                                         </x-jet-dropdown>
                                     </div>
                                 </div>
+                                <button type="button" id="view_chart" class="btn-transition-primary px-1" title="Visualizar Gráfico">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8 text-blue-500">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
+                                      </svg>
+                                </button>
                             </div>
                         </div>
 
@@ -156,6 +161,28 @@
                     </div>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="modal fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true" id="modal_chart">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full" style="max-width: 70rem;">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                            <canvas id="myChart" width="800" height="400" style="display: block; box-sizing: border-box; height: 400px; width: 800px; max-height: 400px"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" id="confirm_modal_chart" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm">
+                        {{ __('OK') }}
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -224,6 +251,147 @@
             </div>
         </div>
     </div>
+
+
+    <script>
+        document.getElementById("view_chart").addEventListener("click", function() {
+            var modal = document.getElementById("modal_chart");
+            modal.classList.remove("hidden");
+            modal.classList.add("block");
+        });
+
+        document.getElementById("confirm_modal_chart").addEventListener("click", function() {
+            var modal = document.getElementById("modal_chart");
+            modal.classList.add("hidden");
+            modal.classList.remove("block");
+        });
+
+        window.addEventListener("load", function() {
+            var ctx = document.getElementById('myChart').getContext('2d');
+            const data = {
+                datasets: [{
+                    labels: [
+                        @foreach ($formValue->values['samples'] as $sample)
+                            @if(isset($sample["results"]))
+                                @foreach (array_chunk($sample['results'], 3)[0] as $value)
+                                    "{{ $sample['point'] }} - pH {{ number_format($value['ph'], 2, ",", ".") }} e EH {{ number_format($value['eh'], 1, ",", ".") }}",
+                                @endforeach
+                            @endif
+                        @endforeach
+                    ],
+                    label: '',
+                    data: [
+                        @foreach ($formValue->values['samples'] as $sample)
+                            @if(isset($sample["results"]))
+                                @foreach (array_chunk($sample['results'], 3)[0] as $value)
+                                    { x: {{ $value['eh'] }} , y: {{ $value['ph'] }} },
+                                @endforeach
+                            @endif
+                        @endforeach
+                    ],
+                    backgroundColor: [
+                        '#ff6384'
+                    ]
+                }],
+            };
+            const config = {
+                type: 'scatter',
+                data: data,
+                options: {
+                    backgroundRules: [{
+                        backgroundColor: "rgb(253, 234, 218)",
+                        yAxisSegement: 0
+                    },
+                    {
+                        backgroundColor: "rgb(198,217,241)",
+                        yAxisSegement: 400
+                    },
+                    {
+                        backgroundColor: "rgb(236,202,201)",
+                        yAxisSegement: 800
+                    }
+                    ],
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            title: {
+                                display: true,
+                                text: "EV (mV)"
+                            },
+                            min: -600,
+                            max: 800,
+                            ticks: {
+                                stepSize: 100
+                            },
+
+                        },
+                        y: {
+                            min: 0,
+                            max: 14,
+                            ticks: {
+                                stepSize: 0.5
+                            },
+                            title: {
+                                display: true,
+                                text: "pH"
+                            },
+                            grid: {
+                                drawBorder: false,
+                                lineWidth: function(context) {
+                                    if (context.tick.value == 5 || context.tick.value == 8)
+                                        return 2;
+                                    return 1;
+                                },
+                                color: function(context) {
+                                    if (context.tick.value == 5 || context.tick.value == 8)
+                                        return '#000000';
+                                    return '#ccc';
+                                },
+                            },
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    var label = context.dataset.labels[context.dataIndex];
+                                    return `${label}`;
+                                }
+                            }
+                        },
+                    }
+                }
+            };
+
+            Chart.register({
+                id: 'customBg',
+                beforeDraw: function(chart) {
+                    console.log(chart);
+                    var ctx = chart.ctx;
+                    var ruleIndex = 0;
+                    var rules = chart.options.backgroundRules;
+                    var yaxis = chart.scales.y;
+                    var xaxis = chart.scales.x;
+                    var partPercentage = 1 / (yaxis.ticks.length - 1);
+
+                    ctx.fillStyle = rules[0].backgroundColor;
+                    ctx.fillRect(xaxis.left, yaxis.top, (xaxis.width * partPercentage) * 5, yaxis.height);
+
+                    ctx.fillStyle = rules[1].backgroundColor;
+                    ctx.fillRect(xaxis.left + (xaxis.width * partPercentage) * 5, yaxis.top, (xaxis.width * partPercentage) * 5, yaxis.height);
+
+                    ctx.fillStyle = rules[2].backgroundColor;
+                    ctx.fillRect(xaxis.left + (((xaxis.width * partPercentage) * 5) * 2), yaxis.top, (xaxis.width * partPercentage) * 4, yaxis.height);
+
+                }
+            });
+            var myChart = new Chart(ctx, config);
+        });
+    </script>
 
     <x-spin-load />
     <x-back-to-top element="mode_table" />
