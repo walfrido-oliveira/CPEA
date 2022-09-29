@@ -284,7 +284,7 @@
                         @foreach ($formValue->values['samples'] as $sample)
                             @if(isset($sample["results"]))
                                 @foreach (array_chunk($sample['results'], 3)[0] as $value)
-                                    { x: {{ $value['eh'] }} , y: {{ $value['ph'] }} },
+                                    { x: {{ $value['eh'] ? $value['eh'] : 0  }} , y: {{ $value['ph'] ? $value['ph'] : 0  }} },
                                 @endforeach
                             @endif
                         @endforeach
