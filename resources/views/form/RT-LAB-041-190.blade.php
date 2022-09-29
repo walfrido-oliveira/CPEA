@@ -274,7 +274,7 @@
                         @foreach ($formValue->values['samples'] as $sample)
                             @if(isset($sample["results"]))
                                 @foreach (array_chunk($sample['results'], 3)[0] as $value)
-                                    "{{ $sample['point'] }} - pH {{ number_format($value['ph'], 2, ",", ".") }} e EH {{ number_format($value['eh'], 1, ",", ".") }}",
+                                  "{{ $sample['point'] }} - pH {{ number_format($value['ph'], 2, ",", ".") }} e EH {{ number_format($value['eh'], 1, ",", ".") }}",
                                 @endforeach
                             @endif
                         @endforeach
@@ -284,7 +284,7 @@
                         @foreach ($formValue->values['samples'] as $sample)
                             @if(isset($sample["results"]))
                                 @foreach (array_chunk($sample['results'], 3)[0] as $value)
-                                    { x: {{ $value['eh'] ? $value['eh'] : 0  }} , y: {{ $value['ph'] ? $value['ph'] : 0  }} },
+                                  { x: {{ $value['eh'] ? $value['eh'] : 0  }} , y: {{ $value['ph'] ? $value['ph'] : 0  }} },
                                 @endforeach
                             @endif
                         @endforeach
@@ -370,7 +370,6 @@
             Chart.register({
                 id: 'customBg',
                 beforeDraw: function(chart) {
-                    console.log(chart);
                     var ctx = chart.ctx;
                     var ruleIndex = 0;
                     var rules = chart.options.backgroundRules;
@@ -387,8 +386,48 @@
                     ctx.fillStyle = rules[2].backgroundColor;
                     ctx.fillRect(xaxis.left + (((xaxis.width * partPercentage) * 5) * 2), yaxis.top, (xaxis.width * partPercentage) * 4, yaxis.height);
 
-                }
+                    ctx.save();
+
+                    ctx.textAlign = "center";
+                    ctx.fillStyle = "#000";
+                    ctx.font = "bolder 12pt Nunito";
+
+                    ctx.fillText("Redutor", (xaxis.width * partPercentage) * 4, yaxis.bottom - 10);
+                    ctx.fillText("Moderadamente Oxidante", (xaxis.width * partPercentage) * 8, yaxis.bottom - 10);
+                    ctx.fillText("Oxidante", (xaxis.width * partPercentage) * 13, yaxis.bottom - 10);
+
+                    ctx.restore();
+
+                    ctx.save();
+
+                    var font, text, x, y;
+
+                    text = "Ácido";
+
+                    font = 20;
+                    ctx.textAlign = "center";
+                    ctx.fillStyle = "#000";
+                    ctx.font = "bolder 12pt Nunito";
+
+                    var metrics = ctx.measureText(text);
+                    ctx.height = metrics.width;
+                    x = font/2;
+                    y = metrics.width/2;
+                    ctx.fillStyle = 'black';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = "bottom";
+                    ctx.save();
+                    ctx.translate(x, y);
+                    ctx.rotate(-Math.PI / 2);
+                    ctx.fillText("Ácido", yaxis.top - 260, (xaxis.width * partPercentage) + 10);
+                    ctx.fillText("Neutro", yaxis.top - 180, (xaxis.width * partPercentage) + 10);
+                    ctx.fillText("Alcalino", yaxis.top - 70, (xaxis.width * partPercentage) + 10);
+                    ctx.zindex = 99999999;
+                    ctx.restore();
+
+                },
             });
+
             var myChart = new Chart(ctx, config);
         });
     </script>
