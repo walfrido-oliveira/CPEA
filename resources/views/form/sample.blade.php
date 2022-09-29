@@ -238,7 +238,7 @@
                                         $svg = $sum / $size;
                                         $svgs['psi'] = $svg;
                                     @endphp
-                                    {{ number_format($svg, 1, ",", ".") }}
+                                    {{ number_format($svg, 3, ",", ".") }}
                                 @else
                                     -
                                 @endif
@@ -279,7 +279,7 @@
                                         $svg = $svgs['orp'] + 199;
                                         $svgs['eh'] = $svg;
                                     @endphp
-                                    {{ number_format($svg, 1, ",", ".") }}
+                                    {{ number_format($svg, 0, ",", ".") }}
                                 @else
                                     -
                                 @endif
@@ -318,7 +318,6 @@
                                 <x-table-sort-header :orderBy="null" :ascending="null" columnName="psi" columnText="{{ __('Press.[psi]') }}"/>
                                 <x-table-sort-header :orderBy="null" :ascending="null" columnName="sat" columnText="{{ __('Oxigênio Dissolvido (sat) (%)') }}"/>
                                 <x-table-sort-header :orderBy="null" :ascending="null" columnName="conc" columnText="{{ __('Oxigênio Dissolvido (conc) (mg/L)') }}"/>
-                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="eh" columnText="{{ __('EH (mV)') }}"/>
                                 <x-table-sort-header :orderBy="null" :ascending="null" columnName="ntu" columnText="{{ __('Turbidez (NTU)') }}"/>
                                 <x-table-sort-header :orderBy="null" :ascending="null" columnName="uncertainty" columnText="{{ __('Incerteza') }}"/>
                             </tr>
@@ -338,7 +337,7 @@
                                         name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][ph]' : 'samples[row_0][results]['. $key . '][ph]' }}" step="any" />
                                     </td>
                                     <td>
-                                        <x-jet-input readonly="true" id="orp" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['orp']) ? number_format($value['orp'], 1) : ''}}"
+                                        <x-jet-input readonly="true" id="orp'" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['orp']) ? number_format($value['orp'], 1) : ''}}"
                                         name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][orp]' : 'samples[row_0][results]['. $key . '][orp]' }}" step="any" />
                                     </td>
                                     <td>
@@ -359,10 +358,6 @@
                                     </td>
                                     <td><x-jet-input readonly="true" id="conc" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['conc']) ? number_format($value['conc'], 3) : ''}}"
                                         name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][conc]' : 'samples[row_0][results]['. $key . '][conc]' }}" step="any" />
-                                    </td>
-                                    <td>
-                                        <x-jet-input readonly="true" id="eh" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['eh']) ? number_format($value['eh'], 1) : ''}}"
-                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][eh]' : 'samples[row_0][results]['. $key . '][eh]' }}" step="any" />
                                     </td>
                                     <td>
                                         <x-jet-input readonly="true" id="ntu" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['ntu']) ? number_format($value['ntu'], 1) : ''}}"
@@ -463,7 +458,7 @@
                                             $svg = $sum / $size;
                                             $svgs2['psi'] = $svg;
                                         @endphp
-                                        {{ number_format($svg, 1, ",", ".") }}
+                                        -
                                     @else
                                         -
                                     @endif
@@ -498,17 +493,12 @@
                                         -
                                     @endif
                                 </td>
-                                <td>
-                                    @if(isset($value['eh']))
-                                        @php
-                                            $svg = $svgs2['orp'] + 199;
-                                            $svgs2['eh'] = $svg;
-                                        @endphp
-                                        {{ number_format($svg, 1, ",", ".") }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
+                                @if(isset($value['eh']))
+                                    @php
+                                        $svg = $svgs2['orp'] + 199;
+                                        $svgs2['eh'] = $svg;
+                                    @endphp
+                                @endif
                                 <td>
                                     @if(isset($value['ntu']))
                                         @php

@@ -26,7 +26,7 @@
                 }
                 $svg = $sum / $size;
             @endphp
-            {{ number_format($svg, 2, ",", ".") }}
+            {{ number_format($svg, 3, ",", ".") }}
         </p>
         <p class="font-bold">
             @php
@@ -36,7 +36,7 @@
                 }
                 $svg = $sum / $size;
             @endphp
-            {{ number_format($svg, 2, ",", ".") }}
+            {{ number_format($svg, 1, ",", ".") }}
         </p>
         <p class="font-bold">
             @php
@@ -93,7 +93,7 @@
             @php
                 $svg = $svgORP + 199;
             @endphp
-            {{ number_format($svg, 1, ",", ".") }}
+            {{ number_format($svg, 0, ",", ".") }}
         </p>
         <p class="font-bold">
             @php
