@@ -176,28 +176,30 @@
                             <canvas id="myChart" width="800" height="400" style="display: block; box-sizing: border-box; height: 400px; width: 800px; max-height: 400px"></canvas>
                         </div>
                         <div class="flex flex-wrap mt-2 w-full">
-                            <div class="flex flex-wrap mt-2 w-full">
+                          @foreach (array_chunk($formValue->values['samples'], 4) as $key => $sample)
+                            <div class="grid mt-2 w-full" style="grid-template-columns: auto auto auto auto auto auto auto auto;">
                                 <div class="mx-1 p-3">
                                     <p class="font-bold">{{ __('Ponto de Coleta') }}</p>
                                     <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 12px; margin-bottom: 12px;">&nbsp;</p>
                                     <p class="font-bold">{{ __('pH') }}</p>
                                     <p class="font-bold">{{ __('EH (mV)') }}</p>
                                 </div>
-                                @foreach ($svgs as $key => $svg)
+                                @for ($i = 0; $i < count($sample); $i++)
                                     <div class="mx-1 p-3 bg-gray-100">
                                         <p>
-                                            {{ $formValue->values['samples'][$key]['point'] }}
+                                            {{ $sample[$i]['point'] }}
                                         </p>
                                         <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 12px; margin-bottom: 12px;">&nbsp;</p>
                                         <p class="font-bold">
-                                            {{ number_format($svg['ph'], 1, ",", ".") }}
+                                            {{ number_format($svgs['row_' . ($i)]['ph'], 1, ",", ".") }}
                                         </p>
                                         <p class="font-bold">
-                                            {{ number_format($svg['eh'], 0, ",", ".") }}
+                                            {{ number_format($svgs['row_' . ($i)]['eh'], 0, ",", ".") }}
                                         </p>
                                     </div>
-                                @endforeach
+                                @endfor
                             </div>
+                          @endforeach
                         </div>
                     </div>
                 </div>
