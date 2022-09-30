@@ -176,7 +176,7 @@
                             <canvas id="myChart" width="800" height="400" style="display: block; box-sizing: border-box; height: 400px; width: 800px; max-height: 400px"></canvas>
                         </div>
                         <div class="flex flex-wrap mt-2 w-full">
-                          @foreach (array_chunk($formValue->values['samples'], 4) as $key => $sample)
+                          @foreach (array_chunk($formValue->values['samples'], 5) as $key => $sample)
                             <div class="grid mt-2 w-full" style="grid-template-columns: auto auto auto auto auto auto auto auto;">
                                 <div class="mx-1 p-3">
                                     <p class="font-bold">{{ __('Ponto de Coleta') }}</p>
