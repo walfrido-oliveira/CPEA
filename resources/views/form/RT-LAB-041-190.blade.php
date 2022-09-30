@@ -265,28 +265,19 @@
             modal.classList.add("hidden");
             modal.classList.remove("block");
         });
-
         window.addEventListener("load", function() {
             var ctx = document.getElementById('myChart').getContext('2d');
             const data = {
                 datasets: [{
                     labels: [
-                        @foreach ($formValue->values['samples'] as $sample)
-                            @if(isset($sample["results"]))
-                                @foreach (array_chunk($sample['results'], 3)[0] as $value)
-                                  "{{ $sample['point'] }} - pH {{ number_format($value['ph'], 2, ",", ".") }} e EH {{ number_format($value['eh'], 1, ",", ".") }}",
-                                @endforeach
-                            @endif
+                        @foreach ($formValue->values['samples'] as $key => $sample)
+                            "{{ $sample['point'] }} - pH {{ number_format($svgs[$key]['ph'], 2, ",", ".") }} e EH {{ number_format($svgs[$key]['eh'], 1, ",", ".") }}",
                         @endforeach
                     ],
                     label: '',
                     data: [
-                        @foreach ($formValue->values['samples'] as $sample)
-                            @if(isset($sample["results"]))
-                                @foreach (array_chunk($sample['results'], 3)[0] as $value)
-                                  { x: {{ $value['eh'] ? $value['eh'] : 0  }} , y: {{ $value['ph'] ? $value['ph'] : 0  }} },
-                                @endforeach
-                            @endif
+                        @foreach ($formValue->values['samples'] as $key => $sample)
+                            { x: {{ $svgs[$key]['eh'] ? $svgs[$key]['eh'] : 0  }} , y: {{ $svgs[$key]['ph'] ? $svgs[$key]['ph'] : 0  }} },
                         @endforeach
                     ],
                     backgroundColor: [
@@ -330,7 +321,8 @@
                             min: 0,
                             max: 14,
                             ticks: {
-                                stepSize: 0.5
+                                stepSize: .5,
+                                autoSkip: true,
                             },
                             title: {
                                 display: true,
@@ -370,6 +362,7 @@
             Chart.register({
                 id: 'customBg',
                 beforeDraw: function(chart) {
+
                     var ctx = chart.ctx;
                     var ruleIndex = 0;
                     var rules = chart.options.backgroundRules;

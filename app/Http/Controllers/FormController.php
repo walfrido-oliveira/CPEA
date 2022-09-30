@@ -138,8 +138,111 @@ class FormController extends Controller
         $form = $formValue->form;
         $project_id = $formValue->values['project_id'];
         $svgs = [];
+        $duplicates = [];
+        $duplicatesSvgs = [];
+        $dpr = [];
 
-        return view("form.$form->name", compact('form', 'project_id', 'formValue', 'svgs'));
+        foreach ($formValue->values['samples'] as $key => $sample)
+        {
+            $sum = [];
+            $size = count(array_chunk($sample['results'], 3)[0]);
+
+            $sum['temperature'] = 0;
+            $sum['ph'] = 0;
+            $sum['orp'] = 0;
+            $sum['conductivity'] = 0;
+            $sum['salinity'] = 0;
+            $sum['psi'] = 0;
+            $sum['sat'] = 0;
+            $sum['conc'] = 0;
+            $sum['ntu'] = 0;
+
+            foreach (array_chunk($sample['results'], 3)[0] as $key2 => $value)
+            {
+                if(isset($value['temperature'])) $sum['temperature'] += $value['temperature'];
+                if(isset($value['ph'])) $sum['ph'] += $value['ph'];
+                if(isset($value['orp'])) $sum['orp'] += $value['orp'];
+                if(isset($value['conductivity'])) $sum['conductivity'] += $value['conductivity'];
+                if(isset($value['salinity'])) $sum['salinity'] += $value['salinity'];
+                if(isset($value['psi'])) $sum['psi'] += $value['psi'];
+                if(isset($value['sat'])) $sum['sat'] += $value['sat'];
+                if(isset($value['conc'])) $sum['conc'] += $value['conc'];
+                if(isset($value['ntu'])) $sum['ntu'] += $value['ntu'];
+            }
+
+            $svgs[$key]['temperature'] = $sum['temperature'] / $size;
+            $svgs[$key]['ph'] = $sum['ph'] / $size;
+            $svgs[$key]['orp'] = $sum['orp'] / $size;
+            $svgs[$key]['conductivity'] = $sum['conductivity'] / $size;
+            $svgs[$key]['salinity'] = $sum['salinity'] / $size;
+            $svgs[$key]['psi'] = $sum['psi'] / $size;
+            $svgs[$key]['sat'] = $sum['sat'] / $size;
+            $svgs[$key]['conc'] = $sum['conc'] / $size;
+            $svgs[$key]['eh'] = $svgs[$key]['orp'] + 199;
+            $svgs[$key]['ntu'] = $sum['ntu'] / $size;
+
+            if(isset(array_chunk($sample['results'], 3)[1])) {
+                $sum['temperature'] = 0;
+                $sum['ph'] = 0;
+                $sum['orp'] = 0;
+                $sum['conductivity'] = 0;
+                $sum['salinity'] = 0;
+                $sum['psi'] = 0;
+                $sum['sat'] = 0;
+                $sum['conc'] = 0;
+                $sum['ntu'] = 0;
+
+                foreach (array_chunk($sample['results'], 3)[1] as $value)
+                {
+                    if(isset($value['temperature'])) $sum['temperature'] += $value['temperature'];
+                    if(isset($value['ph'])) $sum['ph'] += $value['ph'];
+                    if(isset($value['orp'])) $sum['orp'] += $value['orp'];
+                    if(isset($value['conductivity'])) $sum['conductivity'] += $value['conductivity'];
+                    if(isset($value['salinity'])) $sum['salinity'] += $value['salinity'];
+                    if(isset($value['psi'])) $sum['psi'] += $value['psi'];
+                    if(isset($value['sat'])) $sum['sat'] += $value['sat'];
+                    if(isset($value['conc'])) $sum['conc'] += $value['conc'];
+                    if(isset($value['ntu'])) $sum['ntu'] += $value['ntu'];
+                }
+
+                $duplicates[$key]['temperature'] = $sum['temperature'] / $size;
+                $duplicates[$key]['ph'] = $sum['ph'] / $size;
+                $duplicates[$key]['orp'] = $sum['orp'] / $size;
+                $duplicates[$key]['conductivity'] = $sum['conductivity'] / $size;
+                $duplicates[$key]['salinity'] = $sum['salinity'] / $size;
+                $duplicates[$key]['psi'] = $sum['psi'] / $size;
+                $duplicates[$key]['sat'] = $sum['sat'] / $size;
+                $duplicates[$key]['conc'] = $sum['conc'] / $size;
+                $duplicates[$key]['eh'] = $duplicates[$key]['orp'] + 199;
+                $duplicates[$key]['ntu'] = $sum['ntu'] / $size;
+
+
+                $duplicatesSvgs[$key]['temperature'] = ($svgs[$key]['temperature'] + $duplicates[$key]['temperature']) / 2;
+                $duplicatesSvgs[$key]['ph'] = ($svgs[$key]['ph'] + $duplicates[$key]['ph']) / 2;
+                $duplicatesSvgs[$key]['orp'] = ($svgs[$key]['orp'] + $duplicates[$key]['orp']) / 2;
+                $duplicatesSvgs[$key]['conductivity'] = ($svgs[$key]['conductivity'] + $duplicates[$key]['conductivity']) / 2;
+                $duplicatesSvgs[$key]['salinity'] = ($svgs[$key]['salinity'] + $duplicates[$key]['salinity']) / 2;
+                $duplicatesSvgs[$key]['psi'] = ($svgs[$key]['psi'] + $duplicates[$key]['psi']) / 2;
+                $duplicatesSvgs[$key]['sat'] = ($svgs[$key]['sat'] + $duplicates[$key]['sat']) / 2;
+                $duplicatesSvgs[$key]['conc'] = ($svgs[$key]['conc'] + $duplicates[$key]['conc']) / 2;
+                $duplicatesSvgs[$key]['eh'] = ($svgs[$key]['eh'] + $duplicates[$key]['eh']) / 2;
+                $duplicatesSvgs[$key]['ntu'] = ($svgs[$key]['ntu'] + $duplicates[$key]['ntu']) / 2;
+
+
+                if($svgs[$key]['temperature'] != 0) $dpr[$key]['temperature'] =  (($svgs[$key]['temperature'] - $duplicates[$key]['temperature']) / $duplicatesSvgs[$key]['temperature']) * 100;
+                if($svgs[$key]['ph'] != 0) $dpr[$key]['ph'] =  (($svgs[$key]['ph'] - $duplicates[$key]['ph']) / $duplicatesSvgs[$key]['ph']) * 100;
+                if($svgs[$key]['orp'] != 0) $dpr[$key]['orp'] =  (($svgs[$key]['orp'] - $duplicates[$key]['orp']) / $duplicatesSvgs[$key]['orp']) * 100;
+                if($svgs[$key]['conductivity'] != 0) $dpr[$key]['conductivity'] =  (($svgs[$key]['conductivity'] - $duplicates[$key]['conductivity']) / $duplicatesSvgs[$key]['conductivity']) * 100;
+                if($svgs[$key]['salinity'] != 0) $dpr[$key]['salinity'] =  (($svgs[$key]['salinity'] - $duplicates[$key]['salinity']) / $duplicatesSvgs[$key]['salinity']) * 100;
+                if($svgs[$key]['psi'] != 0) $dpr[$key]['psi'] =  (($svgs[$key]['psi'] - $duplicates[$key]['psi']) / $duplicatesSvgs[$key]['psi']) * 100;
+                if($svgs[$key]['sat'] != 0) $dpr[$key]['sat'] =  (($svgs[$key]['sat'] - $duplicates[$key]['sat']) / $duplicatesSvgs[$key]['sat']) * 100;
+                if($svgs[$key]['conc'] != 0) $dpr[$key]['conc'] =  (($svgs[$key]['conc'] - $duplicates[$key]['conc']) / $duplicatesSvgs[$key]['conc']) * 100;
+                if($svgs[$key]['eh'] != 0) $dpr[$key]['eh'] =  (($svgs[$key]['eh'] - $duplicates[$key]['eh']) / $duplicatesSvgs[$key]['eh']) * 100;
+                if($svgs[$key]['ntu'] != 0) $dpr[$key]['ntu'] =  (($svgs[$key]['ntu'] - $duplicates[$key]['ntu']) / $duplicatesSvgs[$key]['ntu']) * 100;
+            }
+        }
+
+        return view("form.$form->name", compact('form', 'project_id', 'formValue', 'svgs', 'duplicates', 'dpr'));
     }
 
     /**
