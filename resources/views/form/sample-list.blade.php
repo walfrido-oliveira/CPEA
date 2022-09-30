@@ -17,92 +17,31 @@
         </p>
         <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 12px; margin-bottom: 12px;">&nbsp;</p>
         <p class="font-bold">
-            @php
-                $sum = 0;
-                $size = count(array_chunk($sample['results'], 3)[0]);
-
-                foreach (array_chunk($sample['results'], 3)[0] as $value) {
-                    $sum += $value['temperature'];
-                }
-                $svg = $sum / $size;
-            @endphp
-            {{ number_format($svg, 2, ",", ".") }}
+            {{ number_format($svgs['row_' . ($i)]['temperature'], 2, ",", ".") }}
         </p>
         <p class="font-bold">
-            @php
-                $sum = 0;
-                foreach (array_chunk($sample['results'], 3)[0] as $value) {
-                    $sum += $value['ph'];
-                }
-                $svg = $sum / $size;
-            @endphp
-            {{ number_format($svg, 1, ",", ".") }}
+            {{ number_format($svgs['row_' . ($i)]['ph'], 1, ",", ".") }}
         </p>
         <p class="font-bold">
-            @php
-                $sum = 0;
-                foreach (array_chunk($sample['results'], 3)[0] as $value) {
-                    $sum += $value['orp'];
-                }
-                $svgORP = $sum / $size;
-            @endphp
-            {{ number_format($svgORP, 1, ",", ".") }}
+            {{ number_format($svgs['row_' . ($i)]['orp'], 1, ",", ".") }}
         </p>
         <p class="font-bold">
-            @php
-                $sum = 0;
-                foreach (array_chunk($sample['results'], 3)[0] as $value) {
-                    $sum += $value['conductivity'];
-                }
-                $svg = $sum / $size;
-            @endphp
-            {{ number_format($svg, 3, ",", ".") }}
+            {{ number_format($svgs['row_' . ($i)]['conductivity'], 3, ",", ".") }}
         </p>
         <p class="font-bold">
-            @php
-                $sum = 0;
-                foreach (array_chunk($sample['results'], 3)[0] as $value) {
-                    $sum += $value['salinity'];
-                }
-                $svg = $sum / $size;
-            @endphp
-            {{ number_format($svg, 3, ",", ".") }}
+            {{ number_format($svgs['row_' . ($i)]['salinity'], 3, ",", ".") }}
         </p>
         <p class="font-bold">
-            @php
-                $sum = 0;
-                foreach (array_chunk($sample['results'], 3)[0] as $value) {
-                    $sum += $value['sat'];
-                }
-                $svg = $sum / $size;
-            @endphp
-            {{ number_format($svg, 1, ",", ".") }}
+            {{ number_format($svgs['row_' . ($i)]['sat'], 1, ",", ".") }}
         </p>
         <p class="font-bold">
-            @php
-                $sum = 0;
-                foreach (array_chunk($sample['results'], 3)[0] as $value) {
-                    $sum += $value['conc'];
-                }
-                $svg = $sum / $size;
-            @endphp
-            {{ number_format($svg, 3, ",", ".") }}
+            {{ number_format($svgs['row_' . ($i)]['conc'], 3, ",", ".") }}
         </p>
         <p class="font-bold">
-            @php
-                $svg = $svgORP + 199;
-            @endphp
-            {{ number_format($svg, 0, ",", ".") }}
+            {{ number_format($svgs['row_' . ($i)]['eh'], 0, ",", ".") }}
         </p>
         <p class="font-bold">
-            @php
-                $sum = 0;
-                foreach (array_chunk($sample['results'], 3)[0] as $value) {
-                    if(isset($value['ntu'])) $sum += $value['ntu'];
-                }
-                $svg = $sum / $size;
-            @endphp
-            {{ number_format($svg, 1, ",", ".") }}
+            {{ number_format($svgs['row_' . ($i)]['ntu'], 1, ",", ".") }}
         </p>
     @endif
 </div>

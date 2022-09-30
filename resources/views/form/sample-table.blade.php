@@ -1,54 +1,49 @@
 @if(isset($sample['results']))
     @php
+        $parameters = [
+            "temperature" => "Temperatura",
+            "ph" => "pH",
+            "orp" => "ORP",
+            "conductivity" => "Condutividade",
+            "salinity" => "Salinidade",
+            "conc" => "OD"
+        ];
 
-        $parameters = [ "Temperatura", "pH", "ORP", "Condutividade", "Salinidade", "OD" ];
-        $unities = [ "°C", "-", "mV", "µS/cm", "-", "mg/L" ];
-        $LQ = ["-", "-", "-", "20", "0,01", "0,3"];
-        $places = [2, 2, 1, 3, 3, 3];
-        $range = ["4 a 40", "1 a 13", "-1400 a +1400", "-", "-", "-" ];
+        $unities = [
+            "temperature" => "°C",
+            "ph" => "-",
+            "orp" => "mV",
+            "conductivity" => "µS/cm",
+            "salinity" => "-",
+            "conc" => "mg/L"
+        ];
 
-        $svg = [];
-        $size = count(array_chunk($sample['results'], 3)[0]);
+        $LQ = [
+            "temperature" => "-",
+            "ph" => "-",
+            "orp" => "-",
+            "conductivity" => "20",
+            "salinity" => "0,01",
+            "conc" => "0,3"
+        ];
 
-        $sum = 0;
-        foreach (array_chunk($sample['results'], 3)[0] as $value) {
-            $sum += $value['temperature'];
-        }
-        $svg[] = $sum / $size;
+        $places = [
+            "temperature" => 2,
+            "ph" => 2,
+            "orp" => 1,
+            "conductivity" => 3,
+            "salinity" => 3,
+            "conc" => 3
+        ];
 
-        $sum = 0;
-        foreach (array_chunk($sample['results'], 3)[0] as $value) {
-            $sum += $value['ph'];
-        }
-        $svg[] = $sum / $size;
-
-        $sum = 0;
-        foreach (array_chunk($sample['results'], 3)[0] as $value) {
-            $sum += $value['orp'];
-        }
-        $svg[] = $sum / $size;
-
-        $sum = 0;
-        foreach (array_chunk($sample['results'], 3)[0] as $value) {
-            $sum += $value['conductivity'];
-        }
-        $svg[] = $sum / $size;
-
-        $sum = 0;
-        foreach (array_chunk($sample['results'], 3)[0] as $value) {
-            $sum += $value['salinity'];
-        }
-        $svg[] = $sum / $size;
-
-        $sum = 0;
-        foreach (array_chunk($sample['results'], 3)[0] as $value) {
-            $sum += $value['conc'];
-        }
-        $svg[] = $sum / $size;
-
-        $svg[] = $svg[3] + 199;
-
-
+        $range = [
+            "temperature" => "4 a 40",
+            "ph" => "1 a 13",
+            "orp" => "-1400 a +1400",
+            "conductivity" => "-",
+            "salinity" => "-",
+            "conc" => "-"
+        ];
     @endphp
 
     <div class="flex flex-wrap mt-2 w-full flex-col mode-sample-table">
@@ -105,7 +100,7 @@
                             {{ $unities[$key] }}
                         </td>
                         <td>
-                            {{ number_format($svg[$key], $places[$key], ",", ".") }}
+                            {{ number_format($svgs['row_' . ($i)][$key], $places[$key], ",", ".") }}
                         </td>
                         <td>
                             {{ $LQ[$key] }}

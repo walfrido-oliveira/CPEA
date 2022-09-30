@@ -171,9 +171,33 @@
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
             <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full" style="max-width: 70rem;">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <div class="sm:flex sm:items-start">
+                    <div class="block">
                         <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
                             <canvas id="myChart" width="800" height="400" style="display: block; box-sizing: border-box; height: 400px; width: 800px; max-height: 400px"></canvas>
+                        </div>
+                        <div class="flex flex-wrap mt-2 w-full">
+                            <div class="flex flex-wrap mt-2 w-full">
+                                <div class="mx-1 p-3">
+                                    <p class="font-bold">{{ __('Ponto de Coleta') }}</p>
+                                    <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 12px; margin-bottom: 12px;">&nbsp;</p>
+                                    <p class="font-bold">{{ __('pH') }}</p>
+                                    <p class="font-bold">{{ __('EH (mV)') }}</p>
+                                </div>
+                                @foreach ($svgs as $key => $svg)
+                                    <div class="mx-1 p-3 bg-gray-100">
+                                        <p>
+                                            {{ $formValue->values['samples'][$key]['point'] }}
+                                        </p>
+                                        <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 12px; margin-bottom: 12px;">&nbsp;</p>
+                                        <p class="font-bold">
+                                            {{ number_format($svg['ph'], 1, ",", ".") }}
+                                        </p>
+                                        <p class="font-bold">
+                                            {{ number_format($svg['eh'], 0, ",", ".") }}
+                                        </p>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>
