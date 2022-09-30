@@ -177,7 +177,7 @@
                         </div>
                         <div class="flex flex-wrap mt-2 w-full">
                           @foreach (array_chunk($formValue->values['samples'], 5) as $key => $sample)
-                            <div class="grid mt-2 w-full" style="grid-template-columns: repeat(6, 1fr);">
+                            <div class="grid mt-4 w-full" style="grid-template-columns: repeat(6, 1fr);">
                                 <div class="mx-1 p-3">
                                     <p class="font-bold">{{ __('Ponto de Coleta') }}</p>
                                     <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 12px; margin-bottom: 12px;">&nbsp;</p>
