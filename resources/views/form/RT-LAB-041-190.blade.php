@@ -527,7 +527,7 @@
                 item.style.display = "block";
             });
 
-            localStorage.setItem("view_mode", "chart");
+            localStorage.setItem("view_mode", "view_chart");
 
         });
     </script>
