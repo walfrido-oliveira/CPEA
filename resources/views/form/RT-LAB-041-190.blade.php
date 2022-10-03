@@ -84,6 +84,11 @@
                                       <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
                                     </svg>
                                 </button>
+                                <button type="button" id="view_chart" class="btn-transition-primary px-1" title="Visualizar Gráfico">
+                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8 text-blue-500">
+                                      <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
+                                    </svg>
+                              </button>
                                 <div class="block py-2 px-2" x-data="{ open: false }">
                                     <div class="flex sm:items-center justify-end w-full">
                                         <x-jet-dropdown align="right" width="48" contentClasses="p-0">
@@ -110,11 +115,6 @@
                                         </x-jet-dropdown>
                                     </div>
                                 </div>
-                                <button type="button" id="view_chart" class="btn-transition-primary px-1" title="Visualizar Gráfico">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8 text-blue-500">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
-                                      </svg>
-                                </button>
                             </div>
                         </div>
 
@@ -155,60 +155,42 @@
                                     @include('form.sample-table', ['sample' => $formValue->values['samples']["row_$i"]])
                                 @endfor
                             </div>
+                            <div class="block w-full" id="chart">
+                              <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
+                                  <canvas id="myChart" width="800" height="400" style="display: block; box-sizing: border-box; height: 400px; width: 800px; max-height: 400px"></canvas>
+                              </div>
+                              <div class="flex flex-wrap mt-2 w-full">
+                                @foreach (array_chunk($formValue->values['samples'], 5) as $key => $sample)
+                                  <div class="grid mt-4 w-full" style="grid-template-columns: repeat(6, 1fr);">
+                                      <div class="mx-1 p-3">
+                                          <p class="font-bold">{{ __('Ponto de Coleta') }}</p>
+                                          <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 12px; margin-bottom: 12px;">&nbsp;</p>
+                                          <p class="font-bold">{{ __('pH') }}</p>
+                                          <p class="font-bold">{{ __('EH (mV)') }}</p>
+                                      </div>
+                                      @for ($i = 0; $i < count($sample); $i++)
+                                          <div class="mx-1 p-3 bg-gray-100">
+                                              <p>
+                                                  {{ $sample[$i]['point'] }}
+                                              </p>
+                                              <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 12px; margin-bottom: 12px;">&nbsp;</p>
+                                              <p class="font-bold">
+                                                  {{ number_format($svgs['row_' . ($i)]['ph'], 1, ",", ".") }}
+                                              </p>
+                                              <p class="font-bold">
+                                                  {{ number_format($svgs['row_' . ($i)]['eh'], 0, ",", ".") }}
+                                              </p>
+                                          </div>
+                                      @endfor
+                                  </div>
+                                @endforeach
+                          </div>
                         @else
                             @include('form.sample')
                         @endif
                     </div>
                 </div>
             </form>
-        </div>
-    </div>
-
-    <!-- Chart -->
-    <div class="modal fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true" id="modal_chart">
-        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:w-full" style="max-width: 70rem;">
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                    <div class="block">
-                        <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
-                            <canvas id="myChart" width="800" height="400" style="display: block; box-sizing: border-box; height: 400px; width: 800px; max-height: 400px"></canvas>
-                        </div>
-                        <div class="flex flex-wrap mt-2 w-full">
-                          @foreach (array_chunk($formValue->values['samples'], 5) as $key => $sample)
-                            <div class="grid mt-4 w-full" style="grid-template-columns: repeat(6, 1fr);">
-                                <div class="mx-1 p-3">
-                                    <p class="font-bold">{{ __('Ponto de Coleta') }}</p>
-                                    <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 12px; margin-bottom: 12px;">&nbsp;</p>
-                                    <p class="font-bold">{{ __('pH') }}</p>
-                                    <p class="font-bold">{{ __('EH (mV)') }}</p>
-                                </div>
-                                @for ($i = 0; $i < count($sample); $i++)
-                                    <div class="mx-1 p-3 bg-gray-100">
-                                        <p>
-                                            {{ $sample[$i]['point'] }}
-                                        </p>
-                                        <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 12px; margin-bottom: 12px;">&nbsp;</p>
-                                        <p class="font-bold">
-                                            {{ number_format($svgs['row_' . ($i)]['ph'], 1, ",", ".") }}
-                                        </p>
-                                        <p class="font-bold">
-                                            {{ number_format($svgs['row_' . ($i)]['eh'], 0, ",", ".") }}
-                                        </p>
-                                    </div>
-                                @endfor
-                            </div>
-                          @endforeach
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button type="button" id="confirm_modal_chart" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:ml-3 sm:w-auto sm:text-sm">
-                        {{ __('OK') }}
-                    </button>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -278,19 +260,7 @@
         </div>
     </div>
 
-
     <script>
-        document.getElementById("view_chart").addEventListener("click", function() {
-            var modal = document.getElementById("modal_chart");
-            modal.classList.remove("hidden");
-            modal.classList.add("block");
-        });
-
-        document.getElementById("confirm_modal_chart").addEventListener("click", function() {
-            var modal = document.getElementById("modal_chart");
-            modal.classList.add("hidden");
-            modal.classList.remove("block");
-        });
         window.addEventListener("load", function() {
             var ctx = document.getElementById('myChart').getContext('2d');
             const data = {
@@ -493,6 +463,10 @@
                 item.style.display = "none";
             });
 
+            document.querySelectorAll("#chart").forEach(item => {
+                item.style.display = "none";
+            });
+
             localStorage.setItem("view_mode", "view_table");
         });
 
@@ -507,6 +481,10 @@
 
             document.querySelectorAll("#mode_list").forEach(item => {
                 item.style.display = "block";
+            });
+
+            document.querySelectorAll("#chart").forEach(item => {
+                item.style.display = "none";
             });
 
             localStorage.setItem("view_mode", "view_list");
@@ -525,7 +503,32 @@
                 item.style.display = "none";
             });
 
+            document.querySelectorAll("#chart").forEach(item => {
+                item.style.display = "none";
+            });
+
             localStorage.setItem("view_mode", "view_sample_table");
+        });
+
+        document.getElementById("view_chart").addEventListener("click", function() {
+          document.querySelectorAll("#mode_table").forEach(item => {
+                item.style.display = "none";
+            });
+
+            document.querySelectorAll("#mode_sample_table").forEach(item => {
+                item.style.display = "none";
+            });
+
+            document.querySelectorAll("#mode_list").forEach(item => {
+                item.style.display = "none";
+            });
+
+            document.querySelectorAll("#chart").forEach(item => {
+                item.style.display = "block";
+            });
+
+            localStorage.setItem("view_mode", "chart");
+
         });
     </script>
 
