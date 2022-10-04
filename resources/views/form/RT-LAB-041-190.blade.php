@@ -7,6 +7,7 @@
                 @if($formValue) @method("PUT") @endif
 
                 <input type="hidden" id="form_value_id" name="form_value_id" value="{{ $formValue->id }}">
+                <input type="hidden" id="form_id" name="form_id" value="{{ $formValue->id }}">
 
                 <div class="flex md:flex-row flex-col">
                     <div class="w-full flex items-center">
@@ -63,6 +64,31 @@
                         <div class="w-full px-3 mb-6 md:mb-0">
                             <x-jet-label for="matrix" value="{{ __('Matriz') }}" />
                             <x-jet-input  id="matrix" class="form-control block mt-1 w-full" type="text" value="{{ isset($formValue) ? $formValue->values['matrix'] : $form->name }}" name="matrix" maxlength="255" />
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="emission" value="{{ __('Data/Hora da Emissão do Relatório') }}" />
+                            <x-jet-input id="emission" class="form-control block mt-1 w-full" type="datetime-local" value="{{ isset($formValue->values['emission']) ? $formValue->values['emission'] : null }}" name="emission"/>
+                        </div>
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="responsible" value="{{ __('Responsável') }}" />
+                            <x-custom-select :options="\App\Models\User::all()->pluck('full_name', 'full_name')" value="{{ isset($formValue->values['responsible']) ? $formValue->values['responsible'] : null }}" name="responsible" id="responsible" class="mt-1"/>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full px-3 mb-6 md:mb-0">
+                            <x-jet-label for="additional_info" value="{{ __('Informações Adicionais') }}" />
+                            <textarea class="form-input w-full" name="additional_info" id="additional_info" cols="30" rows="10">{{ isset($formValue->values['additional_info']) ? $formValue->values['additional_info'] : null }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full px-3 mb-6 md:mb-0">
+                            <x-jet-label for="approval_text" value="{{ __('Aprovação do Relatório') }}" />
+                            <textarea class="form-input w-full" name="approval_text" id="approval_text" cols="30" rows="10">{{ isset($formValue->values['approval_text']) ? $formValue->values['approval_text'] : null }}</textarea>
                         </div>
                     </div>
 
