@@ -125,7 +125,7 @@ class FormController extends Controller
     }
 
     /**
-     * Display a listing of the Ref.
+     * Edit
      *
      * @param  Request  $request
      * @param int $id
@@ -141,7 +141,7 @@ class FormController extends Controller
         $duplicates = [];
         $duplicatesSvgs = [];
         $dpr = [];
-
+        #dd($formValue->values);
         foreach ($formValue->values['samples'] as $key => $sample)
         {
             $sum = [];
@@ -378,7 +378,7 @@ class FormController extends Controller
    * @param  Request  $request
    * @return \Illuminate\Http\Response
    */
-  public function import(Request $request)
+  public function importResults(Request $request)
   {
     $validator = Validator::make(
       $request->all(),
@@ -424,6 +424,60 @@ class FormController extends Controller
     }
 
     $formValue->values = $samples;
+    $formValue->save();
+
+    $resp = [
+        'message' => __('Dados importados com sucesso!'),
+        'alert-type' => 'success'
+    ];
+
+    return response()->json($resp);
+ }
+
+ /**
+   * Import results
+   *
+   * @param  Request  $request
+   * @return \Illuminate\Http\Response
+   */
+  public function importCoordinates(Request $request)
+  {
+    $validator = Validator::make(
+      $request->all(),
+      [
+        'file' => 'required|mimes:xls,xlsx|max:4096',
+        'form_value_id' =>  ['required', 'exists:form_values,id'],
+      ]
+    );
+
+    if ($validator->fails()) {
+      return response()->json([
+        'message' => implode("<br>", $validator->messages()->all()),
+        'alert-type' => 'error'
+      ], 403);
+    }
+
+    $inputs = $request->all();
+
+    $formValue = FormValue::findOrFail($inputs['form_value_id']);
+
+    $spreadsheet = IOFactory::load($request->file->path());
+    $spreadsheet->setActiveSheetIndex(0);
+    $worksheet = $spreadsheet->getActiveSheet();
+    $rows = $worksheet->toArray();
+
+    $coordinates = $formValue->values;
+
+    foreach ($rows as $key => $value) {
+        if ($key <= 2) continue;
+        if(!isset($value[0]) || !isset($value[3]) || !isset($value[5]) || !isset($value[9])) continue;
+        if(isset($value[0])) $coordinates['coordinates'][$key - 3]['point'] = $value[0];
+        if(isset($value[3])) $coordinates['coordinates'][$key - 3]['zone'] = $value[3];
+        if(isset($value[5])) $coordinates['coordinates'][$key - 3]['me'] = $value[5];
+        if(isset($value[9])) $coordinates['coordinates'][$key - 3]['mn'] = $value[9];
+    }
+
+    $formValue->values = $coordinates;
     $formValue->save();
 
     $resp = [

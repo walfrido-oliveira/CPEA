@@ -238,7 +238,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::put('/update/{form_value}', [FormController::class, 'update'])->name('update');
             Route::get('/index', [FormController::class, 'index'])->name('index');
             Route::post('/filter', [FormController::class, 'filter'])->name('filter');
-            Route::post('/import', [FormController::class, 'import'])->name('import');
+            Route::post('/import', [FormController::class, 'importResults'])->name('import');
+            Route::post('/import-coordinates', [FormController::class, 'importCoordinates'])->name('import-coordinates');
             Route::post('/save-sample', [FormController::class, 'saveSample'])->name('save-sample');
             Route::post('/delete-sample', [FormController::class, 'deleteSample'])->name('delete-sample');
         });

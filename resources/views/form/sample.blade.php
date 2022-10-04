@@ -14,7 +14,6 @@
             </button>
             @if(isset($formValue))
                 <div id="import_result_form_row_{{ isset($i) ? $i : 0 }}" class="">
-                    <input type="hidden" id="form_value_id" name="form_value_id" value="{{ $formValue->id }}">
                     <input type="hidden" id="sample_index" name="sample_index" value="row_{{ isset($i) ? $i : 0 }}">
                     <button type="button" class="btn-transition-primary import-sample-result px-1" title="Importar Amostra" data-index="sample_{{ isset($i) ? $i : 0 }}">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-wiph="1.5" stroke="currentColor" class="h-8 w-8 text-blue-900">

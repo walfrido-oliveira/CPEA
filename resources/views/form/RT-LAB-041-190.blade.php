@@ -6,7 +6,8 @@
                 @if(!$formValue) @method("POST") @endif
                 @if($formValue) @method("PUT") @endif
 
-                <input type="hidden" name="form_id" value="{{ $form->id }}">
+                <input type="hidden" id="form_value_id" name="form_value_id" value="{{ $formValue->id }}">
+
                 <div class="flex md:flex-row flex-col">
                     <div class="w-full flex items-center">
                         <h1>{{ __('Project')}} {{ $project_id }}</h1>
@@ -88,7 +89,7 @@
                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8 text-blue-500">
                                       <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
                                     </svg>
-                              </button>
+                                </button>
                                 <div class="block py-2 px-2" x-data="{ open: false }">
                                     <div class="flex sm:items-center justify-end w-full">
                                         <x-jet-dropdown align="right" width="48" contentClasses="p-0">
@@ -115,6 +116,12 @@
                                         </x-jet-dropdown>
                                     </div>
                                 </div>
+                                <input type="file" name="file_coordinates" id="file_coordinates" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.ms-excel" class="hidden">
+                                <button type="button" class="btn-transition-primary import-sample-coordinates px-1" title="Importar Coodernadas">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-wiph="1.5" stroke="currentColor" class="h-8 w-8 text-blue-900">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15" />
+                                    </svg>
+                                </button>
                             </div>
                         </div>
 
@@ -556,7 +563,7 @@
             let token = document.querySelector('meta[name="csrf-token"]').content;
             let method = 'POST';
             let files = that.files;
-            let form_value_id = document.querySelector(`#${that.dataset.index} #form_value_id`).value;
+            let form_value_id = document.querySelector(`#form_value_id`).value;
             let sample_index = document.querySelector(`#${that.dataset.index} #sample_index`).value;
 
             let equipment = document.querySelector(`#${that.dataset.index} #equipment`).value;
@@ -604,7 +611,7 @@
             let token = document.querySelector('meta[name="csrf-token"]').content;
             let method = 'POST';
             let files = that.files;
-            let form_value_id = document.querySelector(`#${that.dataset.index} #form_value_id`).value;
+            let form_value_id = document.querySelector(`#form_value_id`).value;
             let sample_index = document.querySelector(`#${that.dataset.index} #sample_index`).value;
 
             ajax.open(method, url);
@@ -671,11 +678,57 @@
 
         document.querySelectorAll(".sample #file").forEach(item =>{
             item.addEventListener("change", function(e) {
-                upload(this);
+                uploadResults(this);
             });
         });
 
-        function upload(that)  {
+        document.querySelectorAll(".import-sample-coordinates").forEach(item =>{
+            item.addEventListener("click", function() {
+                document.querySelector(`#file_coordinates`).click();
+            });
+        });
+
+        document.querySelectorAll("#file_coordinates").forEach(item =>{
+            item.addEventListener("change", function(e) {
+                uploadCoordinates(this);
+            });
+        });
+
+        function uploadCoordinates(that)  {
+            document.getElementById("spin_load").classList.remove("hidden");
+
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('fields.forms.import-coordinates') !!}";
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let files = that.files;
+            let form_value_id = document.querySelector(`#form_value_id`).value;
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    toastr.success(resp.message);
+                    location.reload();
+                } else if(this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                    that.value = '';
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('_method', method);
+            data.append('file', files[0]);
+            data.append('form_value_id', form_value_id);
+
+            ajax.send(data);
+        }
+
+        function uploadResults(that)  {
             document.getElementById("spin_load").classList.remove("hidden");
 
             let ajax = new XMLHttpRequest();
@@ -683,7 +736,7 @@
             let token = document.querySelector('meta[name="csrf-token"]').content;
             let method = 'POST';
             let files = that.files;
-            let form_value_id = document.querySelector(`#${that.dataset.index} #form_value_id`).value;
+            let form_value_id = document.querySelector(`#form_value_id`).value;
             let sample_index = document.querySelector(`#${that.dataset.index} #sample_index`).value;
 
             ajax.open(method, url);
@@ -768,7 +821,7 @@
             });
 
             document.querySelector(`#${id} #file`).addEventListener("click", function() {
-                upload(this);
+                uploadResults(this);
             });
 
             document.querySelectorAll(`#${id} .edit-sample`).forEach(item =>{
