@@ -5,21 +5,21 @@
             <table class="table table-responsive md:table w-full">
                 <thead>
                     <tr class="thead-light">
-                        <th rowspan="2" style="vertical-align: middle;" class="align-middle cursor-pointer px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th rowspan="2" style="vertical-align: middle;" class="align-middle cursor-pointer px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                             {{ __('identificação do Ponto') }}
                         </th>
-                        <th rowspan="2" style="vertical-align: middle;"  class="cursor-pointer px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th rowspan="2" style="vertical-align: middle;"  class="cursor-pointer px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                             {{ __('Zona') }}
                         </th>
-                        <th colspan="2" class="cursor-pointer px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
+                        <th colspan="2" style="text-align: center" class="cursor-pointer px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
                             {{ __('Coordenadas UTM') }}
                         </th>
                     </tr>
                     <tr class="thead-light">
-                        <th class="cursor-pointer px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="cursor-pointer px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                             {{ __('Eastings (mE)') }}
                         </th>
-                        <th class="cursor-pointer px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        <th class="cursor-pointer px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                             {{ __('Northings (mN)') }}
                         </th>
                     </tr>
