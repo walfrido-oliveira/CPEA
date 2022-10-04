@@ -53,6 +53,16 @@
                             <x-custom-select :options="$status" name="status" id="status" required :value="old('status')"/>
                         </div>
                     </div>
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="crq" value="{{ __('CRQ IV') }}" required/>
+                            <x-jet-input id="crq" class="form-control block mt-1 w-full" type="text" name="crq" maxlength="255" required autofocus autocomplete="crq" :value="old('crq')"/>
+                        </div>
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="dpto" value="{{ __('Departamento') }}" />
+                            <x-jet-input id="dpto" class="form-control block mt-1 w-full" type="text" name="dpto" maxlength="255" autofocus :value="old('dpto')" />
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>

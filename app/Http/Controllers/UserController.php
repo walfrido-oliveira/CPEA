@@ -60,7 +60,9 @@ class UserController extends Controller
             'phone' => preg_replace('/[^0-9]/', '', $input['phone']),
             'email' => $input['email'],
             'status' => $input['status'],
-            'password' => Hash::make(Str::random(8))
+            'password' => Hash::make(Str::random(8)),
+            'crq' => $input['crq'],
+            'dpto' => $input['dpto'],
         ]);
 
         $user->syncRoles([$input['role']]);
@@ -121,13 +123,13 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
 
-        $isInactivated = $user->status == 'activated' && $input['status'] == 'inactivated';
-
         $user->update([
             'name' => $input['name'],
             'last_name' => $input['last_name'],
             'phone' => preg_replace('/[^0-9]/', '', $input['phone']),
             'status' => $input['status'],
+            'crq' => $input['crq'],
+            'dpto' => $input['dpto'],
         ]);
 
         $user->syncRoles([$input['role']]);
