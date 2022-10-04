@@ -117,9 +117,15 @@
                                     </div>
                                 </div>
                                 <input type="file" name="file_coordinates" id="file_coordinates" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.ms-excel" class="hidden">
-                                <button type="button" class="btn-transition-primary import-sample-coordinates px-1" title="Importar Coodernadas">
+                                <button type="button" class="btn-transition-primary import-sample-coordinates px-1 ml-4" title="Importar Coodernadas">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-wiph="1.5" stroke="currentColor" class="h-8 w-8 text-blue-900">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15" />
+                                    </svg>
+                                </button>
+                                <button type="button" class="btn-transition-primary coordinates px-1" id="view_coordinates" title="Visualizar Coodernadas">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8 text-blue-900">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
                                     </svg>
                                 </button>
                             </div>
@@ -195,7 +201,10 @@
                         @else
                             @include('form.sample')
                         @endif
+
                     </div>
+
+                    @include('form.coordinates-table')
                 </div>
             </form>
         </div>
@@ -474,6 +483,10 @@
                 item.style.display = "none";
             });
 
+            document.querySelectorAll("#mode_coordinates_table").forEach(item => {
+                item.style.display = "none";
+            });
+
             localStorage.setItem("view_mode", "view_table");
         });
 
@@ -491,6 +504,10 @@
             });
 
             document.querySelectorAll("#chart").forEach(item => {
+                item.style.display = "none";
+            });
+
+            document.querySelectorAll("#mode_coordinates_table").forEach(item => {
                 item.style.display = "none";
             });
 
@@ -514,6 +531,10 @@
                 item.style.display = "none";
             });
 
+            document.querySelectorAll("#mode_coordinates_table").forEach(item => {
+                item.style.display = "none";
+            });
+
             localStorage.setItem("view_mode", "view_sample_table");
         });
 
@@ -534,7 +555,36 @@
                 item.style.display = "block";
             });
 
+            document.querySelectorAll("#mode_coordinates_table").forEach(item => {
+                item.style.display = "none";
+            });
+
             localStorage.setItem("view_mode", "view_chart");
+
+        });
+
+        document.getElementById("view_coordinates").addEventListener("click", function() {
+          document.querySelectorAll("#mode_table").forEach(item => {
+                item.style.display = "none";
+            });
+
+            document.querySelectorAll("#mode_sample_table").forEach(item => {
+                item.style.display = "none";
+            });
+
+            document.querySelectorAll("#mode_list").forEach(item => {
+                item.style.display = "none";
+            });
+
+            document.querySelectorAll("#chart").forEach(item => {
+                item.style.display = "none";
+            });
+
+            document.querySelectorAll("#mode_coordinates_table").forEach(item => {
+                item.style.display = "block";
+            });
+
+            localStorage.setItem("view_mode", "view_coordinates");
 
         });
     </script>

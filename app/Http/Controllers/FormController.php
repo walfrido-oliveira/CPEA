@@ -470,7 +470,7 @@ class FormController extends Controller
 
     foreach ($rows as $key => $value) {
         if ($key <= 2) continue;
-        if(!isset($value[0]) || !isset($value[3]) || !isset($value[5]) || !isset($value[9])) continue;
+        #if(!isset($value[0]) || !isset($value[3]) || !isset($value[5]) || !isset($value[9])) continue;
         if(isset($value[0])) $coordinates['coordinates'][$key - 3]['point'] = $value[0];
         if(isset($value[3])) $coordinates['coordinates'][$key - 3]['zone'] = $value[3];
         if(isset($value[5])) $coordinates['coordinates'][$key - 3]['me'] = $value[5];
