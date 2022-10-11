@@ -10,6 +10,7 @@ use App\Http\Controllers\FieldController;
 use App\Http\Controllers\UnityController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ImportController;
+use App\Http\Controllers\UploadController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReplaceController;
 use App\Http\Controllers\CampaignController;
@@ -61,6 +62,8 @@ Route::get('/', function () {
 })->name('home');
 
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
+
+    Route::post('image/upload', [UploadController::class, 'imageUpload'])->name('image-upload');
 
     Route::prefix('exportar')->name('export.')->group(function(){
         Route::get('/valor-param-orientador', [ExportController::class, 'exportGuidingParameterValue'])->name('exportGuidingParameterValue');
