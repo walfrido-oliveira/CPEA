@@ -116,9 +116,9 @@ class AnalysisResultController extends Controller
     ];
 
     $sheet->setCellValue('A1', 'Parâmetro');
-    $sheet->setCellValue('A2', 'Data Coleta');
-    $sheet->setCellValue('A3', 'Hora Coleta');
-    $sheet->setCellValue('A4', 'Ident.Laboratorio');
+    $sheet->setCellValue('A2', 'Data de Coleta');
+    $sheet->setCellValue('A3', 'Hora de Coleta');
+    $sheet->setCellValue('A4', 'Identificação do Laboratório');
 
     $sheet->getStyle('A1')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
 
