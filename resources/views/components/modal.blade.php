@@ -54,7 +54,7 @@
             var token = document.querySelector('meta[name="csrf-token"]').content;
             var method = "{{$attributes['method'] }}";
             var that = this;
-            var urls = url.split(',');
+            var urls = url != '' ? url.split(',') : [];
 
             for (let index = 0; index < urls.length; index++) {
                 const url = urls[index];

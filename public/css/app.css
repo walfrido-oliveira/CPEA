@@ -1390,6 +1390,9 @@ select {
 .w-screen {
 	width: 100vw;
 }
+.w-1\/2 {
+	width: 50%;
+}
 .w-2\/4 {
 	width: 50%;
 }
@@ -1444,6 +1447,10 @@ select {
 }
 .translate-y-0 {
 	--tw-translate-y: 0px;
+	transform: var(--tw-transform);
+}
+.translate-y-10 {
+	--tw-translate-y: 2.5rem;
 	transform: var(--tw-transform);
 }
 .rotate-180 {
@@ -1552,6 +1559,9 @@ select {
 }
 .gap-1 {
 	gap: 0.25rem;
+}
+.gap-2 {
+	gap: 0.5rem;
 }
 .space-x-8 > :not([hidden]) ~ :not([hidden]) {
 	--tw-space-x-reverse: 0;
@@ -1762,6 +1772,10 @@ select {
 .bg-blue-100 {
 	--tw-bg-opacity: 1;
 	background-color: rgba(219, 234, 254, var(--tw-bg-opacity));
+}
+.bg-blue-500 {
+	--tw-bg-opacity: 1;
+	background-color: rgba(59, 130, 246, var(--tw-bg-opacity));
 }
 .bg-transparent {
 	background-color: transparent;
@@ -2119,6 +2133,10 @@ select {
 	--tw-text-opacity: 1;
 	color: rgba(245, 158, 11, var(--tw-text-opacity));
 }
+.text-blue-500 {
+	--tw-text-opacity: 1;
+	color: rgba(59, 130, 246, var(--tw-text-opacity));
+}
 .text-green-700 {
 	--tw-text-opacity: 1;
 	color: rgba(4, 120, 87, var(--tw-text-opacity));
@@ -2126,10 +2144,6 @@ select {
 .text-purple-900 {
 	--tw-text-opacity: 1;
 	color: rgba(76, 29, 149, var(--tw-text-opacity));
-}
-.text-blue-500 {
-	--tw-text-opacity: 1;
-	color: rgba(59, 130, 246, var(--tw-text-opacity));
 }
 .underline {
 	text-decoration: underline;
@@ -3785,6 +3799,11 @@ input:read-only {
 	.sm\:px-20 {
 		padding-left: 5rem;
 		padding-right: 5rem;
+	}
+
+	.sm\:py-12 {
+		padding-top: 3rem;
+		padding-bottom: 3rem;
 	}
 
 	.sm\:pt-0 {

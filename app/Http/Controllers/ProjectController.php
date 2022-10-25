@@ -67,30 +67,35 @@ class ProjectController extends Controller
 
         if(isset($input['duplicated_id']))
         {
-            $p = Project::findOrFail($input['duplicated_id']);
 
-            $campaignName = isset($input['campaign_name']) ? $input['campaign_name'] : null;
-            $dateCollection = isset($input['date_collection']) ? $input['date_collection'] : null;
-
-            foreach ($p->campaigns as $campaign)
+            foreach ($input['campaigns'] as $key => $campaign)
             {
-                $projectCampaign = Campaign::create([
-                    'name' => $campaignName[$campaign->id] ? $campaignName[$campaign->id] : $campaign->name,
-                    'project_id' =>$project->id,
-                    'campaign_status_id' => $campaign->campaign_status_id,
+                $createdCampaign = Campaign::create([
+                    'name' => $campaign['name'],
+                    'project_id' => $project->id,
+                    'campaign_status_id' => 1,
                 ]);
 
-                foreach ($campaign->projectPointMatrices as $point)
+                $clonedCampaign = Campaign::findOrFail($campaign['id']);
+                $pointsIds = [];
+
+                if(isset($campaign['points'])) {
+                    foreach ($campaign['points'] as $key => $point) {
+                        $pointsIds[] = $point['id'];
+                    }
+                }
+
+                foreach ($clonedCampaign->projectPointMatrices()->whereIn("id", $pointsIds)->get() as $key => $point)
                 {
                     $projectPointMatrix = ProjectPointMatrix::create([
                         'project_id' => $project->id,
-                        'campaign_id' => $projectCampaign->id,
+                        'campaign_id' => $createdCampaign->id,
                         'point_identification_id' => $point->point_identification_id,
                         'analysis_matrix_id' => $point->analysis_matrix_id,
                         'parameter_analysis_id' => $point->parameter_analysis_id,
                         'parameter_method_preparation_id' => $point->parameter_method_preparation_id,
                         'parameter_method_analysis_id' => $point->parameter_method_analysis_id,
-                        'date_collection' => $dateCollection[$point->point_identification_id] ? $dateCollection[$point->point_identification_id] : $point->date_collection,
+                        'date_collection' => $campaign['points']['point_' . $key]['date_collection'] ? $campaign['points']['point_' . $key]['date_collection'] : $point->date_collection,
 
                         'refq' => $point->refq,
                         'tide' => $point->tide,
@@ -123,6 +128,7 @@ class ProjectController extends Controller
                     $projectPointMatrix->guidingParameters()->sync($point->guidingParameters()->pluck("guiding_parameter_id")->toArray());
                 }
             }
+
         }
 
         $resp = [
