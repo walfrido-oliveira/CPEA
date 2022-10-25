@@ -247,6 +247,8 @@ class CampaignController extends Controller
 
         $input = $request->all();
 
+        //dd($input);
+
         if(!isset($input['type'])) $input['type'] = 'campaign';
 
         switch ($input['type']) {
@@ -357,10 +359,17 @@ class CampaignController extends Controller
             'name' => $input['name'],
             'project_id' => $campaign->project_id,
             'campaign_status_id' => $campaign->campaign_status_id,
-            'date_collection' => $campaign->date_collection,
         ]);
 
-        foreach ($campaign->projectPointMatrices as $key => $point)
+        $pointsIds = [];
+
+        if(isset($input['points'])) {
+            foreach ($input['points'] as $point) {
+                $pointsIds[] = $point['id'];
+            }
+        }
+
+        foreach ($campaign->projectPointMatrices()->whereIn("id", $pointsIds)->get() as $key => $point)
         {
             $projectPointMatrix = ProjectPointMatrix::create([
                 'project_id' => $point->project_id,
@@ -371,7 +380,7 @@ class CampaignController extends Controller
                 'parameter_method_analysis_id' => $point->parameter_method_analysis_id,
                 'campaign_id' => $result->id,
 
-                'date_collection' => $input['date_collection'],
+                'date_collection' => $input['points'][$key]['date_collection'] ? $input['points'][$key]['date_collection'] : $point->date_collection,
 
                 'refq' => $point->refq,
                 'tide' => $point->tide,

@@ -60,10 +60,22 @@
                                 <x-jet-label for="q" value="{{ __('Campanha') }}" />
                                 <x-jet-input id="name" class="form-control block mt-1 w-full" type="text" name="name" maxlength="255" required autofocus autocomplete="name" :value="$campaign->name"/>
                             </div>
-                            <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                <x-jet-label for="date_collection" value="{{ __('DT/HR da Coleta') }}" required/>
-                                <x-jet-input id="date_collection" class="form-control block mt-1 w-full" type="datetime-local" name="date_collection" maxlength="255" autofocus autocomplete="date_collection"/>
-                            </div>
+                            <h3 class="w-full mt-4 px-3">Pontos</h3>
+                            @foreach ($campaign->projectPointMatrices()->groupBy('point_identification_id')->get() as $key2 => $projectPointMatrix)
+                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0" id="point_identification_{{ $campaign->id }}_{{ $projectPointMatrix->point_identification_id }}">
+                                    <x-jet-label for="date_collection_{{ $key2 }}" value="{{ __('DT/HR da Coleta') . ' ' . $projectPointMatrix->pointIdentification->identification}}" required/>
+                                    <div class="flex w-full">
+                                        <x-jet-input id="date_collection_{{ $key2 }}" class="form-control block mt-1 w-full" type="datetime-local"
+                                        name="points[{{ $key2 }}][date_collection]" />
+                                        <input type="hidden" name="points[{{ $key2 }}][id]" value="{{ $projectPointMatrix->id }}">
+                                        <button class="btn-transition-danger delete-point-identification inline-block" data-id="point_identification_{{ $campaign->id }}_{{ $projectPointMatrix->point_identification_id }}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                     <div id="duplicate_point_container" style="display: none;">
@@ -136,6 +148,34 @@
 
     @include('project.campaign.point-alert-modal')
     @include('project.point-create-modal')
+
+    <x-modal title="{{ __('Excluir Ponto') }}"
+             msg="{{ __('Deseja realmente apagar esse Ponto?') }}"
+             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_point_identification_modal"
+             method="DELETE"/>
+    <script>
+        document.querySelectorAll('.delete-point-identification').forEach(item => {
+            item.addEventListener("click", function(e) {
+                e.preventDefault();
+                var modal = document.getElementById("delete_point_identification_modal");
+                modal.classList.remove("hidden");
+                modal.classList.add("block");
+                currentId = this.dataset.id;
+            });
+        });
+
+        var currentId = null;
+
+        document.querySelectorAll("#confirm_modal").forEach(item => {
+            item.addEventListener("click", function(e) {
+                e.preventDefault();
+                document.getElementById(currentId).remove();
+                var modal = document.getElementById("delete_point_identification_modal");
+                modal.classList.add("hidden");
+                modal.classList.remove("block");
+            });
+        });
+    </script>
 
     <script>
     document.getElementById("point_confirm_modal").addEventListener("click", function() {
