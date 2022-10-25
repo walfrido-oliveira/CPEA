@@ -118,22 +118,23 @@ class AnalysisResultController extends Controller
     $sheet->setCellValue('A1', 'Parâmetro');
     $sheet->setCellValue('A2', 'Data de Coleta');
     $sheet->setCellValue('A3', 'Hora de Coleta');
-    $sheet->setCellValue('A4', 'Identificação do Laboratório');
+    $sheet->setCellValue('A4', 'Grupo do Laboratório');
+    $sheet->setCellValue('A5', 'Identificação do Laboratório');
 
     $sheet->getStyle('A1')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
 
-    $sheet->getStyle("A1:A4")->applyFromArray($border);
+    $sheet->getStyle("A1:A5")->applyFromArray($border);
 
-    foreach (range('A1', 'A4') as $columnID) : $sheet->getColumnDimension($columnID)->setAutoSize(true);
+    foreach (range('A1', 'A5') as $columnID) : $sheet->getColumnDimension($columnID)->setAutoSize(true);
     endforeach;
 
     $sheet->setCellValue('B1', 'Unid');
     $sheet->getStyle('B1')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
     $sheet->getStyle('B1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
     $sheet->getStyle('B1')->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-    $sheet->mergeCells('B1:B4');
+    $sheet->mergeCells('B1:B5');
 
-    $sheet->getStyle("B1:B4")->applyFromArray($border);
+    $sheet->getStyle("B1:B5")->applyFromArray($border);
 
     $column = "B";
 
@@ -191,7 +192,8 @@ class AnalysisResultController extends Controller
 
       $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2, $value->projectPointMatrix->date_collection->format("d/m/Y"));
       $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 3, $value->projectPointMatrix->date_collection->format("H:i"));
-      $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4, $value->labsampid);
+      $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4, $value->batch);
+      $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 5, $value->labsampid);
 
       $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
       $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
@@ -204,6 +206,10 @@ class AnalysisResultController extends Controller
       $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
       $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
       $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4)->applyFromArray($border);
+
+      $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 5)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+      $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 5)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+      $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 5)->applyFromArray($border);
 
       $sheet->getColumnDimensionByColumn(2 + count($guidingParameters) + 1  + $key)->setAutoSize(true);
     }
@@ -225,15 +231,15 @@ class AnalysisResultController extends Controller
       ->get();
 
     if (count($projectPointMatrices) > 0) {
-      $sheet->setCellValueByColumnAndRow(1, 5, $projectPointMatrices[0]->parameterAnalysis->parameterAnalysisGroup->name);
+      $sheet->setCellValueByColumnAndRow(1, 6, $projectPointMatrices[0]->parameterAnalysis->parameterAnalysisGroup->name);
       $groupParameterAnalysis[] = $projectPointMatrices[0]->parameterAnalysis->parameterAnalysisGroup->name;
-      $sheet->getStyleByColumnAndRow(1, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
-      $sheet->getStyleByColumnAndRow(2, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
-      $sheet->getStyleByColumnAndRow(1, 5)->applyFromArray($border);
+      $sheet->getStyleByColumnAndRow(1, 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+      $sheet->getStyleByColumnAndRow(2, 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+      $sheet->getStyleByColumnAndRow(1, 6)->applyFromArray($border);
       $sheet->getStyle("A5")->applyFromArray($border);
 
       foreach ($analysisResult as $analysisIndex => $value) {
-        $sheet->getStyleByColumnAndRow(3 + count($guidingParameters) + $analysisIndex, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+        $sheet->getStyleByColumnAndRow(3 + count($guidingParameters) + $analysisIndex, 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
       }
     }
 
@@ -247,19 +253,19 @@ class AnalysisResultController extends Controller
           $projectPointMatrices[$index - 1]->parameterAnalysis->parameter_analysis_group_id
         ) {
           if (!in_array($point->parameterAnalysis->parameterAnalysisGroup->name, $groupParameterAnalysis)) {
-            $sheet->setCellValueByColumnAndRow(1,  $key + 6, $point->parameterAnalysis->parameterAnalysisGroup->name);
+            $sheet->setCellValueByColumnAndRow(1,  $key + 7, $point->parameterAnalysis->parameterAnalysisGroup->name);
             $groupParameterAnalysis[] = $point->parameterAnalysis->parameterAnalysisGroup->name;
 
-            $sheet->getStyleByColumnAndRow(1,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
-            $sheet->getStyleByColumnAndRow(2,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
-            $sheet->getStyleByColumnAndRow(2,  $key + 6)->applyFromArray($border);
+            $sheet->getStyleByColumnAndRow(1,  $key + 7)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+            $sheet->getStyleByColumnAndRow(2,  $key + 7)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+            $sheet->getStyleByColumnAndRow(2,  $key + 7)->applyFromArray($border);
 
             foreach ($guidingParameterOrders as $key2 => $value) {
-              $sheet->getStyleByColumnAndRow(2 + ($key2 + 1),  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+              $sheet->getStyleByColumnAndRow(2 + ($key2 + 1),  $key + 7)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
             }
 
             foreach ($analysisResult as $analysisIndex => $value) {
-              $sheet->getStyleByColumnAndRow(3 + count($guidingParameters) + $analysisIndex, $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+              $sheet->getStyleByColumnAndRow(3 + count($guidingParameters) + $analysisIndex, $key + 7)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
             }
 
             $key++;
@@ -267,15 +273,15 @@ class AnalysisResultController extends Controller
         }
       }
 
-      $sheet->getStyleByColumnAndRow(1, $key + 6)->applyFromArray($border);
+      $sheet->getStyleByColumnAndRow(1, $key + 7)->applyFromArray($border);
 
       if (!in_array($point->parameterAnalysis->analysis_parameter_name, $parameterAnalysis) || $index == 0) {
-        $sheet->setCellValueByColumnAndRow(1, $key + 6, $point->parameterAnalysis->analysis_parameter_name);
+        $sheet->setCellValueByColumnAndRow(1, $key + 7, $point->parameterAnalysis->analysis_parameter_name);
 
         for ($i = 0; $i < count($guidingParameters); $i++) {
-          $sheet->getStyleByColumnAndRow(4 + $i, $key + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-          $sheet->getStyleByColumnAndRow(4 + $i, $key + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-          $sheet->getStyleByColumnAndRow(4 + $i, $key + 6)->applyFromArray($border);
+          $sheet->getStyleByColumnAndRow(4 + $i, $key + 7)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+          $sheet->getStyleByColumnAndRow(4 + $i, $key + 7)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+          $sheet->getStyleByColumnAndRow(4 + $i, $key + 7)->applyFromArray($border);
         }
 
         $parameterAnalysis[] = $point->parameterAnalysis->analysis_parameter_name;
@@ -289,38 +295,38 @@ class AnalysisResultController extends Controller
           if ($guidingParametersValue) {
             if ($guidingParametersValue->guidingValue) {
               if (Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo'])) {
-                $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
+                $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 7, $guidingParametersValue->guiding_legislation_value);
               }
               if (Str::contains($guidingParametersValue->guidingValue->name, ['Qualitativo'])) {
-                $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, 'Virtualmente ausente');
+                $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 7, 'Virtualmente ausente');
                 $qualitative[] = $guidingParametersValue;
               }
               if (Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo'])) {
                 $sheet->setCellValueByColumnAndRow(
                   3 + $key2,
-                  $key + 6,
+                  $key + 7,
                   $guidingParametersValue->guiding_legislation_value_1 . ' - ' . $guidingParametersValue->guiding_legislation_value_2
                 );
               }
             } else {
-              $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, $guidingParametersValue->guiding_legislation_value);
+              $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 7, $guidingParametersValue->guiding_legislation_value);
             }
           } else {
-            $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 6, "-");
+            $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 7, "-");
           }
 
           foreach ($analysisResult as $row => $item) {
-            $sheet->setCellValueByColumnAndRow((3 + $key2) + $row + 1,  $key + 6, 'N/A');
-            $sheet->getStyleByColumnAndRow((3 + $key2) + $row + 1,  $key + 6)->applyFromArray($border);
-            $sheet->getStyleByColumnAndRow((3 + $key2) + $row + 1,  $key + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-            $sheet->getStyleByColumnAndRow((3 + $key2) + $row + 1,  $key + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            $sheet->setCellValueByColumnAndRow((3 + $key2) + $row + 1,  $key + 7, 'N/A');
+            $sheet->getStyleByColumnAndRow((3 + $key2) + $row + 1,  $key + 7)->applyFromArray($border);
+            $sheet->getStyleByColumnAndRow((3 + $key2) + $row + 1,  $key + 7)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $sheet->getStyleByColumnAndRow((3 + $key2) + $row + 1,  $key + 7)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
           }
 
 
-          $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-          $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-          $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
-          $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 6)->applyFromArray($border);
+          $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 7)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+          $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 7)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+          $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 7)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
+          $sheet->getStyleByColumnAndRow(3 + $key2,  $key + 7)->applyFromArray($border);
         }
         $key++;
       }
@@ -359,19 +365,17 @@ class AnalysisResultController extends Controller
 
         $index = 0;
 
-        while ($sheet->getCellByColumnAndRow(1, 6 + $index) != $value->projectPointMatrix->parameterAnalysis->analysis_parameter_name) {
+        while ($sheet->getCellByColumnAndRow(1, 7 + $index) != $value->projectPointMatrix->parameterAnalysis->analysis_parameter_name) {
           $index++;
-          $sheet->getStyleByColumnAndRow(2,  $index + 6)->applyFromArray($border);
+          $sheet->getStyleByColumnAndRow(2,  $index + 7)->applyFromArray($border);
         }
 
-        $sheet->setCellValueByColumnAndRow(2,  $index + 6, $value->units);
-        $sheet->getStyleByColumnAndRow(2,  $index + 6)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyleByColumnAndRow(2,  $index + 6)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-        $sheet->getStyleByColumnAndRow(2,  $index + 6)->applyFromArray($border);
+        $sheet->setCellValueByColumnAndRow(2,  $index + 7, $value->units);
+        $sheet->getStyleByColumnAndRow(2,  $index + 7)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyleByColumnAndRow(2,  $index + 7)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+        $sheet->getStyleByColumnAndRow(2,  $index + 7)->applyFromArray($border);
 
-        //$column = array_search(Str::of(Str::replace(' ', '', $value->projectPointMatrix->pointIdentification->identification))->trim(), $pointIdentification);
-
-         $result =  Str::replace(["*J", " [1]"], "", $value->result);
+        $result =  Str::replace(["*J", " [1]"], "", $value->result);
         $result = Str::replace(["<", "< "], "", $result);
         $result = Str::replace(",", ".", $result);
         $result = $result == '' ? 0 : $result;
@@ -394,18 +398,18 @@ class AnalysisResultController extends Controller
         $result = $result == '0,000' ? 'N/A' : $result;
         $result = $token || Str::contains($value->result, ["<", "< "]) && !Str::contains($result, 'N/A') ? "< $result" : $result;
 
-        $sheet->setCellValueByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index, $result);
-        $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-        $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->applyFromArray($border);
+        $sheet->setCellValueByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index, $result);
+        $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+        $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->applyFromArray($border);
 
-        if ($bold && $result != 'N/A' && $value->result) $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getFont()->setBold(true);
+        if ($bold && $result != 'N/A' && $value->result) $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFont()->setBold(true);
 
         foreach ($qualitative as $item)
         {
             if($item->parameter_analysis_id == $value->projectPointMatrix->parameter_analysis_id && $resultValue > $rlValue)
             {
-                $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getFont()->setBold(true);
+                $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFont()->setBold(true);
             }
         }
 
@@ -422,7 +426,7 @@ class AnalysisResultController extends Controller
                 ),
               ),
             );
-            $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->applyFromArray($styleArray);
+            $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->applyFromArray($styleArray);
           }
         }
 
@@ -434,13 +438,13 @@ class AnalysisResultController extends Controller
           if ($guidingParametersValue) {
             if (Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo', 'Qualitativo'])) {
               if ($resultValue > $guidingParametersValue->guiding_legislation_value) {
-                $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
+                $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
                 break;
               }
             }
             if (Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo'])) {
               if (($resultValue < $guidingParametersValue->guiding_legislation_value || $resultValue > $guidingParametersValue->guiding_legislation_value_1)) {
-                $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 6 + $index)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
+                $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
                 break;
               }
             }
