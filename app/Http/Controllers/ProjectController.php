@@ -70,13 +70,14 @@ class ProjectController extends Controller
 
             foreach ($input['campaigns'] as $key => $campaign)
             {
+                $clonedCampaign = Campaign::findOrFail($campaign['id']);
+
                 $createdCampaign = Campaign::create([
                     'name' => $campaign['name'],
                     'project_id' => $project->id,
-                    'campaign_status_id' => 1,
+                    'campaign_status_id' => $clonedCampaign->campaign_status_id,
                 ]);
 
-                $clonedCampaign = Campaign::findOrFail($campaign['id']);
                 $pointsIds = [];
 
                 if(isset($campaign['points'])) {
