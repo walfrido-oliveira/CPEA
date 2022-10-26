@@ -164,7 +164,7 @@ class AnalysisResultController extends Controller
       endforeach;
 
       $sheet->getStyle($column2 . "2")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key]));
-      $spreadsheet->getActiveSheet()->mergeCells($column2 . "2:" . $column2 . "4");
+      $spreadsheet->getActiveSheet()->mergeCells($column2 . "2:" . $column2 . "5");
 
       $sheet->getStyle($column2 . "5")->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
       $sheet->getStyle($column2 . "5")->applyFromArray($border);
@@ -194,6 +194,7 @@ class AnalysisResultController extends Controller
       $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 3, $value->projectPointMatrix->date_collection->format("H:i"));
       $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 4, $value->batch);
       $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 5, $value->labsampid);
+
 
       $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
       $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $key, 2)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
@@ -232,16 +233,23 @@ class AnalysisResultController extends Controller
 
     if (count($projectPointMatrices) > 0) {
       $sheet->setCellValueByColumnAndRow(1, 6, $projectPointMatrices[0]->parameterAnalysis->parameterAnalysisGroup->name);
+
       $groupParameterAnalysis[] = $projectPointMatrices[0]->parameterAnalysis->parameterAnalysisGroup->name;
+
       $sheet->getStyleByColumnAndRow(1, 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
       $sheet->getStyleByColumnAndRow(2, 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
-      $sheet->getStyleByColumnAndRow(1, 6)->applyFromArray($border);
-      $sheet->getStyle("A5")->applyFromArray($border);
+
+      $sheet->getStyleByColumnAndRow(2, 6)->applyFromArray($border);
+      $sheet->getStyleByColumnAndRow(3, 6)->applyFromArray($border);
+      $sheet->getStyle("A6")->applyFromArray($border);
+
+      $spreadsheet->getActiveSheet()->mergeCellsByColumnAndRow(1, 6, 3 + count($guidingParameters) + count($analysisResult) - 1, 6);
 
       foreach ($analysisResult as $analysisIndex => $value) {
-        $sheet->getStyleByColumnAndRow(3 + count($guidingParameters) + $analysisIndex, 6)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+        $sheet->getStyleByColumnAndRow(3 + count($guidingParameters) + $analysisIndex, 6)->applyFromArray($border);
       }
     }
+
 
     $guidingParameterOrders = $project->guiding_parameter_order ? explode(",", $project->guiding_parameter_order) : [];
     $qualitative = [];
@@ -254,11 +262,16 @@ class AnalysisResultController extends Controller
         ) {
           if (!in_array($point->parameterAnalysis->parameterAnalysisGroup->name, $groupParameterAnalysis)) {
             $sheet->setCellValueByColumnAndRow(1,  $key + 7, $point->parameterAnalysis->parameterAnalysisGroup->name);
+
             $groupParameterAnalysis[] = $point->parameterAnalysis->parameterAnalysisGroup->name;
 
             $sheet->getStyleByColumnAndRow(1,  $key + 7)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
             $sheet->getStyleByColumnAndRow(2,  $key + 7)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+
             $sheet->getStyleByColumnAndRow(2,  $key + 7)->applyFromArray($border);
+            $sheet->getStyleByColumnAndRow(3,  $key + 7)->applyFromArray($border);
+
+            $spreadsheet->getActiveSheet()->mergeCellsByColumnAndRow(1, 7 + $key , 3 + count($guidingParameters) + count($analysisResult) - 1, 7 + $key);
 
             foreach ($guidingParameterOrders as $key2 => $value) {
               $sheet->getStyleByColumnAndRow(2 + ($key2 + 1),  $key + 7)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
@@ -266,6 +279,7 @@ class AnalysisResultController extends Controller
 
             foreach ($analysisResult as $analysisIndex => $value) {
               $sheet->getStyleByColumnAndRow(3 + count($guidingParameters) + $analysisIndex, $key + 7)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+              $sheet->getStyleByColumnAndRow(3 + count($guidingParameters) + $analysisIndex, 7 + $key)->applyFromArray($border);
             }
 
             $key++;
@@ -456,9 +470,10 @@ class AnalysisResultController extends Controller
       $column++;
     }
 
+
     $column = "A";
     $count = count($guidingParameters) + 1 + count($analysisResult);
-    $row = 5;
+    $row = 6;
     $index = 0;
     $groupParameterAnalysis = [];
     $parameterAnalysis = [];
@@ -489,8 +504,6 @@ class AnalysisResultController extends Controller
       }
       $index++;
     }
-
-    //$sheet->getStyle("A1:" . $column . $row)->applyFromArray($border);
 
     $writer = new Xls($spreadsheet);
 
