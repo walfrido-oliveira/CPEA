@@ -95,7 +95,7 @@ class ProjectController extends Controller
                         'parameter_analysis_id' => $point->parameter_analysis_id,
                         'parameter_method_preparation_id' => $point->parameter_method_preparation_id,
                         'parameter_method_analysis_id' => $point->parameter_method_analysis_id,
-                        'date_collection' => $campaign['points']['point_' . $key]['date_collection'] ? $campaign['points']['point_' . $key]['date_collection'] : $point->date_collection,
+                        'date_collection' => $campaign['points'][$point->point_identification_id]['date_collection'] ? $campaign['points'][$point->point_identification_id]['date_collection'] : $point->date_collection,
 
                         'refq' => $point->refq,
                         'tide' => $point->tide,
