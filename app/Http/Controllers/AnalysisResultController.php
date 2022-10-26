@@ -388,6 +388,7 @@ class AnalysisResultController extends Controller
         $sheet->getStyleByColumnAndRow(2,  $index + 7)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $sheet->getStyleByColumnAndRow(2,  $index + 7)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
         $sheet->getStyleByColumnAndRow(2,  $index + 7)->applyFromArray($border);
+        $sheet->getColumnDimensionByColumn(2,  $index + 7)->setAutoSize(true);
 
         $result =  Str::replace(["*J", " [1]"], "", $value->result);
         $result = Str::replace(["<", "< "], "", $result);
