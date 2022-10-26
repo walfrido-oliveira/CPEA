@@ -832,9 +832,9 @@ class AnalysisResultController extends Controller
                 $isToken = !$analysisResult->result || $rl > $r || Str::contains($analysisResult->result, "<");
 
                 if($zero == true) {
-                  $formula = Str::replace($value2[0],  0, $formula);
+                    $formula = Str::replace($value2[0],  0, $formula);
                 } else {
-                  $formula = Str::replace($value2[0],  $analysisResult->result ? $analysisResult->result : $analysisResult->rl, $formula);
+                    $formula = Str::replace($value2[0],  $r ? $r : $rl, $formula);
                 }
 
               }
