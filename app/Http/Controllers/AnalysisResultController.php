@@ -268,6 +268,7 @@ class AnalysisResultController extends Controller
             $sheet->getStyleByColumnAndRow(1,  $key + 7)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
             $sheet->getStyleByColumnAndRow(2,  $key + 7)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
 
+            $sheet->getStyleByColumnAndRow(1,  $key + 7)->applyFromArray($border);
             $sheet->getStyleByColumnAndRow(2,  $key + 7)->applyFromArray($border);
             $sheet->getStyleByColumnAndRow(3,  $key + 7)->applyFromArray($border);
 
@@ -287,10 +288,9 @@ class AnalysisResultController extends Controller
         }
       }
 
-      $sheet->getStyleByColumnAndRow(1, $key + 7)->applyFromArray($border);
-
       if (!in_array($point->parameterAnalysis->analysis_parameter_name, $parameterAnalysis) || $index == 0) {
         $sheet->setCellValueByColumnAndRow(1, $key + 7, $point->parameterAnalysis->analysis_parameter_name);
+        $sheet->getStyleByColumnAndRow(1, $key + 7)->applyFromArray($border);
 
         for ($i = 0; $i < count($guidingParameters); $i++) {
           $sheet->getStyleByColumnAndRow(4 + $i, $key + 7)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
