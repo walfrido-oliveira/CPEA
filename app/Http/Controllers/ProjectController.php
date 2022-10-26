@@ -85,7 +85,7 @@ class ProjectController extends Controller
                     }
                 }
 
-                foreach ($clonedCampaign->projectPointMatrices()->whereIn("id", $pointsIds)->get() as $key => $point)
+                foreach ($clonedCampaign->projectPointMatrices()->whereIn("point_identification_id", $pointsIds)->get() as $key => $point)
                 {
                     $projectPointMatrix = ProjectPointMatrix::create([
                         'project_id' => $project->id,
