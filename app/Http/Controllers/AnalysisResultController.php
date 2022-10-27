@@ -677,8 +677,39 @@ class AnalysisResultController extends Controller
 
             $obj->units = $item2->unityLegislation->unity_cod;
           }
+
         }
       }
+
+      if($obj->units == 'μg/kg' && !$item2 && $projectPointMatrices->analysisMatrix->name == 'Solo') {
+        $tokenResult = Str::contains($obj->result, "<");
+            $tokenDl = Str::contains($obj->dl, "<");
+            $tokenRl = Str::contains($obj->rl, "<");
+
+            $result =  Str::replace(["*J", " [1]"], "", $obj->result);
+            $result = Str::replace(["<", "< ", " "], "", $result);
+            $result = Str::replace([","], ".", $result);
+
+            $dl =  Str::replace(["*J", " [1]"], "", $obj->dl);
+            $dl = Str::replace(["<", "< ", " "], "", $dl);
+            $dl = Str::replace([","], ".", $dl);
+
+            $rl =  Str::replace(["*J", " [1]"], "", $obj->rl);
+            $rl = Str::replace(["<", "< ", " "], "", $rl);
+            $rl = Str::replace([","], ".", $rl);
+
+            if (is_numeric($result)) $obj->result = $result / 1000;
+            if (is_numeric($dl)) $obj->dl = $dl / 1000;
+            if (is_numeric($rl)) $obj->rl = $rl / 1000;
+
+            if($tokenResult) $obj->result = "< " . $obj->result;
+            if($tokenDl) $obj->dl = "< " . $obj->dl;
+            if($tokenRl) $obj->rl = "< " . $obj->rl;
+
+            $obj->units = 'mg/kg';
+      }
+
+      if($projectPointMatrices)
 
       if($obj->project && $obj->samplename) {
 
