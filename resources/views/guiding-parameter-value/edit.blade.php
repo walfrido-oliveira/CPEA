@@ -60,13 +60,13 @@
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="guiding_legislation_value_1" value="{{ __('Valor Orientador Legislaçao 1') }}" required/>
-                            <x-jet-input id="guiding_legislation_value_1" class="form-control block mt-1 w-full" type="number" name="guiding_legislation_value_1" maxlength="18" step="any" autofocus autocomplete="guiding_legislation_value_1" :value="$guidingParameterValue->guiding_legislation_value_1"/>
+                            <x-jet-input id="guiding_legislation_value_1" class="form-control block mt-1 w-full" type="text" name="guiding_legislation_value_1" maxlength="18" step="any" autofocus autocomplete="guiding_legislation_value_1" :value="$guidingParameterValue->guiding_legislation_value_1"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="guiding_legislation_value_2" value="{{ __('Valor Orientador Legislaçao 2') }}" />
-                            <x-jet-input id="guiding_legislation_value_2" class="form-control block mt-1 w-full" type="number" name="guiding_legislation_value_2" maxlength="18" step="any" autofocus autocomplete="guiding_legislation_value_2" :value="$guidingParameterValue->guiding_legislation_value_2"/>
+                            <x-jet-input id="guiding_legislation_value_2" class="form-control block mt-1 w-full" type="text" name="guiding_legislation_value_2" maxlength="18" step="any" autofocus autocomplete="guiding_legislation_value_2" :value="$guidingParameterValue->guiding_legislation_value_2"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="unity_analysis_id" value="{{ __('Unidade Análise') }}" required/>
@@ -94,5 +94,6 @@
         </div>
     </div>
 
+    @include('guiding-parameter-value.scripts')
 
 </x-app-layout>

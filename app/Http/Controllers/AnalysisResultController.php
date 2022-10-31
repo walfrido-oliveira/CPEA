@@ -451,7 +451,7 @@ class AnalysisResultController extends Controller
             ->first();
 
           if ($guidingParametersValue) {
-            if (Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo', 'Qualitativo'])) {
+            if (Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo'])) {
               if ($resultValue > $guidingParametersValue->guiding_legislation_value) {
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
                 break;
@@ -463,6 +463,25 @@ class AnalysisResultController extends Controller
                 break;
               }
             }
+            if (Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo de Aceitação'])) {
+                if ($resultValue >= $guidingParametersValue->guiding_legislation_value) {
+                  $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
+                  break;
+                }
+            }
+            if (Str::contains($guidingParametersValue->guidingValue->name, ['Qualitativo'])) {
+                if(is_numeric($resultValue)) {
+                    if ($resultValue >= $rlValue) {
+                        $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
+                        break;
+                    }
+                } else {
+                    if($resultValue == 'Presente' || $resultValue == 'Presença') {
+                        $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
+                        break;
+                    }
+                }
+              }
           }
         }
 
