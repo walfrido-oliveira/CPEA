@@ -464,15 +464,15 @@ class AnalysisResultController extends Controller
               }
             }
             if (Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo de Aceitação'])) {
-                if ($resultValue >= $guidingParametersValue->guiding_legislation_value) {
-                  $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
+                if ($resultValue >= $guidingParametersValue->guiding_legislation_value && $resultValue <= $guidingParametersValue->guiding_legislation_value_1) {
+                  $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFont()->setBold(true);
                   break;
                 }
             }
             if (Str::contains($guidingParametersValue->guidingValue->name, ['Qualitativo'])) {
                 if(is_numeric($resultValue)) {
                     if ($resultValue >= $rlValue) {
-                        $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
+                        $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFont()->setBold(true);
                         break;
                     }
                 } else {
