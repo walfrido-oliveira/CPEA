@@ -471,12 +471,14 @@ class AnalysisResultController extends Controller
             }
             if (Str::contains($guidingParametersValue->guidingValue->name, ['Qualitativo'])) {
                 if(is_numeric($resultValue)) {
-                    if ($resultValue >= $rlValue) {
+                    if ($resultValue > $rlValue) {
+                        $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFont()->setBold(true);
                         $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFont()->setBold(true);
                         break;
                     }
                 } else {
                     if($resultValue == 'Presente' || $resultValue == 'Presença') {
+                        $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFont()->setBold(true);
                         $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
                         break;
                     }
