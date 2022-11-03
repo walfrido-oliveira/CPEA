@@ -319,7 +319,7 @@ class AnalysisResultController extends Controller
                 $sheet->setCellValueByColumnAndRow(
                   3 + $key2,
                   $key + 7,
-                  $guidingParametersValue->guiding_legislation_value_1 . ' - ' . $guidingParametersValue->guiding_legislation_value_2
+                  $guidingParametersValue->guiding_legislation_value_0 . ' - ' . $guidingParametersValue->guiding_legislation_value_1
                 );
               }
             } else {
