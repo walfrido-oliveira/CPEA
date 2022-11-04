@@ -458,7 +458,7 @@ class AnalysisResultController extends Controller
               }
             }
             if (Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo']) && !Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo de Aceitação'])) {
-              if (($resultValue >= $rlValue) {
+              if ($resultValue >= $rlValue) {
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $RandomColors[$key2]));
                 break;
               }
