@@ -420,13 +420,13 @@ class AnalysisResultController extends Controller
 
         if ($bold && $result != 'N/A' && $value->result) $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFont()->setBold(true);
 
-        foreach ($qualitative as $item)
+        /*foreach ($qualitative as $item)
         {
             if($item->parameter_analysis_id == $value->projectPointMatrix->parameter_analysis_id && $resultValue > $rlValue)
             {
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFont()->setBold(true);
             }
-        }
+        }*/
 
         if ($value->anadate && $value->prepdate && $value->projectPointMatrix->parameterMethodPreparation) {
           $anadate = Carbon::createFromFormat('d/m/Y', Str::substr($value->anadate, 0, 10));
