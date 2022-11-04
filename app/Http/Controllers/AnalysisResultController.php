@@ -252,7 +252,7 @@ class AnalysisResultController extends Controller
 
 
     $guidingParameterOrders = $project->guiding_parameter_order ? explode(",", $project->guiding_parameter_order) : [];
-    $qualitative = [];
+    //$qualitative = [];
 
     foreach ($projectPointMatrices as $point) {
       if ($index > 0) {
@@ -313,7 +313,7 @@ class AnalysisResultController extends Controller
               }
               if (Str::contains($guidingParametersValue->guidingValue->name, ['Qualitativo'])) {
                 $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 7, 'Virtualmente ausente');
-                $qualitative[] = $guidingParametersValue;
+                //$qualitative[] = $guidingParametersValue;
               }
               if (Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo'])) {
                 $sheet->setCellValueByColumnAndRow(
@@ -418,7 +418,7 @@ class AnalysisResultController extends Controller
         $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
         $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->applyFromArray($border);
 
-        if ($bold && $result != 'N/A' && $value->result) $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFont()->setBold(true);
+        //if ($bold && $result != 'N/A' && $value->result) $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFont()->setBold(true);
 
         /*foreach ($qualitative as $item)
         {
