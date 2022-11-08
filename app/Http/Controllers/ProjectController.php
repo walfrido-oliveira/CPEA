@@ -292,30 +292,21 @@ class ProjectController extends Controller
         $guidingParameters = collect([]);
 
         $ids = !is_array($project->guiding_parameter_order) ? explode(",", $project->guiding_parameter_order) : $project->guiding_parameter_order;
-        $colors = !is_array($project->colors) ? explode(",", $project->colors) : $project->colors;
-        $length = 3;
+        $colors = !is_array($project->colors) ? explode(",", $project->colors) : [];
+        $defaultColors = ["ffcc99", "ffff99", "daeef3"];
 
-        for ($i=0; $i < $length; $i++)
+        for ($i=0; $i < count($defaultColors); $i++)
         {
-            if($colors[$i] != "")
+            if(!isset($colors[$i]))
             {
-                switch ($i)
+                $colors[$i] = $defaultColors[$i];
+            }
+
+            if(!isset($colors[$i]))
+            {
+                if($colors[$i] == '')
                 {
-                    case 0:
-                        $colors[0] = "ffcc99";
-                        break;
-
-                    case 1:
-                        $colors[1] = "ffff99";
-                        break;
-
-
-                    case 2:
-                        $colors[2] = "daeef3";
-                        break;
-
-                    default:
-                        break;
+                    $colors[$i] = $defaultColors[$i];
                 }
             }
         }
