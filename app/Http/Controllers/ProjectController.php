@@ -302,7 +302,7 @@ class ProjectController extends Controller
                 $colors[$i] = $defaultColors[$i];
             }
 
-            if(!isset($colors[$i]))
+            if(isset($colors[$i]))
             {
                 if($colors[$i] == '')
                 {
