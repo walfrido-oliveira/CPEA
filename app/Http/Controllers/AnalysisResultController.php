@@ -455,7 +455,7 @@ class AnalysisResultController extends Controller
                 }
             }
             if ($guidingParametersValue->guidingValue->name == 'Intervalo de Aceitação') {
-                if ($resultValue >= $rlValue) {
+                if ($resultValue > $rlValue) {
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFont()->setBold(true);
                 break;
                 }
