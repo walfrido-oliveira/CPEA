@@ -18,7 +18,17 @@ class Project extends Model
      * @var array
      */
     protected $fillable = [
-        'project_cod', 'customer_id', 'guiding_parameter_order', 'status'
+        'project_cod', 'customer_id', 'guiding_parameter_order', 'status', 'colors'
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'colors' => 'array',
+        'guiding_parameter_order' => 'array',
     ];
 
     /**

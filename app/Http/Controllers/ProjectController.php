@@ -268,7 +268,8 @@ class ProjectController extends Controller
         $input = $request->all();
 
         $project->update([
-            'guiding_parameter_order' => isset($input['order']) ? $input['order'] : null
+            'guiding_parameter_order' => isset($input['guiding_parameter_order']) ? $input['guiding_parameter_order'] : null,
+            'colors' => isset($input['colors']) ? $input['colors'] : null,
         ]);
 
         return response()->json([
@@ -288,7 +289,40 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
 
-        $guidingParameters = $project->projectPointMatrices()
+        $guidingParameters = collect([]);
+
+        $ids = $project->guiding_parameter_order != '' ? explode(",", $project->guiding_parameter_order) : [];
+        $colors = $project->colors != '' ? explode(",", $project->colors) : [];
+        $length = 3;
+
+        for ($i=0; $i < $length; $i++)
+        {
+            if(!isset($colors[$i]))
+            {
+                switch ($i)
+                {
+                    case 0:
+                        $colors[0] = "ffcc99";
+                        break;
+
+                    case 1:
+                        $colors[1] = "ffff99";
+                        break;
+
+
+                    case 2:
+                        $colors[2] = "daeef3";
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
+
+        $guidingParameters = GuidingParameter::whereIn("id", $ids)->get();
+
+        $guidingParameters2 = $project->projectPointMatrices()
         ->select('guiding_parameters.*')
         ->whereHas('guidingParameters')
         ->leftJoin('guiding_parameter_project_point_matrix', function($join) {
@@ -301,8 +335,10 @@ class ProjectController extends Controller
         ->distinct()
         ->get();
 
+        $guidingParameters = $guidingParameters->merge($guidingParameters2);
+
         return response()->json([
-            'guiding_parameters' => view('project.guiding-parameter-list', compact('guidingParameters'))->render(),
+            'guiding_parameters' => view('project.guiding-parameter-list', compact('guidingParameters', 'colors'))->render(),
         ]);
     }
 

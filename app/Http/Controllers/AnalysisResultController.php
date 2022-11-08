@@ -86,21 +86,32 @@ class AnalysisResultController extends Controller
     $campaign = Campaign::findOrFail($id);
 
     $project = $campaign->project;
-    $RandomColors = RandomColor::many(30, array('luminosity' => 'light', 'format' => 'hex'));
 
-    while (in_array(["#FFCC99", "#FFFF99", "#DAEEF3"], $RandomColors)) {
-      $RandomColors = RandomColor::many(30, array('luminosity' => 'light', 'format' => 'hex'));
-    }
-
-    $RandomColors[0] = "#FFCC99";
-    $RandomColors[1] = "#FFFF99";
-    $RandomColors[2] = "#DAEEF3";
+    $RandomColors = [];
     $guidingParameters = [];
+
+    if(is_array($project->colors) && count($project->colors) > 0) {
+        $RandomColors = $project->colors;
+    } else{
+        $RandomColors = RandomColor::many(30, array('luminosity' => 'light', 'format' => 'hex'));
+
+        while (in_array(["#FFCC99", "#FFFF99", "#DAEEF3"], $RandomColors)) {
+          $RandomColors = RandomColor::many(30, array('luminosity' => 'light', 'format' => 'hex'));
+        }
+
+        $RandomColors[0] = "#FFCC99";
+        $RandomColors[1] = "#FFFF99";
+        $RandomColors[2] = "#DAEEF3";
+    }
 
     if ($project->guiding_parameter_order && count(explode(",", $project->guiding_parameter_order))) {
       foreach (explode(",", $project->guiding_parameter_order) as $key => $value) {
         if(GuidingParameter::find($value)) $guidingParameters[] = GuidingParameter::find($value)->environmental_guiding_parameter_id;
       }
+    } else {
+        foreach ($project->guiding_parameter_order as $key => $value) {
+            if(GuidingParameter::find($value)) $guidingParameters[] = GuidingParameter::find($value)->environmental_guiding_parameter_id;
+        }
     }
 
     $spreadsheet = new Spreadsheet();
@@ -252,7 +263,6 @@ class AnalysisResultController extends Controller
 
 
     $guidingParameterOrders = $project->guiding_parameter_order ? explode(",", $project->guiding_parameter_order) : [];
-    //$qualitative = [];
 
     foreach ($projectPointMatrices as $point) {
       if ($index > 0) {
@@ -313,7 +323,6 @@ class AnalysisResultController extends Controller
               }
               if (Str::contains($guidingParametersValue->guidingValue->name, ['Qualitativo'])) {
                 $sheet->setCellValueByColumnAndRow(3 + $key2,  $key + 7, 'Virtualmente ausente');
-                //$qualitative[] = $guidingParametersValue;
               }
               if (Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo'])) {
                 $sheet->setCellValueByColumnAndRow(

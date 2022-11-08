@@ -8,6 +8,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
             </svg>
             {{ $item->environmental_guiding_parameter_id }}
+            <input class="color" type="color" id="color_{{ $key }}" name="colors[]" value="#{{ isset($colors[$key]) ? $colors[$key] : null  }}">
         </td>
     </tr>
 @endforeach
