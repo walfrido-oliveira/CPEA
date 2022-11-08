@@ -262,8 +262,6 @@ class AnalysisResultController extends Controller
     }
 
 
-    $guidingParameterOrders = $project->guiding_parameter_order ? explode(",", $project->guiding_parameter_order) : [];
-
     foreach ($projectPointMatrices as $point) {
       if ($index > 0) {
         if (
@@ -284,7 +282,7 @@ class AnalysisResultController extends Controller
 
             $spreadsheet->getActiveSheet()->mergeCellsByColumnAndRow(1, 7 + $key , 3 + count($guidingParameters) + count($analysisResult) - 1, 7 + $key);
 
-            foreach ($guidingParameterOrders as $key2 => $value) {
+            foreach ($guidingParameters as $key2 => $value) {
               $sheet->getStyleByColumnAndRow(2 + ($key2 + 1),  $key + 7)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
             }
 
@@ -310,9 +308,9 @@ class AnalysisResultController extends Controller
 
         $parameterAnalysis[] = $point->parameterAnalysis->analysis_parameter_name;
 
-        foreach ($guidingParameterOrders as $key2 => $value) {
+        foreach ($guidingParameters as $key2 => $value) {
 
-          $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $value)
+          $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $value->id)
             ->where('parameter_analysis_id', $point->parameterAnalysis->id)
             ->first();
 
@@ -445,8 +443,8 @@ class AnalysisResultController extends Controller
           }
         }
 
-        foreach ($guidingParameterOrders as $key2 => $value3) {
-          $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $value3)
+        foreach ($guidingParameters as $key2 => $value3) {
+          $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $value3->id)
             ->where('parameter_analysis_id', $value->projectPointMatrix->parameterAnalysis->id)
             ->first();
 
