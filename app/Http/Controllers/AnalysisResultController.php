@@ -89,6 +89,7 @@ class AnalysisResultController extends Controller
 
     $RandomColors = [];
     $guidingParameters = [];
+    $guidingParameterOrders = [];
 
     if(is_array($project->colors) && count($project->colors) > 0) {
         $RandomColors = $project->colors;
@@ -106,11 +107,19 @@ class AnalysisResultController extends Controller
 
     if ($project->guiding_parameter_order && !is_array($project->guiding_parameter_order)) {
       foreach (explode(",", $project->guiding_parameter_order) as $key => $value) {
-        if(GuidingParameter::find($value)) $guidingParameters[] = GuidingParameter::find($value)->environmental_guiding_parameter_id;
+        $guidingParameter = GuidingParameter::find($value);
+        if($guidingParameter) {
+            $guidingParameters[] = $guidingParameter->environmental_guiding_parameter_id;
+            $guidingParameterOrders[] = $guidingParameter->id;
+        }
       }
     } else {
         foreach ($project->guiding_parameter_order as $key => $value) {
-            if(GuidingParameter::find($value)) $guidingParameters[] = GuidingParameter::find($value)->environmental_guiding_parameter_id;
+            $guidingParameter = GuidingParameter::find($value);
+            if($guidingParameter) {
+                $guidingParameters[] = $guidingParameter->environmental_guiding_parameter_id;
+                $guidingParameterOrders[] = $guidingParameter->id;
+            }
         }
     }
 
@@ -282,7 +291,7 @@ class AnalysisResultController extends Controller
 
             $spreadsheet->getActiveSheet()->mergeCellsByColumnAndRow(1, 7 + $key , 3 + count($guidingParameters) + count($analysisResult) - 1, 7 + $key);
 
-            foreach ($guidingParameters as $key2 => $value) {
+            foreach ($guidingParameterOrders as $key2 => $value) {
               $sheet->getStyleByColumnAndRow(2 + ($key2 + 1),  $key + 7)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
             }
 
@@ -308,9 +317,9 @@ class AnalysisResultController extends Controller
 
         $parameterAnalysis[] = $point->parameterAnalysis->analysis_parameter_name;
 
-        foreach ($guidingParameters as $key2 => $value) {
+        foreach ($guidingParameterOrders as $key2 => $value) {
 
-          $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $value->id)
+          $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $value)
             ->where('parameter_analysis_id', $point->parameterAnalysis->id)
             ->first();
 
@@ -443,8 +452,8 @@ class AnalysisResultController extends Controller
           }
         }
 
-        foreach ($guidingParameters as $key2 => $value3) {
-          $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $value3->id)
+        foreach ($guidingParameterOrders as $key2 => $value3) {
+          $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $value3)
             ->where('parameter_analysis_id', $value->projectPointMatrix->parameterAnalysis->id)
             ->first();
 
