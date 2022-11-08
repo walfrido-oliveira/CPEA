@@ -291,8 +291,8 @@ class ProjectController extends Controller
 
         $guidingParameters = collect([]);
 
-        $ids = is_array($project->guiding_parameter_order) ? explode(",", $project->guiding_parameter_order) : $project->guiding_parameter_order;
-        $colors = is_array($project->colors) ? explode(",", $project->colors) : [];
+        $ids = !is_array($project->guiding_parameter_order) ? explode(",", $project->guiding_parameter_order) : $project->guiding_parameter_order;
+        $colors = !is_array($project->colors) ? explode(",", $project->colors) : [];
         $length = 3;
 
         for ($i=0; $i < $length; $i++)
