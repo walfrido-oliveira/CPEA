@@ -159,7 +159,7 @@
             data.append('guiding_parameter_order[]', element.dataset.id);
         });
 
-        nodesOrder.forEach(element => {
+        nodesColors.forEach(element => {
             data.append('colors[]', element.value);
         });
 
