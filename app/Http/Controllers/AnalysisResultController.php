@@ -104,7 +104,7 @@ class AnalysisResultController extends Controller
         $RandomColors[2] = "#DAEEF3";
     }
 
-    if ($project->guiding_parameter_order && count(explode(",", $project->guiding_parameter_order)) && !is_array($project->guiding_parameter_order)) {
+    if ($project->guiding_parameter_order && !is_array($project->guiding_parameter_order)) {
       foreach (explode(",", $project->guiding_parameter_order) as $key => $value) {
         if(GuidingParameter::find($value)) $guidingParameters[] = GuidingParameter::find($value)->environmental_guiding_parameter_id;
       }
