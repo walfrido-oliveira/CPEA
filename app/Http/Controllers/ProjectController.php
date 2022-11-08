@@ -297,7 +297,7 @@ class ProjectController extends Controller
 
         for ($i=0; $i < $length; $i++)
         {
-            if(!isset($colors[$i]))
+            if($colors[$i] != "")
             {
                 switch ($i)
                 {
