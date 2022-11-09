@@ -75,7 +75,8 @@ class ParameterAnalysisGroup extends Model
             }
         });
 
-        $parameterAnalysisGroups->orderBy($orderBy, $ascending);
+        //$parameterAnalysisGroups->orderBy($orderBy, $ascending);
+        $parameterAnalysisGroups->orderByRaw("COALESCE(parameter_analysis_group_id, id), parameter_analysis_group_id IS NOT NULL, id");
 
         return $parameterAnalysisGroups->paginate($perPage);
     }
