@@ -40,6 +40,8 @@ use App\Http\Controllers\CalculationParameterController;
 use App\Http\Controllers\GuidingParameterValueController;
 use App\Http\Controllers\ParameterAnalysisGroupController;
 use App\Http\Controllers\GuidingParameterRefValueController;
+use App\Models\Fornecedore;
+use Illuminate\Support\Facades\Http;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,10 +54,72 @@ use App\Http\Controllers\GuidingParameterRefValueController;
 |
 */
 
-Route::get('/now', function () {
-    dd(Carbon\Carbon::now());
+Route::get('/import', function () {
+    ini_set('max_execution_time', 9999);
+    $fornecedores = Fornecedore::whereNull('cnpj')->get();
+    $url = "https://cadastroindustrialpr.com.br/services/navegador/consulta_unica.php";
 
-})->name('now');
+    foreach ($fornecedores as $key => $fornecedore) {
+        $client = new GuzzleHttp\Client();
+
+        $options = [
+            'multipart' => [
+              [
+                'name' => 'recid',
+                'contents' => $fornecedore->id_fornecedor
+              ]
+          ]];
+        $res = $client->post($url, $options);
+        $body = json_decode($res->getBody(), true);
+        $FornecedoreR = Fornecedore::where("id_fornecedor", $fornecedore->id_fornecedor)->first();
+        $FornecedoreR->update([
+            'cnpj' => $body['cnpj'],
+            'nome' => $body['nome'],
+            'fantasia' => $body['fantasia'],
+            'endereco' => $body['endereco'],
+            'tipo_logradouro' => $body['tipo_logradouro'],
+            'logradouro' => $body['logradouro'],
+            'numero' => $body['numero'],
+            'complemento' => $body['complemento'],
+            'bairro' => $body['bairro'],
+            'cep' => $body['cep'],
+            'municipio' => $body['municipio'],
+            'uf' => $body['uf'],
+            'ddd_telefone' => $body['ddd_telefone'],
+            'telefone' => $body['telefone'],
+            'pagina_web' => $body['pagina_web'],
+            'email' => $body['email'],
+            'email_compras' => $body['email_compras'],
+            'email_vendas' => $body['email_vendas'],
+            'nro_funcionarios' => $body['nro_funcionarios'],
+            'cnae' => $body['cnae'],
+            'descricao' => $body['descricao'],
+            'exporta' => $body['exporta'],
+            'importa' => $body['importa'],
+            'produto_1' => $body['produto_1'],
+            'produto_2' => $body['produto_2'],
+            'produto_3' => $body['produto_3'],
+            'outros_produtos' => $body['outros_produtos'],
+            'ano_fundacao' => $body['ano_fundacao'],
+            'facebook' => $body['facebook'],
+            'twitter' => $body['twitter'],
+            'instagram' => $body['instagram'],
+            'youtube' => $body['youtube'],
+            'linkedin' => $body['linkedin'],
+            'materias_primas' => $body['materias_primas'],
+            'processo_produtivo' => $body['processo_produtivo'],
+            'ddd_telefone2' => $body['ddd_telefone2'],
+            'telefone2' => $body['telefone2'],
+            'ddd_celular' => $body['ddd_celular'],
+            'celular' => $body['celular'],
+            'pais' => $body['pais'],
+            'matriz' => $body['matriz'],
+            'filial' => $body['filial'],
+            'capital' => $body['capital'],
+        ]);
+        echo($FornecedoreR->id);
+    }
+});
 
 Route::get('/', function () {
     return redirect()->route('login');
