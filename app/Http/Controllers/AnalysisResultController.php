@@ -641,6 +641,22 @@ class AnalysisResultController extends Controller
             $obj->snote9 = $this->searchCellByValue("snote9", $rows[0], $order->lab, $value, 51); #$value[51];
             $obj->snote10 = $this->searchCellByValue("snote10", $rows[0], $order->lab, $value, 52); #$value[52];
 
+            $tokenResult = Str::contains($obj->result, "<");
+            $tokenDl = Str::contains($obj->dl, "<");
+            $tokenRl = Str::contains($obj->rl, "<");
+
+            $result =  Str::replace(["*J", " [1]"], "", $obj->result);
+            $result = Str::replace(["<", "< ", " "], "", $result);
+            $result = Str::replace([","], ".", $result);
+
+            $dl =  Str::replace(["*J", " [1]"], "", $obj->dl);
+            $dl = Str::replace(["<", "< ", " "], "", $dl);
+            $dl = Str::replace([","], ".", $dl);
+
+            $rl =  Str::replace(["*J", " [1]"], "", $obj->rl);
+            $rl = Str::replace(["<", "< ", " "], "", $rl);
+            $rl = Str::replace([","], ".", $rl);
+
             $projectPointMatrices = $order->projectPointMatrices()
                 ->whereHas("project", function ($q) use ($obj) {
                     $q->where(DB::raw("replace(project_cod, ' ', '')"), Str::of(Str::replace(' ', '', $obj->project))->trim());
@@ -686,22 +702,6 @@ class AnalysisResultController extends Controller
                         $item2->parameter_analysis_id == $projectPointMatrices->parameterAnalysis->id &&
                         $item2->unityLegislation->unity_cod !=  $obj->units
                     ) {
-                        $tokenResult = Str::contains($obj->result, "<");
-                        $tokenDl = Str::contains($obj->dl, "<");
-                        $tokenRl = Str::contains($obj->rl, "<");
-
-                        $result =  Str::replace(["*J", " [1]"], "", $obj->result);
-                        $result = Str::replace(["<", "< ", " "], "", $result);
-                        $result = Str::replace([","], ".", $result);
-
-                        $dl =  Str::replace(["*J", " [1]"], "", $obj->dl);
-                        $dl = Str::replace(["<", "< ", " "], "", $dl);
-                        $dl = Str::replace([","], ".", $dl);
-
-                        $rl =  Str::replace(["*J", " [1]"], "", $obj->rl);
-                        $rl = Str::replace(["<", "< ", " "], "", $rl);
-                        $rl = Str::replace([","], ".", $rl);
-
                         if (is_numeric($result)) $obj->result = $result * $item2->unityLegislation->conversion_amount;
                         if (is_numeric($dl)) $obj->dl = $dl * $item2->unityLegislation->conversion_amount;
                         if (is_numeric($rl)) $obj->rl = $rl * $item2->unityLegislation->conversion_amount;
@@ -716,22 +716,6 @@ class AnalysisResultController extends Controller
             }
 
             if (($obj->units == 'μg/kg' || $obj->units == 'µg/kg') && !$item2 && $projectPointMatrices->analysisMatrix->name == 'Solo') {
-                $tokenResult = Str::contains($obj->result, "<");
-                $tokenDl = Str::contains($obj->dl, "<");
-                $tokenRl = Str::contains($obj->rl, "<");
-
-                $result =  Str::replace(["*J", " [1]"], "", $obj->result);
-                $result = Str::replace(["<", "< ", " "], "", $result);
-                $result = Str::replace([","], ".", $result);
-
-                $dl =  Str::replace(["*J", " [1]"], "", $obj->dl);
-                $dl = Str::replace(["<", "< ", " "], "", $dl);
-                $dl = Str::replace([","], ".", $dl);
-
-                $rl =  Str::replace(["*J", " [1]"], "", $obj->rl);
-                $rl = Str::replace(["<", "< ", " "], "", $rl);
-                $rl = Str::replace([","], ".", $rl);
-
                 if (is_numeric($result)) $obj->result = $result / 1000;
                 if (is_numeric($dl)) $obj->dl = $dl / 1000;
                 if (is_numeric($rl)) $obj->rl = $rl / 1000;
