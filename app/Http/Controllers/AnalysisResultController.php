@@ -663,8 +663,15 @@ class AnalysisResultController extends Controller
             $obj->status = "found";
             $imports[] = $obj;
 
-            foreach ($projectPointMatrices->guidingParameters()
-                ->whereIn('guiding_parameter_id', explode(",", $projectPointMatrices->project->guiding_parameter_order))->get() as $item) {
+            $guidingParameterOrders = [];
+
+            if(is_array($projectPointMatrices->project->guiding_parameter_order)) {
+              $guidingParameterOrders = $projectPointMatrices->project->guiding_parameter_order;
+            } else {
+              $guidingParameterOrders = explode(",", $projectPointMatrices->project->guiding_parameter_order
+            }
+
+            foreach ($projectPointMatrices->guidingParameters()->whereIn('guiding_parameter_id', $guidingParameterOrders)->get() as $item) {
 
                 $item2 = $item
                     ->guidingParameterValues()
