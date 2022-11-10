@@ -668,7 +668,7 @@ class AnalysisResultController extends Controller
             if(is_array($projectPointMatrices->project->guiding_parameter_order)) {
               $guidingParameterOrders = $projectPointMatrices->project->guiding_parameter_order;
             } else {
-              $guidingParameterOrders = explode(",", $projectPointMatrices->project->guiding_parameter_order
+              $guidingParameterOrders = explode(",", $projectPointMatrices->project->guiding_parameter_order);
             }
 
             foreach ($projectPointMatrices->guidingParameters()->whereIn('guiding_parameter_id', $guidingParameterOrders)->get() as $item) {
