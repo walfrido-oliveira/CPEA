@@ -419,11 +419,10 @@ class AnalysisResultController extends Controller
                 $resultValue = $result;
                 $rlValue = $rl;
 
-                $result =  Str::contains($value->result, '*J') ? $result : ($resultValue >= $rlValue ? $resultValue : $rlValue);
-                $resultValue = $result;
+                //$result =  Str::contains($value->result, '*J') ? $result : ($resultValue >= $rlValue ? $resultValue : $rlValue);
+                //$resultValue = $result;
 
                 $token = $resultValue < $rlValue || !$value->result;
-                $bold = $resultValue >= $rlValue && !Str::contains($value->result, ["<", "< "]);
 
                 if (is_numeric($result)) $result = number_format($result, 5, ",", ".");
                 $result = $result == '0,000' ? 'N/A' : $result;
