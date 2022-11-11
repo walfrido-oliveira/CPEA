@@ -808,6 +808,7 @@ class AnalysisResultController extends Controller
                     'snote8' => $obj->snote8,
                     'snote9' => $obj->snote9,
                     'snote10' => $obj->snote10,
+                    'resultreal' => $obj->resultreal,
                 ]);
 
                 $totalImport++;
