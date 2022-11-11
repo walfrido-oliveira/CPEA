@@ -422,7 +422,7 @@ class AnalysisResultController extends Controller
                 //$result =  Str::contains($value->result, '*J') ? $result : ($resultValue >= $rlValue ? $resultValue : $rlValue);
                 //$resultValue = $result;
 
-                $token = $resultValue < $rlValue || !$value->result;
+                $token = $resultValue < $rlValue || !$value->result && !Str::contains($value->resultreal, ["j", "J"]);
 
                 if (is_numeric($result)) $result = number_format($result, 5, ",", ".");
                 $result = $result == '0,000' ? 'N/A' : $result;
@@ -433,6 +433,9 @@ class AnalysisResultController extends Controller
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->applyFromArray($border);
 
+                if(Str::contains($value->resultreal, ["j", "J"])) {
+                    $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFont()->setBold(true);
+                }
 
                 if ($value->anadate && $value->prepdate && $value->projectPointMatrix->parameterMethodPreparation) {
                     $anadate = Carbon::createFromFormat('d/m/Y', Str::substr($value->anadate, 0, 10));
@@ -610,7 +613,10 @@ class AnalysisResultController extends Controller
             $obj->casnumber = $this->searchCellByValue("casnumber", $rows[0], $order->lab, $value, 21); #$value[21];
             $obj->surrogate = $this->searchCellByValue("surrogate", $rows[0], $order->lab, $value, 22); #$value[22];
             $obj->tic = $this->searchCellByValue("tic", $rows[0], $order->lab, $value, 23); #$value[23];
+
             $obj->result = $this->searchCellByValue("result", $rows[0], $order->lab, $value, 24); #$value[24];
+            $obj->resultreal = $obj->result;
+
             $obj->dl = $this->searchCellByValue("dl", $rows[0], $order->lab, $value, 25); #$value[25];
             $obj->rl = $this->searchCellByValue("rl", $rows[0], $order->lab, $value, 26); #$value[26];
             $obj->units = $this->toReplace($this->searchCellByValue("units", $rows[0], $order->lab, $value, 27), $order->lab); #$value[27];
