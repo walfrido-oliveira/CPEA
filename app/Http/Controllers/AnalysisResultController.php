@@ -426,7 +426,7 @@ class AnalysisResultController extends Controller
 
                 if (is_numeric($result)) $result = number_format($result, 5, ",", ".");
                 $result = $result == '0,000' ? 'N/A' : $result;
-                $result = $token || Str::contains($value->result, ["<", "< "]) && !Str::contains($result, 'N/A') ? "< $result" : $result;
+                $result = $token || Str::contains($value->resultreal, ["<", "< "]) && !Str::contains($result, 'N/A') ? "< $result" : $result;
 
                 $sheet->setCellValueByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index, $result);
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
