@@ -423,6 +423,7 @@ class AnalysisResultController extends Controller
                 //$resultValue = $result;
 
                 $token = ($resultValue < $rlValue || !$value->result) && !Str::contains($value->resultreal, ["j", "J"]);
+                $bold = $resultValue >= $rlValue; //&& !Str::contains($value->result, ["<", "< "]);
 
                 if (is_numeric($result)) $result = number_format($result, 5, ",", ".");
                 $result = $result == '0,000' ? 'N/A' : $result;
@@ -433,7 +434,7 @@ class AnalysisResultController extends Controller
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->applyFromArray($border);
 
-                if(Str::contains($value->resultreal, ["j", "J"]) && !Str::contains($value->resultreal, ["<"])) {
+                if((Str::contains($value->resultreal, ["j", "J"]) && !Str::contains($value->resultreal, ["<"])) || $bold) {
                     $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFont()->setBold(true);
                 }
 
