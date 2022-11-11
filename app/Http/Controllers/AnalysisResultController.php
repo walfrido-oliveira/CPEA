@@ -433,7 +433,7 @@ class AnalysisResultController extends Controller
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
                 $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->applyFromArray($border);
 
-                if(Str::contains($value->resultreal, ["j", "J"])) {
+                if(Str::contains($value->resultreal, ["j", "J"]) && !Str::contains($value->resultreal, ["<"])) {
                     $sheet->getStyleByColumnAndRow($column + 2 + count($guidingParameters) + 1, 7 + $index)->getFont()->setBold(true);
                 }
 
