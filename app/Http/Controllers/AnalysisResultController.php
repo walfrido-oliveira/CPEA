@@ -732,7 +732,10 @@ class AnalysisResultController extends Controller
             }
 
             if(Str::contains($obj->result, ["J", "j"])) {
-                $obj->result = $result;
+                $r2 =  Str::replace(["*J", " [1]"], "", $obj->result);
+                $r2 = Str::replace(["<", "< ", " "], "", $result);
+                $r2 = Str::replace([","], ".", $result);
+                $obj->result = $r2;
             }
 
             if ($obj->project && $obj->samplename) {
