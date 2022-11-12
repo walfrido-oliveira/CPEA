@@ -737,7 +737,7 @@ class AnalysisResultController extends Controller
                 if($result < $rl) $obj->result = "<" . $obj->snote10;
             }
 
-            if(Str::contains($obj->result, ["J", "j"])) {
+            if(Str::contains($obj->resultreal, ["J", "j"])) {
                 $r2 =  Str::replace(["*J", " [1]"], "", $obj->result);
                 $r2 = Str::replace(["<", "< ", " "], "", $r2);
                 $r2 = Str::replace([","], ".", $r2);
