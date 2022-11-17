@@ -319,7 +319,7 @@ class AnalysisResultController extends Controller
         if (!in_array($projectPointMatrices[$i]->parameterAnalysis->analysis_parameter_name, $parameterAnalysis) || $i == 0)
         {
             $sheet->setCellValueByColumnAndRow(1, $row, $projectPointMatrices[$i]->parameterAnalysis->analysis_parameter_name);
-            $sheet->setCellValueByColumnAndRow(2,  $row, $projectPointMatrices[$i]->analysisResult[0]->units);
+            if(isset($projectPointMatrices[$i]->analysisResult[0])) $sheet->setCellValueByColumnAndRow(2,  $row, $projectPointMatrices[$i]->analysisResult[0]->units);
 
             for ($k=0; $k < count($guidingParameters); $k++)
             {
