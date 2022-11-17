@@ -302,7 +302,7 @@
                     var link = document.createElement('a');
 
                     link.href = window.URL.createObjectURL(blob);
-                    link.download = "result.xls";
+                    link.download = "{{ $campaign->project->project_cod}}.xls";
 
                     link.click();
                     window.SpinLoad.hidden();
