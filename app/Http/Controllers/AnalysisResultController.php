@@ -225,19 +225,19 @@ class AnalysisResultController extends Controller
     for ($i=0; $i < count($guidingParameters); $i++)
     {
         $sheet->setCellValueByColumnAndRow((3 + $i), 2, $guidingParameters[$i]->environmental_guiding_parameter_id);
-        $sheet->getStyleByColumnAndRow((3 + $i), 2,)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyleByColumnAndRow((3 + $i), 2,)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-        $sheet->getStyleByColumnAndRow((3 + $i), 2,)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $colors[$i]));
+        $sheet->getStyleByColumnAndRow((3 + $i), 2)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyleByColumnAndRow((3 + $i), 2)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+        $sheet->getStyleByColumnAndRow((3 + $i), 2)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $colors[$i]));
 
         foreach (range($column . "2", $column . "2") as $columnID) : $sheet->getColumnDimension($columnID)->setAutoSize(true);
         endforeach;
 
         $spreadsheet->getActiveSheet()->mergeCells($column . "2:" . $column . "5");
 
-        $sheet->getStyleByColumnAndRow((3 + $i), 2,)->applyFromArray($border);
-        $sheet->getStyleByColumnAndRow((3 + $i), 3,)->applyFromArray($border);
-        $sheet->getStyleByColumnAndRow((3 + $i), 4,)->applyFromArray($border);
-        $sheet->getStyleByColumnAndRow((3 + $i), 5,)->applyFromArray($border);
+        $sheet->getStyleByColumnAndRow((3 + $i), 2)->applyFromArray($border);
+        $sheet->getStyleByColumnAndRow((3 + $i), 3)->applyFromArray($border);
+        $sheet->getStyleByColumnAndRow((3 + $i), 4)->applyFromArray($border);
+        $sheet->getStyleByColumnAndRow((3 + $i), 5)->applyFromArray($border);
 
         $column++;
     }
@@ -277,7 +277,7 @@ class AnalysisResultController extends Controller
 
 
     $row = 6;
-    $column++;
+    //$column++;
     $groupParameterAnalysis = [];
     $parameterAnalysis = [];
 
