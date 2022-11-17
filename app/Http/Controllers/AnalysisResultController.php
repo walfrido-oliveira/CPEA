@@ -380,6 +380,8 @@ class AnalysisResultController extends Controller
                 ->where("project_point_matrices.point_identification_id", $analysisResult[$a]->projectPointMatrix->point_identification_id)
                 ->first();
 
+                if(!$value) continue;
+
                 $result =  Str::replace(["*J", " [1]"], "", $value->result);
                 $result = Str::replace(["<", "< "], "", $result);
                 $result = Str::replace(",", ".", $result);
