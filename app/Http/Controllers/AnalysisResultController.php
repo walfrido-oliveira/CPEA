@@ -278,14 +278,6 @@ class AnalysisResultController extends Controller
       ->select('project_point_matrices.*')
       ->get();
 
-    for ($i=0; $i < count($projectPointMatrices); $i++)
-    {
-        if(!$projectPointMatrices[$i]->parameterAnalysis->parameterAnalysisGroup->parameterAnalysisGroup)
-        {
-
-        }
-    }
-
 
     $row = 6;
     $groupParameterAnalysis = [];
