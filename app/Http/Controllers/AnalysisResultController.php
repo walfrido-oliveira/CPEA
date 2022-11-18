@@ -269,15 +269,25 @@ class AnalysisResultController extends Controller
       ->with('pointIdentification')
       ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
       ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
-      ->leftJoin('parameter_analysis_groups', 'parameter_analysis_groups.id', '=', 'parameter_analyses.parameter_analysis_group_id')
-      ->orderBy('parameter_analysis_groups.order', 'asc')
-      ->orderBy('parameter_analyses.analysis_parameter_name', 'asc')
+      ->leftJoin('parameter_analysis_groups as t1', 't1.id', '=', 'parameter_analyses.parameter_analysis_group_id')
+      ->leftJoin('parameter_analysis_groups as t2', 't2.id', '=', 't1.parameter_analysis_group_id')
+      ->leftJoin('parameter_analysis_groups as t3', 't3.id', '=', 't2.parameter_analysis_group_id')
+      ->orderBy('t1.order', 'asc')
+      ->orderBy('t2.order', 'asc')
+      ->orderBy('t3.order', 'asc')
       ->select('project_point_matrices.*')
       ->get();
 
+    for ($i=0; $i < count($projectPointMatrices); $i++)
+    {
+        if(!$projectPointMatrices[$i]->parameterAnalysis->parameterAnalysisGroup->parameterAnalysisGroup)
+        {
+
+        }
+    }
+
 
     $row = 6;
-    //$column++;
     $groupParameterAnalysis = [];
     $parameterAnalysis = [];
 
@@ -287,10 +297,10 @@ class AnalysisResultController extends Controller
         {
             if($projectPointMatrices[$i]->parameterAnalysis->parameterAnalysisGroup)
             {
-                $groupParameterAnalysis[] = $projectPointMatrices[$i]->parameterAnalysis->parameterAnalysisGroup->name;
                 $parents = $this->getParameterAnalysisGroup($projectPointMatrices[$i]->parameterAnalysis);
-                for ($j=0; $j < count($parents); $j++)
+                for ($j=count($parents)-1; $j >= 0; $j--)
                 {
+                    $groupParameterAnalysis[] = $parents[$j]->name;
                     $sheet->setCellValueByColumnAndRow(1, $row, $parents[$j]->name);
                     $sheet->getStyleByColumnAndRow(1, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
                     $sheet->getStyle("A" . $row . ":" . $column . $row)->applyFromArray($border);
@@ -301,12 +311,14 @@ class AnalysisResultController extends Controller
         }
         else
         {
-            if ($projectPointMatrices[$i]->parameterAnalysis->parameter_analysis_group_id != $projectPointMatrices[$i - 1]->parameterAnalysis->parameter_analysis_group_id)
+            if ($projectPointMatrices[$i]->parameterAnalysis->parameter_analysis_group_id !=
+                $projectPointMatrices[$i - 1]->parameterAnalysis->parameter_analysis_group_id)
             {
-                $groupParameterAnalysis[] = $projectPointMatrices[$i]->parameterAnalysis->parameterAnalysisGroup->name;
                 $parents = $this->getParameterAnalysisGroup($projectPointMatrices[$i]->parameterAnalysis);
-                for ($j=0; $j < count($parents); $j++)
+                for ($j=count($parents)-1; $j >= 0; $j--)
                 {
+                    if(in_array($parents[$j]->name, $groupParameterAnalysis)) continue;
+                    $groupParameterAnalysis[] = $parents[$j]->name;
                     $sheet->setCellValueByColumnAndRow(1, $row, $parents[$j]->name);
                     $sheet->getStyleByColumnAndRow(1, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
                     $sheet->getStyle("A" . $row . ":" . $column . $row)->applyFromArray($border);
