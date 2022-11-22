@@ -431,7 +431,7 @@ class AnalysisResultController extends Controller
                     }
                 }
 
-                for ($b=0; $k < count($guidingParameters); $b++)
+                for ($b=0; $b < count($guidingParameters); $b++)
                 {
                     $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $guidingParameters[$b]->id)
                     ->where('parameter_analysis_id', $projectPointMatrices[$i]->parameter_analysis_id)
@@ -463,7 +463,7 @@ class AnalysisResultController extends Controller
                               $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $colors[$b]));
                               break;
                             }
-                          } else {
+                          } else {                                                        //'Presença'
                             if ($value->resultreal == 'Presente' || $value->resultreal == 'Presença') {
                               $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFont()->setBold(true);
                               $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $colors[$b]));
