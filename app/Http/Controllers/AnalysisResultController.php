@@ -270,8 +270,6 @@ class AnalysisResultController extends Controller
       ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
       ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
       ->leftJoin('parameter_analysis_groups as t1', 't1.id', '=', 'parameter_analyses.parameter_analysis_group_id')
-      //->leftJoin('parameter_analysis_groups as t2', 't2.id', '=', 't1.parameter_analysis_group_id')
-     // ->leftJoin('parameter_analysis_groups as t3', 't3.id', '=', 't2.parameter_analysis_group_id')
       ->orderBy('t1.order', 'asc')
       ->select('project_point_matrices.*')
       ->get();
@@ -406,6 +404,7 @@ class AnalysisResultController extends Controller
                 if (is_numeric($result)) $result = number_format($result, 5, ",", ".");
                 $result = $result == '0,000' ? 'N/A' : $result;
                 $result = $token || Str::contains($value->resultreal, ["<", "< "]) && !Str::contains($result, 'N/A') ? "< $result" : $result;
+                if($value->resultreal == '') $result = "< $rl";
 
                 $sheet->setCellValueByColumnAndRow($k + $a + 3, $row, $result);
 
