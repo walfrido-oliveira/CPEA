@@ -389,7 +389,7 @@ class AnalysisResultController extends Controller
                 $result =  Str::replace(["*J", " [1]"], "", $value->result);
                 $result = Str::replace(["<", "< "], "", $result);
                 $result = Str::replace(",", ".", $result);
-                $result = $result == '' ? 0 : $result;
+                //$result = $result == '' ? 0 : $result;
 
                 $rl =  Str::replace(["*J", " [1]"], "", $value->rl);
                 $rl = Str::replace(["<", "< "], "", $rl);
@@ -464,7 +464,7 @@ class AnalysisResultController extends Controller
                               break;
                             }
                           } else {
-                            if ($resultValue == 'Presente' || $resultValue == 'Presença') {
+                            if ($value->resultreal == 'Presente' || $value->resultreal == 'Presença') {
                               $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFont()->setBold(true);
                               $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $colors[$b]));
                               break;
