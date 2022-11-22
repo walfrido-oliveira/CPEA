@@ -271,6 +271,7 @@ class AnalysisResultController extends Controller
       ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
       ->leftJoin('parameter_analysis_groups as t1', 't1.id', '=', 'parameter_analyses.parameter_analysis_group_id')
       ->orderBy('t1.order', 'asc')
+      ->orderBy('parameter_analyses.order', 'asc')
       ->select('project_point_matrices.*')
       ->get();
 
