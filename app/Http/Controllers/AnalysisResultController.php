@@ -405,7 +405,7 @@ class AnalysisResultController extends Controller
                 if (is_numeric($result)) $result = number_format($result, 5, ",", ".");
                 $result = $result == '0,000' ? 'N/A' : $result;
                 $result = $token || Str::contains($value->resultreal, ["<", "< "]) && !Str::contains($result, 'N/A') ? "< $result" : $result;
-                if($value->resultreal == '') $result = "< $rl";
+                if($value->resultreal == '') $result = "< " . number_format($rl, 5, ",", ".");
 
                 $sheet->setCellValueByColumnAndRow($k + $a + 3, $row, $result);
 
