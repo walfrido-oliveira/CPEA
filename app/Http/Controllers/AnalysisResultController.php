@@ -657,7 +657,7 @@ class AnalysisResultController extends Controller
 
           if (
             $item2->parameter_analysis_id == $projectPointMatrices->parameterAnalysis->id &&
-            $item2->unityLegislation->unity_cod !=  $obj->units && $item->guidingValue->name != 'Qualitativo'
+            $item2->unityLegislation->unity_cod !=  $obj->units && $item2->guidingValue->name != 'Qualitativo'
           ) {
             if (is_numeric($result)) $obj->result = $result * $item2->unityLegislation->conversion_amount;
             if (is_numeric($dl)) $obj->dl = $dl * $item2->unityLegislation->conversion_amount;
