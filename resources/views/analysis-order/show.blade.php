@@ -122,11 +122,6 @@
             });
         }
 
-        document.getElementById("point_matrix_confirm_id").addEventListener("resp", function() {
-            document.querySelectorAll('input:checked.point-matrix-url').forEach((item, index, arr) => {
-                //item.parent.parent.innerHTML = '';
-            });
-        });
     </script>
 
     <script>
@@ -208,10 +203,6 @@
             ajax.send(data);
 
         });
-
-        function importResults() {
-
-        }
     </script>
 
     <script>

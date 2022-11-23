@@ -52,10 +52,10 @@ class AnalysisResultController extends Controller
       }
 
       $row++;
-      foreach ($analysisResult as $key1 => $value) {
+      foreach ($analysisResult as $value) {
         if (!$value->labname) continue;
         $column = 1;
-        foreach ($value->getAttributes() as $key2 => $value2) {
+        foreach ($value->getAttributes() as $value2) {
           $sheet->setCellValueByColumnAndRow($column, $row, $value2);
           $column++;
         }
@@ -657,7 +657,7 @@ class AnalysisResultController extends Controller
 
           if (
             $item2->parameter_analysis_id == $projectPointMatrices->parameterAnalysis->id &&
-            $item2->unityLegislation->unity_cod !=  $obj->units
+            $item2->unityLegislation->unity_cod !=  $obj->units && $item->guidingValue->name != 'Qualitativo'
           ) {
             if (is_numeric($result)) $obj->result = $result * $item2->unityLegislation->conversion_amount;
             if (is_numeric($dl)) $obj->dl = $dl * $item2->unityLegislation->conversion_amount;
