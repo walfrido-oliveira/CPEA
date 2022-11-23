@@ -457,7 +457,7 @@ class AnalysisResultController extends Controller
                           }
                         }
                         if (Str::contains($guidingParametersValue->guidingValue->name, ['Qualitativo'])) {
-                          if (is_numeric($value->resultreal)) {
+                          if (is_numeric($resultValue)) {
                             if ($resultValue > $rlValue) {
                               $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFont()->setBold(true);
                               $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $colors[$b]));
