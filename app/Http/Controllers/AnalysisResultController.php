@@ -405,8 +405,23 @@ class AnalysisResultController extends Controller
 
                 if (is_numeric($result)) $result = number_format($result, 5, ",", ".");
                 $result = $result == '0,000' ? 'N/A' : $result;
-                $result = $token || Str::contains($value->resultreal, ["<", "< "]) && !Str::contains($result, 'N/A') ? "< $result" : $result;
+                $result = $token || Str::contains($value->resultreal, ["<"]) && !Str::contains($result, 'N/A') ? "< $result" : $result;
                 if($value->resultreal == '') $result = "< " . number_format($rl, 5, ",", ".");
+
+                if ($value->snote10) {
+                  if(Str::contains($value->snote10, ["*j", "*J"])) {
+                    $resultSnote10 = Str::replace(["*J", " [1]"], "", $value->snote10);
+                    $resultSnote10 = Str::replace(["<", "< "], "", $resultSnote10);
+                    $resultSnote10 = Str::replace(",", ".", $resultSnote10);
+
+                    if($result >= $resultSnote10) {
+                      $bold = true;
+                    } else {
+                      $result = $resultSnote10;
+                      $bold = !Str::contains($value->snote10, ["<"]);
+                    }
+                  }
+                }
 
                 $sheet->setCellValueByColumnAndRow($k + $a + 3, $row, $result);
 
@@ -683,10 +698,6 @@ class AnalysisResultController extends Controller
         if ($tokenRl) $obj->rl = "< " . $obj->rl;
 
         $obj->units = 'mg/kg';
-      }
-
-      if ($obj->snote10 && is_numeric($result) && is_numeric($rl)) {
-        if ($result < $rl) $obj->result = "<" . $obj->snote10;
       }
 
       if (Str::contains($obj->resultreal, ["J", "j"])) {
