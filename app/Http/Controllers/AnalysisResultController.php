@@ -413,6 +413,7 @@ class AnalysisResultController extends Controller
                     $resultSnote10 = Str::replace(["*J", " [1]"], "", $value->snote10);
                     $resultSnote10 = Str::replace(["<", "< "], "", $resultSnote10);
                     $resultSnote10 = Str::replace(",", ".", $resultSnote10);
+                    $resultSnote10 = Str::replace(" ", "", $resultSnote10);
 
                     if($result >= $resultSnote10 && $value->resultreal != '') {
                       $bold = true;
