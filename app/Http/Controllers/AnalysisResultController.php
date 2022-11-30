@@ -416,7 +416,7 @@ class AnalysisResultController extends Controller
                     $resultSnote10 = Str::replace(" ", "", $resultSnote10);
 
                     if($result >= $resultSnote10 && $value->resultreal != '') {
-                      $bold = true;
+                      $bold = !Str::contains($value->snote10, ["<"]);;
                     } else {
                       $result = number_format($resultSnote10, 5, ",", ".");
                       $bold = !Str::contains($value->snote10, ["<"]);
