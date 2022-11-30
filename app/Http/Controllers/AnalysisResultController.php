@@ -415,11 +415,16 @@ class AnalysisResultController extends Controller
                     $resultSnote10 = Str::replace(",", ".", $resultSnote10);
                     $resultSnote10 = Str::replace(" ", "", $resultSnote10);
 
-                    if($result >= $resultSnote10 && $value->resultreal != '') {
-                      $result = number_format($resultSnote10, 5, ",", ".");
-                      $bold = !Str::contains($value->snote10, ["<"]);;
+                    $bold = !Str::contains($value->snote10, ["<"]);
+
+                    if($value->resultreal != '')
+                    {
+                      if($result >= $resultSnote10) {
+                        $result = number_format($resultSnote10, 5, ",", ".");
+                        $bold = !Str::contains($value->snote10, ["<"]);
+                      }
                     } else {
-                      $bold = !Str::contains($value->snote10, ["<"]);
+                      $result = number_format($resultSnote10, 5, ",", ".");
                     }
                   }
                 }
