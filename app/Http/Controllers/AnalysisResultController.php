@@ -421,10 +421,12 @@ class AnalysisResultController extends Controller
                     {
                       if($result >= $resultSnote10) {
                         $result = number_format($resultSnote10, 5, ",", ".");
+                        $result = Str::contains($value->snote10, ["<"]) ? "< $result" : $result;
                         $bold = !Str::contains($value->snote10, ["<"]);
                       }
                     } else {
                       $result = number_format($resultSnote10, 5, ",", ".");
+                      $result = Str::contains($value->snote10, ["<"]) ? "< $result" : $result;
                     }
                   }
                 }
