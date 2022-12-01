@@ -109,7 +109,7 @@
                             <p class="font-bold">{{ __('Valor Orientador Legislaçao') }}</p>
                         </div>
                         <div class="w-full md:w-1/2">
-                            <p class="text-gray-500 font-bold">{{ number_format( $guidingParameterValue->guiding_legislation_value, 5, ",", "." ) }}</p>
+                            <p class="text-gray-500 font-bold">{{ is_numeric($guidingParameterValue->guiding_legislation_value) ? number_format( $guidingParameterValue->guiding_legislation_value, 5, ",", "." ) : '' }}</p>
                         </div>
                     </div>
 
