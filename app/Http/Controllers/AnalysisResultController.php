@@ -132,6 +132,12 @@ class AnalysisResultController extends Controller
             }
         }
 
+        if(!$guidingParameters)
+        {
+            $result = $project->getOrder();
+            $guidingParameters = $result [0];
+        }
+
         return $guidingParameters;
     }
 

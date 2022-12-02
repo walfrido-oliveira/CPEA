@@ -289,44 +289,9 @@ class ProjectController extends Controller
     {
         $project = Project::findOrFail($id);
 
-        $guidingParameters = collect([]);
-
-        $ids = !is_array($project->guiding_parameter_order) ? explode(",", $project->guiding_parameter_order) : $project->guiding_parameter_order;
-        $colors = !is_array($project->colors) ? explode(",", $project->colors) : $project->colors;
-        $defaultColors = ["#ffcc99", "#ffff99", "#daeef3"];
-
-        for ($i=0; $i < count($defaultColors); $i++)
-        {
-            if(!isset($colors[$i]))
-            {
-                $colors[$i] = $defaultColors[$i];
-            }
-
-            if(isset($colors[$i]))
-            {
-                if($colors[$i] == '')
-                {
-                    $colors[$i] = $defaultColors[$i];
-                }
-            }
-        }
-
-        $guidingParameters = GuidingParameter::whereIn("id", $ids)->get();
-
-        $guidingParameters2 = $project->projectPointMatrices()
-        ->select('guiding_parameters.*')
-        ->whereHas('guidingParameters')
-        ->leftJoin('guiding_parameter_project_point_matrix', function($join) {
-            $join->on('project_point_matrices.id', '=', 'guiding_parameter_project_point_matrix.project_point_matrix_id');
-        })
-        ->leftJoin('guiding_parameters', function($join) {
-            $join->on('guiding_parameters.id', '=', 'guiding_parameter_project_point_matrix.guiding_parameter_id');
-        })
-        ->orderBy('guiding_parameters.id')
-        ->distinct()
-        ->get();
-
-        $guidingParameters = $guidingParameters->merge($guidingParameters2);
+        $result = $project->getOrder();
+        $guidingParameters = $result[0];
+        $colors = $result[1];
 
         return response()->json([
             'guiding_parameters' => view('project.guiding-parameter-list', compact('guidingParameters', 'colors'))->render(),

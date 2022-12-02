@@ -140,4 +140,54 @@ class Project extends Model
 
         return $projects->paginate($perPage);
     }
+
+    /**
+     * @return Array
+     */
+    function getOrder()
+    {
+        $guidingParameters = collect([]);
+
+        $ids = !is_array($this->guiding_parameter_order) ? explode(",", $this->guiding_parameter_order) : $this->guiding_parameter_order;
+        $colors = !is_array($this->colors) ? explode(",", $this->colors) : $this->colors;
+        $defaultColors = ["#ffcc99", "#ffff99", "#daeef3"];
+
+        for ($i=0; $i < count($defaultColors); $i++)
+        {
+            if(!isset($colors[$i]))
+            {
+                $colors[$i] = $defaultColors[$i];
+            }
+
+            if(isset($colors[$i]))
+            {
+                if($colors[$i] == '')
+                {
+                    $colors[$i] = $defaultColors[$i];
+                }
+            }
+        }
+
+        $guidingParameters = GuidingParameter::whereIn("id", $ids)->get();
+
+        $guidingParameters2 = $this->projectPointMatrices()
+        ->select('guiding_parameters.*')
+        ->whereHas('guidingParameters')
+        ->leftJoin('guiding_parameter_project_point_matrix', function($join) {
+            $join->on('project_point_matrices.id', '=', 'guiding_parameter_project_point_matrix.project_point_matrix_id');
+        })
+        ->leftJoin('guiding_parameters', function($join) {
+            $join->on('guiding_parameters.id', '=', 'guiding_parameter_project_point_matrix.guiding_parameter_id');
+        })
+        ->orderBy('guiding_parameters.id')
+        ->distinct()
+        ->get();
+
+        $guidingParameters = $guidingParameters->merge($guidingParameters2);
+
+        $result[0] = $guidingParameters;
+        $result[1] = $colors;
+
+        return $result;
+    }
 }
