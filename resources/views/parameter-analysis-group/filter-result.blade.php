@@ -4,6 +4,8 @@
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="name" columnText="{{ __('Nome Grupo Param Análise') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="parameter_analysis_group_id" columnText="{{ __('Nome Grupo Param Análise Pai') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="order" columnText="{{ __('Ordem') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="created_at" columnText="{{ __('DT Cadastro') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="updated_at" columnText="{{ __('DT Atualização') }}"/>
         <th scope="col"
             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
             Ações
@@ -13,19 +15,25 @@
 <tbody id="parameter_analysis_table_content">
     @forelse ($parameterAnalysisGroups as $key => $parameterAnalysisGroup)
         <tr>
-            <td @if($parameterAnalysisGroup->parameter_analysis_group_id ) style="padding-left: 3rem" @endif>
+            <td >
                 <input class="form-checkbox parameter-analysis-group-url" type="checkbox" name="parameter-analysis-group[{{ $parameterAnalysisGroup->id }}]" value="{!! route('registers.parameter-analysis-group.destroy', ['parameter_analysis_group' => $parameterAnalysisGroup->id]) !!}">
             </td>
-            <td @if($parameterAnalysisGroup->parameter_analysis_group_id ) style="padding-left: 3rem" @endif>
+            <td >
                 <a class="text-item-table" href="{{ route('registers.parameter-analysis-group.show', ['parameter_analysis_group' => $parameterAnalysisGroup->id]) }}">{{ $parameterAnalysisGroup->name }}</a>
             </td>
-            <td @if($parameterAnalysisGroup->parameter_analysis_group_id ) style="padding-left: 3rem" @endif>
+            <td >
                 <a class="text-item-table" href="{{ route('registers.parameter-analysis-group.show', ['parameter_analysis_group' => $parameterAnalysisGroup->id]) }}">{{ $parameterAnalysisGroup->parameterAnalysisGroup ? $parameterAnalysisGroup->parameterAnalysisGroup->name : '' }}</a>
             </td>
-            <td @if($parameterAnalysisGroup->parameter_analysis_group_id ) style="padding-left: 3rem" @endif>
+            <td >
                 <a class="text-item-table" href="{{ route('registers.parameter-analysis-group.show', ['parameter_analysis_group' => $parameterAnalysisGroup->id]) }}">{{ $parameterAnalysisGroup->order }}</a>
             </td>
-            <td @if($parameterAnalysisGroup->parameter_analysis_group_id ) style="padding-left: 3rem" @endif>
+            <td >
+                <a class="text-item-table" href="{{ route('registers.parameter-analysis-group.show', ['parameter_analysis_group' => $parameterAnalysisGroup->id]) }}">{{ $parameterAnalysisGroup->created_at->format("d/m/Y") }}</a>
+            </td>
+            <td >
+                <a class="text-item-table" href="{{ route('registers.parameter-analysis-group.show', ['parameter_analysis_group' => $parameterAnalysisGroup->id]) }}">{{ $parameterAnalysisGroup->updated_at->format("d/m/Y") }}</a>
+            </td>
+            <td >
                 <a class="btn-transition-warning" href="{{ route('registers.parameter-analysis-group.edit', ['parameter_analysis_group' => $parameterAnalysisGroup->id]) }}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 " fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />

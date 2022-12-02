@@ -5,9 +5,8 @@
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="projects.customer_id" columnText="{{ __('Cliente') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="campaigns.name" columnText="{{ __('Campanha') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="campaigns.campaign_status_id" columnText="{!! __('Status<br>Campanha') !!}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="campaigns.updated_at" columnText="{!! __('Modificação<br>Campanha') !!}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="campaigns.created_at" columnText="{!! __('Cadastro<br>Campanha') !!}"/>
-        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="projects.created_at" columnText="{!! __('Cadastro<br>Projeto') !!}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="projects.created_at" columnText="{!! __('DT Cadastro') !!}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="projects.updated_at" columnText="{!! __('DT Atualizaçao') !!}"/>
         <th scope="col"
             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
             Ações
@@ -38,13 +37,10 @@
                 <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">{{ $campaing->campaignStatus->name }}</a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">{{ $campaing->updated_at->format('d/m/Y H:i') }}</a>
-            </td>
-            <td>
-                <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">{{ $campaing->created_at->format('d/m/Y H:i') }}</a>
-            </td>
-            <td>
                 <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">{{ $campaing->project->created_at->format('d/m/Y H:i') }}</a>
+            </td>
+            <td>
+                <a class="text-item-table" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">{{ $campaing->project->updated_at->format('d/m/Y H:i') }}</a>
             </td>
             <td>
                 <a class="btn-transition-warning" href="{{ route('project.edit', ['project' => $campaing->project->id]) }}">

@@ -6,6 +6,8 @@
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="analysis_parameter_name" columnText="{!! __('Nome') !!}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="parameter_analysis_group_id" columnText="{!! __('Grupo') !!}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="order" columnText="{{ __('Ordem') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="created_at" columnText="{{ __('DT Cadastro') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="updated_at" columnText="{{ __('DT Atualização') }}"/>
         <th scope="col"
             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
             Ações
@@ -34,6 +36,12 @@
             </td>
             <td>
                 <a class="text-item-table" href="{{ route('parameter-analysis.show', ['parameter_analysis' => $parameterAnalysis->id]) }}">{{ $parameterAnalysis->order }}</a>
+            </td>
+            <td>
+                <a class="text-item-table" href="{{ route('parameter-analysis.show', ['parameter_analysis' => $parameterAnalysis->id]) }}">{{ $parameterAnalysis->created_at->format("d/m/Y") }}</a>
+            </td>
+            <td>
+                <a class="text-item-table" href="{{ route('parameter-analysis.show', ['parameter_analysis' => $parameterAnalysis->id]) }}">{{ $parameterAnalysis->updated_at->format("d/m/Y") }}</a>
             </td>
             <td>
                 <a class="btn-transition-warning" href="{{ route('parameter-analysis.edit', ['parameter_analysis' => $parameterAnalysis->id]) }}">

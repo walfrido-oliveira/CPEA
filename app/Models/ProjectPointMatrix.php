@@ -57,6 +57,26 @@ class ProjectPointMatrix extends Model
         'custom_name',
     ];
 
+     /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public static function boot() {
+
+        parent::boot();
+
+        /**
+         * Write code on Method
+         *
+         * @return response()
+         */
+        self::updated(function($item) {
+            $item->project->touch();
+        });
+
+    }
+
     /**
      * The preparationMethod.
      */

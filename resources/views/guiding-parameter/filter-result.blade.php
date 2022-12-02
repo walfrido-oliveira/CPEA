@@ -5,6 +5,8 @@
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="name" columnText="{{ __('Nome Param. Orientador') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="environmental_area_id" columnText="{{ __('Tipo Área Ambiental') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="environmental_agency_id" columnText="{{ __('Órgão Ambiental') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="created_at" columnText="{{ __('DT Cadastro') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="updated_at" columnText="{{ __('DT Atualização') }}"/>
         <th scope="col"
             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
             Ações
@@ -28,6 +30,12 @@
             </td>
             <td>
                 <a class="text-item-table" href="{{ route('guiding-parameter.show', ['guiding_parameter' => $guidingParameter->id]) }}">@if($guidingParameter->environmentalAgency) {{ $guidingParameter->environmentalAgency->name }} @endif</a>
+            </td>
+            <td>
+                <a class="text-item-table" href="{{ route('guiding-parameter.show', ['guiding_parameter' => $guidingParameter->id]) }}">{{ $guidingParameter->created_at->format("d/m/Y") }}</a>
+            </td>
+            <td>
+                <a class="text-item-table" href="{{ route('guiding-parameter.show', ['guiding_parameter' => $guidingParameter->id]) }}">{{ $guidingParameter->updated_at->format("d/m/Y") }}</a>
             </td>
             <td>
                 <a class="btn-transition-warning" href="{{ route('guiding-parameter.edit', ['guiding_parameter' => $guidingParameter->id]) }}">

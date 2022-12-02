@@ -3,6 +3,8 @@
         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="parameter_analysis_id" columnText="{{ __('Param. Análise') }}"/>
         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('Formulá') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="created_at" columnText="{{ __('DT Cadastro') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="updated_at" columnText="{{ __('DT Atualização') }}"/>
         <th scope="col"
             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
             Ações
@@ -22,6 +24,12 @@
             </td>
             <td>
                 <a class="text-item-table" href="{{ route('registers.calculation-parameter.show', ['calculation_parameter' => $calculationParameter->id]) }}">{{ $calculationParameter->formula }}</a>
+            </td>
+            <td>
+                <a class="text-item-table" href="{{ route('registers.calculation-parameter.show', ['calculation_parameter' => $calculationParameter->id]) }}">{{ $calculationParameter->created_at->format("d/m/Y") }}</a>
+            </td>
+            <td>
+                <a class="text-item-table" href="{{ route('registers.calculation-parameter.show', ['calculation_parameter' => $calculationParameter->id]) }}">{{ $calculationParameter->updated_at->format("d/m/Y") }}</a>
             </td>
             <td>
                 <a class="btn-transition-warning" href="{{ route('registers.calculation-parameter.edit', ['calculation_parameter' => $calculationParameter->id]) }}">

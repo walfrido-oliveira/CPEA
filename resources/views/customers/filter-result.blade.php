@@ -4,6 +4,8 @@
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="id" columnText="{{ __('#') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="name" columnText="{{ __('Nome') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="status" columnText="{{ __('Status') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="created_at" columnText="{{ __('DT Cadastro') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="updated_at" columnText="{{ __('DT Atualização') }}"/>
         @if($actions == 'show')
             <th scope="col"
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -33,6 +35,12 @@
                         {{ __($customer->status) }}
                     </span>
                 </a>
+            </td>
+            <td>
+                <a class="text-item-table" href="{{ route('customers.show', ['customer' => $customer->id]) }}">{{ $customer->created_at->format("d/m/Y") }}</a>
+            </td>
+            <td>
+                <a class="text-item-table" href="{{ route('customers.show', ['customer' => $customer->id]) }}">{{ $customer->updated_at->format("d/m/Y") }}</a>
             </td>
             @if($actions == 'show')
                 <td>

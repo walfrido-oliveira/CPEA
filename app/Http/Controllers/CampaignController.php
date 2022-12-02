@@ -14,7 +14,6 @@ use App\Models\GuidingParameter;
 use App\Models\ParameterAnalysis;
 use App\Models\ProjectPointMatrix;
 use App\Models\PointIdentification;
-use App\Http\Requests\CampaignRequest;
 use Illuminate\Support\Facades\Validator;
 
 class CampaignController extends Controller
@@ -114,24 +113,27 @@ class CampaignController extends Controller
             return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
         }
 
-        if(Campaign::where('project_id', $input['project_id'])->where('name', $input['campaign_name'])->first())
-        {
-            return response()->json([
-                "campaign_name" => _("Não é permitido cadastrar Campanha de mesmo nome")
-            ], Response::HTTP_BAD_REQUEST);
-        }
-
         $key = $input['key'];
         $projectCampaign = Campaign::find($id);
 
+
         if($projectCampaign)
         {
-            $projectCampaign->update([
+            $projectCampaign->fill([
                 'project_id' => $input['project_id'],
                 'campaign_status_id' => $input['campaign_status'],
                 'name' => $input['campaign_name'],
             ]);
+            $projectCampaign->save();
         } else {
+
+            if(Campaign::where('project_id', $input['project_id'])->where('name', $input['campaign_name'])->first())
+            {
+                return response()->json([
+                    "campaign_name" => _("Não é permitido cadastrar Campanha de mesmo nome")
+                ], Response::HTTP_BAD_REQUEST);
+            }
+
             $projectCampaign = Campaign::create([
                 'project_id' => $input['project_id'],
                 'campaign_status_id' => $input['campaign_status'],

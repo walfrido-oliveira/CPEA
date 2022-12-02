@@ -5,6 +5,8 @@
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="analysis_matrix_id" columnText="{{ __('Matriz') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="parameter_analysis_id" columnText="{{ __('Param. Análise') }}"/>
         <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="guiding_parameter_ref_value_id" columnText="{{ __('Ref. Param. Valor Orientador') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="created_at" columnText="{{ __('DT Cadastro') }}"/>
+        <x-table-sort-header :orderBy="$orderBy" :ascending="$ascending" columnName="updated_at" columnText="{{ __('DT Atualização') }}"/>
         <th scope="col"
             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
             Ações
@@ -34,6 +36,12 @@
                         {{ $guidingParameterValue->guidingParameterRefValue->guiding_parameter_ref_value_id }}
                     @endif
                 </a>
+            </td>
+            <td>
+                <a class="text-item-table" href="{{ route('guiding-parameter-value.show', ['guiding_parameter_value' => $guidingParameterValue->id]) }}">{{ $guidingParameterValue->created_at->format("d/m/Y") }}</a>
+            </td>
+            <td>
+                <a class="text-item-table" href="{{ route('guiding-parameter-value.show', ['guiding_parameter_value' => $guidingParameterValue->id]) }}">{{ $guidingParameterValue->updated_at->format("d/m/Y") }}</a>
             </td>
             <td>
                 <a class="btn-transition-warning" href="{{ route('guiding-parameter-value.edit', ['guiding_parameter_value' => $guidingParameterValue->id]) }}">

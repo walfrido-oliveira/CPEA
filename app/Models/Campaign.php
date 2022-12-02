@@ -8,6 +8,7 @@ use App\Models\AnalysisOrder;
 use App\Models\AnalysisResult;
 use App\Models\CampaignStatus;
 use App\Models\ProjectPointMatrix;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -24,7 +25,25 @@ class Campaign extends Model
         'project_point_matrix_id', 'campaign_status_id', 'name', 'project_id',
     ];
 
+     /**
+     * Write code on Method
+     *
+     * @return response()
+     */
+    public static function boot() {
 
+        parent::boot();
+
+        /**
+         * Write code on Method
+         *
+         * @return response()
+         */
+        self::updated(function($item) {
+            $item->project->touch();
+        });
+
+    }
 
     /**
      * The project.
