@@ -383,8 +383,7 @@ class AnalysisResultController extends Controller
 
                     if ($value->snote10) {
                         if (Str::contains($value->snote10, ["*j", "*J"])) {
-                            $resultSnote10 = Str::replace(["*J", " [1]"], "", $value->snote10);
-                            $resultSnote10 = Str::replace(["<", "< "], "", $resultSnote10);
+                            $resultSnote10 = preg_replace('/\d*\,?\d*/', '', $value->snote10);
                             $resultSnote10 = Str::replace(",", ".", $resultSnote10);
                             $resultSnote10 = Str::replace(" ", "", $resultSnote10);
 
