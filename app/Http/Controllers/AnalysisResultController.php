@@ -264,10 +264,6 @@ class AnalysisResultController extends Controller
             ->select('project_point_matrices.*')
             ->get();
 
-        // dd($projectPointMatrices);
-
-
-
         $row = 6;
         $groupParameterAnalysis = [];
         $parameterAnalysis = [];
@@ -324,7 +320,7 @@ class AnalysisResultController extends Controller
                                 $sheet->setCellValueByColumnAndRow(
                                     $k + 3,
                                     $row,
-                                    $guidingParametersValue->guiding_legislation_value . ' - ' . $guidingParametersValue->guiding_legislation_value_1
+                                    Str::replace(",", ".", $guidingParametersValue->guiding_legislation_value) . ' - ' . Str::replace(",", ".", $guidingParametersValue->guiding_legislation_value_1)
                                 );
                             }
                         } else {
@@ -362,7 +358,6 @@ class AnalysisResultController extends Controller
                     $result =  Str::replace(["*J", " [1]"], "", $value->result);
                     $result = Str::replace(["<", "< "], "", $result);
                     $result = Str::replace(",", ".", $result);
-                    //$result = $result == '' ? 0 : $result;
 
                     $rl =  Str::replace(["*J", " [1]"], "", $value->rl);
                     $rl = Str::replace(["<", "< "], "", $rl);
