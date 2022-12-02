@@ -8,6 +8,10 @@
         const guidingLegislationValue1 = document.getElementById("guiding_legislation_value_1");
         const guidingLegislationValue2 = document.getElementById("guiding_legislation_value_2");
 
+        const unityLegislationId = document.getElementById("unity_legislation_id");
+        const unityAnalysisId = document.getElementById("unity_analysis_id");
+
+
         function reset() {
             guidingAnalysisValue.readOnly = false;
             guidingAnalysisValue1.readOnly = false;
@@ -33,11 +37,17 @@
                 guidingAnalysisValue.value = "";
                 guidingAnalysisValue1.value = "";
                 guidingAnalysisValue2.value = "";
+
+                unityLegislationId.value = 1;
+                unityAnalysisId.value = 1;
+
+                window.customSelectArray['unity_legislation_id'].update();
+                window.customSelectArray['unity_analysis_id'].update();
             }
 
             if(elem.value == 3) {
                 guidingLegislationValue.value = "";
-                uidingLegislationValue1.value = "";
+                guidingLegislationValue1.value = "";
                 guidingAnalysisValue.value = "";
                 guidingLegislationValue2.value = "";
                 guidingAnalysisValue1.value = "";

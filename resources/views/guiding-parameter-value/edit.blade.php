@@ -56,7 +56,7 @@
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="guiding_legislation_value" value="{{ __('Valor Orientador Legislaçao') }}" required/>
-                            <x-jet-input id="guiding_legislation_value" class="form-control block mt-1 w-full" type="number" name="guiding_legislation_value" required maxlength="18" step="any" autofocus autocomplete="guiding_legislation_value" :value="$guidingParameterValue->guiding_legislation_value"/>
+                            <x-jet-input id="guiding_legislation_value" class="form-control block mt-1 w-full" type="text" name="guiding_legislation_value" required maxlength="18" step="any" autofocus autocomplete="guiding_legislation_value" :value="$guidingParameterValue->guiding_legislation_value"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="guiding_legislation_value_1" value="{{ __('Valor Orientador Legislaçao 1') }}" required/>
