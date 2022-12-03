@@ -378,8 +378,10 @@ class AnalysisResultController extends Controller
                         || (Str::contains($value->resultreal, ["J", "j"]) && !Str::contains($value->resultreal, ["<", "< "]));
 
                     if (is_numeric($result)) $result = number_format($result, 5, ",", ".");
+
                     $result = $result == '0,000' ? 'N/A' : $result;
                     $result = $token || Str::contains($value->resultreal, ["<"]) && !Str::contains($result, 'N/A') ? "< $result" : $result;
+
                     if ($value->resultreal == '') $result = "< " . number_format($rl, 5, ",", ".");
 
                     if ($value->snote10) {
@@ -395,11 +397,13 @@ class AnalysisResultController extends Controller
                                     if ($result >= $resultSnote10) {
                                         $result = number_format($resultSnote10, 5, ",", ".");
                                         $result = Str::contains($value->snote10, ["<"]) ? "< $result" : $result;
+                                        $resultValue = $resultSnote10;
                                         $bold = !Str::contains($value->snote10, ["<"]);
                                     }
                                 } else {
                                     $result = number_format($resultSnote10, 5, ",", ".");
                                     $result = Str::contains($value->snote10, ["<"]) ? "< $result" : $result;
+                                    $resultValue = $resultSnote10;
                                 }
                             }
                         }
