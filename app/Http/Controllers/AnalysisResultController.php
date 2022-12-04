@@ -381,13 +381,11 @@ class AnalysisResultController extends Controller
           $result = $result == '0,000' ? 'N/A' : $result;
           $result = $token || Str::contains($value->resultreal, ["<"]) && !Str::contains($result, 'N/A') ? "< $result" : $result;
 
-          if ($value->resultreal == '') $result = "< " . number_format($rl, 5, ",", ".");
+          if ($value->result == '') $result = "< " . number_format($rl, 5, ",", ".");
 
           if ($value->snote10) {
             if (Str::contains($value->snote10, ["*j", "*J"])) {
-              $resultSnote10 = preg_replace('/\d*\,?\d*/', '', $value->snote10);
-              $resultSnote10 = Str::replace(",", ".", $resultSnote10);
-              $resultSnote10 = Str::replace(" ", "", $resultSnote10);
+              $resultSnote10 = filter_var(Str::replace(",", ".", $value->snote10), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 
               $bold = !Str::contains($value->snote10, ["<"]);
 
@@ -883,6 +881,7 @@ class AnalysisResultController extends Controller
 
             $analysisResult->update([
               'result' => $result,
+              'resultreal' => $result,
               'labsampid' => $labsampid,
               'sampdate' => $sampdate,
               'samplename' => $samplename,
