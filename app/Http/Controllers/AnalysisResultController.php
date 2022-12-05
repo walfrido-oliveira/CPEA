@@ -860,7 +860,7 @@ class AnalysisResultController extends Controller
               }
           }
 
-          if (!$checks) {
+          if (!$maxCheck) {
             $formula = Str::replace(["*J", " [1]", "< ", "<"],  "", $formula);
             $formula = Str::replace([","],  ".", $formula);
             $stringCalc = new StringCalc();
