@@ -778,8 +778,8 @@ class AnalysisResultController extends Controller
           $maxCheck = true;
           $max = 0;
           $maxConvert = null;
-          $isToken = false;
           $guidingParameterValue = null;
+          $checks = [];
 
           foreach ($matches as $key2 => $value2) {
             $result = explode("&", $value2[1]);
@@ -835,11 +835,10 @@ class AnalysisResultController extends Controller
                 $max =  $r > $max ? $r : $max;
 
                 $zero = Str::contains($analysisResult->result, "<") || !$analysisResult->result || $rl > $r;
-                $isToken = !$analysisResult->result || $rl > $r || Str::contains($analysisResult->result, "<");
 
                 $checks[] = $analysisResult->result;
 
-                if ($zero == true) {
+                if ($zero) {
                   $formula = Str::replace($value2[0],  0, $formula);
                 } else {
                   $formula = Str::replace($value2[0],  $r ? $r : $rl, $formula);
@@ -849,8 +848,6 @@ class AnalysisResultController extends Controller
           }
 
           //if( $value->parameterAnalysis->analysis_parameter_name == 'Alifático (C8-C16)') dd($formula);
-
-          $token = Str::contains($formula, "<") || $isToken  ? "<" : "";
 
           foreach ($checks as $check)
           {
@@ -865,14 +862,14 @@ class AnalysisResultController extends Controller
             $formula = Str::replace([","],  ".", $formula);
             $stringCalc = new StringCalc();
 
-            $result = "$token " . $stringCalc->calculate($formula);
+            $result = $stringCalc->calculate($formula);
           } else {
 
             if ($guidingParameterValue) {
               if ($guidingParameterValue->unityLegislation->unity_cod != $analysisResult->units) $max *= $maxConvert;
             }
 
-            $result = "$token " . $max;
+            $result = "< " . $max;
           }
 
           if ($guidingParameterValue) {
