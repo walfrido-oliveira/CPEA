@@ -325,7 +325,7 @@ class AnalysisResultController extends Controller
                 $sheet->setCellValueByColumnAndRow(
                   $k + 3,
                   $row,
-                  Str::replace(",", ".", $guidingParametersValue->guiding_legislation_value) . ' - ' . Str::replace(",", ".", $guidingParametersValue->guiding_legislation_value_1)
+                  Str::replace(".", ",", $guidingParametersValue->guiding_legislation_value) . ' - ' . Str::replace(".", ",", $guidingParametersValue->guiding_legislation_value_1)
                 );
               }
             } else {
@@ -775,6 +775,7 @@ class AnalysisResultController extends Controller
           $re = '/{(.*?)}/m';
           preg_match_all($re, $formula, $matches, PREG_SET_ORDER, 0);
           $zero = true;
+          $maxCheck = true;
           $max = 0;
           $maxConvert = null;
           $isToken = false;
@@ -836,6 +837,8 @@ class AnalysisResultController extends Controller
                 $zero = Str::contains($analysisResult->result, "<") || !$analysisResult->result || $rl > $r;
                 $isToken = !$analysisResult->result || $rl > $r || Str::contains($analysisResult->result, "<");
 
+                $checks[] = $analysisResult->result;
+
                 if ($zero == true) {
                   $formula = Str::replace($value2[0],  0, $formula);
                 } else {
@@ -849,7 +852,15 @@ class AnalysisResultController extends Controller
 
           $token = Str::contains($formula, "<") || $isToken  ? "<" : "";
 
-          if (!$zero) {
+          foreach ($checks as $check)
+          {
+              if(!Str::contains($check, "<")) {
+                $maxCheck = false;
+                break;
+              }
+          }
+
+          if (!$checks) {
             $formula = Str::replace(["*J", " [1]", "< ", "<"],  "", $formula);
             $formula = Str::replace([","],  ".", $formula);
             $stringCalc = new StringCalc();
