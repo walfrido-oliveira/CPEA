@@ -116,25 +116,27 @@ class AnalysisResultController extends Controller
   {
     $guidingParameters = [];
 
-    if ($project->guiding_parameter_order && !is_array($project->guiding_parameter_order)) {
-      foreach (explode(",", $project->guiding_parameter_order) as $value) {
-        $guidingParameter = GuidingParameter::find($value);
-        if ($guidingParameter) {
-          $guidingParameters[] = $guidingParameter;
+    if($project->guiding_parameter_order) {
+      if ($project->guiding_parameter_order && !is_array($project->guiding_parameter_order)) {
+        foreach (explode(",", $project->guiding_parameter_order) as $value) {
+          $guidingParameter = GuidingParameter::find($value);
+          if ($guidingParameter) {
+            $guidingParameters[] = $guidingParameter;
+          }
+        }
+      } else {
+        foreach ($project->guiding_parameter_order as $value) {
+          $guidingParameter = GuidingParameter::find($value);
+          if ($guidingParameter) {
+            $guidingParameters[] = $guidingParameter;
+          }
         }
       }
-    } else {
-      foreach ($project->guiding_parameter_order as $value) {
-        $guidingParameter = GuidingParameter::find($value);
-        if ($guidingParameter) {
-          $guidingParameters[] = $guidingParameter;
-        }
-      }
-    }
 
-    if (!$guidingParameters) {
-      $result = $project->getOrder();
-      $guidingParameters = $result[0];
+      if (!$guidingParameters) {
+        $result = $project->getOrder();
+        $guidingParameters = $result[0];
+      }
     }
 
     return $guidingParameters;
