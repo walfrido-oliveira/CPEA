@@ -408,7 +408,7 @@ class AnalysisResultController extends Controller
 
           $sheet->setCellValueByColumnAndRow($k + $a + 3, $row, $result);
 
-          if ((Str::contains($value->resultreal, ["j", "J"]) && !Str::contains($value->resultreal, ["<"])) || $bold) {
+          if ((Str::contains($value->resultreal, ["j", "J"]) && !Str::contains($value->resultreal, ["<"])) || $bold || $value->snote6 == '*') {
             $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFont()->setBold(true);
           }
 
@@ -763,6 +763,7 @@ class AnalysisResultController extends Controller
     $sampdate = null;
     $labsampid = null;
     $units = null;
+    $snote6 = null;
 
     try {
       foreach ($projectPointMatrices as $key => $value) {
@@ -835,6 +836,7 @@ class AnalysisResultController extends Controller
                 $max =  $r > $max ? $r : $max;
 
                 $zero = Str::contains($analysisResult->result, "<") || !$analysisResult->result || $rl > $r;
+                if($zero) $snote6 = '*';
 
                 $checks[] = $analysisResult->result;
 
