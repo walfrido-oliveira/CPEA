@@ -435,7 +435,7 @@ class AnalysisResultController extends Controller
             $guidingParametersIds[] = $guidingParameters[$b]->id;
           }
 
-          $guidingParametersValues[] = GuidingParameterValue::whereIn("guiding_parameter_id", $guidingParametersIds)
+          $guidingParametersValues = GuidingParameterValue::whereIn("guiding_parameter_id", $guidingParametersIds)
           ->where('parameter_analysis_id', $projectPointMatrices[$i]->parameter_analysis_id)
           ->orderBy('guiding_legislation_value', 'DESC')
           ->get();
