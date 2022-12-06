@@ -440,6 +440,7 @@ class AnalysisResultController extends Controller
           ->orderBy('guiding_legislation_value', 'DESC')
           ->get();
 
+          $b = 0;
           foreach ($guidingParametersValues as $guidingParametersValue) {
             if ($guidingParametersValue) {
               if (Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo'])) {
@@ -471,6 +472,7 @@ class AnalysisResultController extends Controller
                 }
               }
             }
+            $b++;
           }
         }
 
