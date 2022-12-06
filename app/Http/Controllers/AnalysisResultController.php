@@ -429,28 +429,32 @@ class AnalysisResultController extends Controller
             }
           }
 
+          $guidingParametersValues  = [];
+          $guidingParametersIds = [];
           for ($b = 0; $b < count($guidingParameters); $b++) {
-            $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $guidingParameters[$b]->id)
-              ->where('parameter_analysis_id', $projectPointMatrices[$i]->parameter_analysis_id)
-              ->first();
+            $guidingParametersIds[] = $guidingParameters[$b]->id;
+          }
 
+          $guidingParametersValues[] = GuidingParameterValue::whereIn("guiding_parameter_id", $guidingParametersIds)
+          ->where('parameter_analysis_id', $projectPointMatrices[$i]->parameter_analysis_id)
+          ->orderBy('guiding_legislation_value', 'DESC')
+          ->get();
+
+          foreach ($guidingParametersValues as $guidingParametersValue) {
             if ($guidingParametersValue) {
               if (Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo'])) {
                 if ($resultValue > $guidingParametersValue->guiding_legislation_value) {
                   $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $colors[$b]));
-                  break;
                 }
               }
               if ($guidingParametersValue->guidingValue->name == 'Intervalo') {
                 if (($resultValue < $guidingParametersValue->guiding_legislation_value || $resultValue > $guidingParametersValue->guiding_legislation_value_1)) {
                   $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $colors[$b]));
-                  break;
                 }
               }
               if ($guidingParametersValue->guidingValue->name == 'Intervalo de Aceitação') {
                 if ($resultValue > $rlValue) {
                   $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFont()->setBold(true);
-                  break;
                 }
               }
               if (Str::contains($guidingParametersValue->guidingValue->name, ['Qualitativo'])) {
@@ -458,13 +462,11 @@ class AnalysisResultController extends Controller
                   if ($resultValue >= $rlValue && !Str::contains($value->resultreal, ["<", "< "])) {
                     $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFont()->setBold(true);
                     $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $colors[$b]));
-                    break;
                   }
                 } else {
                   if ($value->resultreal == 'Presente' || $value->resultreal == 'Presença') {
                     $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFont()->setBold(true);
                     $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $colors[$b]));
-                    break;
                   }
                 }
               }
