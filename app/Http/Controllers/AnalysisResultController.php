@@ -117,7 +117,7 @@ class AnalysisResultController extends Controller
     $guidingParameters = [];
 
     if($project->guiding_parameter_order) {
-      if ($project->guiding_parameter_order && !is_array($project->guiding_parameter_order)) {
+      if (!is_array($project->guiding_parameter_order)) {
         foreach (explode(",", $project->guiding_parameter_order) as $value) {
           $guidingParameter = GuidingParameter::find($value);
           if ($guidingParameter) {
@@ -171,6 +171,12 @@ class AnalysisResultController extends Controller
     $project = $campaign->project;
     $colors = $this->getColors($project);
     $guidingParameters = $this->getGuidingParametersOrder($project);
+
+    $guidingParametersValues  = [];
+    $guidingParametersIds = [];
+    for ($b = 0; $b < count($guidingParameters); $b++) {
+      $guidingParametersIds[] = $guidingParameters[$b]->id;
+    }
 
     $spreadsheet = new Spreadsheet();
 
@@ -431,10 +437,13 @@ class AnalysisResultController extends Controller
             }
           }
 
-          $guidingParametersValues  = [];
-          $guidingParametersIds = [];
-          for ($b = 0; $b < count($guidingParameters); $b++) {
-            $guidingParametersIds[] = $guidingParameters[$b]->id;
+          $colorsGuidingParametersId = [];
+
+          for ($x = 0; $x < count($guidingParametersIds); $x++) {
+            $colorsGuidingParametersId[$x] = [
+                "guiding_parameter_id" => $guidingParametersIds[$x],
+                "color" => $colors[$x]
+            ];
           }
 
           $guidingParametersValues = GuidingParameterValue::whereIn("guiding_parameter_id", $guidingParametersIds)
@@ -445,14 +454,16 @@ class AnalysisResultController extends Controller
           $b = 0;
           foreach ($guidingParametersValues as $guidingParametersValue) {
             if ($guidingParametersValue) {
+              $color = $colorsGuidingParametersId[array_search($guidingParametersValue->guiding_parameter_id, array_column($colorsGuidingParametersId, 'guiding_parameter_id'))]["color"];
+
               if (Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo'])) {
                 if ($resultValue >= $guidingParametersValue->guiding_legislation_value) {
-                  $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $colors[$b]));
+                  $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $color));
                 }
               }
               if ($guidingParametersValue->guidingValue->name == 'Intervalo') {
                 if (($resultValue < $guidingParametersValue->guiding_legislation_value || $resultValue > $guidingParametersValue->guiding_legislation_value_1)) {
-                  $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $colors[$b]));
+                  $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $color));
                 }
               }
               if ($guidingParametersValue->guidingValue->name == 'Intervalo de Aceitação') {
@@ -464,12 +475,12 @@ class AnalysisResultController extends Controller
                 if (is_numeric($resultValue)) {
                   if ($resultValue >= $rlValue && !Str::contains($value->resultreal, ["<", "< "])) {
                     $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFont()->setBold(true);
-                    $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $colors[$b]));
+                    $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $color));
                   }
                 } else {
                   if ($value->resultreal == 'Presente' || $value->resultreal == 'Presença') {
                     $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFont()->setBold(true);
-                    $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $colors[$b]));
+                    $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $color));
                   }
                 }
               }
@@ -873,9 +884,9 @@ class AnalysisResultController extends Controller
             $result = $stringCalc->calculate($formula);
           } else {
 
-            if ($guidingParameterValue) {
-              if ($guidingParameterValue->unityLegislation->unity_cod != $analysisResult->units) $max *= $maxConvert;
-            }
+            //if ($guidingParameterValue) {
+            //  if ($guidingParameterValue->unityLegislation->unity_cod != $analysisResult->units) $max *= $maxConvert;
+            //}
 
             $result = "< " . $max;
           }
