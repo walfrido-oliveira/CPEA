@@ -446,7 +446,7 @@ class AnalysisResultController extends Controller
           foreach ($guidingParametersValues as $guidingParametersValue) {
             if ($guidingParametersValue) {
               if (Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo'])) {
-                if ($resultValue > $guidingParametersValue->guiding_legislation_value) {
+                if ($resultValue >= $guidingParametersValue->guiding_legislation_value) {
                   $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $colors[$b]));
                 }
               }
