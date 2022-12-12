@@ -206,6 +206,8 @@ class AnalysisResultController extends Controller
     ];
 
     foreach ($sampleNames as $sampleKey => $sampleValue) {
+      if($sampleKey > 0 ) $spreadsheet->createSheet();
+
       $spreadsheet->setActiveSheetIndex($sampleKey);
       $spreadsheet->getActiveSheet()->setTitle($sampleValue);
 
