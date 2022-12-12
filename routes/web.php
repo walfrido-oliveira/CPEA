@@ -232,6 +232,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::prefix('resultado-analise')->name('analysis-result.')->group(function(){
         Route::post('/import', [AnalysisResultController::class, 'import'])->name('import');
         Route::get('/download/{campaign}', [AnalysisResultController::class, 'download'])->name('download');
+        Route::get('/download-nbr/{campaign}', [AnalysisResultController::class, 'downloadNBRType'])->name('download-nbr');
         Route::get('/download-edd/{analysis_order}', [AnalysisResultController::class, 'downloadEDD'])->name('download-edd');
         Route::get('/edit/{project_point_matrix_id}', [AnalysisResultController::class, 'edit'])->name('edit');
         Route::get('/{project_point_matrix_id}', [AnalysisResultController::class, 'show'])->name('show');
