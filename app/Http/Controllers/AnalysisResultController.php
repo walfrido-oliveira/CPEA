@@ -189,6 +189,16 @@ class AnalysisResultController extends Controller
       ->groupBy('point_identifications.identification')
       ->pluck('point_identifications.identification');
 
+    $projectPointMatrices = $campaign->projectPointMatrices()
+      ->with('pointIdentification')
+      ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+      ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+      ->leftJoin('parameter_analysis_groups as t1', 't1.id', '=', 'parameter_analyses.parameter_analysis_group_id')
+      ->orderBy('t1.order', 'asc')
+      ->orderBy('parameter_analyses.order', 'asc')
+      ->select('project_point_matrices.*')
+      ->get();
+
     $guidingParametersValues  = [];
     $guidingParametersIds = [];
     for ($b = 0; $b < count($guidingParameters); $b++) {
@@ -221,6 +231,10 @@ class AnalysisResultController extends Controller
 
       $sheet = $spreadsheet->getActiveSheet();
 
+      $branch = count($campaign->analysisResults) > 0 ? $campaign->analysisResults[0]->batch : null;
+      $labsampid = count($campaign->analysisResults) > 0 ? $campaign->analysisResults[0]->labsampid : null;
+      $dataCollection = count($campaign->projectPointMatrices) > 0 ? $campaign->projectPointMatrices[0]->date_collection : null;
+
       $sheet->setCellValueByColumnAndRow(1, 1, 'Nome da amostra');
       $sheet->getStyleByColumnAndRow(1, 1)->getFont()->setBold(true);
       $sheet->getStyleByColumnAndRow(1, 1)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
@@ -229,9 +243,13 @@ class AnalysisResultController extends Controller
       $sheet->mergeCellsByColumnAndRow(1, 1, 9, 1);
 
       $sheet->setCellValueByColumnAndRow(1, 2, 'Data de coleta:');
+      $sheet->setCellValueByColumnAndRow(2, 2, $dataCollection ? $dataCollection->format("d/m/Y") : null);
       $sheet->setCellValueByColumnAndRow(1, 3, 'Identificação do relatório de ensaio:');
+      $sheet->setCellValueByColumnAndRow(2, 3, $labsampid);
       $sheet->setCellValueByColumnAndRow(5, 2, 'Hora de coleta:');
+      $sheet->setCellValueByColumnAndRow(6, 2, $dataCollection ? $dataCollection->format("H:i") : null);
       $sheet->setCellValueByColumnAndRow(5, 3, 'Grupo do Laboratório:');
+      $sheet->setCellValueByColumnAndRow(6, 3, $branch);
       for ($i = 1; $i <= 9; $i++) $sheet->getStyleByColumnAndRow($i, 2)->applyFromArray($border);
       for ($i = 1; $i <= 9; $i++) $sheet->getStyleByColumnAndRow($i, 3)->applyFromArray($border);
       $sheet->getColumnDimensionByColumn(1)->setAutoSize(true);
@@ -341,16 +359,6 @@ class AnalysisResultController extends Controller
       $analysisResult = $campaign->analysisResults()->groupBy('samplename')->get();
 
       /* PARAMETROS DE ANÁLISE */
-      $projectPointMatrices = $campaign->projectPointMatrices()
-        ->with('pointIdentification')
-        ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
-        ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
-        ->leftJoin('parameter_analysis_groups as t1', 't1.id', '=', 'parameter_analyses.parameter_analysis_group_id')
-        ->orderBy('t1.order', 'asc')
-        ->orderBy('parameter_analyses.order', 'asc')
-        ->select('project_point_matrices.*')
-        ->get();
-
       $row = 6;
       $groupParameterAnalysis = [];
       $parameterAnalysis = [];
@@ -475,7 +483,6 @@ class AnalysisResultController extends Controller
               $sheet->getStyleByColumnAndRow($indexColumn, $row)->applyFromArray($border);
             }
 
-            //dd($matrixes[$k]->name);
             $value =  $campaign->analysisResults()
               ->with('projectPointMatrix')
               ->leftJoin('project_point_matrices', 'analysis_results.project_point_matrix_id', '=', 'project_point_matrices.id')
@@ -802,7 +809,7 @@ class AnalysisResultController extends Controller
             $groupParameterAnalysis[] = $parents[$j]->name;
             $sheet->setCellValueByColumnAndRow(1, $row, $parents[$j]->name);
             $sheet->getStyleByColumnAndRow(1, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
-            $sheet->getStyle("A" . $row . ":" . $column . $row)->applyFromArray($border);
+            for ($i=1; $i <= 3 + count($guidingParameters) + count($analysisResult) - 1; $i++)  $sheet->getStyleByColumnAndRow($i, $row)->applyFromArray($border);
             $spreadsheet->getActiveSheet()->mergeCellsByColumnAndRow(1, $row, 3 + count($guidingParameters) + count($analysisResult) - 1, $row);
             $row++;
           }
@@ -818,7 +825,7 @@ class AnalysisResultController extends Controller
             $groupParameterAnalysis[] = $parents[$j]->name;
             $sheet->setCellValueByColumnAndRow(1, $row, $parents[$j]->name);
             $sheet->getStyleByColumnAndRow(1, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
-            $sheet->getStyle("A" . $row . ":" . $column . $row)->applyFromArray($border);
+            for ($i=1; $i <= 3 + count($guidingParameters) + count($analysisResult) - 1; $i++)  $sheet->getStyleByColumnAndRow($i, $row)->applyFromArray($border);
             $spreadsheet->getActiveSheet()->mergeCellsByColumnAndRow(1, $row, 3 + count($guidingParameters) + count($analysisResult) - 1, $row);
             $row++;
           }
