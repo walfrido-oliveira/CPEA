@@ -63,7 +63,9 @@
                             <h3 class="w-full mt-4 px-3">Pontos</h3>
                             @foreach ($campaign->projectPointMatrices()->groupBy('point_identification_id')->get() as $key2 => $projectPointMatrix)
                                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0" id="point_identification_{{ $campaign->id }}_{{ $projectPointMatrix->point_identification_id }}">
+                                  @if ($projectPointMatrix->pointIdentification)
                                     <x-jet-label for="date_collection_{{ $projectPointMatrix->point_identification_id }}" value="{{ __('DT/HR da Coleta') . ' ' . $projectPointMatrix->pointIdentification->identification}}" required/>
+                                  @endif
                                     <div class="flex w-full">
                                         <x-jet-input id="date_collection_{{ $projectPointMatrix->point_identification_id }}" class="form-control block mt-1 w-full" type="datetime-local"
                                         name="points[{{ $projectPointMatrix->point_identification_id}}][date_collection]" />
