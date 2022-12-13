@@ -184,10 +184,10 @@ class AnalysisResultController extends Controller
     ];
 
     $sampleNames = $campaign
-    ->projectPointMatrices()
-    ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
-    ->groupBy('point_identifications.identification')
-    ->pluck('point_identifications.identification');
+      ->projectPointMatrices()
+      ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+      ->groupBy('point_identifications.identification')
+      ->pluck('point_identifications.identification');
 
     $guidingParametersValues  = [];
     $guidingParametersIds = [];
@@ -205,8 +205,16 @@ class AnalysisResultController extends Controller
       ],
     ];
 
+    $borderOutline = [
+      'borders' => [
+        'outline' => [
+          'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
+        ],
+      ],
+    ];
+
     foreach ($sampleNames as $sampleKey => $sampleValue) {
-      if($sampleKey > 0 ) $spreadsheet->createSheet();
+      if ($sampleKey > 0) $spreadsheet->createSheet();
 
       $spreadsheet->setActiveSheetIndex($sampleKey);
       $spreadsheet->getActiveSheet()->setTitle($sampleValue);
@@ -223,7 +231,7 @@ class AnalysisResultController extends Controller
       $sheet->setCellValueByColumnAndRow(1, 2, 'Data de coleta:');
       $sheet->setCellValueByColumnAndRow(1, 3, 'Identificação do relatório de ensaio:');
       $sheet->setCellValueByColumnAndRow(5, 2, 'Hora de coleta:');
-      $sheet->setCellValueByColumnAndRow(5, 3, 'LOG do Laboratório:');
+      $sheet->setCellValueByColumnAndRow(5, 3, 'Grupo do Laboratório:');
       for ($i = 1; $i <= 9; $i++) $sheet->getStyleByColumnAndRow($i, 2)->applyFromArray($border);
       for ($i = 1; $i <= 9; $i++) $sheet->getStyleByColumnAndRow($i, 3)->applyFromArray($border);
       $sheet->getColumnDimensionByColumn(1)->setAutoSize(true);
@@ -290,7 +298,7 @@ class AnalysisResultController extends Controller
       for ($i = 6; $i <= 7; $i++) $sheet->getStyleByColumnAndRow($i, 4)->applyFromArray($border);
       $sheet->mergeCellsByColumnAndRow(6, 4, 7, 4);
 
-      $sheet->setCellValueByColumnAndRow(8, 4, 'Extrato Lixiviado');
+      $sheet->setCellValueByColumnAndRow(8, 4, 'Extrato Solubilizado');
       $sheet->getStyleByColumnAndRow(8, 4)->getFont()->setBold(true);
       $sheet->getStyleByColumnAndRow(8, 4)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
       $sheet->getStyleByColumnAndRow(8, 4)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
@@ -329,7 +337,6 @@ class AnalysisResultController extends Controller
       $sheet->getStyleByColumnAndRow(9, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
       $sheet->getStyleByColumnAndRow(9, 5)->applyFromArray($border);
       $sheet->getStyleByColumnAndRow(9, 5)->getAlignment()->setWrapText(true);
-
 
       $analysisResult = $campaign->analysisResults()->groupBy('samplename')->get();
 
@@ -433,7 +440,7 @@ class AnalysisResultController extends Controller
                     $indexColumn,
                     $row,
                     Str::replace(".", ",", $guidingParametersValue->guiding_legislation_value) . ' - ' .
-                    Str::replace(".", ",", $guidingParametersValue->guiding_legislation_value_1)
+                      Str::replace(".", ",", $guidingParametersValue->guiding_legislation_value_1)
                   );
                 }
               } else {
@@ -626,17 +633,35 @@ class AnalysisResultController extends Controller
           $parameterAnalysis[] = $projectPointMatrices[$i]->parameterAnalysis->analysis_parameter_name;
           $row++;
         }
-
       }
+
       for ($h = 1; $h <= 9; $h++) {
         $sheet->getStyleByColumnAndRow($h, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
         $sheet->getStyleByColumnAndRow($h, $row)->applyFromArray($border);
         $sheet->mergeCellsByColumnAndRow(1, $row, 9, $row);
       }
-      $sheet->setCellValueByColumnAndRow(1, $row+1, "Classificação: Com base nos resultados obtidos, conforme o relatório de ensaio (identificação do laboratório) do laboratório (identificação do nome do laboratório) o resíduo foi classificado como Classe IIA-não Inerte, devido às concentrações de (indicar compostos que estão acima do extrato para a respectiva classificação) no extrato (indicar extrato) estar acima do limite estabelecido no (resíduo bruto/Anexo-F/Anexo-G) - Padrões para o ensaio de (massa bruta/lixiviação/solubilização) da norma ABNT NBR 10.004/04. ");
-      $sheet->getStyleByColumnAndRow(1, $row+1)->getAlignment()->setWrapText(true);
-      for ($i = 1; $i <= 9; $i++) $sheet->getStyleByColumnAndRow($i, $row+1)->applyFromArray($border);
-      $sheet->mergeCellsByColumnAndRow(1, $row+1, 9, $row+1);
+
+      $richText = new \PhpOffice\PhpSpreadsheet\RichText\RichText();
+      $class = $richText->createTextRun('Classificação:');
+      $class->getFont()->setBold(true);
+      $richText->createText(' Com base nos resultados obtidos, conforme o relatório de ensaio (identificação do laboratório) do laboratório (identificação do nome do laboratório) o resíduo foi classificado como ');
+      $class2 = $richText->createTextRun('Classe IIA-não Inerte');
+      $class2->getFont()->setBold(true);
+      $richText->createText(', devido às concentrações de (indicar compostos que estão acima do extrato para a respectiva classificação) no extrato (indicar extrato) estar acima do limite estabelecido no (resíduo bruto/Anexo-F/Anexo-G) - Padrões para o ensaio de (massa bruta/lixiviação/solubilização) da norma ABNT NBR 10.004/04.');
+
+      $sheet->setCellValueByColumnAndRow(1, $row + 1, $richText);
+      $sheet->getStyleByColumnAndRow(1, $row + 1)->getAlignment()->setWrapText(true);
+      for ($i = 1; $i <= 9; $i++) $sheet->getStyleByColumnAndRow($i, $row + 1)->applyFromArray($border);
+      $sheet->mergeCellsByColumnAndRow(1, $row + 1, 9, $row + 1);
+      $sheet->getRowDimension($row + 1)->setRowHeight(60.75);
+      $sheet->getStyleByColumnAndRow(1, $row + 1)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+      $sheet->getStyleByColumnAndRow(1, $row + 1)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+
+      $sheet->getStyleByColumnAndRow(1, 1, 9, $row)->applyFromArray($borderOutline);
+      $sheet->getStyleByColumnAndRow(1, 1, 9, $row + 1)->applyFromArray($borderOutline);
+      $sheet->getStyleByColumnAndRow(1, 4, 1, $row - 1)->applyFromArray($borderOutline);
+      $sheet->getStyleByColumnAndRow(2, 4, 4, $row - 1)->applyFromArray($borderOutline);
+      $sheet->getStyleByColumnAndRow(5, 4, 9, $row - 1)->applyFromArray($borderOutline);
     }
 
 
