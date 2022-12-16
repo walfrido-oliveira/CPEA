@@ -235,7 +235,7 @@ class AnalysisResultController extends Controller
       $labsampid = count($campaign->analysisResults) > 0 ? $campaign->analysisResults[0]->labsampid : null;
       $dataCollection = count($campaign->projectPointMatrices) > 0 ? $campaign->projectPointMatrices[0]->date_collection : null;
 
-      $sheet->setCellValueByColumnAndRow(1, 1, 'Nome da amostra');
+      $sheet->setCellValueByColumnAndRow(1, 1, $sampleValue);
       $sheet->getStyleByColumnAndRow(1, 1)->getFont()->setBold(true);
       $sheet->getStyleByColumnAndRow(1, 1)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
       $sheet->getStyleByColumnAndRow(1, 1)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
@@ -244,7 +244,7 @@ class AnalysisResultController extends Controller
 
       $sheet->setCellValueByColumnAndRow(1, 2, 'Data de coleta:');
       $sheet->setCellValueByColumnAndRow(2, 2, $dataCollection ? $dataCollection->format("d/m/Y") : null);
-      $sheet->setCellValueByColumnAndRow(1, 3, 'Identificação do relatório de ensaio:');
+      $sheet->setCellValueByColumnAndRow(1, 3, 'Identificação do Laboratório:');
       $sheet->setCellValueByColumnAndRow(2, 3, $labsampid);
       $sheet->setCellValueByColumnAndRow(5, 2, 'Hora de coleta:');
       $sheet->setCellValueByColumnAndRow(6, 2, $dataCollection ? $dataCollection->format("H:i") : null);
