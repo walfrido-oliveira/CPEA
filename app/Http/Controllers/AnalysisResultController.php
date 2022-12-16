@@ -853,7 +853,8 @@ class AnalysisResultController extends Controller
                 $sheet->setCellValueByColumnAndRow(
                   $k + 3,
                   $row,
-                  Str::replace(".", ",", $guidingParametersValue->guiding_legislation_value) . ' - ' . Str::replace(".", ",", $guidingParametersValue->guiding_legislation_value_1)
+                  Str::replace(".", ",", $guidingParametersValue->guiding_legislation_value) . ' - ' .
+                  Str::replace(".", ",", $guidingParametersValue->guiding_legislation_value_1)
                 );
               }
             } else {
@@ -967,9 +968,9 @@ class AnalysisResultController extends Controller
           }
 
           $guidingParametersValues = GuidingParameterValue::whereIn("guiding_parameter_id", $guidingParametersIds)
-            ->where('parameter_analysis_id', $projectPointMatrices[$i]->parameter_analysis_id)
-            ->orderBy('guiding_legislation_value', 'DESC')
-            ->get();
+          ->where('parameter_analysis_id', $projectPointMatrices[$i]->parameter_analysis_id)
+          ->orderByRaw('guiding_legislation_value + 0')
+          ->get();
 
           $b = 0;
           foreach ($guidingParametersValues as $guidingParametersValue) {
