@@ -834,7 +834,6 @@ class AnalysisResultController extends Controller
 
       if (!in_array($projectPointMatrices[$i]->parameterAnalysis->analysis_parameter_name, $parameterAnalysis) || $i == 0) {
         $sheet->setCellValueByColumnAndRow(1, $row, $projectPointMatrices[$i]->parameterAnalysis->analysis_parameter_name);
-        if (isset($projectPointMatrices[$i]->analysisResult[0])) $sheet->setCellValueByColumnAndRow(2,  $row, $projectPointMatrices[$i]->analysisResult[0]->units);
 
         for ($k = 0; $k < count($guidingParameters); $k++) {
           $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $guidingParameters[$k]->id)
@@ -936,6 +935,7 @@ class AnalysisResultController extends Controller
           }
 
           $sheet->setCellValueByColumnAndRow($k + $a + 3, $row, $result);
+          $sheet->setCellValueByColumnAndRow(2,  $row, $value->units);
 
           if ((Str::contains($value->resultreal, ["j", "J"]) && !Str::contains($value->resultreal, ["<"])) || $bold || $value->snote6 == '*') {
             $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFont()->setBold(true);

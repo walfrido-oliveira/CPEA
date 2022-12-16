@@ -68,7 +68,7 @@
                             <x-jet-label for="guiding_legislation_value_2" value="{{ __('Valor Orientador Legislaçao 2') }}" />
                             <x-jet-input id="guiding_legislation_value_2" class="form-control block mt-1 w-full" type="text" name="guiding_legislation_value_2" maxlength="18" step="any" autofocus autocomplete="guiding_legislation_value_2" :value="old('guiding_legislation_value_2')"/>
                         </div>
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <!-- <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="unity_analysis_id" value="{{ __('Unidade Análise') }}" required/>
                             <x-custom-select class="mt-1" :options="$unities" name="unity_analysis_id" id="unity_analysis_id" :value="old('unity_analysis_id')" required/>
                         </div>
@@ -88,7 +88,7 @@
                             <x-jet-label for="guiding_analysis_value_2" value="{{ __('Valor Orientador Análise 2') }}" />
                             <x-jet-input id="guiding_analysis_value_2" class="form-control block mt-1 w-full" type="number" name="guiding_analysis_value_2" maxlength="18" step="any" autofocus autocomplete="guiding_analysis_value_2" :value="old('guiding_analysis_value_2')"/>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </form>
         </div>
