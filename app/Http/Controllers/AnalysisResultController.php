@@ -1301,6 +1301,7 @@ class AnalysisResultController extends Controller
     $samplename = null;
     $sampdate = null;
     $labsampid = null;
+    $batch = null;
     $units = null;
     $snote6 = null;
 
@@ -1359,6 +1360,7 @@ class AnalysisResultController extends Controller
                 $sampdate = $analysisResult->sampdate;
                 $samplename = $analysisResult->samplename;
                 $labsampid = $analysisResult->labsampid;
+                $batch = $analysisResult->batch;
                 $units = $analysisResult->units;
 
                 $r = (float)Str::replace(["*J", " [1]", "< ", "<"],  "", $analysisResult->result ? $analysisResult->result : $analysisResult->rl);
@@ -1432,6 +1434,7 @@ class AnalysisResultController extends Controller
               'resultreal' => $result,
               'labsampid' => $labsampid,
               'sampdate' => $sampdate,
+              'batch' => $batch,
               'samplename' => $samplename,
               'units' => $units
             ]);
