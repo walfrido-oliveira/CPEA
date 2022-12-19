@@ -573,7 +573,7 @@ class AnalysisResultController extends Controller
               ];
             }
 
-            $guidingParametersValues = GuidingParameterValue::whereIn("guiding_parameter_id", $guidingParametersIds[$k])
+            $guidingParametersValues = GuidingParameterValue::where("guiding_parameter_id", $guidingParametersIds[$k])
               ->where('parameter_analysis_id', $projectPointMatrices[$i]->parameter_analysis_id)
               ->orderBy('guiding_legislation_value', 'DESC')
               ->get();
