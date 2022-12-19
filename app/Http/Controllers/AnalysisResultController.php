@@ -654,6 +654,7 @@ class AnalysisResultController extends Controller
       $richText->createText(' Com base nos resultados obtidos, conforme o relatório de ensaio (identificação do laboratório) do laboratório (identificação do nome do laboratório) o resíduo foi classificado como ');
       $class2 = $richText->createTextRun('Classe IIA-não Inerte');
       $class2->getFont()->setBold(true);
+      $class2->getFont()->getColor()->setRGB("FF0000");
       $richText->createText(', devido às concentrações de (indicar compostos que estão acima do extrato para a respectiva classificação) no extrato (indicar extrato) estar acima do limite estabelecido no (resíduo bruto/Anexo-F/Anexo-G) - Padrões para o ensaio de (massa bruta/lixiviação/solubilização) da norma ABNT NBR 10.004/04.');
 
       $sheet->setCellValueByColumnAndRow(1, $row + 1, $richText);
