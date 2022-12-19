@@ -584,7 +584,7 @@ class AnalysisResultController extends Controller
                 $color = $colorsGuidingParametersId[array_search($guidingParametersValue->guiding_parameter_id, array_column($colorsGuidingParametersId, 'guiding_parameter_id'))]["color"];
 
                 if (Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo'])) {
-                  if ($resultValue >= $guidingParametersValue->guiding_legislation_value) {
+                  if ($resultValue > $guidingParametersValue->guiding_legislation_value) {
                     $sheet->getStyleByColumnAndRow($indexColumn, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $color));
                   }
                 }
@@ -979,7 +979,7 @@ class AnalysisResultController extends Controller
               $color = $colorsGuidingParametersId[array_search($guidingParametersValue->guiding_parameter_id, array_column($colorsGuidingParametersId, 'guiding_parameter_id'))]["color"];
 
               if (Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo'])) {
-                if ($resultValue >= $guidingParametersValue->guiding_legislation_value) {
+                if ($resultValue > $guidingParametersValue->guiding_legislation_value) {
                   $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $color));
                 }
               }
