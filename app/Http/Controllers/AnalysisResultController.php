@@ -1376,10 +1376,10 @@ class AnalysisResultController extends Controller
 
                 $max =  $r > $max ? $r : $max;
 
-                $zero = Str::contains($analysisResult->result, "<") || !$analysisResult->result || $rl > $r;
+                $zero = Str::contains($analysisResult->result, "<") || $rl > $r;
                 if ($zero) $snote6 = '*';
 
-                $checks[] = $analysisResult->result;
+                $checks[] = $analysisResult->result ? $analysisResult->result : "<";
 
                 if ($zero) {
                   $formula = Str::replace($value2[0],  0, $formula);
@@ -1406,10 +1406,6 @@ class AnalysisResultController extends Controller
 
             $result = $stringCalc->calculate($formula);
           } else {
-
-            //if ($guidingParameterValue) {
-            //  if ($guidingParameterValue->unityLegislation->unity_cod != $analysisResult->units) $max *= $maxConvert;
-            //}
 
             $result = "< " . $max;
           }
