@@ -810,7 +810,7 @@ class AnalysisResultController extends Controller
             $groupParameterAnalysis[] = $parents[$j]->name;
             $sheet->setCellValueByColumnAndRow(1, $row, $parents[$j]->name);
             $sheet->getStyleByColumnAndRow(1, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
-            for ($i=1; $i <= 3 + count($guidingParameters) + count($analysisResult) - 1; $i++)  $sheet->getStyleByColumnAndRow($i, $row)->applyFromArray($border);
+            for ($lo=1; $lo <= 3 + count($guidingParameters) + count($analysisResult) - 1; $lo++)  $sheet->getStyleByColumnAndRow($lo, $row)->applyFromArray($border);
             $spreadsheet->getActiveSheet()->mergeCellsByColumnAndRow(1, $row, 3 + count($guidingParameters) + count($analysisResult) - 1, $row);
             $row++;
           }
@@ -826,7 +826,7 @@ class AnalysisResultController extends Controller
             $groupParameterAnalysis[] = $parents[$j]->name;
             $sheet->setCellValueByColumnAndRow(1, $row, $parents[$j]->name);
             $sheet->getStyleByColumnAndRow(1, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
-            for ($i=1; $i <= 3 + count($guidingParameters) + count($analysisResult) - 1; $i++)  $sheet->getStyleByColumnAndRow($i, $row)->applyFromArray($border);
+            for ($lo=1; $lo <= 3 + count($guidingParameters) + count($analysisResult) - 1; $lo++)  $sheet->getStyleByColumnAndRow($lo, $row)->applyFromArray($border);
             $spreadsheet->getActiveSheet()->mergeCellsByColumnAndRow(1, $row, 3 + count($guidingParameters) + count($analysisResult) - 1, $row);
             $row++;
           }

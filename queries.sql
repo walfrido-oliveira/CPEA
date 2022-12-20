@@ -13,3 +13,5 @@ LEFT JOIN guiding_parameter_ref_values ON guiding_parameter_ref_values.id = guid
 LEFT JOIN guiding_values ON guiding_values.id = guiding_parameter_values.guiding_value_id
 LEFT JOIN unities u1 ON u1.id = guiding_parameter_values.unity_legislation_id
 LEFT JOIN unities u2 ON u2.id = guiding_parameter_values.unity_analysis_id
+
+select `project_point_matrices`.* from `project_point_matrices` left join `point_identifications` on `point_identifications`.`id` = `project_point_matrices`.`point_identification_id` left join `parameter_analyses` on `parameter_analyses`.`id` = `project_point_matrices`.`parameter_analysis_id` left join `parameter_analysis_groups` as `t1` on `t1`.`id` = `parameter_analyses`.`parameter_analysis_group_id` where `project_point_matrices`.`campaign_id` = ? and `project_point_matrices`.`campaign_id` is not null order by `t1`.`order` asc, `parameter_analyses`.`order` asc
