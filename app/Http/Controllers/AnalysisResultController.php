@@ -1376,7 +1376,7 @@ class AnalysisResultController extends Controller
 
                 $max =  $r > $max ? $r : $max;
 
-                $zero = Str::contains($analysisResult->result, "<") || $rl > $r;
+                $zero = Str::contains($analysisResult->result, "<") || $rl > $r || !$analysisResult->result;
                 if ($zero) $snote6 = '*';
 
                 $checks[] = $analysisResult->result ? $analysisResult->result : "<";
