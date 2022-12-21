@@ -29,8 +29,10 @@ class CampaignController extends Controller
     {
         $campaign = Campaign::findOrFail($id);
 
-        $areas = PointIdentification::pluck('area', 'area');
-        $identifications = PointIdentification::pluck('identification', 'identification');
+        $campaign = Campaign::findOrFail($id);
+        $ids = $campaign->projectPointMatrices()->select('point_identification_id')->groupBy('point_identification_id')->pluck('point_identification_id')->toArray();
+        $areas =  PointIdentification::whereIn('id', $ids)->pluck('area', 'area');
+        $identifications =  PointIdentification::whereIn('id', $ids)->pluck('identification', 'identification');
         $matrizeces = AnalysisMatrix::pluck('name', 'id');
         $planActionLevels = PlanActionLevel::pluck('name', 'id');
         $guidingParameters = GuidingParameter::pluck('environmental_guiding_parameter_id', 'id');
