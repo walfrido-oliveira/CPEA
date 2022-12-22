@@ -309,6 +309,7 @@ class CampaignController extends Controller
                 $result = $campaign->projectPointMatrices()
                 ->where('point_identification_id', $value2['point_identifications'])
                 ->where('parameter_analysis_id', $point->parameter_analysis_id)
+                ->where('analysis_matrix_id', $point->analysis_matrix_id)
                 ->get();
 
                 if($result->count() > 0) continue;
