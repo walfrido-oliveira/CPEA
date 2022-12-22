@@ -31,15 +31,18 @@ class CampaignController extends Controller
 
         $campaign = Campaign::findOrFail($id);
         $ids = $campaign->projectPointMatrices()->select('point_identification_id')->groupBy('point_identification_id')->pluck('point_identification_id')->toArray();
-        $areas =  PointIdentification::whereIn('id', $ids)->pluck('area', 'area');
-        $identifications =  PointIdentification::whereIn('id', $ids)->pluck('identification', 'identification');
+        $areasRef =  PointIdentification::whereIn('id', $ids)->pluck('area', 'area');
+        $areas =  PointIdentification::pluck('area', 'area');
+        //$identifications =  PointIdentification::whereIn('id', $ids)->pluck('identification', 'identification');
         $matrizeces = AnalysisMatrix::pluck('name', 'id');
+
         $planActionLevels = []; //PlanActionLevel::pluck('name', 'id');
         $guidingParameters = []; //GuidingParameter::pluck('environmental_guiding_parameter_id', 'id');
         $parameterAnalyses = []; //ParameterAnalysis::pluck('analysis_parameter_name', 'id');
         $geodeticSystems = [];//GeodeticSystem::pluck("name", "id");
         $preparationMethods = []; //ParameterMethod::where('type', 'preparation')->get()->pluck('name', 'id');
         $analysisMethods = []; //ParameterMethod::where('type', 'analysis')->get()->pluck('name', 'id');
+
         $perPage = $request->has('paginate_per_page') ? $request->get('paginate_per_page') : DEFAULT_PAGINATE_PER_PAGE;
 
         $isNBR = false;
@@ -59,9 +62,9 @@ class CampaignController extends Controller
         ->paginate($perPage, ['*']);
 
         return view('project.campaign.show',
-        compact('campaign', 'areas', 'identifications', 'matrizeces', 'planActionLevels',
+        compact('campaign', 'areas', 'matrizeces', 'planActionLevels',
                 'guidingParameters', 'parameterAnalyses', 'geodeticSystems',
-                'projectPointMatrices', 'preparationMethods', 'analysisMethods', 'isNBR'));
+                'projectPointMatrices', 'preparationMethods', 'analysisMethods', 'isNBR', 'areasRef'));
     }
 
     /**

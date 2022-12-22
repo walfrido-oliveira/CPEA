@@ -85,7 +85,7 @@
                             <h2 class="w-full px-3">{{ __('Referência') }}</h2>
                             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                 <x-jet-label for="area_ref" value="{{ __('Área') }}" required />
-                                <x-custom-select :options="$areas" name="area_ref" id="area_ref" value="" class="mt-1" select-class="areas-ref no-nice-select" no-filter="no-filter"/>
+                                <x-custom-select :options="$areasRef" name="area_ref" id="area_ref" value="" class="mt-1" select-class="areas-ref no-nice-select" no-filter="no-filter"/>
                             </div>
                             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                 <x-jet-label for="point_identifications_ref" value="{{ __('Identificação Ponto') }}" required/>
