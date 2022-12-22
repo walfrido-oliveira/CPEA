@@ -7,7 +7,7 @@
                 <input type="hidden" name="type" id="type" value="campaign">
                 <div class="flex md:flex-row flex-col">
                     <div class="w-full flex items-center md:justify-start justify-center">
-                        <h1 id="title">{{ __('Campanha: ') }} <span class="font-normal">{{ $campaign->name }}</span></h1>
+                        <h1 id="title">{{ __('Campanha: ') }} <span class="font-normal">{{ $campaign->name }}</span> @if($isNBR) (Projeto NBR) @endif</h1>
                     </div>
                     <div class="flex md:flex-row flex-col md:justify-end items-center">
                         <div class="m-2">
