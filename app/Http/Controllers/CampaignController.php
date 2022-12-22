@@ -316,7 +316,7 @@ class CampaignController extends Controller
                 $projectPointMatrix = ProjectPointMatrix::create([
                     'project_id' => $point->project_id,
                     'point_identification_id' => $value2['point_identifications'],
-                    'analysis_matrix_id' => isset($value2['matriz_id']) ? $value2['matriz_id'] :  $point->matriz_id,
+                    'analysis_matrix_id' => isset($value2['matriz_id']) ? $value2['matriz_id'] :  $point->analysis_matrix_id,
                     'parameter_analysis_id' => $point->parameter_analysis_id,
                     'campaign_id' => $campaign->id,
                     'parameter_method_preparation_id' => $point->parameter_method_preparation_id,
