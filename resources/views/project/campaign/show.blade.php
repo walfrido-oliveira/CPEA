@@ -122,16 +122,18 @@
                                     <x-jet-input id="date_collection_1" class="form-control block mt-1 w-full" type="datetime-local" name="inputs[row_1][date_collection]" maxlength="255" autofocus autocomplete="date_collection"/>
                                 </div>
                             </div>
-                            <div class="flex flex-wrap mx-4 px-3 py-2">
-                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <x-jet-label for="matriz_1" value="{{ __('Matriz') }}" required/>
-                                    <x-custom-select :options="$matrizeces" name="inputs[row_1][matriz_id]" id="matriz_1" value="" class="mt-1" no-filter="no-filter" select-class="no-nice-select"/>
+                            @if (!$isNBR)
+                                <div class="flex flex-wrap mx-4 px-3 py-2">
+                                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                        <x-jet-label for="matriz_1" value="{{ __('Matriz') }}" required/>
+                                        <x-custom-select :options="$matrizeces" name="inputs[row_1][matriz_id]" id="matriz_1" value="" class="mt-1" no-filter="no-filter" select-class="no-nice-select"/>
+                                    </div>
+                                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                                        <x-jet-label for="guiding_parameter_1" value="{{ __('Param. Orientador Ambiental') }}"/>
+                                        <x-custom-multi-select multiple :options="$guidingParameters" name="inputs[row_1][guiding_parameters_id][]" id="guiding_parameter_1" value="" select-class="form-input no-nice-select" class="mt-1" no-filter="no-filter" />
+                                    </div>
                                 </div>
-                                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <x-jet-label for="guiding_parameter_1" value="{{ __('Param. Orientador Ambiental') }}"/>
-                                    <x-custom-multi-select multiple :options="$guidingParameters" name="inputs[row_1][guiding_parameters_id][]" id="guiding_parameter_1" value="" select-class="form-input no-nice-select" class="mt-1" no-filter="no-filter" />
-                                </div>
-                            </div>
+                            @endif
                         </div>
                     </div>
                     <div class="flex mt-4">

@@ -34,13 +34,25 @@ class CampaignController extends Controller
         $areas =  PointIdentification::whereIn('id', $ids)->pluck('area', 'area');
         $identifications =  PointIdentification::whereIn('id', $ids)->pluck('identification', 'identification');
         $matrizeces = AnalysisMatrix::pluck('name', 'id');
-        $planActionLevels = PlanActionLevel::pluck('name', 'id');
-        $guidingParameters = GuidingParameter::pluck('environmental_guiding_parameter_id', 'id');
-        $parameterAnalyses = ParameterAnalysis::pluck('analysis_parameter_name', 'id');
-        $geodeticSystems = GeodeticSystem::pluck("name", "id");
-        $preparationMethods = ParameterMethod::where('type', 'preparation')->get()->pluck('name', 'id');
-        $analysisMethods = ParameterMethod::where('type', 'analysis')->get()->pluck('name', 'id');
+        $planActionLevels = []; //PlanActionLevel::pluck('name', 'id');
+        $guidingParameters = []; //GuidingParameter::pluck('environmental_guiding_parameter_id', 'id');
+        $parameterAnalyses = []; //ParameterAnalysis::pluck('analysis_parameter_name', 'id');
+        $geodeticSystems = [];//GeodeticSystem::pluck("name", "id");
+        $preparationMethods = []; //ParameterMethod::where('type', 'preparation')->get()->pluck('name', 'id');
+        $analysisMethods = []; //ParameterMethod::where('type', 'analysis')->get()->pluck('name', 'id');
         $perPage = $request->has('paginate_per_page') ? $request->get('paginate_per_page') : DEFAULT_PAGINATE_PER_PAGE;
+
+        $isNBR = false;
+        $guidingParametersNBR = GuidingParameter::where("name", "NBR 10.004 - Massa Bruta")
+                                                ->orWhere("name", "NBR 10.004 Anexo F - Extrato Lixiviado")
+                                                ->orWhere("name", "NBR 10.004 Anexo G - Extrato Solubilizado")->pluck("id")->toArray();
+
+        if(is_array($campaign->project->guiding_parameter_order)) {
+            foreach ($campaign->project->guiding_parameter_order as $key => $value) {
+                $isNBR = in_array($value, $guidingParametersNBR);
+                if(!$isNBR) break;
+            }
+        }
 
         $projectPointMatrices = $campaign->projectPointMatrices()
         ->orderBy("campaign_id", "asc")
@@ -48,7 +60,8 @@ class CampaignController extends Controller
 
         return view('project.campaign.show',
         compact('campaign', 'areas', 'identifications', 'matrizeces', 'planActionLevels',
-                'guidingParameters', 'parameterAnalyses', 'geodeticSystems', 'projectPointMatrices', 'preparationMethods', 'analysisMethods'));
+                'guidingParameters', 'parameterAnalyses', 'geodeticSystems',
+                'projectPointMatrices', 'preparationMethods', 'analysisMethods', 'isNBR'));
     }
 
     /**
