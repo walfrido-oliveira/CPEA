@@ -194,7 +194,7 @@ class AnalysisResultController extends Controller
       ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
       ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
       ->leftJoin('parameter_analysis_groups as t1', 't1.id', '=', 'parameter_analyses.parameter_analysis_group_id')
-      ->orderBy('t1.order', 'asc')
+      ->orderByRaw("1*SUBSTRING_INDEX(t1.`order`, '.', 1) ASC, 1*SUBSTRING_INDEX(t1.`order`, '.', -1) ASC")
       ->orderBy('parameter_analyses.order', 'asc')
       ->select('project_point_matrices.*')
       ->get();
@@ -793,7 +793,7 @@ class AnalysisResultController extends Controller
       ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
       ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
       ->leftJoin('parameter_analysis_groups as t1', 't1.id', '=', 'parameter_analyses.parameter_analysis_group_id')
-      ->orderBy('t1.order', 'asc')
+      ->orderByRaw("1*SUBSTRING_INDEX(t1.`order`, '.', 1) ASC, 1*SUBSTRING_INDEX(t1.`order`, '.', -1) ASC")
       ->orderBy('parameter_analyses.order', 'asc')
       ->select('project_point_matrices.*')
       ->get();
