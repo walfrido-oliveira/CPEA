@@ -6,7 +6,7 @@
                 @if(!$formValue) @method("POST") @endif
                 @if($formValue) @method("PUT") @endif
 
-                @if(!$formValue)
+                @if($formValue)
                     <input type="hidden" id="form_value_id" name="form_value_id" value="{{ $formValue->id }}">
                     <input type="hidden" id="form_id" name="form_id" value="{{ $formValue->id }}">
                 @endif
