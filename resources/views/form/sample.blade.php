@@ -1,4 +1,4 @@
-<div class="w-full px-3 mt-4 mb-6 md:mb-0 flex flex-wrap sample @if(count(array_chunk($sample['results'], 3)) > 1) duplicates-table @else default-table @endif" id="sample_{{ isset($i) ? $i : 0 }}" data-index="1">
+<div class="w-full px-3 mt-4 mb-6 md:mb-0 flex flex-wrap sample @if(isset($sample))@if(count(array_chunk($sample['results'], 3)) > 1) duplicates-table @else default-table @endif default-table @endif" id="sample_{{ isset($i) ? $i : 0 }}" data-index="1">
     <div class="flex w-full">
         <h3 class="w-full mt-4 mb-6 md:mb-0 title">AMOSTRA <span>{{ isset($i) ? $i + 1 : 1 }}</span></h3>
         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 flex justify-end align-baseline buttons" style="align-items: baseline;">

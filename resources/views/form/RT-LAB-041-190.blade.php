@@ -227,7 +227,7 @@
                                 @endforeach
                           </div>
                         @else
-
+                            @include('form.sample')
                         @endif
 
                     </div>
@@ -319,15 +319,19 @@
             const data = {
                 datasets: [{
                     labels: [
-                        @foreach ($formValue->values['samples'] as $key => $sample)
-                            "{{ $sample['point'] }} - pH {{ number_format($svgs[$key]['ph'], 2, ",", ".") }} e EH {{ number_format($svgs[$key]['eh'], 1, ",", ".") }}",
-                        @endforeach
+                        @if($formValue)
+                            @foreach ($formValue->values['samples'] as $key => $sample)
+                                "{{ $sample['point'] }} - pH {{ number_format($svgs[$key]['ph'], 2, ",", ".") }} e EH {{ number_format($svgs[$key]['eh'], 1, ",", ".") }}",
+                            @endforeach
+                        @endif
                     ],
                     label: '',
                     data: [
-                        @foreach ($formValue->values['samples'] as $key => $sample)
-                            { x: {{ $svgs[$key]['eh'] ? $svgs[$key]['eh'] : 0  }} , y: {{ $svgs[$key]['ph'] ? $svgs[$key]['ph'] : 0  }} },
-                        @endforeach
+                        @if($formValue)
+                            @foreach ($formValue->values['samples'] as $key => $sample)
+                                { x: {{ $svgs[$key]['eh'] ? $svgs[$key]['eh'] : 0  }} , y: {{ $svgs[$key]['ph'] ? $svgs[$key]['ph'] : 0  }} },
+                            @endforeach
+                        @endif
                     ],
                     backgroundColor: [
                         '#ff6384'
