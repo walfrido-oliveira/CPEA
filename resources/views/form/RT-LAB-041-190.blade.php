@@ -81,20 +81,6 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <div class="w-full px-3 mb-6 md:mb-0">
-                            <x-jet-label for="additional_info" value="{{ __('Informações Adicionais') }}" />
-                            <textarea class="editor form-input w-full ckeditor" name="additional_info" id="additional_info" cols="30" rows="10">{{ isset($formValue->values['additional_info']) ? $formValue->values['additional_info'] : null }}</textarea>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <div class="w-full px-3 mb-6 md:mb-0">
-                            <x-jet-label for="approval_text" value="{{ __('Aprovação do Relatório') }}" />
-                            <textarea class="form-input w-full ckeditor" name="approval_text" id="approval_text" cols="30" rows="10">{{ isset($formValue->values['approval_text']) ? $formValue->values['approval_text'] : null }}</textarea>
-                        </div>
-                    </div>
-
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4" id="samples">
                         <div class="flex w-full">
                             <h2 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">AMOSTRAS</h2>
@@ -234,6 +220,20 @@
                     </div>
 
                     @include('form.coordinates-table')
+
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full px-3 mb-6 md:mb-0">
+                            <x-jet-label for="additional_info" value="{{ __('Informações Adicionais') }}" />
+                            <textarea class="editor form-input w-full ckeditor" name="additional_info" id="additional_info" cols="30" rows="10">{{ isset($formValue->values['additional_info']) ? $formValue->values['additional_info'] : null }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full px-3 mb-6 md:mb-0">
+                            <x-jet-label for="approval_text" value="{{ __('Aprovação do Relatório') }}" />
+                            <textarea class="form-input w-full ckeditor" name="approval_text" id="approval_text" cols="30" rows="10">{{ isset($formValue->values['approval_text']) ? $formValue->values['approval_text'] : null }}</textarea>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
