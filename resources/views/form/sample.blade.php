@@ -43,7 +43,7 @@
                     <x-jet-input readonly="{{ !$formValue ? false : true}}" id="equipment" class="form-control block mt-1 w-full"
                     type="text" value="{{ $sample['equipment'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][equipment]' : 'samples[row_0][equipment]' }}" maxlength="255" />
                 @else
-                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="equipment" class="form-control block mt-1 w-full"
+                    <x-jet-input id="equipment" class="form-control block mt-1 w-full"
                     type="text" value="" name="samples[row_0][equipment]" maxlength="255" />
                 @endif
             </div>
@@ -53,7 +53,7 @@
                     <x-jet-input readonly="{{ !$formValue ? false : true}}" id="point" class="form-control block mt-1 w-full"
                     type="text" value="{{ $sample['point'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][point]' : 'samples[row_0][point]' }}" maxlength="255" />
                 @else
-                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="point" class="form-control block mt-1 w-full"
+                    <x-jet-input id="point" class="form-control block mt-1 w-full"
                     type="text" value="" name="samples[row_0][point]" maxlength="255" />
                 @endif
             </div>
@@ -65,7 +65,7 @@
                     <x-jet-input readonly="{{ !$formValue ? false : true}}" id="environment" class="form-control block mt-1 w-full"
                     type="text" value="{{ $sample['environment'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][environment]' : 'samples[row_0][environment]' }}" maxlength="255" />
                 @else
-                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="environment" class="form-control block mt-1 w-full"
+                    <x-jet-input id="environment" class="form-control block mt-1 w-full"
                     type="text" value="" name="samples[row_0][environment]" maxlength="255" />
                 @endif
             </div>
@@ -75,7 +75,7 @@
                     <x-jet-input readonly="{{ !$formValue ? false : true}}" id="collect" class="form-control block mt-1 w-full"
                     type="datetime-local" value="{{ $sample['collect'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][collect]' : 'samples[row_0][collect]' }}" maxlength="255" />
                 @else
-                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="collect" class="form-control block mt-1 w-full"
+                    <x-jet-input id="collect" class="form-control block mt-1 w-full"
                     type="datetime-local" value="" name="samples[row_0][collect]" maxlength="255" />
                 @endif
             </div>
