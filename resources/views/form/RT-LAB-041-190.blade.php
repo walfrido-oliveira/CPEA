@@ -322,7 +322,7 @@
                     labels: [
                         @if($formValue)
                             @foreach ($formValue->values['samples'] as $key => $sample)
-                                "{{ $sample['point'] }} - pH {{ number_format($svgs[$key]['ph'], 2, ",", ".") }} e EH {{ number_format($svgs[$key]['eh'], 1, ",", ".") }}",
+                                "{{ $sample['point'] }} - pH {{ isset($svgs[$key]['ph']) ? number_format($svgs[$key]['ph'], 2, ",", ".") : '' }} e EH {{ isset($svgs[$key]['eh']) ? number_format($svgs[$key]['eh'], 1, ",", ".") : '' }}",
                             @endforeach
                         @endif
                     ],
@@ -330,7 +330,7 @@
                     data: [
                         @if($formValue)
                             @foreach ($formValue->values['samples'] as $key => $sample)
-                                { x: {{ $svgs[$key]['eh'] ? $svgs[$key]['eh'] : 0  }} , y: {{ $svgs[$key]['ph'] ? $svgs[$key]['ph'] : 0  }} },
+                                { x: {{ isset($svgs[$key]['eh']) ? $svgs[$key]['eh'] : 0  }} , y: {{ isset($svgs[$key]['ph']) ? $svgs[$key]['ph'] : 0  }} },
                             @endforeach
                         @endif
                     ],
