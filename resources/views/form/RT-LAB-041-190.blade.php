@@ -203,10 +203,10 @@
                                               </p>
                                               <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 12px; margin-bottom: 12px;">&nbsp;</p>
                                               <p class="font-bold">
-                                                  {{ number_format($svgs['row_' . ($i)]['ph'], 1, ",", ".") }}
+                                                  {{ isset($svgs['row_' . ($i)]['ph']) ? number_format($svgs['row_' . ($i)]['ph'], 1, ",", ".") : '' }}
                                               </p>
                                               <p class="font-bold">
-                                                  {{ number_format($svgs['row_' . ($i)]['eh'], 0, ",", ".") }}
+                                                  {{ isset($svgs['row_' . ($i)]['eh']) ? number_format($svgs['row_' . ($i)]['eh'], 0, ",", ".") : '' }}
                                               </p>
                                           </div>
                                       @endfor
