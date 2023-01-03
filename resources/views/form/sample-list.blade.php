@@ -21,18 +21,18 @@
                     <div class="mx-1 p-3 bg-gray-100">
                         @if (isset($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] ))
                             <p>
-                                @if(isset($sample['point']))
-                                    {{ $sample['point'] }}
+                                @if(isset($formValue->values['samples']["row_$i"]['point']))
+                                    {{ $formValue->values['samples']["row_$i"]['point'] }}
                                 @endif
                             </p>
                             <p>
-                                @if(isset($sample['environment']))
-                                    {{ $sample['environment'] }}
+                                @if(isset($formValue->values['samples']["row_$i"]['environment']))
+                                    {{ $formValue->values['samples']["row_$i"]['environment'] }}
                                 @endif
                             </p>
                             <p>
-                                @if(isset($sample['collect']))
-                                    {{ Carbon\Carbon::parse($sample['collect'])->format("d/m/Y h:i") }}
+                                @if(isset($formValue->values['samples']["row_$i"]['collect']))
+                                    {{ Carbon\Carbon::parse($formValue->values['samples']["row_$i"]['collect'])->format("d/m/Y h:i") }}
                                 @endif
                             </p>
                             <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 12px; margin-bottom: 12px;">&nbsp;</p>
