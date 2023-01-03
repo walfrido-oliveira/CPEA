@@ -116,32 +116,6 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
                                     </svg>
                                 </button>
-                                <div class="block py-2 px-2" x-data="{ open: false }">
-                                    <div class="flex sm:items-center justify-end w-full">
-                                        <x-jet-dropdown align="right" width="48" contentClasses="p-0">
-                                            <x-slot name="trigger">
-                                                <button type="button" id="filter_results" class="btn-transition-primary px-1" title="Filtrar">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8 text-yellow-500">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z" />
-                                                    </svg>
-                                                </button>
-                                            </x-slot>
-
-                                            <x-slot name="content">
-                                                <button class='status-analysis-order-edit block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 bg-yellow-100 focus:outline-none focus:bg-gray-100
-                                                              transition w-full' data-status="default" id="filter_default" type="button">Dados</button>
-
-                                                <div class="border-t border-gray-100"></div>
-
-                                                <button class='status-analysis-order-edit block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 bg-green-100 focus:outline-none focus:bg-gray-100
-                                                              transition w-full' data-status="duplicate" id="filter_duplicate" type="button">Duplicatas</button>
-
-                                                <div class="border-t border-gray-100"></div>
-
-                                            </x-slot>
-                                        </x-jet-dropdown>
-                                    </div>
-                                </div>
                             </div>
                             <div class="w-full px-3 mb-6 md:mb-0 justify-end flex mt-2">
                                 <button type="button" class="btn-transition-primary edit-coordinate px-1" title="Editar Coodernada" style="margin-top: 0.2rem;">
@@ -161,6 +135,21 @@
                         @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
                             <div id="mode_table" class="w-full">
                                 <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">RESULTADOS DOS PARÂMETROS FÍSICO-QUÍMICOS - DADOS</h3>
+                                <div class="border-b border-gray-200 dark:border-gray-700">
+                                    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
+                                        <li class="mr-2">
+                                            <a href="#" data-status="default" id="filter_default" class="inline-flex p-4 border-b-2 border-green-900 rounded-t-lg  dark:text-blue-500 dark:border-blue-500 active" aria-current="page">
+                                                Dados
+                                            </a>
+                                        </li>
+                                        <li class="mr-2">
+                                            <a href="#" data-status="duplicate" id="filter_duplicate" class="inline-flex p-4 border-b-2 rounded-t-lg  dark:text-blue-500 dark:border-blue-500" >
+                                                Duplicatas
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
                                 @for ($i = 0; $i < count($formValue->values['samples']); $i++)
                                     @include('form.sample', ['sample' => $formValue->values['samples']["row_$i"]])
                                 @endfor
@@ -503,21 +492,35 @@
     <x-back-to-top element="mode_table" />
 
     <script>
-        document.getElementById("filter_default").addEventListener("click", function() {
+        document.getElementById("filter_default").addEventListener("click", function(e) {
+            e.preventDefault();
+            this.classList.add("border-green-900");
+            document.getElementById("filter_duplicate").classList.remove("border-green-900");
+
             document.querySelectorAll(".default-table, .duplicates-table").forEach(item => {
-                item.style.display = "block";
+                //item.classList.display = "block";
+                item.classList.remove("fade");
             });
+
             document.querySelectorAll(".duplicate").forEach(item => {
-                item.style.display = "none";
+                //item.style.display = "none";
+                item.classList.add("fade");
             });
         });
 
-        document.getElementById("filter_duplicate").addEventListener("click", function() {
+        document.getElementById("filter_duplicate").addEventListener("click", function(e) {
+            e.preventDefault();
+            this.classList.add("border-green-900");
+            document.getElementById("filter_default").classList.remove("border-green-900");
+
             document.querySelectorAll(".duplicates-table, .duplicate").forEach(item => {
-                item.style.display = "block";
+                //item.style.display = "block";
+                item.classList.remove("fade");
             });
+
             document.querySelectorAll(".default-table").forEach(item => {
-                item.style.display = "none";
+                //item.style.display = "none";
+                item.classList.add("fade");
             });
         });
     </script>

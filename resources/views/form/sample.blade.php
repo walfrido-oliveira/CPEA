@@ -1,3 +1,14 @@
+<style>
+    .duplicate, .duplicates-table, .default-table  {
+  opacity: 1;
+  transition: opacity 1s;
+}
+
+.duplicate.fade, .default-table.fade, .duplicates-table.fade {
+  opacity: 0;
+}
+</style>
+
 <div class="w-full px-3 mt-4 mb-6 md:mb-0 flex flex-wrap sample
             @if(isset($sample['results']))
                 @if(count(array_chunk($sample['results'], 3)) > 1) duplicates-table
@@ -227,7 +238,7 @@
                 </table>
             </div>
             @if (isset(array_chunk($sample['results'], 3)[1]))
-                <div class="w-full mt-2 duplicate" style="display: none;">
+                <div class="w-full mt-2 duplicate fade">
                     <h2 class="text-center text-white opacity-100 p-2 w-full" style="background-color: rgb(0, 94, 16)">DUPLICATA</h2>
                     <table class="table table-responsive md:table w-full">
                         <thead>
