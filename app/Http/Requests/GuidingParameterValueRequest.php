@@ -30,7 +30,7 @@ class GuidingParameterValueRequest extends FormRequest
             'guiding_parameter_ref_value_id' => ['nullable', 'exists:guiding_parameter_ref_values,id'],
             'guiding_value_id' => ['required', 'exists:guiding_values,id'],
             'unity_legislation_id' => ['required', 'exists:unities,id'],
-            'unity_analysis_id' => ['required', 'exists:unities,id'],
+            //'unity_analysis_id' => ['required', 'exists:unities,id'],
             'guiding_legislation_value' => ['string', 'nullable'],
             'guiding_legislation_value_1' => ['string', 'nullable'],
             'guiding_legislation_value_2' => ['regex:(\d+(?:,\d{1,2})?)', 'nullable'],

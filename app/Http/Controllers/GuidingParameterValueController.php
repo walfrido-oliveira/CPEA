@@ -75,9 +75,9 @@ class GuidingParameterValueController extends Controller
             'guiding_legislation_value' => $input['guiding_legislation_value'],
             'guiding_legislation_value_1' => $input['guiding_legislation_value_1'],
             'guiding_legislation_value_2' => $input['guiding_legislation_value_2'],
-            'guiding_analysis_value' => $input['guiding_analysis_value'],
-            'guiding_analysis_value_1' => $input['guiding_analysis_value_1'],
-            'guiding_analysis_value_2' => $input['guiding_analysis_value_2'],
+            //'guiding_analysis_value' => $input['guiding_analysis_value'],
+            //'guiding_analysis_value_1' => $input['guiding_analysis_value_1'],
+            //'guiding_analysis_value_2' => $input['guiding_analysis_value_2'],
         ]);
 
         $resp = [
@@ -144,9 +144,9 @@ class GuidingParameterValueController extends Controller
             'guiding_legislation_value' => $input['guiding_legislation_value'],
             'guiding_legislation_value_1' => $input['guiding_legislation_value_1'],
             'guiding_legislation_value_2' => $input['guiding_legislation_value_2'],
-            'guiding_analysis_value' => $input['guiding_analysis_value'],
-            'guiding_analysis_value_1' => $input['guiding_analysis_value_1'],
-            'guiding_analysis_value_2' => $input['guiding_analysis_value_2'],
+            //'guiding_analysis_value' => $input['guiding_analysis_value'],
+            //'guiding_analysis_value_1' => $input['guiding_analysis_value_1'],
+            //'guiding_analysis_value_2' => $input['guiding_analysis_value_2'],
         ]);
 
         $resp = [
