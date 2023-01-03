@@ -242,7 +242,7 @@
             @if (isset(array_chunk($sample['results'], 3)[1]))
                 <div class="w-full mt-2 duplicate fade">
                     <h2 class="text-center text-white opacity-100 p-2 w-full" style="background-color: rgb(0, 94, 16)">DUPLICATA</h2>
-                    <table class="table table-responsive md:table w-full" style="visibility: collapse;">
+                    <table class="table table-responsive md:table w-full">
                         <thead>
                             <tr class="thead-light">
                                 <x-table-sort-header :orderBy="null" :ascending="null" columnName="temperature" columnText="{{ __('Temperatura ºC') }}"/>
