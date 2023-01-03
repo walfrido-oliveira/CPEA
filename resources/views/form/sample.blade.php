@@ -7,6 +7,7 @@
 .duplicate.fade, .default-table.fade, .duplicates-table.fade {
   opacity: 0;
   height: 0px;
+  overflow: hidden;
 }
 </style>
 
