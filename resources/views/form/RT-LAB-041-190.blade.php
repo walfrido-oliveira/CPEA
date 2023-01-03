@@ -505,7 +505,7 @@
             document.querySelectorAll(".duplicate").forEach(item => {
                 //item.style.display = "none";
                 item.classList.add("fade");
-                document.querySelector(".duplicate table").style.visibility = "collapse";
+                //document.querySelector(".duplicate table").style.visibility = "collapse";
             });
         });
 
@@ -517,7 +517,7 @@
             document.querySelectorAll(".duplicates-table, .duplicate").forEach(item => {
                 //item.style.display = "block";
                 item.classList.remove("fade");
-                document.querySelector(".duplicate table").style.visibility = "visible";
+                //document.querySelector(".duplicate table").style.visibility = "visible";
             });
 
             document.querySelectorAll(".default-table").forEach(item => {
