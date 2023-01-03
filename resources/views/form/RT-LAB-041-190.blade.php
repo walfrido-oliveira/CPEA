@@ -82,65 +82,51 @@
                     </div>
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4" id="samples">
-                        <div class="flex w-full">
+                        <div class="flex w-full flex-wrap">
                             <h2 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">AMOSTRAS</h2>
                             <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 flex justify-end align-baseline" style="align-items: baseline;">
-                                <button type="button" id="view_table" class="btn-transition-primary px-1" title="Modo de visualização em tabela de edição">
+                                <button type="button" id="view_table" class="btn-transition-primary px-1" title="TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - DADOS">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8 text-green-900">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M3.375 19.5h17.25m-17.25 0a1.125 1.125 0 01-1.125-1.125M3.375 19.5h7.5c.621 0 1.125-.504 1.125-1.125m-9.75 0V5.625m0 12.75v-1.5c0-.621.504-1.125 1.125-1.125m18.375 2.625V5.625m0 12.75c0 .621-.504 1.125-1.125 1.125m1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125m0 3.75h-7.5A1.125 1.125 0 0112 18.375m9.75-12.75c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125m19.5 0v1.5c0 .621-.504 1.125-1.125 1.125M2.25 5.625v1.5c0 .621.504 1.125 1.125 1.125m0 0h17.25m-17.25 0h7.5c.621 0 1.125.504 1.125 1.125M3.375 8.25c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125m17.25-3.75h-7.5c-.621 0-1.125.504-1.125 1.125m8.625-1.125c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125M12 10.875v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 10.875c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125M13.125 12h7.5m-7.5 0c-.621 0-1.125.504-1.125 1.125M20.625 12c.621 0 1.125.504 1.125 1.125v1.5c0 .621-.504 1.125-1.125 1.125m-17.25 0h7.5M12 14.625v-1.5m0 1.5c0 .621-.504 1.125-1.125 1.125M12 14.625c0 .621.504 1.125 1.125 1.125m-2.25 0c.621 0 1.125.504 1.125 1.125m0 1.5v-1.5m0 0c0-.621.504-1.125 1.125-1.125m0 0h7.5" />
                                     </svg>
                                 </button>
-                                <button type="button" id="view_list" class="btn-transition-primary px-1" title="Modo de visualização em lista">
+                                <button type="button" id="view_list" class="btn-transition-primary px-1" title="RESULTADOS DOS PARÂMETROS FÍSICO-QUÍMICOS - FINAL">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8 text-blue-900">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                                     </svg>
                                 </button>
-                                <button type="button" id="view_sample_table" class="btn-transition-primary px-1" title="Modo de visualização em tabela">
+                                <button type="button" id="view_sample_table" class="btn-transition-primary px-1" title="RESULTADOS DOS PARÂMETROS FÍSICO-QUÍMICOS - RELATÓRIO">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8 text-green-900">
                                       <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
                                     </svg>
                                 </button>
-                                <button type="button" id="view_chart" class="btn-transition-primary px-1" title="Visualizar Gráfico">
+                                <button type="button" id="view_chart" class="btn-transition-primary px-1" title="GRÁFICO pH x EH">
                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8 text-blue-500">
                                       <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5m.75-9l3-3 2.148 2.148A12.061 12.061 0 0116.5 7.605" />
                                     </svg>
                                 </button>
-                                <div class="block py-2 px-2" x-data="{ open: false }">
-                                    <div class="flex sm:items-center justify-end w-full">
-                                        <x-jet-dropdown align="right" width="48" contentClasses="p-0">
-                                            <x-slot name="trigger">
-                                                <button type="button" id="filter_results" class="btn-transition-primary px-1" title="Filtrar">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8 text-yellow-500">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 3c2.755 0 5.455.232 8.083.678.533.09.917.556.917 1.096v1.044a2.25 2.25 0 01-.659 1.591l-5.432 5.432a2.25 2.25 0 00-.659 1.591v2.927a2.25 2.25 0 01-1.244 2.013L9.75 21v-6.568a2.25 2.25 0 00-.659-1.591L3.659 7.409A2.25 2.25 0 013 5.818V4.774c0-.54.384-1.006.917-1.096A48.32 48.32 0 0112 3z" />
-                                                    </svg>
-                                                </button>
-                                            </x-slot>
-
-                                            <x-slot name="content">
-                                                <button class='status-analysis-order-edit block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 bg-yellow-100 focus:outline-none focus:bg-gray-100
-                                                              transition w-full' data-status="default" id="filter_default" type="button">Dados</button>
-
-                                                <div class="border-t border-gray-100"></div>
-
-                                                <button class='status-analysis-order-edit block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 bg-green-100 focus:outline-none focus:bg-gray-100
-                                                              transition w-full' data-status="duplicate" id="filter_duplicate" type="button">Duplicatas</button>
-
-                                                <div class="border-t border-gray-100"></div>
-
-                                            </x-slot>
-                                        </x-jet-dropdown>
-                                    </div>
-                                </div>
-                                <input type="file" name="file_coordinates" id="file_coordinates" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.ms-excel" class="hidden">
-                                <button type="button" class="btn-transition-primary import-sample-coordinates px-1 ml-4" title="Importar Coodernadas">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-wiph="1.5" stroke="currentColor" class="h-8 w-8 text-blue-900">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15" />
-                                    </svg>
-                                </button>
-                                <button type="button" class="btn-transition-primary coordinates px-1" id="view_coordinates" title="Visualizar Coodernadas">
+                                <button type="button" class="btn-transition-primary coordinates px-1" id="view_coordinates" title="COORDENADAS">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8 text-blue-900">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                                    </svg>
+                                </button>
+                                <button type="button" id="view_considerations" class="btn-transition-primary px-1" title="CONSIDERAÇÕES">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-gray-500">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="w-full px-3 mb-6 md:mb-0 justify-end flex mt-2">
+                                <button type="button" class="btn-transition-primary edit-coordinate px-1" title="Editar Coodernada" style="margin-top: 0.2rem;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-wiph="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                    </svg>
+                                </button>
+                                <input type="file" name="file_coordinates" id="file_coordinates" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.ms-excel" class="hidden">
+                                <button type="button" class="btn-transition-primary import-sample-coordinates px-1" title="Importar Coodernadas">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-wiph="1.5" stroke="currentColor" class="h-8 w-8 text-blue-900">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15" />
                                     </svg>
                                 </button>
                             </div>
@@ -148,11 +134,13 @@
 
                         @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
                             <div id="mode_table" class="w-full">
+                                <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">RESULTADOS DOS PARÂMETROS FÍSICO-QUÍMICOS - DADOS</h3>
                                 @for ($i = 0; $i < count($formValue->values['samples']); $i++)
                                     @include('form.sample', ['sample' => $formValue->values['samples']["row_$i"]])
                                 @endfor
                             </div>
-                            <div id="mode_list">
+                            <div id="mode_list" class="w-full">
+                                <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - FINAL</h3>
                                 @foreach (array_chunk($formValue->values['samples'], 3) as $sampleArray)
                                     <div class="flex flex-wrap mt-2 w-full mode-list default-table">
                                         <div class="flex flex-wrap mt-2 w-full">
@@ -178,12 +166,14 @@
                                     </div>
                                 @endforeach
                             </div>
-                            <div id="mode_sample_table">
+                            <div id="mode_sample_table" class="w-full">
+                                <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - RELATÓRIO</h3>
                                 @for ($i = 0; $i < count($formValue->values['samples']); $i++)
                                     @include('form.sample-table', ['sample' => $formValue->values['samples']["row_$i"]])
                                 @endfor
                             </div>
                             <div class="block w-full" id="chart">
+                              <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">GRÁFICO pH x EH</h3>
                               <div class="mt-3 text-center sm:mt-0 sm:text-left w-full">
                                   <canvas id="myChart" width="800" height="400" style="display: block; box-sizing: border-box; height: 400px; width: 800px; max-height: 400px"></canvas>
                               </div>
@@ -201,7 +191,7 @@
                                               <p>
                                                   {{ $sample[$i]['point'] }}
                                               </p>
-                                              <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 12px; margin-bottom: 12px;">&nbsp;</p>
+                                              <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 8px; margin-bottom: 8px; height: 8px">&nbsp;</p>
                                               <p class="font-bold">
                                                   {{ isset($svgs['row_' . ($i)]['ph']) ? number_format($svgs['row_' . ($i)]['ph'], 1, ",", ".") : '' }}
                                               </p>
@@ -221,20 +211,23 @@
 
                     @include('form.coordinates-table')
 
-                </div>
+                    <div class="flex flex-wrap mt-2 w-full flex-col" id="mode_considerations" style="display: none">
+                        <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">CONSIDERAÇÕES</h3>
+                        <div class="flex flex-wrap mt-4">
+                            <div class="w-full px-3 mb-6 md:mb-0">
+                                <x-jet-label for="additional_info" value="{{ __('Informações Adicionais') }}" />
+                                <textarea class="editor form-input w-full ckeditor" name="additional_info" id="additional_info" cols="30" rows="10">{{ isset($formValue->values['additional_info']) ? $formValue->values['additional_info'] : null }}</textarea>
+                            </div>
+                        </div>
 
-                <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                    <div class="w-full px-3 mb-6 md:mb-0">
-                        <x-jet-label for="additional_info" value="{{ __('Informações Adicionais') }}" />
-                        <textarea class="editor form-input w-full ckeditor" name="additional_info" id="additional_info" cols="30" rows="10">{{ isset($formValue->values['additional_info']) ? $formValue->values['additional_info'] : null }}</textarea>
+                        <div class="flex flex-wrap mt-4">
+                            <div class="w-full px-3 mb-6 md:mb-0">
+                                <x-jet-label for="approval_text" value="{{ __('Aprovação do Relatório') }}" />
+                                <textarea class="form-input w-full ckeditor" name="approval_text" id="approval_text" cols="30" rows="10">{{ isset($formValue->values['approval_text']) ? $formValue->values['approval_text'] : null }}</textarea>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                    <div class="w-full px-3 mb-6 md:mb-0">
-                        <x-jet-label for="approval_text" value="{{ __('Aprovação do Relatório') }}" />
-                        <textarea class="form-input w-full ckeditor" name="approval_text" id="approval_text" cols="30" rows="10">{{ isset($formValue->values['approval_text']) ? $formValue->values['approval_text'] : null }}</textarea>
-                    </div>
                 </div>
             </form>
         </div>
@@ -530,6 +523,10 @@
                 item.style.display = "none";
             });
 
+            document.querySelectorAll("#mode_considerations").forEach(item => {
+                item.style.display = "none";
+            });
+
             localStorage.setItem("view_mode", "view_table");
         });
 
@@ -551,6 +548,10 @@
             });
 
             document.querySelectorAll("#mode_coordinates_table").forEach(item => {
+                item.style.display = "none";
+            });
+
+            document.querySelectorAll("#mode_considerations").forEach(item => {
                 item.style.display = "none";
             });
 
@@ -578,6 +579,10 @@
                 item.style.display = "none";
             });
 
+            document.querySelectorAll("#mode_considerations").forEach(item => {
+                item.style.display = "none";
+            });
+
             localStorage.setItem("view_mode", "view_sample_table");
         });
 
@@ -599,6 +604,10 @@
             });
 
             document.querySelectorAll("#mode_coordinates_table").forEach(item => {
+                item.style.display = "none";
+            });
+
+            document.querySelectorAll("#mode_considerations").forEach(item => {
                 item.style.display = "none";
             });
 
@@ -627,7 +636,40 @@
                 item.style.display = "block";
             });
 
+            document.querySelectorAll("#mode_considerations").forEach(item => {
+                item.style.display = "none";
+            });
+
             localStorage.setItem("view_mode", "view_coordinates");
+
+        });
+
+        document.getElementById("view_considerations").addEventListener("click", function() {
+          document.querySelectorAll("#mode_table").forEach(item => {
+                item.style.display = "none";
+            });
+
+            document.querySelectorAll("#mode_sample_table").forEach(item => {
+                item.style.display = "none";
+            });
+
+            document.querySelectorAll("#mode_list").forEach(item => {
+                item.style.display = "none";
+            });
+
+            document.querySelectorAll("#chart").forEach(item => {
+                item.style.display = "none";
+            });
+
+            document.querySelectorAll("#mode_coordinates_table").forEach(item => {
+                item.style.display = "none";
+            });
+
+            document.querySelectorAll("#mode_considerations").forEach(item => {
+                item.style.display = "block";
+            });
+
+            localStorage.setItem("view_mode", "view_considerations");
 
         });
     </script>

@@ -46,7 +46,7 @@
         ];
     @endphp
 
-    <div class="flex flex-wrap mt-2 w-full flex-col mode-sample-table">
+    <div class="flex flex-wrap mt-2 w-full flex-col mode-sample-table px-3">
         <div class="border-2 my-2">
             <table class="table table-responsive md:table w-full">
                 <thead>
