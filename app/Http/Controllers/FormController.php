@@ -348,19 +348,19 @@ class FormController extends Controller
         if(isset($input['samples'][$input['sample_index']]['results']))
         {
             foreach ($input['samples'][$input['sample_index']]['results']  as $key => $value) {
-                $samples['samples'][$input['sample_index']]['results'][$key]['temperature'] = $value['temperature'];
-                $samples['samples'][$input['sample_index']]['results'][$key]['ph'] = $value['ph'];
+                $samples['samples'][$input['sample_index']]['results'][$key]['temperature'] = isset($value['temperature']) ? $value['temperature'] : null;
+                $samples['samples'][$input['sample_index']]['results'][$key]['ph'] = isset($value['ph']) ? $value['ph'] : null;
                 $samples['samples'][$input['sample_index']]['results'][$key]['eh'] = isset($value['eh']) ? $value['eh'] : null;
-                $samples['samples'][$input['sample_index']]['results'][$key]['orp'] = $value['orp'];
-                $samples['samples'][$input['sample_index']]['results'][$key]['conductivity'] = $value['conductivity'];
-                $samples['samples'][$input['sample_index']]['results'][$key]['salinity'] = $value['salinity'];
-                $samples['samples'][$input['sample_index']]['results'][$key]['psi'] = $value['psi'];
-                $samples['samples'][$input['sample_index']]['results'][$key]['sat'] = $value['sat'];
-                $samples['samples'][$input['sample_index']]['results'][$key]['conc'] = $value['conc'];
+                $samples['samples'][$input['sample_index']]['results'][$key]['orp'] = isset($value['orp']) ? $value['orp'] : null;
+                $samples['samples'][$input['sample_index']]['results'][$key]['conductivity'] = isset($value['conductivity']) ? $value['conductivity'] : null;
+                $samples['samples'][$input['sample_index']]['results'][$key]['salinity'] = isset($value['salinity']) ? $value['salinity'] : null;
+                $samples['samples'][$input['sample_index']]['results'][$key]['psi'] = isset($value['psi']) ? $value['psi'] : null;
+                $samples['samples'][$input['sample_index']]['results'][$key]['sat'] = isset($value['sat']) ? $value['sat'] : null;
+                $samples['samples'][$input['sample_index']]['results'][$key]['conc'] = isset($value['conc']) ? $value['conc'] : null;
 
                 $samples['samples'][$input['sample_index']]['results'][$key]['eh'] = isset($value['eh']) ? $value['eh'] : null;
-                $samples['samples'][$input['sample_index']]['results'][$key]['ntu'] = $value['ntu'];
-                $samples['samples'][$input['sample_index']]['results'][$key]['uncertainty'] = $value['uncertainty'];
+                $samples['samples'][$input['sample_index']]['results'][$key]['ntu'] = isset($value['ntu']) ? $value['ntu'] : null;
+                $samples['samples'][$input['sample_index']]['results'][$key]['uncertainty'] = isset($value['uncertainty']) ? $value['uncertainty'] : null;
             }
         }
 
