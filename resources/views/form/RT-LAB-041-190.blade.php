@@ -117,10 +117,15 @@
                                     </svg>
                                 </button>
                             </div>
-                            <div class="w-full px-3 mb-6 md:mb-0 justify-end flex mt-2">
+                            <div class="w-full px-3 mb-6 md:mb-0 justify-end flex mt-2" id="coodinates_button" style="display: none;">
                                 <button type="button" class="btn-transition-primary edit-coordinate px-1" title="Editar Coodernada" style="margin-top: 0.2rem;">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-wiph="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                    </svg>
+                                </button>
+                                <button type="button" class="btn-transition-primary save-coordinate px-1" title="Salvar Coodernada" style="display: none">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-8 w-8">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-wiph="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                     </svg>
                                 </button>
                                 <input type="file" name="file_coordinates" id="file_coordinates" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.ms-excel" class="hidden">
@@ -156,30 +161,19 @@
                             </div>
                             <div id="mode_list" class="w-full">
                                 <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - FINAL</h3>
-                                @foreach (array_chunk($formValue->values['samples'], 3) as $sampleArray)
-                                    <div class="flex flex-wrap mt-2 w-full mode-list default-table">
-                                        <div class="flex flex-wrap mt-2 w-full">
-                                            <div class="mx-1 p-3">
-                                                <p class="font-bold">{{ __('Ponto de Coleta') }}</p>
-                                                <p class="font-bold">{{ __('Condições ambientais nas últimas 24 hs') }}</p>
-                                                <p class="font-bold">{{ __('DT/HR da Coleta') }}</p>
-                                                <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 12px; margin-bottom: 12px;">&nbsp;</p>
-                                                <p class="font-bold">{{ __('Temperatura ºC') }}</p>
-                                                <p class="font-bold">{{ __('pH') }}</p>
-                                                <p class="font-bold">{{ __('ORP (mV)') }}</p>
-                                                <p class="font-bold">{{ __('Condutividade') }}</p>
-                                                <p class="font-bold">{{ __('Salinidade') }}</p>
-                                                <p class="font-bold">{{ __('Oxigênio Dissolvido (sat) (%)') }}</p>
-                                                <p class="font-bold">{{ __('Oxigênio Dissolvido (conc) (mg/L)') }}</p>
-                                                <p class="font-bold">{{ __('EH (mV)') }}</p>
-                                                <p class="font-bold">{{ __('Turbidez (NTU)') }}</p>
-                                            </div>
-                                            @for ($i = 0; $i < count($sampleArray); $i++)
-                                                @if(isset($sampleArray[$i]['results'])) @include('form.sample-list', ['sample' => $sampleArray[$i]]) @endif
-                                            @endfor
+                                <div id="sample_list_container">
+                                    @include('form.sample-list', ['count' => 3])
+                                </div>
+
+                                <div class="w-5/6 items-center flex">
+                                    <p class="text-sm text-gray-700 leading-5 m-0 inline-flex">
+                                        Mostrando
+                                        <div class="w-24 inline-flex ml-1 mr-1">
+                                            <x-custom-select data-reverse="true" select-class="no-nice-select" :options="[3 => 3, 5 => 5, 10 => 10]" name="mode_list_count" id="mode_list_count" :value="3"/>
                                         </div>
-                                    </div>
-                                @endforeach
+                                        <span class="text-sm text-gray-700 leading-5 m-0 inline-flex">colunas por linha</span>
+                                    </p>
+                                </div>
                             </div>
                             <div id="mode_sample_table" class="w-full">
                                 <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - RELATÓRIO</h3>
@@ -197,7 +191,7 @@
                                   <div class="grid mt-4 w-full" style="grid-template-columns: repeat(6, 1fr);">
                                       <div class="mx-1 p-3">
                                           <p class="font-bold">{{ __('Ponto de Coleta') }}</p>
-                                          <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 12px; margin-bottom: 12px;">&nbsp;</p>
+                                          <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: -18px; margin-bottom: 12px;">&nbsp;</p>
                                           <p class="font-bold">{{ __('pH') }}</p>
                                           <p class="font-bold">{{ __('EH (mV)') }}</p>
                                       </div>
@@ -206,7 +200,7 @@
                                               <p>
                                                   {{ $sample[$i]['point'] }}
                                               </p>
-                                              <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 8px; margin-bottom: 8px; height: 8px">&nbsp;</p>
+                                              <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 3px; margin-bottom: 4px; height: 3px">&nbsp;</p>
                                               <p class="font-bold">
                                                   {{ isset($svgs['row_' . ($i)]['ph']) ? number_format($svgs['row_' . ($i)]['ph'], 1, ",", ".") : '' }}
                                               </p>
@@ -498,14 +492,11 @@
             document.getElementById("filter_duplicate").classList.remove("border-green-900");
 
             document.querySelectorAll(".default-table, .duplicates-table").forEach(item => {
-                //item.classList.display = "block";
                 item.classList.remove("fade");
             });
 
             document.querySelectorAll(".duplicate").forEach(item => {
-                //item.style.display = "none";
                 item.classList.add("fade");
-                //document.querySelector(".duplicate table").style.visibility = "collapse";
             });
         });
 
@@ -515,13 +506,10 @@
             document.getElementById("filter_default").classList.remove("border-green-900");
 
             document.querySelectorAll(".duplicates-table, .duplicate").forEach(item => {
-                //item.style.display = "block";
                 item.classList.remove("fade");
-                //document.querySelector(".duplicate table").style.visibility = "visible";
             });
 
             document.querySelectorAll(".default-table").forEach(item => {
-                //item.style.display = "none";
                 item.classList.add("fade");
             });
         });
@@ -558,6 +546,10 @@
                 item.style.display = "none";
             });
 
+            document.querySelectorAll("#coodinates_button").forEach(item => {
+                item.style.display = "none";
+            });
+
             localStorage.setItem("view_mode", "view_table");
         });
 
@@ -583,6 +575,10 @@
             });
 
             document.querySelectorAll("#mode_considerations").forEach(item => {
+                item.style.display = "none";
+            });
+
+            document.querySelectorAll("#coodinates_button").forEach(item => {
                 item.style.display = "none";
             });
 
@@ -614,6 +610,10 @@
                 item.style.display = "none";
             });
 
+            document.querySelectorAll("#coodinates_button").forEach(item => {
+                item.style.display = "none";
+            });
+
             localStorage.setItem("view_mode", "view_sample_table");
         });
 
@@ -639,6 +639,10 @@
             });
 
             document.querySelectorAll("#mode_considerations").forEach(item => {
+                item.style.display = "none";
+            });
+
+            document.querySelectorAll("#coodinates_button").forEach(item => {
                 item.style.display = "none";
             });
 
@@ -671,6 +675,10 @@
                 item.style.display = "none";
             });
 
+            document.querySelectorAll("#coodinates_button").forEach(item => {
+                item.style.display = "flex";
+            });
+
             localStorage.setItem("view_mode", "view_coordinates");
 
         });
@@ -700,9 +708,102 @@
                 item.style.display = "block";
             });
 
+            document.querySelectorAll("#coodinates_button").forEach(item => {
+                item.style.display = "none";
+            });
+
             localStorage.setItem("view_mode", "view_considerations");
 
         });
+    </script>
+
+    <script>
+        document.getElementById("mode_list_count").addEventListener("change", function() {
+            document.getElementById("spin_load").classList.remove("hidden");
+            let ajax = new XMLHttpRequest();
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let form_value_id = document.querySelector(`#form_value_id`).value;
+            let count = this.value;
+            let url = "{!! route('fields.forms.get-sample-list', ['form_value' => '#', 'count' => '?']) !!}".replace('#', form_value_id).replace('?', count);
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    document.getElementById("sample_list_container").innerHTML = resp.viwer;
+                    document.getElementById("spin_load").classList.add("hidden");
+
+                } else if(this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                    that.value = '';
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('id', form_value_id);
+            data.append('count', count);
+
+            ajax.send(data);
+        });
+    </script>
+
+    <script>
+        document.querySelectorAll(".edit-coordinate").forEach(item =>{
+            item.addEventListener("click", function() {
+                item.nextElementSibling.style.display = "inline-block";
+                item.style.display = "none";
+                document.querySelectorAll(`#table_coordinates input`).forEach(item => {
+                    item.readOnly = false;
+                });
+            });
+        });
+
+        document.querySelectorAll(".save-coordinate").forEach(item =>{
+            item.addEventListener("click", function() {
+                saveCoordinate(this)
+            });
+        });
+
+        function saveCoordinate(that) {
+            document.getElementById("spin_load").classList.remove("hidden");
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('fields.forms.save-coordinate') !!}";
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let form_value_id = document.querySelector(`#form_value_id`).value;
+
+            const results = [...document.querySelectorAll(`#table_coordinates input`)];
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    toastr.success(resp.message);
+                    location.reload();
+                } else if(this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                    that.value = '';
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('form_value_id', form_value_id);
+
+            results.forEach(element => {
+                data.append(element.name, element.value);
+            });
+
+            ajax.send(data);
+        }
     </script>
 
     <script>
@@ -718,11 +819,11 @@
 
         document.querySelectorAll(".save-sample").forEach(item =>{
             item.addEventListener("click", function() {
-                save(this)
+                saveSample(this)
             });
         });
 
-        function save(that) {
+        function saveSample(that) {
             document.getElementById("spin_load").classList.remove("hidden");
             let ajax = new XMLHttpRequest();
             let url = "{!! route('fields.forms.save-sample') !!}";

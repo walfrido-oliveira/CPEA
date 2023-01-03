@@ -24,14 +24,27 @@
                     </th>
                 </tr>
             </thead>
+
             <tbody id="table_coordinates">
                 @if(isset($formValue->values['coordinates']))
-                    @foreach ($formValue->values['coordinates'] as $coordinate)
+                    @foreach ($formValue->values['coordinates'] as $key => $coordinate)
                         <tr>
-                            <td>{{ isset($coordinate['point']) ? $coordinate['point'] : '' }}</td>
-                            <td>{{ isset($coordinate['zone']) ?$coordinate['zone'] : '' }}</td>
-                            <td>{{ isset($coordinate['me']) ? $coordinate['me'] : '' }}</td>
-                            <td>{{ isset($coordinate['mn']) ? $coordinate['mn'] : '' }}</td>
+                            <td>
+                                <x-jet-input readonly="true" id="point" class="form-control block mt-1 w-full" type="text" value="{{ isset($coordinate['point']) ? $coordinate['point'] : '' }}"
+                                             name="{{ 'coordinates[' . $key . '][point]' }}" />
+                            </td>
+                            <td>
+                                <x-jet-input readonly="true" id="point" class="form-control block mt-1 w-full" type="text" value="{{ isset($coordinate['zone']) ? $coordinate['zone'] : '' }}"
+                                             name="{{ 'coordinates[' . $key . '][zone]' }}"/>
+                            </td>
+                            <td>
+                                <x-jet-input readonly="true" id="point" class="form-control block mt-1 w-full" type="text" value="{{ isset($coordinate['me']) ? $coordinate['me'] : '' }}"
+                                             name="{{ 'coordinates[' . $key . '][me]' }}"/>
+                            </td>
+                            <td>
+                                <x-jet-input readonly="true" id="point" class="form-control block mt-1 w-full" type="text" value="{{ isset($coordinate['mn']) ? $coordinate['mn'] : '' }}"
+                                             name="{{ 'coordinates[' . $key . '][mn]' }}"/>
+                            </td>
                         </tr>
                     @endforeach
                 @endif

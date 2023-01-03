@@ -308,8 +308,10 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::post('/filter', [FormController::class, 'filter'])->name('filter');
             Route::post('/import', [FormController::class, 'importResults'])->name('import');
             Route::post('/import-coordinates', [FormController::class, 'importCoordinates'])->name('import-coordinates');
+            Route::post('/save-coordinate', [FormController::class, 'saveCoordinate'])->name('save-coordinate');
             Route::post('/save-sample', [FormController::class, 'saveSample'])->name('save-sample');
             Route::post('/delete-sample', [FormController::class, 'deleteSample'])->name('delete-sample');
+            Route::post('/get-sample-list/{form_value}/{count}', [FormController::class, 'getSampleList'])->name('get-sample-list');
         });
 
         Route::resource('referencias', RefController::class, [
