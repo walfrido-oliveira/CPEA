@@ -66,7 +66,7 @@
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full px-3 mb-6 md:mb-0">
                             <x-jet-label for="matrix" value="{{ __('Matriz') }}" />
-                            <x-jet-input  id="matrix" class="form-control block mt-1 w-full" type="text" value="{{ isset($formValue) ? $formValue->values['matrix'] : $form->name }}" name="matrix" maxlength="255" />
+                            <x-jet-input  id="matrix" class="form-control block mt-1 w-full" type="text" value="{{ isset($formValue) ? $formValue->values['matrix'] : $form->fieldType->name }}" name="matrix" maxlength="255" />
                         </div>
                     </div>
 
@@ -114,24 +114,6 @@
                                 <button type="button" id="view_considerations" class="btn-transition-primary px-1" title="CONSIDERAÇÕES">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-gray-500">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
-                                    </svg>
-                                </button>
-                            </div>
-                            <div class="w-full px-3 mb-6 md:mb-0 justify-end flex mt-2" id="coodinates_button" style="display: none;">
-                                <button type="button" class="btn-transition-primary edit-coordinate px-1" title="Editar Coodernada" style="margin-top: 0.2rem;">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-wiph="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
-                                    </svg>
-                                </button>
-                                <button type="button" class="btn-transition-primary save-coordinate px-1" title="Salvar Coodernada" style="display: none">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-8 w-8">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-wiph="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                </button>
-                                <input type="file" name="file_coordinates" id="file_coordinates" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.ms-excel" class="hidden">
-                                <button type="button" class="btn-transition-primary import-sample-coordinates px-1" title="Importar Coodernadas">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-wiph="1.5" stroke="currentColor" class="h-8 w-8 text-blue-900">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15" />
                                     </svg>
                                 </button>
                             </div>
@@ -193,7 +175,9 @@
                     @include('form.coordinates-table')
 
                     <div class="flex flex-wrap mt-2 w-full flex-col" id="mode_considerations" style="display: none">
-                        <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">CONSIDERAÇÕES</h3>
+                        <div class="w-full px-3 mb-6 md:mb-0 justify-end flex mt-2" id="coodinates_button">
+                            <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">CONSIDERAÇÕES</h3>
+                        </div>
                         <div class="flex flex-wrap mt-4">
                             <div class="w-full px-3 mb-6 md:mb-0">
                                 <x-jet-label for="additional_info" value="{{ __('Informações Adicionais') }}" />
@@ -219,7 +203,7 @@
         <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" style="max-width: 35rem;">
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="sm:flex sm:items-start">
                         <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 sm:mx-0 sm:h-10 sm:w-10">
@@ -518,10 +502,6 @@
                 item.style.display = "none";
             });
 
-            document.querySelectorAll("#coodinates_button").forEach(item => {
-                item.style.display = "none";
-            });
-
             localStorage.setItem("view_mode", "view_table");
         });
 
@@ -547,10 +527,6 @@
             });
 
             document.querySelectorAll("#mode_considerations").forEach(item => {
-                item.style.display = "none";
-            });
-
-            document.querySelectorAll("#coodinates_button").forEach(item => {
                 item.style.display = "none";
             });
 
@@ -582,10 +558,6 @@
                 item.style.display = "none";
             });
 
-            document.querySelectorAll("#coodinates_button").forEach(item => {
-                item.style.display = "none";
-            });
-
             localStorage.setItem("view_mode", "view_sample_table");
         });
 
@@ -611,10 +583,6 @@
             });
 
             document.querySelectorAll("#mode_considerations").forEach(item => {
-                item.style.display = "none";
-            });
-
-            document.querySelectorAll("#coodinates_button").forEach(item => {
                 item.style.display = "none";
             });
 
@@ -647,10 +615,6 @@
                 item.style.display = "none";
             });
 
-            document.querySelectorAll("#coodinates_button").forEach(item => {
-                item.style.display = "flex";
-            });
-
             localStorage.setItem("view_mode", "view_coordinates");
 
         });
@@ -678,10 +642,6 @@
 
             document.querySelectorAll("#mode_considerations").forEach(item => {
                 item.style.display = "block";
-            });
-
-            document.querySelectorAll("#coodinates_button").forEach(item => {
-                item.style.display = "none";
             });
 
             localStorage.setItem("view_mode", "view_considerations");
