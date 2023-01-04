@@ -231,9 +231,10 @@ class AnalysisResultController extends Controller
 
       $sheet = $spreadsheet->getActiveSheet();
 
-      $branch = count($campaign->analysisResults) > 0 ? $campaign->analysisResults[0]->batch : null;
-      $labsampid = count($campaign->analysisResults) > 0 ? $campaign->analysisResults[0]->labsampid : null;
-      $dataCollection = count($campaign->projectPointMatrices) > 0 ? $campaign->projectPointMatrices[0]->date_collection : null;
+      $result = $campaign->analysisResults()->where('samplename', $sampleValue)->first();
+      $branch = count($campaign->analysisResults) > 0 ? $result->batch : null;
+      $labsampid = count($campaign->analysisResults) > 0 ? $result->labsampid : null;
+      $dataCollection = count($campaign->projectPointMatrices) > 0 ? $result->projectPointMatrix->date_collection : null;
 
       $sheet->setCellValueByColumnAndRow(1, 1, $sampleValue);
       $sheet->getStyleByColumnAndRow(1, 1)->getFont()->setBold(true);
