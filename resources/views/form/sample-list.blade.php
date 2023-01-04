@@ -5,7 +5,7 @@
                 <p class="font-bold">{{ __('Ponto de Coleta') }}</p>
                 <p class="font-bold">{{ __('Condições ambientais nas últimas 24 hs') }}</p>
                 <p class="font-bold">{{ __('DT/HR da Coleta') }}</p>
-                <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 12px; margin-bottom: 12px;"> &nbsp;</p>
+                <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 3px; margin-bottom: 4px; height: 3px">&nbsp;</p>
                 <p class="font-bold">{{ __('Temperatura ºC') }}</p>
                 <p class="font-bold">{{ __('pH') }}</p>
                 <p class="font-bold">{{ __('ORP (mV)') }}</p>
@@ -35,7 +35,7 @@
                                     {{ Carbon\Carbon::parse($formValue->values['samples']["row_$i"]['collect'])->format("d/m/Y h:i") }}
                                 @endif
                             </p>
-                            <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 12px; margin-bottom: 12px;">&nbsp;</p>
+                            <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 3px; margin-bottom: 4px; height: 3px">&nbsp;</p>
                             <p class="font-bold">
                                 {{ number_format($svgs['row_' . ($i)]['temperature'], 2, ",", ".") }}
                             </p>
