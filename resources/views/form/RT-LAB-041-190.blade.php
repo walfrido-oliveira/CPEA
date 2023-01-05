@@ -982,6 +982,7 @@
             clone.innerHTML = clone.innerHTML.replaceAll(`row_${num-1}`, `row_${num}`);
             clone.innerHTML = clone.innerHTML.replaceAll(`sample_${num-1}`, `sample_${num}`);
             clone.innerHTML = clone.innerHTML.replaceAll(`AMOSTRA <span>${num-1}</span>`, `AMOSTRA <span>${num}</span>`);
+            clone.innerHTML = clone.innerHTML.replaceAll(`readonly="1"`, ``);
 
             clone.querySelectorAll("#table_result tr").forEach(item => {
                 item.remove();
@@ -1035,7 +1036,7 @@
 
             document.querySelectorAll(`#${id} .save-sample`).forEach(item =>{
                 item.addEventListener("click", function() {
-                    save(this)
+                    saveSample(this)
                 });
             });
 
