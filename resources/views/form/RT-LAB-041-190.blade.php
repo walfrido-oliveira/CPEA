@@ -137,9 +137,9 @@
                                     </ul>
                                 </div>
 
-                                @for ($i = 0; $i < count($formValue->values['samples']); $i++)
-                                  @if(isset($formValue->values['samples']["row_$i"])) @include('form.sample', ['sample' => $formValue->values['samples']["row_$i"]]) @endif
-                                @endfor
+                                @foreach ($formValue->values['samples'] as $sample)
+                                    @include('form.sample', ['sample' => $sample])
+                                @endforeach
                             </div>
                             <div id="mode_list" class="w-full" style="display: none">
                                 <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - FINAL</h3>
