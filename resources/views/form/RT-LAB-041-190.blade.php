@@ -138,7 +138,7 @@
                                 </div>
 
                                 @foreach ($formValue->values['samples'] as $key => $sample)
-                                    @include('form.sample', ['sample' => $sample, 'i' => Str::replace($key, 'row_')])
+                                    @include('form.sample', ['sample' => $sample, 'i' => Str::replace('row_', '', $key)])
                                 @endforeach
                             </div>
                             <div id="mode_list" class="w-full" style="display: none">
