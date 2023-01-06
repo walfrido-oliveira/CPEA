@@ -1,16 +1,3 @@
-<style>
-    .duplicate, .duplicates-table, .default-table  {
-  opacity: 1;
-  transition: opacity 1s;
-}
-
-.duplicate.fade, .default-table.fade, .duplicates-table.fade {
-  opacity: 0;
-  height: 0px;
-  overflow: hidden;
-}
-</style>
-
 <div class="w-full px-3 mt-4 mb-6 md:mb-0 flex flex-wrap sample
             @if(isset($sample['results']))
                 @if(count(array_chunk($sample['results'], 3)) > 1) duplicates-table
@@ -19,7 +6,7 @@
             @else
             default-table
             @endif"
-            id="sample_{{ isset($i) ? $i : 0 }}" data-index="1">
+            id="sample_{{ isset($i) ? $i : 0 }}">
     <div class="flex w-full">
         <h3 class="w-full mt-4 mb-6 md:mb-0 title">AMOSTRA <span>{{ isset($i) ? $i + 1 : 1 }}</span></h3>
         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 flex justify-end align-baseline buttons" style="align-items: baseline;">
@@ -35,7 +22,7 @@
             </button>
             @if(isset($formValue))
                 <div id="import_result_form_row_{{ isset($i) ? $i : 0 }}" class="">
-                    <input type="hidden" id="sample_index" name="sample_index" value="row_{{ isset($i) ? $i : 0 }}">
+                    <input type="hidden" id="sample_index_{{ isset($i) ? $i : 0 }}" name="sample_index" value="row_{{ isset($i) ? $i : 0 }}">
                     <button type="button" class="btn-transition-primary import-sample-result px-1" title="Importar Amostra" data-index="sample_{{ isset($i) ? $i : 0 }}">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-wiph="1.5" stroke="currentColor" class="h-8 w-8 text-blue-900">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15" />
@@ -47,7 +34,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-wiph="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
                         </svg>
                     </button>
-                    <button type="button" class="btn-transition-primary save-sample px-1" title="Salvar Amostra" data-index="sample_{{ isset($i) ? $i : 0 }}" style="display: none">
+                    <button type="button" class="btn-transition-primary save-sample px-1" title="Salvar Amostra" data-index="sample_{{ isset($i) ? $i : 0 }}" data-row="{{ isset($i) ? $i : 0 }}" style="display: none">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-8 w-8">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-wiph="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
@@ -59,45 +46,41 @@
     <div class="inputs w-full">
         <div class="flex flex-wrap mt-2 w-full">
             <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
-                <x-jet-label for="equipment" value="{{ __('Equipamento') }}" />
+                <x-jet-label for="equipment_{{ isset($i) ? $i : 0 }}" value="{{ __('Equipamento') }}" />
                 @if(isset($sample['equipment']))
-                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="equipment" class="form-control block mt-1 w-full"
+                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="equipment_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full"
                     type="text" value="{{ $sample['equipment'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][equipment]' : 'samples[row_0][equipment]' }}" maxlength="255" />
                 @else
-                    <x-jet-input id="equipment" class="form-control block mt-1 w-full"
-                    type="text" value="" name="samples[row_0][equipment]" maxlength="255" />
+                    <x-jet-input id="equipment_0" class="form-control block mt-1 w-full" type="text" value="" name="samples[row_0][equipment]" maxlength="255" />
                 @endif
             </div>
             <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
-                <x-jet-label for="point" value="{{ __('Ponto de Coleta') }}" />
+                <x-jet-label for="point_{{ isset($i) ? $i : 0 }}" value="{{ __('Ponto de Coleta') }}" />
                 @if(isset($sample['point']))
-                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="point" class="form-control block mt-1 w-full"
+                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="point_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full"
                     type="text" value="{{ $sample['point'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][point]' : 'samples[row_0][point]' }}" maxlength="255" />
                 @else
-                    <x-jet-input id="point" class="form-control block mt-1 w-full"
-                    type="text" value="" name="samples[row_0][point]" maxlength="255" />
+                    <x-jet-input id="point_0" class="form-control block mt-1 w-full" type="text" value="" name="samples[row_0][point]" maxlength="255" />
                 @endif
             </div>
         </div>
         <div class="flex flex-wrap mt-2 w-full">
             <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
-                <x-jet-label for="environment" value="{{ __('Condições ambientais nas últimas 24 hs') }}" />
+                <x-jet-label for="environment_{{ isset($i) ? $i : 0 }}" value="{{ __('Condições ambientais nas últimas 24 hs') }}" />
                 @if(isset($sample['environment']))
-                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="environment" class="form-control block mt-1 w-full"
+                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="environment_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full"
                     type="text" value="{{ $sample['environment'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][environment]' : 'samples[row_0][environment]' }}" maxlength="255" />
                 @else
-                    <x-jet-input id="environment" class="form-control block mt-1 w-full"
-                    type="text" value="" name="samples[row_0][environment]" maxlength="255" />
+                    <x-jet-input id="environment_0" class="form-control block mt-1 w-full" type="text" value="" name="samples[row_0][environment]" maxlength="255" />
                 @endif
             </div>
-            <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
-                <x-jet-label for="collect" value="{{ __('DT/HR da Coleta') }}" />
+            <div class="w-full md:w-1/6 pr-3 mb-6 md:mb-0">
+                <x-jet-label for="collect_{{ isset($i) ? $i : 0 }}" value="{{ __('DT/HR da Coleta') }}" />
                 @if(isset($sample['collect']))
-                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="collect" class="form-control block mt-1 w-full"
+                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="collect_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full"
                     type="datetime-local" value="{{ $sample['collect'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][collect]' : 'samples[row_0][collect]' }}" maxlength="255" />
                 @else
-                    <x-jet-input id="collect" class="form-control block mt-1 w-full"
-                    type="datetime-local" value="" name="samples[row_0][collect]" maxlength="255" />
+                    <x-jet-input id="collect_0" class="form-control block mt-1 w-full" type="datetime-local" value="" name="samples[row_0][collect]" maxlength="255" />
                 @endif
             </div>
         </div>

@@ -141,7 +141,7 @@
                                   @if(isset($formValue->values['samples']["row_$i"])) @include('form.sample', ['sample' => $formValue->values['samples']["row_$i"]]) @endif
                                 @endfor
                             </div>
-                            <div id="mode_list" class="w-full">
+                            <div id="mode_list" class="w-full" style="display: none">
                                 <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - FINAL</h3>
                                 <div id="sample_list_container">
                                     @include('form.sample-list', ['count' => 3])
@@ -157,7 +157,7 @@
                                     </p>
                                 </div>
                             </div>
-                            <div id="mode_sample_table" class="w-full">
+                            <div id="mode_sample_table" class="w-full" style="display: none">
                                 <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - RELATÓRIO</h3>
                                 @for ($i = 0; $i < count($formValue->values['samples']); $i++)
                                   @if(isset($formValue->values['samples']["row_$i"]))  @include('form.sample-table', ['sample' => $formValue->values['samples']["row_$i"]]) @endif
@@ -756,6 +756,7 @@
         });
 
         function saveSample(that) {
+            console.log(`#${that.dataset.index} #sample_index_${that.dataset.row}`);
             document.getElementById("spin_load").classList.remove("hidden");
             let ajax = new XMLHttpRequest();
             let url = "{!! route('fields.forms.save-sample') !!}";
@@ -763,12 +764,11 @@
             let method = 'POST';
             let files = that.files;
             let form_value_id = document.querySelector(`#form_value_id`).value;
-            let sample_index = document.querySelector(`#${that.dataset.index} #sample_index`).value;
-
-            let equipment = document.querySelector(`#${that.dataset.index} #equipment`).value;
-            let point = document.querySelector(`#${that.dataset.index} #point`).value;
-            let environment = document.querySelector(`#${that.dataset.index} #environment`).value;
-            let collect = document.querySelector(`#${that.dataset.index} #collect`).value;
+            let sample_index = document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`).value;
+            let equipment = document.querySelector(`#${that.dataset.index} #equipment_${that.dataset.row}`).value;
+            let point = document.querySelector(`#${that.dataset.index} #point_${that.dataset.row}`).value;
+            let environment = document.querySelector(`#${that.dataset.index} #environment_${that.dataset.row}`).value;
+            let collect = document.querySelector(`#${that.dataset.index} #collect_${that.dataset.row}`).value;
 
             const results = [...document.querySelectorAll(`#${that.dataset.index} #table_result input`)];
 
@@ -975,22 +975,24 @@
             const nodes = document.querySelectorAll(".sample");
             const node = nodes[nodes.length - 1];
             const clone = node.cloneNode(true);
-            const num = parseInt( clone.id.match(/\d+/g), 10 ) +1;
+            const num = parseInt( clone.id.match(/\d+/g), 10 ) + 1;
             const id = `sample_${num}`;
             clone.id = id;
 
             clone.innerHTML = clone.innerHTML.replaceAll(`row_${num-1}`, `row_${num}`);
             clone.innerHTML = clone.innerHTML.replaceAll(`sample_${num-1}`, `sample_${num}`);
-            clone.innerHTML = clone.innerHTML.replaceAll(`AMOSTRA <span>${num-1}</span>`, `AMOSTRA <span>${num}</span>`);
+            clone.innerHTML = clone.innerHTML.replaceAll(`AMOSTRA <span>${nodes.length}</span>`, `AMOSTRA <span>${nodes.length + 1}</span>`);
+            clone.innerHTML = clone.innerHTML.replaceAll(`data-row="${num-1}"`, `data-row="${num}"`);
+            clone.innerHTML = clone.innerHTML.replaceAll(`_${num-1}`, `_${num}`);
             clone.innerHTML = clone.innerHTML.replaceAll(`readonly="1"`, ``);
 
             clone.querySelectorAll("#table_result tr").forEach(item => {
                 item.remove();
             });
 
-            document.getElementById("samples").appendChild(clone);
+            document.getElementById("mode_table").appendChild(clone);
 
-            document.querySelectorAll(`#${id} input:not(#form_value_id):not(#sample_index)`).forEach(item =>{
+            document.querySelectorAll(`#${id} input:not(#form_value_id):not(#sample_index_${num})`).forEach(item =>{
                 item.value = "";
                 item.disabled = false;
                 document.querySelector(`#${id} .save-sample`).style.display = "inline-block";
@@ -1039,6 +1041,8 @@
                     saveSample(this)
                 });
             });
+
+            document.getElementById(id).scrollIntoView();
 
         }
 
