@@ -756,8 +756,7 @@
         });
 
         function saveSample(that) {
-            console.log(`#${that.dataset.index} #sample_index_${that.dataset.row}`);
-            document.getElementById("spin_load").classList.remove("hidden");
+                        document.getElementById("spin_load").classList.remove("hidden");
             let ajax = new XMLHttpRequest();
             let url = "{!! route('fields.forms.save-sample') !!}";
             let token = document.querySelector('meta[name="csrf-token"]').content;
@@ -811,7 +810,7 @@
             let method = 'POST';
             let files = that.files;
             let form_value_id = document.querySelector(`#form_value_id`).value;
-            let sample_index = document.querySelector(`#${that.dataset.index} #sample_index`).value;
+            let sample_index = document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`).value;
 
             ajax.open(method, url);
 
