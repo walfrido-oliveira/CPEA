@@ -15,7 +15,7 @@
         @for ($i = 0; $i < count($sample); $i++)
           <div class="mx-1 p-3 bg-gray-100">
             <p>
-                {{ $sample[$i]['point'] }}
+                @if(isset($sample[$i]['point'])) {{ $sample[$i]['point'] }} @endif
             </p>
             <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 3px; margin-bottom: 4px; height: 3px">&nbsp;</p>
             <p class="font-bold">

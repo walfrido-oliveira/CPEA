@@ -61,16 +61,16 @@
                 <tbody id="table_result">
                     <tr>
                         <td>
-                            {{ $sample['point'] }}
+                            @if(isset($sample['point'])) {{ $sample['point'] }} @endif
                         </td>
                         <td>
-                            {{ Carbon\Carbon::parse($sample['collect'])->format("d/m/Y") }}
+                            @if(isset($sample['collect']))  {{ Carbon\Carbon::parse($sample['collect'])->format("d/m/Y") }} @endif
                         </td>
                         <td>
-                            {{ Carbon\Carbon::parse($sample['collect'])->format("h:i") }}
+                            @if(isset($sample['collect'])) {{ Carbon\Carbon::parse($sample['collect'])->format("h:i") }} @endif
                         </td>
                         <td>
-                            {{ $sample['environment'] }}
+                            @if(isset($sample['environment'])) {{ $sample['environment'] }} @endif
                         </td>
                         <td>
                             {{ $form->fieldType->name }}

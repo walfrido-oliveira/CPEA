@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Form;
 use App\Models\FieldType;
 use App\Models\FormValue;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -526,7 +528,7 @@ class FormController extends Controller
     }
 
     /**
-     * Import results
+     * Import coordinates from file
      *
      * @param  Request  $request
      * @return \Illuminate\Http\Response
@@ -590,7 +592,7 @@ class FormController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Save coordinate
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -707,5 +709,115 @@ class FormController extends Controller
       return response()->json([
           'viwer' => view("form.sample-list", compact("formValue", "count", "svgs"))->render()
       ]);
+    }
+
+    /**
+     * Import samples from files
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function importSamples(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            "files.*" => "required|mimes:xls,xlsx|max:4096",
+            "form_value_id" => ["required", "exists:form_values,id"],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    "message" => implode("<br>", $validator->messages()->all()),
+                    "alert-type" => "error",
+                ],
+                403
+            );
+        }
+
+        $inputs = $request->all();
+
+        $formValue = FormValue::findOrFail($inputs["form_value_id"]);
+        $samples = $formValue->values;
+
+        if(isset($samples["samples"])) {
+            $keys = array_keys($samples["samples"]);
+            $max = 0;
+            foreach ($keys as $value) {
+                $key = Str::replace("row_", "", $value);
+                if($key > $max) $max = $key;
+            }
+        }
+        if($max > 0) $max++;
+
+        foreach ($request->file()['file'] as $file) {
+            $spreadsheet = IOFactory::load($file->path());
+
+            $spreadsheet->setActiveSheetIndex(0);
+            $worksheet = $spreadsheet->getActiveSheet();
+            $rows = $worksheet->toArray();
+
+
+            $samples["samples"]["row_$max"]["equipment"] = $rows[2][1];
+            $samples["samples"]["row_$max"]["point"] = $rows[17][1];
+            $samples["samples"]["row_$max"]["environment"] = 'Sem chuva';
+            $samples["samples"]["row_$max"]["collect"] = Carbon::createFromFormat('Y/m/d - H:i:s',  $rows[19][1])->toDateTimeLocalString();
+
+
+            $spreadsheet->setActiveSheetIndex(1);
+            $worksheet = $spreadsheet->getActiveSheet();
+            $rows = $worksheet->toArray();
+
+            foreach ($rows as $key => $value) {
+                if ($key == 0) {
+                    continue;
+                }
+
+                if(is_numeric($value[2])) {
+                    if (isset($value[2])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["temperature"] = floatval($value[2]);
+                    }
+                    if (isset($value[3])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["ph"] = floatval($value[3]);
+                    }
+                    if (isset($value[4])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["orp"] = floatval($value[4]);
+                    }
+                    if (isset($value[5])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["conductivity"] = floatval($value[5]);
+                    }
+                    if (isset($value[6])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["salinity"] = floatval($value[6]);
+                    }
+                    if (isset($value[7])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["psi"] = floatval($value[7]);
+                    }
+                    if (isset($value[8])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["sat"] = floatval($value[8]);
+                    }
+                    if (isset($value[9])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["conc"] = floatval($value[9]);
+                    }
+                    if (isset($value[10])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["eh"] = floatval($value[10]);
+                    }
+                    if (isset($value[11])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["ntu"] = floatval($value[11]);
+                    }
+                }
+
+            }
+
+            $max++;
+        }
+
+        $formValue->values = $samples;
+        $formValue->save();
+
+        $resp = [
+            "message" => __("Dados importados com sucesso!"),
+            "alert-type" => "success",
+        ];
+
+        return response()->json($resp);
     }
 }

@@ -116,6 +116,12 @@
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 01-2.25 2.25M16.5 7.5V18a2.25 2.25 0 002.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 002.25 2.25h13.5M6 7.5h3v3H6v-3z" />
                                     </svg>
                                 </button>
+                                <button type="button" class="btn-transition-primary import-samples px-1" title="Importar Amostras" data-index="sample_{{ isset($i) ? $i : 0 }}" data-row="{{ isset($i) ? $i : 0 }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-wiph="1.5" stroke="currentColor" class="h-8 w-8 text-green-900">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15" />
+                                    </svg>
+                                </button>
+                                <input type="file" name="files[]" id="files" multiple accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet|application/vnd.ms-excel" class="hidden">
                             </div>
                         </div>
 
@@ -281,7 +287,7 @@
                     labels: [
                         @if($formValue)
                             @foreach ($formValue->values['samples'] as $key => $sample)
-                                "{{ $sample['point'] }} - pH {{ isset($svgs[$key]['ph']) ? number_format($svgs[$key]['ph'], 2, ",", ".") : '' }} e EH {{ isset($svgs[$key]['eh']) ? number_format($svgs[$key]['eh'], 1, ",", ".") : '' }}",
+                                "{{ isset($sample['point']) ? $sample['point'] : '' }} - pH {{ isset($svgs[$key]['ph']) ? number_format($svgs[$key]['ph'], 2, ",", ".") : '' }} e EH {{ isset($svgs[$key]['eh']) ? number_format($svgs[$key]['eh'], 1, ",", ".") : '' }}",
                             @endforeach
                         @endif
                     ],
@@ -756,12 +762,11 @@
         });
 
         function saveSample(that) {
-                        document.getElementById("spin_load").classList.remove("hidden");
+            document.getElementById("spin_load").classList.remove("hidden");
             let ajax = new XMLHttpRequest();
             let url = "{!! route('fields.forms.save-sample') !!}";
             let token = document.querySelector('meta[name="csrf-token"]').content;
             let method = 'POST';
-            let files = that.files;
             let form_value_id = document.querySelector(`#form_value_id`).value;
             let sample_index = document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`).value;
             let equipment = document.querySelector(`#${that.dataset.index} #equipment_${that.dataset.row}`).value;
@@ -809,7 +814,6 @@
             let url = "{!! route('fields.forms.delete-sample') !!}";
             let token = document.querySelector('meta[name="csrf-token"]').content;
             let method = 'POST';
-            let files = that.files;
             let form_value_id = document.querySelector(`#form_value_id`).value;
             let sample_index = document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`).value;
 
@@ -876,9 +880,21 @@
             });
         });
 
+        document.querySelectorAll(".import-samples").forEach(item =>{
+            item.addEventListener("click", function() {
+                document.querySelector(`#files`).click();
+            });
+        });
+
         document.querySelectorAll(".sample #file").forEach(item =>{
             item.addEventListener("change", function(e) {
                 uploadResults(this);
+            });
+        });
+
+        document.querySelectorAll("#files").forEach(item =>{
+            item.addEventListener("change", function(e) {
+                uploadSamples(this);
             });
         });
 
@@ -937,7 +953,7 @@
             let method = 'POST';
             let files = that.files;
             let form_value_id = document.querySelector(`#form_value_id`).value;
-            let sample_index = document.querySelector(`#${that.dataset.index} #sample_index`).value;
+            let sample_index = document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`).value;
 
             ajax.open(method, url);
 
@@ -960,6 +976,43 @@
             data.append('file', files[0]);
             data.append('form_value_id', form_value_id);
             data.append('sample_index', sample_index);
+
+            ajax.send(data);
+        }
+
+        function uploadSamples(that)  {
+            document.getElementById("spin_load").classList.remove("hidden");
+
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('fields.forms.import-samples') !!}";
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let files = that.files;
+            let form_value_id = document.querySelector(`#form_value_id`).value;
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                    toastr.success(resp.message);
+                    location.reload();
+                } else if(this.readyState == 4 && this.status != 200) {
+                    document.getElementById("spin_load").classList.add("hidden");
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                    that.value = '';
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('_method', method);
+            for (let index = 0; index < files.length; index++) {
+                const file = files[index];
+                data.append('file[]', file);
+            }
+            data.append('form_value_id', form_value_id);
 
             ajax.send(data);
         }
