@@ -253,10 +253,10 @@
                     </div>
                 </div>
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button type="button" id="confirm_delete_modal" class="btn-confirm">
+                    <button type="button" id="confirm_delete_modal" class="btn-confirm" data-index="" data-row="">
                         Deletar
                     </button>
-                    <button type="button" id="cancel_delete_modal" class="btn-cancel" data-index="">
+                    <button type="button" id="cancel_delete_modal" class="btn-cancel" >
                         Cancelar
                     </button>
                 </div>
@@ -803,6 +803,7 @@
         }
 
         function deleteSample(that) {
+            console.log(`#${that.dataset.index} #sample_index_${that.dataset.row}`);
             document.getElementById("spin_load").classList.remove("hidden");
             let ajax = new XMLHttpRequest();
             let url = "{!! route('fields.forms.delete-sample') !!}";
@@ -844,7 +845,7 @@
         });
 
         document.getElementById("cancel_delete_modal").addEventListener("click", function() {
-            var modal = document.getElementById("modal");
+            var modal = document.getElementById("delete_modal");
             modal.classList.add("hidden");
             modal.classList.remove("block");
         });
@@ -856,6 +857,7 @@
                 modal.classList.remove("hidden");
                 modal.classList.add("block");
                 document.querySelector("#confirm_delete_modal").dataset.index = this.dataset.index;
+                document.querySelector("#confirm_delete_modal").dataset.row = this.dataset.row;
             });
         });
 
