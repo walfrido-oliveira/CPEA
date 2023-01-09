@@ -55,7 +55,7 @@
                     <x-jet-input readonly="{{ !$formValue ? false : true}}" id="equipment_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full" data-index="{{ isset($i) ? $i : 0 }}"
                     type="text" value="{{ $sample['equipment'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][equipment]' : 'samples[row_0][equipment]' }}" maxlength="255" />
                 @else
-                    <x-jet-input id="equipment_0" class="form-control block mt-1 w-full" type="text" value="" name="samples[row_0][equipment]" maxlength="255" data-index="{{ isset($i) ? $i : 0 }}/>
+                    <x-jet-input id="equipment_0" class="form-control block mt-1 w-full" type="text" value="" name="samples[row_0][equipment]" maxlength="255" data-index="{{ isset($i) ? $i : 0 }}"/>
                 @endif
             </div>
             <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
@@ -64,7 +64,7 @@
                     <x-jet-input readonly="{{ !$formValue ? false : true}}" id="point_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full point" data-index="{{ isset($i) ? $i : 0 }}"
                     type="text" value="{{ $sample['point'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][point]' : 'samples[row_0][point]' }}" maxlength="255" />
                 @else
-                    <x-jet-input id="point_0" class="form-control block mt-1 w-full point" type="text" value="" name="samples[row_0][point]" maxlength="255" data-index="{{ isset($i) ? $i : 0 }}/>
+                    <x-jet-input id="point_0" class="form-control block mt-1 w-full point" type="text" value="" name="samples[row_0][point]" maxlength="255" data-index="{{ isset($i) ? $i : 0 }}"/>
                 @endif
             </div>
         </div>
@@ -75,7 +75,7 @@
                     <x-jet-input readonly="{{ !$formValue ? false : true}}" id="environment_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full environment" data-index="{{ isset($i) ? $i : 0 }}"
                     type="text" value="{{ $sample['environment'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][environment]' : 'samples[row_0][environment]' }}" maxlength="255" />
                 @else
-                    <x-jet-input id="environment_0" class="form-control block mt-1 w-full environment" type="text" value="" name="samples[row_0][environment]" maxlength="255" data-index="{{ isset($i) ? $i : 0 }}/>
+                    <x-jet-input id="environment_0" class="form-control block mt-1 w-full environment" type="text" value="" name="samples[row_0][environment]" maxlength="255" data-index="{{ isset($i) ? $i : 0 }}"/>
                 @endif
             </div>
             <div class="w-full md:w-1/6 pr-3 mb-6 md:mb-0">

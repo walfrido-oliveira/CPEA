@@ -124,11 +124,20 @@ class FormController extends Controller
         }
 
         $formValue = FormValue::findOrFail($id);
+        $samples = isset($formValue->values['samples']) ? $formValue->values['samples'] : null;
+        $coordinates = isset($formValue->values['coordinates']) ? $formValue->values['coordinates'] : null;
+
         $input = $request->except("_method", "_token", "form_id");
 
         $formValue->update([
             "values" => $input,
         ]);
+
+        $values = $formValue->values;
+        $values['samples'] = $samples;
+        $values['coordinates'] = $coordinates;
+        $formValue->values = $values;
+        $formValue->save();
 
         $resp = [
             "message" => __("Formulário atualizado com Sucesso!"),
