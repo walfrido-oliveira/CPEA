@@ -509,7 +509,7 @@ class AnalysisResultController extends Controller
             $rlValue = $rl;
 
             $token = ($resultValue < $rlValue || !$value->result) && !Str::contains($value->resultreal, ["j", "J"]);
-            $bold = $resultValue >= $rlValue && !Str::contains($value->resultreal, ["<", "< "]) && is_numeric($value->resultreal)
+            $bold = $resultValue >= $rlValue && !Str::contains($value->resultreal, ["<", "< "]) && is_numeric(Str::replace(",", ".", $value->resultreal))
               || (Str::contains($value->resultreal, ["J", "j"]) && !Str::contains($value->resultreal, ["<", "< "]));
 
             if (is_numeric($result)) $result = number_format($result, 5, ",", ".");
@@ -903,7 +903,7 @@ class AnalysisResultController extends Controller
           $rlValue = $rl;
 
           $token = ($resultValue < $rlValue || !$value->result) && !Str::contains($value->resultreal, ["j", "J"]);
-          $bold = $resultValue >= $rlValue && !Str::contains($value->resultreal, ["<", "< "]) && is_numeric($value->resultreal)
+          $bold = $resultValue >= $rlValue && !Str::contains($value->resultreal, ["<", "< "]) && is_numeric(Str::replace(",", ".", $value->resultreal))
             || (Str::contains($value->resultreal, ["J", "j"]) && !Str::contains($value->resultreal, ["<", "< "]));
 
           if (is_numeric($result)) $result = number_format($result, 5, ",", ".");
