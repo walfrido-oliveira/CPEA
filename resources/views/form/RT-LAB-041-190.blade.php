@@ -125,56 +125,69 @@
                             </div>
                         </div>
 
-                        @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
-                            <div id="mode_table" class="w-full">
-                                <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">RESULTADOS DOS PARÂMETROS FÍSICO-QUÍMICOS - DADOS</h3>
-                                <div class="border-b border-gray-200 dark:border-gray-700">
-                                    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400">
-                                        <li class="mr-2">
-                                            <a href="#" data-status="default" id="filter_default" class="inline-flex p-4 border-b-2 border-green-900 rounded-t-lg  dark:text-blue-500 dark:border-blue-500 active" aria-current="page">
-                                                Dados
-                                            </a>
-                                        </li>
-                                        <li class="mr-2">
-                                            <a href="#" data-status="duplicate" id="filter_duplicate" class="inline-flex p-4 border-b-2 rounded-t-lg  dark:text-blue-500 dark:border-blue-500" >
-                                                Duplicatas
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
 
+                        <div id="mode_table" class="w-full">
+                            <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">RESULTADOS DOS PARÂMETROS FÍSICO-QUÍMICOS - DADOS</h3>
+                            <div class="border-b border-gray-200 dark:border-gray-700 flex px-3">
+                                <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400" style="width:90%">
+                                    <li class="mr-2">
+                                        <a href="#" data-status="default" id="filter_default" class="inline-flex p-4 border-b-2 border-green-900 rounded-t-lg  dark:text-blue-500 dark:border-blue-500 active" aria-current="page">
+                                            Dados
+                                        </a>
+                                    </li>
+                                    <li class="mr-2">
+                                        <a href="#" data-status="duplicate" id="filter_duplicate" class="inline-flex p-4 border-b-2 rounded-t-lg  dark:text-blue-500 dark:border-blue-500" >
+                                            Duplicatas
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="flex justify-end" style="width:10%">
+                                    <button type="button" class="btn-transition-primary" title="Ajustar Condições Ambientais"id="environment_edit">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
                                 @foreach ($formValue->values['samples'] as $key => $sample)
                                     @include('form.sample', ['sample' => $sample, 'i' => Str::replace('row_', '', $key)])
                                 @endforeach
-                            </div>
-                            <div id="mode_list" class="w-full" style="display: none">
-                                <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - FINAL</h3>
-                                <div id="sample_list_container">
+                            @else
+                                @include('form.sample')
+                            @endif
+                        </div>
+                        <div id="mode_list" class="w-full" style="display: none">
+                            <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - FINAL</h3>
+                            <div id="sample_list_container">
+                                @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
                                     @include('form.sample-list', ['count' => 3])
-                                </div>
-
-                                <div class="w-5/6 items-center flex">
-                                    <p class="text-sm text-gray-700 leading-5 m-0 inline-flex">
-                                        Mostrando
-                                        <div class="w-24 inline-flex ml-1 mr-1">
-                                            <x-custom-select data-reverse="true" select-class="no-nice-select" :options="[3 => 3, 5 => 5, 10 => 10]" name="mode_list_count" id="mode_list_count" :value="3"/>
-                                        </div>
-                                        <span class="text-sm text-gray-700 leading-5 m-0 inline-flex">colunas por linha</span>
-                                    </p>
-                                </div>
+                                @endif
                             </div>
-                            <div id="mode_sample_table" class="w-full" style="display: none">
-                                <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - RELATÓRIO</h3>
+
+                            <div class="w-5/6 items-center flex">
+                                <p class="text-sm text-gray-700 leading-5 m-0 inline-flex">
+                                    Mostrando
+                                    <div class="w-24 inline-flex ml-1 mr-1">
+                                        <x-custom-select data-reverse="true" select-class="no-nice-select" :options="[3 => 3, 5 => 5, 10 => 10]" name="mode_list_count" id="mode_list_count" :value="3"/>
+                                    </div>
+                                    <span class="text-sm text-gray-700 leading-5 m-0 inline-flex">colunas por linha</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div id="mode_sample_table" class="w-full" style="display: none">
+                            <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - RELATÓRIO</h3>
+                            @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
                                 @for ($i = 0; $i < count($formValue->values['samples']); $i++)
-                                  @if(isset($formValue->values['samples']["row_$i"]))  @include('form.sample-table', ['sample' => $formValue->values['samples']["row_$i"]]) @endif
+                                    @if(isset($formValue->values['samples']["row_$i"]))  @include('form.sample-table', ['sample' => $formValue->values['samples']["row_$i"]]) @endif
                                 @endfor
-                            </div>
-
+                            @endif
+                        </div>
+                        @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
                             @include('form.sample-chart')
-
-                        @else
-                            @include('form.sample')
                         @endif
+
 
                     </div>
 
@@ -263,6 +276,56 @@
                         Deletar
                     </button>
                     <button type="button" id="cancel_delete_modal" class="btn-cancel" >
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true" id="environment_modal">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-yellow-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+                                Condições Ambientais
+                            </h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500">Adicione a condição ambiental para o período informado.</p>
+                                <div class="flex flex-wrap mt-2 w-full">
+                                    <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
+                                        <x-jet-label for="date_start" value="{{ __('Início') }}" />
+                                        <x-jet-input id="date_start" class="form-control block mt-1 w-full" type="datetime-local" value="" name="date_start" />
+                                    </div>
+                                    <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
+                                        <x-jet-label for="date_end" value="{{ __('Fim') }}" />
+                                        <x-jet-input id="date_end" class="form-control block mt-1 w-full" type="datetime-local" value="" name="date_end" />
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap mt-2 w-full">
+                                    <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
+                                        <x-jet-label for="environment_value" value="{{ __('Condições ambientais nas últimas 24 hs') }}" />
+                                        <x-jet-input id="environment_value" class="form-control block mt-1 w-full" type="text" value="" name="environment_value" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" id="confirm_environment_modal" class="btn-confirm" data-index="" data-row="">
+                        Confirmar
+                    </button>
+                    <button type="button" id="cancel_environment_modal" class="btn-cancel" >
                         Cancelar
                     </button>
                 </div>

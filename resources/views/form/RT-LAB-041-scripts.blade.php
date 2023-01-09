@@ -13,7 +13,7 @@
         const data = {
             datasets: [{
                 labels: [
-                    @if ($formValue)
+                    @if (isset($formValue->values['samples'] ))
                         @foreach ($formValue->values['samples'] as $key => $sample)
                             "{{ isset($sample['point']) ? $sample['point'] : '' }} - pH {{ isset($svgs[$key]['ph']) ? number_format($svgs[$key]['ph'], 2, ',', '.') : '' }} e EH {{ isset($svgs[$key]['eh']) ? number_format($svgs[$key]['eh'], 1, ',', '.') : '' }}",
                         @endforeach
@@ -21,7 +21,7 @@
                 ],
                 label: '',
                 data: [
-                    @if ($formValue)
+                    @if (isset($formValue->values['samples'] ))
                         @foreach ($formValue->values['samples'] as $key => $sample)
                             {
                                 x: {{ isset($svgs[$key]['eh']) ? $svgs[$key]['eh'] : 0 }},
@@ -577,6 +577,41 @@
 </script>
 
 <script>
+    document.getElementById("confirm_environment_modal").addEventListener("click", function() {
+        document.querySelectorAll("input.collect").forEach(item => {
+            var date1 = new Date(item.value);
+            var date2 = new Date(document.getElementById("date_start").value);
+            var date3 = new Date(document.getElementById("date_end").value);
+            var environmentValue = document.getElementById("environment_value");
+            var environment = document.getElementById(`environment_${item.dataset.index}`);
+
+            console.log(date1.getTime() >= date2.getTime() && date1.getTime() <= date3.getTime());
+            console.log(date1.getTime() >= date2.getTime());
+            console.log(date1.getTime() <= date3.getTime());
+
+            if(date1.getTime() >= date2.getTime() && date1.getTime() <= date3.getTime()) {
+                environment.value = environmentValue.value;
+                console.log(environment.value);
+            }
+        });
+
+        var modal = document.getElementById("environment_modal");
+        modal.classList.add("hidden");
+        modal.classList.remove("block");
+    });
+
+    document.getElementById("cancel_environment_modal").addEventListener("click", function() {
+        var modal = document.getElementById("environment_modal");
+        modal.classList.add("hidden");
+        modal.classList.remove("block");
+    });
+
+    document.getElementById("environment_edit").addEventListener("click", function() {
+        var modal = document.getElementById("environment_modal");
+        modal.classList.remove("hidden");
+        modal.classList.add("block");
+    });
+
     document.getElementById("help").addEventListener("click", function() {
         var modal = document.getElementById("modal");
         modal.classList.remove("hidden");
