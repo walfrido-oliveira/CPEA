@@ -876,3 +876,31 @@
         });
     });
 </script>
+
+<script>
+    document.getElementById("search_sample").addEventListener("click", function(e) {
+        e.preventDefault();
+        seachSample();
+    });
+
+    function seachSample() {
+        $q = document.querySelector("#search_container #q").value;
+
+        document.querySelectorAll("#mode_table .sample").forEach(item => {
+            if(!item.querySelector(".point").value.toUpperCase().includes($q.toUpperCase())) item.style.display = "none";
+            if(item.querySelector(".point").value.toUpperCase().includes($q.toUpperCase())) item.style.display = "flex";
+            if($q == '') item.style.display = "flex";
+        });
+    }
+
+    document.querySelector("#search_container #q").addEventListener("keypress", function(e) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("search_sample").click();
+        }
+    });
+
+    document.querySelector("#search_container #q").addEventListener("keyup", function(e) {
+        seachSample();
+    });
+</script>
