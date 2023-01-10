@@ -1,4 +1,4 @@
-@foreach (array_chunk($formValue->values['samples'], $count) as $sampleArray)
+@foreach (array_chunk($formValue->values['samples'], $count, true) as $sampleArray)
     <div class="flex flex-wrap mt-2 w-full mode-list default-table">
         <div class="flex flex-wrap mt-2 w-full">
             <div class="mx-1 p-3">
@@ -16,57 +16,53 @@
                 <p class="font-bold">{{ __('EH (mV)') }}</p>
                 <p class="font-bold">{{ __('Turbidez (NTU)') }}</p>
             </div>
-            @for ($i = 0; $i < count($sampleArray); $i++)
-                @if (isset($sampleArray[$i]['results']))
-                    <div class="mx-1 p-3 bg-gray-100">
-                        @if (isset($formValue->values['samples']['row_' . (isset($i) ? $i : 0)]['results'] ))
-                            <p>
-                                @if(isset($formValue->values['samples']["row_$i"]['point']))
-                                    {{ $formValue->values['samples']["row_$i"]['point'] }}
-                                @endif
-                            </p>
-                            <p>
-                                @if(isset($formValue->values['samples']["row_$i"]['environment']))
-                                    {{ $formValue->values['samples']["row_$i"]['environment'] }}
-                                @endif
-                            </p>
-                            <p>
-                                @if(isset($formValue->values['samples']["row_$i"]['collect']))
-                                    {{ Carbon\Carbon::parse($formValue->values['samples']["row_$i"]['collect'])->format("d/m/Y h:i") }}
-                                @endif
-                            </p>
-                            <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 3px; margin-bottom: 4px; height: 3px">&nbsp;</p>
-                            <p class="font-bold">
-                                {{ number_format($svgs['row_' . ($i)]['temperature'], 2, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($svgs['row_' . ($i)]['ph'], 1, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($svgs['row_' . ($i)]['orp'], 1, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($svgs['row_' . ($i)]['conductivity'], 3, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($svgs['row_' . ($i)]['salinity'], 3, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($svgs['row_' . ($i)]['sat'], 1, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($svgs['row_' . ($i)]['conc'], 3, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($svgs['row_' . ($i)]['eh'], 0, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($svgs['row_' . ($i)]['ntu'], 1, ",", ".") }}
-                            </p>
+            @foreach ($sampleArray as $key => $value)
+                <div class="mx-1 p-3 bg-gray-100">
+                    <p>
+                        @if(isset($value['point']))
+                            {{ $value['point'] }}
                         @endif
-                    </div>
-                @endif
-            @endfor
+                    </p>
+                    <p>
+                        @if(isset($value['environment']))
+                            {{ $value['environment'] }}
+                        @endif
+                    </p>
+                    <p>
+                        @if(isset($value['collect']))
+                            {{ Carbon\Carbon::parse($value['collect'])->format("d/m/Y h:i") }}
+                        @endif
+                    </p>
+                    <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 3px; margin-bottom: 4px; height: 3px">&nbsp;</p>
+                    <p class="font-bold">
+                        {{ number_format($svgs[$key]['temperature'], 2, ",", ".") }}
+                    </p>
+                    <p class="font-bold">
+                        {{ number_format($svgs[$key]['ph'], 1, ",", ".") }}
+                    </p>
+                    <p class="font-bold">
+                        {{ number_format($svgs[$key]['orp'], 1, ",", ".") }}
+                    </p>
+                    <p class="font-bold">
+                        {{ number_format($svgs[$key]['conductivity'], 3, ",", ".") }}
+                    </p>
+                    <p class="font-bold">
+                        {{ number_format($svgs[$key]['salinity'], 3, ",", ".") }}
+                    </p>
+                    <p class="font-bold">
+                        {{ number_format($svgs[$key]['sat'], 1, ",", ".") }}
+                    </p>
+                    <p class="font-bold">
+                        {{ number_format($svgs[$key]['conc'], 3, ",", ".") }}
+                    </p>
+                    <p class="font-bold">
+                        {{ number_format($svgs[$key]['eh'], 0, ",", ".") }}
+                    </p>
+                    <p class="font-bold">
+                        {{ number_format($svgs[$key]['ntu'], 1, ",", ".") }}
+                    </p>
+                </div>
+            @endforeach
         </div>
     </div>
 @endforeach
