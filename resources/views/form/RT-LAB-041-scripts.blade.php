@@ -1,10 +1,19 @@
 <script src="https://cdn.ckeditor.com/4.12.1/standard/ckeditor.js"></script>
 
 <script type="text/javascript">
-    CKEDITOR.replace('editor', {
+    /*CKEDITOR.ClassicEditor.create(document.querySelector("#additional_info"), {
         filebrowserUploadUrl: "{{ route('image-upload', ['_token' => csrf_token()]) }}",
-        filebrowserUploadMethod: 'form'
+        filebrowserUploadMethod: 'form'})
+        .catch( err => {
+            console.error(err.stack)
     });
+
+    CKEDITOR.ClassicEditor.create(document.querySelector("#approval_text"), {
+        filebrowserUploadUrl: "{{ route('image-upload', ['_token' => csrf_token()]) }}",
+        filebrowserUploadMethod: 'form'})
+        .catch( err => {
+            console.error(err.stack)
+    });*/
 </script>
 
 <script>
