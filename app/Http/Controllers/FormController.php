@@ -86,7 +86,7 @@ class FormController extends Controller
             );
         }
 
-        $input = $request->except("_method", "_token", "form_id");
+        $input = $request->except("_method", "_token", "form_id", "mode_list_count", "files");
 
         $formValue = FormValue::create([
             "form_id" => $request->get("form_id"),
@@ -127,7 +127,7 @@ class FormController extends Controller
         $samples = isset($formValue->values['samples']) ? $formValue->values['samples'] : null;
         $coordinates = isset($formValue->values['coordinates']) ? $formValue->values['coordinates'] : null;
 
-        $input = $request->except("_method", "_token", "form_id");
+        $input = $request->except("_method", "_token", "form_id", "mode_list_count", "files");
 
         $formValue->update([
             "values" => $input,

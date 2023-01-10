@@ -77,7 +77,7 @@
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="responsible" value="{{ __('Responsável') }}" />
-                            <x-custom-select :options="\App\Models\User::all()->pluck('full_name', 'full_name')" value="{{ isset($formValue->values['responsible']) ? $formValue->values['responsible'] : null }}" name="responsible" id="responsible" class="mt-1"/>
+                            <x-custom-select :options="\App\Models\User::all()->pluck('full_name', 'id')" value="{{ isset($formValue->values['responsible']) ? $formValue->values['responsible'] : null }}" name="responsible" id="responsible" class="mt-1"/>
                         </div>
                     </div>
 
