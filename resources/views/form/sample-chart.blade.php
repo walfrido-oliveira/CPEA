@@ -13,7 +13,7 @@
           <p class="font-bold">{{ __('EH (mV)') }}</p>
         </div>
         @foreach ($sampleArray as $key => $value)
-          <div class="mx-1 p-3 bg-gray-100">
+          <div class="mx-1 p-3 bg-gray-100" style="width: 106px;">
             <p>
                 @if(isset($value['point'])) {{ $value['point'] }} @endif
             </p>
