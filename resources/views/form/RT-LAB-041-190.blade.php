@@ -195,9 +195,9 @@
 
                     @include('form.coordinates-table')
 
-                    <div class="flex flex-wrap mt-2 w-full flex-col" id="mode_considerations" style="display: none">
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4" id="mode_considerations" style="display: none">
                         <div class="w-full px-3 mb-6 md:mb-0 justify-start flex mt-2" id="coodinates_button">
-                            <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">CONSIDERAÇÕES</h3>
+                            <h3 class="w-full md:w-1/2 mb-6 md:mb-0">CONSIDERAÇÕES</h3>
                         </div>
                         <div class="flex flex-wrap mt-4">
                             <div class="w-full px-3 mb-6 md:mb-0">
