@@ -151,8 +151,10 @@
                             </div>
 
                             @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
+                                @php $amostraIndex = 1; @endphp
                                 @foreach ($formValue->values['samples'] as $key => $sample)
-                                    @include('form.sample', ['sample' => $sample, 'i' => Str::replace('row_', '', $key)])
+                                    @include('form.sample', ['sample' => $sample, 'i' => Str::replace('row_', '', $key), 'amostraIndex' => $amostraIndex])
+                                    @php $amostraIndex++; @endphp
                                 @endforeach
                             @else
                                 @include('form.sample')

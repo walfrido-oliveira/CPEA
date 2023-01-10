@@ -399,4 +399,5 @@ input:read-only {
     opacity: 0;
     height: 0px;
     overflow: hidden;
+    margin: 0px;
   }

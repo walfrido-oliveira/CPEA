@@ -3409,6 +3409,7 @@ input:read-only {
     opacity: 0;
     height: 0px;
     overflow: hidden;
+    margin: 0px;
   }
 .hover\:border-gray-300:hover {
 	--tw-border-opacity: 1;

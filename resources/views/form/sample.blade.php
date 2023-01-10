@@ -8,7 +8,7 @@
             @endif"
             id="sample_{{ isset($i) ? $i : 0 }}">
     <div class="flex w-full">
-        <h3 class="w-full mt-4 mb-6 md:mb-0 title">AMOSTRA <span>{{ isset($i) ? $i + 1 : 1 }}</span></h3>
+        <h3 class="w-full mt-4 mb-6 md:mb-0 title">AMOSTRA <span>{{ isset($amostraIndex) ? $amostraIndex : 1 }}</span></h3>
         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 flex justify-end align-baseline buttons" style="align-items: baseline;">
             <button class="add-sample btn-transition-primary px-1" type="button" title="Adicionar Amostra">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-900" fill="none" viewBox="0 0 24 24" stroke-wiph="1.5" stroke="currentColor">
