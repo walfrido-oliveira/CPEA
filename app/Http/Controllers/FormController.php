@@ -792,7 +792,7 @@ class FormController extends Controller
             $samples["samples"]["row_$max"]["equipment"] = $rows[2][1];
             $samples["samples"]["row_$max"]["point"] = $rows[17][1];
             $samples["samples"]["row_$max"]["environment"] = 'Sem chuva';
-            $samples["samples"]["row_$max"]["collect"] = Carbon::createFromFormat('Y/m/d - H:i:s',  $rows[19][1])->toDateTimeLocalString();
+            $samples["samples"]["row_$max"]["collect"] = Carbon::createFromFormat('Y/m/d - H:i',  $rows[19][1])->toDateTimeLocalString();
 
 
             $spreadsheet->setActiveSheetIndex(1);
