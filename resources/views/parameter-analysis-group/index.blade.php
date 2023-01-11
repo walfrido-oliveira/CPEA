@@ -29,7 +29,7 @@
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="status">
                                 {{ __('Grupo Param. Análise Pai') }}
                             </label>
-                            <x-custom-select :options="$parameterAnalysisGroupParents" name="parameter_analysis_group_id" id="parameter_analysis_group_id" :value="app('request')->input('parameter_analysis_group_id')"/>
+                            <x-custom-select :options="$parameterAnalysisGroups" name="parameter_analysis_group_id" id="parameter_analysis_group_id" :value="app('request')->input('parameter_analysis_group_id')"/>
                         </div>
                     </div>
                 </div>
