@@ -224,7 +224,7 @@
             item.style.display = "none";
         });
 
-        document.querySelectorAll("#chart").forEach(item => {
+        document.querySelectorAll("#mode_sample_char").forEach(item => {
             item.style.display = "none";
         });
 
@@ -252,7 +252,7 @@
             item.style.display = "block";
         });
 
-        document.querySelectorAll("#chart").forEach(item => {
+        document.querySelectorAll("#mode_sample_char").forEach(item => {
             item.style.display = "none";
         });
 
@@ -280,7 +280,7 @@
             item.style.display = "none";
         });
 
-        document.querySelectorAll("#chart").forEach(item => {
+        document.querySelectorAll("#mode_sample_char").forEach(item => {
             item.style.display = "none";
         });
 
@@ -308,7 +308,7 @@
             item.style.display = "none";
         });
 
-        document.querySelectorAll("#chart").forEach(item => {
+        document.querySelectorAll("#mode_sample_char").forEach(item => {
             item.style.display = "block";
         });
 
@@ -337,7 +337,7 @@
             item.style.display = "none";
         });
 
-        document.querySelectorAll("#chart").forEach(item => {
+        document.querySelectorAll("#mode_sample_char").forEach(item => {
             item.style.display = "none";
         });
 
@@ -366,7 +366,7 @@
             item.style.display = "none";
         });
 
-        document.querySelectorAll("#chart").forEach(item => {
+        document.querySelectorAll("#mode_sample_char").forEach(item => {
             item.style.display = "none";
         });
 
@@ -399,6 +399,39 @@
             if (this.readyState == 4 && this.status == 200) {
                 var resp = JSON.parse(ajax.response);
                 document.getElementById("sample_list_container").innerHTML = resp.viwer;
+                document.getElementById("spin_load").classList.add("hidden");
+
+            } else if (this.readyState == 4 && this.status != 200) {
+                document.getElementById("spin_load").classList.add("hidden");
+                toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                that.value = '';
+            }
+        }
+
+        var data = new FormData();
+        data.append('_token', token);
+        data.append('_method', method);
+        data.append('id', form_value_id);
+        data.append('count', count);
+
+        ajax.send(data);
+    });
+
+    document.getElementById("mode_chart_count").addEventListener("change", function() {
+        document.getElementById("spin_load").classList.remove("hidden");
+        let ajax = new XMLHttpRequest();
+        let token = document.querySelector('meta[name="csrf-token"]').content;
+        let method = 'POST';
+        let form_value_id = document.querySelector(`#form_value_id`).value;
+        let count = this.value;
+        let url = "{!! route('fields.forms.get-sample-chart', ['form_value' => '#', 'count' => '?']) !!}".replace('#', form_value_id).replace('?', count);
+
+        ajax.open(method, url);
+
+        ajax.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var resp = JSON.parse(ajax.response);
+                document.getElementById("sample_chart_list").innerHTML = resp.viwer;
                 document.getElementById("spin_load").classList.add("hidden");
 
             } else if (this.readyState == 4 && this.status != 200) {

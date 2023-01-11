@@ -643,7 +643,7 @@ class FormController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Get Simple list chuncked
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -651,74 +651,95 @@ class FormController extends Controller
     public function getSampleList(Request $request, $id, $count)
     {
       $formValue = FormValue::findOrFail($id);
-
-      $svgs = [];
-
-      foreach ($formValue->values["samples"] as $key => $sample) {
-        if (isset($sample["results"])) {
-          $sum = [];
-          $size = count(array_chunk($sample["results"], 3)[0]);
-
-          $sum["temperature"] = 0;
-          $sum["ph"] = 0;
-          $sum["orp"] = 0;
-          $sum["conductivity"] = 0;
-          $sum["salinity"] = 0;
-          $sum["psi"] = 0;
-          $sum["sat"] = 0;
-          $sum["conc"] = 0;
-          $sum["ntu"] = 0;
-
-          foreach (array_chunk($sample["results"], 3)[0] as $key2 => $value ) {
-            if (isset($value["temperature"])) {
-              $sum["temperature"] += $value["temperature"];
-            }
-            if (isset($value["ph"])) {
-              $sum["ph"] += $value["ph"];
-            }
-            if (isset($value["orp"])) {
-              $sum["orp"] += $value["orp"];
-            }
-            if (isset($value["conductivity"])) {
-              $sum["conductivity"] += $value["conductivity"];
-            }
-            if (isset($value["salinity"])) {
-              $sum["salinity"] += $value["salinity"];
-            }
-            if (isset($value["psi"])) {
-              $sum["psi"] += $value["psi"];
-            }
-            if (isset($value["sat"])) {
-              $sum["sat"] += $value["sat"];
-            }
-            if (isset($value["conc"])) {
-              $sum["conc"] += $value["conc"];
-            }
-            if (isset($value["ntu"])) {
-              $sum["ntu"] += $value["ntu"];
-            }
-          }
-
-          $svgs[$key]["temperature"] = $sum["temperature"] / $size;
-          $svgs[$key]["ph"] = $sum["ph"] / $size;
-          $svgs[$key]["orp"] = $sum["orp"] / $size;
-          $svgs[$key]["conductivity"] = $sum["conductivity"] / $size;
-          $svgs[$key]["salinity"] = $sum["salinity"] / $size;
-          $svgs[$key]["psi"] = $sum["psi"] / $size;
-          $svgs[$key]["sat"] = $sum["sat"] / $size;
-          $svgs[$key]["conc"] = $sum["conc"] / $size;
-          $svgs[$key]["eh"] = $svgs[$key]["orp"] + 199;
-          $svgs[$key]["ntu"] = $sum["ntu"] / $size;
-        }
-      }
-
-      $resp = [
-          "message" => __("Formulário atualizado com Sucesso!"),
-          "alert-type" => "success",
-      ];
+      $svgs = $this->getSvgs($formValue);
 
       return response()->json([
           'viwer' => view("form.sample-list", compact("formValue", "count", "svgs"))->render()
+      ]);
+    }
+
+    /** Get SGVs sample Array
+     *
+     * @param  FormValue $formValue
+     * @return array
+     */
+    private function getSvgs(FormValue $formValue)
+    {
+        $svgs = [];
+
+        foreach ($formValue->values["samples"] as $key => $sample) {
+          if (isset($sample["results"])) {
+            $sum = [];
+            $size = count(array_chunk($sample["results"], 3)[0]);
+
+            $sum["temperature"] = 0;
+            $sum["ph"] = 0;
+            $sum["orp"] = 0;
+            $sum["conductivity"] = 0;
+            $sum["salinity"] = 0;
+            $sum["psi"] = 0;
+            $sum["sat"] = 0;
+            $sum["conc"] = 0;
+            $sum["ntu"] = 0;
+
+            foreach (array_chunk($sample["results"], 3)[0] as $key2 => $value ) {
+              if (isset($value["temperature"])) {
+                $sum["temperature"] += $value["temperature"];
+              }
+              if (isset($value["ph"])) {
+                $sum["ph"] += $value["ph"];
+              }
+              if (isset($value["orp"])) {
+                $sum["orp"] += $value["orp"];
+              }
+              if (isset($value["conductivity"])) {
+                $sum["conductivity"] += $value["conductivity"];
+              }
+              if (isset($value["salinity"])) {
+                $sum["salinity"] += $value["salinity"];
+              }
+              if (isset($value["psi"])) {
+                $sum["psi"] += $value["psi"];
+              }
+              if (isset($value["sat"])) {
+                $sum["sat"] += $value["sat"];
+              }
+              if (isset($value["conc"])) {
+                $sum["conc"] += $value["conc"];
+              }
+              if (isset($value["ntu"])) {
+                $sum["ntu"] += $value["ntu"];
+              }
+            }
+
+            $svgs[$key]["temperature"] = $sum["temperature"] / $size;
+            $svgs[$key]["ph"] = $sum["ph"] / $size;
+            $svgs[$key]["orp"] = $sum["orp"] / $size;
+            $svgs[$key]["conductivity"] = $sum["conductivity"] / $size;
+            $svgs[$key]["salinity"] = $sum["salinity"] / $size;
+            $svgs[$key]["psi"] = $sum["psi"] / $size;
+            $svgs[$key]["sat"] = $sum["sat"] / $size;
+            $svgs[$key]["conc"] = $sum["conc"] / $size;
+            $svgs[$key]["eh"] = $svgs[$key]["orp"] + 199;
+            $svgs[$key]["ntu"] = $sum["ntu"] / $size;
+          }
+        }
+        return $svgs;
+    }
+
+    /**
+     * Get Simple chart chuncked
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function getSampleChart(Request $request, $id, $count)
+    {
+      $formValue = FormValue::findOrFail($id);
+      $svgs = $this->getSvgs($formValue);
+
+      return response()->json([
+          'viwer' => view("form.sample-chart-list", compact("formValue", "count", "svgs"))->render()
       ]);
     }
 

@@ -204,11 +204,22 @@
                                 @endfor
                             @endif
                         </div>
-                        @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
-                            @include('form.sample-chart')
-                        @endif
-
-
+                        <div id="mode_sample_char" style="display: none" class="w-full">
+                            <div id="sample_chart_container">
+                                @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
+                                    @include('form.sample-chart', ['count' => 5])
+                                @endif
+                            </div>
+                            <div class="w-5/6 items-center flex mt-5">
+                                <p class="text-sm text-gray-700 leading-5 m-0 inline-flex">
+                                    Mostrando
+                                    <div class="w-24 inline-flex ml-1 mr-1">
+                                        <x-custom-select data-reverse="true" select-class="no-nice-select" :options="[3 => 3, 5 => 5, 10 => 10]" name="mode_chart_count" id="mode_chart_count" :value="5"/>
+                                    </div>
+                                    <span class="text-sm text-gray-700 leading-5 m-0 inline-flex">colunas por linha</span>
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
                     @include('form.coordinates-table')

@@ -312,6 +312,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::post('/save-sample', [FormController::class, 'saveSample'])->name('save-sample');
             Route::post('/delete-sample', [FormController::class, 'deleteSample'])->name('delete-sample');
             Route::post('/get-sample-list/{form_value}/{count}', [FormController::class, 'getSampleList'])->name('get-sample-list');
+            Route::post('/get-sample-chart/{form_value}/{count}', [FormController::class, 'getSampleChart'])->name('get-sample-chart');
             Route::post('/import-samples', [FormController::class, 'importSamples'])->name('import-samples');
         });
 
