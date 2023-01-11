@@ -3974,6 +3974,10 @@ input:read-only {
 		width: 8.333333%;
 	}
 
+	.md\:w-1\/5 {
+		width: 20%;
+	}
+
 	.md\:max-w-6xl {
 		max-width: 72rem;
 	}

@@ -16,18 +16,8 @@ class Customer extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'status'
+        'name', 'status', 'adress', 'number', 'city', 'state', 'cep', 'district'
     ];
-
-    /**
-     * Get point Identification  array
-     *
-     * @return array
-     */
-    public function pointIdentifications()
-    {
-        return $this->belongsToMany(PointIdentification::class);
-    }
 
     /**
      * Get status array

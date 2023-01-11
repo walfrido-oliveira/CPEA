@@ -35,9 +35,8 @@ class CustomerController extends Controller
     public function create()
     {
         $status = Customer::getStatusArray();
-        $areas = PointIdentification::pluck('area', 'area');
 
-        return view('customers.create', compact('status', 'areas'));
+        return view('customers.create', compact('status'));
     }
 
     /**
@@ -53,9 +52,13 @@ class CustomerController extends Controller
         $customer = Customer::create([
             'name' => $input['name'],
             'status' => $input['status'],
+            'adress' => $input['adress'],
+            'number' => $input['number'],
+            'district' => $input['district'],
+            'city' => $input['city'],
+            'state' => $input['state'],
+            'cep' => $input['cep'],
         ]);
-
-        $customer->pointIdentifications()->sync(isset($input['point_identification']) ? $input['point_identification'] : []);
 
         if($request->ajax()){
             return "AJAX";
@@ -146,9 +149,13 @@ class CustomerController extends Controller
         $customer->update([
             'name' => $input['name'],
             'status' => $input['status'],
+            'adress' => $input['adress'],
+            'number' => $input['number'],
+            'district' => $input['district'],
+            'city' => $input['city'],
+            'state' => $input['state'],
+            'cep' => $input['cep'],
         ]);
-
-        $customer->pointIdentifications()->sync(isset($input['point_identification']) ? $input['point_identification'] : []);
 
         $resp = [
             'message' => __('Cliente atualizado com Sucesso!'),

@@ -33,39 +33,32 @@
                             <x-custom-select :options="$status" name="status" id="status" value="" placeholder="{{ __('Situação do Cliente') }}" required class="mt-1"/>
                         </div>
                     </div>
-
-                    <h2 class="w-full mx-4 px-2 py-2 mt-4">{{ __("Identificação do Ponto") }}</h2>
-
-                    <div class="flex mx-4 px-3 py-2 mt-2">
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="areas" value="{{ __('Área') }}" />
-                            <x-custom-select :options="$areas" name="areas" id="areas" value="" class="mt-1"/>
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="adress" value="{{ __('Endereço') }}"/>
+                            <x-jet-input id="adress" class="form-control block mt-1 w-full" type="text" name="adress" maxlength="255" autofocus autocomplete="adress"/>
                         </div>
-                        <div class="w-full md:w-5/12 pl-3 mb-6 md:mb-0">
-                            <x-jet-label for="point_identifications" value="{{ __('Identificação Ponto') }}" />
-                            <x-custom-select :options="[]" name="point_identifications" id="point_identifications" value="" class="mt-1"/>
+                        <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="number" value="{{ __('Número') }}"/>
+                            <x-jet-input id="number" class="form-control block mt-1 w-full" type="text" name="number" maxlength="255" autofocus autocomplete="number"/>
                         </div>
-                        <div class="flex items-end justify-end pr-3 mb-6 md:mb-0 w-full md:w-1/12">
-                            <button type="button" class="btn-transition-secondary" id="point_identifications_add">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                            </button>
-                            <button type="button" class="btn-transition-secondary">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                </svg>
-                            </button>
+                        <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="district" value="{{ __('Bairro') }}"/>
+                            <x-jet-input id="district" class="form-control block mt-1 w-full" type="text" name="district" maxlength="255" autofocus autocomplete="district"/>
+                        </div>
+                        <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="city" value="{{ __('Cidade') }}"/>
+                            <x-jet-input id="city" class="form-control block mt-1 w-full" type="text" name="city" maxlength="255" autofocus autocomplete="city"/>
                         </div>
                     </div>
-
-                    <h3 class="w-full mx-4 px-6 py-2 mt-2">{{ __("Área") }}</h3>
-
-                    <div class="flex mx-4 px-3 py-2">
-                        <div class="w-full px-3 mb-6 md:mb-0">
-                            <ul id="point_identifications_list" class="block font-medium text-sm text-gray-700">
-
-                            </ul>
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="state" value="{{ __('Estado') }}"/>
+                            <x-custom-select :options="states()" name="state" id="state" value="" placeholder="{{ __('Estado') }}" class="mt-1"/>
+                        </div>
+                        <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="cep" value="{{ __('CEP') }}"/>
+                            <x-jet-input id="cep" class="form-control block mt-1 w-full" type="text" name="cep" maxlength="255" autofocus autocomplete="cep"/>
                         </div>
                     </div>
                 </div>
