@@ -1156,6 +1156,9 @@ select {
 .float-right {
 	float: right;
 }
+.float-left {
+	float: left;
+}
 .m-2 {
 	margin: 0.5rem;
 }
@@ -1412,6 +1415,9 @@ select {
 .w-2\/4 {
 	width: 50%;
 }
+.w-9 {
+	width: 2.25rem;
+}
 .min-w-0 {
 	min-width: 0px;
 }
@@ -1527,6 +1533,11 @@ select {
 }
 .list-none {
 	list-style-type: none;
+}
+.appearance-none {
+	-webkit-appearance: none;
+	   -moz-appearance: none;
+	        appearance: none;
 }
 .grid-cols-6 {
 	grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -1793,6 +1804,10 @@ select {
 	--tw-bg-opacity: 1;
 	background-color: rgba(219, 234, 254, var(--tw-bg-opacity));
 }
+.bg-gray-300 {
+	--tw-bg-opacity: 1;
+	background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
+}
 .bg-transparent {
 	background-color: transparent;
 }
@@ -1804,6 +1819,9 @@ select {
 }
 .bg-cover {
 	background-size: cover;
+}
+.bg-contain {
+	background-size: contain;
 }
 .bg-center {
 	background-position: center;
@@ -1969,6 +1987,9 @@ select {
 }
 .align-baseline {
 	vertical-align: baseline;
+}
+.align-top {
+	vertical-align: top;
 }
 .align-middle {
 	vertical-align: middle;
@@ -3946,10 +3967,6 @@ input:read-only {
 		width: 18rem;
 	}
 
-	.md\:w-1\/6 {
-		width: 16.666667%;
-	}
-
 	.md\:w-2\/3 {
 		width: 66.666667%;
 	}
@@ -3972,10 +3989,6 @@ input:read-only {
 
 	.md\:w-1\/12 {
 		width: 8.333333%;
-	}
-
-	.md\:w-1\/5 {
-		width: 20%;
 	}
 
 	.md\:max-w-6xl {

@@ -98,9 +98,17 @@
             <h3 style="font-size: 12px; text-align: center;">Referências Utilizadas</h3>
             <div style="margin-top: 10px;">
                 <p style="font-size: 12px; text-align: left;"><b>Referências externas</b></p>
+                @foreach (App\Models\Ref::where('field_type_id',
+                App\Models\FieldType::where('name', 'Água Subterrânea por Baixa Vazão')->first()->id)->where("type", "Referência Externa")->get() as $ref)
+                    <p style="font-size: 12px; text-align: left; line-height: 30px;"><b>{{ $ref->name }}:</b> {{ $ref->desc }}</p>
+                @endforeach
             </div>
-            <div style="margin-top: 10px;">
+            <div style="margin-top: 30px;">
                 <p style="font-size: 12px; text-align: left;"><b>Referências</b></p>
+                @foreach (App\Models\Ref::where('field_type_id',
+                App\Models\FieldType::where('name', 'Água Subterrânea por Baixa Vazão')->first()->id)->where("type", "Referências")->get() as $ref)
+                    <p style="font-size: 12px; text-align: left; line-height: 30px;"><b>{{ $ref->name }}:</b> {{ $ref->desc }}</p>
+                @endforeach
             </div>
         </div>
         <p style="page-break-after: always;">

@@ -81,6 +81,14 @@
                             <x-custom-select :options="$users" value="{{ isset($formValue->values['responsible']) ? $formValue->values['responsible'] : null }}" name="responsible" id="responsible" class="mt-1"/>
                         </div>
                     </div>
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <label for="turbidity" class="flex items-center">
+                                <input id="turbidity" type="checkbox" class="form-checkbox" name="turbidity" value="true" @if(isset($formValue->values['turbidity'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Turbidez') }}</span>
+                            </label>
+                        </div>
+                    </div>
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4" id="samples">
                         <div class="flex w-full flex-wrap">
