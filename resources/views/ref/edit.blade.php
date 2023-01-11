@@ -37,14 +37,20 @@
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="type" value="{{ __('Tipo') }}" />
+                            <x-custom-select :options="$types" name="type" id="type" :value="$ref->type" class="mt-1"/>
+                        </div>
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <label for="turbidity" class="flex items-center">
                                 <input id="turbidity" type="checkbox" class="form-checkbox" name="turbidity" @if($ref->turbidity) checked @endif>
                                 <span class="ml-2 text-sm text-gray-600">{{ __('Turbidez') }}</span>
                             </label>
                         </div>
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="type" value="{{ __('Tipo') }}" />
-                            <x-custom-select :options="$types" name="type" id="type" :value="$ref->type" class="mt-1"/>
+                    </div>
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full px-3 mb-6 md:mb-0">
+                            <x-jet-label for="additional_info" value="{{ __('Descrição') }}" />
+                            <textarea class="form-input w-full" name="desc" id="desc" cols="30" rows="10">{{ $ref->desc }}</textarea>
                         </div>
                     </div>
                 </div>

@@ -15,7 +15,7 @@ class Ref extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'field_type_id', 'turbidity', 'type'
+        'name', 'field_type_id', 'turbidity', 'type', 'desc'
     ];
 
 

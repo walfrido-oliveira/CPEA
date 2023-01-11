@@ -75,4 +75,13 @@ class Customer extends Model
         return $customers->paginate($perPage, ['*'], 'customers')->appends(request()->input());
     }
 
+    /**
+     * Get full adress
+     * @return string
+     */
+    public function getFullAdress()
+    {
+        return "$this->adress, $this->number<br>$this->city - $this->state";
+    }
+
 }

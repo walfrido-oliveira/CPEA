@@ -23,6 +23,11 @@
                         <div class="m-2">
                             <a href="{{ route('fields.forms.show', ['field' => $form->fieldType, 'project_id' => $project_id])}}" class="btn-outline-danger">{{ __('Voltar') }}</a>
                         </div>
+                        @if($formValue)
+                            <div class="m-2">
+                                <a href="{{ route('fields.forms.print', ['form_value' => $formValue->id]) }}" class="btn-outline-info">{{ __('Imprimir') }}</a>
+                            </div>
+                        @endif
                     </div>
                 </div>
 

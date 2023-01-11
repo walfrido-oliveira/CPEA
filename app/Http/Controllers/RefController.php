@@ -57,7 +57,8 @@ class RefController extends Controller
             'name' => $input['name'],
             'field_type_id' => $input['field_type_id'],
             'turbidity' => isset($input['turbidity']) ? true : false,
-            'type' => $input['type']
+            'type' => $input['type'],
+            'desc' => $input['desc'],
         ]);
 
         $resp = [
@@ -118,7 +119,8 @@ class RefController extends Controller
             'name' => $input['name'],
             'field_type_id' => $input['field_type_id'],
             'turbidity' => isset($input['turbidity']) ? true : false,
-            'type' => $input['type']
+            'type' => $input['type'],
+            'desc' => $input['desc'],
         ]);
 
         $resp = [

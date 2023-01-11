@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Dompdf\Dompdf;
 use App\Models\Form;
 use App\Models\User;
+use Dompdf\FontMetrics;
 use App\Models\Customer;
 use App\Models\FieldType;
 use App\Models\FormValue;
@@ -853,5 +855,50 @@ class FormController extends Controller
         ];
 
         return response()->json($resp);
+    }
+
+    /**
+     * Print Form
+     */
+    public function print($id)
+    {
+      $formValue = FormValue::findOrFail($id);
+      $headers = [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="orçamento.pdf"'
+      ];
+
+      $pathLogo = 'storage/img/cpea_logo.png';
+      $pathCrl = 'storage/img/crl_0402_logo.png';
+
+      $logo = base64_encode(file_get_contents($pathLogo));
+      $crl = base64_encode(file_get_contents($pathCrl));
+
+
+      //return view('form.print', compact('formValue', 'logo', 'crl'));
+
+      return response()->stream(function () use($formValue, $logo, $crl) {
+        // instantiate and use the dompdf class
+
+        $dompdf = new Dompdf(array('tempDir'=>'/srv/www/xyz/tmp'));
+        $dompdf->set_option("isPhpEnabled", true);
+        $dompdf->loadHtml(view('form.print', compact('formValue', 'logo', 'crl', 'dompdf'))->render());
+
+        // (Optional) Setup the paper size and orientation
+        //$dompdf->setPaper('A4', 'landscape');
+        $dompdf->setPaper('A4');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        $canvas = $dompdf->get_canvas();
+        $canvas->page_text(280, 820, "{PAGE_NUM} de {PAGE_COUNT}", null, 8, array(0,0,0));
+
+        // Output the generated PDF to Browser
+        $dompdf->stream("d", array("Attachment" => false));
+
+      }, 200, $headers );
+
+
     }
 }
