@@ -53,13 +53,9 @@
                     </div>
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <div class="w-full px-3 mb-6 md:mb-0">
                             <x-jet-label for="client" value="{{ __('Cliente') }}" />
-                            <x-jet-input  id="client" class="form-control block mt-1 w-full" type="text" value="{{ isset($formValue) ? $formValue->values['client'] : old('client') }}" name="client" maxlength="255"  placeholder="{{ __('Digite o Nome do Cliente') }}"/>
-                        </div>
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="client_address" value="{{ __('Endereço do Cliente') }}" />
-                            <x-jet-input  id="client_address" class="form-control block mt-1 w-full" type="text" value="{{ isset($formValue) ? $formValue->values['client_address'] : old('client_address') }}" name="client_address" maxlength="255"  placeholder="{{ __('Digite o Endereço do Cliente') }}"/>
+                            <x-custom-select :options="$customers" value="{{ isset($formValue->values['client']) ? $formValue->values['client'] : null }}" name="client" id="client" class="mt-1"/>
                         </div>
                     </div>
 
@@ -77,7 +73,7 @@
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="responsible" value="{{ __('Responsável') }}" />
-                            <x-custom-select :options="\App\Models\User::all()->pluck('full_name', 'id')" value="{{ isset($formValue->values['responsible']) ? $formValue->values['responsible'] : null }}" name="responsible" id="responsible" class="mt-1"/>
+                            <x-custom-select :options="$users" value="{{ isset($formValue->values['responsible']) ? $formValue->values['responsible'] : null }}" name="responsible" id="responsible" class="mt-1"/>
                         </div>
                     </div>
 

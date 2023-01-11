@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Form;
+use App\Models\User;
+use App\Models\Customer;
 use App\Models\FieldType;
 use App\Models\FormValue;
 use Illuminate\Support\Str;
@@ -60,10 +62,12 @@ class FormController extends Controller
     {
         $form = Form::findOrFail($id);
         $formValue = null;
+        $users = User::all()->pluck('full_name', 'id');
+        $customers = Customer::where('status', 'active')->pluck('name', 'id');
 
         return view(
             "form.$form->name",
-            compact("form", "project_id", "formValue")
+            compact("form", "project_id", "formValue", "users", "customers")
         );
     }
 
@@ -160,6 +164,8 @@ class FormController extends Controller
     public function edit(Request $request, $id)
     {
         $formValue = FormValue::findOrFail($id);
+        $users = User::all()->pluck('full_name', 'id');
+        $customers = Customer::where('status', 'active')->pluck('name', 'id');
         $form = $formValue->form;
         $project_id = $formValue->values["project_id"];
         $svgs = [];
@@ -322,11 +328,7 @@ class FormController extends Controller
             }
         }
 
-        return view(
-            "form.$form->name",
-            compact( "form", "project_id", "formValue", "svgs", "duplicates", "dpr"
-            )
-        );
+        return view("form.$form->name", compact( "form", "project_id", "formValue", "svgs", "duplicates", "dpr", "users", "customers"));
     }
 
     /**

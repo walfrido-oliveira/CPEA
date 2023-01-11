@@ -78,7 +78,7 @@
                     <x-jet-input id="environment_0" class="form-control block mt-1 w-full environment" type="text" value="" name="samples[row_0][environment]" maxlength="255" data-index="{{ isset($i) ? $i : 0 }}"/>
                 @endif
             </div>
-            <div class="w-full md:w-1/6 pr-3 mb-6 md:mb-0">
+            <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
                 <x-jet-label for="collect_{{ isset($i) ? $i : 0 }}" value="{{ __('DT/HR da Coleta') }}" />
                 @if(isset($sample['collect']))
                     <x-jet-input readonly="{{ !$formValue ? false : true}}" id="collect_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full collect" data-index="{{ isset($i) ? $i : 0 }}"
