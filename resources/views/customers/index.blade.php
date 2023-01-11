@@ -16,16 +16,16 @@
                 </div>
             </div>
 
-            <div class="pb-2 my-2 bg-white rounded-lg min-h-screen">
-                <div class="filter-container sm:hidden md:hidden lg:hidden">
+            <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
+                <div class="filter-container">
                     <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full">
-                        <div class="w-full md:w-1/3 px-2 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/2 px-2 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="id">
                                 {{ __('ID') }}
                             </label>
                             <x-jet-input id="id" class="form-control block w-full filter-field" type="text" name="id" :value="app('request')->input('id')" autofocus autocomplete="id" />
                         </div>
-                        <div class="w-full md:w-1/3 px-2 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/2 px-2 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
                                 {{ __('Nome') }}
                             </label>
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex">
+                <div class="flex mt-4">
                     <table id="customer_table" class="table table-responsive md:table w-full">
                         @include('customers.filter-result', ['customers' => $customers, 'ascending' => $ascending, 'orderBy' => $orderBy])
                     </table>

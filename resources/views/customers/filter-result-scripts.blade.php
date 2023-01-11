@@ -83,7 +83,7 @@
         }
 
         function eventsFilterCallback() {
-            document.querySelectorAll('#paginate_per_page_customers, #name_customer').forEach(item => {
+            document.querySelectorAll('#paginate_per_page_customers, #name, #id').forEach(item => {
                 item.addEventListener('change', filterCallback, false);
                 item.addEventListener('keyup', filterCallback, false);
             });
