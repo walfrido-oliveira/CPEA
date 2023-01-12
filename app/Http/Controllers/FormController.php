@@ -655,11 +655,23 @@ class FormController extends Controller
     public function getSampleList(Request $request, $id, $count)
     {
       $formValue = FormValue::findOrFail($id);
-      $svgs = $this->getSvgs($formValue);
+      $svgsTemp = $this->getSvgs($formValue);
       $type = $request->has("type") ? $request->get("type") : "default";
+      $samples = [];
+      $svgs = [];
+
+      foreach ($formValue->values['samples'] as $key => $value) {
+        if(count(array_chunk($value['results'], 3)) > 1 && $type == "duplicates") {
+            $samples[$key] = $value;
+            $svgs[$key] = $svgsTemp[$key];
+        } else if($type == "default") {
+            $samples[$key] = $value;
+            $svgs[$key] = $svgsTemp[$key];
+        }
+    }
 
       return response()->json([
-          'viwer' => view("form.sample-list", compact("formValue", "count", "svgs", "type"))->render()
+          'viwer' => view("form.sample-list", compact("formValue", "count", "svgs", "type", "samples"))->render()
       ]);
     }
 

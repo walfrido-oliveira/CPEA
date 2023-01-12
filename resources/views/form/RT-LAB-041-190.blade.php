@@ -191,7 +191,7 @@
                             <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - FINAL</h3>
                             <div id="sample_list_container">
                                 @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
-                                    @include('form.sample-list', ['count' => 3, 'type' => 'default'])
+                                    @include('form.sample-list', ['count' => 3, 'type' => 'default', 'samples' => $formValue->values['samples']])
                                 @endif
                             </div>
 

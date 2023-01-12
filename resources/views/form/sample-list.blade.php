@@ -1,4 +1,4 @@
-@foreach (array_chunk($formValue->values['samples'], $count, true) as $sampleArray)
+@foreach (array_chunk($samples, $count, true) as $sampleArray)
 
     @php $countDefault = 0; @endphp
     @php $countDeuplicates = 0; @endphp
