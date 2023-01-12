@@ -92,23 +92,23 @@
                 </thead>
                 <tbody id="table_result">
                     @foreach ($parameters as $key => $value)
-                    <tr>
-                        <td>
-                            {{ $value }}
-                        </td>
-                        <td>
-                            {{ $unities[$key] }}
-                        </td>
-                        <td>
-                            {{ number_format($svgs['row_' . ($i)][$key], $places[$key], ",", ".") }}
-                        </td>
-                        <td>
-                            {{ $LQ[$key] }}
-                        </td>
-                        <td>
-                            {{ $range[$key] }}
-                        </td>
-                    <tr>
+                        <tr>
+                            <td>
+                                {{ $value }}
+                            </td>
+                            <td>
+                                {{ $unities[$key] }}
+                            </td>
+                            <td>
+                                {{ number_format($svgs['row_' . ($i)][$key], $places[$key], ",", ".") }}
+                            </td>
+                            <td>
+                                {{ $LQ[$key] }}
+                            </td>
+                            <td>
+                                {{ $range[$key] }}
+                            </td>
+                        <tr>
                     @endforeach
                 </tbody>
             </table>

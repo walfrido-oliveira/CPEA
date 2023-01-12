@@ -1,4 +1,52 @@
 @php $customer = App\Models\Customer::find($formValue->values['client']); @endphp
+@php $d = 0; @endphp
+
+@php
+    $parameters = [
+        "conc" => "OD",
+        "orp" => "ORP",
+        "ph" => "pH",
+        "conductivity" => "Condutividade",
+        "salinity" => "Salinidade",
+        "temperature" => "Temperatura",
+    ];
+
+    $unities = [
+        "temperature" => "°C",
+        "ph" => "-",
+        "orp" => "mV",
+        "conductivity" => "µS/cm",
+        "salinity" => "-",
+        "conc" => "mg/L"
+    ];
+
+    $LQ = [
+        "temperature" => "-",
+        "ph" => "-",
+        "orp" => "-",
+        "conductivity" => "20",
+        "salinity" => "0,01",
+        "conc" => "0,3"
+    ];
+
+    $places = [
+        "temperature" => 2,
+        "ph" => 2,
+        "orp" => 1,
+        "conductivity" => 3,
+        "salinity" => 3,
+        "conc" => 3
+    ];
+
+    $range = [
+        "temperature" => "4 a 40",
+        "ph" => "1 a 13",
+        "orp" => "-1400 a +1400",
+        "conductivity" => "-",
+        "salinity" => "-",
+        "conc" => "-"
+    ];
+@endphp
 
 <!DOCTYPE html>
 <html lang="en">
@@ -41,22 +89,54 @@
             position: relative;
         }
 
-        h1, h2, h3, p, td {
+        h1, h2, h3, h4, p, td, th {
             font-family: 'Helvertica', Tahoma, Geneva, Verdana, sans-serif !important;
             margin: 0px;
         }
+
+        #results table,
+        #results td,
+        #results th,
+        #results tr {
+            border: 1px solid grey;
+            border-spacing: 0;
+        }
+
+        #coordinates table,
+        #coordinates td,
+        #coordinates th,
+        #coordinates tr {
+            border: 1px solid #000;
+            border-spacing: 0;
+            border-collapse: collapse;
+        }
+
+        #results th,
+        #results td,
+        #coordinates th,
+        #coordinates td {
+            font-size: 10px;
+        }
 	</style>
+
+<style>
+    .pagenum:before { content: counter(page); }
+    .pagenum:first-child {
+       display: none;
+    }
+  </style>
 </head>
 
 <body>
     <!-- Define header and footer blocks before your content -->
     <header>
+        <p>You are currently reading page <span class="pagenum"></span>.</p>
         <table style="width:100%;">
             <tr>
               <td style="text-align: left">
                 <img src="data:image/png;base64, {{ $logo }}" width="155" height="86">
               </td>
-              <td colspan="4" style="text-align: center">
+              <td colspan="4" style="text-align: center" id="text">
                 <p style="font-size: 12px; color: #6EBC6E"><b>Consultoria, Planejamento e Estudos Ambientais</b></p>
                 <p style="font-size: 12px;">Rua Henrique Monteiro, 90 - 13º andar - Pinheiros - São Paulo / SP - CEP: 05423-020</p>
                 <p style="font-size: 12px;">Rua Enguaguaçu, 99 - Ponta da Praia - Santos / SP - CEP: 11035-071</p>
@@ -79,8 +159,8 @@
      <main>
         <div style="text-align: center; margin-top: 100px;">
             <h1 style="font-size: 24px; font-weight: 100">Relatório de Ensaios de Campo</h1>
-            <h2 style="font-size: 24px;">IDCPEA47480322PM_DIQUE_MONITORAMENTO</h2>
-            <p style="font-size: 12px; line-height: 20px">RT-GGQ-020 Versão 22.0 12/03/2021</p>
+            <h2 style="font-size: 24px;">{{ $formValue->values["project_id"] }}</h2>
+            <p style="font-size: 12px; line-height: 20px">{{ $formValue->form->name }} Versão {{ $formValue->values["doc_version"] }}</p>
         </div>
         <div style="margin-top: 100px;">
             <table>
@@ -111,10 +191,144 @@
                 @endforeach
             </div>
         </div>
-        <p style="page-break-after: always;">
+        <p style="page-break-after: always;"></p>
+        <div id="results">
+            @foreach (array_chunk($formValue->values['samples'], 4, true) as $samples)
+                <h3 style="font-size: 12px; text-align: center;">Resultados de Parâmetros Físico-Químicos</h3>
+                <h4 style="color:#808080; font-size: 14px; text-align: center; margin-bottom: 40px;">RELATÓRIO - {{ $formValue->values["project_id"] }} </h4>
+                @foreach ($samples as $key => $sample)
+                    <div style="margin-bottom: 20px;">
+                        <table style="width:100%;">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: center">Amostra</th>
+                                    <th style="text-align: center">Data de Coleta</th>
+                                    <th style="text-align: center">Hora</th>
+                                    <th style="text-align: center">Condições Ambientais</th>
+                                    <th style="text-align: center">Matriz</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: center">
+                                        @if(isset($sample['point'])) {{ $sample['point'] }} @endif
+                                    </td>
+                                    <td style="text-align: center">
+                                        @if(isset($sample['collect']))  {{ Carbon\Carbon::parse($sample['collect'])->format("d/m/Y") }} @endif
+                                    </td>
+                                    <td style="text-align: center">
+                                        @if(isset($sample['collect'])) {{ Carbon\Carbon::parse($sample['collect'])->format("h:i") }} @endif
+                                    </td>
+                                    <td style="text-align: center">
+                                        @if(isset($sample['environment'])) {{ $sample['environment'] }} @endif
+                                    </td>
+                                    <td style="text-align: center">
+                                        {{ $formValue->form->fieldType->name }}
+                                    </td>
+                                <tr>
+                            </tbody>
+                            <tfoot style="border: 1px solid grey; border-bottom: 0px;">
+                                <tr>
+                                    <td colspan="5" style="border: 0px;">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="5" style="border: 0px;">&nbsp;</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <table style="width:100%;">
+                            <thead>
+                                <tr style="">
+                                    <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px;">Parâmetro</th>
+                                    <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px; border-left: 0px;">Unidade</th>
+                                    <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px; border-left: 0px;">Resultado</th>
+                                    <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px; border-left: 0px;">LQ</th>
+                                    <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-left: 0px;">Faixa</th>
+                                </tr>
+                            </thead>
+                            <tbody style="border: 1px solid grey;">
+                                @foreach ($parameters as $key2 => $value)
+                                    <tr>
+                                        <td style="text-align: left; border: 0px;">
+                                            {{ $value }}
+                                        </td>
+                                        <td style="text-align: center; border: 0px;">
+                                            {{ $unities[$key2] }}
+                                        </td>
+                                        <td style="text-align: center; border: 0px;">
+                                            {{ number_format($svgs[$key][$key2], $places[$key2], ",", ".") }}
+                                        </td>
+                                        <td style="text-align: center; border: 0px;">
+                                            {{ $LQ[$key2] }}
+                                        </td>
+                                        <td style="text-align: center; border: 0px;">
+                                            {{ $range[$key2] }}
+                                        </td>
+                                    <tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @endforeach
+                <p style="page-break-after: always;"></p>
+            @endforeach
+        </div>
+        <div id="coordinates">
+            @foreach (array_chunk($formValue->values['coordinates'], 40, true) as $coordinates)
+                <h3 style="font-size: 12px; text-align: center;">Localização dos pontos de amostragem - Tabela de coordenadas</h3>
+                <h4 style="color:#808080; font-size: 14px; text-align: center; margin-bottom: 40px;">RELATÓRIO - {{ $formValue->values["project_id"] }} </h4>
+                <table style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="vertical-align: middle; background-color: #D9D9D9; border-color: #000;">
+                                {{ __('identificação do Ponto') }}
+                            </th>
+                            <th rowspan="2" style="vertical-align: middle; background-color: #D9D9D9; border-color: #000;">
+                                {{ __('Zona') }}
+                            </th>
+                            <th colspan="2" style="text-align: center; background-color: #D9D9D9; border-color: #000;">
+                                {{ __('Coordenadas UTM') }}
+                            </th>
+                        </tr>
+                        <tr>
+                            <th style="background-color: #D9D9D9; border-color: #000;">
+                                {{ __('Eastings (mE)') }}
+                            </th>
+                            <th style="background-color: #D9D9D9; border-color: #000;">
+                                {{ __('Northings (mN)') }}
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach ($coordinates as $key => $coordinate)
+                            <tr>
+                                <td>
+                                    {{ isset($coordinate['point']) ? $coordinate['point'] : '' }}
+                                </td>
+                                <td>
+                                    {{ isset($coordinate['zone']) ? $coordinate['zone'] : '' }}
+                                </td>
+                                <td>
+                                    {{ isset($coordinate['me']) ? $coordinate['me'] : '' }}
+                                </td>
+                                <td>
+                                    {{ isset($coordinate['mn']) ? $coordinate['mn'] : '' }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
+                @if(!$loop->last)
+                    <p style="page-break-after: always;">
+                @endif
+            @endforeach
+        </div>
+        <!-- <p style="page-break-after: always;">
         </p>
         <p style="page-break-after: never;">
-        </p>
+        </p> -->
     </main>
 </body>
 

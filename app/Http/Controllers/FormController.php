@@ -895,6 +895,8 @@ class FormController extends Controller
     public function print($id)
     {
       $formValue = FormValue::findOrFail($id);
+      $svgs = $this->getSvgs($formValue);
+
       $headers = [
         'Content-Type' => 'application/pdf',
         'Content-Disposition' => 'inline; filename="orçamento.pdf"'
@@ -909,12 +911,12 @@ class FormController extends Controller
 
       //return view('form.print', compact('formValue', 'logo', 'crl'));
 
-      return response()->stream(function () use($formValue, $logo, $crl) {
+      return response()->stream(function () use($formValue, $logo, $crl, $svgs) {
         // instantiate and use the dompdf class
 
         $dompdf = new Dompdf(array('tempDir'=>'/srv/www/xyz/tmp'));
         $dompdf->set_option("isPhpEnabled", true);
-        $dompdf->loadHtml(view('form.print', compact('formValue', 'logo', 'crl', 'dompdf'))->render());
+        $dompdf->loadHtml(view('form.print', compact('formValue', 'logo', 'crl', 'dompdf', 'svgs'))->render());
 
         // (Optional) Setup the paper size and orientation
         //$dompdf->setPaper('A4', 'landscape');
