@@ -314,7 +314,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::post('/get-sample-list/{form_value}/{count}', [FormController::class, 'getSampleList'])->name('get-sample-list');
             Route::post('/get-sample-chart/{form_value}/{count}', [FormController::class, 'getSampleChart'])->name('get-sample-chart');
             Route::post('/import-samples', [FormController::class, 'importSamples'])->name('import-samples');
-            Route::get('/print/{form_value}', [FormController::class, 'print'])->name('print');
+            Route::get('/print/{form_value}/{project_id}', [FormController::class, 'print'])->name('print');
         });
 
         Route::resource('referencias', RefController::class, [

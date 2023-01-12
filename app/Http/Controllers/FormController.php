@@ -897,11 +897,6 @@ class FormController extends Controller
       $formValue = FormValue::findOrFail($id);
       $svgs = $this->getSvgs($formValue);
 
-      $headers = [
-        'Content-Type' => 'application/pdf',
-        'Content-Disposition' => 'inline; filename="orçamento.pdf"'
-      ];
-
       $pathLogo = 'storage/img/cpea_logo.png';
       $pathCrl = 'storage/img/crl_0402_logo.png';
 
@@ -909,29 +904,24 @@ class FormController extends Controller
       $crl = base64_encode(file_get_contents($pathCrl));
 
 
-      //return view('form.print', compact('formValue', 'logo', 'crl'));
+      //return view('form.print', compact('formValue', 'logo', 'crl', 'svgs'));
 
       return response()->stream(function () use($formValue, $logo, $crl, $svgs) {
-        // instantiate and use the dompdf class
 
         $dompdf = new Dompdf(array('tempDir'=>'/srv/www/xyz/tmp'));
         $dompdf->set_option("isPhpEnabled", true);
+        $dompdf->setPaper('A4');
         $dompdf->loadHtml(view('form.print', compact('formValue', 'logo', 'crl', 'dompdf', 'svgs'))->render());
 
-        // (Optional) Setup the paper size and orientation
-        //$dompdf->setPaper('A4', 'landscape');
-        $dompdf->setPaper('A4');
-
-        // Render the HTML as PDF
         $dompdf->render();
 
         $canvas = $dompdf->get_canvas();
         $canvas->page_text(280, 820, "{PAGE_NUM} de {PAGE_COUNT}", null, 8, array(0,0,0));
 
-        // Output the generated PDF to Browser
-        $dompdf->stream("d", array("Attachment" => false));
+        $fileName = $formValue->values['project_id'];
+        $dompdf->stream("$fileName.pdf", array("Attachment" => false));
 
-      }, 200, $headers );
+      }, 200);
 
 
     }
