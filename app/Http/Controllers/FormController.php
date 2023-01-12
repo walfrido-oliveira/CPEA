@@ -752,7 +752,7 @@ class FormController extends Controller
                 $svgs[$key] = $svgsTemp[$key];
                 $svgs[$key]['ph_formatted'] = number_format($svgs[$key]['ph'], 1, ',', '.');
                 $svgs[$key]['eh_formatted'] = number_format($svgs[$key]['eh'], 0, ',', '.');
-            } else {
+            } else if($type == "default") {
                 $samples[$key] = $value;
                 $svgs[$key] = $svgsTemp[$key];
                 $svgs[$key]['ph_formatted'] = number_format($svgs[$key]['ph'], 1, ',', '.');
