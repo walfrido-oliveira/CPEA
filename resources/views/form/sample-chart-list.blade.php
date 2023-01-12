@@ -1,5 +1,5 @@
 
-@foreach (array_chunk($formValue->values['samples'], $count, true) as $sampleArray)
+@foreach (array_chunk($samples, $count, true) as $sampleArray)
     <div class="flex mt-4 w-full">
         @php $countDefault = 0; @endphp
         @php $countDeuplicates = 0; @endphp

@@ -761,7 +761,7 @@ class FormController extends Controller
         }
 
       return response()->json([
-          'viwer' => view("form.sample-chart-list", compact("formValue", "count", "svgs", "type"))->render(),
+          'viwer' => view("form.sample-chart-list", compact("formValue", "count", "svgs", "type", "samples"))->render(),
           'samples' => $samples,
           'svgs' => $svgs,
       ]);
