@@ -438,7 +438,7 @@
 
     document.getElementById("filter_duplicate").addEventListener("click", function() {
         filterModeChart(document.getElementById("mode_chart_count").value);
-        filterModeList(document.getElementById("mode_chart_count").value);
+        filterModeList(document.getElementById("mode_list_count").value);
     });
 
     document.getElementById("filter_default").addEventListener("click", function() {
