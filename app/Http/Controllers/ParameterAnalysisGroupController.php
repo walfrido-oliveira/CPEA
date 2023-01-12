@@ -56,7 +56,7 @@ class ParameterAnalysisGroupController extends Controller
      */
     public function create()
     {
-        $parameterAnalysisGroups = ParameterAnalysisGroup::whereNull('parameter_analysis_group_id')->get()->pluck('name', 'id');
+        $parameterAnalysisGroups = ParameterAnalysisGroup::pluck('name', 'id');
 
         return view('parameter-analysis-group.create', compact('parameterAnalysisGroups'));
     }
@@ -90,7 +90,7 @@ class ParameterAnalysisGroupController extends Controller
     public function edit($id)
     {
         $parameterAnalysisGroup = ParameterAnalysisGroup::findOrFail($id);
-        $parameterAnalysisGroupParents = ParameterAnalysisGroup::pluck('name', 'id');
+        $parameterAnalysisGroups = ParameterAnalysisGroup::pluck('name', 'id');
 
         return view('parameter-analysis-group.edit', compact('parameterAnalysisGroup', 'parameterAnalysisGroups'));
     }
