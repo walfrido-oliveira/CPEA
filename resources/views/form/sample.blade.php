@@ -1,7 +1,7 @@
 <div class="w-full px-3 mt-4 mb-6 md:mb-0 flex flex-wrap sample
             @if(isset($sample['results']))
                 @if(count(array_chunk($sample['results'], 3)) > 1) duplicates-table
-                @else default-table
+                 @else default-table
                 @endif
             @else
             default-table

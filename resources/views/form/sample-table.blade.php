@@ -47,7 +47,7 @@
     @endphp
 
     <div class="flex flex-wrap mt-2 w-full flex-col mode-sample-table px-3">
-        <div class="border-2 my-2">
+        <div class="border-2 my-2 @if(count(array_chunk($sample['results'], 3)) > 1) duplicates-table @else default-table @endif">
             <table class="table table-responsive md:table w-full">
                 <thead>
                     <tr class="thead-light">
@@ -79,7 +79,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="border-2 my-2">
+        <div class="border-2 my-2 @if(count(array_chunk($sample['results'], 3)) > 1) duplicates-table @else default-table @endif">
             <table  class="table table-responsive md:table w-full">
                 <thead>
                     <tr class="thead-light">

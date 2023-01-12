@@ -4,6 +4,6 @@
       <canvas id="myChart" width="800" height="400" style="display: block; box-sizing: border-box; height: 400px; width: 800px; max-height: 400px"></canvas>
   </div>
   <div class="flex flex-wrap mt-2 w-full" id="sample_chart_list">
-    @include('form.sample-chart-list', ['count' => $count])
+    @include('form.sample-chart-list', ['count' => $count, 'type' => $type])
   </div>
 </div>

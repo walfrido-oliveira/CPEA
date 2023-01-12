@@ -1,185 +1,193 @@
 <script src="https://cdn.ckeditor.com/4.12.1/standard/ckeditor.js"></script>
 
-<script>
-    window.addEventListener("load", function() {
-        var ctx = document.getElementById('myChart').getContext('2d');
-        const data = {
-            datasets: [{
-                labels: [
-                    @if (isset($formValue->values['samples'] ))
-                        @foreach ($formValue->values['samples'] as $key => $sample)
-                            "{{ isset($sample['point']) ? $sample['point'] : '' }} - pH {{ isset($svgs[$key]['ph']) ? number_format($svgs[$key]['ph'], 2, ',', '.') : '' }} e EH {{ isset($svgs[$key]['eh']) ? number_format($svgs[$key]['eh'], 1, ',', '.') : '' }}",
-                        @endforeach
-                    @endif
-                ],
-                label: '',
-                data: [
-                    @if (isset($formValue->values['samples'] ))
-                        @foreach ($formValue->values['samples'] as $key => $sample)
-                            {
-                                x: {{ isset($svgs[$key]['eh']) ? $svgs[$key]['eh'] : 0 }},
-                                y: {{ isset($svgs[$key]['ph']) ? $svgs[$key]['ph'] : 0 }}
-                            },
-                        @endforeach
-                    @endif
-                ],
-                backgroundColor: [
-                    '#ff6384'
-                ]
-            }],
-        };
-        const config = {
-            type: 'scatter',
-            data: data,
-            options: {
-                backgroundRules: [{
-                        backgroundColor: "rgb(253, 234, 218)",
-                        yAxisSegement: 0
-                    },
-                    {
-                        backgroundColor: "rgb(198,217,241)",
-                        yAxisSegement: 400
-                    },
-                    {
-                        backgroundColor: "rgb(236,202,201)",
-                        yAxisSegement: 800
-                    }
-                ],
-                scales: {
-                    x: {
-                        type: 'linear',
-                        position: 'bottom',
-                        title: {
-                            display: true,
-                            text: "EV (mV)"
-                        },
-                        min: -600,
-                        max: 800,
-                        ticks: {
-                            stepSize: 100
-                        },
-
-                    },
-                    y: {
-                        min: 0,
-                        max: 14,
-                        ticks: {
-                            stepSize: .5,
-                            autoSkip: true,
-                        },
-                        title: {
-                            display: true,
-                            text: "pH"
-                        },
-                        grid: {
-                            drawBorder: false,
-                            lineWidth: function(context) {
-                                if (context.tick.value == 5 || context.tick.value == 8)
-                                    return 2;
-                                return 1;
-                            },
-                            color: function(context) {
-                                if (context.tick.value == 5 || context.tick.value == 8)
-                                    return '#000000';
-                                return '#ccc';
-                            },
-                        },
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                var label = context.dataset.labels[context.dataIndex];
-                                return `${label}`;
-                            }
-                        }
-                    },
-                }
-            }
-        };
-
-        Chart.register({
-            id: 'customBg',
-            beforeDraw: function(chart) {
-
-                var ctx = chart.ctx;
-                var ruleIndex = 0;
-                var rules = chart.options.backgroundRules;
-                var yaxis = chart.scales.y;
-                var xaxis = chart.scales.x;
-                var partPercentage = 1 / (yaxis.ticks.length - 1);
-
-                ctx.fillStyle = rules[0].backgroundColor;
-                ctx.fillRect(xaxis.left, yaxis.top, (xaxis.width * partPercentage) * 5, yaxis
-                    .height);
-
-                ctx.fillStyle = rules[1].backgroundColor;
-                ctx.fillRect(xaxis.left + (xaxis.width * partPercentage) * 5, yaxis.top, (xaxis
-                    .width * partPercentage) * 5, yaxis.height);
-
-                ctx.fillStyle = rules[2].backgroundColor;
-                ctx.fillRect(xaxis.left + (((xaxis.width * partPercentage) * 5) * 2), yaxis.top, (
-                    xaxis.width * partPercentage) * 4, yaxis.height);
-
-                ctx.save();
-
-                ctx.textAlign = "center";
-                ctx.fillStyle = "#000";
-                ctx.font = "bolder 12pt Nunito";
-
-                ctx.fillText("Redutor", (xaxis.width * partPercentage) * 4, yaxis.bottom - 10);
-                ctx.fillText("Moderadamente Oxidante", (xaxis.width * partPercentage) * 8, yaxis
-                    .bottom - 10);
-                ctx.fillText("Oxidante", (xaxis.width * partPercentage) * 13, yaxis.bottom - 10);
-
-                ctx.restore();
-
-                ctx.save();
-
-                var font, text, x, y;
-
-                text = "Ácido";
-
-                font = 20;
-                ctx.textAlign = "center";
-                ctx.fillStyle = "#000";
-                ctx.font = "bolder 12pt Nunito";
-
-                var metrics = ctx.measureText(text);
-                ctx.height = metrics.width;
-                x = font / 2;
-                y = metrics.width / 2;
-                ctx.fillStyle = 'black';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = "bottom";
-                ctx.save();
-                ctx.translate(x, y);
-                ctx.rotate(-Math.PI / 2);
-                ctx.fillText("Ácido", yaxis.top - 260, (xaxis.width * partPercentage) + 10);
-                ctx.fillText("Neutro", yaxis.top - 180, (xaxis.width * partPercentage) + 10);
-                ctx.fillText("Alcalino", yaxis.top - 70, (xaxis.width * partPercentage) + 10);
-                ctx.zindex = 99999999;
-                ctx.restore();
-
-            },
-        });
-
-        var myChart = new Chart(ctx, config);
-    });
-</script>
-
 <x-spin-load />
 <x-back-to-top element="mode_table" />
+
+<script>
+    window.addEventListener("load", function() {
+        setChart();
+    });
+
+    function setChart() {
+            var ctx = document.getElementById('myChart').getContext('2d');
+            const data = {
+                datasets: [{
+                    labels: [
+                        @if (isset($formValue->values['samples'] ))
+                            @foreach ($formValue->values['samples'] as $key => $sample)
+                                "{{ isset($sample['point']) ? $sample['point'] : '' }} - pH {{ isset($svgs[$key]['ph']) ? number_format($svgs[$key]['ph'], 1, ',', '.') : '' }} e EH {{ isset($svgs[$key]['eh']) ? number_format($svgs[$key]['eh'], 0, ',', '.') : '' }}",
+                            @endforeach
+                        @endif
+                    ],
+                    label: '',
+                    data: [
+                        @if (isset($formValue->values['samples'] ))
+                            @foreach ($formValue->values['samples'] as $key => $sample)
+                                {
+                                    x: {{ isset($svgs[$key]['eh']) ? $svgs[$key]['eh'] : 0 }},
+                                    y: {{ isset($svgs[$key]['ph']) ? $svgs[$key]['ph'] : 0 }}
+                                },
+                            @endforeach
+                        @endif
+                    ],
+                    backgroundColor: [
+                        '#ff6384'
+                    ]
+                }],
+            };
+            const config = {
+                type: 'scatter',
+                data: data,
+                options: {
+                    backgroundRules: [{
+                            backgroundColor: "rgb(253, 234, 218)",
+                            yAxisSegement: 0
+                        },
+                        {
+                            backgroundColor: "rgb(198,217,241)",
+                            yAxisSegement: 400
+                        },
+                        {
+                            backgroundColor: "rgb(236,202,201)",
+                            yAxisSegement: 800
+                        }
+                    ],
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom',
+                            title: {
+                                display: true,
+                                text: "EV (mV)"
+                            },
+                            min: -600,
+                            max: 800,
+                            ticks: {
+                                stepSize: 100
+                            },
+
+                        },
+                        y: {
+                            min: 0,
+                            max: 14,
+                            ticks: {
+                                stepSize: .5,
+                                autoSkip: true,
+                            },
+                            title: {
+                                display: true,
+                                text: "pH"
+                            },
+                            grid: {
+                                drawBorder: false,
+                                lineWidth: function(context) {
+                                    if (context.tick.value == 5 || context.tick.value == 8)
+                                        return 2;
+                                    return 1;
+                                },
+                                color: function(context) {
+                                    if (context.tick.value == 5 || context.tick.value == 8)
+                                        return '#000000';
+                                    return '#ccc';
+                                },
+                            },
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    var label = context.dataset.labels[context.dataIndex];
+                                    return `${label}`;
+                                }
+                            }
+                        },
+                    }
+                }
+            };
+
+            Chart.register({
+                id: 'customBg',
+                beforeDraw: function(chart) {
+
+                    var ctx = chart.ctx;
+                    var ruleIndex = 0;
+                    var rules = chart.options.backgroundRules;
+                    var yaxis = chart.scales.y;
+                    var xaxis = chart.scales.x;
+                    var partPercentage = 1 / (yaxis.ticks.length - 1);
+
+                    ctx.fillStyle = rules[0].backgroundColor;
+                    ctx.fillRect(xaxis.left, yaxis.top, (xaxis.width * partPercentage) * 5, yaxis
+                        .height);
+
+                    ctx.fillStyle = rules[1].backgroundColor;
+                    ctx.fillRect(xaxis.left + (xaxis.width * partPercentage) * 5, yaxis.top, (xaxis
+                        .width * partPercentage) * 5, yaxis.height);
+
+                    ctx.fillStyle = rules[2].backgroundColor;
+                    ctx.fillRect(xaxis.left + (((xaxis.width * partPercentage) * 5) * 2), yaxis.top, (
+                        xaxis.width * partPercentage) * 4, yaxis.height);
+
+                    ctx.save();
+
+                    ctx.textAlign = "center";
+                    ctx.fillStyle = "#000";
+                    ctx.font = "bolder 12pt Nunito";
+
+                    ctx.fillText("Redutor", (xaxis.width * partPercentage) * 4, yaxis.bottom - 10);
+                    ctx.fillText("Moderadamente Oxidante", (xaxis.width * partPercentage) * 8, yaxis
+                        .bottom - 10);
+                    ctx.fillText("Oxidante", (xaxis.width * partPercentage) * 13, yaxis.bottom - 10);
+
+                    ctx.restore();
+
+                    ctx.save();
+
+                    var font, text, x, y;
+
+                    text = "Ácido";
+
+                    font = 20;
+                    ctx.textAlign = "center";
+                    ctx.fillStyle = "#000";
+                    ctx.font = "bolder 12pt Nunito";
+
+                    var metrics = ctx.measureText(text);
+                    ctx.height = metrics.width;
+                    x = font / 2;
+                    y = metrics.width / 2;
+                    ctx.fillStyle = 'black';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = "bottom";
+                    ctx.save();
+                    ctx.translate(x, y);
+                    ctx.rotate(-Math.PI / 2);
+                    ctx.fillText("Ácido", yaxis.top - 260, (xaxis.width * partPercentage) + 10);
+                    ctx.fillText("Neutro", yaxis.top - 180, (xaxis.width * partPercentage) + 10);
+                    ctx.fillText("Alcalino", yaxis.top - 70, (xaxis.width * partPercentage) + 10);
+                    ctx.zindex = 99999999;
+                    ctx.restore();
+
+                },
+            });
+
+            var myChart = new Chart(ctx, config);
+            window.myChart = myChart;
+        }
+
+</script>
 
 <script>
     document.getElementById("filter_default").addEventListener("click", function(e) {
         e.preventDefault();
         this.classList.add("border-green-900");
+        this.classList.add("active");
         document.getElementById("filter_duplicate").classList.remove("border-green-900");
+        document.getElementById("filter_duplicate").classList.remove("active");
 
         document.querySelectorAll(".default-table, .duplicates-table").forEach(item => {
             item.classList.remove("fade");
@@ -193,7 +201,9 @@
     document.getElementById("filter_duplicate").addEventListener("click", function(e) {
         e.preventDefault();
         this.classList.add("border-green-900");
+        this.classList.add("active");
         document.getElementById("filter_default").classList.remove("border-green-900");
+        document.getElementById("filter_default").classList.remove("active");
 
         document.querySelectorAll(".duplicates-table, .duplicate").forEach(item => {
             item.classList.remove("fade");
@@ -385,13 +395,17 @@
 
 <script>
     document.getElementById("mode_list_count").addEventListener("change", function() {
+        filterModeList(this.value);
+    });
+
+    function filterModeList(count) {
         document.getElementById("spin_load").classList.remove("hidden");
         let ajax = new XMLHttpRequest();
         let token = document.querySelector('meta[name="csrf-token"]').content;
         let method = 'POST';
         let form_value_id = document.querySelector(`#form_value_id`).value;
-        let count = this.value;
         let url = "{!! route('fields.forms.get-sample-list', ['form_value' => '#', 'count' => '?']) !!}".replace('#', form_value_id).replace('?', count);
+        let type = document.querySelector("#filter_samples .active").dataset.status;
 
         ajax.open(method, url);
 
@@ -413,17 +427,32 @@
         data.append('_method', method);
         data.append('id', form_value_id);
         data.append('count', count);
+        data.append('type', type);
 
         ajax.send(data);
-    });
+    }
 
     document.getElementById("mode_chart_count").addEventListener("change", function() {
+        filterModeChart(this.value);
+    });
+
+    document.getElementById("filter_duplicate").addEventListener("click", function() {
+        filterModeChart(document.getElementById("mode_chart_count").value);
+        filterModeList(document.getElementById("mode_chart_count").value);
+    });
+
+    document.getElementById("filter_default").addEventListener("click", function() {
+        filterModeChart(document.getElementById("mode_chart_count").value);
+        filterModeList(document.getElementById("mode_list_count").value);
+    });
+
+    function filterModeChart(count) {
         document.getElementById("spin_load").classList.remove("hidden");
         let ajax = new XMLHttpRequest();
         let token = document.querySelector('meta[name="csrf-token"]').content;
         let method = 'POST';
         let form_value_id = document.querySelector(`#form_value_id`).value;
-        let count = this.value;
+        let type = document.querySelector("#filter_samples .active").dataset.status;
         let url = "{!! route('fields.forms.get-sample-chart', ['form_value' => '#', 'count' => '?']) !!}".replace('#', form_value_id).replace('?', count);
 
         ajax.open(method, url);
@@ -433,6 +462,30 @@
                 var resp = JSON.parse(ajax.response);
                 document.getElementById("sample_chart_list").innerHTML = resp.viwer;
                 document.getElementById("spin_load").classList.add("hidden");
+
+                window.myChart.data.labels.splice(0,  window.myChart.data.labels.length);
+                window.myChart.data.datasets.forEach((dataset) => {
+                    dataset.data.splice(0,  dataset.data.length);
+                    dataset.labels.splice(0,  dataset.labels.length);
+                });
+
+                window.myChart.update();
+
+                const samples = resp.samples;
+                const svgs = resp.svgs;
+                Object.keys(samples).forEach(key => {
+                    window.myChart.data.datasets.forEach((dataset) => {
+                        dataset.data.push(
+                        {
+                            x: svgs[key]['eh'],
+                            y: svgs[key]['ph'],
+                        },);
+                        dataset.labels.push(`${samples[key]['point']} - pH ${svgs[key]['ph_formatted']} e EH ${svgs[key]['eh_formatted']}`);
+                    });
+
+                });
+
+                window.myChart.update();
 
             } else if (this.readyState == 4 && this.status != 200) {
                 document.getElementById("spin_load").classList.add("hidden");
@@ -446,9 +499,10 @@
         data.append('_method', method);
         data.append('id', form_value_id);
         data.append('count', count);
+        data.append('type', type);
 
         ajax.send(data);
-    });
+    }
 </script>
 
 <script>

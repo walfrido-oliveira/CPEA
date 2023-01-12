@@ -90,7 +90,7 @@ class ParameterAnalysisGroupController extends Controller
     public function edit($id)
     {
         $parameterAnalysisGroup = ParameterAnalysisGroup::findOrFail($id);
-        $parameterAnalysisGroups = ParameterAnalysisGroup::whereNull('parameter_analysis_group_id')->get()->pluck('name', 'id');
+        $parameterAnalysisGroupParents = ParameterAnalysisGroup::pluck('name', 'id');
 
         return view('parameter-analysis-group.edit', compact('parameterAnalysisGroup', 'parameterAnalysisGroups'));
     }

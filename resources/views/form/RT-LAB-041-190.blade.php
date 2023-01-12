@@ -134,49 +134,48 @@
                             </div>
                         </div>
 
+                        <div class="border-b border-gray-200 dark:border-gray-700 flex px-3 w-full my-4">
+                            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400" style="width:70%" id="filter_samples">
+                                <li class="mr-2">
+                                    <a href="#" data-status="default" id="filter_default" class="active inline-flex p-4 border-b-2 border-green-900 rounded-t-lg  dark:text-blue-500 dark:border-blue-500 active" aria-current="page">
+                                        Dados
+                                    </a>
+                                </li>
+                                <li class="mr-2">
+                                    <a href="#" data-status="duplicates" id="filter_duplicate" class="inline-flex p-4 border-b-2 rounded-t-lg  dark:text-blue-500 dark:border-blue-500" >
+                                        Duplicatas
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="flex justify-end" style="width:30%" id="search_container">
+                                <div class="py-2 m-2 flex md:justify-end justify-start w-full" x-data="{ shearch: false }">
+                                    <div class="w-full block" id="search-content">
+                                        <div class="container mx-auto">
+                                            <input id="q" name="q" type="search" placeholder="Buscar..."
+                                                autofocus="autofocus" class="filter-field w-full form-control no-border">
+                                        </div>
+                                    </div>
+                                    <div class="ml-2">
+                                        <button type="button" id="search_sample"
+                                            class="w-full block btn-transition-secondary filter-field">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn-transition-primary" title="Ajustar Condições Ambientais"id="environment_edit">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
 
                         <div id="mode_table" class="w-full">
                             <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">RESULTADOS DOS PARÂMETROS FÍSICO-QUÍMICOS - DADOS</h3>
-                            <div class="border-b border-gray-200 dark:border-gray-700 flex px-3">
-                                <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400" style="width:70%">
-                                    <li class="mr-2">
-                                        <a href="#" data-status="default" id="filter_default" class="inline-flex p-4 border-b-2 border-green-900 rounded-t-lg  dark:text-blue-500 dark:border-blue-500 active" aria-current="page">
-                                            Dados
-                                        </a>
-                                    </li>
-                                    <li class="mr-2">
-                                        <a href="#" data-status="duplicate" id="filter_duplicate" class="inline-flex p-4 border-b-2 rounded-t-lg  dark:text-blue-500 dark:border-blue-500" >
-                                            Duplicatas
-                                        </a>
-                                    </li>
-                                </ul>
-                                <div class="flex justify-end" style="width:30%" id="search_container">
-                                    <div class="py-2 m-2 flex md:justify-end justify-start w-full" x-data="{ shearch: false }">
-                                        <div class="w-full block" id="search-content">
-                                            <div class="container mx-auto">
-                                                <input id="q" name="q" type="search" placeholder="Buscar..."
-                                                    autofocus="autofocus" class="filter-field w-full form-control no-border">
-                                            </div>
-                                        </div>
-                                        <div class="ml-2">
-                                            <button type="button" id="search_sample"
-                                                class="w-full block btn-transition-secondary filter-field">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <button type="button" class="btn-transition-primary" title="Ajustar Condições Ambientais"id="environment_edit">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-
                             @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
                                 @php $amostraIndex = 1; @endphp
                                 @foreach ($formValue->values['samples'] as $key => $sample)
@@ -187,11 +186,12 @@
                                 @include('form.sample')
                             @endif
                         </div>
+
                         <div id="mode_list" class="w-full" style="display: none">
                             <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - FINAL</h3>
                             <div id="sample_list_container">
                                 @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
-                                    @include('form.sample-list', ['count' => 3])
+                                    @include('form.sample-list', ['count' => 3, 'type' => 'default'])
                                 @endif
                             </div>
 
@@ -205,6 +205,7 @@
                                 </p>
                             </div>
                         </div>
+
                         <div id="mode_sample_table" class="w-full" style="display: none">
                             <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - RELATÓRIO</h3>
                             @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
@@ -213,10 +214,11 @@
                                 @endfor
                             @endif
                         </div>
+
                         <div id="mode_sample_char" style="display: none" class="w-full">
                             <div id="sample_chart_container">
                                 @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
-                                    @include('form.sample-chart', ['count' => 5])
+                                    @include('form.sample-chart', ['count' => 5, 'type' => 'default'])
                                 @endif
                             </div>
                             <div class="w-5/6 items-center flex mt-5">

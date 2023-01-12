@@ -656,9 +656,10 @@ class FormController extends Controller
     {
       $formValue = FormValue::findOrFail($id);
       $svgs = $this->getSvgs($formValue);
+      $type = $request->has("type") ? $request->get("type") : "default";
 
       return response()->json([
-          'viwer' => view("form.sample-list", compact("formValue", "count", "svgs"))->render()
+          'viwer' => view("form.sample-list", compact("formValue", "count", "svgs", "type"))->render()
       ]);
     }
 
@@ -739,11 +740,30 @@ class FormController extends Controller
      */
     public function getSampleChart(Request $request, $id, $count)
     {
-      $formValue = FormValue::findOrFail($id);
-      $svgs = $this->getSvgs($formValue);
+        $formValue = FormValue::findOrFail($id);
+        $svgs = [];
+        $svgsTemp = $this->getSvgs($formValue);
+        $type = $request->has("type") ? $request->get("type") : "default";
+        $samples = [];
+
+        foreach ($formValue->values['samples'] as $key => $value) {
+            if(count(array_chunk($value['results'], 3)) > 1 && $type == "duplicates") {
+                $samples[$key] = $value;
+                $svgs[$key] = $svgsTemp[$key];
+                $svgs[$key]['ph_formatted'] = number_format($svgs[$key]['ph'], 1, ',', '.');
+                $svgs[$key]['eh_formatted'] = number_format($svgs[$key]['eh'], 0, ',', '.');
+            } else {
+                $samples[$key] = $value;
+                $svgs[$key] = $svgsTemp[$key];
+                $svgs[$key]['ph_formatted'] = number_format($svgs[$key]['ph'], 1, ',', '.');
+                $svgs[$key]['eh_formatted'] = number_format($svgs[$key]['eh'], 0, ',', '.');
+            }
+        }
 
       return response()->json([
-          'viwer' => view("form.sample-chart-list", compact("formValue", "count", "svgs"))->render()
+          'viwer' => view("form.sample-chart-list", compact("formValue", "count", "svgs", "type"))->render(),
+          'samples' => $samples,
+          'svgs' => $svgs,
       ]);
     }
 
