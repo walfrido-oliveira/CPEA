@@ -163,7 +163,7 @@ class User extends Authenticatable
 
     public static function getSignerPath()
     {
-        return "/storage/img/signers";
+        return "storage/img/signers";
     }
 
     /**

@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use Dompdf\Dompdf;
 use App\Models\Form;
 use App\Models\User;
-use Dompdf\FontMetrics;
 use App\Models\Customer;
 use App\Models\FieldType;
 use App\Models\FormValue;
@@ -655,7 +653,7 @@ class FormController extends Controller
     public function getSampleList(Request $request, $id, $count)
     {
       $formValue = FormValue::findOrFail($id);
-      $svgsTemp = $this->getSvgs($formValue);
+      $svgsTemp = $formValue->getSvgs();
       $type = $request->has("type") ? $request->get("type") : "default";
       $samples = [];
       $svgs = [];
@@ -675,75 +673,6 @@ class FormController extends Controller
       ]);
     }
 
-    /** Get SGVs sample Array
-     *
-     * @param  FormValue $formValue
-     * @return array
-     */
-    private function getSvgs(FormValue $formValue)
-    {
-        $svgs = [];
-
-        foreach ($formValue->values["samples"] as $key => $sample) {
-          if (isset($sample["results"])) {
-            $sum = [];
-            $size = count(array_chunk($sample["results"], 3)[0]);
-
-            $sum["temperature"] = 0;
-            $sum["ph"] = 0;
-            $sum["orp"] = 0;
-            $sum["conductivity"] = 0;
-            $sum["salinity"] = 0;
-            $sum["psi"] = 0;
-            $sum["sat"] = 0;
-            $sum["conc"] = 0;
-            $sum["ntu"] = 0;
-
-            foreach (array_chunk($sample["results"], 3)[0] as $key2 => $value ) {
-              if (isset($value["temperature"])) {
-                $sum["temperature"] += $value["temperature"];
-              }
-              if (isset($value["ph"])) {
-                $sum["ph"] += $value["ph"];
-              }
-              if (isset($value["orp"])) {
-                $sum["orp"] += $value["orp"];
-              }
-              if (isset($value["conductivity"])) {
-                $sum["conductivity"] += $value["conductivity"];
-              }
-              if (isset($value["salinity"])) {
-                $sum["salinity"] += $value["salinity"];
-              }
-              if (isset($value["psi"])) {
-                $sum["psi"] += $value["psi"];
-              }
-              if (isset($value["sat"])) {
-                $sum["sat"] += $value["sat"];
-              }
-              if (isset($value["conc"])) {
-                $sum["conc"] += $value["conc"];
-              }
-              if (isset($value["ntu"])) {
-                $sum["ntu"] += $value["ntu"];
-              }
-            }
-
-            $svgs[$key]["temperature"] = $sum["temperature"] / $size;
-            $svgs[$key]["ph"] = $sum["ph"] / $size;
-            $svgs[$key]["orp"] = $sum["orp"] / $size;
-            $svgs[$key]["conductivity"] = $sum["conductivity"] / $size;
-            $svgs[$key]["salinity"] = $sum["salinity"] / $size;
-            $svgs[$key]["psi"] = $sum["psi"] / $size;
-            $svgs[$key]["sat"] = $sum["sat"] / $size;
-            $svgs[$key]["conc"] = $sum["conc"] / $size;
-            $svgs[$key]["eh"] = $svgs[$key]["orp"] + 199;
-            $svgs[$key]["ntu"] = $sum["ntu"] / $size;
-          }
-        }
-        return $svgs;
-    }
-
     /**
      * Get Simple chart chuncked
      *
@@ -754,7 +683,7 @@ class FormController extends Controller
     {
         $formValue = FormValue::findOrFail($id);
         $svgs = [];
-        $svgsTemp = $this->getSvgs($formValue);
+        $svgsTemp = $formValue->getSvgs();
         $type = $request->has("type") ? $request->get("type") : "default";
         $samples = [];
 
@@ -889,40 +818,4 @@ class FormController extends Controller
         return response()->json($resp);
     }
 
-    /**
-     * Print Form
-     */
-    public function print($id)
-    {
-      $formValue = FormValue::findOrFail($id);
-      $svgs = $this->getSvgs($formValue);
-
-      $pathLogo = 'storage/img/cpea_logo.png';
-      $pathCrl = 'storage/img/crl_0402_logo.png';
-
-      $logo = base64_encode(file_get_contents($pathLogo));
-      $crl = base64_encode(file_get_contents($pathCrl));
-
-
-      //return view('form.print', compact('formValue', 'logo', 'crl', 'svgs'));
-
-      return response()->stream(function () use($formValue, $logo, $crl, $svgs) {
-
-        $dompdf = new Dompdf(array('tempDir'=>'/srv/www/xyz/tmp'));
-        $dompdf->set_option("isPhpEnabled", true);
-        $dompdf->setPaper('A4');
-        $dompdf->loadHtml(view('form.print', compact('formValue', 'logo', 'crl', 'dompdf', 'svgs'))->render());
-
-        $dompdf->render();
-
-        $canvas = $dompdf->get_canvas();
-        $canvas->page_text(280, 820, "{PAGE_NUM} de {PAGE_COUNT}", null, 8, array(0,0,0));
-
-        $fileName = $formValue->values['project_id'];
-        $dompdf->stream("$fileName.pdf", array("Attachment" => false));
-
-      }, 200);
-
-
-    }
 }

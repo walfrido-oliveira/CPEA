@@ -53,7 +53,7 @@
 <html lang="en">
 
 <head>
-	@include('form.print-styles')
+	@include('form.print.styles')
 </head>
 
 <body>
@@ -111,13 +111,10 @@
             </div>
         </div>
         <div class="footer">
-            <p>Rua Henrique Monteiro, 90 - 13º andar - Pinheiros - São Paulo / SP - CEP: 05423-020 - Tel: (11) 4082-3200</p>
-            <p> Rua Enguaguaçu, 99 - Ponta da Praia - Santos / SP - CEP: 11035-071 - Tel: (13) 3035-6002</p>
-            <p>cpea@cpeanet.com</p>
-            <p> www.cpeanet.com.br</p>
+           {!! $footer !!}
         </div>
         <p style="page-break-after: always;"></p>
-        @include('form.print-sub-header')
+        @include('form.print.sub-header')
         <div id="results">
             @foreach (array_chunk($formValue->values['samples'], 4, true) as $samples)
                 <h3>Resultados de Parâmetros Físico-Químicos</h3>
@@ -197,7 +194,7 @@
                     </div>
                 @endforeach
                 <p style="page-break-after: always;"></p>
-                @include('form.print-sub-header')
+                @include('form.print.sub-header')
             @endforeach
         </div>
         <div id="coordinates">
@@ -252,7 +249,7 @@
                     <p class="coordinates-footer">Coordenadas referenciadas ao datum horizontal SIRGAS-2000</p>
                 @endif
                 <p style="page-break-after: always;">
-                @include('form.print-sub-header')
+                @include('form.print.sub-header')
             @endforeach
         </div>
 
@@ -271,6 +268,7 @@
         </div>
 
         <div id="signer">
+            <img src="data:image/png;base64, {{ $signer }}" width="70" height="70">
             <p class="user">Responsável(a) Técnico(a)</p>
             <p class="user-name">{{ $user->full_name }}</p>
             <p class="user-crq">CRQ IV: {{ $user->crq }}</p>

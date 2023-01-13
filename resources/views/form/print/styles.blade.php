@@ -45,6 +45,12 @@
 
     .sub-header p {
         text-align: center;
+        font-size: 6.5pt;
+    }
+
+    .sub-header p strong,
+    .sub-header p b {
+        color: #6EBC6E;
     }
 
     .footer {
@@ -53,6 +59,8 @@
         left: 0px;
         right: 0px;
         width: 100%;
+        text-align: center;
+        font-size: 6.5pt;
     }
 
     .footer p {
@@ -197,9 +205,11 @@
     }
 
     #signer {
-        margin-top: 200px;
         width: 150px;
+        margin-top: 150px;
         margin-left: auto;
+        margin-right: 20%;
+        text-align: center;
     }
 
     #signer .user {

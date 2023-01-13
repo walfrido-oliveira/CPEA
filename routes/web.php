@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Fornecedore;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ToController;
 use App\Http\Controllers\LabController;
@@ -15,6 +17,8 @@ use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReplaceController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\FormPrintController;
+use App\Http\Controllers\FormConfigController;
 use App\Http\Controllers\EmailConfigController;
 use App\Http\Controllers\GuidingValueController;
 use App\Http\Controllers\AnalysisOrderController;
@@ -40,8 +44,6 @@ use App\Http\Controllers\CalculationParameterController;
 use App\Http\Controllers\GuidingParameterValueController;
 use App\Http\Controllers\ParameterAnalysisGroupController;
 use App\Http\Controllers\GuidingParameterRefValueController;
-use App\Models\Fornecedore;
-use Illuminate\Support\Facades\Http;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,73 +55,6 @@ use Illuminate\Support\Facades\Http;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/import', function () {
-    ini_set('max_execution_time', 9999);
-    $fornecedores = Fornecedore::whereNull('cnpj')->get();
-    $url = "https://cadastroindustrialpr.com.br/services/navegador/consulta_unica.php";
-
-    foreach ($fornecedores as $key => $fornecedore) {
-        $client = new GuzzleHttp\Client();
-
-        $options = [
-            'multipart' => [
-              [
-                'name' => 'recid',
-                'contents' => $fornecedore->id_fornecedor
-              ]
-          ]];
-        $res = $client->post($url, $options);
-        $body = json_decode($res->getBody(), true);
-        $FornecedoreR = Fornecedore::where("id_fornecedor", $fornecedore->id_fornecedor)->first();
-        $FornecedoreR->update([
-            'cnpj' => $body['cnpj'],
-            'nome' => $body['nome'],
-            'fantasia' => $body['fantasia'],
-            'endereco' => $body['endereco'],
-            'tipo_logradouro' => $body['tipo_logradouro'],
-            'logradouro' => $body['logradouro'],
-            'numero' => $body['numero'],
-            'complemento' => $body['complemento'],
-            'bairro' => $body['bairro'],
-            'cep' => $body['cep'],
-            'municipio' => $body['municipio'],
-            'uf' => $body['uf'],
-            'ddd_telefone' => $body['ddd_telefone'],
-            'telefone' => $body['telefone'],
-            'pagina_web' => $body['pagina_web'],
-            'email' => $body['email'],
-            'email_compras' => $body['email_compras'],
-            'email_vendas' => $body['email_vendas'],
-            'nro_funcionarios' => $body['nro_funcionarios'],
-            'cnae' => $body['cnae'],
-            'descricao' => $body['descricao'],
-            'exporta' => $body['exporta'],
-            'importa' => $body['importa'],
-            'produto_1' => $body['produto_1'],
-            'produto_2' => $body['produto_2'],
-            'produto_3' => $body['produto_3'],
-            'outros_produtos' => $body['outros_produtos'],
-            'ano_fundacao' => $body['ano_fundacao'],
-            'facebook' => $body['facebook'],
-            'twitter' => $body['twitter'],
-            'instagram' => $body['instagram'],
-            'youtube' => $body['youtube'],
-            'linkedin' => $body['linkedin'],
-            'materias_primas' => $body['materias_primas'],
-            'processo_produtivo' => $body['processo_produtivo'],
-            'ddd_telefone2' => $body['ddd_telefone2'],
-            'telefone2' => $body['telefone2'],
-            'ddd_celular' => $body['ddd_celular'],
-            'celular' => $body['celular'],
-            'pais' => $body['pais'],
-            'matriz' => $body['matriz'],
-            'filial' => $body['filial'],
-            'capital' => $body['capital'],
-        ]);
-        echo($FornecedoreR->id);
-    }
-});
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -306,7 +241,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::put('/update/{form_value}', [FormController::class, 'update'])->name('update');
             Route::get('/index', [FormController::class, 'index'])->name('index');
             Route::post('/filter', [FormController::class, 'filter'])->name('filter');
-            Route::post('/import', [FormController::class, 'importResults'])->name('import');
             Route::post('/import-coordinates', [FormController::class, 'importCoordinates'])->name('import-coordinates');
             Route::post('/save-coordinate', [FormController::class, 'saveCoordinate'])->name('save-coordinate');
             Route::post('/save-sample', [FormController::class, 'saveSample'])->name('save-sample');
@@ -314,7 +248,13 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::post('/get-sample-list/{form_value}/{count}', [FormController::class, 'getSampleList'])->name('get-sample-list');
             Route::post('/get-sample-chart/{form_value}/{count}', [FormController::class, 'getSampleChart'])->name('get-sample-chart');
             Route::post('/import-samples', [FormController::class, 'importSamples'])->name('import-samples');
-            Route::get('/print/{form_value}/{project_id}', [FormController::class, 'print'])->name('print');
+            Route::post('/import', [FormController::class, 'importResults'])->name('import');
+            Route::get('/print/{form_value}/{project_id}', [FormPrintController::class, 'print'])->name('print');
+
+            Route::prefix('config')->name('config.')->group(function(){
+                Route::get('/', [FormConfigController::class, 'index'])->name('index');
+                Route::post('/store', [FormConfigController::class, 'store'])->name('store');
+            });
         });
 
         Route::resource('referencias', RefController::class, [
