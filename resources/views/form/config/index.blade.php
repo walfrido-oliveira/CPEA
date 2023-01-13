@@ -39,13 +39,13 @@
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full px-3 mb-6 md:mb-0">
                             <x-jet-label :value="__('Cabeçalho')" for="form_header" required/>
-                            <textarea class="form-input w-full ckeditor" name="form_header" id="form_header" cols="30" rows="10" required >{{ $header }}</textarea>
+                            <textarea class="form-input w-full ckeditor" name="form_header" id="form_header" cols="30" rows="10" required >{{ $header ? $header : old('form_header')  }}</textarea>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full px-3 mb-6 md:mb-0">
                             <x-jet-label :value="__('Rodapé Capa')" for="form_footer" required/>
-                            <textarea class="form-input w-full ckeditor" name="form_footer" id="form_footer" cols="30" rows="10" required >{{ $footer }}</textarea>
+                            <textarea class="form-input w-full ckeditor" name="form_footer" id="form_footer" cols="30" rows="10" required >{{ $footer ? $footer : old('form_footer')  }}</textarea>
                         </div>
                     </div>
                 </div>
