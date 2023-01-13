@@ -53,6 +53,12 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $input = $request->all();
+        $sigerName = null;
+
+        if($request->signer) {
+            $sigerName = time().'.'.$request->signer->getClientOriginalExtension();
+            $request->signer->move(public_path(User::getSignerPath()), $sigerName);
+        }
 
         $user = User::create([
             'name' => $input['name'],
@@ -63,6 +69,7 @@ class UserController extends Controller
             'password' => Hash::make(Str::random(8)),
             'crq' => $input['crq'],
             'dpto' => $input['dpto'],
+            'signer' => $sigerName
         ]);
 
         $user->syncRoles([$input['role']]);
@@ -123,6 +130,13 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
 
+        $sigerName = null;
+
+        if($request->signer) {
+            $sigerName = time().'.'.$request->signer->getClientOriginalExtension();
+            $request->signer->move(public_path(User::getSignerPath()), $sigerName);
+        }
+
         $user->update([
             'name' => $input['name'],
             'last_name' => $input['last_name'],
@@ -130,6 +144,7 @@ class UserController extends Controller
             'status' => $input['status'],
             'crq' => $input['crq'],
             'dpto' => $input['dpto'],
+            'signer' => $sigerName
         ]);
 
         $user->syncRoles([$input['role']]);

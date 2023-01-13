@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="py-6 edit-users">
         <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
-            <form method="POST" action="{{ route('users.update', ['user' => $user->id]) }}">
+            <form method="POST" action="{{ route('users.update', ['user' => $user->id]) }}" enctype="multipart/form-data">
                 @csrf
                 @method("PUT")
                 <div class="flex md:flex-row flex-col">
@@ -67,6 +67,12 @@
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="dpto" value="{{ __('Departamento') }}" />
                             <x-jet-input id="dpto" class="form-control block mt-1 w-full" type="text" name="dpto" maxlength="255" autofocus :value="$user->dpto" />
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <input id="signer" type="file" class="form-control @error('avatar') is-invalid @enderror" name="signer" value="{{ old('signer') }}" required autocomplete="signer">
                         </div>
                     </div>
                 </div>

@@ -32,7 +32,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'email', 'last_name', 'phone', 'password', 'status',
-        'crq', 'dpto'
+        'crq', 'dpto', 'signer'
     ];
 
     /**
@@ -159,6 +159,11 @@ class User extends Authenticatable
     public static function getStatusArray()
     {
         return  ['active' => 'Ativo', 'inactive' => 'Inativo'];
+    }
+
+    public static function getSignerPath()
+    {
+        return "/storage/img/signers";
     }
 
     /**

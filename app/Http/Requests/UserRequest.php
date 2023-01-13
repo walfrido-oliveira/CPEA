@@ -30,7 +30,8 @@ class UserRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user)],
-            'role' =>  ['required']
+            'role' =>  ['required'],
+            'signer' => 'image',
         ];
     }
 }
