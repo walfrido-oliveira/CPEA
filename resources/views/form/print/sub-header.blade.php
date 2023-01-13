@@ -1,3 +1,3 @@
 <div class="sub-header">
-    {!! $header !!}
+    {!! $formPrint->header !!}
 </div>

@@ -113,6 +113,12 @@
         margin-top: 100px;
     }
 
+    #infos,
+    #results .inner-results,
+    #coordinates .inner-coordinates {
+        margin-top: 20px;
+    }
+
     #results table,
     #results td,
     #results th,
@@ -123,7 +129,9 @@
 
     #results .table-container {
         margin-bottom: 20px;
-        margin: auto;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 15px;
         width: 80%;
     }
 
@@ -140,6 +148,18 @@
     #results .table-container .first th,
     #results .table-container .first td {
         text-align: center;
+    }
+
+    #results h3 {
+        font-size: 7.5pt;
+        text-align: center;
+    }
+
+    #results h4 {
+        color:#808080;
+        font-size: 7.5pt;
+        text-align: center;
+        margin-bottom: 20px;
     }
 
     #coordinates table,
@@ -167,7 +187,7 @@
         color:#808080;
         font-size: 7.5pt;
         text-align: center;
-        margin-bottom: 40px;
+        margin-bottom: 20px;
     }
 
     #coordinates .table-container {
@@ -185,18 +205,6 @@
         width: 80%;
         font-size: 6.5pt;
         margin-top: 5px;
-    }
-
-    #results h3 {
-        font-size: 7.5pt;
-        text-align: center;
-    }
-
-    #results h4 {
-        color:#808080;
-        font-size: 7.5pt;
-        text-align: center;
-        margin-bottom: 40px;
     }
 
     .additional-info p {

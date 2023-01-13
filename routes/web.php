@@ -249,7 +249,9 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::post('/get-sample-chart/{form_value}/{count}', [FormController::class, 'getSampleChart'])->name('get-sample-chart');
             Route::post('/import-samples', [FormController::class, 'importSamples'])->name('import-samples');
             Route::post('/import', [FormController::class, 'importResults'])->name('import');
+
             Route::get('/print/{form_value}/{project_id}', [FormPrintController::class, 'print'])->name('print');
+            Route::get('/signer/{form_value}/{project_id}', [FormPrintController::class, 'signer'])->name('signer');
 
             Route::prefix('config')->name('config.')->group(function(){
                 Route::get('/', [FormConfigController::class, 'index'])->name('index');
