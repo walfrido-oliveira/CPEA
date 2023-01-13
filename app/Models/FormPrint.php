@@ -104,7 +104,14 @@ class FormPrint extends Model
             "conc" => "-"
         ];
 
-        $this->refs = Ref::where('field_type_id', FieldType::where('name', $this->formValue->values['matrix'])->first()->id)->where("type", "Referências")->get();
-        $this->externalRefs = Ref::where('field_type_id', FieldType::where('name', $this->formValue->values['matrix'])->first()->id)->where("type", "Referência Externa")->get();
+        $this->refs = Ref::where('field_type_id', FieldType::where('name', $this->formValue->values['matrix'])->first()->id)
+        ->where("type", "Referências")
+        ->where("turbidity", isset($this->formValue->values['turbidity']))
+        ->get();
+
+        $this->externalRefs = Ref::where('field_type_id', FieldType::where('name', $this->formValue->values['matrix'])->first()->id)
+        ->where("type", "Referência Externa")
+        ->where("turbidity", isset($this->formValue->values['turbidity']))
+        ->get();
     }
 }
