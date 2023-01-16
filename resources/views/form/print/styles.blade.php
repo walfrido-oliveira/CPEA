@@ -235,7 +235,7 @@
     .report-date {
         text-align: center;
         font-size: 6.5pt;
-        margin-top: 200px;
+        margin-top: 150px;
         margin-bottom: 50px;
     }
 

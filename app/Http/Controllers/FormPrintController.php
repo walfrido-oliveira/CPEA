@@ -62,7 +62,7 @@ class FormPrintController extends Controller
         $canvas->page_text(280, 820, "{PAGE_NUM} de {PAGE_COUNT}", null, 8, array(0,0,0));
 
         $fileName = $formValue->values['project_id'];
-        $dompdf->stream("$fileName.pdf", array("Attachment" => true));
+        $dompdf->stream("$fileName.pdf", array("Attachment" => false));
 
       }, 200);
 
