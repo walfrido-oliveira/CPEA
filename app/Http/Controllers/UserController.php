@@ -131,7 +131,7 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
 
-        $user = $user->update([
+        $user->update([
             'name' => $input['name'],
             'last_name' => $input['last_name'],
             'phone' => preg_replace('/[^0-9]/', '', $input['phone']),
