@@ -16,7 +16,7 @@
                 </div>
             </div>
 
-            <div class="pb-2 my-2 bg-white rounded-lg min-h-screen">
+            <div class="px-2 my-2 bg-white rounded-lg min-h-screen">
                 <div class="md:hidden sm:hidden lg:hidden filter-container">
                     <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full">
                         <div class="w-full md:w-1/3 px-2 mb-6 md:mb-0">

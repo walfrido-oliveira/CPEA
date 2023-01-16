@@ -9,7 +9,7 @@
                     </div>
                 </div>
 
-                <div class="pb-2 my-2 bg-white rounded-lg min-h-screen">
+                <div class="px-2 my-2 bg-white rounded-lg min-h-screen">
                     <div class="flex">
                         <table class="table table-responsive md:table" id="table">
                             <thead>
