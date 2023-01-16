@@ -53,13 +53,7 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $input = $request->all();
-        $signerPath = null;
 
-        if($request->signer) {
-            $sigerName = time().'.'.$request->signer->getClientOriginalExtension();
-            $request->signer->move(public_path(User::getSignerPath()), $sigerName);
-            $signerPath = User::getSignerPath() . '/' . $sigerName;
-        }
         $user = User::create([
             'name' => $input['name'],
             'last_name' => $input['last_name'],
@@ -69,8 +63,15 @@ class UserController extends Controller
             'password' => Hash::make(Str::random(8)),
             'crq' => $input['crq'],
             'dpto' => $input['dpto'],
-            'signer' => $signerPath
         ]);
+
+        if($request->signer) {
+            $sigerName = time().'.'.$request->signer->getClientOriginalExtension();
+            $request->signer->move(public_path(User::getSignerPath()), $sigerName);
+            $signerPath = User::getSignerPath() . '/' . $sigerName;
+            $user->signer = $signerPath;
+            $user->save();
+        }
 
         $user->syncRoles([$input['role']]);
 
@@ -130,23 +131,22 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
 
-        $signerPath = null;
-
-        if($request->signer) {
-            $sigerName = time().'.'.$request->signer->getClientOriginalExtension();
-            $request->signer->move(public_path(User::getSignerPath()), $sigerName);
-            $signerPath = User::getSignerPath() . '/' . $sigerName;
-        }
-
-        $user->update([
+        $user = $user->update([
             'name' => $input['name'],
             'last_name' => $input['last_name'],
             'phone' => preg_replace('/[^0-9]/', '', $input['phone']),
             'status' => $input['status'],
             'crq' => $input['crq'],
             'dpto' => $input['dpto'],
-            'signer' => $signerPath
         ]);
+
+        if($request->signer) {
+            $sigerName = time().'.'.$request->signer->getClientOriginalExtension();
+            $request->signer->move(public_path(User::getSignerPath()), $sigerName);
+            $signerPath = User::getSignerPath() . '/' . $sigerName;
+            $user->signer = $signerPath;
+            $user->save();
+        }
 
         $user->syncRoles([$input['role']]);
 
