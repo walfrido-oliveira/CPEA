@@ -214,7 +214,7 @@
 
     #signer {
         width: 150px;
-        margin-top: 150px;
+        margin-top: 120px;
         margin-left: auto;
         margin-right: 20%;
         text-align: center;
