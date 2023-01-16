@@ -71,6 +71,11 @@
                     </div>
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        @if($user->signer)
+                            <div class="w-full px-3 mb-6 md:mb-0">
+                                <img src="{{ asset($user->signer) }}" alt="Logo formulário">
+                            </div>
+                        @endif
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <input id="signer" type="file" class="form-control @error('avatar') is-invalid @enderror" name="signer" value="{{ old('signer') }}" required autocomplete="signer">
                         </div>
