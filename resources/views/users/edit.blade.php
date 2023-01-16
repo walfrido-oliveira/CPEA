@@ -77,7 +77,7 @@
                             </div>
                         @endif
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <input id="signer" type="file" class="form-control @error('avatar') is-invalid @enderror" name="signer" value="{{ old('signer') }}" required autocomplete="signer">
+                            <input id="signer" type="file" class="form-control @error('avatar') is-invalid @enderror" name="signer" value="{{ old('signer') }}">
                         </div>
                     </div>
                 </div>
