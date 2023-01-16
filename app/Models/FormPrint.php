@@ -53,7 +53,7 @@ class FormPrint extends Model
         $this->user = User::find(isset($this->formValue->values["responsible"]) ? $this->formValue->values["responsible"] : null);
         $this->customer = Customer::find(isset($this->formValue->values['client']) ? $this->formValue->values['client'] : null);
 
-        $this->pathSigner = $this->user ? User::getSignerPath() . '/' . $this->user->signer : null;
+        $this->pathSigner = $this->user ? $this->user->signer : null;
 
         $this->logo = File::exists($this->pathLogo) ? base64_encode(file_get_contents($this->pathLogo)) : null;
         $this->crl = File::exists($this->pathCert) ? base64_encode(file_get_contents($this->pathCert)) : null;
