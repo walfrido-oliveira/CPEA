@@ -13,7 +13,7 @@
                 </div>
             </div>
 
-            <div class="px-2 my-2 bg-white rounded-lg min-h-screen">
+            <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
                 <div class="flex md:flex-row flex-col w-full">
                     <div class="mx-4 px-3 py-2 w-full flex justify-end" x-data="{ open: false }">
                         <div class="pr-4 flex">
