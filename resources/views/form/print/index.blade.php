@@ -225,7 +225,7 @@
             <p class="user">Responsável(a) Técnico(a)</p>
             <p class="user-name">{{ $formPrint->user->full_name }}</p>
             <p class="user-crq">CRQ IV: {{ $formPrint->user->crq }}</p>
-            <p class="user-crq">CRQ IV: {{ $formPrint->user->dpto }}</p>
+            <p class="user-crq">{{ $formPrint->user->dpto }}</p>
         </div>
 
         <p class="report-date">Relatório de ensaio emitido na data de {{ Carbon\Carbon::now()->format("d/m/Y")}}</p>
