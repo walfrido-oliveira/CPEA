@@ -16,8 +16,8 @@
                 </div>
             </div>
 
-            <div class="px-2 my-2 bg-white rounded-lg min-h-screen">
-                <div class="md:hidden sm:hidden lg:hidden filter-container">
+            <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
+                <div class="filter-container">
                     <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full">
                         <div class="w-full md:w-1/3 px-2 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="id">
