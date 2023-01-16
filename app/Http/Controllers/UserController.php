@@ -130,11 +130,12 @@ class UserController extends Controller
 
         $user = User::findOrFail($id);
 
-        $sigerName = null;
+        $signerPath = null;
 
         if($request->signer) {
             $sigerName = time().'.'.$request->signer->getClientOriginalExtension();
             $request->signer->move(public_path(User::getSignerPath()), $sigerName);
+            $signerPath = User::getSignerPath() . '/' . $sigerName;
         }
 
         $user->update([
@@ -144,7 +145,7 @@ class UserController extends Controller
             'status' => $input['status'],
             'crq' => $input['crq'],
             'dpto' => $input['dpto'],
-            'signer' => $sigerName
+            'signer' => $signerPath
         ]);
 
         $user->syncRoles([$input['role']]);
