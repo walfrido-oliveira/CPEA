@@ -70,7 +70,7 @@
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full px-3 mb-6 md:mb-0">
                             <x-jet-label for="matrix" value="{{ __('Matriz') }}" />
-                            <x-jet-input  id="matrix" class="form-control block mt-1 w-full" type="text" value="{{ isset($formValue) ? $formValue->values['matrix'] : $form->fieldType->name }}" name="matrix" maxlength="255" />
+                            <x-custom-select :options="$fields" value="{{ isset($formValue->values['matrix']) ? $formValue->values['matrix'] : null }}" name="matrix" id="matrix" class="mt-1"/>
                         </div>
                     </div>
 

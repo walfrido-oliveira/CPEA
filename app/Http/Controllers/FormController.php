@@ -61,8 +61,9 @@ class FormController extends Controller
         $formValue = null;
         $users = User::all()->pluck('full_name', 'id');
         $customers = Customer::where('status', 'active')->pluck('name', 'id');
+        $fields = FieldType::pluck("name");
 
-        return view("form.$form->name", compact("form", "formValue", "users", "customers")
+        return view("form.$form->name", compact("form", "formValue", "users", "customers", "fields")
         );
     }
 
