@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="py-6 show-users">
+    <div class="py-6 show-campaigns">
         <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
             <form method="POST" action="{{ route('project.campaign.duplicate', ['campaign' => $campaign->id]) }}" id="duplicate_form">
                 @csrf

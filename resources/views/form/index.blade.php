@@ -8,7 +8,7 @@
                 </div>
                 <div class="w-full flex justify-end">
                     <div class="m-2 ">
-                        <a class="btn-outline-info" href="{{ route('fields.ref.create') }}" >{{ __('Cadastrar') }}</a>
+                        <a class="btn-outline-info" href="{{ route('fields.forms.show') }}" >{{ __('Cadastrar') }}</a>
                     </div>
                     <div class="m-2">
                         <button type="button" class="btn-outline-danger delete-form" data-type="multiple">{{ __('Apagar') }}</a>

@@ -29,25 +29,22 @@ class FormController extends Controller
 
         $ascending = isset($query["ascending"]) ? $query["ascending"] : "desc";
         $orderBy = isset($query["order_by"]) ? $query["order_by"] : "form_id";
-        return view(
-            "form.index",
-            compact("forms", "ascending", "orderBy", "formsTypes")
+        return view("form.index", compact("forms", "ascending", "orderBy", "formsTypes")
         );
     }
 
     /**
      * Display a listing of the Ref.
      *
-     * @param  Request  $request
+     * @param Request  $request
      * @param int $id
      * @param string $project_id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id, $project_id)
+    public function show(Request $request)
     {
-        $forms = Form::where("field_type_id", $id)->get();
-        $fieldType = FieldType::findOrFail($id);
-        return view("form.show", compact("forms", "fieldType", "project_id"));
+        $forms = Form::all();
+        return view("form.show", compact("forms"));
     }
 
     /**
@@ -58,16 +55,14 @@ class FormController extends Controller
      * @param string $project_id
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request, $id, $project_id)
+    public function create(Request $request, $id)
     {
         $form = Form::findOrFail($id);
         $formValue = null;
         $users = User::all()->pluck('full_name', 'id');
         $customers = Customer::where('status', 'active')->pluck('name', 'id');
 
-        return view(
-            "form.$form->name",
-            compact("form", "project_id", "formValue", "users", "customers")
+        return view("form.$form->name", compact("form", "formValue", "users", "customers")
         );
     }
 

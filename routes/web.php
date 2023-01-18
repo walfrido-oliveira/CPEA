@@ -234,8 +234,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::delete('/destroy/{field}', [FieldController::class, 'destroy'])->name('destroy');
 
         Route::prefix('formularios')->name('forms.')->group(function(){
-            Route::get('/show/{field}/{project_id}', [FormController::class, 'show'])->name('show');
-            Route::get('/create/{form}/{project_id}', [FormController::class, 'create'])->name('create');
+            Route::get('/show', [FormController::class, 'show'])->name('show');
+            Route::get('/create/{form}', [FormController::class, 'create'])->name('create');
             Route::get('/edit/{form_value}', [FormController::class, 'edit'])->name('edit');
             Route::post('/store', [FormController::class, 'store'])->name('store');
             Route::put('/update/{form_value}', [FormController::class, 'update'])->name('update');
