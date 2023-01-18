@@ -63,157 +63,161 @@
         <p style="page-break-after: always;"></p>
         @include('form.print.sub-header')
         <div id="results">
-            @foreach (array_chunk($formPrint->formValue->values['samples'], 5, true) as $samples)
-                <div class="inner-results">
-                    <h3>Resultados de Parâmetros Físico-Químicos</h3>
-                    <h4>RELATÓRIO - {{ $formPrint->formValue->values["project_id"] }} </h4>
-                    @foreach ($samples as $key => $sample)
+            @if (isset($formPrint->formValue->values['samples']))
+                @foreach (array_chunk($formPrint->formValue->values['samples'], 5, true) as $samples)
+                    <div class="inner-results">
+                        <h3>Resultados de Parâmetros Físico-Químicos</h3>
+                        <h4>RELATÓRIO - {{ $formPrint->formValue->values["project_id"] }} </h4>
+                        @foreach ($samples as $key => $sample)
+                            <div class="table-container">
+                                <table class="first">
+                                    <thead>
+                                        <tr>
+                                            <th>Amostra</th>
+                                            <th>Data de Coleta</th>
+                                            <th>Hora</th>
+                                            <th>Condições Ambientais</th>
+                                            <th>Matriz</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                @if(isset($sample['point'])) {{ $sample['point'] }} @endif
+                                            </td>
+                                            <td>
+                                                @if(isset($sample['collect']))  {{ Carbon\Carbon::parse($sample['collect'])->format("d/m/Y") }} @endif
+                                            </td>
+                                            <td>
+                                                @if(isset($sample['collect'])) {{ Carbon\Carbon::parse($sample['collect'])->format("h:i") }} @endif
+                                            </td>
+                                            <td>
+                                                @if(isset($sample['environment'])) {{ $sample['environment'] }} @endif
+                                            </td>
+                                            <td>
+                                                {{ $formPrint->formValue->form->fieldType->name }}
+                                            </td>
+                                        <tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="5" style="border-bottom: 0px;">&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5" style="border-top: 0px; border-bottom: 0px;">&nbsp;</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                                <table class="second">
+                                    <thead>
+                                        <tr>
+                                            <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px;">Parâmetro</th>
+                                            <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px; border-left: 0px;">Unidade</th>
+                                            <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px; border-left: 0px;">Resultado</th>
+                                            <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px; border-left: 0px;">LQ</th>
+                                            <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-left: 0px;">Faixa</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($formPrint->parameters as $key2 => $value)
+                                            <tr>
+                                                <td style="text-align: left; border: 0px; border-left: 1px double grey;">
+                                                    {{ $value }}
+                                                </td>
+                                                <td style="text-align: center; border: 0px;">
+                                                    {{ $formPrint->unities[$key2] }}
+                                                </td>
+                                                <td style="text-align: center; border: 0px;">
+                                                    {{ number_format($formPrint->svgs[$key][$key2], $formPrint->places[$key2], ",", ".") }}
+                                                </td>
+                                                <td style="text-align: center; border: 0px;">
+                                                    {{ $formPrint->LQ[$key2] }}
+                                                </td>
+                                                <td style="text-align: center; border: 0px; border-right: 1px double grey;">
+                                                    {{ $formPrint->range[$key2] }}
+                                                </td>
+                                            <tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        @endforeach
+                    </div>
+                    <p style="page-break-after: always;"></p>
+                    @include('form.print.sub-header')
+                @endforeach
+            @endif
+        </div>
+        <div id="coordinates">
+            @if (isset($formPrint->formValue->values['coordinates']))
+                @foreach (array_chunk($formPrint->formValue->values['coordinates'], 40, true) as $coordinates)
+                    <div class="inner-coordinates">
+                        <h3>Localização dos pontos de amostragem - Tabela de coordenadas</h3>
+                        <h4>RELATÓRIO - {{ $formPrint->formValue->values["project_id"] }} </h4>
                         <div class="table-container">
-                            <table class="first">
+                            <table>
                                 <thead>
                                     <tr>
-                                        <th>Amostra</th>
-                                        <th>Data de Coleta</th>
-                                        <th>Hora</th>
-                                        <th>Condições Ambientais</th>
-                                        <th>Matriz</th>
+                                        <th rowspan="2" style="vertical-align: middle; background-color: #D9D9D9; border-color: #000;">
+                                            {{ __('identificação do Ponto') }}
+                                        </th>
+                                        <th rowspan="2" style="vertical-align: middle; background-color: #D9D9D9; border-color: #000;">
+                                            {{ __('Zona') }}
+                                        </th>
+                                        <th colspan="2" style="text-align: center; background-color: #D9D9D9; border-color: #000;">
+                                            {{ __('Coordenadas UTM') }}
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th style="background-color: #D9D9D9; border-color: #000;">
+                                            {{ __('Eastings (mE)') }}
+                                        </th>
+                                        <th style="background-color: #D9D9D9; border-color: #000;">
+                                            {{ __('Northings (mN)') }}
+                                        </th>
                                     </tr>
                                 </thead>
+
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            @if(isset($sample['point'])) {{ $sample['point'] }} @endif
-                                        </td>
-                                        <td>
-                                            @if(isset($sample['collect']))  {{ Carbon\Carbon::parse($sample['collect'])->format("d/m/Y") }} @endif
-                                        </td>
-                                        <td>
-                                            @if(isset($sample['collect'])) {{ Carbon\Carbon::parse($sample['collect'])->format("h:i") }} @endif
-                                        </td>
-                                        <td>
-                                            @if(isset($sample['environment'])) {{ $sample['environment'] }} @endif
-                                        </td>
-                                        <td>
-                                            {{ $formPrint->formValue->form->fieldType->name }}
-                                        </td>
-                                    <tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="5" style="border-bottom: 0px;">&nbsp;</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="5" style="border-top: 0px; border-bottom: 0px;">&nbsp;</td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                            <table class="second">
-                                <thead>
-                                    <tr>
-                                        <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px;">Parâmetro</th>
-                                        <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px; border-left: 0px;">Unidade</th>
-                                        <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px; border-left: 0px;">Resultado</th>
-                                        <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px; border-left: 0px;">LQ</th>
-                                        <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-left: 0px;">Faixa</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($formPrint->parameters as $key2 => $value)
+                                    @foreach ($coordinates as $key => $coordinate)
                                         <tr>
-                                            <td style="text-align: left; border: 0px; border-left: 1px double grey;">
-                                                {{ $value }}
+                                            <td>
+                                                {{ isset($coordinate['point']) ? $coordinate['point'] : '' }}
                                             </td>
-                                            <td style="text-align: center; border: 0px;">
-                                                {{ $formPrint->unities[$key2] }}
+                                            <td>
+                                                {{ isset($coordinate['zone']) ? $coordinate['zone'] : '' }}
                                             </td>
-                                            <td style="text-align: center; border: 0px;">
-                                                {{ number_format($formPrint->svgs[$key][$key2], $formPrint->places[$key2], ",", ".") }}
+                                            <td>
+                                                {{ isset($coordinate['me']) ? $coordinate['me'] : '' }}
                                             </td>
-                                            <td style="text-align: center; border: 0px;">
-                                                {{ $formPrint->LQ[$key2] }}
+                                            <td>
+                                                {{ isset($coordinate['mn']) ? $coordinate['mn'] : '' }}
                                             </td>
-                                            <td style="text-align: center; border: 0px; border-right: 1px double grey;">
-                                                {{ $formPrint->range[$key2] }}
-                                            </td>
-                                        <tr>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>
                         </div>
-                    @endforeach
-                </div>
-                <p style="page-break-after: always;"></p>
-                @include('form.print.sub-header')
-            @endforeach
-        </div>
-        <div id="coordinates">
-            @foreach (array_chunk($formPrint->formValue->values['coordinates'], 40, true) as $coordinates)
-                <div class="inner-coordinates">
-                    <h3>Localização dos pontos de amostragem - Tabela de coordenadas</h3>
-                    <h4>RELATÓRIO - {{ $formPrint->formValue->values["project_id"] }} </h4>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th rowspan="2" style="vertical-align: middle; background-color: #D9D9D9; border-color: #000;">
-                                        {{ __('identificação do Ponto') }}
-                                    </th>
-                                    <th rowspan="2" style="vertical-align: middle; background-color: #D9D9D9; border-color: #000;">
-                                        {{ __('Zona') }}
-                                    </th>
-                                    <th colspan="2" style="text-align: center; background-color: #D9D9D9; border-color: #000;">
-                                        {{ __('Coordenadas UTM') }}
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th style="background-color: #D9D9D9; border-color: #000;">
-                                        {{ __('Eastings (mE)') }}
-                                    </th>
-                                    <th style="background-color: #D9D9D9; border-color: #000;">
-                                        {{ __('Northings (mN)') }}
-                                    </th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                @foreach ($coordinates as $key => $coordinate)
-                                    <tr>
-                                        <td>
-                                            {{ isset($coordinate['point']) ? $coordinate['point'] : '' }}
-                                        </td>
-                                        <td>
-                                            {{ isset($coordinate['zone']) ? $coordinate['zone'] : '' }}
-                                        </td>
-                                        <td>
-                                            {{ isset($coordinate['me']) ? $coordinate['me'] : '' }}
-                                        </td>
-                                        <td>
-                                            {{ isset($coordinate['mn']) ? $coordinate['mn'] : '' }}
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                        @if($loop->last)
+                            <p class="coordinates-footer">Coordenadas referenciadas ao datum horizontal SIRGAS-2000</p>
+                        @endif
                     </div>
-                    @if($loop->last)
-                        <p class="coordinates-footer">Coordenadas referenciadas ao datum horizontal SIRGAS-2000</p>
-                    @endif
-                </div>
-                <p style="page-break-after: always;">
-                @include('form.print.sub-header')
-            @endforeach
+                    <p style="page-break-after: always;">
+                    @include('form.print.sub-header')
+                @endforeach
+            @endif
         </div>
 
         <div id="infos">
             <h3>Informações Adicionais</h3>
             <h4>RELATÓRIO - {{ $formPrint->formValue->values["project_id"] }} </h4>
             <div class="additional-info">
-                {!! $formPrint->formValue->values["additional_info"] !!}
+                @if(isset($formPrint->formValue->values["additional_info"])) {!! $formPrint->formValue->values["additional_info"] !!} @endif
             </div>
             <div class="approval-text-container">
                 <p><b>Aprovação do Relatório</b></p>
                 <div class="additional-info">
-                    {!! $formPrint->formValue->values["approval_text"] !!}
+                    @if(isset($formPrint->formValue->values["approval_text"])) {!! $formPrint->formValue->values["approval_text"] !!} @endif
                 </div>
             </div>
         </div>
@@ -222,10 +226,12 @@
             @if ( $formPrint->signerFile)
                 <img src="data:image/png;base64, {{ $formPrint->signer }}" width="70" height="70">
             @endif
-            <p class="user">Responsável(a) Técnico(a)</p>
-            <p class="user-name">{{ $formPrint->user->full_name }}</p>
-            <p class="user-crq">CRQ IV: {{ $formPrint->user->crq }}</p>
-            <p class="user-crq">{{ $formPrint->user->dpto }}</p>
+            @if($formPrint->user)
+                <p class="user">Responsável(a) Técnico(a)</p>
+                <p class="user-name">{{ $formPrint->user->full_name }}</p>
+                <p class="user-crq">CRQ IV: {{ $formPrint->user->crq }}</p>
+                <p class="user-crq">{{ $formPrint->user->dpto }}</p>
+            @endif
         </div>
 
         <p class="report-date">Relatório de ensaio emitido na data de {{ Carbon\Carbon::now()->format("d/m/Y")}}</p>
