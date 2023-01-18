@@ -162,6 +162,7 @@ class FormController extends Controller
         $formValue = FormValue::findOrFail($id);
         $users = User::all()->pluck('full_name', 'id');
         $customers = Customer::where('status', 'active')->pluck('name', 'id');
+        $fields = FieldType::pluck("name");
         $form = $formValue->form;
         $project_id = $formValue->values["project_id"];
         $svgs = [];
@@ -324,7 +325,7 @@ class FormController extends Controller
             }
         }
 
-        return view("form.$form->name", compact( "form", "project_id", "formValue", "svgs", "duplicates", "dpr", "users", "customers"));
+        return view("form.$form->name", compact( "form", "project_id", "formValue", "svgs", "duplicates", "dpr", "users", "customers", "fields"));
     }
 
     /**
