@@ -75,10 +75,14 @@
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0 grid gap-1 grid-cols-2">
                             <label for="turbidity" class="flex items-center">
                                 <input id="turbidity" type="checkbox" class="form-checkbox" name="turbidity" value="true" @if(isset($formValue->values['turbidity'])) checked @endif>
-                                <span class="ml-2 text-sm text-gray-600">{{ __('Turbidez') }}</span>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Turbidez?') }}</span>
+                            </label>
+                            <label for="accreditation" class="flex items-center">
+                                <input id="accreditation" type="checkbox" class="form-checkbox" name="accreditation" value="true" @if(isset($formValue->values['accreditation'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Acreditado?') }}</span>
                             </label>
                         </div>
                     </div>

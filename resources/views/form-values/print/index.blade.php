@@ -15,7 +15,7 @@
               <td colspan="2" style="text-align: center; vertical-align: middle;" id="text">
               </td>
               <td style="text-align: right; vertical-align: middle;">
-                <img src="data:image/png;base64, {{ $formPrint->crl }}" width="74" height="112" >
+                @if (isset($formPrint->formValue->values['accreditation'])) <img src="data:image/png;base64, {{ $formPrint->crl }}" width="74" height="112" > @endif
               </td>
             </tr>
         </table>
