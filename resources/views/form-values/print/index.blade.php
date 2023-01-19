@@ -28,7 +28,7 @@
         <div class="report-title">
             <h1>Relatório de Ensaios de Campo</h1>
             <h2>{{ $formPrint->formValue->values["project_id"] }}</h2>
-            <p>{{ $formPrint->formValue->form->name }} Versão {{ $formPrint->formValue->values["doc_version"] }}</p>
+            <p>{{ $formPrint->formValue->form->identification }} Versão {{ $formPrint->formValue->form->version }}</p>
         </div>
         <div id="customer">
             <table>
