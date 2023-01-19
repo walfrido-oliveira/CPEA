@@ -10,6 +10,9 @@
                     <div class="m-2 ">
                         <a class="btn-outline-info" href="{{ route('fields.form-values.show') }}" >{{ __('Cadastrar') }}</a>
                     </div>
+                    <div class="m-2">
+                        <button type="button" class="btn-outline-danger delete-form-values" data-type="multiple">{{ __('Apagar') }}</a>
+                    </div>
                 </div>
             </div>
 
@@ -31,7 +34,7 @@
                     </div>
                 </div>
                 <div class="flex mt-4">
-                    <table id="guiding_value_table" class="table table-responsive md:table w-full">
+                    <table id="form_value_table" class="table table-responsive md:table w-full">
                         @include('form-values.filter-result', ['forms' => $forms, 'ascending' => $ascending, 'orderBy' => $orderBy])
                     </table>
                 </div>
@@ -42,9 +45,9 @@
         </div>
     </div>
 
-    <x-modal title="{{ __('Excluir Referências') }}"
-             msg="{{ __('Deseja realmente apagar esse Referências?') }}"
-             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_guiding_value_modal"
+    <x-modal title="{{ __('Excluir Formulário') }}"
+             msg="{{ __('Deseja realmente apagar esse formulário?') }}"
+             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_form_value_modal"
              method="DELETE"
              redirect-url="{{ route('fields.ref.index') }}"/>
 
@@ -65,7 +68,7 @@
                 ajax.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         var resp = JSON.parse(ajax.response);
-                        document.getElementById("guiding_value_table").innerHTML = resp.filter_result;
+                        document.getElementById("form_value_table").innerHTML = resp.filter_result;
                         document.getElementById("pagination").innerHTML = resp.pagination;
                         eventsFilterCallback();
                         eventsDeleteCallback();
@@ -111,7 +114,7 @@
                 ajax.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         var resp = JSON.parse(ajax.response);
-                        document.getElementById("guiding_value_table").innerHTML = resp.filter_result;
+                        document.getElementById("form_value_table").innerHTML = resp.filter_result;
                         document.getElementById("pagination").innerHTML = resp.pagination;
                         that.dataset.ascending = that.dataset.ascending == 'asc' ? that.dataset.ascending = 'desc' : that.dataset.ascending = 'asc';
                         eventsFilterCallback();
@@ -142,17 +145,17 @@
                     item.addEventListener('change', filterCallback, false);
                     item.addEventListener('keyup', filterCallback, false);
                 });
-                document.querySelectorAll("#guiding_value_table thead [data-name]").forEach(item => {
+                document.querySelectorAll("#form_value_table thead [data-name]").forEach(item => {
                     item.addEventListener("click", orderByCallback, false);
                 });
             }
 
             function eventsDeleteCallback() {
-                document.querySelectorAll('.delete-form').forEach(item => {
+                document.querySelectorAll('.delete-form-values').forEach(item => {
                 item.addEventListener("click", function() {
                     if(this.dataset.type != 'multiple') {
                         var url = this.dataset.url;
-                        var modal = document.getElementById("delete_guiding_value_modal");
+                        var modal = document.getElementById("delete_form_value_modal");
                         modal.dataset.url = url;
                         modal.classList.remove("hidden");
                         modal.classList.add("block");
@@ -167,7 +170,7 @@
                         });
 
                         if(urls.length > 0) {
-                            var modal = document.getElementById("delete_guiding_value_modal");
+                            var modal = document.getElementById("delete_form_value_modal");
                             modal.dataset.url = urls;
                             modal.classList.remove("hidden");
                             modal.classList.add("block");

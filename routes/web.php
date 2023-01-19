@@ -249,6 +249,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::post('/delete-sample', [FormValueController::class, 'deleteSample'])->name('delete-sample');
             Route::post('/get-sample-list/{form_value}/{count}', [FormValueController::class, 'getSampleList'])->name('get-sample-list');
             Route::post('/get-sample-chart/{form_value}/{count}', [FormValueController::class, 'getSampleChart'])->name('get-sample-chart');
+            Route::delete('/{form_value}', [FormValueController::class, 'destroy'])->name('destroy');
 
             Route::prefix('import')->name('import.')->group(function(){
                 Route::post('/coordinates', [FormImportController::class, 'importCoordinates'])->name('coordinates');

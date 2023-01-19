@@ -34,7 +34,7 @@
                     </div>
                 </div>
                 <div class="flex mt-4">
-                    <table id="guiding_value_table" class="table table-responsive md:table w-full">
+                    <table id="ref_table" class="table table-responsive md:table w-full">
                         @include('ref.filter-result', ['refs' => $refs, 'ascending' => $ascending, 'orderBy' => $orderBy])
                     </table>
                 </div>
@@ -47,7 +47,7 @@
 
     <x-modal title="{{ __('Excluir Referências') }}"
              msg="{{ __('Deseja realmente apagar esse Referências?') }}"
-             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_guiding_value_modal"
+             confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_ref_modal"
              method="DELETE"
              redirect-url="{{ route('fields.ref.index') }}"/>
 
@@ -67,7 +67,7 @@
                 ajax.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         var resp = JSON.parse(ajax.response);
-                        document.getElementById("guiding_value_table").innerHTML = resp.filter_result;
+                        document.getElementById("ref_table").innerHTML = resp.filter_result;
                         document.getElementById("pagination").innerHTML = resp.pagination;
                         eventsFilterCallback();
                         eventsDeleteCallback();
@@ -111,7 +111,7 @@
                 ajax.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                         var resp = JSON.parse(ajax.response);
-                        document.getElementById("guiding_value_table").innerHTML = resp.filter_result;
+                        document.getElementById("ref_table").innerHTML = resp.filter_result;
                         document.getElementById("pagination").innerHTML = resp.pagination;
                         that.dataset.ascending = that.dataset.ascending == 'asc' ? that.dataset.ascending = 'desc' : that.dataset.ascending = 'asc';
                         eventsFilterCallback();
@@ -141,7 +141,7 @@
                     item.addEventListener('change', filterCallback, false);
                     item.addEventListener('keyup', filterCallback, false);
                 });
-                document.querySelectorAll("#guiding_value_table thead [data-name]").forEach(item => {
+                document.querySelectorAll("#ref_table thead [data-name]").forEach(item => {
                     item.addEventListener("click", orderByCallback, false);
                 });
             }
@@ -151,7 +151,7 @@
                 item.addEventListener("click", function() {
                     if(this.dataset.type != 'multiple') {
                         var url = this.dataset.url;
-                        var modal = document.getElementById("delete_guiding_value_modal");
+                        var modal = document.getElementById("delete_ref_modal");
                         modal.dataset.url = url;
                         modal.classList.remove("hidden");
                         modal.classList.add("block");
@@ -166,7 +166,7 @@
                         });
 
                         if(urls.length > 0) {
-                            var modal = document.getElementById("delete_guiding_value_modal");
+                            var modal = document.getElementById("delete_ref_modal");
                             modal.dataset.url = urls;
                             modal.classList.remove("hidden");
                             modal.classList.add("block");

@@ -233,6 +233,25 @@ class FormValueController extends Controller
     }
 
     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $ref = FormValue::findOrFail($id);
+
+        $ref->delete();
+
+        return response()->json([
+            'message' => __('Formulário Apagado com Sucesso!!'),
+            'alert-type' => 'success'
+        ]);
+    }
+
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
