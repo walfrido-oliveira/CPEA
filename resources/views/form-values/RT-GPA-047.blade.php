@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="py-6 ref">
         <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
-            <form method="POST" action="@if(!$formValue) {{ route('fields.forms.store') }} @else {{ route('fields.forms.update', ['form_value' => $formValue->id]) }} @endif">
+            <form method="POST" action="@if(!$formValue) {{ route('fields.form-values.store') }} @else {{ route('fields.form-values.update', ['form_value' => $formValue->id]) }} @endif">
                 @csrf
                 @if(!$formValue) @method("POST") @endif
                 @if($formValue) @method("PUT") @endif
@@ -16,7 +16,7 @@
                             <button type="submit" class="btn-outline-success">{{ __('Salvar') }}</button>
                         </div>
                         <div class="m-2">
-                            <a href="{{ route('fields.forms.index') }}" class="btn-outline-danger">{{ __('Voltar') }}</a>
+                            <a href="{{ route('fields.form-values.index') }}" class="btn-outline-danger">{{ __('Voltar') }}</a>
                         </div>
                     </div>
                 </div>
@@ -185,7 +185,7 @@
                 {{ __('Informações Adicionais') }}
               </h3>
               <div class="mt-2">
-                {!! $form->infos !!}
+                {!! $form->renderizedInfos !!}
               </div>
             </div>
           </div>

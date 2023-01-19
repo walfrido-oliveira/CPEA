@@ -15,7 +15,6 @@ class CreateFormsTable extends Migration
     {
         Schema::create('forms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('field_type_id')->constrained()->onDelete('cascade');
             $table->string('name')->unique();
             $table->text('infos')->nullable();
             $table->timestamps();

@@ -22,7 +22,7 @@ class FormConfigController extends Controller
         $header = Config::get('form_header');
         $footer = Config::get('form_footer');
 
-        return view('form.config.index', compact('logo', 'cert', 'header', 'footer'));
+        return view('form-values.config.index', compact('logo', 'cert', 'header', 'footer'));
     }
 
     /**
@@ -64,6 +64,6 @@ class FormConfigController extends Controller
             'alert-type' => 'success'
         );
 
-        return Redirect::to(route('fields.forms.config.index'))->with($notification);
+        return Redirect::to(route('fields.config.index'))->with($notification);
     }
 }

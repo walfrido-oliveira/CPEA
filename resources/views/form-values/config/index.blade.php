@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="py-6 edit-users">
         <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
-            <form method="POST" action="{{ route('fields.forms.config.store') }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('fields.config.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="flex md:flex-row flex-col">
                     <div class="w-full flex items-center">

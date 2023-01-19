@@ -18,7 +18,9 @@ use App\Http\Controllers\ReplaceController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FormPrintController;
+use App\Http\Controllers\FormValueController;
 use App\Http\Controllers\FormConfigController;
+use App\Http\Controllers\FormImportController;
 use App\Http\Controllers\EmailConfigController;
 use App\Http\Controllers\GuidingValueController;
 use App\Http\Controllers\AnalysisOrderController;
@@ -225,38 +227,42 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     });
 
     Route::prefix('registros-de-campo')->name('fields.')->group(function(){
-        Route::get('/show', [FieldController::class, 'show'])->name('show');
-        Route::post('/store', [FieldController::class, 'store'])->name('store');
-        Route::get('/index/{type}', [FieldController::class, 'index'])->name('index');
-        Route::get('/edit/{field}', [FieldController::class, 'edit'])->name('edit');
-        Route::post('/filter', [FieldController::class, 'filter'])->name('filter');
-        Route::put('/update/{field}', [FieldController::class, 'update'])->name('update');
-        Route::delete('/destroy/{field}', [FieldController::class, 'destroy'])->name('destroy');
 
-        Route::prefix('formularios')->name('forms.')->group(function(){
-            Route::get('/show', [FormController::class, 'show'])->name('show');
-            Route::get('/create/{form}', [FormController::class, 'create'])->name('create');
-            Route::get('/edit/{form_value}', [FormController::class, 'edit'])->name('edit');
-            Route::post('/store', [FormController::class, 'store'])->name('store');
-            Route::put('/update/{form_value}', [FormController::class, 'update'])->name('update');
-            Route::get('/index', [FormController::class, 'index'])->name('index');
+        Route::resource('formularios', FormController::class, [
+            'names' => 'form'])->parameters([])->parameters([
+            'formularios' => 'form'
+        ]);
+        Route::prefix('formularios')->name('form.')->group(function(){
             Route::post('/filter', [FormController::class, 'filter'])->name('filter');
-            Route::post('/import-coordinates', [FormController::class, 'importCoordinates'])->name('import-coordinates');
-            Route::post('/save-coordinate', [FormController::class, 'saveCoordinate'])->name('save-coordinate');
-            Route::post('/save-sample', [FormController::class, 'saveSample'])->name('save-sample');
-            Route::post('/delete-sample', [FormController::class, 'deleteSample'])->name('delete-sample');
-            Route::post('/get-sample-list/{form_value}/{count}', [FormController::class, 'getSampleList'])->name('get-sample-list');
-            Route::post('/get-sample-chart/{form_value}/{count}', [FormController::class, 'getSampleChart'])->name('get-sample-chart');
-            Route::post('/import-samples', [FormController::class, 'importSamples'])->name('import-samples');
-            Route::post('/import', [FormController::class, 'importResults'])->name('import');
+        });
+
+        Route::prefix('formularios-preenchidos')->name('form-values.')->group(function(){
+            Route::get('/', [FormValueController::class, 'index'])->name('index');
+            Route::get('/show', [FormValueController::class, 'show'])->name('show');
+            Route::get('/create/{form}', [FormValueController::class, 'create'])->name('create');
+            Route::get('/edit/{form_value}', [FormValueController::class, 'edit'])->name('edit');
+            Route::post('/store', [FormValueController::class, 'store'])->name('store');
+            Route::put('/update/{form_value}', [FormValueController::class, 'update'])->name('update');
+            Route::post('/filter', [FormValueController::class, 'filter'])->name('filter');
+            Route::post('/save-coordinate', [FormValueController::class, 'saveCoordinate'])->name('save-coordinate');
+            Route::post('/save-sample', [FormValueController::class, 'saveSample'])->name('save-sample');
+            Route::post('/delete-sample', [FormValueController::class, 'deleteSample'])->name('delete-sample');
+            Route::post('/get-sample-list/{form_value}/{count}', [FormValueController::class, 'getSampleList'])->name('get-sample-list');
+            Route::post('/get-sample-chart/{form_value}/{count}', [FormValueController::class, 'getSampleChart'])->name('get-sample-chart');
+
+            Route::prefix('import')->name('import.')->group(function(){
+                Route::post('/coordinates', [FormImportController::class, 'importCoordinates'])->name('coordinates');
+                Route::post('/samples', [FormImportController::class, 'importSamples'])->name('samples');
+                Route::post('/results', [FormImportController::class, 'importResults'])->name('results');
+            });
 
             Route::get('/print/{form_value}/{project_id}', [FormPrintController::class, 'print'])->name('print');
             Route::get('/signer/{form_value}/{project_id}', [FormPrintController::class, 'signer'])->name('signer');
+        });
 
-            Route::prefix('config')->name('config.')->group(function(){
-                Route::get('/', [FormConfigController::class, 'index'])->name('index');
-                Route::post('/store', [FormConfigController::class, 'store'])->name('store');
-            });
+        Route::prefix('configuracoes')->name('config.')->group(function(){
+            Route::get('/', [FormConfigController::class, 'index'])->name('index');
+            Route::post('/store', [FormConfigController::class, 'store'])->name('store');
         });
 
         Route::resource('referencias', RefController::class, [

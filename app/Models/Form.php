@@ -15,27 +15,26 @@ class Form extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'field_type_id', 'infos'
+        'name', 'field_type_id', 'infos', 'identification', 'ref', 'version', 'published_at'
     ];
 
-     /**
-     * Get field type
-     *
-     * @return array
-     */
-    public function fieldType()
-    {
-        return $this->belongsTo(FieldType::class);
-    }
-
     /**
-     * The form fields.
+     * The attributes that should be cast to native types.
+     *
+     * @var array
      */
-    public function formFields()
-    {
-        return $this->HasMany(FormField::class);
-    }
+    protected $casts = [
+        'published_at' => 'datetime',
+    ];
 
+    public function getRenderizedInfosAttribute()
+    {
+        $result = str_replace("{identification}", $this->identification, $this->infos);
+        $result = str_replace("{ref}", $this->ref, $result);
+        $result = str_replace("{version}", $this->version, $result);
+        $result = str_replace("{published_at}", $this->published_at ? $this->published_at->format("d/m/Y") : null, $result);
+        return $result;
+    }
 
     /**
      * Find in dabase
@@ -61,27 +60,12 @@ class Form extends Model
 
             if(isset($query['name']))
             {
-                if(!is_null($query['project_id']))
+                if(!is_null($query['name']))
                 {
                     $q->where('name', 'like','%' . $query['name'] . '%');
                 }
             }
 
-            if(isset($query['type']))
-            {
-                if(!is_null($query['type']))
-                {
-                    $q->where('type', 'like', $query['type']);
-                }
-            }
-
-            if(isset($query['q']))
-            {
-                if(!is_null($query['q']))
-                {
-                    $q->where('project_id', 'like', '%' . $query['q'] . '%');
-                }
-            }
 
         });
 

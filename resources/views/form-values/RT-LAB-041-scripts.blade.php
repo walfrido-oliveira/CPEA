@@ -404,7 +404,7 @@
         let token = document.querySelector('meta[name="csrf-token"]').content;
         let method = 'POST';
         let form_value_id = document.querySelector(`#form_value_id`).value;
-        let url = "{!! route('fields.forms.get-sample-list', ['form_value' => '#', 'count' => '?']) !!}".replace('#', form_value_id).replace('?', count);
+        let url = "{!! route('fields.form-values.get-sample-list', ['form_value' => '#', 'count' => '?']) !!}".replace('#', form_value_id).replace('?', count);
         let type = document.querySelector("#filter_samples .active").dataset.status;
 
         ajax.open(method, url);
@@ -453,7 +453,7 @@
         let method = 'POST';
         let form_value_id = document.querySelector(`#form_value_id`).value;
         let type = document.querySelector("#filter_samples .active").dataset.status;
-        let url = "{!! route('fields.forms.get-sample-chart', ['form_value' => '#', 'count' => '?']) !!}".replace('#', form_value_id).replace('?', count);
+        let url = "{!! route('fields.form-values.get-sample-chart', ['form_value' => '#', 'count' => '?']) !!}".replace('#', form_value_id).replace('?', count);
 
         ajax.open(method, url);
 
@@ -525,12 +525,12 @@
     function saveCoordinate(that) {
         document.getElementById("spin_load").classList.remove("hidden");
         let ajax = new XMLHttpRequest();
-        let url = "{!! route('fields.forms.save-coordinate') !!}";
+        let url = "{!! route('fields.form-values.save-coordinate') !!}";
         let token = document.querySelector('meta[name="csrf-token"]').content;
         let method = 'POST';
         let form_value_id = document.querySelector(`#form_value_id`).value;
 
-        const results = [...document.querySelectorAll(`#table_coordinates input`)];
+        const results = [..document.querySelectorAll(`#table_coordinates input`)];
 
         ajax.open(method, url);
 
@@ -579,7 +579,7 @@
     function saveSample(that) {
         document.getElementById("spin_load").classList.remove("hidden");
         let ajax = new XMLHttpRequest();
-        let url = "{!! route('fields.forms.save-sample') !!}";
+        let url = "{!! route('fields.form-values.save-sample') !!}";
         let token = document.querySelector('meta[name="csrf-token"]').content;
         let method = 'POST';
         let form_value_id = document.querySelector(`#form_value_id`).value;
@@ -589,7 +589,7 @@
         let environment = document.querySelector(`#${that.dataset.index} #environment_${that.dataset.row}`).value;
         let collect = document.querySelector(`#${that.dataset.index} #collect_${that.dataset.row}`).value;
 
-        const results = [...document.querySelectorAll(`#${that.dataset.index} #table_result input`)];
+        const results = [..document.querySelectorAll(`#${that.dataset.index} #table_result input`)];
 
         ajax.open(method, url);
 
@@ -626,7 +626,7 @@
         console.log(`#${that.dataset.index} #sample_index_${that.dataset.row}`);
         document.getElementById("spin_load").classList.remove("hidden");
         let ajax = new XMLHttpRequest();
-        let url = "{!! route('fields.forms.delete-sample') !!}";
+        let url = "{!! route('fields.form-values.delete-sample') !!}";
         let token = document.querySelector('meta[name="csrf-token"]').content;
         let method = 'POST';
         let form_value_id = document.querySelector(`#form_value_id`).value;
@@ -764,7 +764,7 @@
         document.getElementById("spin_load").classList.remove("hidden");
 
         let ajax = new XMLHttpRequest();
-        let url = "{!! route('fields.forms.import-coordinates') !!}";
+        let url = "{!! route('fields.form-values.import.coordinates') !!}";
         let token = document.querySelector('meta[name="csrf-token"]').content;
         let method = 'POST';
         let files = that.files;
@@ -798,7 +798,7 @@
         document.getElementById("spin_load").classList.remove("hidden");
 
         let ajax = new XMLHttpRequest();
-        let url = "{!! route('fields.forms.import') !!}";
+        let url = "{!! route('fields.form-values.import.results') !!}";
         let token = document.querySelector('meta[name="csrf-token"]').content;
         let method = 'POST';
         let files = that.files;
@@ -834,7 +834,7 @@
         document.getElementById("spin_load").classList.remove("hidden");
 
         let ajax = new XMLHttpRequest();
-        let url = "{!! route('fields.forms.import-samples') !!}";
+        let url = "{!! route('fields.form-values.import.samples') !!}";
         let token = document.querySelector('meta[name="csrf-token"]').content;
         let method = 'POST';
         let files = that.files;

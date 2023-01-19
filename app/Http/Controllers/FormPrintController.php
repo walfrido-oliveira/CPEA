@@ -20,7 +20,7 @@ class FormPrintController extends Controller
       $formValue = FormValue::findOrFail($id);
       $formPrint = new FormPrint($formValue, false);
 
-      $html = view('form.print.index', compact('formPrint'))->render();
+      $html = view('form-values.print.index', compact('formPrint'))->render();
 
       return response()->stream(function () use($formValue, $html) {
 
@@ -48,7 +48,7 @@ class FormPrintController extends Controller
       $formValue = FormValue::findOrFail($id);
       $formPrint = new FormPrint($formValue, true);
 
-      $html = view('form.print.index', compact('formPrint'))->render();
+      $html = view('form-values.print.index', compact('formPrint'))->render();
 
       return response()->stream(function () use($formValue, $html) {
 

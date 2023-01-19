@@ -46,7 +46,7 @@ class RefController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('guiding_values', 'name')],
+            'name' => ['required', 'string', 'max:255', Rule::unique('refs', 'name')],
             'field_type_id' => ['required', 'string', 'max:255', 'exists:field_types,id'],
             'type' => ['required', 'string', 'in:Referências,Referência Externa']
         ]);
@@ -108,7 +108,7 @@ class RefController extends Controller
         $ref = Ref::findOrFail($id);
 
         $request->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('guiding_values', 'name')],
+            'name' => ['required', 'string', 'max:255', Rule::unique('refs', 'name')->ignore($id)],
             'field_type_id' => ['required', 'string', 'max:255', 'exists:field_types,id'],
             'type' => ['required', 'string', 'in:Referências,Referência Externa']
         ]);

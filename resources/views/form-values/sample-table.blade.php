@@ -73,7 +73,7 @@
                             @if(isset($sample['environment'])) {{ $sample['environment'] }} @endif
                         </td>
                         <td>
-                            {{ $form->fieldType->name }}
+                            {{ isset($form->values['matrix']) ? App\Models\FieldType::find($form->values['matrix'])->name : '-' }}
                         </td>
                     <tr>
                 </tbody>

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	@include('form.print.styles')
+	@include('form-values.print.styles')
 </head>
 
 <body>
@@ -61,7 +61,7 @@
            {!! $formPrint->footer !!}
         </div>
         <p style="page-break-after: always;"></p>
-        @include('form.print.sub-header')
+        @include('form-values.print.sub-header')
         <div id="results">
             @if (isset($formPrint->formValue->values['samples']))
                 @foreach (array_chunk($formPrint->formValue->values['samples'], 5, true) as $samples)
@@ -95,7 +95,7 @@
                                                 @if(isset($sample['environment'])) {{ $sample['environment'] }} @endif
                                             </td>
                                             <td>
-                                                {{ $formPrint->formValue->form->fieldType->name }}
+                                                {{ isset($formPrint->formValue->values['matrix']) ? App\Models\FieldType::find($formPrint->formValue->values['matrix'])->name : '-' }}
                                             </td>
                                         <tr>
                                     </tbody>
@@ -144,7 +144,7 @@
                         @endforeach
                     </div>
                     <p style="page-break-after: always;"></p>
-                    @include('form.print.sub-header')
+                    @include('form-values.print.sub-header')
                 @endforeach
             @endif
         </div>
@@ -203,7 +203,7 @@
                         @endif
                     </div>
                     <p style="page-break-after: always;">
-                    @include('form.print.sub-header')
+                    @include('form-values.print.sub-header')
                 @endforeach
             @endif
         </div>

@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="py-6 ref">
         <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
-            <form method="POST" action="@if(!$formValue) {{ route('fields.forms.store') }} @else {{ route('fields.forms.update', ['form_value' => $formValue->id]) }} @endif" id="form_form">
+            <form method="POST" action="@if(!$formValue) {{ route('fields.form-values.store') }} @else {{ route('fields.form-values.update', ['form_value' => $formValue->id]) }} @endif" id="form_form">
                 @csrf
                 @if(!$formValue) @method("POST") @endif
                 @if($formValue) @method("PUT") @endif
@@ -21,14 +21,14 @@
                             <button type="submit" class="btn-outline-success" id="save_form">{{ __('Salvar') }}</button>
                         </div>
                         <div class="m-2">
-                            <a href="{{ route('fields.forms.index') }}" class="btn-outline-danger">{{ __('Voltar') }}</a>
+                            <a href="{{ route('fields.form-values.index') }}" class="btn-outline-danger">{{ __('Voltar') }}</a>
                         </div>
                         @if($formValue)
                             <div class="m-2">
-                                <a href="{{ route('fields.forms.print', ['form_value' => $formValue->id, 'project_id' => isset($formValue) ? $formValue->values['project_id'] : '' . ".pdf"]) }}" target="_blank" class="btn-outline-info">{{ __('Imprimir') }}</a>
+                                <a href="{{ route('fields.form-values.print', ['form_value' => $formValue->id, 'project_id' => isset($formValue) ? $formValue->values['project_id'] : '' . ".pdf"]) }}" target="_blank" class="btn-outline-info">{{ __('Imprimir') }}</a>
                             </div>
                             <div class="m-2">
-                                <a href="{{ route('fields.forms.signer', ['form_value' => $formValue->id, 'project_id' => isset($formValue) ? $formValue->values['project_id'] : '' . ".pdf"]) }}" target="_blank" class="btn-outline-info">{{ __('Assinar') }}</a>
+                                <a href="{{ route('fields.form-values.signer', ['form_value' => $formValue->id, 'project_id' => isset($formValue) ? $formValue->values['project_id'] : '' . ".pdf"]) }}" target="_blank" class="btn-outline-info">{{ __('Assinar') }}</a>
                             </div>
                         @endif
                     </div>
@@ -55,31 +55,21 @@
                             <x-jet-input id="project_id" class="form-control block mt-1 w-full" type="text" name="project_id" maxlength="255" value="{{ isset($formValue) ? $formValue->values['project_id'] : old('project_id') }}" placeholder="{{ __('Digite a Versão do Documento') }}"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="doc_version" value="{{ __('Versão do Documento') }}"/>
-                            <x-jet-input  id="doc_version" class="form-control block mt-1 w-full" type="text" name="doc_version" maxlength="255" value="{{ isset($formValue) ? $formValue->values['doc_version'] : old('doc_version') }}" placeholder="{{ __('Digite a Versão do Documento') }}"/>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <div class="w-full px-3 mb-6 md:mb-0">
                             <x-jet-label for="client" value="{{ __('Cliente') }}" />
                             <x-custom-select :options="$customers" value="{{ isset($formValue->values['client']) ? $formValue->values['client'] : null }}" name="client" id="client" class="mt-1"/>
                         </div>
                     </div>
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <div class="w-full px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                             <x-jet-label for="matrix" value="{{ __('Matriz') }}" />
                             <x-custom-select :options="$fields" value="{{ isset($formValue->values['matrix']) ? $formValue->values['matrix'] : null }}" name="matrix" id="matrix" class="mt-1"/>
                         </div>
-                    </div>
-
-                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                             <x-jet-label for="emission" value="{{ __('Data/Hora da Emissão do Relatório') }}" />
                             <x-jet-input id="emission" class="form-control block mt-1 w-full" type="datetime-local" value="{{ isset($formValue->values['emission']) ? $formValue->values['emission'] : null }}" name="emission"/>
                         </div>
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                             <x-jet-label for="responsible" value="{{ __('Responsável') }}" />
                             <x-custom-select :options="$users" value="{{ isset($formValue->values['responsible']) ? $formValue->values['responsible'] : null }}" name="responsible" id="responsible" class="mt-1"/>
                         </div>
@@ -154,7 +144,7 @@
                                 <div class="py-2 m-2 flex md:justify-end justify-start w-full" x-data="{ shearch: false }">
                                     <div class="w-full block" id="search-content">
                                         <div class="container mx-auto">
-                                            <input id="q" name="q" type="search" placeholder="Buscar..."
+                                            <input id="q" name="q" type="search" placeholder="Buscar.."
                                                 autofocus="autofocus" class="filter-field w-full form-control no-border">
                                         </div>
                                     </div>
@@ -182,11 +172,11 @@
                             @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
                                 @php $amostraIndex = 1; @endphp
                                 @foreach ($formValue->values['samples'] as $key => $sample)
-                                    @include('form.sample', ['sample' => $sample, 'i' => Str::replace('row_', '', $key), 'amostraIndex' => $amostraIndex])
+                                    @include('form-values.sample', ['sample' => $sample, 'i' => Str::replace('row_', '', $key), 'amostraIndex' => $amostraIndex])
                                     @php $amostraIndex++; @endphp
                                 @endforeach
                             @else
-                                @include('form.sample')
+                                @include('form-values.sample')
                             @endif
                         </div>
 
@@ -194,7 +184,7 @@
                             <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - FINAL</h3>
                             <div id="sample_list_container">
                                 @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
-                                    @include('form.sample-list', ['count' => 3, 'type' => 'default', 'samples' => $formValue->values['samples']])
+                                    @include('form-values.sample-list', ['count' => 3, 'type' => 'default', 'samples' => $formValue->values['samples']])
                                 @endif
                             </div>
 
@@ -213,7 +203,7 @@
                             <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - RELATÓRIO</h3>
                             @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
                                 @for ($i = 0; $i < count($formValue->values['samples']); $i++)
-                                    @if(isset($formValue->values['samples']["row_$i"]))  @include('form.sample-table', ['sample' => $formValue->values['samples']["row_$i"]]) @endif
+                                    @if(isset($formValue->values['samples']["row_$i"]))  @include('form-values.sample-table', ['sample' => $formValue->values['samples']["row_$i"]]) @endif
                                 @endfor
                             @endif
                         </div>
@@ -221,7 +211,7 @@
                         <div id="mode_sample_char" style="display: none" class="w-full">
                             <div id="sample_chart_container">
                                 @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
-                                    @include('form.sample-chart', ['count' => 5, 'type' => 'default'])
+                                    @include('form-values.sample-chart', ['count' => 5, 'type' => 'default'])
                                 @endif
                             </div>
                             <div class="w-5/6 items-center flex mt-5">
@@ -236,7 +226,7 @@
                         </div>
                     </div>
 
-                    @include('form.coordinates-table')
+                    @include('form-values.coordinates-table')
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4" id="mode_considerations" style="display: none">
                         <div class="w-full px-3 mb-6 md:mb-0 justify-start flex mt-2" id="coodinates_button">
@@ -280,7 +270,7 @@
                                 {{ __('Informações Adicionais') }}
                             </h3>
                             <div class="mt-2">
-                                {!! $form->infos !!}
+                                {!! $form->renderizedInfos !!}
                             </div>
                         </div>
                     </div>
@@ -378,6 +368,6 @@
         </div>
     </div>
 
-    @include("form.RT-LAB-041-scripts")
+    @include("form-values.RT-LAB-041-scripts")
 
 </x-app-layout>
