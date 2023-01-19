@@ -214,6 +214,8 @@ class FormImportController extends Controller
             $spreadsheet->setActiveSheetIndex(1);
             $worksheet = $spreadsheet->getActiveSheet();
             $rows = $worksheet->toArray();
+            $microseccondInMille = 1000;
+            $micrometerInMetre = 1000000;
 
             foreach ($rows as $key => $value) {
                 if ($key == 0) {
@@ -231,10 +233,10 @@ class FormImportController extends Controller
                         $samples["samples"]["row_$max"]["results"][$key - 1]["orp"] = floatval($value[4]);
                     }
                     if (isset($value[5])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["conductivity"] = floatval($value[5]);
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["conductivity"] = $rows[0][5] == 'EC[µS/cm]' ? floatval($value[5]) : floatval($value[5]) * $microseccondInMille;
                     }
                     if (isset($value[6])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["salinity"] = floatval($value[6]);
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["salinity"] = $rows[0][5] == 'EC[µS/cm]' ? floatval($value[6]) : floatval($value[6]) * $micrometerInMetre;
                     }
                     if (isset($value[7])) {
                         $samples["samples"]["row_$max"]["results"][$key - 1]["psi"] = floatval($value[7]);
