@@ -491,7 +491,7 @@ class FormController extends Controller
     public function getSampleList(Request $request, $id, $count)
     {
       $formValue = FormValue::findOrFail($id);
-      $svgsTemp = $formValue->getSvgs();
+      $svgsTemp = $formValue->svgs;
       $type = $request->has("type") ? $request->get("type") : "default";
       $samples = [];
       $svgs = [];
@@ -521,7 +521,7 @@ class FormController extends Controller
     {
         $formValue = FormValue::findOrFail($id);
         $svgs = [];
-        $svgsTemp = $formValue->getSvgs();
+        $svgsTemp = $formValue->svgs;
         $type = $request->has("type") ? $request->get("type") : "default";
         $samples = [];
 
