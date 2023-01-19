@@ -29,7 +29,7 @@
             <h1>Relatório de Ensaios de Campo</h1>
             <h2>{{ $formPrint->formValue->values["project_id"] }}</h2>
             <p>{{ $formPrint->formValue->form->identification }} Versão {{ $formPrint->formValue->form->version }}
-                {{ $formPrint->formValue->form->published_at ? $formPrint->formValue->form->published_at-format("d/m/Y") ? null }}</p>
+                {{ $formPrint->formValue->form->published_at ? $formPrint->formValue->form->published_at->format("d/m/Y") : '' }}</p>
         </div>
         <div id="customer">
             <table>
