@@ -14,14 +14,14 @@
 
                 <div class="flex md:flex-row flex-col">
                     <div class="w-full flex items-center">
-                        <h1>{{ __('Project')}}</h1>
+                        <h1>{{ __('Formulário')}}  {{ $form->name }}</h1>
                     </div>
                     <div class="w-full flex justify-end">
                         <div class="m-2 ">
                             <button type="submit" class="btn-outline-success" id="save_form">{{ __('Salvar') }}</button>
                         </div>
                         <div class="m-2">
-                            <a href="{{ route('fields.show') }}" class="btn-outline-danger">{{ __('Voltar') }}</a>
+                            <a href="{{ route('fields.forms.index') }}" class="btn-outline-danger">{{ __('Voltar') }}</a>
                         </div>
                         @if($formValue)
                             <div class="m-2">
@@ -40,7 +40,7 @@
 
                 <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <h1 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">Amostragem de {{ $form->fieldType->name }}</h1>
+                        <h1 class="w-full md:w-1/2 px-3 mb-6 md:mb-0"></h1>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 flex justify-end">
                             <button type="button" title="Ajuda" id="help">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
