@@ -18,7 +18,7 @@
                     <p class="font-bold">{{ __('Temperatura ºC') }}</p>
                     <p class="font-bold">{{ __('pH') }}</p>
                     <p class="font-bold">{{ __('ORP (mV)') }}</p>
-                    <p class="font-bold">{{ __('Condutividade') }}</p>
+                    <p class="font-bold">{{ __('Condutividade µS/cm') }}</p>
                     <p class="font-bold">{{ __('Salinidade') }}</p>
                     <p class="font-bold">{{ __('Oxigênio Dissolvido (sat) (%)') }}</p>
                     <p class="font-bold">{{ __('Oxigênio Dissolvido (conc) (mg/L)') }}</p>
