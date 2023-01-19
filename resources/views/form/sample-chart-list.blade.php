@@ -25,10 +25,10 @@
                     </p>
                     <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 3px; margin-bottom: 4px; height: 3px">&nbsp;</p>
                     <p class="font-bold">
-                        {{ isset($svgs[$key]['ph']) ? number_format($svgs[$key]['ph'], 1, ",", ".") : '' }}
+                        {{ isset($formValue->svgs[$key]['ph']) ? number_format($formValue->svgs[$key]['ph'], 1, ",", ".") : '' }}
                     </p>
                     <p class="font-bold">
-                        {{ isset($svgs[$key]['eh']) ? number_format($svgs[$key]['eh'], 0, ",", ".") : '' }}
+                        {{ isset($formValue->svgs[$key]['eh']) ? number_format($formValue->svgs[$key]['eh'], 0, ",", ".") : '' }}
                     </p>
                 </div>
             @endif
@@ -40,10 +40,10 @@
                     </p>
                     <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 3px; margin-bottom: 4px; height: 3px">&nbsp;</p>
                     <p class="font-bold">
-                        {{ isset($svgs[$key]['ph']) ? number_format($svgs[$key]['ph'], 1, ",", ".") : '' }}
+                        {{ isset($formValue->svgs[$key]['ph']) ? number_format($formValue->svgs[$key]['ph'], 1, ",", ".") : '' }}
                     </p>
                     <p class="font-bold">
-                        {{ isset($svgs[$key]['eh']) ? number_format($svgs[$key]['eh'], 0, ",", ".") : '' }}
+                        {{ isset($formValue->svgs[$key]['eh']) ? number_format($formValue->svgs[$key]['eh'], 0, ",", ".") : '' }}
                     </p>
                 </div>
             @endif

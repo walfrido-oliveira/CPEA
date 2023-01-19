@@ -161,35 +161,35 @@
                         <tr>
                             <td>
                                 @if(isset($value['temperature']))
-                                    {{ number_format($svgs['row_' . ($i)]['temperature'], 2, ",", ".") }}
+                                    {{ number_format($formValue->svgs['row_' . ($i)]['temperature'], 2, ",", ".") }}
                                 @else
                                     -
                                 @endif
                             </td>
                             <td>
                                 @if(isset($value['ph']))
-                                    {{ number_format($svgs['row_' . ($i)]['ph'], 2, ",", ".") }}
+                                    {{ number_format($formValue->svgs['row_' . ($i)]['ph'], 2, ",", ".") }}
                                 @else
                                     -
                                 @endif
                             </td>
                             <td>
                                 @if(isset($value['orp']))
-                                    {{ number_format($svgs['row_' . ($i)]['orp'], 1, ",", ".") }}
+                                    {{ number_format($formValue->svgs['row_' . ($i)]['orp'], 1, ",", ".") }}
                                 @else
                                     -
                                 @endif
                             </td>
                             <td>
                                 @if(isset($value['conductivity']))
-                                    {{ number_format($svgs['row_' . ($i)]['conductivity'], 3, ",", ".") }}
+                                    {{ number_format($formValue->svgs['row_' . ($i)]['conductivity'], 3, ",", ".") }}
                                 @else
                                     -
                                 @endif
                             </td>
                             <td>
                                 @if(isset($value['salinity']))
-                                    {{ number_format($svgs['row_' . ($i)]['salinity'], 3, ",", ".") }}
+                                    {{ number_format($formValue->svgs['row_' . ($i)]['salinity'], 3, ",", ".") }}
                                 @else
                                     -
                                 @endif
@@ -199,14 +199,14 @@
                             </td>
                             <td>
                                 @if(isset($value['sat']))
-                                    {{ number_format($svgs['row_' . ($i)]['sat'], 1, ",", ".") }}
+                                    {{ number_format($formValue->svgs['row_' . ($i)]['sat'], 1, ",", ".") }}
                                 @else
                                     -
                                 @endif
                             </td>
                             <td>
                                 @if(isset($value['conc']))
-                                    {{ number_format($svgs['row_' . ($i)]['conc'], 3, ",", ".") }}
+                                    {{ number_format($formValue->svgs['row_' . ($i)]['conc'], 3, ",", ".") }}
                                 @else
                                     -
                                 @endif
@@ -216,7 +216,7 @@
                             </td>
                             <td>
                                 @if(isset($value['ntu']))
-                                    {{ number_format($svgs['row_' . ($i)]['ntu'], 1, ",", ".") }}
+                                    {{ number_format($formValue->svgs['row_' . ($i)]['ntu'], 1, ",", ".") }}
                                 @else
                                     -
                                 @endif
@@ -296,35 +296,35 @@
                             <tr>
                                 <td>
                                     @if(isset($value['temperature']))
-                                        {{ number_format($duplicates['row_' . ($i)]['temperature'], 2, ",", ".") }}
+                                        {{ number_format($formValue->duplicates['row_' . ($i)]['temperature'], 2, ",", ".") }}
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td>
                                     @if(isset($value['ph']))
-                                        {{ number_format($duplicates['row_' . ($i)]['ph'], 2, ",", ".") }}
+                                        {{ number_format($formValue->duplicates['row_' . ($i)]['ph'], 2, ",", ".") }}
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td>
                                     @if(isset($value['orp']))
-                                        {{ number_format($duplicates['row_' . ($i)]['orp'], 1, ",", ".") }}
+                                        {{ number_format($formValue->duplicates['row_' . ($i)]['orp'], 1, ",", ".") }}
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td>
                                     @if(isset($value['conductivity']))
-                                        {{ number_format($duplicates['row_' . ($i)]['conductivity'], 3, ",", ".") }}
+                                        {{ number_format($formValue->duplicates['row_' . ($i)]['conductivity'], 3, ",", ".") }}
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td>
                                     @if(isset($value['salinity']))
-                                        {{ number_format($duplicates['row_' . ($i)]['conductivity'], 3, ",", ".") }}
+                                        {{ number_format($formValue->duplicates['row_' . ($i)]['conductivity'], 3, ",", ".") }}
                                     @else
                                         -
                                     @endif
@@ -334,21 +334,21 @@
                                 </td>
                                 <td>
                                     @if(isset($value['sat']))
-                                        {{ number_format($duplicates['row_' . ($i)]['sat'], 1, ",", ".") }}
+                                        {{ number_format($formValue->duplicates['row_' . ($i)]['sat'], 1, ",", ".") }}
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td>
                                     @if(isset($value['conc']))
-                                        {{ number_format($duplicates['row_' . ($i)]['conc'], 3, ",", ".") }}
+                                        {{ number_format($formValue->duplicates['row_' . ($i)]['conc'], 3, ",", ".") }}
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td>
                                     @if(isset($value['ntu']))
-                                        {{ number_format($duplicates['row_' . ($i)]['ntu'], 1, ",", ".") }}
+                                        {{ number_format($formValue->duplicates['row_' . ($i)]['ntu'], 1, ",", ".") }}
                                     @else
                                         -
                                     @endif
@@ -360,71 +360,71 @@
                             </tr>
                             <tr>
                                 <td>
-                                    @if(isset($value['temperature']) && $svgs['row_' . ($i)]['temperature'] != 0)
-                                        {{ number_format($dpr['row_' . ($i)]['temperature'], 2, ",", ".") }}
+                                    @if(isset($value['temperature']) && $formValue->svgs['row_' . ($i)]['temperature'] != 0)
+                                        {{ number_format($formValue->dpr['row_' . ($i)]['temperature'], 2, ",", ".") }}
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td>
-                                    @if(isset($value['ph']) && $svgs['row_' . ($i)]['ph'] != 0)
-                                        {{ number_format($dpr['row_' . ($i)]['ph'], 2, ",", ".") }}
+                                    @if(isset($value['ph']) && $formValue->svgs['row_' . ($i)]['ph'] != 0)
+                                        {{ number_format($formValue->dpr['row_' . ($i)]['ph'], 2, ",", ".") }}
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td>
-                                    @if(isset($value['orp']) && $svgs['row_' . ($i)]['orp'] != 0)
-                                        {{ number_format($dpr['row_' . ($i)]['orp'], 2, ",", ".") }}
+                                    @if(isset($value['orp']) && $formValue->svgs['row_' . ($i)]['orp'] != 0)
+                                        {{ number_format($formValue->dpr['row_' . ($i)]['orp'], 2, ",", ".") }}
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td>
-                                    @if(isset($value['conductivity']) && $svgs['row_' . ($i)]['conductivity'] != 0)
-                                        {{ number_format($dpr['row_' . ($i)]['conductivity'], 2, ",", ".") }}
+                                    @if(isset($value['conductivity']) && $formValue->svgs['row_' . ($i)]['conductivity'] != 0)
+                                        {{ number_format($formValue->dpr['row_' . ($i)]['conductivity'], 2, ",", ".") }}
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td>
-                                    @if(isset($value['salinity']) && $svgs['row_' . ($i)]['salinity'] != 0)
-                                        {{ number_format($dpr['row_' . ($i)]['salinity'], 2, ",", ".") }}
+                                    @if(isset($value['salinity']) && $formValue->svgs['row_' . ($i)]['salinity'] != 0)
+                                        {{ number_format($formValue->dpr['row_' . ($i)]['salinity'], 2, ",", ".") }}
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td>
-                                    @if(isset($value['psi']) && $svgs['row_' . ($i)]['psi'] != 0)
-                                        {{ number_format($dpr['row_' . ($i)]['psi'], 2, ",", ".") }}
+                                    @if(isset($value['psi']) && $formValue->svgs['row_' . ($i)]['psi'] != 0)
+                                        {{ number_format($formValue->dpr['row_' . ($i)]['psi'], 2, ",", ".") }}
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td>
-                                    @if(isset($value['sat']) && $svgs['row_' . ($i)]['sat'] != 0)
-                                        {{ number_format($dpr['row_' . ($i)]['sat'], 2, ",", ".") }}
+                                    @if(isset($value['sat']) && $formValue->svgs['row_' . ($i)]['sat'] != 0)
+                                        {{ number_format($formValue->dpr['row_' . ($i)]['sat'], 2, ",", ".") }}
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td>
-                                    @if(isset($value['conc']) && $svgs['row_' . ($i)]['conc'] != 0)
-                                        {{ number_format($dpr['row_' . ($i)]['conc'], 2, ",", ".") }}
+                                    @if(isset($value['conc']) && $formValue->svgs['row_' . ($i)]['conc'] != 0)
+                                        {{ number_format($formValue->dpr['row_' . ($i)]['conc'], 2, ",", ".") }}
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td>
-                                    @if(isset($value['eh']) && $svgs['row_' . ($i)]['eh'] != 0)
-                                        {{ number_format($dpr['row_' . ($i)]['eh'], 1, ",", ".") }}
+                                    @if(isset($value['eh']) && $formValue->svgs['row_' . ($i)]['eh'] != 0)
+                                        {{ number_format($formValue->dpr['row_' . ($i)]['eh'], 1, ",", ".") }}
                                     @else
                                         -
                                     @endif
                                 </td>
                                 <td>
-                                    @if(isset($value['ntu']) && $svgs['row_' . ($i)]['ntu'] != 0)
-                                        {{ number_format($dpr['row_' . ($i)]['ntu'], 1, ",", ".") }}
+                                    @if(isset($value['ntu']) && $formValue->svgs['row_' . ($i)]['ntu'] != 0)
+                                        {{ number_format($formValue->dpr['row_' . ($i)]['ntu'], 1, ",", ".") }}
                                     @else
                                         -
                                     @endif

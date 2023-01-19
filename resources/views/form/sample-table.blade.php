@@ -100,7 +100,7 @@
                                 {{ $unities[$key] }}
                             </td>
                             <td>
-                                {{ number_format($svgs['row_' . ($i)][$key], $places[$key], ",", ".") }}
+                                {{ number_format($formValue->svgs['row_' . ($i)][$key], $places[$key], ",", ".") }}
                             </td>
                             <td>
                                 {{ $LQ[$key] }}

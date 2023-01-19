@@ -25,7 +25,6 @@ class FormPrint extends Model
     public User $user;
     public Customer $customer;
 
-    public $svgs;
     public $parameters;
     public $unities;
     public $LQ;
@@ -42,8 +41,6 @@ class FormPrint extends Model
         $this->formValue = $formValue;
 
         $this->signerFile = $signerFile;
-
-        $this->svgs = $formValue->getSvgs();
 
         $this->pathLogo = Config::get("form_logo");
         $this->pathCert = Config::get("form_cert");
@@ -104,12 +101,12 @@ class FormPrint extends Model
             "conc" => "-"
         ];
 
-        $this->refs = Ref::where('field_type_id', FieldType::where('name', $this->formValue->values['matrix'])->first()->id)
+        $this->refs = Ref::where('field_type_id', $this->formValue->values['matrix'])
         ->where("type", "Referências")
         ->where("turbidity", isset($this->formValue->values['turbidity']))
         ->get();
 
-        $this->externalRefs = Ref::where('field_type_id', FieldType::where('name', $this->formValue->values['matrix'])->first()->id)
+        $this->externalRefs = Ref::where('field_type_id', $this->formValue->values['matrix'])
         ->where("type", "Referência Externa")
         ->where("turbidity", isset($this->formValue->values['turbidity']))
         ->get();
