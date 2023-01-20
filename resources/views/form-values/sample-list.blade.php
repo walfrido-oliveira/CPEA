@@ -15,15 +15,15 @@
                     <p class="font-bold">{{ __('Condições ambientais nas últimas 24 hs') }}</p>
                     <p class="font-bold">{{ __('DT/HR da Coleta') }}</p>
                     <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 3px; margin-bottom: 4px; height: 3px">&nbsp;</p>
-                    <p class="font-bold">{{ __('Temperatura ºC') }}</p>
+                    <p class="font-bold">{{ __('Temperatura [ºC]') }}</p>
                     <p class="font-bold">{{ __('pH') }}</p>
-                    <p class="font-bold">{{ __('ORP (mV)') }}</p>
-                    <p class="font-bold">{{ __('Condutividade µS/cm') }}</p>
-                    <p class="font-bold">{{ __('Salinidade (psu)') }}</p>
-                    <p class="font-bold">{{ __('Oxigênio Dissolvido (sat) (%)') }}</p>
-                    <p class="font-bold">{{ __('Oxigênio Dissolvido (conc) (mg/L)') }}</p>
-                    <p class="font-bold">{{ __('EH (mV)') }}</p>
-                    <p class="font-bold">{{ __('Turbidez (NTU)') }}</p>
+                    <p class="font-bold">{{ __('ORP [mV]') }}</p>
+                    <p class="font-bold">{{ __('Condutividade [µS/cm]') }}</p>
+                    <p class="font-bold">{{ __('Salinidade [psu]') }}</p>
+                    <p class="font-bold">{{ __('Oxigênio Dissolvido (SAT) [%]') }}</p>
+                    <p class="font-bold">{{ __('Oxigênio Dissolvido (CONC) [mg/l]') }}</p>
+                    <p class="font-bold">{{ __('EH [mV]') }}</p>
+                    <p class="font-bold">{{ __('Turbidez [NTU]') }}</p>
                 </div>
             @endif
             @foreach ($sampleArray as $key => $value)

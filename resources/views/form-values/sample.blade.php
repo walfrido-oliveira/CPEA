@@ -95,17 +95,17 @@
                 <table class="table table-responsive md:table w-full ">
                     <thead>
                         <tr class="thead-light">
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="temperature" columnText="{{ __('Temperatura ºC') }}"/>
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="ph" columnText="{{ __('pH') }}"/>
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="orp" columnText="{{ __('ORP (mV)') }}"/>
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="conductivity" columnText="{{ __('Condutividade µS/cm') }}"/>
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="salinity" columnText="{{ __('Salinidade (psu)') }}"/>
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="psi" columnText="{{ __('Press.[psi]') }}"/>
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="sat" columnText="{{ __('Oxigênio Dissolvido (sat) (%)') }}"/>
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="conc" columnText="{{ __('Oxigênio Dissolvido (conc) (mg/L)') }}"/>
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="eh" columnText="{{ __('EH (mV)') }}"/>
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="ntu" columnText="{{ __('Turbidez (NTU)') }}"/>
-                            <x-table-sort-header :orderBy="null" :ascending="null" columnName="uncertainty" columnText="{{ __('Incerteza') }}"/>
+                            <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('Temperatura [ºC]') }}</th>
+                            <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('pH') }}</th>
+                            <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('ORP [mV]') }}</th>
+                            <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('Condutividade [µS/cm]') }}</th>
+                            <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('Salinidade [psu]') }}</th>
+                            <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('Press. [psi]') }}</th>
+                            <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('Oxigênio Dissolvido (SAT) [%]') }}</th>
+                            <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('Oxigênio Dissolvido (CONC) [mg/l]') }}</th>
+                            <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('EH [mV]') }}</th>
+                            <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('Turbidez [NTU]') }}</th>
+                            <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('Incerteza') }}</th>
                         </tr>
                     </thead>
                     <tbody id="table_result">
@@ -233,8 +233,8 @@
                         <thead>
                             <tr class="thead-light">
                                 <x-table-sort-header :orderBy="null" :ascending="null" columnName="temperature" columnText="{{ __('Temperatura ºC') }}"/>
-                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="ph" columnText="{{ __('pH') }}"/>
-                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="orp" columnText="{{ __('ORP (mV)') }}"/>
+                                 <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('pH') }}"/>
+                                 <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">"{{ __('ORP (mV)') }}"/>
                                 <x-table-sort-header :orderBy="null" :ascending="null" columnName="conductivity" columnText="{{ __('Condutividade µS/cm') }}"/>
                                 <x-table-sort-header :orderBy="null" :ascending="null" columnName="salinity" columnText="{{ __('Salinidade') }}"/>
                                 <x-table-sort-header :orderBy="null" :ascending="null" columnName="psi" columnText="{{ __('Press.[psi]') }}"/>

@@ -13,7 +13,7 @@
                 <p class="font-bold">{{ __('Ponto de Coleta') }}</p>
                 <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 3px; margin-bottom: 4px; height: 3px">&nbsp;</p>
                 <p class="font-bold">{{ __('pH') }}</p>
-                <p class="font-bold">{{ __('EH (mV)') }}</p>
+                <p class="font-bold">{{ __('EH [mV]') }}</p>
             </div>
         @endif
 
