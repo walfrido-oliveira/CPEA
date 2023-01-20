@@ -49,7 +49,7 @@
              msg="{{ __('Deseja realmente apagar esse formulário?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_form_value_modal"
              method="DELETE"
-             redirect-url="{{ route('fields.ref.index') }}"/>
+             redirect-url="{{ route('fields.form-values.index') }}"/>
 
     <script>
         window.addEventListener("load", function() {
