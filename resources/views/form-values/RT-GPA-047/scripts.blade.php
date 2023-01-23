@@ -29,47 +29,43 @@
 </script>
 
 <script>
-    var wellDepth = document.getElementById("well_depth");
-    var waterLevel = document.getElementById("water_level");
-    var waterColumn = document.getElementById("water_column");
 
-    var fqParameters =document.getElementById("fq_parameters");
-    var pumpDepth = document.getElementById("pump_depth");
-    var flowRate = document.getElementById("flow_rate");
-
-    var fieldTeam = document.getElementById("field_team");
-    var technician = document.getElementById("technician");
-
-    function calcFqParameters() {
-        const pumpDepthValue = pumpDepth.value;
-        const flowRateValue = flowRate.value;
-        fqParameters.value = ((180 + (12 * pumpDepthValue) + 85) / flowRateValue).toFixed(0);
+    function calcFqParameters(elem) {
+        const pumpDepthValue = document.querySelector(`#pump_depth_${elem.dataset.index}`).value;
+        const flowRateValue = document.querySelector(`#flow_rate_${elem.dataset.index}`).value;
+        document.querySelector(`#fq_parameters_${elem.dataset.index}`).value = ((180 + (12 * pumpDepthValue) + 85) / flowRateValue).toFixed(0);
+        console.log(document.querySelector(`#fq_parameters_${elem.dataset.index}`));
     }
 
-    function calcWaterColumn() {
-        const wellDepthValue = wellDepth.value;
-        const waterLevelValue = waterLevel.value;
-        waterColumn.value = (wellDepthValue - waterLevelValue).toFixed(2);
+    function calcWaterColumn(elem) {
+        const wellDepthValue = document.querySelector(`#well_depth_${elem.dataset.index}`).value;
+        const waterLevelValue = document.querySelector(`#water_level_${elem.dataset.index}`).value;
+        document.querySelector(`#water_column_${elem.dataset.index}`).value = (wellDepthValue - waterLevelValue).toFixed(2);
+        console.log(document.querySelector(`#water_column_${elem.dataset.index}`));
     }
 
-    fieldTeam.addEventListener("change", function() {
-        technician.value = fieldTeam.value;
+    document.querySelectorAll(".flow-rate").forEach(item => {
+        item.addEventListener("change", function() {
+            calcFqParameters(this);
+        });
     });
 
-    flowRate.addEventListener("change", function() {
-        calcFqParameters();
+    document.querySelectorAll(".pump-depth").forEach(item => {
+        item.addEventListener("change", function() {
+            calcFqParameters(this);
+        });
     });
 
-    pumpDepth.addEventListener("change", function() {
-        calcFqParameters();
+    document.querySelectorAll(".well-depth").forEach(item => {
+        item.addEventListener("change", function() {
+            calcWaterColumn(this);
+        });
     });
 
-    wellDepth.addEventListener("change", function() {
-        calcWaterColumn();
-    });
-
-    waterLevel.addEventListener("change", function() {
-        calcWaterColumn();
+    document.querySelectorAll(".water-level").forEach(item => {
+        item.addEventListener("change", function() {
+            calcWaterColumn(this);
+        });
     });
 </script>
 
@@ -166,6 +162,94 @@
     document.querySelector("#confirm_delete_modal").addEventListener("click", function() {
         deleteSample(this);
     });
+
+    function deleteSample(that) {
+        document.getElementById("spin_load").classList.remove("hidden");
+        let ajax = new XMLHttpRequest();
+        let url = "{!! route('fields.form-values.delete-sample') !!}";
+        let token = document.querySelector('meta[name="csrf-token"]').content;
+        let method = 'POST';
+        let form_value_id = document.querySelector(`#form_value_id`).value;
+        let sample_index = document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`).value;
+
+        ajax.open(method, url);
+
+        ajax.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var resp = JSON.parse(ajax.response);
+                toastr.success(resp.message);
+                location.reload();
+            } else if (this.readyState == 4 && this.status != 200) {
+                document.getElementById("spin_load").classList.add("hidden");
+                toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                that.value = '';
+            }
+        }
+
+        var data = new FormData();
+        data.append('_token', token);
+        data.append('_method', method);
+        data.append('form_value_id', form_value_id);
+        data.append('sample_index', sample_index);
+
+        ajax.send(data);
+    }
+</script>
+
+<script>
+    document.querySelectorAll(".edit-sample").forEach(item => {
+        item.addEventListener("click", function() {
+            item.nextElementSibling.style.display = "inline-block";
+            item.style.display = "none";
+            document.querySelectorAll(`#${this.dataset.index} input`).forEach(item => {
+                item.readOnly = false;
+            });
+        });
+    });
+
+    document.querySelectorAll(".save-sample").forEach(item => {
+        item.addEventListener("click", function() {
+            saveSample(this)
+        });
+    });
+
+    function saveSample(that) {
+        document.getElementById("spin_load").classList.remove("hidden");
+        let ajax = new XMLHttpRequest();
+        let url = "{!! route('fields.form-values.save-sample-form-RTGPA047') !!}";
+        let token = document.querySelector('meta[name="csrf-token"]').content;
+        let method = 'POST';
+        let form_value_id = document.querySelector(`#form_value_id`).value;
+        let sample_index = document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`).value;
+
+        const fields = [...document.querySelectorAll(`#${that.dataset.index} input, #${that.dataset.index} select`)];
+
+        ajax.open(method, url);
+
+        ajax.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var resp = JSON.parse(ajax.response);
+                toastr.success(resp.message);
+                location.reload();
+            } else if (this.readyState == 4 && this.status != 200) {
+                document.getElementById("spin_load").classList.add("hidden");
+                toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                that.value = '';
+            }
+        }
+
+        var data = new FormData();
+        data.append('_token', token);
+        data.append('_method', method);
+        data.append('form_value_id', form_value_id);
+        data.append('sample_index', sample_index);
+
+        fields.forEach(element => {
+            data.append(element.name, element.value);
+        });
+
+        ajax.send(data);
+    }
 
     function deleteSample(that) {
         document.getElementById("spin_load").classList.remove("hidden");

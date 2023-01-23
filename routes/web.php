@@ -245,11 +245,13 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::put('/update/{form_value}', [FormValueController::class, 'update'])->name('update');
             Route::post('/filter', [FormValueController::class, 'filter'])->name('filter');
             Route::post('/save-coordinate', [FormValueController::class, 'saveCoordinate'])->name('save-coordinate');
-            Route::post('/save-sample', [FormValueController::class, 'saveSample'])->name('save-sample');
             Route::post('/delete-sample', [FormValueController::class, 'deleteSample'])->name('delete-sample');
             Route::post('/get-sample-list/{form_value}/{count}', [FormValueController::class, 'getSampleList'])->name('get-sample-list');
             Route::post('/get-sample-chart/{form_value}/{count}', [FormValueController::class, 'getSampleChart'])->name('get-sample-chart');
             Route::delete('/{form_value}', [FormValueController::class, 'destroy'])->name('destroy');
+
+            Route::post('/save-sample', [FormValueController::class, 'saveSample'])->name('save-sample');
+            Route::post('/save-sample-form-RTGPA047', [FormValueController::class, 'saveSampleFormRTGPA047'])->name('save-sample-form-RTGPA047');
 
             Route::prefix('import')->name('import.')->group(function(){
                 Route::post('/coordinates', [FormImportController::class, 'importCoordinates'])->name('coordinates');
