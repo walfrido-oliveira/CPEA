@@ -530,7 +530,7 @@
         let method = 'POST';
         let form_value_id = document.querySelector(`#form_value_id`).value;
 
-        const results = [..document.querySelectorAll(`#table_coordinates input`)];
+        const results = [...document.querySelectorAll(`#table_coordinates input`)];
 
         ajax.open(method, url);
 
@@ -589,7 +589,7 @@
         let environment = document.querySelector(`#${that.dataset.index} #environment_${that.dataset.row}`).value;
         let collect = document.querySelector(`#${that.dataset.index} #collect_${that.dataset.row}`).value;
 
-        const results = [..document.querySelectorAll(`#${that.dataset.index} #table_result input`)];
+        const results = [...document.querySelectorAll(`#${that.dataset.index} #table_result input`)];
 
         ajax.open(method, url);
 
@@ -623,7 +623,6 @@
     }
 
     function deleteSample(that) {
-        console.log(`#${that.dataset.index} #sample_index_${that.dataset.row}`);
         document.getElementById("spin_load").classList.remove("hidden");
         let ajax = new XMLHttpRequest();
         let url = "{!! route('fields.form-values.delete-sample') !!}";
@@ -915,6 +914,7 @@
             modal.classList.remove("hidden");
             modal.classList.add("block");
             document.querySelector("#confirm_delete_modal").dataset.index = this.dataset.index;
+            document.querySelector("#confirm_delete_modal").dataset.row = this.dataset.row;
         });
 
         document.querySelector(`#${id} .add-sample`).addEventListener("click", function() {
