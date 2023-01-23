@@ -78,12 +78,14 @@
                             <h2 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">AMOSTRAS</h2>
                         </div>
                         <div id="samples_items">
+                            @php $amostraIndex = 1; @endphp
                             @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
                                 @foreach ($formValue->values['samples'] as $key => $sample)
-                                    @include('form-values.RT-GPA-047.sample', ['sample' => $sample, 'i' => Str::replace('row_', '', $key)])
+                                    @include('form-values.RT-GPA-047.sample', ['sample' => $sample, 'i' => Str::replace('row_', '', $key, 'amostraIndex' => $amostraIndex)])
+                                    @php $amostraIndex++; @endphp
                                 @endforeach
                             @else
-                                @include('form-values.RT-GPA-047.sample')
+                                @include('form-values.RT-GPA-047.sample', ['amostraIndex' => $amostraIndex])
                             @endif
                         </div>
                     </div>
