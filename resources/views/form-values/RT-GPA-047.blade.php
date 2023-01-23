@@ -38,18 +38,22 @@
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="client" value="{{ __('Cliente') }}" />
-                            <x-jet-input  id="client" class="form-control block mt-1 w-full" type="text" value="{{ isset($formValue) ? $formValue->values['client'] : old('client') }}" name="client" maxlength="255"  placeholder="{{ __('Cliente') }}"/>
+                            <x-jet-label for="project_id" value="{{ __('Projeto') }}"/>
+                            <x-jet-input id="project_id" class="form-control block mt-1 w-full" type="text" name="project_id" maxlength="255" value="{{ isset($formValue) ? $formValue->values['project_id'] : old('project_id') }}"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="project_id" value="{{ __('Projeto') }}"/>
-                            <x-jet-input id="project_id" class="form-control block mt-1 w-full" type="text" name="project_id" maxlength="255" value="{{ isset($formValue) ? $formValue->values['project_id'] : old('project_id') }}" readonly placeholder="{{ __('Projeto') }}"/>
+                            <x-jet-label for="client" value="{{ __('Cliente') }}" />
+                            <x-custom-select :options="$customers" value="{{ isset($formValue->values['client']) ? $formValue->values['client'] : null }}" name="client" id="client" class="mt-1"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full pl-3 mb-6 md:mb-0">
                             <x-jet-label for="field_team" value="{{ __('Equipe de Campo') }}" />
-                            <x-custom-select   :options="\App\Models\User::all()->pluck('full_name', 'full_name')" value="{{ isset($formValue) ? $formValue->values['field_team'] : old('field_team') }}" name="field_team" id="field_team" class="mt-1"/>
+                            <select class="form-control custom-select multiselect" multiple="multiple" name="field_team[]" id="field_team">
+                                @foreach ($users as $key => $user)
+                                    <option @if(isset($formValue->values['field_team'])) @if(in_array($key, $formValue->values['field_team']))selected @endif @endif  value="{{ $key }}">{{ $user }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
@@ -59,7 +63,7 @@
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="collected_at" value="{{ __('Data/Hora da Coleta') }}" />
-                            <x-jet-input id="collected_at" class="form-control block mt-1 w-full" type="date"  name="collected_at" value="{{ isset($formValue) ? $formValue->values['collected_at'] : old('collected_at') }}"/>
+                            <x-jet-input id="collected_at" class="form-control block mt-1 w-full" type="datetime-local"  name="collected_at" value="{{ isset($formValue) ? $formValue->values['collected_at'] : old('collected_at') }}"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
@@ -226,13 +230,13 @@
         function calcFqParameters() {
             const pumpDepthValue = pumpDepth.value;
             const flowRateValue = flowRate.value;
-            fqParameters.value = (180 + (12 * pumpDepthValue) + 85) / flowRateValue;
+            fqParameters.value = ((180 + (12 * pumpDepthValue) + 85) / flowRateValue).toFixed(0);
         }
 
         function calcWaterColumn() {
             const wellDepthValue = wellDepth.value;
             const waterLevelValue = waterLevel.value;
-            waterColumn.value = wellDepthValue - waterLevelValue;
+            waterColumn.value = (wellDepthValue - waterLevelValue).toFixed(2);
         }
 
         fieldTeam.addEventListener("change", function() {
