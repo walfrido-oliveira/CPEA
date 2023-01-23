@@ -70,7 +70,7 @@
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full pl-3 mb-6 md:mb-0">
                             <x-jet-label for="obs" value="{{ __('Observações') }}" />
-                           <textarea class="form-input w-full" name="obs" id="obs" cols="30" rows="10"></textarea>
+                           <textarea class="form-input w-full" name="obs" id="obs" cols="30" rows="10">{{ isset($formValue->values['obs']) ? $formValue->values['obs'] : null }}</textarea>
                         </div>
                     </div>
                     <div id="samples" class="w-full mt-4">
