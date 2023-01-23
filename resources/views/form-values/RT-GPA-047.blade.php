@@ -10,6 +10,8 @@
                     <input type="hidden" id="form_value_id" name="form_value_id" value="{{ $formValue->id }}">
                 @endif
 
+                <input type="hidden" id="form_id" name="form_id" value="{{ $form->id }}">
+
                 <div class="flex md:flex-row flex-col">
                     <div class="w-full flex items-center">
                         <h1>{{ __('Formulário')}}  {{ $form->name }}</h1>
