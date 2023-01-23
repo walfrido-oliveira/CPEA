@@ -81,7 +81,7 @@
                             @php $amostraIndex = 1; @endphp
                             @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
                                 @foreach ($formValue->values['samples'] as $key => $sample)
-                                    @include('form-values.RT-GPA-047.sample', ['sample' => $sample, 'i' => Str::replace('row_', '', $key, 'amostraIndex' => $amostraIndex)])
+                                    @include('form-values.RT-GPA-047.sample', ['sample' => $sample, 'i' => Str::replace('row_', '', $key), 'amostraIndex' => $amostraIndex])
                                     @php $amostraIndex++; @endphp
                                 @endforeach
                             @else
