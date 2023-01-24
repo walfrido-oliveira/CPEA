@@ -40,7 +40,7 @@
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="password" value="{{ __('Senha') }}" />
-                            <x-jet-input id="password" class="form-control block mt-1 w-full" type="password" name="password" maxlength="255" :value="$user->password" readonly autofocus autocomplete="password"/>
+                            <x-jet-input id="password" class="form-control block mt-1 w-full" type="password" name="password" maxlength="255" value="" readonly autofocus autocomplete="password"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
@@ -62,7 +62,7 @@
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="occupation_id" value="{{ __('Cargo') }}" required/>
-                            <x-custom-select :options="$occupations" name="occupation_id" id="occupation_id" required :value="$user->direction_id"/>
+                            <x-custom-select :options="$occupations" name="occupation_id" id="occupation_id" required :value="$user->occupation_id"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="department_id" value="{{ __('Departamento') }}" required/>

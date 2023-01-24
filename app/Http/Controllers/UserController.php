@@ -159,7 +159,7 @@ class UserController extends Controller
 
         $user->syncRoles([$input['role']]);
 
-        event(new UpdatedUser($user));
+        //event(new UpdatedUser($user));
 
         return redirect()->route('users.show', ['user' => $user->id])->with(defaultSaveMessagemNotification());
     }

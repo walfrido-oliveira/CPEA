@@ -2,16 +2,18 @@
     <div class="flex w-full">
         <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0 title">AMOSTRA <span>{{ $amostraIndex }}</span></h3>
         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 flex justify-end align-baseline buttons" style="align-items: baseline;">
-            <button class="add-sample btn-transition-primary px-1" type="button" title="Adicionar Amostra">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-900" fill="none" viewBox="0 0 24 24" stroke-wiph="1.5" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-            </button>
-            <button type="button" class="btn-transition-primary remove-sample px-1" title="Remover Amostra" style="{{ isset($i) ? '': 'display:none' }}" data-index="sample_{{ isset($i) ? $i : 0 }}" data-row="{{ isset($i) ? $i : 0 }}">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-wiph="1.5" stroke="currentColor" class="h-8 w-8 text-red-900">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-            </button>
+            @if (!$first)
+                <button class="add-sample btn-transition-primary px-1" type="button" title="Adicionar Amostra">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-900" fill="none" viewBox="0 0 24 24" stroke-wiph="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </button>
+                <button type="button" class="btn-transition-primary remove-sample px-1" title="Remover Amostra" style="{{ isset($i) ? '': 'display:none' }}" data-index="sample_{{ isset($i) ? $i : 0 }}" data-row="{{ isset($i) ? $i : 0 }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-wiph="1.5" stroke="currentColor" class="h-8 w-8 text-red-900">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </button>
+            @endif
             @if(isset($formValue))
                 <div>
                     <input type="hidden" id="sample_index_{{ isset($i) ? $i : 0 }}" name="sample_index" value="row_{{ isset($i) ? $i : 0 }}">
@@ -29,10 +31,7 @@
                 </div>
             @endif
             <button class="btn-transition-secondary" type="button" id="show_details" @click="isOpen() ? close() : show();">
-                <svg xmlns="http://www.w3.org/2000/svg"
-                    :class="{ 'rotate-180': isOpen(), 'rotate-0': !isOpen() }"
-                    class="h-8 w-8" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" :class="{ 'rotate-180': isOpen(), 'rotate-0': !isOpen() }" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7" />
                 </svg>
             </button>
@@ -74,7 +73,7 @@
                         name="{{ isset($i) ? 'samples[row_' . ($i) . '][environmental_conditions]' : 'samples[row_0][environmental_conditions]' }}" class="mt-1"/>
                     @else
                         <x-custom-select id="environmental_conditions_{{ isset($i) ? $i : 0 }}"  :options="['Com Chuva' => 'Com Chuva', 'Sem Chuva' => 'Sem Chuva']" value=""
-                            name="samples[row_0][environmental_conditions]" class="mt-1"/>
+                        name="samples[row_0][environmental_conditions]" class="mt-1"/>
                     @endif
             </div>
             </div>

@@ -56,7 +56,9 @@ class FormValueController extends Controller
     {
         $form = Form::findOrFail($id);
         $formValue = null;
-        $users = User::all()->pluck('full_name', 'id');
+        $users = User::whereHas('occupation', function($q) {
+            $q->where('occupations.name', 'Técnico de Campo');
+        })->get()->pluck('full_name', 'id');
         $customers = Customer::where('status', 'active')->pluck('name', 'id');
         $fields = FieldType::pluck('name', 'id');
 
@@ -157,7 +159,9 @@ class FormValueController extends Controller
     public function edit(Request $request, $id)
     {
         $formValue = FormValue::findOrFail($id);
-        $users = User::all()->pluck('full_name', 'id');
+        $users = User::whereHas('occupation', function($q) {
+            $q->where('occupations.name', 'Técnico de Campo');
+        })->get()->pluck('full_name', 'id');
         $customers = Customer::where('status', 'active')->pluck('name', 'id');
         $fields = FieldType::pluck('name', 'id');
         $form = $formValue->form;

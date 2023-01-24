@@ -42,27 +42,29 @@
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                             <x-jet-label for="project_id" value="{{ __('Projeto') }}"/>
                             <x-jet-input id="project_id" class="form-control block mt-1 w-full" type="text" name="project_id" maxlength="255" value="{{ isset($formValue) ? $formValue->values['project_id'] : old('project_id') }}"/>
                         </div>
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                             <x-jet-label for="client" value="{{ __('Cliente') }}" />
                             <x-custom-select :options="$customers" value="{{ isset($formValue->values['client']) ? $formValue->values['client'] : null }}" name="client" id="client" class="mt-1"/>
                         </div>
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="matrix" value="{{ __('Matriz') }}" />
+                            <x-custom-select :options="$fields" value="{{ isset($formValue->values['matrix']) ? $formValue->values['matrix'] : null }}" name="matrix" id="matrix" class="mt-1"/>
+                        </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <div class="w-full pl-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/2 pl-3 mb-6 md:mb-0">
                             <x-jet-label for="field_team" value="{{ __('Equipe de Campo') }}" />
-                            <select class="form-control custom-select multiselect" multiple="multiple" name="field_team[]" id="field_team">
+                            <select class="form-control custom-select multiselect mt-1" multiple="multiple" name="field_team[]" id="field_team">
                                 @foreach ($users as $key => $user)
                                     <option @if(isset($formValue->values['field_team'])) @if(in_array($key, $formValue->values['field_team']))selected @endif @endif  value="{{ $key }}">{{ $user }}</option>
                                 @endforeach
                             </select>
                         </div>
-                    </div>
-                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <div class="w-full pl-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/2 pl-3 mb-6 md:mb-0">
                             <x-jet-label for="technician" value="{{ __('Técnico Responsável') }}" />
                             <x-custom-select :options="$users" value="{{ isset($formValue->values['technician']) ? $formValue->values['technician'] : null }}" name="technician" id="technician" class="mt-1"/>
                         </div>
@@ -73,6 +75,7 @@
                            <textarea class="form-input w-full" name="obs" id="obs" cols="30" rows="10">{{ isset($formValue->values['obs']) ? $formValue->values['obs'] : null }}</textarea>
                         </div>
                     </div>
+
                     <div id="samples" class="w-full mt-4">
                         <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                             <h2 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">AMOSTRAS</h2>
@@ -81,11 +84,11 @@
                             @php $amostraIndex = 1; @endphp
                             @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
                                 @foreach ($formValue->values['samples'] as $key => $sample)
-                                    @include('form-values.RT-GPA-047.sample', ['sample' => $sample, 'i' => Str::replace('row_', '', $key), 'amostraIndex' => $amostraIndex])
+                                    @include('form-values.RT-GPA-047.sample', ['sample' => $sample, 'i' => Str::replace('row_', '', $key), 'amostraIndex' => $amostraIndex, 'first' => false])
                                     @php $amostraIndex++; @endphp
                                 @endforeach
                             @else
-                                @include('form-values.RT-GPA-047.sample', ['amostraIndex' => $amostraIndex])
+                                @include('form-values.RT-GPA-047.sample', ['amostraIndex' => $amostraIndex, 'first' => true])
                             @endif
                         </div>
                     </div>
