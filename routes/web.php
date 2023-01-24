@@ -19,8 +19,11 @@ use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\FormPrintController;
 use App\Http\Controllers\FormValueController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\FormConfigController;
 use App\Http\Controllers\FormImportController;
+use App\Http\Controllers\OccupationController;
+use App\Http\Controllers\DepartamentController;
 use App\Http\Controllers\EmailConfigController;
 use App\Http\Controllers\GuidingValueController;
 use App\Http\Controllers\AnalysisOrderController;
@@ -93,6 +96,24 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
     Route::prefix('usuarios')->name('users.')->group(function(){
         Route::post('/filter', [UserController::class, 'filter'])->name('filter');
         Route::post('/forgot-password/{user}', [UserController::class, 'forgotPassword'])->name('forgot-password');
+    });
+
+    Route::resource('departamentos', DepartmentController::class, [
+        'names' => 'departments'])->parameters([
+        'departamentos' => 'department'
+    ]);
+
+    Route::prefix('departamentos')->name('departments.')->group(function(){
+        Route::post('/filter', [DepartmentController::class, 'filter'])->name('filter');
+    });
+
+    Route::resource('cargos', OccupationController::class, [
+        'names' => 'occupations'])->parameters([
+        'cargos' => 'occupation'
+    ]);
+
+    Route::prefix('cargos')->name('occupations.')->group(function(){
+        Route::post('/filter', [OccupationController::class, 'filter'])->name('filter');
     });
 
     Route::resource('clientes', CustomerController::class, [

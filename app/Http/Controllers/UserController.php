@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Department;
+use App\Models\Occupation;
 use App\Events\CreatedUser;
 use App\Events\UpdatedUser;
 use Illuminate\Support\Str;
@@ -41,7 +43,10 @@ class UserController extends Controller
     {
         $roles =  Role::all()->pluck('name', 'name');
         $status = User::getStatusArray();
-        return view('users.create', compact('roles', 'status'));
+        $occupations  = Occupation::all()->pluck('name', 'id');
+        $departments = Department::all()->pluck('name', 'id');
+
+        return view('users.create', compact('roles', 'status', 'occupations', 'departments'));
     }
 
     /**
@@ -62,7 +67,8 @@ class UserController extends Controller
             'status' => $input['status'],
             'password' => Hash::make(Str::random(8)),
             'crq' => $input['crq'],
-            'dpto' => $input['dpto'],
+            'department_id' => $input['department_id'],
+            'occupation_id' => $input['occupation_id'],
         ]);
 
         if($request->signer) {
@@ -114,8 +120,10 @@ class UserController extends Controller
         $roles =  Role::all()->pluck('name', 'name');
         $userRole = $user->roles->values()->get(0) ? $user->roles->values()->get(0)->name : null;
         $status = User::getStatusArray();
+        $occupations  = Occupation::all()->pluck('name', 'id');
+        $departments = Department::all()->pluck('name', 'id');
 
-        return view('users.edit', compact('user', 'roles', 'status', 'userRole'));
+        return view('users.edit', compact('user', 'roles', 'status', 'userRole', 'occupations', 'departments'));
     }
 
     /**
@@ -137,7 +145,8 @@ class UserController extends Controller
             'phone' => preg_replace('/[^0-9]/', '', $input['phone']),
             'status' => $input['status'],
             'crq' => $input['crq'],
-            'dpto' => $input['dpto'],
+            'department_id' => $input['department_id'],
+            'occupation_id' => $input['occupation_id'],
         ]);
 
         if($request->signer) {
