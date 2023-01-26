@@ -97,11 +97,17 @@
 
         document.getElementById("samples_items").appendChild(clone);
 
+        document.querySelector(`#${id} .save-sample`).style.display = "inline-block";
+        document.querySelector(`#${id} .edit-sample`).style.display = "none";
+
         document.querySelectorAll(`#${id} input:not(#form_value_id):not(#sample_index_${num})`).forEach(item => {
             item.value = "";
+            item.readOnly = false;
+        });
+
+        document.querySelectorAll(`#${id} select:not(#form_value_id):not(#sample_index_${num})`).forEach(item => {
+            item.value = "";
             item.disabled = false;
-            document.querySelector(`#${id} .save-sample`).style.display = "inline-block";
-            document.querySelector(`#${id} .edit-sample`).style.display = "none";
         });
 
         document.querySelectorAll(`#${id} tfoot td`).forEach(item => {
@@ -127,6 +133,9 @@
                 item.nextElementSibling.style.display = "inline-block";
                 item.style.display = "none";
                 document.querySelectorAll(`#${this.dataset.index} input`).forEach(item => {
+                    item.readOnly = false;
+                });
+                document.querySelectorAll(`#${this.dataset.select} input`).forEach(item => {
                     item.disabled = false;
                 });
             });
