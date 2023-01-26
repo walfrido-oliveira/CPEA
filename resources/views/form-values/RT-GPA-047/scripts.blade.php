@@ -100,12 +100,12 @@
         document.querySelector(`#${id} .save-sample`).style.display = "inline-block";
         document.querySelector(`#${id} .edit-sample`).style.display = "none";
 
-        document.querySelectorAll(`#${id} input:not(#form_value_id):not(#sample_index_${num})`).forEach(item => {
+        document.querySelectorAll(`#${id} input:not(#form_value_id):not(#sample_index_${num}):not(.fq-parameters):not(.water-column)`).forEach(item => {
             item.value = "";
             item.readOnly = false;
         });
 
-        document.querySelectorAll(`#${id} select:not(#form_value_id):not(#sample_index_${num})`).forEach(item => {
+        document.querySelectorAll(`#${id} select:not(#form_value_id):not(#sample_index_${num}):not(.fq-parameters):not(.water-column)`).forEach(item => {
             item.value = "";
             item.disabled = false;
         });
@@ -132,10 +132,10 @@
             item.addEventListener("click", function() {
                 item.nextElementSibling.style.display = "inline-block";
                 item.style.display = "none";
-                document.querySelectorAll(`#${this.dataset.index} input`).forEach(item => {
+                document.querySelectorAll(`#${this.dataset.index} input:not(.fq-parameters):not(.water-column)`).forEach(item => {
                     item.readOnly = false;
                 });
-                document.querySelectorAll(`#${this.dataset.select} input`).forEach(item => {
+                document.querySelectorAll(`#${this.dataset.select} input:not(.fq-parameters):not(.water-column)`).forEach(item => {
                     item.disabled = false;
                 });
             });
@@ -210,11 +210,11 @@
         item.addEventListener("click", function() {
             item.nextElementSibling.style.display = "inline-block";
             item.style.display = "none";
-            document.querySelectorAll(`#${this.dataset.index} input`).forEach(item => {
+            document.querySelectorAll(`#${this.dataset.index} input:not(.fq-parameters):not(.water-column)`).forEach(item => {
                 item.readOnly = false;
                 item.disabled = false;
             });
-            document.querySelectorAll(`#${this.dataset.index} select`).forEach(item => {
+            document.querySelectorAll(`#${this.dataset.index} select:not(.fq-parameters):not(.water-column)`).forEach(item => {
                 item.readOnly = false;
                 item.disabled = false;
             });
