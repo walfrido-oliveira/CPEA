@@ -66,7 +66,7 @@
                                     x-transition:leave-start="opacity-100 transform scale-100"
                                     x-transition:leave-end="opacity-0 transform scale-90 hidden">
             <div class="flex flex-wrap mt-4">
-                <div class="w-full md:w-1/2 pl-3 mb-6 md:mb-0">
+                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <x-jet-label for="environmental_conditions_{{ isset($i) ? $i : 0 }}" value="{{ __('Condições Ambientais nas Últimas 24 hs*') }}" />
                     @if(isset($sample))
                         <x-custom-select select-class="no-nice-select" id="environmental_conditions_{{ isset($i) ? $i : 0 }}"  :disabled="true"
@@ -77,7 +77,18 @@
                         :options="['Com Chuva' => 'Com Chuva', 'Sem Chuva' => 'Sem Chuva']" value=""
                         name="samples[row_0][environmental_conditions]" class="mt-1"/>
                     @endif
-            </div>
+                </div>
+                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <x-jet-label for="technician_{{ isset($i) ? $i : 0 }}" value="{{ __('Técnico Responsável') }}" />
+                    @if(isset($sample))
+                        <x-custom-select select-class="no-nice-select" id="technician_{{ isset($i) ? $i : 0 }}"  :disabled="true"
+                        :options="$users" value="{{ isset($sample['technician']) ? $sample['technician'] : '' }}"
+                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][technician]' : 'samples[row_0][technician]' }}" class="mt-1"/>
+                    @else
+                        <x-custom-select select-class="no-nice-select" id="technician_{{ isset($i) ? $i : 0 }}"
+                        :options="$users" value="" name="samples[row_0][technician]" class="mt-1"/>
+                    @endif
+                </div>
             </div>
             <div class="flex flex-wrap mt-4">
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
@@ -220,7 +231,7 @@
                 </div>
             </div>
             <div class="flex flex-wrap mt-4">
-                <div class="w-full md:w-1/2 pl-3 mb-6 md:mb-0">
+                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <x-jet-label for="suspended_{{ isset($i) ? $i : 0 }}" value="{{ __('Material em suspensão?') }}" />
                     @if(isset($sample))
                         <x-custom-select id="suspended_{{ isset($i) ? $i : 0 }}"  select-class="no-nice-select" :disabled="true"
