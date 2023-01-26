@@ -203,6 +203,11 @@
             item.style.display = "none";
             document.querySelectorAll(`#${this.dataset.index} input`).forEach(item => {
                 item.readOnly = false;
+                item.disabled = false;
+            });
+            document.querySelectorAll(`#${this.dataset.index} select`).forEach(item => {
+                item.readOnly = false;
+                item.disabled = false;
             });
         });
     });
