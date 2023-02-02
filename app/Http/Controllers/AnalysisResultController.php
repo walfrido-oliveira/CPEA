@@ -845,7 +845,7 @@ class AnalysisResultController extends Controller
           if ($guidingParametersValue) {
             if ($guidingParametersValue->guidingValue) {
               if (Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo'])) {
-                $sheet->setCellValueByColumnAndRow($k + 3, $row, $guidingParametersValue->guiding_legislation_value);
+                $sheet->setCellValueByColumnAndRow($k + 3, $row,  Str::replace(".", ",", $guidingParametersValue->guiding_legislation_value));
               }
               if (Str::contains($guidingParametersValue->guidingValue->name, ['Qualitativo'])) {
                 $sheet->setCellValueByColumnAndRow($k + 3, $row, 'Virtualmente ausente');
@@ -978,14 +978,16 @@ class AnalysisResultController extends Controller
           foreach ($guidingParametersValues as $guidingParametersValue) {
             if ($guidingParametersValue) {
               $color = $colorsGuidingParametersId[array_search($guidingParametersValue->guiding_parameter_id, array_column($colorsGuidingParametersId, 'guiding_parameter_id'))]["color"];
+              $guiding_legislation_value = Str::replace(",", ".", $guidingParametersValue->guiding_legislation_value);
+              $guiding_legislation_value_1 = Str::replace(",", ".", $guidingParametersValue->guiding_legislation_value_1);
 
               if (Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo'])) {
-                if ($resultValue > $guidingParametersValue->guiding_legislation_value) {
+                if ($resultValue > Str::replace(",", ".", $guiding_legislation_value)) {
                   $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $color));
                 }
               }
               if ($guidingParametersValue->guidingValue->name == 'Intervalo') {
-                if (($resultValue < $guidingParametersValue->guiding_legislation_value || $resultValue > $guidingParametersValue->guiding_legislation_value_1)) {
+                if (($resultValue < $guiding_legislation_value || $resultValue > $guiding_legislation_value_1)) {
                   $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $color));
                 }
               }
