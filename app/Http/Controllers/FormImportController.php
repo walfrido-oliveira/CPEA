@@ -87,7 +87,7 @@ class FormImportController extends Controller
             }
         }
 
-        $samples = $this->validadeTemperature($samples, $inputs["sample_index"]);
+        $samples = $this->validadePH($samples, $inputs["sample_index"]);
         dd($samples["samples"][$inputs["sample_index"]]["results"]);
         $formValue->values = $samples;
         $formValue->save();
@@ -120,14 +120,17 @@ class FormImportController extends Controller
                 if($diff > 1) $deletedIndex[] = $key + 1;
             }
         }
-        $maxKey = max($deletedIndex);
-        $result = [];
-        array_splice($samples["samples"][$index]["results"], 0, $maxKey + 1, $result);
+        if(count($deletedIndex) > 0) {
+            $maxKey = max($deletedIndex);
+            $result = [];
+            array_splice($samples["samples"][$index]["results"], 0, $maxKey + 1, $result);
+        }
+
         return $samples;
     }
 
     /**
-     *  Check column time
+     *  Check column temperature
      *
      * @param array $sample
      * @return array
@@ -146,9 +149,39 @@ class FormImportController extends Controller
                 if($diff > 0.5) $deletedIndex[] = $key + 1;
             }
         }
-        $maxKey = max($deletedIndex);
-        $result = [];
-        array_splice($samples["samples"][$index]["results"], 0, $maxKey + 1, $result);
+        if(count($deletedIndex) > 0) {
+            $maxKey = max($deletedIndex);
+            $result = [];
+            array_splice($samples["samples"][$index]["results"], 0, $maxKey + 1, $result);
+        }
+        return $samples;
+    }
+
+     /**
+     *  Check column time
+     *
+     * @param array $sample
+     * @return array
+     */
+    private function validadePH($samples, $index)
+    {
+        if (count($samples) < 3) return $samples;
+        $deletedIndex = [];
+
+        foreach ($samples["samples"][$index]["results"] as $key => $result)
+        {
+            if(isset($samples["samples"][$index]["results"][$key + 1]["ph"])) {
+                $start = $result["ph"];
+                $end = $samples["samples"][$index]["results"][$key + 1]["ph"];
+                $diff = $end - $start;
+                if($diff > 0.2) $deletedIndex[] = $key + 1;
+            }
+        }
+        if(count($deletedIndex) > 0) {
+            $maxKey = max($deletedIndex);
+            $result = [];
+            array_splice($samples["samples"][$index]["results"], 0, $maxKey + 1, $result);
+        }
         return $samples;
     }
 
