@@ -52,6 +52,9 @@ class FormImportController extends Controller
             }
             //if ($key == 4) break;
 
+            if (isset($value[1])) {
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["time"] = $value[1];
+            }
             if (isset($value[2])) {
                 $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["temperature"] = floatval($value[2]);
             }
@@ -84,6 +87,8 @@ class FormImportController extends Controller
             }
         }
 
+        $samples = $this->validadeTime($samples, $inputs["sample_index"]);
+        dd($samples["samples"][$inputs["sample_index"]]["results"]);
         $formValue->values = $samples;
         $formValue->save();
 
@@ -93,6 +98,32 @@ class FormImportController extends Controller
         ];
 
         return response()->json($resp);
+    }
+
+    /**
+     *  Check column time
+     *
+     * @param array $sample
+     * @return array
+     */
+    private function validadeTime($samples, $index)
+    {
+        if (count($samples) < 3) return $samples;
+        $deletedIndex = [];
+
+        foreach ($samples["samples"][$index]["results"] as $key => $result)
+        {
+            if(isset($samples["samples"][$index]["results"][$key + 1]["time"])) {
+                $startTime = Carbon::createFromFormat('h:i:s', $result["time"]);
+                $endTime = Carbon::createFromFormat('h:i:s', $samples["samples"][$index]["results"][$key + 1]["time"]);
+                $diff = $endTime->diffInSeconds($startTime);
+                if($diff > 1) $deletedIndex[] = $key + 1;
+            }
+        }
+        $maxKey = max($deletedIndex);
+        $result = [];
+        array_splice($samples["samples"][$index]["results"], 0, $maxKey + 1, $result);
+        return $samples;
     }
 
     /**
