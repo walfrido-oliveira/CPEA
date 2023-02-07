@@ -87,7 +87,7 @@ class FormImportController extends Controller
             }
         }
 
-        $samples = $this->validadeTime($samples, $inputs["sample_index"]);
+        $samples = $this->validadeTemperature($samples, $inputs["sample_index"]);
         dd($samples["samples"][$inputs["sample_index"]]["results"]);
         $formValue->values = $samples;
         $formValue->save();
@@ -118,6 +118,32 @@ class FormImportController extends Controller
                 $endTime = Carbon::createFromFormat('h:i:s', $samples["samples"][$index]["results"][$key + 1]["time"]);
                 $diff = $endTime->diffInSeconds($startTime);
                 if($diff > 1) $deletedIndex[] = $key + 1;
+            }
+        }
+        $maxKey = max($deletedIndex);
+        $result = [];
+        array_splice($samples["samples"][$index]["results"], 0, $maxKey + 1, $result);
+        return $samples;
+    }
+
+    /**
+     *  Check column time
+     *
+     * @param array $sample
+     * @return array
+     */
+    private function validadeTemperature($samples, $index)
+    {
+        if (count($samples) < 3) return $samples;
+        $deletedIndex = [];
+
+        foreach ($samples["samples"][$index]["results"] as $key => $result)
+        {
+            if(isset($samples["samples"][$index]["results"][$key + 1]["temperature"])) {
+                $start = $result["temperature"];
+                $end = $samples["samples"][$index]["results"][$key + 1]["temperature"];
+                $diff = $end - $start;
+                if($diff > 0.5) $deletedIndex[] = $key + 1;
             }
         }
         $maxKey = max($deletedIndex);
