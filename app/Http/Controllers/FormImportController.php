@@ -146,7 +146,7 @@ class FormImportController extends Controller
                 $start = $result["temperature"];
                 $end = $samples["samples"][$index]["results"][$key + 1]["temperature"];
                 $diff = $end - $start;
-                if($diff > 0.5) $deletedIndex[] = $key + 1;
+                if($diff > 0.5 || $diff < -0.5) $deletedIndex[] = $key + 1;
             }
         }
         if(count($deletedIndex) > 0) {
@@ -158,7 +158,7 @@ class FormImportController extends Controller
     }
 
      /**
-     *  Check column time
+     *  Check column ph
      *
      * @param array $sample
      * @return array
@@ -174,7 +174,35 @@ class FormImportController extends Controller
                 $start = $result["ph"];
                 $end = $samples["samples"][$index]["results"][$key + 1]["ph"];
                 $diff = $end - $start;
-                if($diff > 0.2) $deletedIndex[] = $key + 1;
+                if($diff > 0.2 || $diff > -0.2) $deletedIndex[] = $key + 1;
+            }
+        }
+        if(count($deletedIndex) > 0) {
+            $maxKey = max($deletedIndex);
+            $result = [];
+            array_splice($samples["samples"][$index]["results"], 0, $maxKey + 1, $result);
+        }
+        return $samples;
+    }
+
+    /**
+     *  Check column time
+     *
+     * @param array $sample
+     * @return array
+     */
+    private function validadeOrp($samples, $index)
+    {
+        if (count($samples) < 3) return $samples;
+        $deletedIndex = [];
+
+        foreach ($samples["samples"][$index]["results"] as $key => $result)
+        {
+            if(isset($samples["samples"][$index]["results"][$key + 1]["orp"])) {
+                $start = $result["orp"];
+                $end = $samples["samples"][$index]["results"][$key + 1]["orp"];
+                $diff = $end - $start;
+                if($diff > 20 || $diff > -20) $deletedIndex[] = $key + 1;
             }
         }
         if(count($deletedIndex) > 0) {
