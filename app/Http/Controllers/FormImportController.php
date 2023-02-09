@@ -87,8 +87,19 @@ class FormImportController extends Controller
             }
         }
 
+        $samples = $this->validadeTime($samples, $inputs["sample_index"]);
+        /*dd($samples["samples"][$inputs["sample_index"]]["results"]);
+        $samples = $this->validadeTemperature($samples, $inputs["sample_index"]);
+        dd($samples["samples"][$inputs["sample_index"]]["results"]);
         $samples = $this->validadePH($samples, $inputs["sample_index"]);
         dd($samples["samples"][$inputs["sample_index"]]["results"]);
+        $samples = $this->validadeOrp($samples, $inputs["sample_index"]);
+        dd($samples["samples"][$inputs["sample_index"]]["results"]);
+        $samples = $this->validadeConductivity($samples, $inputs["sample_index"]);
+        dd($samples["samples"][$inputs["sample_index"]]["results"]);
+        $samples = $this->validadeSat($samples, $inputs["sample_index"]);
+        dd($samples["samples"][$inputs["sample_index"]]["results"]);*/
+
         $formValue->values = $samples;
         $formValue->save();
 
@@ -110,20 +121,30 @@ class FormImportController extends Controller
     {
         if (count($samples) < 3) return $samples;
         $deletedIndex = [];
-
+        $diffs = [];
         foreach ($samples["samples"][$index]["results"] as $key => $result)
         {
             if(isset($samples["samples"][$index]["results"][$key + 1]["time"])) {
                 $startTime = Carbon::createFromFormat('h:i:s', $result["time"]);
                 $endTime = Carbon::createFromFormat('h:i:s', $samples["samples"][$index]["results"][$key + 1]["time"]);
                 $diff = $endTime->diffInSeconds($startTime);
-                if($diff > 1) $deletedIndex[] = $key + 1;
+                $diffs["row_$key"] =
+                [
+                    "key" => $key,
+                    "value" => $diff,
+                    "equals" => in_array_r($diff, $diffs) ? true : false
+                ];
             }
+        }
+        array_splice($diffs, 0, 1, []);
+        foreach ($diffs as $key => $value)
+        {
+            if(!$value["equals"]) $deletedIndex[] = $value["key"];
         }
         if(count($deletedIndex) > 0) {
             $maxKey = max($deletedIndex);
             $result = [];
-            array_splice($samples["samples"][$index]["results"], 0, $maxKey + 1, $result);
+            array_splice($samples["samples"][$index]["results"], 0, $maxKey, $result);
         }
 
         return $samples;
@@ -146,7 +167,7 @@ class FormImportController extends Controller
                 $start = $result["temperature"];
                 $end = $samples["samples"][$index]["results"][$key + 1]["temperature"];
                 $diff = $end - $start;
-                if($diff > 0.5 || $diff < -0.5) $deletedIndex[] = $key + 1;
+                if($diff > 0.5 || $diff < -0.5) $deletedIndex[] = $key;
             }
         }
         if(count($deletedIndex) > 0) {
@@ -174,7 +195,7 @@ class FormImportController extends Controller
                 $start = $result["ph"];
                 $end = $samples["samples"][$index]["results"][$key + 1]["ph"];
                 $diff = $end - $start;
-                if($diff > 0.2 || $diff > -0.2) $deletedIndex[] = $key + 1;
+                if($diff > 0.2 || $diff > -0.2) $deletedIndex[] = $key;
             }
         }
         if(count($deletedIndex) > 0) {
@@ -202,7 +223,7 @@ class FormImportController extends Controller
                 $start = $result["orp"];
                 $end = $samples["samples"][$index]["results"][$key + 1]["orp"];
                 $diff = $end - $start;
-                if($diff > 20 || $diff > -20) $deletedIndex[] = $key + 1;
+                if($diff > 20 || $diff > -20) $deletedIndex[] = $key;
             }
         }
         if(count($deletedIndex) > 0) {
@@ -230,7 +251,7 @@ class FormImportController extends Controller
                 $start = $result["conductivity"];
                 $end = $samples["samples"][$index]["results"][$key + 1]["conductivity"];
                 $diff = ($end - $start) / 100;
-                if($diff > 0.5 || $diff > -0.5) $deletedIndex[] = $key + 1;
+                if($diff > 0.5 || $diff > -0.5) $deletedIndex[] = $key;
             }
         }
         if(count($deletedIndex) > 0) {
@@ -259,8 +280,8 @@ class FormImportController extends Controller
                 $end = $samples["samples"][$index]["results"][$key + 1]["sat"];
                 $diffNumeric = $end - $start;
                 $diffPercentual = ($end - $start) / 100;
-                if($diffNumeric > 0.20 || $diffNumeric > -0.20) $deletedIndex[] = $key + 1;
-                if($diffPercentual > 0.10 || $diffNumeric > -0.10) $deletedIndex[] = $key + 1;
+                if($diffNumeric > 0.20 || $diffNumeric > -0.20) $deletedIndex[] = $key;
+                if($diffPercentual > 0.10 || $diffNumeric > -0.10) $deletedIndex[] = $key;
             }
         }
         if(count($deletedIndex) > 0) {
