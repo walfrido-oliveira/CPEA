@@ -186,7 +186,7 @@ class FormImportController extends Controller
     }
 
     /**
-     *  Check column time
+     *  Check column ORP
      *
      * @param array $sample
      * @return array
@@ -214,7 +214,7 @@ class FormImportController extends Controller
     }
 
     /**
-     *  Check column time
+     *  Check column Condutivity
      *
      * @param array $sample
      * @return array
@@ -230,7 +230,37 @@ class FormImportController extends Controller
                 $start = $result["conductivity"];
                 $end = $samples["samples"][$index]["results"][$key + 1]["conductivity"];
                 $diff = ($end - $start) / 100;
-                if($diff > 5 || $diff > -5) $deletedIndex[] = $key + 1;
+                if($diff > 0.5 || $diff > -0.5) $deletedIndex[] = $key + 1;
+            }
+        }
+        if(count($deletedIndex) > 0) {
+            $maxKey = max($deletedIndex);
+            $result = [];
+            array_splice($samples["samples"][$index]["results"], 0, $maxKey + 1, $result);
+        }
+        return $samples;
+    }
+
+    /**
+     *  Check column Sat
+     *
+     * @param array $sample
+     * @return array
+     */
+    private function validadeSat($samples, $index)
+    {
+        if (count($samples) < 3) return $samples;
+        $deletedIndex = [];
+
+        foreach ($samples["samples"][$index]["results"] as $key => $result)
+        {
+            if(isset($samples["samples"][$index]["results"][$key + 1]["sat"])) {
+                $start = $result["sat"];
+                $end = $samples["samples"][$index]["results"][$key + 1]["sat"];
+                $diffNumeric = $end - $start;
+                $diffPercentual = ($end - $start) / 100;
+                if($diffNumeric > 0.20 || $diffNumeric > -0.20) $deletedIndex[] = $key + 1;
+                if($diffPercentual > 0.10 || $diffNumeric > -0.10) $deletedIndex[] = $key + 1;
             }
         }
         if(count($deletedIndex) > 0) {
