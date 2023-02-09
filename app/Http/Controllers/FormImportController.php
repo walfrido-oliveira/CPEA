@@ -214,6 +214,34 @@ class FormImportController extends Controller
     }
 
     /**
+     *  Check column time
+     *
+     * @param array $sample
+     * @return array
+     */
+    private function validadeConductivity($samples, $index)
+    {
+        if (count($samples) < 3) return $samples;
+        $deletedIndex = [];
+
+        foreach ($samples["samples"][$index]["results"] as $key => $result)
+        {
+            if(isset($samples["samples"][$index]["results"][$key + 1]["conductivity"])) {
+                $start = $result["conductivity"];
+                $end = $samples["samples"][$index]["results"][$key + 1]["conductivity"];
+                $diff = ($end - $start) / 100;
+                if($diff > 5 || $diff > -5) $deletedIndex[] = $key + 1;
+            }
+        }
+        if(count($deletedIndex) > 0) {
+            $maxKey = max($deletedIndex);
+            $result = [];
+            array_splice($samples["samples"][$index]["results"], 0, $maxKey + 1, $result);
+        }
+        return $samples;
+    }
+
+    /**
      * Import coordinates from file
      *
      * @param  Request  $request
