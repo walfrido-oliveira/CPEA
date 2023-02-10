@@ -120,13 +120,14 @@ class FormImportController extends Controller
     private function validadeTime($samples, $index)
     {
         if (count($samples) < 3) return $samples;
+        if (count($samples["samples"][$index]["results"]) < 4) return $sample;
         $deletedIndex = [];
         $diffs = [];
         foreach ($samples["samples"][$index]["results"] as $key => $result)
         {
-            if(isset($samples["samples"][$index]["results"][$key + 1]["time"])) {
-                $startTime = Carbon::createFromFormat('h:i:s', $result["time"]);
-                $endTime = Carbon::createFromFormat('h:i:s', $samples["samples"][$index]["results"][$key + 1]["time"]);
+            if($key != 0) {
+                $startTime = Carbon::createFromFormat('H:i:s', $result["time"]);
+                $endTime = Carbon::createFromFormat('H:i:s', $samples["samples"][$index]["results"][$key - 1]["time"]);
                 $diff = $endTime->diffInSeconds($startTime);
                 $diffs["row_$key"] =
                 [
@@ -136,7 +137,6 @@ class FormImportController extends Controller
                 ];
             }
         }
-        array_splice($diffs, 0, 1, []);
         foreach ($diffs as $key => $value)
         {
             if(!$value["equals"]) $deletedIndex[] = $value["key"];
