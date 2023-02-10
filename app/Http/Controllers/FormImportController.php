@@ -145,7 +145,6 @@ class FormImportController extends Controller
             $result = [];
             array_splice($samples["samples"][$index]["results"], $maxKey - 1, $maxKey, $result);
         }
-        dd($samples["samples"][$index]["results"]);
         return $samples;
     }
 
