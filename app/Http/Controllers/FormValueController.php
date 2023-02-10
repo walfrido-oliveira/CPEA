@@ -423,7 +423,7 @@ class FormValueController extends Controller
     }
 
       return response()->json([
-          'viwer' => view("form-values.sample-list", compact("formValue", "count", "svgs", "type", "samples"))->render()
+          'viwer' => view("form-values.RT-LAB-041-190.sample-list", compact("formValue", "count", "svgs", "type", "samples"))->render()
       ]);
     }
 
@@ -456,7 +456,7 @@ class FormValueController extends Controller
         }
 
       return response()->json([
-          'viwer' => view("form-values.sample-chart-list", compact("formValue", "count", "svgs", "type", "samples"))->render(),
+          'viwer' => view("form-values.RT-LAB-041-190.sample-chart-list", compact("formValue", "count", "svgs", "type", "samples"))->render(),
           'samples' => $samples,
           'svgs' => $svgs,
       ]);

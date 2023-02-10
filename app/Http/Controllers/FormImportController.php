@@ -50,7 +50,6 @@ class FormImportController extends Controller
             if ($key == 0) {
                 continue;
             }
-            //if ($key == 4) break;
 
             if (isset($value[1])) {
                 $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["time"] = $value[1];
@@ -119,7 +118,6 @@ class FormImportController extends Controller
      */
     private function validadeTime($samples, $index)
     {
-        //dd($samples["samples"][$index]["results"]);
         if (count($samples) < 3) return $samples;
         if (count($samples["samples"][$index]["results"]) < 4) return $samples;
         $deletedIndex = [];
@@ -448,7 +446,9 @@ class FormImportController extends Controller
                     if (isset($value[11])) {
                         $samples["samples"]["row_$max"]["results"][$key - 1]["ntu"] = floatval($value[11]);
                     }
+                    $samples = $this->validadeTime($samples, "row_$max");
                 }
+
 
             }
 
