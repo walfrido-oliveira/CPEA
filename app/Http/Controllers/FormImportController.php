@@ -119,8 +119,9 @@ class FormImportController extends Controller
      */
     private function validadeTime($samples, $index)
     {
+        //dd($samples["samples"][$index]["results"]);
         if (count($samples) < 3) return $samples;
-        if (count($samples["samples"][$index]["results"]) < 4) return $sample;
+        if (count($samples["samples"][$index]["results"]) < 4) return $samples;
         $deletedIndex = [];
         $diffs = [];
         foreach ($samples["samples"][$index]["results"] as $key => $result)
@@ -129,24 +130,22 @@ class FormImportController extends Controller
                 $startTime = Carbon::createFromFormat('H:i:s', $result["time"]);
                 $endTime = Carbon::createFromFormat('H:i:s', $samples["samples"][$index]["results"][$key - 1]["time"]);
                 $diff = $endTime->diffInSeconds($startTime);
-                $diffs["row_$key"] =
-                [
-                    "key" => $key,
-                    "value" => $diff,
-                    "equals" => in_array_r($diff, $diffs) ? true : false
-                ];
+                $diffs["row_$key"] = $diff;
             }
         }
-        foreach ($diffs as $key => $value)
+        $countvalues = array_count_values($diffs);
+        foreach ($countvalues as $key => $value)
         {
-            if(!$value["equals"]) $deletedIndex[] = $value["key"];
+           if($value == 1) {
+                $deletedIndex[] = intval(Str::replace("row_", "", array_search($key, $diffs)));
+           }
         }
         if(count($deletedIndex) > 0) {
             $maxKey = max($deletedIndex);
             $result = [];
-            array_splice($samples["samples"][$index]["results"], 0, $maxKey - 1, $result);
+            array_splice($samples["samples"][$index]["results"], $maxKey - 1, $maxKey, $result);
         }
-
+        dd($samples["samples"][$index]["results"]);
         return $samples;
     }
 
