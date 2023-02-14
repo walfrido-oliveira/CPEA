@@ -1207,7 +1207,7 @@ class AnalysisResultController extends Controller
         }
       }
 
-      if (($obj->units == 'μg/kg' || $obj->units == 'µg/kg') && !$item2 && $projectPointMatrices->analysisMatrix->name == 'Solo') {
+      if (($obj->units == 'μg/kg' || $obj->units == 'µg/kg') && $projectPointMatrices->analysisMatrix->name == 'Solo') {
         if (is_numeric($result)) $obj->result = $result / 1000;
         if (is_numeric($dl)) $obj->dl = $dl / 1000;
         if (is_numeric($rl)) $obj->rl = $rl / 1000;
