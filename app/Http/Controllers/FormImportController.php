@@ -141,7 +141,7 @@ class FormImportController extends Controller
         if(count($deletedIndex) > 0) {
             $maxKey = max($deletedIndex);
             $result = [];
-            array_splice($samples["samples"][$index]["results"], $maxKey - 1, $maxKey, $result);
+            array_splice($samples["samples"][$index]["results"], 0, $maxKey - 1, $result);
         }
         return $samples;
     }
