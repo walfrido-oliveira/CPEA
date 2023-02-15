@@ -153,9 +153,9 @@ class FormImportController extends Controller
 
         foreach ($samples["samples"][$index]["results"] as $key => $result)
         {
-            if(isset($samples["samples"][$index]["results"][$key + 1]["temperature"])) {
+            if($key != 0) {
                 $start = $result["temperature"];
-                $end = $samples["samples"][$index]["results"][$key + 1]["temperature"];
+                $end = $samples["samples"][$index]["results"][$key - 1]["temperature"];
                 $diff = $end - $start;
                 if($diff > 0.5 || $diff < -0.5) $deletedIndex[] = $key;
             }
@@ -163,7 +163,7 @@ class FormImportController extends Controller
         if(count($deletedIndex) > 0) {
             $maxKey = max($deletedIndex);
             $result = [];
-            array_splice($samples["samples"][$index]["results"], 0, $maxKey + 1, $result);
+            array_splice($samples["samples"][$index]["results"], 0, $maxKey, $result);
         }
         return $samples;
     }
