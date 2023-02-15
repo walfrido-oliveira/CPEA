@@ -86,18 +86,12 @@ class FormImportController extends Controller
             }
         }
 
-        $samples = $this->validadeTime($samples, $inputs["sample_index"]);
-        /*dd($samples["samples"][$inputs["sample_index"]]["results"]);
+        #$samples = $this->validadeTime($samples, $inputs["sample_index"]);
         $samples = $this->validadeTemperature($samples, $inputs["sample_index"]);
-        dd($samples["samples"][$inputs["sample_index"]]["results"]);
-        $samples = $this->validadePH($samples, $inputs["sample_index"]);
-        dd($samples["samples"][$inputs["sample_index"]]["results"]);
-        $samples = $this->validadeOrp($samples, $inputs["sample_index"]);
-        dd($samples["samples"][$inputs["sample_index"]]["results"]);
-        $samples = $this->validadeConductivity($samples, $inputs["sample_index"]);
-        dd($samples["samples"][$inputs["sample_index"]]["results"]);
-        $samples = $this->validadeSat($samples, $inputs["sample_index"]);
-        dd($samples["samples"][$inputs["sample_index"]]["results"]);*/
+        #$samples = $this->validadePH($samples, $inputs["sample_index"]);
+        #$samples = $this->validadeOrp($samples, $inputs["sample_index"]);
+        #$samples = $this->validadeConductivity($samples, $inputs["sample_index"]);
+        #$samples = $this->validadeSat($samples, $inputs["sample_index"]);
 
         $formValue->values = $samples;
         $formValue->save();
