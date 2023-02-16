@@ -268,12 +268,17 @@ class FormImportController extends Controller
         foreach ($samples["samples"][$index]["results"] as $key => $result)
         {
             if($key != 0) {
-                $start = $result["sat"];
-                $end = $samples["samples"][$index]["results"][$key - 1]["sat"];
+                $start = $result["conc"];
+                $end = $samples["samples"][$index]["results"][$key - 1]["conc"];
                 $upperLimit = $end + ($end * 0.10);
                 $inferiorLimit = $end - ($end * 0.10);
                 $diff = $end - $start;
-
+                $results[] = [
+                    "upper" => $upperLimit,
+                    "inferior" => $inferiorLimit,
+                    "diff" => $diff,
+                    "value" => $start
+                ];
                 if(($start > $upperLimit || $start < $inferiorLimit) && ($diff > 0.20 || $diff < -0.20) ) $deletedIndex[] = $key;
             }
         }
