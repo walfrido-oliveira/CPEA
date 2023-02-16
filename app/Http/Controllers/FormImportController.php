@@ -90,8 +90,8 @@ class FormImportController extends Controller
         #$samples = $this->validadeTemperature($samples, $inputs["sample_index"]);
         #$samples = $this->validadePH($samples, $inputs["sample_index"]);
         #$samples = $this->validadeOrp($samples, $inputs["sample_index"]);
-        $samples = $this->validadeConductivity($samples, $inputs["sample_index"]);
-        #$samples = $this->validadeSat($samples, $inputs["sample_index"]);
+        #$samples = $this->validadeConductivity($samples, $inputs["sample_index"]);
+        $samples = $this->validadeSat($samples, $inputs["sample_index"]);
 
         $formValue->values = $samples;
         $formValue->save();
@@ -270,10 +270,11 @@ class FormImportController extends Controller
             if($key != 0) {
                 $start = $result["sat"];
                 $end = $samples["samples"][$index]["results"][$key - 1]["sat"];
-                $diffNumeric = $end - $start;
-                $diffPercentual = ($end - $start) / 100;
-                if($diffNumeric > 0.20 || $diffNumeric < -0.20) $deletedIndex[] = $key;
-                if($diffPercentual > 0.10 || $diffNumeric < -0.10) $deletedIndex[] = $key;
+                $upperLimit = $end + ($end * 0.10);
+                $inferiorLimit = $end - ($end * 0.10);
+                $diff = $end - $start;
+
+                if(($start > $upperLimit || $start < $inferiorLimit) && ($diff > 0.20 || $diff < -0.20) ) $deletedIndex[] = $key;
             }
         }
         if(count($deletedIndex) > 0) {
