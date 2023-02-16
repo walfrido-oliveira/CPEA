@@ -241,8 +241,9 @@ class FormImportController extends Controller
             if($key != 0) {
                 $start = $result["conductivity"];
                 $end = $samples["samples"][$index]["results"][$key - 1]["conductivity"];
-                $diff = ($end - $start) / 100;
-                if($diff > 0.5 || $diff < -0.5) $deletedIndex[] = $key;
+                $upperLimit = $end + ($end * 0.05);
+                $inferiorLimit = $end - ($end * 0.05);
+                if($start > $upperLimit || $start < $inferiorLimit) $deletedIndex[] = $key;
             }
         }
         if(count($deletedIndex) > 0) {
