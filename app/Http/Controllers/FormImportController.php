@@ -185,7 +185,8 @@ class FormImportController extends Controller
                 $start = $result["ph"];
                 $end = $samples["samples"][$index]["results"][$key - 1]["ph"];
                 $diff = $end - $start;
-                if($diff > 0.20 || $diff > -0.20) $deletedIndex[] = $key;
+                $diffs[] = $diff;
+                if($diff > 0.20 || $diff < -0.20) $deletedIndex[] = $key;
             }
         }
         if(count($deletedIndex) > 0) {
@@ -209,17 +210,17 @@ class FormImportController extends Controller
 
         foreach ($samples["samples"][$index]["results"] as $key => $result)
         {
-            if(isset($samples["samples"][$index]["results"][$key + 1]["orp"])) {
+            if($key != 0) {
                 $start = $result["orp"];
-                $end = $samples["samples"][$index]["results"][$key + 1]["orp"];
+                $end = $samples["samples"][$index]["results"][$key - 1]["orp"];
                 $diff = $end - $start;
-                if($diff > 20 || $diff > -20) $deletedIndex[] = $key;
+                if($diff > 20 || $diff < -20) $deletedIndex[] = $key;
             }
         }
         if(count($deletedIndex) > 0) {
             $maxKey = max($deletedIndex);
             $result = [];
-            array_splice($samples["samples"][$index]["results"], 0, $maxKey + 1, $result);
+            array_splice($samples["samples"][$index]["results"], 0, $maxKey, $result);
         }
         return $samples;
     }
@@ -237,17 +238,17 @@ class FormImportController extends Controller
 
         foreach ($samples["samples"][$index]["results"] as $key => $result)
         {
-            if(isset($samples["samples"][$index]["results"][$key + 1]["conductivity"])) {
+            if($key != 0) {
                 $start = $result["conductivity"];
-                $end = $samples["samples"][$index]["results"][$key + 1]["conductivity"];
+                $end = $samples["samples"][$index]["results"][$key - 1]["conductivity"];
                 $diff = ($end - $start) / 100;
-                if($diff > 0.5 || $diff > -0.5) $deletedIndex[] = $key;
+                if($diff > 0.5 || $diff < -0.5) $deletedIndex[] = $key;
             }
         }
         if(count($deletedIndex) > 0) {
             $maxKey = max($deletedIndex);
             $result = [];
-            array_splice($samples["samples"][$index]["results"], 0, $maxKey + 1, $result);
+            array_splice($samples["samples"][$index]["results"], 0, $maxKey, $result);
         }
         return $samples;
     }
@@ -265,19 +266,19 @@ class FormImportController extends Controller
 
         foreach ($samples["samples"][$index]["results"] as $key => $result)
         {
-            if(isset($samples["samples"][$index]["results"][$key + 1]["sat"])) {
+            if($key != 0) {
                 $start = $result["sat"];
-                $end = $samples["samples"][$index]["results"][$key + 1]["sat"];
+                $end = $samples["samples"][$index]["results"][$key - 1]["sat"];
                 $diffNumeric = $end - $start;
                 $diffPercentual = ($end - $start) / 100;
-                if($diffNumeric > 0.20 || $diffNumeric > -0.20) $deletedIndex[] = $key;
-                if($diffPercentual > 0.10 || $diffNumeric > -0.10) $deletedIndex[] = $key;
+                if($diffNumeric > 0.20 || $diffNumeric < -0.20) $deletedIndex[] = $key;
+                if($diffPercentual > 0.10 || $diffNumeric < -0.10) $deletedIndex[] = $key;
             }
         }
         if(count($deletedIndex) > 0) {
             $maxKey = max($deletedIndex);
             $result = [];
-            array_splice($samples["samples"][$index]["results"], 0, $maxKey + 1, $result);
+            array_splice($samples["samples"][$index]["results"], 0, $maxKey, $result);
         }
         return $samples;
     }
