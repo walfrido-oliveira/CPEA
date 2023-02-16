@@ -185,7 +185,7 @@ class FormImportController extends Controller
                 $start = $result["ph"];
                 $end = $samples["samples"][$index]["results"][$key - 1]["ph"];
                 $diff = $end - $start;
-                if($diff > 0.2 || $diff > -0.2) $deletedIndex[] = $key;
+                if($diff > 0.20 || $diff > -0.20) $deletedIndex[] = $key;
             }
         }
         if(count($deletedIndex) > 0) {
