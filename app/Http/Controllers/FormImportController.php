@@ -87,8 +87,8 @@ class FormImportController extends Controller
         }
 
         #$samples = $this->validadeTime($samples, $inputs["sample_index"]);
-        $samples = $this->validadeTemperature($samples, $inputs["sample_index"]);
-        #$samples = $this->validadePH($samples, $inputs["sample_index"]);
+        #$samples = $this->validadeTemperature($samples, $inputs["sample_index"]);
+        $samples = $this->validadePH($samples, $inputs["sample_index"]);
         #$samples = $this->validadeOrp($samples, $inputs["sample_index"]);
         #$samples = $this->validadeConductivity($samples, $inputs["sample_index"]);
         #$samples = $this->validadeSat($samples, $inputs["sample_index"]);
@@ -181,9 +181,9 @@ class FormImportController extends Controller
 
         foreach ($samples["samples"][$index]["results"] as $key => $result)
         {
-            if(isset($samples["samples"][$index]["results"][$key + 1]["ph"])) {
+            if($key != 0) {
                 $start = $result["ph"];
-                $end = $samples["samples"][$index]["results"][$key + 1]["ph"];
+                $end = $samples["samples"][$index]["results"][$key - 1]["ph"];
                 $diff = $end - $start;
                 if($diff > 0.2 || $diff > -0.2) $deletedIndex[] = $key;
             }
@@ -191,7 +191,7 @@ class FormImportController extends Controller
         if(count($deletedIndex) > 0) {
             $maxKey = max($deletedIndex);
             $result = [];
-            array_splice($samples["samples"][$index]["results"], 0, $maxKey + 1, $result);
+            array_splice($samples["samples"][$index]["results"], 0, $maxKey, $result);
         }
         return $samples;
     }
