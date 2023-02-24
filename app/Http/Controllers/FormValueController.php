@@ -166,7 +166,6 @@ class FormValueController extends Controller
         $fields = FieldType::pluck('name', 'id');
         $form = $formValue->form;
         $project_id = $formValue->values["project_id"];
-
         return view("form-values.$form->name", compact( "form", "project_id", "formValue", "users", "customers", "fields"));
     }
 
@@ -284,6 +283,9 @@ class FormValueController extends Controller
         $samples["samples"][$input["sample_index"]]["point"] = $input["point"];
         $samples["samples"][$input["sample_index"]]["environment"] = $input["environment"];
         $samples["samples"][$input["sample_index"]]["collect"] = $input["collect"];
+        $samples["samples"][$input["sample_index"]]["eh_footer"] = $input["eh_footer"];
+        $samples["samples"][$input["sample_index"]]["ntu_footer"] = $input["ntu_footer"];
+        $samples["samples"][$input["sample_index"]]["uncertainty_footer"] = $input["uncertainty_footer"];
 
         if (isset($input["samples"][$input["sample_index"]]["results"])) {
             foreach ($input["samples"][$input["sample_index"]]["results"] as $key => $value ) {

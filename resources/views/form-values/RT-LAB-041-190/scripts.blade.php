@@ -588,6 +588,9 @@
         let point = document.querySelector(`#${that.dataset.index} #point_${that.dataset.row}`).value;
         let environment = document.querySelector(`#${that.dataset.index} #environment_${that.dataset.row}`).value;
         let collect = document.querySelector(`#${that.dataset.index} #collect_${that.dataset.row}`).value;
+        let eh_footer = document.querySelector(`#${that.dataset.index} #eh_footer_${that.dataset.row}`).value;
+        let ntu_footer = document.querySelector(`#${that.dataset.index} #ntu_footer_${that.dataset.row}`).value;
+        let uncertainty_footer = document.querySelector(`#${that.dataset.index} #uncertainty_footer_${that.dataset.row}`).value;
 
         const results = [...document.querySelectorAll(`#${that.dataset.index} #table_result input`)];
 
@@ -614,6 +617,9 @@
         data.append('point', point);
         data.append('environment', environment);
         data.append('collect', collect);
+        data.append('eh_footer', eh_footer);
+        data.append('ntu_footer', ntu_footer);
+        data.append('uncertainty_footer', uncertainty_footer);
 
         results.forEach(element => {
             data.append(element.name, element.value);
