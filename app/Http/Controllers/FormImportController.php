@@ -118,6 +118,8 @@ class FormImportController extends Controller
         $diffs = [];
         foreach ($samples["samples"][$index]["results"] as $key => $result)
         {
+            if(!isset($result["time"])) continue;
+            if(!isset($samples["samples"][$index]["results"][$key - 1]["time"])) continue;
             if($key != 0) {
                 $startTime = Carbon::createFromFormat('H:i:s', $result["time"]);
                 $endTime = Carbon::createFromFormat('H:i:s', $samples["samples"][$index]["results"][$key - 1]["time"]);
@@ -153,6 +155,8 @@ class FormImportController extends Controller
 
         foreach ($samples["samples"][$index]["results"] as $key => $result)
         {
+            if(!isset($result["temperature"])) continue;
+            if(!isset($samples["samples"][$index]["results"][$key - 1]["temperature"])) continue;
             if($key != 0) {
                 $start = $result["temperature"];
                 $end = $samples["samples"][$index]["results"][$key - 1]["temperature"];
@@ -181,6 +185,8 @@ class FormImportController extends Controller
 
         foreach ($samples["samples"][$index]["results"] as $key => $result)
         {
+            if(!isset($result["ph"])) continue;
+            if(!isset($samples["samples"][$index]["results"][$key - 1]["ph"])) continue;
             if($key != 0) {
                 $start = $result["ph"];
                 $end = $samples["samples"][$index]["results"][$key - 1]["ph"];
@@ -210,6 +216,8 @@ class FormImportController extends Controller
 
         foreach ($samples["samples"][$index]["results"] as $key => $result)
         {
+            if(!isset($result["orp"])) continue;
+            if(!isset($samples["samples"][$index]["results"][$key - 1]["orp"])) continue;
             if($key != 0) {
                 $start = $result["orp"];
                 $end = $samples["samples"][$index]["results"][$key - 1]["orp"];
@@ -238,6 +246,8 @@ class FormImportController extends Controller
 
         foreach ($samples["samples"][$index]["results"] as $key => $result)
         {
+            if(!isset($result["conductivity"])) continue;
+            if(!isset($samples["samples"][$index]["results"][$key - 1]["conductivity"])) continue;
             if($key != 0) {
                 $start = $result["conductivity"];
                 $end = $samples["samples"][$index]["results"][$key - 1]["conductivity"];
@@ -267,6 +277,8 @@ class FormImportController extends Controller
 
         foreach ($samples["samples"][$index]["results"] as $key => $result)
         {
+            if(!isset($result["conc"])) continue;
+            if(!isset($samples["samples"][$index]["results"][$key - 1]["conc"])) continue;
             if($key != 0) {
                 $start = $result["conc"];
                 $end = $samples["samples"][$index]["results"][$key - 1]["conc"];
@@ -418,6 +430,9 @@ class FormImportController extends Controller
                 }
 
                 if(is_numeric($value[2])) {
+                    if (isset($value[1])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["time"] = $value[1];
+                    }
                     if (isset($value[2])) {
                         $samples["samples"]["row_$max"]["results"][$key - 1]["temperature"] = floatval($value[2]);
                     }
@@ -448,12 +463,12 @@ class FormImportController extends Controller
                     if (isset($value[11])) {
                         $samples["samples"]["row_$max"]["results"][$key - 1]["ntu"] = floatval($value[11]);
                     }
-                    $samples = $this->validadeTime($samples, $inputs["sample_index"]);
-                    $samples = $this->validadeTemperature($samples, $inputs["sample_index"]);
-                    $samples = $this->validadePH($samples, $inputs["sample_index"]);
-                    $samples = $this->validadeOrp($samples, $inputs["sample_index"]);
-                    $samples = $this->validadeConductivity($samples, $inputs["sample_index"]);
-                    $samples = $this->validadeSat($samples, $inputs["sample_index"]);
+                    $samples = $this->validadeTime($samples, "row_$max");
+                    $samples = $this->validadeTemperature($samples, "row_$max");
+                    $samples = $this->validadePH($samples, "row_$max");
+                    $samples = $this->validadeOrp($samples, "row_$max");
+                    $samples = $this->validadeConductivity($samples, "row_$max");
+                    $samples = $this->validadeSat($samples, "row_$max");
                 }
 
 
