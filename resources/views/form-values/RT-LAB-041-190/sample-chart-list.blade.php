@@ -33,7 +33,7 @@
                 </div>
             @endif
 
-            @if ($type == "duplicates" && count(array_chunk($value['results'], 3)) > 1)
+            @if ($type == "duplicates" && count(array_chunk($value['results'], 3)) > 1 && count($value['results']) >=6)
                 <div class="mx-1 p-3 bg-gray-100" style="width: 106px;">
                     <p>
                         @if(isset($value['point'])) {{ $value['point'] }} @endif

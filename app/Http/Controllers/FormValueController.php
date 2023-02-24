@@ -444,7 +444,7 @@ class FormValueController extends Controller
         $samples = [];
 
         foreach ($formValue->values['samples'] as $key => $value) {
-            if(count(array_chunk($value['results'], 3)) > 1 && $type == "duplicates") {
+            if(count(array_chunk($value['results'], 3)) > 1 && $type == "duplicates" && count($value['results']) >= 6) {
                 $samples[$key] = $value;
                 $svgs[$key] = $svgsTemp[$key];
                 $svgs[$key]['ph_formatted'] = number_format($svgs[$key]['ph'], 1, ',', '.');

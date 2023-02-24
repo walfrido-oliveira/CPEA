@@ -260,210 +260,212 @@
             @if (isset(array_chunk($sample['results'], 3)[1]))
                 <div class="w-full mt-2 duplicate fade">
                     <h2 class="text-center text-white opacity-100 p-2 w-full" style="background-color: rgb(0, 94, 16)">DUPLICATA</h2>
-                    <table class="table table-responsive md:table w-full">
-                        <thead>
-                            <tr class="thead-light">
-                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="temperature" columnText="{{ __('Temperatura ºC') }}"/>
-                                 <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('pH') }}"/>
-                                 <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">"{{ __('ORP (mV)') }}"/>
-                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="conductivity" columnText="{{ __('Condutividade µS/cm') }}"/>
-                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="salinity" columnText="{{ __('Salinidade') }}"/>
-                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="psi" columnText="{{ __('Press.[psi]') }}"/>
-                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="sat" columnText="{{ __('Oxigênio Dissolvido (sat) (%)') }}"/>
-                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="conc" columnText="{{ __('Oxigênio Dissolvido (conc) (mg/L)') }}"/>
-                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="ntu" columnText="{{ __('Turbidez (NTU)') }}"/>
-                                <x-table-sort-header :orderBy="null" :ascending="null" columnName="uncertainty" columnText="{{ __('Incerteza') }}"/>
-                            </tr>
-                        </thead>
-                        <tbody id="table_result">
-                            @foreach (array_chunk($sample['results'], 3)[1] as $key2 => $value)
-                                @php
-                                    $key++;
-                                @endphp
+                    @if(count($sample['results'])>= 6)
+                        <table class="table table-responsive md:table w-full">
+                            <thead>
+                                <tr class="thead-light">
+                                    <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('Temperatura [ºC]') }}</th>
+                                    <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('pH') }}</th>
+                                    <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('ORP [mV]') }}</th>
+                                    <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('Condutividade [µS/cm]') }}</th>
+                                    <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('Salinidade [psu]') }}</th>
+                                    <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('Press. [psi]') }}</th>
+                                    <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('Oxigênio Dissolvido (SAT) [%]') }}</th>
+                                    <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('Oxigênio Dissolvido (CONC) [mg/l]') }}</th>
+                                    <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('EH [mV]') }}</th>
+                                    <th scope="col"  class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider">{{ __('Turbidez [NTU]') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table_result">
+                                @foreach (array_chunk($sample['results'], 3)[1] as $key2 => $value)
+                                    @php
+                                        $key++;
+                                    @endphp
+                                    <tr>
+                                        <td>
+                                            <x-jet-input readonly="true" id="temperature" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['temperature']) ? number_format($value['temperature'], 2) : ''}}"
+                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][temperature]' : 'samples[row_0][results]['. $key . '][temperature]' }}" step="any" />
+                                        </td>
+                                        <td>
+                                            <x-jet-input readonly="true" id="ph" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['ph']) ? number_format($value['ph'], 2) : ''}}"
+                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][ph]' : 'samples[row_0][results]['. $key . '][ph]' }}" step="any" />
+                                        </td>
+                                        <td>
+                                            <x-jet-input readonly="true" id="orp'" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['orp']) ? number_format($value['orp'], 1) : ''}}"
+                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][orp]' : 'samples[row_0][results]['. $key . '][orp]' }}" step="any" />
+                                        </td>
+                                        <td>
+                                            <x-jet-input readonly="true" id="conductivity" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['conductivity']) ? number_format($value['conductivity'], 3, '.', '') : ''}}"
+                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][conductivity]' : 'samples[row_0][results]['. $key . '][conductivity]' }}" step="any" />
+                                        </td>
+                                        <td>
+                                            <x-jet-input readonly="true" id="salinity" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['salinity']) ? number_format($value['salinity'], 3) : ''}}"
+                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][salinity]' : 'samples[row_0][results]['. $key . '][salinity]' }}" step="any" />
+                                        </td>
+                                        <td>
+                                            <x-jet-input readonly="true" id="psi" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['psi']) ? number_format($value['psi'], 3) : ''}}"
+                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][psi]' : 'samples[row_0][results]['. $key . '][psi]' }}" step="any" />
+                                        </td>
+                                        <td>
+                                            <x-jet-input readonly="true" id="sat" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['sat']) ? number_format($value['sat'], 1) : ''}}"
+                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][sat]' : 'samples[row_0][results]['. $key . '][sat]' }}" step="any" />
+                                        </td>
+                                        <td><x-jet-input readonly="true" id="conc" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['conc']) ? number_format($value['conc'], 3) : ''}}"
+                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][conc]' : 'samples[row_0][results]['. $key . '][conc]' }}" step="any" />
+                                        </td>
+                                        <td>
+                                            <x-jet-input readonly="true" id="ntu" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['ntu']) ? number_format($value['ntu'], 1) : ''}}"
+                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][ntu]' : 'samples[row_0][results]['. $key . '][ntu]' }}" step="any" />
+                                        </td>
+                                        <td>
+                                            <x-jet-input readonly="true" id="uncertainty" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['uncertainty']) ? number_format($value['uncertainty'], 1) : ''}}"
+                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][uncertainty]' : 'samples[row_0][results]['. $key . '][uncertainty]' }}" step="any" />
+                                        </td>
+                                    <tr>
+                                @endforeach
+                            </tbody>
+                            <tfoot>
                                 <tr>
                                     <td>
-                                        <x-jet-input readonly="true" id="temperature" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['temperature']) ? number_format($value['temperature'], 2) : ''}}"
-                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][temperature]' : 'samples[row_0][results]['. $key . '][temperature]' }}" step="any" />
+                                        @if(isset($value['temperature']))
+                                            {{ number_format($formValue->duplicates['row_' . ($i)]['temperature'], 2, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
                                     </td>
                                     <td>
-                                        <x-jet-input readonly="true" id="ph" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['ph']) ? number_format($value['ph'], 2) : ''}}"
-                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][ph]' : 'samples[row_0][results]['. $key . '][ph]' }}" step="any" />
+                                        @if(isset($value['ph']))
+                                            {{ number_format($formValue->duplicates['row_' . ($i)]['ph'], 2, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
                                     </td>
                                     <td>
-                                        <x-jet-input readonly="true" id="orp'" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['orp']) ? number_format($value['orp'], 1) : ''}}"
-                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][orp]' : 'samples[row_0][results]['. $key . '][orp]' }}" step="any" />
+                                        @if(isset($value['orp']))
+                                            {{ number_format($formValue->duplicates['row_' . ($i)]['orp'], 1, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
                                     </td>
                                     <td>
-                                        <x-jet-input readonly="true" id="conductivity" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['conductivity']) ? number_format($value['conductivity'], 3, '.', '') : ''}}"
-                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][conductivity]' : 'samples[row_0][results]['. $key . '][conductivity]' }}" step="any" />
+                                        @if(isset($value['conductivity']))
+                                            {{ number_format($formValue->duplicates['row_' . ($i)]['conductivity'], 3, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
                                     </td>
                                     <td>
-                                        <x-jet-input readonly="true" id="salinity" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['salinity']) ? number_format($value['salinity'], 3) : ''}}"
-                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][salinity]' : 'samples[row_0][results]['. $key . '][salinity]' }}" step="any" />
+                                        @if(isset($value['salinity']))
+                                            {{ number_format($formValue->duplicates['row_' . ($i)]['conductivity'], 3, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
                                     </td>
                                     <td>
-                                        <x-jet-input readonly="true" id="psi" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['psi']) ? number_format($value['psi'], 3) : ''}}"
-                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][psi]' : 'samples[row_0][results]['. $key . '][psi]' }}" step="any" />
+                                        -
                                     </td>
                                     <td>
-                                        <x-jet-input readonly="true" id="sat" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['sat']) ? number_format($value['sat'], 1) : ''}}"
-                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][sat]' : 'samples[row_0][results]['. $key . '][sat]' }}" step="any" />
-                                    </td>
-                                    <td><x-jet-input readonly="true" id="conc" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['conc']) ? number_format($value['conc'], 3) : ''}}"
-                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][conc]' : 'samples[row_0][results]['. $key . '][conc]' }}" step="any" />
-                                    </td>
-                                    <td>
-                                        <x-jet-input readonly="true" id="ntu" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['ntu']) ? number_format($value['ntu'], 1) : ''}}"
-                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][ntu]' : 'samples[row_0][results]['. $key . '][ntu]' }}" step="any" />
+                                        @if(isset($value['sat']))
+                                            {{ number_format($formValue->duplicates['row_' . ($i)]['sat'], 1, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
                                     </td>
                                     <td>
-                                        <x-jet-input readonly="true" id="uncertainty" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['uncertainty']) ? number_format($value['uncertainty'], 1) : ''}}"
-                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][uncertainty]' : 'samples[row_0][results]['. $key . '][uncertainty]' }}" step="any" />
+                                        @if(isset($value['conc']))
+                                            {{ number_format($formValue->duplicates['row_' . ($i)]['conc'], 3, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
                                     </td>
+                                    <td>
+                                        @if(isset($value['ntu']))
+                                            {{ number_format($formValue->duplicates['row_' . ($i)]['ntu'], 1, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>-</td>
+                                </tr>
                                 <tr>
-                            @endforeach
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td>
-                                    @if(isset($value['temperature']))
-                                        {{ number_format($formValue->duplicates['row_' . ($i)]['temperature'], 2, ",", ".") }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>
-                                    @if(isset($value['ph']))
-                                        {{ number_format($formValue->duplicates['row_' . ($i)]['ph'], 2, ",", ".") }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>
-                                    @if(isset($value['orp']))
-                                        {{ number_format($formValue->duplicates['row_' . ($i)]['orp'], 1, ",", ".") }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>
-                                    @if(isset($value['conductivity']))
-                                        {{ number_format($formValue->duplicates['row_' . ($i)]['conductivity'], 3, ",", ".") }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>
-                                    @if(isset($value['salinity']))
-                                        {{ number_format($formValue->duplicates['row_' . ($i)]['conductivity'], 3, ",", ".") }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>
-                                    -
-                                </td>
-                                <td>
-                                    @if(isset($value['sat']))
-                                        {{ number_format($formValue->duplicates['row_' . ($i)]['sat'], 1, ",", ".") }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>
-                                    @if(isset($value['conc']))
-                                        {{ number_format($formValue->duplicates['row_' . ($i)]['conc'], 3, ",", ".") }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>
-                                    @if(isset($value['ntu']))
-                                        {{ number_format($formValue->duplicates['row_' . ($i)]['ntu'], 1, ",", ".") }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>-</td>
-                            </tr>
-                            <tr>
-                                <td colspan="11" class="text-center text-white" style="background-color: rgb(0, 94, 16)">% DPR</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    @if(isset($value['temperature']) && $formValue->svgs['row_' . ($i)]['temperature'] != 0)
-                                        {{ number_format($formValue->dpr['row_' . ($i)]['temperature'], 2, ",", ".") }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>
-                                    @if(isset($value['ph']) && $formValue->svgs['row_' . ($i)]['ph'] != 0)
-                                        {{ number_format($formValue->dpr['row_' . ($i)]['ph'], 2, ",", ".") }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>
-                                    @if(isset($value['orp']) && $formValue->svgs['row_' . ($i)]['orp'] != 0)
-                                        {{ number_format($formValue->dpr['row_' . ($i)]['orp'], 2, ",", ".") }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>
-                                    @if(isset($value['conductivity']) && $formValue->svgs['row_' . ($i)]['conductivity'] != 0)
-                                        {{ number_format($formValue->dpr['row_' . ($i)]['conductivity'], 2, ",", ".") }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>
-                                    @if(isset($value['salinity']) && $formValue->svgs['row_' . ($i)]['salinity'] != 0)
-                                        {{ number_format($formValue->dpr['row_' . ($i)]['salinity'], 2, ",", ".") }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>
-                                    @if(isset($value['psi']) && $formValue->svgs['row_' . ($i)]['psi'] != 0)
-                                        {{ number_format($formValue->dpr['row_' . ($i)]['psi'], 2, ",", ".") }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>
-                                    @if(isset($value['sat']) && $formValue->svgs['row_' . ($i)]['sat'] != 0)
-                                        {{ number_format($formValue->dpr['row_' . ($i)]['sat'], 2, ",", ".") }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>
-                                    @if(isset($value['conc']) && $formValue->svgs['row_' . ($i)]['conc'] != 0)
-                                        {{ number_format($formValue->dpr['row_' . ($i)]['conc'], 2, ",", ".") }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>
-                                    @if(isset($value['eh']) && $formValue->svgs['row_' . ($i)]['eh'] != 0)
-                                        {{ number_format($formValue->dpr['row_' . ($i)]['eh'], 1, ",", ".") }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>
-                                    @if(isset($value['ntu']) && $formValue->svgs['row_' . ($i)]['ntu'] != 0)
-                                        {{ number_format($formValue->dpr['row_' . ($i)]['ntu'], 1, ",", ".") }}
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>-</td>
-                            <tr>
-                        </tfoot>
-                    </table>
+                                    <td colspan="11" class="text-center text-white" style="background-color: rgb(0, 94, 16)">% DPR</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @if(isset($value['temperature']) && $formValue->svgs['row_' . ($i)]['temperature'] != 0)
+                                            {{ number_format($formValue->dpr['row_' . ($i)]['temperature'], 2, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($value['ph']) && $formValue->svgs['row_' . ($i)]['ph'] != 0)
+                                            {{ number_format($formValue->dpr['row_' . ($i)]['ph'], 2, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($value['orp']) && $formValue->svgs['row_' . ($i)]['orp'] != 0)
+                                            {{ number_format($formValue->dpr['row_' . ($i)]['orp'], 2, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($value['conductivity']) && $formValue->svgs['row_' . ($i)]['conductivity'] != 0)
+                                            {{ number_format($formValue->dpr['row_' . ($i)]['conductivity'], 2, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($value['salinity']) && $formValue->svgs['row_' . ($i)]['salinity'] != 0)
+                                            {{ number_format($formValue->dpr['row_' . ($i)]['salinity'], 2, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($value['psi']) && $formValue->svgs['row_' . ($i)]['psi'] != 0)
+                                            {{ number_format($formValue->dpr['row_' . ($i)]['psi'], 2, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($value['sat']) && $formValue->svgs['row_' . ($i)]['sat'] != 0)
+                                            {{ number_format($formValue->dpr['row_' . ($i)]['sat'], 2, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($value['conc']) && $formValue->svgs['row_' . ($i)]['conc'] != 0)
+                                            {{ number_format($formValue->dpr['row_' . ($i)]['conc'], 2, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($value['eh']) && $formValue->svgs['row_' . ($i)]['eh'] != 0)
+                                            {{ number_format($formValue->dpr['row_' . ($i)]['eh'], 1, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($value['ntu']) && $formValue->svgs['row_' . ($i)]['ntu'] != 0)
+                                            {{ number_format($formValue->dpr['row_' . ($i)]['ntu'], 1, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>-</td>
+                                <tr>
+                            </tfoot>
+                        </table>
+                    @endif
                 </div>
             @endif
 
