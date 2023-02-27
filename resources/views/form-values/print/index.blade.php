@@ -129,7 +129,7 @@
                                                     {{ $formPrint->unities[$key2] }}
                                                 </td>
                                                 <td style="text-align: center; border: 0px;">
-                                                    {{ number_format($formPrint->formValue->svgs[$key][$key2], $formPrint->places[$key2], ",", ".") }}
+                                                    @if(isset($formPrint->formValue->svgs[$key][$key2])){{ number_format($formPrint->formValue->svgs[$key][$key2], $formPrint->places[$key2], ",", ".") }} @endif
                                                 </td>
                                                 <td style="text-align: center; border: 0px;">
                                                     {{ $formPrint->LQ[$key2] }}

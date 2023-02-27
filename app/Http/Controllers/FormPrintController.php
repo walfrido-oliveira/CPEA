@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Dompdf\Dompdf;
-use App\Models\User;
-use App\Models\Config;
 use App\Models\FormPrint;
 use App\Models\FormValue;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 
 class FormPrintController extends Controller
 {
@@ -19,6 +16,17 @@ class FormPrintController extends Controller
     {
       $formValue = FormValue::findOrFail($id);
       $formPrint = new FormPrint($formValue, false);
+      $values = $formPrint->formValue->values;
+      $samples = $values['samples'];
+
+      usort($samples, function($a, $b) {
+        $firstDate = Carbon::parse($a['collect']);
+        $secondDate = Carbon::parse($b['collect']);
+        return (!$firstDate->gt($secondDate)) ? 1 : -1;
+      });
+
+      $values['samples'] = $samples;
+      $formPrint->formValue->values = $values;
 
       $html = view('form-values.print.index', compact('formPrint'))->render();
 

@@ -86,12 +86,14 @@ class FormImportController extends Controller
             }
         }
 
+        $sampleCount = count($samples["samples"][$inputs["sample_index"]]["results"]);
         $samples = $this->validadeTime($samples, $inputs["sample_index"]);
         $samples = $this->validadeTemperature($samples, $inputs["sample_index"]);
         $samples = $this->validadePH($samples, $inputs["sample_index"]);
         $samples = $this->validadeOrp($samples, $inputs["sample_index"]);
         $samples = $this->validadeConductivity($samples, $inputs["sample_index"]);
         $samples = $this->validadeSat($samples, $inputs["sample_index"]);
+        $samples["samples"][$inputs["sample_index"]]["invalid_rows"] =  $sampleCount > count($samples["samples"][$inputs["sample_index"]]["results"]);
 
         $formValue->values = $samples;
         $formValue->save();
@@ -463,17 +465,19 @@ class FormImportController extends Controller
                     if (isset($value[11])) {
                         $samples["samples"]["row_$max"]["results"][$key - 1]["ntu"] = floatval($value[11]);
                     }
-                    $samples = $this->validadeTime($samples, "row_$max");
-                    $samples = $this->validadeTemperature($samples, "row_$max");
-                    $samples = $this->validadePH($samples, "row_$max");
-                    $samples = $this->validadeOrp($samples, "row_$max");
-                    $samples = $this->validadeConductivity($samples, "row_$max");
-                    $samples = $this->validadeSat($samples, "row_$max");
                 }
 
 
             }
 
+            $sampleCount = count($samples["samples"]["row_$max"]["results"]);
+            $samples = $this->validadeTime($samples, "row_$max");
+            $samples = $this->validadeTemperature($samples, "row_$max");
+            $samples = $this->validadePH($samples, "row_$max");
+            $samples = $this->validadeOrp($samples, "row_$max");
+            $samples = $this->validadeConductivity($samples, "row_$max");
+            $samples = $this->validadeSat($samples, "row_$max");
+            $samples["samples"]["row_$max"]["invalid_rows"] = $sampleCount > count($samples["samples"]["row_$max"]["results"]);
             $max++;
         }
 
