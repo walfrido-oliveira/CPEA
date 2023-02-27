@@ -96,7 +96,12 @@
                                                 @if(isset($sample['environment'])) {{ $sample['environment'] }} @endif
                                             </td>
                                             <td>
-                                                {{ isset($formPrint->formValue->values['matrix']) ? App\Models\FieldType::find($formPrint->formValue->values['matrix'])->name : '-' }}
+                                                @if(isset($formPrint->formValue->values['matrix']))
+                                                    @php
+                                                        $formType = App\Models\FieldType::find($formPrint->formValue->values['matrix']);
+                                                    @endphp
+                                                    {{  $formType->report_name ? $formType->report_name : $formType->name }}
+                                                @endif
                                             </td>
                                         <tr>
                                     </tbody>

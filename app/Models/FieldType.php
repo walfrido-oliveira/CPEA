@@ -15,7 +15,7 @@ class FieldType extends Model
      * @var array
      */
     protected $fillable = [
-        'name'
+        'name', 'report_name'
     ];
 
 }
