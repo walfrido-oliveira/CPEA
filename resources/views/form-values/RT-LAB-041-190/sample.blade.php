@@ -411,28 +411,42 @@
                                     </td>
                                     <td>
                                         @php
-                                            if(!isset($sample['eh_footer'])) :
+                                            if(!isset($sample['eh_footer_duplicates'])) :
                                                 $sample['eh_footer'] = $formValue->duplicates['row_' . ($i)]['eh'];
                                             endif;
                                         @endphp
-                                        @if(isset($sample['eh_footer']))
-                                            <x-jet-input readonly="{{ !$formValue ? false : true}}" id="eh_footer_{{ isset($i) ? $i : 0 }}"
-                                            class="form-control block mt-1 w-full eh_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
-                                            type="number" value="{{ $sample['eh_footer'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][eh_footer]' : 'samples[row_0][eh_footer]' }}" />
+                                        @if(isset($sample['eh_footer_duplicates']))
+                                            <x-jet-input readonly="{{ !$formValue ? false : true}}" id="eh_footer_duplicates_{{ isset($i) ? $i : 0 }}"
+                                            class="form-control block mt-1 w-full eh_footer_duplicates" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                                            type="number" value="{{ $sample['eh_footer_duplicates'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][eh_footer_duplicates]' : 'samples[row_0][eh_footer_duplicates]' }}" />
                                         @else
                                             <x-jet-input id="point_0" class="form-control block mt-1 w-full point" type="number" value="" name="samples[row_0][point]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
                                         @endif
                                     </td>
                                     <td>
                                         @php
-                                            if(!isset($sample['ntu_footer'])) :
-                                                $sample['ntu_footer'] = $formValue->duplicates['row_' . ($i)]['ntu'];
+                                            if(!isset($sample['ntu_footer_duplicates'])) :
+                                                $sample['ntu_footer_duplicates'] = $formValue->duplicates['row_' . ($i)]['ntu'];
                                             endif;
                                         @endphp
-                                        @if(isset($sample['ntu_footer']))
-                                            <x-jet-input readonly="{{ !$formValue ? false : true}}" id="ntu_footer_{{ isset($i) ? $i : 0 }}"
-                                            class="form-control block mt-1 w-full ntu_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
-                                            type="number" value="{{ $sample['ntu_footer'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][ntu_footer]' : 'samples[row_0][ntu_footer]' }}" />
+                                        @if(isset($sample['ntu_footer_duplicates']))
+                                            <x-jet-input readonly="{{ !$formValue ? false : true}}" id="ntu_footer_duplicates_{{ isset($i) ? $i : 0 }}"
+                                            class="form-control block mt-1 w-full ntu_footer_duplicates" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                                            type="number" value="{{ $sample['ntu_footer_duplicates'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][ntu_footer_duplicates]' : 'samples[row_0][ntu_footer_duplicates]' }}" />
+                                        @else
+                                            <x-jet-input id="point_0" class="form-control block mt-1 w-full point" type="number" value="" name="samples[row_0][point]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @php
+                                            if(!isset($sample['uncertainty_footer_duplicates'])) :
+                                                $sample['uncertainty_footer_duplicates'] = "-";
+                                            endif;
+                                        @endphp
+                                        @if(isset($sample['uncertainty_footer_duplicates']))
+                                            <x-jet-input readonly="{{ !$formValue ? false : true}}" id="uncertainty_footer_duplicates_{{ isset($i) ? $i : 0 }}"
+                                            class="form-control block mt-1 w-full uncertainty_footer_duplicates" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                                            type="number" value="{{ $sample['uncertainty_footer_duplicates'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][uncertainty_footer_duplicates]' : 'samples[row_0][uncertainty_footer_duplicates]' }}" />
                                         @else
                                             <x-jet-input id="point_0" class="form-control block mt-1 w-full point" type="number" value="" name="samples[row_0][point]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
                                         @endif
