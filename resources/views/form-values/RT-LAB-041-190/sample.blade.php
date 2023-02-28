@@ -412,7 +412,7 @@
                                     <td>
                                         @php
                                             if(!isset($sample['eh_footer_duplicates'])) :
-                                                $sample['eh_footer'] = $formValue->duplicates['row_' . ($i)]['eh'];
+                                                $sample['eh_footer_duplicates'] = $formValue->duplicates['row_' . ($i)]['eh'];
                                             endif;
                                         @endphp
                                         @if(isset($sample['eh_footer_duplicates']))
