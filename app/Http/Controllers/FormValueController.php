@@ -256,7 +256,6 @@ class FormValueController extends Controller
 
 
     /**
-     * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -289,21 +288,6 @@ class FormValueController extends Controller
         $samples["samples"][$input["sample_index"]]["ntu_footer"] = $input["ntu_footer"];
         $samples["samples"][$input["sample_index"]]["uncertainty_footer"] = $input["uncertainty_footer"];
 
-        $samples["samples"][$input["sample_index"]]["visible_temperature"] = isset($input["visible_temperature"]) ? true : null;
-        $samples["samples"][$input["sample_index"]]["visible_ph"] = isset($input["visible_ph"]) ? true: null;
-        $samples["samples"][$input["sample_index"]]["visible_orp"] = isset($input["visible_orp"]) ? true : null;
-        $samples["samples"][$input["sample_index"]]["visible_conductivity"] = isset($input["visible_conductivity"]) ? true: null;
-        $samples["samples"][$input["sample_index"]]["visible_salinity"] = isset($input["visible_salinity"]) ? true : null;
-        $samples["samples"][$input["sample_index"]]["visible_psi"] = isset($input["visible_psi"]) ? true : null;
-        $samples["samples"][$input["sample_index"]]["visible_sat"] = isset($input["visible_sat"]) ? true : null;
-        $samples["samples"][$input["sample_index"]]["visible_conc"] = isset($input["visible_conc"]) ? true : null;
-        $samples["samples"][$input["sample_index"]]["visible_eh"] = isset($input["visible_eh"]) ? true: null;
-        $samples["samples"][$input["sample_index"]]["visible_ntu"] = isset($input["visible_ntu"]) ? true : null;
-        $samples["samples"][$input["sample_index"]]["visible_uncertainty"] = isset($input["visible_uncertainty"]) ? true : null;
-        $samples["samples"][$input["sample_index"]]["visible_chlorine"] = isset($input["visible_chlorine"]) ? true : null;
-        $samples["samples"][$input["sample_index"]]["visible_floating_materials"] = isset($input["visible_floating_materials"]) ? true: null;
-        $samples["samples"][$input["sample_index"]]["visible_voc"] = isset($input["visible_voc"]) ? true : null;
-
         if (isset($input["samples"][$input["sample_index"]]["results"])) {
             foreach ($input["samples"][$input["sample_index"]]["results"] as $key => $value ) {
                 $samples["samples"][$input["sample_index"]]["results"][$key][ "temperature" ] = isset($value["temperature"]) ? $value["temperature"] : null;
@@ -325,6 +309,56 @@ class FormValueController extends Controller
                 $samples["samples"][$input["sample_index"]]["results"][$key]["voc"] = isset($value["voc"]) ? $value["voc"] : null;
             }
         }
+
+        $formValue->values = $samples;
+        $formValue->save();
+
+        $resp = [
+            "message" => __("Formulário atualizado com Sucesso!"),
+            "alert-type" => "success",
+        ];
+
+        return response()->json($resp);
+    }
+
+    /**
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function saveSampleColumn(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            "form_value_id" => ["required", "exists:form_values,id"],
+            "sample_index" => ["required"],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(
+                $validator->messages(),
+                Response::HTTP_BAD_REQUEST
+            );
+        }
+
+        $input = $request->except("_method", "_token", "form_id");
+        $formValue = FormValue::findOrFail($input["form_value_id"]);
+
+        $samples = $formValue->values;
+
+        $samples["samples"][$input["sample_index"]]["visible_temperature"] = isset($input["visible_temperature"]) ? true : null;
+        $samples["samples"][$input["sample_index"]]["visible_ph"] = isset($input["visible_ph"]) ? true: null;
+        $samples["samples"][$input["sample_index"]]["visible_orp"] = isset($input["visible_orp"]) ? true : null;
+        $samples["samples"][$input["sample_index"]]["visible_conductivity"] = isset($input["visible_conductivity"]) ? true: null;
+        $samples["samples"][$input["sample_index"]]["visible_salinity"] = isset($input["visible_salinity"]) ? true : null;
+        $samples["samples"][$input["sample_index"]]["visible_psi"] = isset($input["visible_psi"]) ? true : null;
+        $samples["samples"][$input["sample_index"]]["visible_sat"] = isset($input["visible_sat"]) ? true : null;
+        $samples["samples"][$input["sample_index"]]["visible_conc"] = isset($input["visible_conc"]) ? true : null;
+        $samples["samples"][$input["sample_index"]]["visible_eh"] = isset($input["visible_eh"]) ? true: null;
+        $samples["samples"][$input["sample_index"]]["visible_ntu"] = isset($input["visible_ntu"]) ? true : null;
+        $samples["samples"][$input["sample_index"]]["visible_uncertainty"] = isset($input["visible_uncertainty"]) ? true : null;
+        $samples["samples"][$input["sample_index"]]["visible_chlorine"] = isset($input["visible_chlorine"]) ? true : null;
+        $samples["samples"][$input["sample_index"]]["visible_floating_materials"] = isset($input["visible_floating_materials"]) ? true: null;
+        $samples["samples"][$input["sample_index"]]["visible_voc"] = isset($input["visible_voc"]) ? true : null;
 
         $formValue->values = $samples;
         $formValue->save();

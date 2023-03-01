@@ -272,6 +272,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::delete('/{form_value}', [FormValueController::class, 'destroy'])->name('destroy');
 
             Route::post('/save-sample', [FormValueController::class, 'saveSample'])->name('save-sample');
+            Route::post('/save-sample-column', [FormValueController::class, 'saveSampleColumn'])->name('save-sample-column');
             Route::post('/save-sample-form-RTGPA047', [FormValueController::class, 'saveSampleFormRTGPA047'])->name('save-sample-form-RTGPA047');
 
             Route::prefix('import')->name('import.')->group(function(){

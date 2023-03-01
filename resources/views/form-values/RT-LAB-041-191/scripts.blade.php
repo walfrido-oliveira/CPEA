@@ -564,7 +564,8 @@
         item.addEventListener("click", function() {
             item.nextElementSibling.style.display = "inline-block";
             item.style.display = "none";
-            document.querySelectorAll(`#${this.dataset.index} input, #${this.dataset.index} select`).forEach(item => {
+            document.querySelectorAll(`#${this.dataset.index} td:not(.disabled-col) input,
+                                       #${this.dataset.index} td:not(.disabled-col) select`).forEach(item => {
                 item.readOnly = false;
                 item.disabled = false;
             });
@@ -601,8 +602,6 @@
                                                        #${that.dataset.index} #table_result select,
                                                        #${that.dataset.index} input[type='checkbox']:checked`)];
 
-        const checkeds = [...document.querySelectorAll(`#${that.dataset.index} input[type='checkbox']:checked`)];
-
         ajax.open(method, url);
 
         ajax.onreadystatechange = function() {
@@ -633,6 +632,49 @@
         results.forEach(element => {
             data.append(element.name, element.value);
         });
+
+        ajax.send(data);
+    }
+
+    document.querySelectorAll("th input[type='checkbox']").forEach(item => {
+        item.addEventListener("change", function() {
+            saveSampleColumn(this)
+        });
+    });
+
+    function saveSampleColumn(that) {
+        let ajax = new XMLHttpRequest();
+        let url = "{!! route('fields.form-values.save-sample-column') !!}";
+        let token = document.querySelector('meta[name="csrf-token"]').content;
+        let method = 'POST';
+        let form_value_id = document.querySelector(`#form_value_id`).value;
+        let sample_index = document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`).value;
+
+        const checkeds = [...document.querySelectorAll(`#${that.dataset.index} input[type='checkbox']:checked`)];
+
+        ajax.open(method, url);
+
+        ajax.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var resp = JSON.parse(ajax.response);
+                const name = that.dataset.name;
+                document.querySelectorAll(`#${that.dataset.index} tbody[data-row='${that.dataset.row}'] td[data-name='${name}'],
+                                           #${that.dataset.index} tfoot[data-row='${that.dataset.row}'] td[data-name='${name}']`).forEach(item => {
+                    if(that.checked) item.classList.remove("disabled-col");
+                    if(!that.checked) item.classList.add("disabled-col");
+                });
+            } else if (this.readyState == 4 && this.status != 200) {
+                document.getElementById("spin_load").classList.add("hidden");
+                toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                that.value = '';
+            }
+        }
+
+        var data = new FormData();
+        data.append('_token', token);
+        data.append('_method', method);
+        data.append('form_value_id', form_value_id);
+        data.append('sample_index', sample_index);
 
         checkeds.forEach(element => {
             data.append(element.name, element.value);
