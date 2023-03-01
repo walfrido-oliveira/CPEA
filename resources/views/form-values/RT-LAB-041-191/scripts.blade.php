@@ -564,8 +564,9 @@
         item.addEventListener("click", function() {
             item.nextElementSibling.style.display = "inline-block";
             item.style.display = "none";
-            document.querySelectorAll(`#${this.dataset.index} input`).forEach(item => {
+            document.querySelectorAll(`#${this.dataset.index} input, #${this.dataset.index} select`).forEach(item => {
                 item.readOnly = false;
+                item.disabled = false;
             });
         });
     });
@@ -596,7 +597,11 @@
         let uncertainty_footer = document.querySelector(`#${that.dataset.index} #uncertainty_footer_${that.dataset.row}`) ?
         document.querySelector(`#${that.dataset.index} #uncertainty_footer_${that.dataset.row}`).value : null;
 
-        const results = [...document.querySelectorAll(`#${that.dataset.index} #table_result input`)];
+        const results = [...document.querySelectorAll(`#${that.dataset.index} #table_result input,
+                                                       #${that.dataset.index} #table_result select,
+                                                       #${that.dataset.index} input[type='checkbox']:checked`)];
+
+        const checkeds = [...document.querySelectorAll(`#${that.dataset.index} input[type='checkbox']:checked`)];
 
         ajax.open(method, url);
 
@@ -626,6 +631,10 @@
         data.append('uncertainty_footer', uncertainty_footer);
 
         results.forEach(element => {
+            data.append(element.name, element.value);
+        });
+
+        checkeds.forEach(element => {
             data.append(element.name, element.value);
         });
 
@@ -906,7 +915,8 @@
 
         document.getElementById("mode_table").appendChild(clone);
 
-        document.querySelectorAll(`#${id} input:not(#form_value_id):not(#sample_index_${num})`).forEach(item => {
+        document.querySelectorAll(`#${id} input:not(#form_value_id):not(#sample_index_${num}),
+                                   #${id} select:not(#form_value_id):not(#sample_index_${num})`).forEach(item => {
             item.value = "";
             item.disabled = false;
             document.querySelector(`#${id} .save-sample`).style.display = "inline-block";

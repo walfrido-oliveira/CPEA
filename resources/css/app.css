@@ -405,3 +405,7 @@ input:read-only {
 .custom-th {
     @apply cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider
 }
+
+.disabled-col {
+    background-color: #ecf0f5;
+}

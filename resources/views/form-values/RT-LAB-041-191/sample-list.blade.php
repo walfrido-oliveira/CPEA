@@ -24,6 +24,9 @@
                     <p class="font-bold">{{ __('Oxigênio Dissolvido (CONC) [mg/l]') }}</p>
                     <p class="font-bold">{{ __('EH [mV]') }}</p>
                     <p class="font-bold">{{ __('Turbidez [NTU]') }}</p>
+                    <p class="font-bold">{{ __('Cloro [mg/l]') }}</p>
+                    <p class="font-bold">{{ __('Materiais Flutuantes') }}</p>
+                    <p class="font-bold">{{ __('VOC [mg/l]') }}</p>
                 </div>
             @endif
             @foreach ($sampleArray as $key => $value)

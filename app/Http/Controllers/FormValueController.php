@@ -164,9 +164,10 @@ class FormValueController extends Controller
         })->get()->pluck('full_name', 'id');
         $customers = Customer::where('status', 'active')->pluck('name', 'id');
         $fields = FieldType::pluck('name', 'id');
+        $floatingMaterials = ["Ausênte" => "Ausênte", "Presente" => "Presente"];
         $form = $formValue->form;
         $project_id = $formValue->values["project_id"];
-        return view("form-values.$form->name", compact( "form", "project_id", "formValue", "users", "customers", "fields"));
+        return view("form-values.$form->name", compact( "form", "project_id", "formValue", "users", "customers", "fields", "floatingMaterials"));
     }
 
     /**
@@ -283,9 +284,25 @@ class FormValueController extends Controller
         $samples["samples"][$input["sample_index"]]["point"] = $input["point"];
         $samples["samples"][$input["sample_index"]]["environment"] = $input["environment"];
         $samples["samples"][$input["sample_index"]]["collect"] = $input["collect"];
+
         $samples["samples"][$input["sample_index"]]["eh_footer"] = $input["eh_footer"];
         $samples["samples"][$input["sample_index"]]["ntu_footer"] = $input["ntu_footer"];
         $samples["samples"][$input["sample_index"]]["uncertainty_footer"] = $input["uncertainty_footer"];
+
+        $samples["samples"][$input["sample_index"]]["visible_temperature"] = isset($input["visible_temperature"]) ? true : null;
+        $samples["samples"][$input["sample_index"]]["visible_ph"] = isset($input["visible_ph"]) ? true: null;
+        $samples["samples"][$input["sample_index"]]["visible_orp"] = isset($input["visible_orp"]) ? true : null;
+        $samples["samples"][$input["sample_index"]]["visible_conductivity"] = isset($input["visible_conductivity"]) ? true: null;
+        $samples["samples"][$input["sample_index"]]["visible_salinity"] = isset($input["visible_salinity"]) ? true : null;
+        $samples["samples"][$input["sample_index"]]["visible_psi"] = isset($input["visible_psi"]) ? true : null;
+        $samples["samples"][$input["sample_index"]]["visible_sat"] = isset($input["visible_sat"]) ? true : null;
+        $samples["samples"][$input["sample_index"]]["visible_conc"] = isset($input["visible_conc"]) ? true : null;
+        $samples["samples"][$input["sample_index"]]["visible_eh"] = isset($input["visible_eh"]) ? true: null;
+        $samples["samples"][$input["sample_index"]]["visible_ntu"] = isset($input["visible_ntu"]) ? true : null;
+        $samples["samples"][$input["sample_index"]]["visible_uncertainty"] = isset($input["visible_uncertainty"]) ? true : null;
+        $samples["samples"][$input["sample_index"]]["visible_chlorine"] = isset($input["visible_chlorine"]) ? true : null;
+        $samples["samples"][$input["sample_index"]]["visible_floating_materials"] = isset($input["visible_floating_materials"]) ? true: null;
+        $samples["samples"][$input["sample_index"]]["visible_voc"] = isset($input["visible_voc"]) ? true : null;
 
         if (isset($input["samples"][$input["sample_index"]]["results"])) {
             foreach ($input["samples"][$input["sample_index"]]["results"] as $key => $value ) {
@@ -429,7 +446,7 @@ class FormValueController extends Controller
     }
 
       return response()->json([
-          'viwer' => view("form-values.$formValue->form->name.sample-list", compact("formValue", "count", "svgs", "type", "samples"))->render()
+          'viwer' => view("form-values." . $formValue->form->name . ".sample-list", compact("formValue", "count", "svgs", "type", "samples"))->render()
       ]);
     }
 
@@ -462,7 +479,7 @@ class FormValueController extends Controller
         }
 
       return response()->json([
-          'viwer' => view("form-values.$formValue->form->name.sample-chart-list", compact("formValue", "count", "svgs", "type", "samples"))->render(),
+          'viwer' => view("form-values." . $formValue->form->name . ".sample-chart-list", compact("formValue", "count", "svgs", "type", "samples"))->render(),
           'samples' => $samples,
           'svgs' => $svgs,
       ]);
