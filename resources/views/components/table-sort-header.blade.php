@@ -2,7 +2,7 @@
     @if($columnName) data-name="{{ $columnName }}" @endif
     @if($orderBy) data-ascending="@if ($orderBy == $columnName) {{ $ascending == 'asc' ? 'desc' : 'asc' }} @else desc @endif" @endif
 
-    class="cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+    class="custom-th">
      {!! $columnText !!}
 
     <span class="@if ($orderBy == $columnName && $ascending == 'asc') inline @else hidden @endif asc">

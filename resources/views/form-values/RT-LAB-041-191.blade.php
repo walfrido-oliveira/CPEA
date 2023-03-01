@@ -178,11 +178,11 @@
                             @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
                                 @php $amostraIndex = 1; @endphp
                                 @foreach ($formValue->values['samples'] as $key => $sample)
-                                    @include('form-values.RT-LAB-041-190.sample', ['sample' => $sample, 'i' => Str::replace('row_', '', $key), 'amostraIndex' => $amostraIndex])
+                                    @include('form-values.RT-LAB-041-191.sample', ['sample' => $sample, 'i' => Str::replace('row_', '', $key), 'amostraIndex' => $amostraIndex])
                                     @php $amostraIndex++; @endphp
                                 @endforeach
                             @else
-                                @include('form-values.RT-LAB-041-190.sample')
+                                @include('form-values.RT-LAB-041-191.sample')
                             @endif
                         </div>
 
@@ -190,7 +190,7 @@
                             <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - FINAL</h3>
                             <div id="sample_list_container">
                                 @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
-                                    @include('form-values.RT-LAB-041-190.sample-list', ['count' => 3, 'type' => 'default', 'samples' => $formValue->values['samples']])
+                                    @include('form-values.RT-LAB-041-191.sample-list', ['count' => 3, 'type' => 'default', 'samples' => $formValue->values['samples']])
                                 @endif
                             </div>
 
@@ -209,7 +209,7 @@
                             <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - RELATÓRIO</h3>
                             @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
                                 @for ($i = 0; $i < count($formValue->values['samples']); $i++)
-                                    @if(isset($formValue->values['samples']["row_$i"]))  @include('form-values.RT-LAB-041-190.sample-table', ['sample' => $formValue->values['samples']["row_$i"]]) @endif
+                                    @if(isset($formValue->values['samples']["row_$i"]))  @include('form-values.RT-LAB-041-191.sample-table', ['sample' => $formValue->values['samples']["row_$i"]]) @endif
                                 @endfor
                             @endif
                         </div>
@@ -217,7 +217,7 @@
                         <div id="mode_sample_char" style="display: none" class="w-full">
                             <div id="sample_chart_container">
                                 @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
-                                    @include('form-values.RT-LAB-041-190.sample-chart', ['count' => 5, 'type' => 'default'])
+                                    @include('form-values.RT-LAB-041-191.sample-chart', ['count' => 5, 'type' => 'default'])
                                 @endif
                             </div>
                             <div class="w-5/6 items-center flex mt-5">
@@ -232,7 +232,7 @@
                         </div>
                     </div>
 
-                    @include('form-values.RT-LAB-041-190.coordinates-table')
+                    @include('form-values.RT-LAB-041-191.coordinates-table')
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4" id="mode_considerations" style="display: none">
                         <div class="w-full px-3 mb-6 md:mb-0 justify-start flex mt-2" id="coodinates_button">
@@ -261,7 +261,7 @@
 
     @include('form-values.infos-modal')
     @include('form-values.delete-modal')
-    @include("form-values.RT-LAB-041-190.environment-modal")
-    @include("form-values.RT-LAB-041-190.scripts")
+    @include("form-values.RT-LAB-041-191.environment-modal")
+    @include("form-values.RT-LAB-041-191.scripts")
 
 </x-app-layout>

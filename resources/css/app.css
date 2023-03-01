@@ -393,11 +393,15 @@ input:read-only {
 .duplicate, .duplicates-table, .default-table  {
     opacity: 1;
     transition: opacity 1s;
-  }
+}
 
-  .duplicate.fade, .default-table.fade, .duplicates-table.fade {
+.duplicate.fade, .default-table.fade, .duplicates-table.fade {
     opacity: 0;
     height: 0px;
     overflow: hidden;
     margin: 0px;
-  }
+}
+
+.custom-th {
+    @apply cursor-pointer px-6 py-3 text-left text-xs font-medium text-gray-500 tracking-wider
+}

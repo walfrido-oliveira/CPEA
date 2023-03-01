@@ -302,6 +302,10 @@ class FormValueController extends Controller
                 $samples["samples"][$input["sample_index"]]["results"][$key]["eh"] = isset($value["eh"]) ? $value["eh"] : null;
                 $samples["samples"][$input["sample_index"]]["results"][$key]["ntu"] = isset($value["ntu"]) ? $value["ntu"] : null;
                 $samples["samples"][$input["sample_index"]]["results"][$key]["uncertainty"] = isset($value["uncertainty"]) ? $value["uncertainty"] : null;
+
+                $samples["samples"][$input["sample_index"]]["results"][$key]["chlorine"] = isset($value["chlorine"]) ? $value["chlorine"] : null;
+                $samples["samples"][$input["sample_index"]]["results"][$key]["floating_materials"] = isset($value["floating_materials"]) ? $value["floating_materials"] : null;
+                $samples["samples"][$input["sample_index"]]["results"][$key]["voc"] = isset($value["voc"]) ? $value["voc"] : null;
             }
         }
 
@@ -425,7 +429,7 @@ class FormValueController extends Controller
     }
 
       return response()->json([
-          'viwer' => view("form-values.RT-LAB-041-190.sample-list", compact("formValue", "count", "svgs", "type", "samples"))->render()
+          'viwer' => view("form-values.$formValue->form->name.sample-list", compact("formValue", "count", "svgs", "type", "samples"))->render()
       ]);
     }
 
@@ -458,7 +462,7 @@ class FormValueController extends Controller
         }
 
       return response()->json([
-          'viwer' => view("form-values.RT-LAB-041-190.sample-chart-list", compact("formValue", "count", "svgs", "type", "samples"))->render(),
+          'viwer' => view("form-values.$formValue->form->name.sample-chart-list", compact("formValue", "count", "svgs", "type", "samples"))->render(),
           'samples' => $samples,
           'svgs' => $svgs,
       ]);
