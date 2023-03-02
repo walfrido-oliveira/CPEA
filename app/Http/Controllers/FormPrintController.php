@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Dompdf\Dompdf;
 use App\Models\FormPrint;
 use App\Models\FormValue;
+use Illuminate\Http\Request;
 
 class FormPrintController extends Controller
 {
@@ -51,10 +52,22 @@ class FormPrintController extends Controller
     /**
      * Print Form
      */
-    public function signer($id)
+    public function signer(Request $request, $id)
     {
       $formValue = FormValue::findOrFail($id);
       $formPrint = new FormPrint($formValue, true);
+
+      if($formValue->signed && !$request->has('rev_id')) {
+        $resp = [
+            "message" => __("Laudo não pode ser assiando sem uma revisão!"),
+            "alert-type" => "error",
+        ];
+        return redirect()->route('fields.form-values.index')->with($resp);
+      }
+
+      $formValue->signed = true;
+
+      $formValue->save();
 
       $html = view('form-values.print.index', compact('formPrint'))->render();
 

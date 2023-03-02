@@ -15,7 +15,7 @@ class FormValue extends Model
      * @var array
      */
     protected $fillable = [
-        'values', 'form_id'
+        'values', 'form_id', 'signed'
     ];
 
 
@@ -26,6 +26,7 @@ class FormValue extends Model
      */
     protected $casts = [
         'values' => 'array',
+        'signed' => 'boolean',
     ];
 
      /**
@@ -36,6 +37,14 @@ class FormValue extends Model
     public function form()
     {
         return $this->belongsTo(Form::class);
+    }
+
+    /**
+     * The Revs.
+     */
+    public function formRevs()
+    {
+        return $this->HasMany(FormRev::class);
     }
 
     /**

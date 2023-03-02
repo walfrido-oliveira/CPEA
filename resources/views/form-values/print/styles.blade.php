@@ -234,10 +234,16 @@
 
     .report-date {
         text-align: center;
-        font-size: 6.5pt;
+        font-size: 8.5pt;
         margin-top: 150px;
-        margin-bottom: 50px;
         font-weight: bold
+    }
+
+    .revs {
+        text-align: center;
+        font-size: 6.5pt;
+        font-weight: normal;
+        font-style: italic;
     }
 
     #infos h3 {

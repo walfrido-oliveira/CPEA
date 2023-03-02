@@ -28,7 +28,7 @@
                                 <a href="{{ route('fields.form-values.print', ['form_value' => $formValue->id, 'project_id' => isset($formValue) ? $formValue->values['project_id'] : '' . ".pdf"]) }}" target="_blank" class="btn-outline-info">{{ __('Imprimir') }}</a>
                             </div>
                             <div class="m-2">
-                                <a href="{{ route('fields.form-values.signer', ['form_value' => $formValue->id, 'project_id' => isset($formValue) ? $formValue->values['project_id'] : '' . ".pdf"]) }}" target="_blank" class="btn-outline-info">{{ __('Assinar') }}</a>
+                                <a id="signer_document" href="{{ route('fields.form-values.signer', ['form_value' => $formValue->id, 'project_id' => isset($formValue) ? $formValue->values['project_id'] : '' . ".pdf"]) }}" target="_blank" class="btn-outline-info">{{ __('Assinar') }}</a>
                             </div>
                         @endif
                     </div>
@@ -262,6 +262,8 @@
     @include('form-values.infos-modal')
     @include('form-values.delete-modal')
     @include("form-values.RT-LAB-041-190.environment-modal")
+    @include("form-values.RT-LAB-041-190.rev-modal")
+    @include("form-values.RT-LAB-041-190.signer-modal")
     @include("form-values.RT-LAB-041-190.scripts")
 
 </x-app-layout>

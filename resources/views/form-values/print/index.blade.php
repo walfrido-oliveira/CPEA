@@ -247,6 +247,10 @@
         </div>
 
         <p class="report-date">Relatório de ensaio emitido na data de {{ Carbon\Carbon::now()->format("d/m/Y")}}</p>
+        @if ($formPrint->lastRev)
+            <p class="revs">O atual relatório substitui a versão {{ $formPrint->lastRev->created_at->format("d/m/Y") }} </p>
+            <p class="revs">Motivo da Revisão: {{ $formPrint->lastRev->reason }}</p>
+        @endif
         <!-- <p style="page-break-after: always;">
         </p>
         <p style="page-break-after: never;">

@@ -736,12 +736,99 @@
         modal.classList.add("block");
     });
 
+    document.getElementById("signer_document").addEventListener("click", function(e) {
+        e.preventDefault();
+        var modal = document.getElementById("signer_modal");
+        modal.classList.remove("hidden");
+        modal.classList.add("block");
+
+        document.getElementById("confirm_signer_modal").addEventListener("click", function() {
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('fields.form-values.signed') !!}";
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let form_value_id = document.querySelector(`#form_value_id`).value;
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                   if(resp.signed) {
+                    var modalSigner = document.getElementById("signer_modal");
+                    modalSigner.classList.add("hidden");
+                    modalSigner.classList.remove("block");
+
+                    var modalRev = document.getElementById("rev_modal");
+                    modalRev.classList.remove("hidden");
+                    modalRev.classList.add("block");
+                   }
+                } else if (this.readyState == 4 && this.status != 200) {
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('form_value_id', form_value_id);
+
+            ajax.send(data);
+        });
+
+        document.getElementById("confirm_rev_modal").addEventListener("click", function() {
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('fields.form-values.rev') !!}";
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let form_value_id = document.querySelector(`#form_value_id`).value;
+            let reason = document.getElementById("reason").value;
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+
+                    var modalRev = document.getElementById("rev_modal");
+                    modalRev.classList.add("hidden");
+                    modalRev.classList.remove("block");
+
+                    var url = `{{ route('fields.form-values.signer', ['form_value' => $formValue->id, 'project_id' => isset($formValue) ? $formValue->values['project_id'] : '' . ".pdf"]) }}`;
+                    url = url + `?rev_id=${resp.form_rev.id}`;
+                    window.open(url, '_blank').focus();
+                } else if (this.readyState == 4 && this.status != 200) {
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('form_value_id', form_value_id);
+            data.append('reason', reason);
+
+            ajax.send(data);
+        });
+    });
+
+    document.getElementById("cancel_rev_modal").addEventListener("click", function() {
+        var modal = document.getElementById("rev_modal");
+        modal.classList.add("hidden");
+        modal.classList.remove("block");
+    });
+
+    document.getElementById("cancel_signer_modal").addEventListener("click", function() {
+        var modal = document.getElementById("signer_modal");
+        modal.classList.add("hidden");
+        modal.classList.remove("block");
+    });
+
     document.getElementById("cancel_delete_modal").addEventListener("click", function() {
         var modal = document.getElementById("delete_modal");
         modal.classList.add("hidden");
         modal.classList.remove("block");
     });
-
 
     document.querySelectorAll(".remove-sample").forEach(item => {
         item.addEventListener("click", function() {

@@ -13,6 +13,7 @@ use App\Http\Controllers\UnityController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\UploadController;
+use App\Http\Controllers\FormRevController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReplaceController;
 use App\Http\Controllers\CampaignController;
@@ -286,6 +287,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
             Route::get('/print/{form_value}/{project_id}', [FormPrintController::class, 'print'])->name('print');
             Route::get('/signer/{form_value}/{project_id}', [FormPrintController::class, 'signer'])->name('signer');
+            Route::post('/signed', [FormRevController::class, 'signed'])->name('signed');
+            Route::post('/rev', [FormRevController::class, 'store'])->name('rev');
         });
 
         Route::prefix('configuracoes')->name('config.')->group(function(){

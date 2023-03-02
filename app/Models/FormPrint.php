@@ -20,6 +20,7 @@ class FormPrint extends Model
     public $logo;
     public $crl;
     public $signer;
+    public $lastRev;
 
     public User $user;
     public Customer $customer;
@@ -115,6 +116,10 @@ class FormPrint extends Model
         $this->externalRefs = Ref::where('field_type_id', $this->formValue->values['matrix'])
         ->where("type", "Referência Externa")
         ->get();
+
+        if ($this->formValue->formRevs()->latest()->first()) {
+            $this->lastRev = $this->formValue->formRevs()->latest()->first();
+        }
     }
 
 }
