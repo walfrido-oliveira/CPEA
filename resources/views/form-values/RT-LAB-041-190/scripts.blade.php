@@ -667,7 +667,7 @@
     function deleteCoodinate(that) {
         document.getElementById("spin_load").classList.remove("hidden");
         let ajax = new XMLHttpRequest();
-        let url = "{!! route('fields.form-values.delete-coordirnate') !!}";
+        let url = "{!! route('fields.form-values.delete-coordinate') !!}";
         let token = document.querySelector('meta[name="csrf-token"]').content;
         let method = 'POST';
         let form_value_id = document.querySelector(`#form_value_id`).value;
