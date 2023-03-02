@@ -134,7 +134,13 @@
                                                     {{ $formPrint->unities[$key2] }}
                                                 </td>
                                                 <td style="text-align: center; border: 0px;">
-                                                    @if(isset($formPrint->formValue->svgs[$key][$key2])){{ number_format($formPrint->formValue->svgs[$key][$key2], $formPrint->places[$key2], ",", ".") }} @endif
+                                                    @if(isset($formPrint->formValue->svgs[$key][$key2]))
+                                                        @if($key2 == 'conc' && $formPrint->LQ[$key2] > $formPrint->formValue->svgs[$key][$key2])
+                                                            {{'< ' . number_format(Str::replaceFirst(',', '.', $formPrint->LQ[$key2]), $formPrint->places[$key2], ",", ".") }}
+                                                        @else
+                                                            {{ number_format($formPrint->formValue->svgs[$key][$key2], $formPrint->places[$key2], ",", ".") }}
+                                                        @endif
+                                                    @endif
                                                 </td>
                                                 <td style="text-align: center; border: 0px;">
                                                     {{ $formPrint->LQ[$key2] }}
