@@ -237,6 +237,7 @@
         font-size: 6.5pt;
         margin-top: 150px;
         margin-bottom: 50px;
+        font-weight: bold
     }
 
     #infos h3 {
