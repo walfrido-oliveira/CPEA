@@ -764,7 +764,8 @@
                     modalRev.classList.remove("hidden");
                     modalRev.classList.add("block");
                    } else {
-                    window.open(that.href, '_blank').focus();
+                    var url = `{{ route('fields.form-values.signer', ['form_value' => $formValue->id, 'project_id' => isset($formValue) ? $formValue->values['project_id'] : '' . ".pdf"]) }}`;
+                    window.open(url, '_blank').focus();
                    }
                 } else if (this.readyState == 4 && this.status != 200) {
                     toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
