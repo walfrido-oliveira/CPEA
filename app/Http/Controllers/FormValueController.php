@@ -474,7 +474,7 @@ class FormValueController extends Controller
 
         $coordinates = $formValue->values;
 
-        unset($samples["samples"][$input["coordinate_index"]]);
+        unset($coordinates["samples"][$input["coordinate_index"]]);
 
         $formValue->values = $coordinates;
         $formValue->save();
