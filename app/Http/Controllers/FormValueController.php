@@ -512,12 +512,14 @@ class FormValueController extends Controller
       $svgs = [];
 
       foreach ($formValue->values['samples'] as $key => $value) {
-        if(count(array_chunk($value['results'], 3)) > 1 && $type == "duplicates") {
-            $samples[$key] = $value;
-            $svgs[$key] = $svgsTemp[$key];
-        } else if($type == "default") {
-            $samples[$key] = $value;
-            $svgs[$key] = $svgsTemp[$key];
+        if(isset($value['results'])) {
+            if(count(array_chunk($value['results'], 3)) > 1 && $type == "duplicates") {
+                $samples[$key] = $value;
+                $svgs[$key] = $svgsTemp[$key];
+            } else if($type == "default") {
+                $samples[$key] = $value;
+                $svgs[$key] = $svgsTemp[$key];
+            }
         }
     }
 
@@ -541,16 +543,18 @@ class FormValueController extends Controller
         $samples = [];
 
         foreach ($formValue->values['samples'] as $key => $value) {
-            if(count(array_chunk($value['results'], 3)) > 1 && $type == "duplicates" && count($value['results']) >= 6) {
-                $samples[$key] = $value;
-                $svgs[$key] = $svgsTemp[$key];
-                $svgs[$key]['ph_formatted'] = number_format($svgs[$key]['ph'], 1, ',', '.');
-                $svgs[$key]['eh_formatted'] = number_format($svgs[$key]['eh'], 0, ',', '.');
-            } else if($type == "default") {
-                $samples[$key] = $value;
-                $svgs[$key] = $svgsTemp[$key];
-                $svgs[$key]['ph_formatted'] = number_format($svgs[$key]['ph'], 1, ',', '.');
-                $svgs[$key]['eh_formatted'] = number_format($svgs[$key]['eh'], 0, ',', '.');
+            if(isset($value['results'])) {
+                if(count(array_chunk($value['results'], 3)) > 1 && $type == "duplicates" && count($value['results']) >= 6) {
+                    $samples[$key] = $value;
+                    $svgs[$key] = $svgsTemp[$key];
+                    $svgs[$key]['ph_formatted'] = number_format($svgs[$key]['ph'], 1, ',', '.');
+                    $svgs[$key]['eh_formatted'] = number_format($svgs[$key]['eh'], 0, ',', '.');
+                } else if($type == "default") {
+                    $samples[$key] = $value;
+                    $svgs[$key] = $svgsTemp[$key];
+                    $svgs[$key]['ph_formatted'] = number_format($svgs[$key]['ph'], 1, ',', '.');
+                    $svgs[$key]['eh_formatted'] = number_format($svgs[$key]['eh'], 0, ',', '.');
+                }
             }
         }
 
