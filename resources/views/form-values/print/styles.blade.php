@@ -55,7 +55,7 @@
 
     .footer {
         position: absolute;
-        bottom: 0px;
+        bottom: 30px;
         left: 0px;
         right: 0px;
         width: 100%;
