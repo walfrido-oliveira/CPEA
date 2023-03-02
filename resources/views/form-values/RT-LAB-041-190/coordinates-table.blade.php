@@ -49,7 +49,7 @@
             <tbody id="table_coordinates">
                 @if(isset($formValue->values['coordinates']))
                     @foreach ($formValue->values['coordinates'] as $key => $coordinate)
-                        <tr>
+                        <tr data-row="{{ $key }}">
                             <td>
                                 <x-jet-input readonly="true" id="point" class="form-control block mt-1 w-full" type="text" value="{{ isset($coordinate['point']) ? $coordinate['point'] : '' }}"
                                              name="{{ 'coordinates[' . $key . '][point]' }}" />

@@ -679,7 +679,8 @@
             if (this.readyState == 4 && this.status == 200) {
                 var resp = JSON.parse(ajax.response);
                 toastr.success(resp.message);
-                location.reload();
+                document.getElementById("spin_load").classList.add("hidden");
+                document.querySelector(`#table_coordinates tr[data-row='${coordinate_index}']`).remove();
             } else if (this.readyState == 4 && this.status != 200) {
                 document.getElementById("spin_load").classList.add("hidden");
                 toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
