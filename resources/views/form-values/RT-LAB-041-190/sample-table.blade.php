@@ -44,6 +44,19 @@
             "salinity" => "-",
             "conc" => "-"
         ];
+
+        $uncertainties = [
+            "temperature" => isset($formValue->values["samples"]['row_' . ($i)]['temperature_uncertainty_footer']) ?  $formValue->values["samples"]['row_' . ($i)]['temperature_uncertainty_footer'] : null,
+            "ph" => isset($formValue->values["samples"]['row_' . ($i)]['ph_uncertainty_footer']) ?  $formValue->values["samples"]['row_' . ($i)]['ph_uncertainty_footer'] : null,
+            "orp" => isset($formValue->values["samples"]['row_' . ($i)]['orp_uncertainty_footer']) ?  $formValue->values["samples"]['row_' . ($i)]['orp_uncertainty_footer'] : null,
+            "conductivity" => isset($formValue->values["samples"]['row_' . ($i)]['conductivity_uncertainty_footer']) ?  $formValue->values["samples"]['row_' . ($i)]['conductivity_uncertainty_footer'] : null,
+            "salinity" => isset($formValue->values["samples"]['row_' . ($i)]['salinity_uncertainty_footer']) ?  $formValue->values["samples"]['row_' . ($i)]['salinity_uncertainty_footer'] : null,
+            /*isset($formValue->values["samples"]['row_' . ($i)]['psi_uncertainty_footer']) ?  $formValue->values["samples"]['row_' . ($i)]['psi_uncertainty_footer'] : null,
+            isset($formValue->values["samples"]['row_' . ($i)]['sat_uncertainty_footer']) ?  $formValue->values["samples"]['row_' . ($i)]['sat_uncertainty_footer'] : null,*/
+            "conc" => isset($formValue->values["samples"]['row_' . ($i)]['conc_uncertainty_footer']) ?  $formValue->values["samples"]['row_' . ($i)]['conc_uncertainty_footer'] : null,
+            /*isset($formValue->values["samples"]['row_' . ($i)]['eh_uncertainty_footer']) ?  $formValue->values["samples"]['row_' . ($i)]['eh_uncertainty_footer'] : null,
+            isset($formValue->values["samples"]['row_' . ($i)]['ntu_uncertainty_footer']) ?  $formValue->values["samples"]['row_' . ($i)]['ntu_uncertainty_footer'] : null,*/
+        ]
     @endphp
 
     <div class="flex flex-wrap mt-2 w-full flex-col mode-sample-table px-3">
@@ -86,6 +99,7 @@
                         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('Parâmetro') }}"/>
                         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('Unidade') }}"/>
                         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('Resultado') }}"/>
+                        <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('Incerteza') }}"/>
                         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('LQ') }}"/>
                         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('Faixa') }}"/>
                     </tr>
@@ -101,6 +115,9 @@
                             </td>
                             <td>
                                 {{ number_format($formValue->svgs['row_' . ($i)][$key], $places[$key], ",", ".") }}
+                            </td>
+                            <td>
+                                {{ number_format($uncertainties[$key], 2, ",", ".") }}
                             </td>
                             <td>
                                 {{ $LQ[$key] }}

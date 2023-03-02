@@ -159,28 +159,17 @@
                                     <x-jet-input readonly="true" id="sat" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['sat']) ? number_format($value['sat'], 1) : ''}}"
                                     name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][sat]' : 'samples[row_0][results]['. $key . '][sat]' }}" step="any" />
                                 </td>
-                                <td><x-jet-input readonly="true" id="conc" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['conc']) ? number_format($value['conc'], 3) : ''}}"
+                                <td>
+                                    <x-jet-input readonly="true" id="conc" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['conc']) ? number_format($value['conc'], 3) : ''}}"
                                     name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][conc]' : 'samples[row_0][results]['. $key . '][conc]' }}" step="any" />
                                 </td>
-                                <td>
-                                    <!-- <x-jet-input readonly="true" id="eh" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['eh']) ? number_format($value['eh'], 1) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][eh]' : 'samples[row_0][results]['. $key . '][eh]' }}" step="any" /> -->
-                                    -
-                                </td>
-                                <td>
-                                    -
-                                    <!-- <x-jet-input readonly="true" id="ntu" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['ntu']) ? number_format($value['ntu'], 1) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][ntu]' : 'samples[row_0][results]['. $key . '][ntu]' }}" step="any" /> -->
-                                </td>
-                                <td>
-                                    -
-                                    <!-- <x-jet-input readonly="true" id="uncertainty" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['uncertainty']) ? number_format($value['uncertainty'], 1) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][uncertainty]' : 'samples[row_0][results]['. $key . '][uncertainty]' }}" step="any" /> -->
-                                </td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
                             <tr>
                         @endforeach
                     </tbody>
-                    <tfoot>
+                    <tfoot id="table_result_footer">
                         <tr>
                             <td>
                                 @if(isset($value['temperature']))
@@ -245,7 +234,7 @@
                                     class="form-control block mt-1 w-full eh_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
                                     type="number" value="{{ $sample['eh_footer'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][eh_footer]' : 'samples[row_0][eh_footer]' }}" />
                                 @else
-                                    <x-jet-input id="point_0" class="form-control block mt-1 w-full point" type="number" value="" name="samples[row_0][point]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+                                    <x-jet-input id="eh_footer_0" class="form-control block mt-1 w-full eh_footer" type="number" value="" name="samples[row_0][eh_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
                                 @endif
                             </td>
                             <td>
@@ -259,24 +248,154 @@
                                     class="form-control block mt-1 w-full ntu_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
                                     type="number" value="{{ $sample['ntu_footer'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][ntu_footer]' : 'samples[row_0][ntu_footer]' }}" />
                                 @else
-                                    <x-jet-input id="point_0" class="form-control block mt-1 w-full point" type="number" value="" name="samples[row_0][point]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+                                    <x-jet-input id="ntu_footer_0" class="form-control block mt-1 w-full ntu_footer" type="number" value="" name="samples[row_0][ntu_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+                                @endif
+                            </td>
+                            <td>
+                                -
+                            </td>
+                        <tr>
+                            <td>
+                                @php
+                                    if(!isset($sample['temperature_uncertainty_footer'])) :
+                                        $sample['temperature_uncertainty_footer'] = "-";
+                                    endif;
+                                @endphp
+                                @if(isset($sample['temperature_uncertainty_footer']))
+                                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="temperature_uncertainty_footer_{{ isset($i) ? $i : 0 }}"
+                                    class="form-control block mt-1 w-full temperature_uncertainty_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                                    type="number" value="{{ $sample['temperature_uncertainty_footer'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][temperature_uncertainty_footer]' : 'samples[row_0][temperature_uncertainty_footer]' }}" />
+                                @else
+                                    <x-jet-input id="temperature_uncertainty_footer_0" class="form-control block mt-1 w-full temperature_uncertainty_footer" type="number" value="" name="samples[row_0][temperature_uncertainty_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
                                 @endif
                             </td>
                             <td>
                                 @php
-                                    if(!isset($sample['uncertainty_footer'])) :
-                                        $sample['uncertainty_footer'] = "-";
+                                    if(!isset($sample['ph_uncertainty_footer'])) :
+                                        $sample['ph_uncertainty_footer'] = "-";
                                     endif;
                                 @endphp
-                                @if(isset($sample['uncertainty_footer']))
-                                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="uncertainty_footer_{{ isset($i) ? $i : 0 }}"
-                                    class="form-control block mt-1 w-full uncertainty_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
-                                    type="number" value="{{ $sample['uncertainty_footer'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][uncertainty_footer]' : 'samples[row_0][uncertainty_footer]' }}" />
+                                @if(isset($sample['ph_uncertainty_footer']))
+                                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="ph_uncertainty_footer_{{ isset($i) ? $i : 0 }}"
+                                    class="form-control block mt-1 w-full ph_uncertainty_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                                    type="number" value="{{ $sample['ph_uncertainty_footer'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][ph_uncertainty_footer]' : 'samples[row_0][ph_uncertainty_footer]' }}" />
                                 @else
-                                    <x-jet-input id="point_0" class="form-control block mt-1 w-full point" type="number" value="" name="samples[row_0][point]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+                                    <x-jet-input id="ph_uncertainty_footer_0" class="form-control block mt-1 w-full ph_uncertainty_footer" type="number" value="" name="samples[row_0][ph_uncertainty_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
                                 @endif
                             </td>
-                        <tr>
+                            <td>
+                                @php
+                                    if(!isset($sample['orp_uncertainty_footer'])) :
+                                        $sample['orp_uncertainty_footer'] = "-";
+                                    endif;
+                                @endphp
+                                @if(isset($sample['orp_uncertainty_footer']))
+                                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="orp_uncertainty_footer_{{ isset($i) ? $i : 0 }}"
+                                    class="form-control block mt-1 w-full orp_uncertainty_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                                    type="number" value="{{ $sample['orp_uncertainty_footer'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][orp_uncertainty_footer]' : 'samples[row_0][orp_uncertainty_footer]' }}" />
+                                @else
+                                    <x-jet-input id="orp_uncertainty_footer_0" class="form-control block mt-1 w-full orp_uncertainty_footer" type="number" value="" name="samples[row_0][orp_uncertainty_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+                                @endif
+                            </td>
+                            <td>
+                                @php
+                                    if(!isset($sample['conductivity_uncertainty_footer'])) :
+                                        $sample['conductivity_uncertainty_footer'] = "-";
+                                    endif;
+                                @endphp
+                                @if(isset($sample['conductivity_uncertainty_footer']))
+                                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="conductivity_uncertainty_footer_{{ isset($i) ? $i : 0 }}"
+                                    class="form-control block mt-1 w-full conductivity_uncertainty_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                                    type="number" value="{{ $sample['conductivity_uncertainty_footer'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][conductivity_uncertainty_footer]' : 'samples[row_0][conductivity_uncertainty_footer]' }}" />
+                                @else
+                                    <x-jet-input id="conductivity_uncertainty_footer_0" class="form-control block mt-1 w-full conductivity_uncertainty_footer" type="number" value="" name="samples[row_0][conductivity_uncertainty_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+                                @endif
+                            </td>
+                            <td>
+                                @php
+                                    if(!isset($sample['salinity_uncertainty_footer'])) :
+                                        $sample['salinity_uncertainty_footer'] = "-";
+                                    endif;
+                                @endphp
+                                @if(isset($sample['salinity_uncertainty_footer']))
+                                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="salinity_uncertainty_footer_{{ isset($i) ? $i : 0 }}"
+                                    class="form-control block mt-1 w-full salinity_uncertainty_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                                    type="number" value="{{ $sample['salinity_uncertainty_footer'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][salinity_uncertainty_footer]' : 'samples[row_0][salinity_uncertainty_footer]' }}" />
+                                @else
+                                    <x-jet-input id="salinity_uncertainty_footer_0" class="form-control block mt-1 w-full salinity_uncertainty_footer" type="number" value="" name="samples[row_0][salinity_uncertainty_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+                                @endif
+                            </td>
+                            <td>
+                                @php
+                                    if(!isset($sample['psi_uncertainty_footer'])) :
+                                        $sample['psi_uncertainty_footer'] = "-";
+                                    endif;
+                                @endphp
+                                @if(isset($sample['psi_uncertainty_footer']))
+                                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="psi_uncertainty_footer_{{ isset($i) ? $i : 0 }}"
+                                    class="form-control block mt-1 w-full psi_uncertainty_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                                    type="number" value="{{ $sample['psi_uncertainty_footer'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][psi_uncertainty_footer]' : 'samples[row_0][psi_uncertainty_footer]' }}" />
+                                @else
+                                    <x-jet-input id="psi_uncertainty_footer_0" class="form-control block mt-1 w-full psi_uncertainty_footer" type="number" value="" name="samples[row_0][psi_uncertainty_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+                                @endif
+                            </td>
+                            <td>
+                                @php
+                                    if(!isset($sample['sat_uncertainty_footer'])) :
+                                        $sample['sat_uncertainty_footer'] = "-";
+                                    endif;
+                                @endphp
+                                @if(isset($sample['sat_uncertainty_footer']))
+                                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="sat_uncertainty_footer_{{ isset($i) ? $i : 0 }}"
+                                    class="form-control block mt-1 w-full sat_uncertainty_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                                    type="number" value="{{ $sample['sat_uncertainty_footer'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][sat_uncertainty_footer]' : 'samples[row_0][sat_uncertainty_footer]' }}" />
+                                @else
+                                    <x-jet-input id="sat_uncertainty_footer_0" class="form-control block mt-1 w-full sat_uncertainty_footer" type="number" value="" name="samples[row_0][sat_uncertainty_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+                                @endif
+                            </td>
+                            <td>
+                                @php
+                                    if(!isset($sample['conc_uncertainty_footer'])) :
+                                        $sample['conc_uncertainty_footer'] = "-";
+                                    endif;
+                                @endphp
+                                @if(isset($sample['conc_uncertainty_footer']))
+                                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="conc_uncertainty_footer_{{ isset($i) ? $i : 0 }}"
+                                    class="form-control block mt-1 w-full conc_uncertainty_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                                    type="number" value="{{ $sample['conc_uncertainty_footer'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][conc_uncertainty_footer]' : 'samples[row_0][conc_uncertainty_footer]' }}" />
+                                @else
+                                    <x-jet-input id="conc_uncertainty_footer_0" class="form-control block mt-1 w-full conc_uncertainty_footer" type="number" value="" name="samples[row_0][conc_uncertainty_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+                                @endif
+                            </td>
+                            <td>
+                                @php
+                                    if(!isset($sample['eh_uncertainty_footer'])) :
+                                        $sample['eh_uncertainty_footer'] = "-";
+                                    endif;
+                                @endphp
+                                @if(isset($sample['eh_uncertainty_footer']))
+                                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="eh_uncertainty_footer_{{ isset($i) ? $i : 0 }}"
+                                    class="form-control block mt-1 w-full eh_uncertainty_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                                    type="number" value="{{ $sample['eh_uncertainty_footer'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][eh_uncertainty_footer]' : 'samples[row_0][eh_uncertainty_footer]' }}" />
+                                @else
+                                    <x-jet-input id="eh_uncertainty_footer_0" class="form-control block mt-1 w-full eh_uncertainty_footer" type="number" value="" name="samples[row_0][eh_uncertainty_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+                                @endif
+                            </td>
+                            <td>
+                                @php
+                                    if(!isset($sample['ntu_uncertainty_footer'])) :
+                                        $sample['ntu_uncertainty_footer'] = "-";
+                                    endif;
+                                @endphp
+                                @if(isset($sample['ntu_uncertainty_footer']))
+                                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="ntu_uncertainty_footer_{{ isset($i) ? $i : 0 }}"
+                                    class="form-control block mt-1 w-full ntu_uncertainty_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                                    type="number" value="{{ $sample['ntu_uncertainty_footer'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][ntu_uncertainty_footer]' : 'samples[row_0][ntu_uncertainty_footer]' }}" />
+                                @else
+                                    <x-jet-input id="ntu_uncertainty_footer_0" class="form-control block mt-1 w-full ntu_uncertainty_footer" type="number" value="" name="samples[row_0][ntu_uncertainty_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+                                @endif
+                            </td>
+                        </tr>
                     </tfoot>
                 </table>
             </div>
@@ -337,21 +456,9 @@
                                         <td><x-jet-input readonly="true" id="conc" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['conc']) ? number_format($value['conc'], 3) : ''}}"
                                             name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][conc]' : 'samples[row_0][results]['. $key . '][conc]' }}" step="any" />
                                         </td>
-                                        <td>
-                                            <!-- <x-jet-input readonly="true" id="eh" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['eh']) ? number_format($value['eh'], 1) : ''}}"
-                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][eh]' : 'samples[row_0][results]['. $key . '][eh]' }}" step="any" /> -->
-                                            -
-                                        </td>
-                                        <td>
-                                            -
-                                            <!-- <x-jet-input readonly="true" id="ntu" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['ntu']) ? number_format($value['ntu'], 1) : ''}}"
-                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][ntu]' : 'samples[row_0][results]['. $key . '][ntu]' }}" step="any" /> -->
-                                        </td>
-                                        <td>
-                                            -
-                                            <!-- <x-jet-input readonly="true" id="uncertainty" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['uncertainty']) ? number_format($value['uncertainty'], 1) : ''}}"
-                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][uncertainty]' : 'samples[row_0][results]['. $key . '][uncertainty]' }}" step="any" /> -->
-                                        </td>
+                                        <td>-</td>
+                                        <td>-</td>
+                                        <td>-</td>
                                     <tr>
                                 @endforeach
                             </tbody>
