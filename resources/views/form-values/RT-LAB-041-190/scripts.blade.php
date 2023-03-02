@@ -743,6 +743,7 @@
         modal.classList.add("block");
 
         document.getElementById("confirm_signer_modal").addEventListener("click", function() {
+            let that = this;
             let ajax = new XMLHttpRequest();
             let url = "{!! route('fields.form-values.signed') !!}";
             let token = document.querySelector('meta[name="csrf-token"]').content;
@@ -762,6 +763,8 @@
                     var modalRev = document.getElementById("rev_modal");
                     modalRev.classList.remove("hidden");
                     modalRev.classList.add("block");
+                   } else {
+                    window.open(that.href, '_blank').focus();
                    }
                 } else if (this.readyState == 4 && this.status != 200) {
                     toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
