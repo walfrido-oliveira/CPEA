@@ -70,7 +70,7 @@ class FormPrint extends Model
             "orp" => "mV",
             "conductivity" => "µS/cm",
             "salinity" => "-",
-            "conc" => "mg/L"
+            "conc" => "mg/L",
         ];
 
         $this->LQ = [
@@ -79,7 +79,7 @@ class FormPrint extends Model
             "orp" => "-",
             "conductivity" => "20",
             "salinity" => "0,01",
-            "conc" => "0,3"
+            "conc" => "0,3",
         ];
 
         $this->places = [
@@ -88,7 +88,7 @@ class FormPrint extends Model
             "orp" => 1,
             "conductivity" => 3,
             "salinity" => 3,
-            "conc" => 3
+            "conc" => 3,
         ];
 
         $this->range = [
@@ -100,14 +100,20 @@ class FormPrint extends Model
             "conc" => "-"
         ];
 
+        if(isset($this->formValue->values['turbidity'])) {
+            $this->range["ntu"] = "-";
+            $this->places["ntu"] = 1;
+            $this->LQ["ntu"] = "";
+            $this->unities["ntu"] = "NTU";
+            $this->parameters["ntu"] = "Turbidez";
+        }
+
         $this->refs = Ref::where('field_type_id', $this->formValue->values['matrix'])
         ->where("type", "Referências")
-        ->where("turbidity", isset($this->formValue->values['turbidity']))
         ->get();
 
         $this->externalRefs = Ref::where('field_type_id', $this->formValue->values['matrix'])
         ->where("type", "Referência Externa")
-        ->where("turbidity", isset($this->formValue->values['turbidity']))
         ->get();
     }
 
