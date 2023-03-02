@@ -771,7 +771,12 @@
 
     document.querySelector("#confirm_delete_modal").addEventListener("click", function() {
         if(this.dataset.type == "sample") deleteSample(this);
-        if(this.dataset.type == "coordinate") deleteCoordinate(this);
+        if(this.dataset.type == "coordinate") {
+            deleteCoordinate(this);
+            var modal = document.getElementById("delete_modal");
+            modal.classList.add("hidden");
+            modal.classList.remove("block");
+        }
     });
 
     document.getElementById("confirm_modal").addEventListener("click", function(e) {
