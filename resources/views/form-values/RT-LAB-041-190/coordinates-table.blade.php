@@ -31,7 +31,7 @@
                     <th rowspan="2" style="vertical-align: middle;"  class="cursor-pointer px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                         {{ __('Zona') }}
                     </th>
-                    <th colspan="2" style="text-align: center" class="cursor-pointer px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
+                    <th colspan="3" style="text-align: center" class="cursor-pointer px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
                         {{ __('Coordenadas UTM') }}
                     </th>
                 </tr>

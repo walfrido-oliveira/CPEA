@@ -664,14 +664,14 @@
         ajax.send(data);
     }
 
-    function deleteCoodinate(that) {
+    function deleteCoordinate(that) {
         document.getElementById("spin_load").classList.remove("hidden");
         let ajax = new XMLHttpRequest();
         let url = "{!! route('fields.form-values.delete-coordinate') !!}";
         let token = document.querySelector('meta[name="csrf-token"]').content;
         let method = 'POST';
         let form_value_id = document.querySelector(`#form_value_id`).value;
-        let coodirnate_index = that.dataset.row;
+        let coordinate_index = that.dataset.row;
 
         ajax.open(method, url);
 
@@ -691,7 +691,7 @@
         data.append('_token', token);
         data.append('_method', method);
         data.append('form_value_id', form_value_id);
-        data.append('coodirnate_index', coodirnate_index);
+        data.append('coordinate_index', coordinate_index);
 
         ajax.send(data);
     }
@@ -770,7 +770,7 @@
 
     document.querySelector("#confirm_delete_modal").addEventListener("click", function() {
         if(this.dataset.type == "sample") deleteSample(this);
-        if(this.dataset.type == "coordinate") deleteCoodinate(this);
+        if(this.dataset.type == "coordinate") deleteCoordinate(this);
     });
 
     document.getElementById("confirm_modal").addEventListener("click", function(e) {
