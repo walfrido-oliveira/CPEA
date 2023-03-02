@@ -42,6 +42,7 @@
                     <th class="cursor-pointer px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                         {{ __('Northings (mN)') }}
                     </th>
+                    <th>Ações</th>
                 </tr>
             </thead>
 
@@ -64,6 +65,13 @@
                             <td>
                                 <x-jet-input readonly="true" id="point" class="form-control block mt-1 w-full" type="text" value="{{ isset($coordinate['mn']) ? $coordinate['mn'] : '' }}"
                                              name="{{ 'coordinates[' . $key . '][mn]' }}"/>
+                            </td>
+                            <td>
+                                <button type="button" class="btn-transition-primary remove-coodinate px-1" title="Remover Coodernada"  data-row="{{ $key }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-wiph="1.5" stroke="currentColor" class="h-8 w-8 text-red-900">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </button>
                             </td>
                         </tr>
                     @endforeach

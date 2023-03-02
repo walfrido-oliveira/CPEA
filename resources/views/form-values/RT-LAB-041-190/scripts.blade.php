@@ -663,6 +663,39 @@
 
         ajax.send(data);
     }
+
+    function deleteCoodinate(that) {
+        document.getElementById("spin_load").classList.remove("hidden");
+        let ajax = new XMLHttpRequest();
+        let url = "{!! route('fields.form-values.delete-coodirnate') !!}";
+        let token = document.querySelector('meta[name="csrf-token"]').content;
+        let method = 'POST';
+        let form_value_id = document.querySelector(`#form_value_id`).value;
+        let coodirnate_index = that.dataset.row;
+
+        ajax.open(method, url);
+
+        ajax.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var resp = JSON.parse(ajax.response);
+                toastr.success(resp.message);
+                location.reload();
+            } else if (this.readyState == 4 && this.status != 200) {
+                document.getElementById("spin_load").classList.add("hidden");
+                toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                that.value = '';
+            }
+        }
+
+        var data = new FormData();
+        data.append('_token', token);
+        data.append('_method', method);
+        data.append('form_value_id', form_value_id);
+        data.append('coodirnate_index', coodirnate_index);
+
+        ajax.send(data);
+    }
+
 </script>
 
 <script>
@@ -721,11 +754,23 @@
             modal.classList.add("block");
             document.querySelector("#confirm_delete_modal").dataset.index = this.dataset.index;
             document.querySelector("#confirm_delete_modal").dataset.row = this.dataset.row;
+            document.querySelector("#confirm_delete_modal").dataset.type = "sample";
+        });
+    });
+
+    document.querySelectorAll(".remove-coordinate").forEach(item => {
+        item.addEventListener("click", function() {
+            var modal = document.getElementById("delete_modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("block");
+            document.querySelector("#confirm_delete_modal").dataset.row = this.dataset.row;
+            document.querySelector("#confirm_delete_modal").dataset.type = "coordinate";
         });
     });
 
     document.querySelector("#confirm_delete_modal").addEventListener("click", function() {
-        deleteSample(this);
+        if(this.dataset.type == "sample") deleteSample(this);
+        if(this.dataset.type == "coordinate") deleteCoodinate(this);
     });
 
     document.getElementById("confirm_modal").addEventListener("click", function(e) {

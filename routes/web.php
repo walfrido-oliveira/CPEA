@@ -265,12 +265,15 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::post('/store', [FormValueController::class, 'store'])->name('store');
             Route::put('/update/{form_value}', [FormValueController::class, 'update'])->name('update');
             Route::post('/filter', [FormValueController::class, 'filter'])->name('filter');
-            Route::post('/save-coordinate', [FormValueController::class, 'saveCoordinate'])->name('save-coordinate');
-            Route::post('/delete-sample', [FormValueController::class, 'deleteSample'])->name('delete-sample');
+
             Route::post('/get-sample-list/{form_value}/{count}', [FormValueController::class, 'getSampleList'])->name('get-sample-list');
             Route::post('/get-sample-chart/{form_value}/{count}', [FormValueController::class, 'getSampleChart'])->name('get-sample-chart');
+
+            Route::post('/delete-sample', [FormValueController::class, 'deleteSample'])->name('delete-sample');
+            Route::post('/delete-coordinate', [FormValueController::class, 'deleteCoordinate'])->name('delete-coordinate');
             Route::delete('/{form_value}', [FormValueController::class, 'destroy'])->name('destroy');
 
+            Route::post('/save-coordinate', [FormValueController::class, 'saveCoordinate'])->name('save-coordinate');
             Route::post('/save-sample', [FormValueController::class, 'saveSample'])->name('save-sample');
             Route::post('/save-sample-column', [FormValueController::class, 'saveSampleColumn'])->name('save-sample-column');
             Route::post('/save-sample-form-RTGPA047', [FormValueController::class, 'saveSampleFormRTGPA047'])->name('save-sample-form-RTGPA047');

@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button type="button" id="confirm_delete_modal" class="btn-confirm" data-index="" data-row="">
+                <button type="button" id="confirm_delete_modal" class="btn-confirm" data-index="" data-row="" data-type="">
                     Deletar
                 </button>
                 <button type="button" id="cancel_delete_modal" class="btn-cancel" >

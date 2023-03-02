@@ -199,7 +199,6 @@ class FormValueController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -436,13 +435,46 @@ class FormValueController extends Controller
 
         $coordinates = $formValue->values;
 
-
         foreach ( $input["coordinates"] as $key => $value ) {
             $coordinates["coordinates"][$key]["point"] = $value["point"];
             $coordinates["coordinates"][$key]["zone"] = $value["zone"];
             $coordinates["coordinates"][$key]["me"] = $value["me"];
             $coordinates["coordinates"][$key]["mn"] = $value["mn"];
         }
+
+        $formValue->values = $coordinates;
+        $formValue->save();
+
+        $resp = [
+            "message" => __("Formulário atualizado com Sucesso!"),
+            "alert-type" => "success",
+        ];
+
+        return response()->json($resp);
+    }
+
+        /**
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteCoordinate(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            "form_value_id" => ["required", "exists:form_values,id"],
+            "coordinate_index" => ["required"],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), Response::HTTP_BAD_REQUEST);
+        }
+
+        $input = $request->except("_method", "_token", "form_id");
+        $formValue = FormValue::findOrFail($input["form_value_id"]);
+
+        $coordinates = $formValue->values;
+
+        unset($samples["samples"][$input["coordinate_index"]]);
 
         $formValue->values = $coordinates;
         $formValue->save();
