@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\FormValue;
+use DASPRiD\Enum\NullValue;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -94,6 +95,24 @@ class FormImportController extends Controller
         $samples = $this->validadeConductivity($samples, $inputs["sample_index"]);
         $samples = $this->validadeSat($samples, $inputs["sample_index"]);
         $samples["samples"][$inputs["sample_index"]]["invalid_rows"] =  $sampleCount > count($samples["samples"][$inputs["sample_index"]]["results"]);
+
+        $sampleCount = count($samples["samples"][$inputs["sample_index"]]["results"]);
+        $sampleAdd = 3 - $sampleCount;
+
+        if ($sampleAdd > 0) {
+            for ($i=0; $i < $sampleAdd; $i++) {
+                $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["temperature"] = null;
+                $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["ph"] = null;
+                $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["orp"] = null;
+                $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["conductivity"] = null;
+                $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["salinity"] = null;
+                $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["psi"] = null;
+                $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["sat"] = null;
+                $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["conc"] = null;
+                $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["eh"] = null;
+                $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["ntu"] = null;
+            }
+        }
 
         $formValue->values = $samples;
         $formValue->save();
@@ -478,6 +497,25 @@ class FormImportController extends Controller
             $samples = $this->validadeConductivity($samples, "row_$max");
             $samples = $this->validadeSat($samples, "row_$max");
             $samples["samples"]["row_$max"]["invalid_rows"] = $sampleCount > count($samples["samples"]["row_$max"]["results"]);
+
+            $sampleCount = count($samples["samples"][$inputs["sample_index"]]["results"]);
+            $sampleAdd = 3 - $sampleCount;
+
+            if ($sampleAdd > 0) {
+                for ($i=0; $i < $sampleAdd; $i++) {
+                    $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["temperature"] = null;
+                    $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["ph"] = null;
+                    $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["orp"] = null;
+                    $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["conductivity"] = null;
+                    $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["salinity"] = null;
+                    $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["psi"] = null;
+                    $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["sat"] = null;
+                    $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["conc"] = null;
+                    $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["eh"] = null;
+                    $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["ntu"] = null;
+                }
+            }
+
             $max++;
         }
 
