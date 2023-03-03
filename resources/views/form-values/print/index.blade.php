@@ -207,7 +207,7 @@
                                                 {{ isset($coordinate['me']) ? $coordinate['me'] : '' }}
                                             </td>
                                             <td>
-                                                {{ isset($coordinate['mn']) ? $coordinate['mn'] : '' }}
+                                                {{ isset($coordinate['mn']) ? Str::replaceFirst(',', '.', $coordinate['mn']) : '' }}
                                             </td>
                                         </tr>
                                     @endforeach

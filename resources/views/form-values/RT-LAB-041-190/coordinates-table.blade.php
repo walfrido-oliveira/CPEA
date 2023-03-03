@@ -63,7 +63,7 @@
                                              name="{{ 'coordinates[' . $key . '][me]' }}"/>
                             </td>
                             <td>
-                                <x-jet-input readonly="true" id="point" class="form-control block mt-1 w-full" type="text" value="{{ isset($coordinate['mn']) ? $coordinate['mn'] : '' }}"
+                                <x-jet-input readonly="true" id="point" class="form-control block mt-1 w-full" type="text" value="{{ isset($coordinate['mn']) ? Str::replaceFirst(',', '.', $coordinate['mn']) : '' }}"
                                              name="{{ 'coordinates[' . $key . '][mn]' }}"/>
                             </td>
                             <td>
