@@ -111,10 +111,12 @@ class FormPrint extends Model
 
         $this->refs = Ref::where('field_type_id', $this->formValue->values['matrix'])
         ->where("type", "Referências")
+        ->where("turbidity", isset($this->formValue->values['turbidity']))
         ->get();
 
         $this->externalRefs = Ref::where('field_type_id', $this->formValue->values['matrix'])
         ->where("type", "Referência Externa")
+        ->where("turbidity", isset($this->formValue->values['turbidity']))
         ->get();
 
         if ($this->formValue->formRevs()->latest()->first()) {
