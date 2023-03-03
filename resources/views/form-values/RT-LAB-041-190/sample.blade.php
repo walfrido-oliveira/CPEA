@@ -167,7 +167,9 @@
                             <tr>
                         @endforeach
                     </tbody>
-                    @include('form-values.RT-LAB-041-190.sample-footer')
+                    <tfoot id="table_result_footer">
+                        @include('form-values.RT-LAB-041-190.sample-footer')
+                    </tfoot>
                 </table>
             </div>
             @if (isset(array_chunk($sample['results'], 3)[1]))
@@ -233,7 +235,84 @@
                                     <tr>
                                 @endforeach
                             </tbody>
-                            @include('form-values.RT-LAB-041-190.sample-footer')
+                            <tfoot id="table_result_footer">
+                                @include('form-values.RT-LAB-041-190.sample-footer')
+                                <tr>
+                                    <td colspan="10" class="text-center text-white" style="background-color: rgb(0, 94, 16)">% DPR</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        @if(isset($value['temperature']) && $formValue->svgs['row_' . ($i)]['temperature'] != 0)
+                                            {{ number_format($formValue->dpr['row_' . ($i)]['temperature'], 2, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($value['ph']) && $formValue->svgs['row_' . ($i)]['ph'] != 0)
+                                            {{ number_format($formValue->dpr['row_' . ($i)]['ph'], 2, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($value['orp']) && $formValue->svgs['row_' . ($i)]['orp'] != 0)
+                                            {{ number_format($formValue->dpr['row_' . ($i)]['orp'], 2, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($value['conductivity']) && $formValue->svgs['row_' . ($i)]['conductivity'] != 0)
+                                            {{ number_format($formValue->dpr['row_' . ($i)]['conductivity'], 2, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($value['salinity']) && $formValue->svgs['row_' . ($i)]['salinity'] != 0)
+                                            {{ number_format($formValue->dpr['row_' . ($i)]['salinity'], 2, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($value['psi']) && $formValue->svgs['row_' . ($i)]['psi'] != 0)
+                                            {{ number_format($formValue->dpr['row_' . ($i)]['psi'], 2, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($value['sat']) && $formValue->svgs['row_' . ($i)]['sat'] != 0)
+                                            {{ number_format($formValue->dpr['row_' . ($i)]['sat'], 2, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($value['conc']) && $formValue->svgs['row_' . ($i)]['conc'] != 0)
+                                            {{ number_format($formValue->dpr['row_' . ($i)]['conc'], 2, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($value['eh']) && $formValue->svgs['row_' . ($i)]['eh'] != 0)
+                                            {{ number_format($formValue->dpr['row_' . ($i)]['eh'], 1, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if(isset($value['ntu']) && $formValue->svgs['row_' . ($i)]['ntu'] != 0)
+                                            {{ number_format($formValue->dpr['row_' . ($i)]['ntu'], 1, ",", ".") }}
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                <tr>
+                            </tfoot>
                         </table>
                     @endif
                 </div>
