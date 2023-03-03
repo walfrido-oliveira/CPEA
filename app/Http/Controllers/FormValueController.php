@@ -6,6 +6,7 @@ use App\Models\Form;
 use App\Models\User;
 use App\Models\Customer;
 use App\Models\FieldType;
+use App\Models\FormPrint;
 use App\Models\FormValue;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -159,15 +160,20 @@ class FormValueController extends Controller
     public function edit(Request $request, $id)
     {
         $formValue = FormValue::findOrFail($id);
+
         $users = User::whereHas('occupation', function($q) {
             $q->where('occupations.name', 'Técnico de Campo');
         })->get()->pluck('full_name', 'id');
+
         $customers = Customer::where('status', 'active')->pluck('name', 'id');
         $fields = FieldType::pluck('name', 'id');
         $floatingMaterials = ["Ausênte" => "Ausênte", "Presente" => "Presente"];
         $form = $formValue->form;
         $project_id = $formValue->values["project_id"];
-        return view("form-values.$form->name", compact( "form", "project_id", "formValue", "users", "customers", "fields", "floatingMaterials"));
+        $formPrint = new FormPrint($formValue, false);
+
+        return view("form-values.$form->name", compact( "form", "project_id", "formValue", "users",
+                                                        "customers", "fields", "floatingMaterials", "formPrint"));
     }
 
     /**

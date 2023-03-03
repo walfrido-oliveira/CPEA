@@ -65,7 +65,7 @@
         @include('form-values.print.sub-header')
         <div id="results">
             @if (isset($formPrint->formValue->values['samples']))
-                @foreach (array_chunk($formPrint->formValue->values['samples'], 5, true) as $samples)
+                @foreach (array_chunk($formPrint->formValue->values['samples'], 5, true) as  $samples)
                     <div class="inner-results">
                         <h3>Resultados de Parâmetros Físico-Químicos</h3>
                         <h4>RELATÓRIO - {{ $formPrint->formValue->values["project_id"] }} </h4>
@@ -120,6 +120,7 @@
                                             <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px;">Parâmetro</th>
                                             <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px; border-left: 0px;">Unidade</th>
                                             <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px; border-left: 0px;">Resultado</th>
+                                            <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px; border-left: 0px;">Incerteza</th>
                                             <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px; border-left: 0px;">LQ</th>
                                             <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-left: 0px;">Faixa</th>
                                         </tr>
@@ -141,6 +142,9 @@
                                                             {{ number_format($formPrint->formValue->svgs[$key][$key2], $formPrint->places[$key2], ",", ".") }}
                                                         @endif
                                                     @endif
+                                                </td>
+                                                <td style="text-align: center; border: 0px;">
+                                                    {{ isset($sample[$key2 . "_uncertainty_footer"]) ? number_format($sample[$key2 . "_uncertainty_footer"], 2, ",", ".") : '-'}}
                                                 </td>
                                                 <td style="text-align: center; border: 0px;">
                                                     {{ $formPrint->LQ[$key2] }}
