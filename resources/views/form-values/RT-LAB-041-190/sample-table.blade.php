@@ -54,7 +54,13 @@
                                 {{ $formPrint->unities[$key] }}
                             </td>
                             <td>
-                                {{ number_format($formValue->svgs['row_' . ($i)][$key], $formPrint->places[$key], ",", ".") }}
+                                @if(isset($formPrint->formValue->svgs['row_' . ($i)][$key]))
+                                    @if($key == 'conc' && $formPrint->LQ[$key] > $formPrint->formValue->svgs['row_' . ($i)][$key])
+                                        {{'< ' . number_format(Str::replaceFirst(',', '.', $formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
+                                    @else
+                                        {{ number_format($formPrint->formValue->svgs['row_' . ($i)][$key], $formPrint->places[$key], ",", ".") }}
+                                    @endif
+                                @endif
                             </td>
                             <td>
                                 {{ isset($sample[$key . "_uncertainty_footer"]) ? number_format($sample[$key . "_uncertainty_footer"], 2, ",", ".") : '-'}}
