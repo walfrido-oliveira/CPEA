@@ -189,7 +189,6 @@
                                     <th scope="col"  class="custom-th">{{ __('Oxigênio Dissolvido (CONC) [mg/l]') }}</th>
                                     <th scope="col"  class="custom-th">{{ __('EH [mV]') }}</th>
                                     <th scope="col"  class="custom-th">{{ __('Turbidez [NTU]') }}</th>
-                                    <th scope="col"  class="custom-th">{{ __('Incerteza') }}</th>
                                 </tr>
                             </thead>
                             <tbody id="table_result">
