@@ -107,17 +107,29 @@ class FormPrint extends Model
             $this->LQ["ntu"] = "";
             $this->unities["ntu"] = "NTU";
             $this->parameters["ntu"] = "Turbidez";
+
+            $this->refs = Ref::where('field_type_id', $this->formValue->values['matrix'])
+            ->where("type", "Referências")
+            ->get();
+
+            $this->externalRefs = Ref::where('field_type_id', $this->formValue->values['matrix'])
+            ->where("type", "Referência Externa")
+            ->get();
+
+        } else {
+            $this->refs = Ref::where('field_type_id', $this->formValue->values['matrix'])
+            ->where("type", "Referências")
+            ->where("turbidity", false)
+            ->get();
+
+            $this->externalRefs = Ref::where('field_type_id', $this->formValue->values['matrix'])
+            ->where("type", "Referência Externa")
+            ->where("turbidity", false)
+            ->get();
         }
 
-        $this->refs = Ref::where('field_type_id', $this->formValue->values['matrix'])
-        ->where("type", "Referências")
-        ->where("turbidity", isset($this->formValue->values['turbidity']))
-        ->get();
 
-        $this->externalRefs = Ref::where('field_type_id', $this->formValue->values['matrix'])
-        ->where("type", "Referência Externa")
-        ->where("turbidity", isset($this->formValue->values['turbidity']))
-        ->get();
+
 
         if ($this->formValue->formRevs()->latest()->first()) {
             $this->lastRev = $this->formValue->formRevs()->latest()->first();
