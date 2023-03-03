@@ -264,6 +264,7 @@
     @include("form-values.RT-LAB-041-190.environment-modal")
     @include("form-values.RT-LAB-041-190.rev-modal")
     @include("form-values.RT-LAB-041-190.signer-modal")
+    @include("form-values.RT-LAB-041-190.add-results-modal")
     @include("form-values.RT-LAB-041-190.scripts")
 
 </x-app-layout>

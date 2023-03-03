@@ -289,19 +289,21 @@ class FormValueController extends Controller
         $samples["samples"][$input["sample_index"]]["environment"] = $input["environment"];
         $samples["samples"][$input["sample_index"]]["collect"] = $input["collect"];
 
-        $samples["samples"][$input["sample_index"]]["eh_footer"] = $input["samples"][$input["sample_index"]]["eh_footer"];
-        $samples["samples"][$input["sample_index"]]["ntu_footer"] = $input["samples"][$input["sample_index"]]["ntu_footer"];
+        if (isset($input["samples"])) {
+            $samples["samples"][$input["sample_index"]]["eh_footer"] = $input["samples"][$input["sample_index"]]["eh_footer"];
+            $samples["samples"][$input["sample_index"]]["ntu_footer"] = $input["samples"][$input["sample_index"]]["ntu_footer"];
 
-        $samples["samples"][$input["sample_index"]]["temperature_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["temperature_uncertainty_footer"];
-        $samples["samples"][$input["sample_index"]]["ph_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["ph_uncertainty_footer"];
-        $samples["samples"][$input["sample_index"]]["orp_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["orp_uncertainty_footer"];
-        $samples["samples"][$input["sample_index"]]["conductivity_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["conductivity_uncertainty_footer"];
-        $samples["samples"][$input["sample_index"]]["salinity_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["salinity_uncertainty_footer"];
-        $samples["samples"][$input["sample_index"]]["psi_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["psi_uncertainty_footer"];
-        $samples["samples"][$input["sample_index"]]["sat_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["sat_uncertainty_footer"];
-        $samples["samples"][$input["sample_index"]]["conc_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["conc_uncertainty_footer"];
-        $samples["samples"][$input["sample_index"]]["eh_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["eh_uncertainty_footer"];
-        $samples["samples"][$input["sample_index"]]["ntu_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["ntu_uncertainty_footer"];
+            $samples["samples"][$input["sample_index"]]["temperature_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["temperature_uncertainty_footer"];
+            $samples["samples"][$input["sample_index"]]["ph_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["ph_uncertainty_footer"];
+            $samples["samples"][$input["sample_index"]]["orp_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["orp_uncertainty_footer"];
+            $samples["samples"][$input["sample_index"]]["conductivity_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["conductivity_uncertainty_footer"];
+            $samples["samples"][$input["sample_index"]]["salinity_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["salinity_uncertainty_footer"];
+            $samples["samples"][$input["sample_index"]]["psi_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["psi_uncertainty_footer"];
+            $samples["samples"][$input["sample_index"]]["sat_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["sat_uncertainty_footer"];
+            $samples["samples"][$input["sample_index"]]["conc_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["conc_uncertainty_footer"];
+            $samples["samples"][$input["sample_index"]]["eh_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["eh_uncertainty_footer"];
+            $samples["samples"][$input["sample_index"]]["ntu_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["ntu_uncertainty_footer"];
+        }
 
         if (isset($input["samples"][$input["sample_index"]]["results"])) {
             foreach ($input["samples"][$input["sample_index"]]["results"] as $key => $value ) {

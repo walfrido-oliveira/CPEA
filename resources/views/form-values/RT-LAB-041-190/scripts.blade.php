@@ -730,6 +730,50 @@
         modal.classList.add("block");
     });
 
+    document.querySelectorAll(".add-results").forEach(item => {
+        item.addEventListener("click", function() {
+            var modal = document.getElementById("add_results_modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("block");
+            document.querySelector("#confirm_add_results_modal").dataset.index = item.dataset.index;
+            document.querySelector("#confirm_add_results_modal").dataset.row = item.dataset.row;
+        });
+    });
+
+    document.querySelector("#confirm_add_results_modal").addEventListener("click", function() {
+        document.getElementById("spin_load").classList.remove("hidden");
+
+        let that = this;
+        let ajax = new XMLHttpRequest();
+        let url = "{!! route('fields.form-values.import.add-results') !!}";
+        let token = document.querySelector('meta[name="csrf-token"]').content;
+        let method = 'POST';
+        let form_value_id = document.querySelector(`#form_value_id`).value;
+        let sample_index = document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`).value;
+        let amount = document.querySelector(`#add_results_modal #amount`).value;
+
+        ajax.open(method, url);
+
+        ajax.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var resp = JSON.parse(ajax.response);
+                toastr.success(resp.message);
+                location.reload();
+            } else if (this.readyState == 4 && this.status != 200) {
+                toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+            }
+        }
+
+        var data = new FormData();
+        data.append('_token', token);
+        data.append('_method', method);
+        data.append('form_value_id', form_value_id);
+        data.append('sample_index', sample_index);
+        data.append('amount', amount);
+
+        ajax.send(data);
+    });
+
     document.getElementById("help").addEventListener("click", function() {
         var modal = document.getElementById("modal");
         modal.classList.remove("hidden");
@@ -764,7 +808,7 @@
                     modalRev.classList.remove("hidden");
                     modalRev.classList.add("block");
                    } else {
-                    var url = `{{ route('fields.form-values.signer', ['form_value' => $formValue->id, 'project_id' => isset($formValue) ? $formValue->values['project_id'] : '' . ".pdf"]) }}`;
+                    var url = `@if($formValue) {{ route('fields.form-values.signer', ['form_value' => $formValue->id, 'project_id' => isset($formValue) ? $formValue->values['project_id'] : '' . ".pdf"]) }} @endif`;
                     window.open(url, '_blank').focus();
                    }
                 } else if (this.readyState == 4 && this.status != 200) {
@@ -798,7 +842,7 @@
                     modalRev.classList.add("hidden");
                     modalRev.classList.remove("block");
 
-                    var url = `{{ route('fields.form-values.signer', ['form_value' => $formValue->id, 'project_id' => isset($formValue) ? $formValue->values['project_id'] : '' . ".pdf"]) }}`;
+                    var url = `@if($formValue) {{ route('fields.form-values.signer', ['form_value' => $formValue->id, 'project_id' => isset($formValue) ? $formValue->values['project_id'] : '' . ".pdf"]) }} @endif`;
                     url = url + `?rev_id=${resp.form_rev.id}`;
                     window.open(url, '_blank').focus();
                 } else if (this.readyState == 4 && this.status != 200) {
@@ -818,6 +862,12 @@
 
     document.getElementById("cancel_rev_modal").addEventListener("click", function() {
         var modal = document.getElementById("rev_modal");
+        modal.classList.add("hidden");
+        modal.classList.remove("block");
+    });
+
+    document.getElementById("cancel_add_results_modal").addEventListener("click", function() {
+        var modal = document.getElementById("add_results_modal");
         modal.classList.add("hidden");
         modal.classList.remove("block");
     });

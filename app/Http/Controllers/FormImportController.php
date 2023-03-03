@@ -125,6 +125,70 @@ class FormImportController extends Controller
         return response()->json($resp);
     }
 
+     /**
+     * Add results
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function addResults(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            "form_value_id" => ["required", "exists:form_values,id"],
+            "sample_index" => ["required"],
+            "amount" => ["required"],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                "message" => implode("<br>", $validator->messages()->all()),
+                    "alert-type" => "error",
+                ],403
+            );
+        }
+
+        $inputs = $request->all();
+        $formValue = FormValue::findOrFail($inputs["form_value_id"]);
+        $samples = $formValue->values;
+
+        $max = 0;
+
+        if($samples["samples"][$inputs["sample_index"]]["results"]) {
+            $keys = array_keys($samples["samples"][$inputs["sample_index"]]["results"]);
+            foreach ($keys as $value) {
+                if($value > $max) $max = $value;
+            }
+        }
+
+        $max++;
+
+        for ($i = 1; $i <= $inputs["amount"]; $i++) {
+
+            $samples["samples"][$inputs["sample_index"]]["results"][$max]["temperature"] = null;
+            $samples["samples"][$inputs["sample_index"]]["results"][$max]["ph"] = null;
+            $samples["samples"][$inputs["sample_index"]]["results"][$max]["orp"] = null;
+            $samples["samples"][$inputs["sample_index"]]["results"][$max]["conductivity"] = null;
+            $samples["samples"][$inputs["sample_index"]]["results"][$max]["salinity"] = null;
+            $samples["samples"][$inputs["sample_index"]]["results"][$max]["psi"] = null;
+            $samples["samples"][$inputs["sample_index"]]["results"][$max]["sat"] = null;
+            $samples["samples"][$inputs["sample_index"]]["results"][$max]["conc"] = null;
+            $samples["samples"][$inputs["sample_index"]]["results"][$max]["eh"] = null;
+            $samples["samples"][$inputs["sample_index"]]["results"][$max]["ntu"] = null;
+            $max++;
+        }
+
+        //dd($samples);
+        $formValue->values = $samples;
+        $formValue->save();
+
+        $resp = [
+            "message" => __("Dados importados com sucesso!"),
+            "alert-type" => "success",
+        ];
+
+        return response()->json($resp);
+    }
+
     /**
      *  Check column time
      *
