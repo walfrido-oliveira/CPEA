@@ -562,21 +562,21 @@ class FormImportController extends Controller
             $samples = $this->validadeSat($samples, "row_$max");
             $samples["samples"]["row_$max"]["invalid_rows"] = $sampleCount > count($samples["samples"]["row_$max"]["results"]);
 
-            $sampleCount = count($samples["samples"][["row_$max"]]["results"]);
+            $sampleCount = count($samples["samples"]["row_$max"]["results"]);
             $sampleAdd = 3 - $sampleCount;
 
             if ($sampleAdd > 0) {
                 for ($i=0; $i < $sampleAdd; $i++) {
-                    $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["temperature"] = null;
-                    $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["ph"] = null;
-                    $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["orp"] = null;
-                    $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["conductivity"] = null;
-                    $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["salinity"] = null;
-                    $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["psi"] = null;
-                    $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["sat"] = null;
-                    $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["conc"] = null;
-                    $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["eh"] = null;
-                    $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["ntu"] = null;
+                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["temperature"] = null;
+                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["ph"] = null;
+                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["orp"] = null;
+                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["conductivity"] = null;
+                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["salinity"] = null;
+                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["psi"] = null;
+                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["sat"] = null;
+                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["conc"] = null;
+                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["eh"] = null;
+                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["ntu"] = null;
                 }
             }
 
