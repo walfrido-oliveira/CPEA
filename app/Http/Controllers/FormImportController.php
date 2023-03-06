@@ -562,7 +562,7 @@ class FormImportController extends Controller
             $samples = $this->validadeSat($samples, "row_$max");
             $samples["samples"]["row_$max"]["invalid_rows"] = $sampleCount > count($samples["samples"]["row_$max"]["results"]);
 
-            $sampleCount = count($samples["samples"][$inputs["sample_index"]]["results"]);
+            $sampleCount = count($samples["samples"][["row_$max"]]["results"]);
             $sampleAdd = 3 - $sampleCount;
 
             if ($sampleAdd > 0) {
