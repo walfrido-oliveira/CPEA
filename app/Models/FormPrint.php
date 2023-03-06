@@ -47,8 +47,8 @@ class FormPrint extends Model
         $this->header = Config::get("form_header");
         $this->footer = Config::get("form_footer");
 
-        $this->user = isset($this->formValue->values["responsible"]) ? User::find($this->formValue->values["responsible"]) : null;
-        $this->customer = isset($this->formValue->values['client']) ? Customer::find($this->formValue->values['client']) : null;
+        if(isset($this->formValue->values["responsible"])) $this->user = User::find($this->formValue->values["responsible"]);
+        if(isset($this->formValue->values['client'])) $this->customer = Customer::find($this->formValue->values['client']);
 
         $this->pathSigner = $this->user ? $this->user->signer : null;
 
