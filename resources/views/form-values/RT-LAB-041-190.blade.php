@@ -207,6 +207,15 @@
                                     <span class="text-sm text-gray-700 leading-5 m-0 inline-flex">colunas por linha</span>
                                 </p>
                             </div>
+
+                            <div class="w-1/3 items-center flex mt-3">
+                                <p class="text-sm text-gray-700 leading-5 m-0 inline-flex">
+                                    Filtrar por
+                                    <div class="w-1/2 inline-flex ml-1 mr-1">
+                                        <x-custom-select data-reverse="true" select-class="no-nice-select" :options="['point' => 'Nome do Ponto', 'collect' => 'Data e Hora de Coleta']" name="mode_list_filter" id="mode_list_filter" :value="'point'"/>
+                                    </div>
+                                </p>
+                            </div>
                         </div>
 
                         <div id="mode_sample_table" class="w-full" style="display: none">

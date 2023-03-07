@@ -394,18 +394,22 @@
 </script>
 
 <script>
-    document.getElementById("mode_list_count").addEventListener("change", function() {
-        filterModeList(this.value);
+    document.querySelectorAll("#mode_list_count, #mode_list_filter").forEach( item => {
+        item.addEventListener("change", function(e) {
+            filterModeList(this.value);
+        });
     });
 
-    function filterModeList(count) {
+    function filterModeList() {
         document.getElementById("spin_load").classList.remove("hidden");
         let ajax = new XMLHttpRequest();
         let token = document.querySelector('meta[name="csrf-token"]').content;
         let method = 'POST';
         let form_value_id = document.querySelector(`#form_value_id`).value;
+        let count = document.querySelector("#mode_list_count").value;
         let url = "{!! route('fields.form-values.get-sample-list', ['form_value' => '#', 'count' => '?']) !!}".replace('#', form_value_id).replace('?', count);
         let type = document.querySelector("#filter_samples .active").dataset.status;
+        let mode_list_filter = document.querySelector("#mode_list_filter").value;
 
         ajax.open(method, url);
 
@@ -418,7 +422,6 @@
             } else if (this.readyState == 4 && this.status != 200) {
                 document.getElementById("spin_load").classList.add("hidden");
                 toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
-                that.value = '';
             }
         }
 
@@ -428,6 +431,7 @@
         data.append('id', form_value_id);
         data.append('count', count);
         data.append('type', type);
+        data.append('mode_list_filter', mode_list_filter);
 
         ajax.send(data);
     }

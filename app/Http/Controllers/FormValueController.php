@@ -513,22 +513,39 @@ class FormValueController extends Controller
       $formValue = FormValue::findOrFail($id);
       $svgsTemp = $formValue->svgs;
       $type = $request->has("type") ? $request->get("type") : "default";
+      $filter = $request->has("mode_list_filter") ? $request->get("mode_list_filter") : "point";
       $samples = [];
       $svgs = [];
-
+      $samplesValues = $formValue->values;
       if(isset($formValue->values["samples"])) {
-            foreach ($formValue->values['samples'] as $key => $value) {
-                if(isset($value['results'])) {
-                    if(count(array_chunk($value['results'], 3)) > 1 && $type == "duplicates") {
-                        $samples[$key] = $value;
-                        $svgs[$key] = $svgsTemp[$key];
-                    } else if($type == "default") {
-                        $samples[$key] = $value;
-                        $svgs[$key] = $svgsTemp[$key];
-                    }
+
+        switch ($filter) {
+          case 'point':
+            uasort($samplesValues["samples"], function($a, $b) {
+                $arr[] = $a;
+                $arr[] = $b;
+                sort($arr);
+                return ($arr[0] == $a) ? 1 : -1;
+            });
+            break;
+
+          default:
+            break;
+        }
+        //dd($samplesValues["samples"]);
+
+        foreach ($samplesValues['samples'] as $key => $value) {
+            if(isset($value['results'])) {
+                if(count(array_chunk($value['results'], 3)) > 1 && $type == "duplicates") {
+                    $samples[$key] = $value;
+                    $svgs[$key] = $svgsTemp[$key];
+                } else if($type == "default") {
+                    $samples[$key] = $value;
+                    $svgs[$key] = $svgsTemp[$key];
                 }
             }
         }
+      }
 
       return response()->json([
           'viwer' => view("form-values." . $formValue->form->name . ".sample-list", compact("formValue", "count", "svgs", "type", "samples"))->render()

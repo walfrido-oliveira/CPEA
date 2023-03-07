@@ -130,9 +130,6 @@ class FormPrint extends Model
             ->get();
         }
 
-
-
-
         if ($this->formValue->formRevs()->latest()->first()) {
             $this->lastRev = $this->formValue->formRevs()->latest()->first();
         }
