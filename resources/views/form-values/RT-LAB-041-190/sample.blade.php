@@ -239,7 +239,6 @@
                                 @endforeach
                             </tbody>
                             <tfoot id="table_result_footer">
-                                @include('form-values.RT-LAB-041-190.sample-footer')
                                 <tr>
                                     <td colspan="10" class="text-center text-white" style="background-color: rgb(0, 94, 16)">% DPR</td>
                                 </tr>

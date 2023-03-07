@@ -141,7 +141,11 @@
                                                         @if($key2 == 'conc' && $formPrint->LQ[$key2] > $formPrint->formValue->svgs[$key][$key2])
                                                             {{'< ' . number_format(Str::replaceFirst(',', '.', $formPrint->LQ[$key2]), $formPrint->places[$key2], ",", ".") }}
                                                         @else
-                                                            {{ number_format($formPrint->formValue->svgs[$key][$key2], $formPrint->places[$key2], ",", ".") }}
+                                                            @if($key2 == 'eh' || $key2 == 'ntu')
+                                                                {{ number_format($sample[$key2 .  '_footer'], $formPrint->places[$key2], ",", ".") }}
+                                                            @else
+                                                                {{ number_format($formPrint->formValue->svgs[$key][$key2], $formPrint->places[$key2], ",", ".") }}
+                                                            @endif
                                                         @endif
                                                     @endif
                                                 </td>

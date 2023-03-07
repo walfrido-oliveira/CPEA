@@ -81,7 +81,8 @@
             type="number" value="{{ $sample['ntu_footer'] != 0 ? number_format($sample['ntu_footer'], 0) : '' }}"
             name="{{ isset($i) ? 'samples[row_' . ($i) . '][ntu_footer]' : 'samples[row_0][ntu_footer]' }}" />
         @else
-            <x-jet-input id="ntu_footer_0" class="form-control block mt-1 w-full ntu_footer" type="number" value="" name="samples[row_0][ntu_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+            <x-jet-input id="ntu_footer_0" class="form-control block mt-1 w-full ntu_footer" type="number" value=""
+            name="samples[row_0][ntu_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
         @endif
     </td>
 </tr>
