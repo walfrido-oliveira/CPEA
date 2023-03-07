@@ -57,6 +57,16 @@ class FormPrintController extends Controller
       $formValue = FormValue::findOrFail($id);
       $formPrint = new FormPrint($formValue, true);
 
+      if(!isset($formValue->values["samples"]) || !isset($formValue->values["coordinates"]) ||
+         !isset($formValue->values["additional_info"]) || !isset($formValue->values["approval_text"]) ||
+         $formValue->values["additional_info"] == '' || $formValue->values["approval_text"] == '') {
+        $resp = [
+            "message" => __("Laudo não possuí todos dados preenchidos!"),
+            "alert-type" => "error",
+        ];
+        return redirect()->route('fields.form-values.index')->with($resp);
+      }
+
       if($formValue->signed && !$request->has('rev_id')) {
         $resp = [
             "message" => __("Laudo não pode ser assiando sem uma revisão!"),
