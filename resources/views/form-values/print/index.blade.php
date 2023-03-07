@@ -120,7 +120,9 @@
                                             <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px;">Parâmetro</th>
                                             <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px; border-left: 0px;">Unidade</th>
                                             <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px; border-left: 0px;">Resultado</th>
-                                            <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px; border-left: 0px;">Incerteza</th>
+                                            @if(isset($formPrint->formValue->values['uncertainty']))
+                                                <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px; border-left: 0px;">Incerteza</th>
+                                            @endif
                                             <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-right: 0px; border-left: 0px;">LQ</th>
                                             <th style="text-align: center; border-top: 1px #000 solid; border-bottom: 1px #000 solid; border-left: 0px;">Faixa</th>
                                         </tr>
@@ -143,9 +145,11 @@
                                                         @endif
                                                     @endif
                                                 </td>
-                                                <td style="text-align: center; border: 0px;">
-                                                    {{ isset($sample[$key2 . "_uncertainty_footer"]) ? number_format($sample[$key2 . "_uncertainty_footer"], 2, ",", ".") : '-'}}
-                                                </td>
+                                                @if(isset($formPrint->formValue->values['uncertainty']))
+                                                    <td style="text-align: center; border: 0px;">
+                                                        {{ isset($sample[$key2 . "_uncertainty_footer"]) ? '±' . number_format($sample[$key2 . "_uncertainty_footer"], 2, ",", ".") : '-'}}
+                                                    </td>
+                                                @endif
                                                 <td style="text-align: center; border: 0px;">
                                                     {{ $formPrint->LQ[$key2] }}
                                                 </td>

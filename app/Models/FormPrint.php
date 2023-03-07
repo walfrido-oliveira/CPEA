@@ -54,8 +54,6 @@ class FormPrint extends Model
 
         if(isset($this->formValue->values['client'])) $this->customer = Customer::find($this->formValue->values['client']);
 
-
-
         $this->logo = File::exists($this->pathLogo) ? base64_encode(file_get_contents($this->pathLogo)) : null;
         $this->crl = File::exists($this->pathCert) ? base64_encode(file_get_contents($this->pathCert)) : null;
         $this->signer = File::exists($this->pathSigner) ? base64_encode(file_get_contents($this->pathSigner)) : null;
@@ -107,8 +105,8 @@ class FormPrint extends Model
 
         if(isset($this->formValue->values['turbidity'])) {
             $this->range["ntu"] = "-";
-            $this->places["ntu"] = 1;
-            $this->LQ["ntu"] = "";
+            $this->places["ntu"] = 0;
+            $this->LQ["ntu"] = "1";
             $this->unities["ntu"] = "NTU";
             $this->parameters["ntu"] = "Turbidez";
 

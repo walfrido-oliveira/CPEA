@@ -75,7 +75,7 @@
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0 grid gap-1 grid-cols-2">
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0 grid gap-1 grid-cols-2">
                             <label for="turbidity" class="flex items-center">
                                 <input id="turbidity" type="checkbox" class="form-checkbox" name="turbidity" value="true" @if(isset($formValue->values['turbidity'])) checked @endif>
                                 <span class="ml-2 text-sm text-gray-600">{{ __('Turbidez?') }}</span>
@@ -83,6 +83,10 @@
                             <label for="accreditation" class="flex items-center">
                                 <input id="accreditation" type="checkbox" class="form-checkbox" name="accreditation" value="true" @if(isset($formValue->values['accreditation'])) checked @endif>
                                 <span class="ml-2 text-sm text-gray-600">{{ __('Acreditado?') }}</span>
+                            </label>
+                            <label for="uncertainty" class="flex items-center">
+                                <input id="uncertainty" type="checkbox" class="form-checkbox" name="uncertainty" value="true" @if(isset($formValue->values['uncertainty'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Incerteza?') }}</span>
                             </label>
                         </div>
                     </div>
@@ -241,14 +245,18 @@
                         <div class="flex flex-wrap mt-4">
                             <div class="w-full px-3 mb-6 md:mb-0">
                                 <x-jet-label for="additional_info" value="{{ __('Informações Adicionais') }}" />
-                                <textarea class="editor form-input w-full ckeditor" name="additional_info" id="additional_info" cols="30" rows="10">{{ isset($formValue->values['additional_info']) ? $formValue->values['additional_info'] : null }}</textarea>
+                                <textarea class="editor form-input w-full ckeditor" name="additional_info" id="additional_info" cols="30" rows="10">
+                                    {{ isset($formValue->values['additional_info']) ? $formValue->values['additional_info'] : App\Models\Config::get("form_additional_info") }}
+                                </textarea>
                             </div>
                         </div>
 
                         <div class="flex flex-wrap mt-4">
                             <div class="w-full px-3 mb-6 md:mb-0">
                                 <x-jet-label for="approval_text" value="{{ __('Aprovação do Relatório') }}" />
-                                <textarea class="form-input w-full ckeditor" name="approval_text" id="approval_text" cols="30" rows="10">{{ isset($formValue->values['approval_text']) ? $formValue->values['approval_text'] : null }}</textarea>
+                                <textarea class="form-input w-full ckeditor" name="approval_text" id="approval_text" cols="30" rows="10">
+                                    {{ isset($formValue->values['approval_text']) ? $formValue->values['approval_text'] : App\Models\Config::get("form_approval_text") }}
+                                </textarea>
                             </div>
                         </div>
                     </div>

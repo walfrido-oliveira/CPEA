@@ -71,7 +71,7 @@
                                 {{ number_format($formValue->svgs[$key]['eh'], 0, ",", ".") }}
                             </p>
                             <p class="font-bold">
-                                {{ number_format($formValue->svgs[$key]['ntu'], 1, ",", ".") }}
+                                {{ number_format($formValue->svgs[$key]['ntu'], 0, ",", ".") }}
                             </p>
                         @endif
                     </div>
@@ -120,7 +120,7 @@
                                 {{ number_format($formValue->svgs[$key]['eh'], 0, ",", ".") }}
                             </p>
                             <p class="font-bold">
-                                {{ number_format($formValue->svgs[$key]['ntu'], 1, ",", ".") }}
+                                {{ number_format($formValue->svgs[$key]['ntu'], 0, ",", ".") }}
                             </p>
                         @endif
                     </div>

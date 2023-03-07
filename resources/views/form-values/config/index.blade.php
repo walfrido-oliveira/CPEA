@@ -48,6 +48,18 @@
                             <textarea class="form-input w-full ckeditor" name="form_footer" id="form_footer" cols="30" rows="10" required >{{ $footer ? $footer : old('form_footer')  }}</textarea>
                         </div>
                     </div>
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Informações adicionais')" for="form_additional_info" required/>
+                            <textarea class="form-input w-full ckeditor" name="form_additional_info" id="form_additional_info" cols="30" rows="10" required >{{ $additionalInfo ? $additionalInfo : old('form_additional_info')  }}</textarea>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Aprovação do Relatório')" for="form_approval_text" required/>
+                            <textarea class="form-input w-full ckeditor" name="form_approval_text" id="form_approval_text" cols="30" rows="10" required >{{ $approvalText ? $approvalText : old('form_approval_text')  }}</textarea>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
