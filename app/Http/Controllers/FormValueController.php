@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Form;
 use App\Models\User;
 use App\Models\Customer;
@@ -528,6 +529,13 @@ class FormValueController extends Controller
                 return ($arr[0] == $a) ? 1 : -1;
             });
             break;
+
+          case 'collect':
+            uasort($samplesValues["samples"], function($a, $b) {
+                $firstDate = Carbon::parse($a['collect']);
+                $secondDate = Carbon::parse($b['collect']);
+                return (!$firstDate->gt($secondDate)) ? 1 : -1;
+            });
 
           default:
             break;
