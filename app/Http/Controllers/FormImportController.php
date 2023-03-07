@@ -177,12 +177,66 @@ class FormImportController extends Controller
             $max++;
         }
 
-        //dd($samples);
         $formValue->values = $samples;
         $formValue->save();
 
         $resp = [
-            "message" => __("Dados importados com sucesso!"),
+            "message" => __("Dados adicionados com sucesso!"),
+            "alert-type" => "success",
+        ];
+
+        return response()->json($resp);
+    }
+
+    /**
+     * Add coordinates
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function addCoordinates(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            "form_value_id" => ["required", "exists:form_values,id"],
+            "amount" => ["required"],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                "message" => implode("<br>", $validator->messages()->all()),
+                    "alert-type" => "error",
+                ],403
+            );
+        }
+
+        $inputs = $request->all();
+        $formValue = FormValue::findOrFail($inputs["form_value_id"]);
+        $coordinates = $formValue->values;
+
+        $max = 0;
+
+        if($coordinates["coordinates"]) {
+            $keys = array_keys($coordinates["coordinates"]);
+            foreach ($keys as $value) {
+                if($value > $max) $max = $value;
+            }
+        }
+
+        $max++;
+
+        for ($i = 1; $i <= $inputs["amount"]; $i++) {
+            $coordinates["coordinates"][$max]["point"] = null;
+            $coordinates["coordinates"][$max]["zone"] = null;
+            $coordinates["coordinates"][$max]["me"] = null;
+            $coordinates["coordinates"][$max]["mn"] = null;
+            $max++;
+        }
+
+        $formValue->values = $coordinates;
+        $formValue->save();
+
+        $resp = [
+            "message" => __("Dados adicionados com sucesso!"),
             "alert-type" => "success",
         ];
 

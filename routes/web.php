@@ -284,6 +284,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
                 Route::post('/samples', [FormImportController::class, 'importSamples'])->name('samples');
                 Route::post('/results', [FormImportController::class, 'importResults'])->name('results');
                 Route::post('/add-results', [FormImportController::class, 'addResults'])->name('add-results');
+                Route::post('/add-coordinates', [FormImportController::class, 'addCoordinates'])->name('add-coordinates');
             });
 
             Route::get('/print/{form_value}/{project_id}', [FormPrintController::class, 'print'])->name('print');

@@ -730,7 +730,7 @@
         modal.classList.add("block");
     });
 
-    document.querySelectorAll(".add-results").forEach(item => {
+    document.querySelectorAll(".add-results, .add-coordinates").forEach(item => {
         item.addEventListener("click", function() {
             var modal = document.getElementById("add_results_modal");
             modal.classList.remove("hidden");
@@ -745,12 +745,13 @@
 
         let that = this;
         let ajax = new XMLHttpRequest();
-        let url = "{!! route('fields.form-values.import.add-results') !!}";
         let token = document.querySelector('meta[name="csrf-token"]').content;
         let method = 'POST';
         let form_value_id = document.querySelector(`#form_value_id`).value;
-        let sample_index = document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`).value;
+        let sample_index = document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`) ?
+        document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`).value : null;
         let amount = document.querySelector(`#add_results_modal #amount`).value;
+        let url = sample_index ? "{!! route('fields.form-values.import.add-results') !!}" : "{!! route('fields.form-values.import.add-coordinates') !!}";
 
         ajax.open(method, url);
 
