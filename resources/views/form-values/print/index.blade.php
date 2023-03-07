@@ -142,7 +142,7 @@
                                                             {{'< ' . number_format(Str::replaceFirst(',', '.', $formPrint->LQ[$key2]), $formPrint->places[$key2], ",", ".") }}
                                                         @else
                                                             @if($key2 == 'eh' || $key2 == 'ntu')
-                                                                {{ number_format($sample[$key2 .  '_footer'], $formPrint->places[$key2], ",", ".") }}
+                                                                {{ isset($sample[$key2 .  '_footer']) ? number_format($sample[$key2 .  '_footer'], $formPrint->places[$key2], ",", ".") : '-' }}
                                                             @else
                                                                 {{ number_format($formPrint->formValue->svgs[$key][$key2], $formPrint->places[$key2], ",", ".") }}
                                                             @endif
