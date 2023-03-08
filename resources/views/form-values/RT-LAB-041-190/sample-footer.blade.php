@@ -181,19 +181,7 @@
         @endif
     </td>
     <td>
-        @php
-            if(!isset($sample['eh_uncertainty_footer'])) :
-                $sample['eh_uncertainty_footer'] = "-";
-            endif;
-        @endphp
-        @if(isset($sample['eh_uncertainty_footer']))
-            <x-jet-input readonly="{{ !$formValue ? false : true}}" id="eh_uncertainty_footer_{{ isset($i) ? $i : 0 }}"
-            class="form-control block mt-1 w-full eh_uncertainty_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
-            type="number" value="{{ is_numeric($sample['eh_uncertainty_footer']) ? number_format($sample['eh_uncertainty_footer'], 0) : $sample['eh_uncertainty_footer'] }}"
-            name="{{ isset($i) ? 'samples[row_' . ($i) . '][eh_uncertainty_footer]' : 'samples[row_0][eh_uncertainty_footer]' }}" />
-        @else
-            <x-jet-input id="eh_uncertainty_footer_0" class="form-control block mt-1 w-full eh_uncertainty_footer" type="number" value="" name="samples[row_0][eh_uncertainty_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
-        @endif
+        -
     </td>
     <td>
         @php
