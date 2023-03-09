@@ -262,7 +262,7 @@
     }
 
     #infos .uncertainty-text {
-        margin-top: 20px;
+        margin-top: 40px;
     }
 
     #infos .additional-info p {
