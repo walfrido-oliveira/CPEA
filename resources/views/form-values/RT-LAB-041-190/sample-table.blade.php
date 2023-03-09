@@ -26,7 +26,7 @@
                             @if(isset($sample['environment'])) {{ $sample['environment'] }} @endif
                         </td>
                         <td>
-                            {{ isset($form->values['matrix']) ? App\Models\FieldType::find($form->values['matrix'])->name : '-' }}
+                            {{ isset($formValue->values['matrix']) ? App\Models\FieldType::find($formValue->values['matrix'])->name : null }}
                         </td>
                     <tr>
                 </tbody>
@@ -63,7 +63,7 @@
                                 @endif
                             </td>
                             <td>
-                                {{ isset($sample[$key . "_uncertainty_footer"]) ? number_format($sample[$key . "_uncertainty_footer"], 2, ",", ".") : '-'}}
+                                {{ isset($sample[$key . "_uncertainty_footer"]) ?  '± ' . $sample[$key . "_uncertainty_footer"] : '-'}}
                             </td>
                             <td>
                                 {{ $formPrint->LQ[$key] }}

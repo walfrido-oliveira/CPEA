@@ -238,6 +238,11 @@
             <div class="additional-info">
                 @if(isset($formPrint->formValue->values["additional_info"])) {!! $formPrint->formValue->values["additional_info"] !!} @endif
             </div>
+            @if(isset($formPrint->formValue->values['uncertainty']))
+                <div class="uncertainty-text">
+                    {!! $formPrint->uncertaintyText !!}
+                </div>
+            @endif
             <div class="approval-text-container">
                 <p><b>Aprovação do Relatório</b></p>
                 <div class="additional-info">

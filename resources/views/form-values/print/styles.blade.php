@@ -207,11 +207,6 @@
         margin-top: 5px;
     }
 
-    .additional-info p {
-        font-size: 6.5pt ;
-        line-height: 20px;
-    }
-
     #signer {
         width: 150px;
         margin-top: 120px;
@@ -258,11 +253,22 @@
         margin-bottom: 40px;
     }
 
-    #infos .additional-info {
+    #infos .additional-info,
+    #infos .uncertainty-text  {
         margin: auto;
         width: 80%;
         font-size: 6.5pt;
         margin-top: 5px;
+    }
+
+    #infos .additional-info p {
+        font-size: 6.5pt ;
+        line-height: 20px;
+    }
+
+    #infos .uncertainty-text p {
+        font-size: 6.5pt ;
+        line-height: 20px;
     }
 
     #infos .approval-text-container {

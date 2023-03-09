@@ -23,8 +23,9 @@ class FormConfigController extends Controller
         $footer = Config::get('form_footer');
         $additionalInfo = Config::get('form_additional_info');
         $approvalText = Config::get('form_approval_text');
+        $uncertaintyText = Config::get('form_uncertainty_text');
 
-        return view('form-values.config.index', compact('logo', 'cert', 'header', 'footer', 'additionalInfo', 'approvalText'));
+        return view('form-values.config.index', compact('logo', 'cert', 'header', 'footer', 'additionalInfo', 'approvalText', 'uncertaintyText'));
     }
 
     /**

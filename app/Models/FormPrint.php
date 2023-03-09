@@ -16,6 +16,7 @@ class FormPrint extends Model
     public $pathCert;
     public $header;
     public $footer;
+    public $uncertaintyText;
     public $pathSigner;
     public $logo;
     public $crl;
@@ -46,6 +47,7 @@ class FormPrint extends Model
         $this->pathCert = Config::get("form_cert");
         $this->header = Config::get("form_header");
         $this->footer = Config::get("form_footer");
+        $this->uncertaintyText = Config::get('form_uncertainty_text');
 
         if(isset($this->formValue->values["responsible"])) {
             $this->user = User::find($this->formValue->values["responsible"]);
