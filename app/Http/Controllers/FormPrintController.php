@@ -18,15 +18,17 @@ class FormPrintController extends Controller
         $formValue = FormValue::findOrFail($id);
         $formPrint = new FormPrint($formValue, false);
 
-        $values = $formPrint->formValue->values;
-        $samples = $values['samples'];
-        $coordinates = $values['coordinates'];
-        $samples = $formValue->sortSamples('collect');
-        $coordinates = $formValue->sortCoordinates();
+        if(isset($formPrint->formValue->values['samples'])) {
+            $values = $formPrint->formValue->values;
+            $samples = $values['samples'];
+            $coordinates = $values['coordinates'];
+            $samples = $formValue->sortSamples('collect');
+            $coordinates = $formValue->sortCoordinates();
 
-        $values['samples'] = $samples;
-        $values['coordinates'] = $coordinates;
-        $formPrint->formValue->values = $values;
+            $values['samples'] = $samples;
+            $values['coordinates'] = $coordinates;
+            $formPrint->formValue->values = $values;
+        }
 
         $html = view('form-values.print.index', compact('formPrint'))->render();
 
