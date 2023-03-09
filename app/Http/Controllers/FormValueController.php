@@ -173,6 +173,15 @@ class FormValueController extends Controller
         $project_id = $formValue->values["project_id"];
         $formPrint = new FormPrint($formValue, false);
 
+        $samples = $formValue->values;
+        uasort($samples["samples"], function($a, $b) {
+            $arr[] = $a;
+            $arr[] = $b;
+            sort($arr);
+            return ($arr[0] == $a) ? 1 : -1;
+        });
+        $formValue->values = $samples;
+
         return view("form-values.$form->name", compact( "form", "project_id", "formValue", "users",
                                                         "customers", "fields", "floatingMaterials", "formPrint"));
     }
@@ -536,12 +545,8 @@ class FormValueController extends Controller
                 $secondDate = Carbon::parse($b['collect']);
                 return (!$firstDate->gt($secondDate)) ? 1 : -1;
             });
-
-          default:
             break;
         }
-        //dd($samplesValues["samples"]);
-
         foreach ($samplesValues['samples'] as $key => $value) {
             if(isset($value['results'])) {
                 if(count(array_chunk($value['results'], 3)) > 1 && $type == "duplicates") {
@@ -556,7 +561,8 @@ class FormValueController extends Controller
       }
 
       return response()->json([
-          'viwer' => view("form-values." . $formValue->form->name . ".sample-list", compact("formValue", "count", "svgs", "type", "samples"))->render()
+          'viwer' => view("form-values." . $formValue->form->name . ".sample-list",
+          compact("formValue", "count", "svgs", "type", "samples"))->render()
       ]);
     }
 
