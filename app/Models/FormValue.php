@@ -234,12 +234,31 @@ class FormValue extends Model
     public function getSvgsAttribute()
     {
         $svgs = [];
+        $sizeTemperature = 0;
+        $sizePh = 0;
+        $sizeOrp = 0;
+        $sizeConductivity = 0;
+        $sizeSalinity = 0;
+        $sizePsi = 0;
+        $sizeSat = 0;
+        $sizeConc = 0;
+        $sizeNtu = 0;
 
         if (isset($this->values["samples"])) {
             foreach ($this->values["samples"] as $key => $sample) {
                 if (isset($sample["results"])) {
                     $sum = [];
-                    $size = count(array_chunk($sample["results"], 3)[0]);
+                    foreach(array_chunk($sample["results"], 3)[0] as $count) {
+                        if($count["temperature"] != "") $sizeTemperature++;
+                        if($count["ph"] != "") $sizePh++;
+                        if($count["orp"] != "") $sizeOrp++;
+                        if($count["conductivity"] != "") $sizeConductivity++;
+                        if($count["salinity"] != "") $sizeSalinity++;
+                        if($count["psi"] != "") $sizePsi++;
+                        if($count["sat"] != "") $sizeSat++;
+                        if($count["conc"] != "") $sizeConc++;
+                        if($count["ntu"] != "") $sizeNtu++;
+                    }
 
                     $sum["temperature"] = 0;
                     $sum["ph"] = 0;
@@ -251,7 +270,7 @@ class FormValue extends Model
                     $sum["conc"] = 0;
                     $sum["ntu"] = 0;
 
-                    foreach (array_chunk($sample["results"], 3)[0] as $key2 => $value) {
+                    foreach (array_chunk($sample["results"], 3)[0] as $value) {
                         if (isset($value["temperature"])) {
                             $sum["temperature"] += $value["temperature"];
                         }
@@ -281,16 +300,16 @@ class FormValue extends Model
                         }
                     }
 
-                    $svgs[$key]["temperature"] = $sum["temperature"] / $size;
-                    $svgs[$key]["ph"] = $sum["ph"] / $size;
-                    $svgs[$key]["orp"] = $sum["orp"] / $size;
-                    $svgs[$key]["conductivity"] = $sum["conductivity"] / $size;
-                    $svgs[$key]["salinity"] = $sum["salinity"] / $size;
-                    $svgs[$key]["psi"] = $sum["psi"] / $size;
-                    $svgs[$key]["sat"] = $sum["sat"] / $size;
-                    $svgs[$key]["conc"] = $sum["conc"] / $size;
+                    $svgs[$key]["temperature"] = $sum["temperature"] / $sizeTemperature;
+                    $svgs[$key]["ph"] = $sum["ph"] / $sizePh;
+                    $svgs[$key]["orp"] = $sum["orp"] / $sizeOrp;
+                    $svgs[$key]["conductivity"] = $sum["conductivity"] / $sizeConductivity;
+                    $svgs[$key]["salinity"] = $sum["salinity"] / $sizeSalinity;
+                    $svgs[$key]["psi"] = $sum["psi"] / $sizePsi;
+                    $svgs[$key]["sat"] = $sum["sat"] / $sizeSat;
+                    $svgs[$key]["conc"] = $sum["conc"] / $sizeConc;
                     $svgs[$key]["eh"] = $svgs[$key]["orp"] + 199;
-                    $svgs[$key]["ntu"] = $sum["ntu"] / $size;
+                    $svgs[$key]["ntu"] = $sum["ntu"] / $sizeNtu;
                 }
             }
         }
