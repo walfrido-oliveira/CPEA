@@ -151,7 +151,7 @@
                                                 </td>
                                                 @if(isset($formPrint->formValue->values['uncertainty']))
                                                     <td style="text-align: center; border: 0px;">
-                                                        {{ isset($sample[$key2 . "_uncertainty_footer"]) ? '±' . number_format($sample[$key2 . "_uncertainty_footer"], 2, ",", ".") : '-'}}
+                                                        {{ isset($sample[$key2 . "_uncertainty_footer"]) ? '± ' . number_format($sample[$key2 . "_uncertainty_footer"], 2, ",", ".") : '-'}}
                                                     </td>
                                                 @endif
                                                 <td style="text-align: center; border: 0px;">
