@@ -273,4 +273,8 @@
         font-size: 6.5pt;
         text-align: left;
     }
+
+    .inner-coordinates table td {
+        text-align: center;
+    }
 </style>

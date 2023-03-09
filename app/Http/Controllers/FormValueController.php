@@ -176,12 +176,7 @@ class FormValueController extends Controller
 
         $values = $formValue->values;
         $samplesTable = $values['samples'];
-
-        uasort($samplesTable, function($a, $b) {
-            $firstDate = Carbon::parse(Str::replace('T', ' ', $a['collect']));
-            $secondDate = Carbon::parse(Str::replace('T', ' ', $b['collect']));
-            return (!$firstDate->gt($secondDate)) ? -1 : 1;
-        });
+        $samplesTable = $formValue->sortSamples("collect");
 
         return view("form-values.$form->name", compact( "form", "project_id", "formValue", "users",
                                                         "customers", "fields", "floatingMaterials", "formPrint", "samplesTable"));
@@ -527,26 +522,10 @@ class FormValueController extends Controller
       $samples = [];
       $svgs = [];
       $samplesValues = $formValue->values;
+
       if(isset($formValue->values["samples"])) {
+        $samplesValues["samples"] = $formValue->sortSamples($filter);
 
-        switch ($filter) {
-          case 'point':
-            uasort($samplesValues["samples"], function($a, $b) {
-                $arr[] = $a['point'];
-                $arr[] = $b['point'];
-                sort($arr);
-                return ($arr[0] == $a) ? 1 : -1;
-            });
-            break;
-
-          case 'collect':
-            uasort($samplesValues["samples"], function($a, $b) {
-                $firstDate = Carbon::parse($a['collect']);
-                $secondDate = Carbon::parse($b['collect']);
-                return (!$firstDate->gt($secondDate)) ? -1 : 1;
-            });
-            break;
-        }
         foreach ($samplesValues['samples'] as $key => $value) {
             if(isset($value['results'])) {
                 if(count(array_chunk($value['results'], 3)) > 1 && $type == "duplicates") {

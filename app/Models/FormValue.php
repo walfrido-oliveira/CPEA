@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class FormValue extends Model
 {
@@ -29,7 +30,7 @@ class FormValue extends Model
         'signed' => 'boolean',
     ];
 
-     /**
+    /**
      * Get field type
      *
      * @return array
@@ -60,31 +61,24 @@ class FormValue extends Model
         $ascending = isset($query['ascending']) ? $query['ascending'] : DEFAULT_ASCENDING;
         $orderBy = isset($query['order_by']) ? $query['order_by'] : DEFAULT_ORDER_BY_COLUMN;
 
-        $envionmentalAreas = self::where(function($q) use ($query) {
-            if(isset($query['id']))
-            {
-                if(!is_null($query['id']))
-                {
+        $envionmentalAreas = self::where(function ($q) use ($query) {
+            if (isset($query['id'])) {
+                if (!is_null($query['id'])) {
                     $q->where('id', $query['id']);
                 }
             }
 
-            if(isset($query['form_id']))
-            {
-                if(!is_null($query['form_id']))
-                {
+            if (isset($query['form_id'])) {
+                if (!is_null($query['form_id'])) {
                     $q->where('form_id', $query['form_id']);
                 }
             }
 
-            if(isset($query['project_id']))
-            {
-                if(!is_null($query['project_id']))
-                {
+            if (isset($query['project_id'])) {
+                if (!is_null($query['project_id'])) {
                     $q->where('values', 'like', '%' . $query['project_id'] . '%');
                 }
             }
-
         });
 
         $envionmentalAreas->orderBy($orderBy, $ascending);
@@ -99,7 +93,7 @@ class FormValue extends Model
         $duplicates = $this->duplicates;
         $duplicatesSvgs = $this->duplicatesSvgs;
 
-        if(isset($this->values["samples"])) {
+        if (isset($this->values["samples"])) {
             foreach ($this->values["samples"] as $key => $sample) {
                 if (isset($sample["results"])) {
                     if (isset(array_chunk($sample["results"], 3)[1])) {
@@ -146,7 +140,7 @@ class FormValue extends Model
         $svgs = $this->svgs;
         $duplicates = $this->duplicates;
 
-        if(isset($this->values["samples"])) {
+        if (isset($this->values["samples"])) {
             foreach ($this->values["samples"] as $key => $sample) {
                 if (isset($sample["results"])) {
 
@@ -173,7 +167,7 @@ class FormValue extends Model
     {
         $duplicates = [];
 
-        if(isset($this->values["samples"])) {
+        if (isset($this->values["samples"])) {
             foreach ($this->values["samples"] as $key => $sample) {
                 if (isset($sample["results"])) {
                     $sum = [];
@@ -241,66 +235,94 @@ class FormValue extends Model
     {
         $svgs = [];
 
-        if(isset($this->values["samples"])) {
+        if (isset($this->values["samples"])) {
             foreach ($this->values["samples"] as $key => $sample) {
-            if (isset($sample["results"])) {
-                $sum = [];
-                $size = count(array_chunk($sample["results"], 3)[0]);
+                if (isset($sample["results"])) {
+                    $sum = [];
+                    $size = count(array_chunk($sample["results"], 3)[0]);
 
-                $sum["temperature"] = 0;
-                $sum["ph"] = 0;
-                $sum["orp"] = 0;
-                $sum["conductivity"] = 0;
-                $sum["salinity"] = 0;
-                $sum["psi"] = 0;
-                $sum["sat"] = 0;
-                $sum["conc"] = 0;
-                $sum["ntu"] = 0;
+                    $sum["temperature"] = 0;
+                    $sum["ph"] = 0;
+                    $sum["orp"] = 0;
+                    $sum["conductivity"] = 0;
+                    $sum["salinity"] = 0;
+                    $sum["psi"] = 0;
+                    $sum["sat"] = 0;
+                    $sum["conc"] = 0;
+                    $sum["ntu"] = 0;
 
-                foreach (array_chunk($sample["results"], 3)[0] as $key2 => $value ) {
-                if (isset($value["temperature"])) {
-                    $sum["temperature"] += $value["temperature"];
-                }
-                if (isset($value["ph"])) {
-                    $sum["ph"] += $value["ph"];
-                }
-                if (isset($value["orp"])) {
-                    $sum["orp"] += $value["orp"];
-                }
-                if (isset($value["conductivity"])) {
-                    $sum["conductivity"] += $value["conductivity"];
-                }
-                if (isset($value["salinity"])) {
-                    $sum["salinity"] += $value["salinity"];
-                }
-                if (isset($value["psi"])) {
-                    $sum["psi"] += $value["psi"];
-                }
-                if (isset($value["sat"])) {
-                    $sum["sat"] += $value["sat"];
-                }
-                if (isset($value["conc"])) {
-                    $sum["conc"] += $value["conc"];
-                }
-                if (isset($value["ntu"])) {
-                    $sum["ntu"] += $value["ntu"];
-                }
-                }
+                    foreach (array_chunk($sample["results"], 3)[0] as $key2 => $value) {
+                        if (isset($value["temperature"])) {
+                            $sum["temperature"] += $value["temperature"];
+                        }
+                        if (isset($value["ph"])) {
+                            $sum["ph"] += $value["ph"];
+                        }
+                        if (isset($value["orp"])) {
+                            $sum["orp"] += $value["orp"];
+                        }
+                        if (isset($value["conductivity"])) {
+                            $sum["conductivity"] += $value["conductivity"];
+                        }
+                        if (isset($value["salinity"])) {
+                            $sum["salinity"] += $value["salinity"];
+                        }
+                        if (isset($value["psi"])) {
+                            $sum["psi"] += $value["psi"];
+                        }
+                        if (isset($value["sat"])) {
+                            $sum["sat"] += $value["sat"];
+                        }
+                        if (isset($value["conc"])) {
+                            $sum["conc"] += $value["conc"];
+                        }
+                        if (isset($value["ntu"])) {
+                            $sum["ntu"] += $value["ntu"];
+                        }
+                    }
 
-                $svgs[$key]["temperature"] = $sum["temperature"] / $size;
-                $svgs[$key]["ph"] = $sum["ph"] / $size;
-                $svgs[$key]["orp"] = $sum["orp"] / $size;
-                $svgs[$key]["conductivity"] = $sum["conductivity"] / $size;
-                $svgs[$key]["salinity"] = $sum["salinity"] / $size;
-                $svgs[$key]["psi"] = $sum["psi"] / $size;
-                $svgs[$key]["sat"] = $sum["sat"] / $size;
-                $svgs[$key]["conc"] = $sum["conc"] / $size;
-                $svgs[$key]["eh"] = $svgs[$key]["orp"] + 199;
-                $svgs[$key]["ntu"] = $sum["ntu"] / $size;
-            }
+                    $svgs[$key]["temperature"] = $sum["temperature"] / $size;
+                    $svgs[$key]["ph"] = $sum["ph"] / $size;
+                    $svgs[$key]["orp"] = $sum["orp"] / $size;
+                    $svgs[$key]["conductivity"] = $sum["conductivity"] / $size;
+                    $svgs[$key]["salinity"] = $sum["salinity"] / $size;
+                    $svgs[$key]["psi"] = $sum["psi"] / $size;
+                    $svgs[$key]["sat"] = $sum["sat"] / $size;
+                    $svgs[$key]["conc"] = $sum["conc"] / $size;
+                    $svgs[$key]["eh"] = $svgs[$key]["orp"] + 199;
+                    $svgs[$key]["ntu"] = $sum["ntu"] / $size;
+                }
             }
         }
         return $svgs;
     }
 
+    public function sortSamples($type = "point")
+    {
+        $values = $this->values;
+        switch ($type) {
+            case 'point':
+                uasort($values["samples"], function ($a, $b) {
+                    return strnatcmp($a["point"], $b["point"]);
+                });
+                break;
+
+            case 'collect':
+                uasort($values["samples"], function ($a, $b) {
+                    $firstDate = Carbon::parse($a['collect']);
+                    $secondDate = Carbon::parse($b['collect']);
+                    return (!$firstDate->gt($secondDate)) ? -1 : 1;
+                });
+                break;
+        }
+        return $values["samples"];
+    }
+
+    public function sortCoordinates()
+    {
+        $values = $this->values;
+        $coordinates = $values['coordinates'];
+        asort($coordinates);
+        return $coordinates;
+    }
 }
