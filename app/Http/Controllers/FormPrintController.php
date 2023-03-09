@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Dompdf\Dompdf;
 use App\Models\FormPrint;
 use App\Models\FormValue;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 
 class FormPrintController extends Controller
@@ -17,13 +18,14 @@ class FormPrintController extends Controller
     {
       $formValue = FormValue::findOrFail($id);
       $formPrint = new FormPrint($formValue, false);
+
       $values = $formPrint->formValue->values;
       $samples = $values['samples'];
 
-      usort($samples, function($a, $b) {
-        $firstDate = Carbon::parse($a['collect']);
-        $secondDate = Carbon::parse($b['collect']);
-        return (!$firstDate->gt($secondDate)) ? 1 : -1;
+      uasort($samples, function($a, $b) {
+          $firstDate = Carbon::parse($a['collect']);
+          $secondDate = Carbon::parse($b['collect']);
+          return (!$firstDate->gt($secondDate)) ? -1 : 1;
       });
 
       $values['samples'] = $samples;

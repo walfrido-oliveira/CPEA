@@ -9,6 +9,7 @@ use App\Models\Customer;
 use App\Models\FieldType;
 use App\Models\FormPrint;
 use App\Models\FormValue;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
@@ -173,17 +174,17 @@ class FormValueController extends Controller
         $project_id = $formValue->values["project_id"];
         $formPrint = new FormPrint($formValue, false);
 
-        $samples = $formValue->values;
-        uasort($samples["samples"], function($a, $b) {
-            $arr[] = $a['point'];
-            $arr[] = $b['point'];
-            sort($arr);
-            return ($arr[0] == $a) ? 1 : -1;
+        $values = $formValue->values;
+        $samplesTable = $values['samples'];
+
+        uasort($samplesTable, function($a, $b) {
+            $firstDate = Carbon::parse(Str::replace('T', ' ', $a['collect']));
+            $secondDate = Carbon::parse(Str::replace('T', ' ', $b['collect']));
+            return (!$firstDate->gt($secondDate)) ? -1 : 1;
         });
-        $formValue->values = $samples;
 
         return view("form-values.$form->name", compact( "form", "project_id", "formValue", "users",
-                                                        "customers", "fields", "floatingMaterials", "formPrint"));
+                                                        "customers", "fields", "floatingMaterials", "formPrint", "samplesTable"));
     }
 
     /**
@@ -542,7 +543,7 @@ class FormValueController extends Controller
             uasort($samplesValues["samples"], function($a, $b) {
                 $firstDate = Carbon::parse($a['collect']);
                 $secondDate = Carbon::parse($b['collect']);
-                return (!$firstDate->gt($secondDate)) ? 1 : -1;
+                return (!$firstDate->gt($secondDate)) ? -1 : 1;
             });
             break;
         }

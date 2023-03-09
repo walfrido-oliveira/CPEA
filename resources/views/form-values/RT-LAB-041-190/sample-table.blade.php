@@ -54,11 +54,11 @@
                                 {{ $formPrint->unities[$key] }}
                             </td>
                             <td>
-                                @if(isset($formPrint->formValue->svgs['row_' . ($i)][$key]))
-                                    @if($key == 'conc' && $formPrint->LQ[$key] > $formPrint->formValue->svgs['row_' . ($i)][$key])
+                                @if(isset($formPrint->formValue->svgs[$row][$key]))
+                                    @if($key == 'conc' && $formPrint->LQ[$key] > $formPrint->formValue->svgs[$row][$key])
                                         {{'< ' . number_format(Str::replaceFirst(',', '.', $formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
                                     @else
-                                        {{ number_format($formPrint->formValue->svgs['row_' . ($i)][$key], $formPrint->places[$key], ",", ".") }}
+                                        {{ number_format($formPrint->formValue->svgs[$row][$key], $formPrint->places[$key], ",", ".") }}
                                     @endif
                                 @endif
                             </td>

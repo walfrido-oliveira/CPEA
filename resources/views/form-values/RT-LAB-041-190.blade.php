@@ -212,7 +212,8 @@
                                 <p class="text-sm text-gray-700 leading-5 m-0 inline-flex">
                                     Filtrar por
                                     <div class="w-1/2 inline-flex ml-1 mr-1">
-                                        <x-custom-select data-reverse="true" select-class="no-nice-select" :options="['point' => 'Nome do Ponto', 'collect' => 'Data e Hora de Coleta']" name="mode_list_filter" id="mode_list_filter" :value="'point'"/>
+                                        <x-custom-select data-reverse="true" select-class="no-nice-select" :options="['' => '', 'point' => 'Nome do Ponto', 'collect' => 'Data e Hora de Coleta']"
+                                                         name="mode_list_filter" id="mode_list_filter" :value="''"/>
                                     </div>
                                 </p>
                             </div>
@@ -221,9 +222,9 @@
                         <div id="mode_sample_table" class="w-full" style="display: none">
                             <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - RELATÓRIO</h3>
                             @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
-                                @for ($i = 0; $i < count($formValue->values['samples']); $i++)
-                                    @if(isset($formValue->values['samples']["row_$i"]))  @include('form-values.RT-LAB-041-190.sample-table', ['sample' => $formValue->values['samples']["row_$i"]]) @endif
-                                @endfor
+                                @foreach ($samplesTable as $row => $sample)
+                                    @include('form-values.RT-LAB-041-190.sample-table', ['sample' => $sample])
+                                @endforeach
                             @endif
                         </div>
 
