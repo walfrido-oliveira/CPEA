@@ -707,13 +707,10 @@
             var environmentValue = document.getElementById("environment_value");
             var environment = document.getElementById(`environment_${item.dataset.index}`);
 
-            console.log(date1.getTime() >= date2.getTime() && date1.getTime() <= date3.getTime());
-            console.log(date1.getTime() >= date2.getTime());
-            console.log(date1.getTime() <= date3.getTime());
-
             if(date1.getTime() >= date2.getTime() && date1.getTime() <= date3.getTime()) {
                 environment.value = environmentValue.value;
-                console.log(environment.value);
+                console.log(item.dataset.index);
+                saveSample(document.querySelector(`.save-sample[data-index='sample_${item.dataset.index}']`));
             }
         });
 
