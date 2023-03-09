@@ -257,7 +257,7 @@ class FormValue extends Model
                         if($count["psi"] != "") $sizePsi++;
                         if($count["sat"] != "") $sizeSat++;
                         if($count["conc"] != "") $sizeConc++;
-                        if($count["ntu"] != "") $sizeNtu++;
+                        if($count["ntu"] != "" && isset($count["ntu"])) $sizeNtu++;
                     }
 
                     $sum["temperature"] = 0;
@@ -300,14 +300,14 @@ class FormValue extends Model
                         }
                     }
 
-                    $svgs[$key]["temperature"] = $sum["temperature"] / $sizeTemperature;
-                    $svgs[$key]["ph"] = $sum["ph"] / $sizePh;
-                    $svgs[$key]["orp"] = $sum["orp"] / $sizeOrp;
-                    $svgs[$key]["conductivity"] = $sum["conductivity"] / $sizeConductivity;
-                    $svgs[$key]["salinity"] = $sum["salinity"] / $sizeSalinity;
-                    $svgs[$key]["psi"] = $sum["psi"] / $sizePsi;
-                    $svgs[$key]["sat"] = $sum["sat"] / $sizeSat;
-                    $svgs[$key]["conc"] = $sum["conc"] / $sizeConc;
+                    $svgs[$key]["temperature"] = $sizeTemperature > 0 ? $sum["temperature"] / $sizeTemperature : null;
+                    $svgs[$key]["ph"] = $sizePh > 0 ? $sum["ph"] / $sizePh : null;
+                    $svgs[$key]["orp"] = $sizeOrp > 0 ? $sum["orp"] / $sizeOrp : null;
+                    $svgs[$key]["conductivity"] = $sizeConductivity > 0 ? $sum["conductivity"] / $sizeConductivity : null;
+                    $svgs[$key]["salinity"] = $sizeSalinity > 0 ? $sum["salinity"] / $sizeSalinity : null;
+                    $svgs[$key]["psi"] = $sizePsi > 0 ? $sum["psi"] / $sizePsi : null;
+                    $svgs[$key]["sat"] = $sizeSat > 0 ? $sum["sat"] / $sizeSat : null;
+                    $svgs[$key]["conc"] = $sizeConc > 0 ? $sum["conc"] / $sizeConc : null;
                     $svgs[$key]["eh"] = $svgs[$key]["orp"] + 199;
                     $svgs[$key]["ntu"] = $sizeNtu > 0 ? $sum["ntu"] / $sizeNtu : null;
                 }
