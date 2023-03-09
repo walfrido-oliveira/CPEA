@@ -261,6 +261,10 @@
         margin-top: 5px;
     }
 
+    #infos .uncertainty-text {
+        margin-top: 20px;
+    }
+
     #infos .additional-info p {
         font-size: 6.5pt ;
         line-height: 20px;
