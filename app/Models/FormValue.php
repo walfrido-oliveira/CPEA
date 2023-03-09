@@ -248,6 +248,16 @@ class FormValue extends Model
             foreach ($this->values["samples"] as $key => $sample) {
                 if (isset($sample["results"])) {
                     $sum = [];
+                    $sizeTemperature = 0;
+                    $sizePh = 0;
+                    $sizeOrp = 0;
+                    $sizeConductivity = 0;
+                    $sizeSalinity = 0;
+                    $sizePsi = 0;
+                    $sizeSat = 0;
+                    $sizeConc = 0;
+                    $sizeNtu = 0;
+
                     foreach(array_chunk($sample["results"], 3)[0] as $count) {
                         if($count["temperature"]) $sizeTemperature++;
                         if($count["ph"]) $sizePh++;
