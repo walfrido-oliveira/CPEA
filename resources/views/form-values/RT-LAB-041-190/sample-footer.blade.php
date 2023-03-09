@@ -4,56 +4,28 @@
 </tr>
 <tr>
     <td>
-        @if(isset($value['temperature']))
-            {{ number_format($formValue->svgs['row_' . ($i)]['temperature'], 2, ",", ".") }}
-        @else
-            -
-        @endif
+        {{ number_format($formValue->svgs['row_' . ($i)]['temperature'], 2, ",", ".") }}
     </td>
     <td>
-        @if(isset($value['ph']))
-            {{ number_format($formValue->svgs['row_' . ($i)]['ph'], 2, ",", ".") }}
-        @else
-            -
-        @endif
+        {{ number_format($formValue->svgs['row_' . ($i)]['ph'], 2, ",", ".") }}
     </td>
     <td>
-        @if(isset($value['orp']))
-            {{ number_format($formValue->svgs['row_' . ($i)]['orp'], 1, ",", ".") }}
-        @else
-            -
-        @endif
+        {{ number_format($formValue->svgs['row_' . ($i)]['orp'], 1, ",", ".") }}
     </td>
     <td>
-        @if(isset($value['conductivity']))
-            {{ number_format($formValue->svgs['row_' . ($i)]['conductivity'], 3, ",", ".") }}
-        @else
-            -
-        @endif
+        {{ number_format($formValue->svgs['row_' . ($i)]['conductivity'], 3, ",", ".") }}
     </td>
     <td>
-        @if(isset($value['salinity']))
-            {{ number_format($formValue->svgs['row_' . ($i)]['salinity'], 3, ",", ".") }}
-        @else
-            -
-        @endif
+        {{ number_format($formValue->svgs['row_' . ($i)]['salinity'], 3, ",", ".") }}
     </td>
     <td>
         -
     </td>
     <td>
-        @if(isset($value['sat']))
-            {{ number_format($formValue->svgs['row_' . ($i)]['sat'], 1, ",", ".") }}
-        @else
-            -
-        @endif
+        {{ number_format($formValue->svgs['row_' . ($i)]['sat'], 1, ",", ".") }}
     </td>
     <td>
-        @if(isset($value['conc']))
-            {{ number_format($formValue->svgs['row_' . ($i)]['conc'], 3, ",", ".") }}
-        @else
-            -
-        @endif
+        {{ number_format($formValue->svgs['row_' . ($i)]['conc'], 3, ",", ".") }}
     </td>
     <td>
         @php
