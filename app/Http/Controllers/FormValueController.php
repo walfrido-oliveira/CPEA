@@ -308,7 +308,6 @@ class FormValueController extends Controller
             $samples["samples"][$input["sample_index"]]["conductivity_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["conductivity_uncertainty_footer"];
             $samples["samples"][$input["sample_index"]]["salinity_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["salinity_uncertainty_footer"];
             $samples["samples"][$input["sample_index"]]["conc_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["conc_uncertainty_footer"];
-            $samples["samples"][$input["sample_index"]]["eh_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["eh_uncertainty_footer"];
             $samples["samples"][$input["sample_index"]]["ntu_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["ntu_uncertainty_footer"];
         }
 
