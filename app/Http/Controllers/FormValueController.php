@@ -175,8 +175,8 @@ class FormValueController extends Controller
         $formPrint = new FormPrint($formValue, false);
 
         $values = $formValue->values;
-        $samplesTable = $values['samples'];
-        $samplesTable = $formValue->sortSamples("collect");
+        $samplesTable = isset($values['samples']) ? $values['samples'] : [];
+        $samplesTable = isset($values['samples']) ? $formValue->sortSamples("collect") : [];
 
         return view("form-values.$form->name", compact( "form", "project_id", "formValue", "users",
                                                         "customers", "fields", "floatingMaterials", "formPrint", "samplesTable"));
