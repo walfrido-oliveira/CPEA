@@ -175,8 +175,8 @@ class FormValueController extends Controller
 
         $samples = $formValue->values;
         uasort($samples["samples"], function($a, $b) {
-            $arr[] = $a;
-            $arr[] = $b;
+            $arr[] = $a['point'];
+            $arr[] = $b['point'];
             sort($arr);
             return ($arr[0] == $a) ? 1 : -1;
         });
