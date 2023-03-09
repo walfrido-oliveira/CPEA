@@ -318,7 +318,7 @@ class FormValue extends Model
                     $svgs[$key]["sat"] = $sizeSat > 0 ? $sum["sat"] / $sizeSat : null;
                     $svgs[$key]["conc"] = $sizeConc > 0 ? $sum["conc"] / $sizeConc : null;
                     $svgs[$key]["eh"] = $svgs[$key]["orp"] + 199;
-                    $svgs[$key]["ntu"] = $sizeNtu > 0 ? $sum["ntu"] / $sizeNtu : '-';
+                    $svgs[$key]["ntu"] = $sizeNtu > 0 ? $sum["ntu"] / $sizeNtu : 0;
                 }
             }
         }
