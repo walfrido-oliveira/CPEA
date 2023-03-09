@@ -257,7 +257,7 @@ class FormValue extends Model
                         if($count["psi"] != "") $sizePsi++;
                         if($count["sat"] != "") $sizeSat++;
                         if($count["conc"] != "") $sizeConc++;
-                        if($count["ntu"] != "" && isset($count["ntu"])) $sizeNtu++;
+                        if(isset($count["ntu"])) $sizeNtu++;
                     }
 
                     $sum["temperature"] = 0;
