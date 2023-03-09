@@ -249,14 +249,14 @@ class FormValue extends Model
                 if (isset($sample["results"])) {
                     $sum = [];
                     foreach(array_chunk($sample["results"], 3)[0] as $count) {
-                        if($count["temperature"] != "") $sizeTemperature++;
-                        if($count["ph"] != "") $sizePh++;
-                        if($count["orp"] != "") $sizeOrp++;
-                        if($count["conductivity"] != "") $sizeConductivity++;
-                        if($count["salinity"] != "") $sizeSalinity++;
-                        if($count["psi"] != "") $sizePsi++;
-                        if($count["sat"] != "") $sizeSat++;
-                        if($count["conc"] != "") $sizeConc++;
+                        if($count["temperature"]) $sizeTemperature++;
+                        if($count["ph"]) $sizePh++;
+                        if($count["orp"]) $sizeOrp++;
+                        if($count["conductivity"]) $sizeConductivity++;
+                        if($count["salinity"]) $sizeSalinity++;
+                        if($count["psi"]) $sizePsi++;
+                        if($count["sat"]) $sizeSat++;
+                        if($count["conc"]) $sizeConc++;
                     }
 
                     $sum["temperature"] = 0;
