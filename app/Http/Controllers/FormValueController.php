@@ -516,6 +516,7 @@ class FormValueController extends Controller
     public function getSampleList(Request $request, $id, $count)
     {
       $formValue = FormValue::findOrFail($id);
+      $formPrint = new FormPrint($formValue, false);
       $svgsTemp = $formValue->svgs;
       $type = $request->has("type") ? $request->get("type") : "default";
       $filter = $request->has("mode_list_filter") ? $request->get("mode_list_filter") : "point";
@@ -541,7 +542,7 @@ class FormValueController extends Controller
 
       return response()->json([
           'viwer' => view("form-values." . $formValue->form->name . ".sample-list",
-          compact("formValue", "count", "svgs", "type", "samples"))->render()
+          compact("formValue", "count", "svgs", "type", "samples", "formPrint"))->render()
       ]);
     }
 
@@ -554,6 +555,7 @@ class FormValueController extends Controller
     public function getSampleChart(Request $request, $id, $count)
     {
         $formValue = FormValue::findOrFail($id);
+        $formPrint = new FormPrint($formValue, false);
         $svgs = [];
         $svgsTemp = $formValue->svgs;
         $type = $request->has("type") ? $request->get("type") : "default";
@@ -578,7 +580,8 @@ class FormValueController extends Controller
         }
 
       return response()->json([
-          'viwer' => view("form-values." . $formValue->form->name . ".sample-chart-list", compact("formValue", "count", "svgs", "type", "samples"))->render(),
+          'viwer' => view("form-values." . $formValue->form->name . ".sample-chart-list",
+          compact("formValue", "count", "svgs", "type", "samples", "formPrint"))->render(),
           'samples' => $samples,
           'svgs' => $svgs,
       ]);
