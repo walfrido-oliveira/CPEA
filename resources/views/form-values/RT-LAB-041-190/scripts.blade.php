@@ -15,7 +15,7 @@
                     labels: [
                         @if (isset($formValue->values['samples'] ))
                             @foreach ($formValue->values['samples'] as $key => $sample)
-                                "{{ isset($sample['point']) ? $sample['point'] : '' }} - pH {{ isset($formValue->svgs[$key]['ph']) ? number_format($formValue->svgs[$key]['ph'], 1, ',', '.') : '' }} e EH {{ isset($formValue->svgs[$key]['eh']) ? number_format($formValue->svgs[$key]['eh'], 0, ',', '.') : '' }}",
+                                "{{ isset($sample['point']) ? $sample['point'] : '' }} - pH {{ isset($formValue->svgs[$key]['ph']) ? number_format($formValue->svgs[$key]['ph'], $formPrint->places['ph'], ',', '.') : '' }} e EH {{ isset($formValue->svgs[$key]['eh']) ? number_format($formValue->svgs[$key]['eh'], $formPrint->places['eh'], ',', '.') : '' }}",
                             @endforeach
                         @endif
                     ],

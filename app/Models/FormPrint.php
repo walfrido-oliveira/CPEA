@@ -67,6 +67,7 @@ class FormPrint extends Model
             "conductivity" => "Condutividade",
             "salinity" => "Salinidade",
             "temperature" => "Temperatura",
+            "ntu" => "Turbidez",
         ];
 
         $this->unities = [
@@ -76,42 +77,43 @@ class FormPrint extends Model
             "conductivity" => "µS/cm",
             "salinity" => "-",
             "conc" => "mg/L",
+            "ntu" => "NTU",
         ];
 
         $this->LQ = [
-            "temperature" => "-",
-            "ph" => "-",
-            "orp" => "-",
-            "conductivity" => "20",
-            "salinity" => "0,01",
-            "conc" => "0,3",
+            "temperature" => Config::get("form_temperature_lq"),
+            "ph" => Config::get("form_php_lq"),
+            "orp" => Config::get("form_orp_lq"),
+            "conductivity" => Config::get("form_conductivity_lq"),
+            "salinity" => Config::get("form_salinity_lq"),
+            "conc" => Config::get("form_conc_lq"),
+            "ntu" => Config::get("form_ntu_lq"),
         ];
 
         $this->places = [
-            "temperature" => 2,
-            "ph" => 2,
-            "orp" => 1,
-            "conductivity" => 3,
-            "salinity" => 3,
-            "conc" => 3,
+            "temperature" => intval(Config::get("form_temperature_places")),
+            "ph" => intval(Config::get("form_php_places")),
+            "orp" => intval(Config::get("form_orp_places")),
+            "conductivity" => intval(Config::get("form_conductivity_places")),
+            "salinity" => intval(Config::get("form_salinity_places")),
+            "conc" => intval(Config::get("form_conc_places")),
+            "psi" => intval(Config::get("form_psi_places")),
+            "sat" => intval(Config::get("form_sat_places")),
+            "eh" => intval(Config::get("form_eh_places")),
+            "ntu" => intval(Config::get("form_ntu_places")),
         ];
 
         $this->range = [
-            "temperature" => "4 a 40",
-            "ph" => "1 a 13",
-            "orp" => "-1400 a +1400",
-            "conductivity" => "-",
-            "salinity" => "-",
-            "conc" => "-"
+            "temperature" => Config::get("form_temperature_range"),
+            "ph" => Config::get("form_ph_range"),
+            "orp" => Config::get("form_orp_range"),
+            "conductivity" => Config::get("form_conductivity_range"),
+            "salinity" => Config::get("form_salinity_range"),
+            "conc" => Config::get("form_conc_range"),
+            "ntu" => Config::get("form_ntu_range"),
         ];
 
         if(isset($this->formValue->values['turbidity'])) {
-            $this->range["ntu"] = "-";
-            $this->places["ntu"] = 0;
-            $this->LQ["ntu"] = "1";
-            $this->unities["ntu"] = "NTU";
-            $this->parameters["ntu"] = "Turbidez";
-
             $this->refs = Ref::where('field_type_id', $this->formValue->values['matrix'])
             ->where("type", "Referências")
             ->get();

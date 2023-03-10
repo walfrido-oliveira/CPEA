@@ -45,34 +45,7 @@
                             @endif
                         </p>
                         @if(isset($formValue->svgs[$key]))
-                            <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 3px; margin-bottom: 4px; height: 3px">&nbsp;</p>
-                            <p class="font-bold">
-                                {{ number_format($formValue->svgs[$key]['temperature'], 2, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($formValue->svgs[$key]['ph'], 1, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($formValue->svgs[$key]['orp'], 1, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($formValue->svgs[$key]['conductivity'], 3, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($formValue->svgs[$key]['salinity'], 3, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($formValue->svgs[$key]['sat'], 1, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($formValue->svgs[$key]['conc'], 3, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($formValue->svgs[$key]['eh'], 0, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($formValue->svgs[$key]['ntu'], 0, ",", ".") }}
-                            </p>
+                            @include('form-values.RT-LAB-041-190.sample-list-fields')
                         @endif
                     </div>
                 @endif
@@ -94,34 +67,7 @@
                             @endif
                         </p>
                         @if(isset($formValue->svgs[$key]))
-                            <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 3px; margin-bottom: 4px; height: 3px">&nbsp;</p>
-                            <p class="font-bold">
-                                {{ number_format($formValue->svgs[$key]['temperature'], 2, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($formValue->svgs[$key]['ph'], 1, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($formValue->svgs[$key]['orp'], 1, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($formValue->svgs[$key]['conductivity'], 3, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($formValue->svgs[$key]['salinity'], 3, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($formValue->svgs[$key]['sat'], 1, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($formValue->svgs[$key]['conc'], 3, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($formValue->svgs[$key]['eh'], 0, ",", ".") }}
-                            </p>
-                            <p class="font-bold">
-                                {{ number_format($formValue->svgs[$key]['ntu'], 0, ",", ".") }}
-                            </p>
+                            @include('form-values.RT-LAB-041-190.sample-list-fields')
                         @endif
                     </div>
                 @endif

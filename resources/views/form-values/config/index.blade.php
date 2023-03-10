@@ -66,6 +66,172 @@
                             <textarea class="form-input w-full ckeditor" name="form_uncertainty_text" id="form_uncertainty_text" cols="30" rows="10" required >{{ $uncertaintyText ? $uncertaintyText : old('form_uncertainty_text')  }}</textarea>
                         </div>
                     </div>
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Casas Decimais')"/>
+                        </div>
+                        <div class="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Temperatura')" for="form_temperature_places" required/>
+                            <x-jet-input id="form_temperature_places" class="form-control block mt-1 w-full" type="number"
+                                         value="{{  App\Models\Config::get('form_temperature_places') }}"
+                                         name="form_temperature_places" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('pH')" for="form_ph_places" required/>
+                            <x-jet-input id="form_ph_places" class="form-control block mt-1 w-full" type="number"
+                                         value="{{  App\Models\Config::get('form_ph_places') }}"
+                                         name="form_ph_places" step="any" />
+                        </div>
+
+                        <div class="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('ORP')" for="form_orp_places" required/>
+                            <x-jet-input id="form_orp_places" class="form-control block mt-1 w-full" type="number"
+                                         value="{{  App\Models\Config::get('form_orp_places') }}"
+                                         name="form_orp_places" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Condutividade')" for="form_conductivity_places" required/>
+                            <x-jet-input id="form_conductivity_places" class="form-control block mt-1 w-full" type="number"
+                                         value="{{  App\Models\Config::get('form_conductivity_places') }}"
+                                         name="form_conductivity_places" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Salinidade')" for="form_sat_places" required/>
+                            <x-jet-input id="form_sat_places" class="form-control block mt-1 w-full" type="number"
+                                         value="{{  App\Models\Config::get('form_sat_places') }}"
+                                         name="form_sat_places" step="any" />
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Press.')" for="form_psi_places" required/>
+                            <x-jet-input id="form_psi_places" class="form-control block mt-1 w-full" type="number"
+                                         value="{{  App\Models\Config::get('form_psi_places') }}"
+                                         name="form_psi_places" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Oxigênio Dissolvido (SAT)')" for="form_sat_places" required/>
+                            <x-jet-input id="form_sat_places" class="form-control block mt-1 w-full" type="number"
+                                         value="{{  App\Models\Config::get('form_sat_places') }}"
+                                         name="form_sat_places" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Oxigênio Dissolvido (CONC)')" for="form_conc_places" required/>
+                            <x-jet-input id="form_conc_places" class="form-control block mt-1 w-full" type="number"
+                                         value="{{  App\Models\Config::get('form_conc_places') }}"
+                                         name="form_conc_places" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('EH')" for="form_eh_places" required/>
+                            <x-jet-input id="form_eh_places" class="form-control block mt-1 w-full" type="number"
+                                         value="{{  App\Models\Config::get('form_eh_places') }}"
+                                         name="form_eh_places" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Turbidez')" for="form_ntu_places" required/>
+                            <x-jet-input id="form_ntu_places" class="form-control block mt-1 w-full" type="number"
+                                         value="{{  App\Models\Config::get('form_ntu_places') }}"
+                                         name="form_ntu_places" step="any" />
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Faixas')"/>
+                        </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Temperatura')" for="form_temperature_range" required/>
+                            <x-jet-input id="form_temperature_range" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_temperature_range') }}"
+                                         name="form_temperature_range" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('pH')" for="form_ph_range" required/>
+                            <x-jet-input id="form_ph_range" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_ph_range') }}"
+                                         name="form_ph_range" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('ORP')" for="form_orp_range" required/>
+                            <x-jet-input id="form_orp_range" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_orp_range') }}"
+                                         name="form_orp_range" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Condutividade')" for="form_conductivity_range" required/>
+                            <x-jet-input id="form_conductivity_range" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_conductivity_range') }}"
+                                         name="form_conductivity_range" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Salinidade')" for="form_salinity_range" required/>
+                            <x-jet-input id="form_salinity_range" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_salinity_range') }}"
+                                         name="form_salinity_range" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Oxigênio Dissolvido')" for="form_conc_range" required/>
+                            <x-jet-input id="form_conc_range" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_conc_range') }}"
+                                         name="form_conc_range" step="any" />
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Turbidez')" for="form_ntu_range" required/>
+                            <x-jet-input id="form_ntu_range" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_ntu_range') }}"
+                                         name="form_ntu_range" step="any" />
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('LQ')"/>
+                        </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Temperatura')" for="form_temperature_lq" required/>
+                            <x-jet-input id="form_temperature_lq" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_temperature_lq') }}"
+                                         name="form_temperature_lq" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('pH')" for="form_ph_lq" required/>
+                            <x-jet-input id="form_ph_lq" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_ph_lq') }}"
+                                         name="form_ph_lq" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('ORP')" for="form_orp_lq" required/>
+                            <x-jet-input id="form_orp_lq" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_orp_lq') }}"
+                                         name="form_orp_lq" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Condutividade')" for="form_conductivity_lq" required/>
+                            <x-jet-input id="form_conductivity_lq" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_conductivity_lq') }}"
+                                         name="form_conductivity_lq" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Salinidade')" for="form_salinity_lq" required/>
+                            <x-jet-input id="form_salinity_lq" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_salinity_lq') }}"
+                                         name="form_salinity_lq" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Oxigênio Dissolvido')" for="form_conc_lq" required/>
+                            <x-jet-input id="form_conc_lq" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_conc_lq') }}"
+                                         name="form_conc_lq" step="any" />
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Turbidez')" for="form_ntu_lq" required/>
+                            <x-jet-input id="form_ntu_lq" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_ntu_lq') }}"
+                                         name="form_ntu_lq" step="any" />
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
