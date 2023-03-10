@@ -1136,6 +1136,7 @@ class AnalysisResultController extends Controller
       $tokenResult = Str::contains($obj->result, "<");
       $tokenDl = Str::contains($obj->dl, "<");
       $tokenRl = Str::contains($obj->rl, "<");
+      $tokenSnote10 = Str::contains($obj->snote10, "<");
 
       $result =  Str::replace(["*J", " [1]"], "", $obj->result);
       $result = Str::replace(["<", "< ", " "], "", $result);
@@ -1148,6 +1149,10 @@ class AnalysisResultController extends Controller
       $rl =  Str::replace(["*J", " [1]"], "", $obj->rl);
       $rl = Str::replace(["<", "< ", " "], "", $rl);
       $rl = Str::replace([","], ".", $rl);
+
+      $snote10 =  Str::replace(["*J", " [1]"], "", $obj->snote10);
+      $snote10 = Str::replace(["<", "< ", " "], "", $snote10);
+      $snote10 = Str::replace([","], ".", $snote10);
 
       $projectPointMatrices = $order->projectPointMatrices()
         ->whereHas("project", function ($q) use ($obj) {
@@ -1197,10 +1202,12 @@ class AnalysisResultController extends Controller
             if (is_numeric($result)) $obj->result = $result * $item2->unityLegislation->conversion_amount;
             if (is_numeric($dl)) $obj->dl = $dl * $item2->unityLegislation->conversion_amount;
             if (is_numeric($rl)) $obj->rl = $rl * $item2->unityLegislation->conversion_amount;
+            if (is_numeric($snote10)) $obj->snote10 = $snote10 * $item2->unityLegislation->conversion_amount;
 
             if ($tokenResult) $obj->result = "< " . $obj->result;
             if ($tokenDl) $obj->dl = "< " . $obj->dl;
             if ($tokenRl) $obj->rl = "< " . $obj->rl;
+            if ($tokenSnote10) $obj->snote10 = "< " . $obj->snote10;
 
             $obj->units = $item2->unityLegislation->unity_cod;
           }

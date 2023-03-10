@@ -82,7 +82,7 @@ class FormPrint extends Model
 
         $this->LQ = [
             "temperature" => Config::get("form_temperature_lq"),
-            "ph" => Config::get("form_php_lq"),
+            "ph" => Config::get("form_ph_lq"),
             "orp" => Config::get("form_orp_lq"),
             "conductivity" => Config::get("form_conductivity_lq"),
             "salinity" => Config::get("form_salinity_lq"),
@@ -92,7 +92,7 @@ class FormPrint extends Model
 
         $this->places = [
             "temperature" => intval(Config::get("form_temperature_places")),
-            "ph" => intval(Config::get("form_php_places")),
+            "ph" => intval(Config::get("form_ph_places")),
             "orp" => intval(Config::get("form_orp_places")),
             "conductivity" => intval(Config::get("form_conductivity_places")),
             "salinity" => intval(Config::get("form_salinity_places")),
