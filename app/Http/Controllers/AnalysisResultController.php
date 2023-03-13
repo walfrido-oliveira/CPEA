@@ -1137,6 +1137,7 @@ class AnalysisResultController extends Controller
       $tokenDl = Str::contains($obj->dl, "<");
       $tokenRl = Str::contains($obj->rl, "<");
       $tokenSnote10 = Str::contains($obj->snote10, "<");
+      $token2Snote10 = Str::contains($obj->snote10, "*J");
 
       $result =  Str::replace(["*J", " [1]"], "", $obj->result);
       $result = Str::replace(["<", "< ", " "], "", $result);
@@ -1208,6 +1209,7 @@ class AnalysisResultController extends Controller
             if ($tokenDl) $obj->dl = "< " . $obj->dl;
             if ($tokenRl) $obj->rl = "< " . $obj->rl;
             if ($tokenSnote10) $obj->snote10 = "< " . $obj->snote10;
+            if ($token2Snote10) $obj->snote10 = "*J" . $obj->snote10;
 
             $obj->units = $item2->unityLegislation->unity_cod;
           }
