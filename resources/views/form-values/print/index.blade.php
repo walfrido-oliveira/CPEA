@@ -129,38 +129,41 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($formPrint->parameters as $key2 => $value)
-                                            <tr>
-                                                <td style="text-align: left; border: 0px; border-left: 1px double grey;">
-                                                    {{ $value }}
-                                                </td>
-                                                <td style="text-align: center; border: 0px;">
-                                                    {{ $formPrint->unities[$key2] }}
-                                                </td>
-                                                <td style="text-align: center; border: 0px;">
-                                                    @if(isset($formPrint->formValue->svgs[$key][$key2]))
-                                                        @if($key2 == 'conc' && $formPrint->LQ[$key2] > $formPrint->formValue->svgs[$key][$key2])
-                                                            {{'< ' . number_format(Str::replaceFirst(',', '.', $formPrint->LQ[$key2]), $formPrint->places[$key2], ",", ".") }}
-                                                        @else
-                                                            @if($key2 == 'eh' || $key2 == 'ntu')
-                                                                {{ isset($sample[$key2 .  '_footer']) ? number_format($sample[$key2 .  '_footer'], $formPrint->places[$key2], ",", ".") : '-' }}
+                                            @if((!isset($this->formValue->values['turbidity']) && $key2 != "ntu") ||
+                                                (isset($this->formValue->values['turbidity'])))
+                                                <tr>
+                                                    <td style="text-align: left; border: 0px; border-left: 1px double grey;">
+                                                        {{ $value }}
+                                                    </td>
+                                                    <td style="text-align: center; border: 0px;">
+                                                        {{ $formPrint->unities[$key2] }}
+                                                    </td>
+                                                    <td style="text-align: center; border: 0px;">
+                                                        @if(isset($formPrint->formValue->svgs[$key][$key2]))
+                                                            @if($key2 == 'conc' && $formPrint->LQ[$key2] > $formPrint->formValue->svgs[$key][$key2])
+                                                                {{'< ' . number_format(Str::replaceFirst(',', '.', $formPrint->LQ[$key2]), $formPrint->places[$key2], ",", ".") }}
                                                             @else
-                                                                {{ number_format($formPrint->formValue->svgs[$key][$key2], $formPrint->places[$key2], ",", ".") }}
+                                                                @if($key2 == 'eh' || $key2 == 'ntu')
+                                                                    {{ isset($sample[$key2 .  '_footer']) ? number_format($sample[$key2 .  '_footer'], $formPrint->places[$key2], ",", ".") : '-' }}
+                                                                @else
+                                                                    {{ number_format($formPrint->formValue->svgs[$key][$key2], $formPrint->places[$key2], ",", ".") }}
+                                                                @endif
                                                             @endif
                                                         @endif
-                                                    @endif
-                                                </td>
-                                                @if(isset($formPrint->formValue->values['uncertainty']))
-                                                    <td style="text-align: center; border: 0px;">
-                                                        {{ isset($sample[$key2 . "_uncertainty_footer"]) ? '± ' . $sample[$key2 . "_uncertainty_footer"] : '-'}}
                                                     </td>
-                                                @endif
-                                                <td style="text-align: center; border: 0px;">
-                                                    {{ $formPrint->LQ[$key2] }}
-                                                </td>
-                                                <td style="text-align: center; border: 0px; border-right: 1px double grey;">
-                                                    {{ $formPrint->range[$key2] }}
-                                                </td>
-                                            <tr>
+                                                    @if(isset($formPrint->formValue->values['uncertainty']))
+                                                        <td style="text-align: center; border: 0px;">
+                                                            {{ isset($sample[$key2 . "_uncertainty_footer"]) ? '± ' . $sample[$key2 . "_uncertainty_footer"] : '-'}}
+                                                        </td>
+                                                    @endif
+                                                    <td style="text-align: center; border: 0px;">
+                                                        {{ $formPrint->LQ[$key2] }}
+                                                    </td>
+                                                    <td style="text-align: center; border: 0px; border-right: 1px double grey;">
+                                                        {{ $formPrint->range[$key2] }}
+                                                    </td>
+                                                <tr>
+                                            @endif
                                         @endforeach
                                     </tbody>
                                 </table>

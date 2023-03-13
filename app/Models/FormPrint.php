@@ -67,6 +67,7 @@ class FormPrint extends Model
             "conductivity" => "Condutividade",
             "salinity" => "Salinidade",
             "temperature" => "Temperatura",
+            "ntu" => "Turbidez",
         ];
 
         $this->unities = [
@@ -76,6 +77,7 @@ class FormPrint extends Model
             "conductivity" => "µS/cm",
             "salinity" => "-",
             "conc" => "mg/L",
+            "ntu" => "NTU",
         ];
 
         $this->LQ = [
@@ -85,6 +87,7 @@ class FormPrint extends Model
             "conductivity" => Config::get("form_conductivity_lq"),
             "salinity" => Config::get("form_salinity_lq"),
             "conc" => Config::get("form_conc_lq"),
+            "ntu" => Config::get("form_ntu_lq"),
         ];
 
         $this->places = [
@@ -97,6 +100,7 @@ class FormPrint extends Model
             "psi" => intval(Config::get("form_psi_places")),
             "sat" => intval(Config::get("form_sat_places")),
             "eh" => intval(Config::get("form_eh_places")),
+            "ntu" => intval(Config::get("form_ntu_places")),
         ];
 
         $this->range = [
@@ -106,19 +110,10 @@ class FormPrint extends Model
             "conductivity" => Config::get("form_conductivity_range"),
             "salinity" => Config::get("form_salinity_range"),
             "conc" => Config::get("form_conc_range"),
+            "ntu" => Config::get("form_ntu_range"),
         ];
 
         if(isset($this->formValue->values['turbidity'])) {
-            $this->parameters["ntu"] = "Turbidez";
-
-            $this->unities["ntu"] = "NTU";
-
-            $this->LQ["ntu"] = Config::get("form_ntu_lq");
-
-            $this->places["ntu"] = intval(Config::get("form_ntu_places"));
-
-            $this->range["ntu"] = Config::get("form_ntu_range");
-
             $this->refs = Ref::where('field_type_id', $this->formValue->values['matrix'])
             ->where("type", "Referências")
             ->get();
