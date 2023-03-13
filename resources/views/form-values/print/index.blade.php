@@ -157,7 +157,7 @@
                                                         </td>
                                                     @endif
                                                     <td style="text-align: center; border: 0px;">
-                                                        {{ $formPrint->LQ[$key2] }}
+                                                        {{ Str::replace(".", ",", $formPrint->LQ[$key2]) }}
                                                     </td>
                                                     <td style="text-align: center; border: 0px; border-right: 1px double grey;">
                                                         {{ $formPrint->range[$key2] }}
