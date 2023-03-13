@@ -129,8 +129,8 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($formPrint->parameters as $key2 => $value)
-                                            @if((!isset($this->formValue->values['turbidity']) && $key2 != "ntu") ||
-                                                (isset($this->formValue->values['turbidity'])))
+                                            @if((!isset($formPrint->formValue->values['turbidity']) && $key2 != "ntu") ||
+                                                (isset($formPrint->formValue->values['turbidity'])))
                                                 <tr>
                                                     <td style="text-align: left; border: 0px; border-left: 1px double grey;">
                                                         {{ $value }}
