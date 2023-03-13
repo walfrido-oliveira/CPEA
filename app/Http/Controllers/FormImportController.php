@@ -476,7 +476,7 @@ class FormImportController extends Controller
         $coordinates = $formValue->values;
 
         foreach ($rows as $key => $value) {
-            if ($key <= 2) {
+            if ($key <= 1) {
                 continue;
             }
 
