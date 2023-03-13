@@ -114,6 +114,16 @@ class FormPrint extends Model
         ];
 
         if(isset($this->formValue->values['turbidity'])) {
+            $this->parameters["ntu"] = "Turbidez";
+
+            $this->unities["ntu"] = "NTU";
+
+            $this->LQ["ntu"] = Config::get("form_ntu_lq");
+
+            $this->places["ntu"] = intval(Config::get("form_ntu_places"));
+
+            $this->range["ntu"] = Config::get("form_ntu_range");
+
             $this->refs = Ref::where('field_type_id', $this->formValue->values['matrix'])
             ->where("type", "Referências")
             ->get();
