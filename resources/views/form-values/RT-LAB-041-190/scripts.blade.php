@@ -580,7 +580,7 @@
         });
     });
 
-    function saveSample(that) {
+    function saveSample(that, noReaload = false) {
         document.getElementById("spin_load").classList.remove("hidden");
         let ajax = new XMLHttpRequest();
         let url = "{!! route('fields.form-values.save-sample') !!}";
@@ -601,8 +601,9 @@
         ajax.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var resp = JSON.parse(ajax.response);
+                document.getElementById("spin_load").classList.add("hidden");
                 toastr.success(resp.message);
-                location.reload();
+                if (!noReaload) location.reload();
             } else if (this.readyState == 4 && this.status != 200) {
                 document.getElementById("spin_load").classList.add("hidden");
                 toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
@@ -709,8 +710,7 @@
 
             if(date1.getTime() >= date2.getTime() && date1.getTime() <= date3.getTime()) {
                 environment.value = environmentValue.value;
-                console.log(item.dataset.index);
-                saveSample(document.querySelector(`.save-sample[data-index='sample_${item.dataset.index}']`));
+                saveSample(document.querySelector(`.save-sample[data-index='sample_${item.dataset.index}']`), true);
             }
         });
 
