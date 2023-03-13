@@ -490,7 +490,7 @@ class FormImportController extends Controller
                 $coordinates["coordinates"][$key - 3]["me"] = number_format(floatval(Str::replace(",", "", $value[5])), 0, ",", ".");
             }
             if (isset($value[9])) {
-                $coordinates["coordinates"][$key - 3]["mn"] = number_format(floatval(Str::replace(",", "", $value[9])), 2, ",", ".");
+                $coordinates["coordinates"][$key - 3]["mn"] = number_format(floatval(Str::replace(",", "", $value[9])), 0, ",", ".");
             }
         }
 
