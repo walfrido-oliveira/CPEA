@@ -74,7 +74,7 @@
     </div>
     <div class="inputs w-full">
         <div class="flex flex-wrap mt-2 w-full">
-            <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
+            <div class="w-full md:w-1/3 pr-3 mb-6 md:mb-0">
                 <x-jet-label for="equipment_{{ isset($i) ? $i : 0 }}" value="{{ __('Equipamento') }}" />
                 @if(isset($sample['equipment']))
                     <x-jet-input readonly="{{ !$formValue ? false : true}}" id="equipment_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full" data-index="{{ isset($i) ? $i : 0 }}"
@@ -83,7 +83,16 @@
                     <x-jet-input id="equipment_0" class="form-control block mt-1 w-full" type="text" value="" name="samples[row_0][equipment]" maxlength="255" data-index="{{ isset($i) ? $i : 0 }}"/>
                 @endif
             </div>
-            <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
+            <div class="w-full md:w-1/3 pr-3 mb-6 md:mb-0 turbidity-equipment">
+                <x-jet-label for="turbidity_equipment_{{ isset($i) ? $i : 0 }}" value="{{ __('Equipamento Turbidez') }}" />
+                @if(isset($sample['turbidity_equipment']))
+                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="turbidity_equipment_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full" data-index="{{ isset($i) ? $i : 0 }}"
+                    type="text" value="{{ $sample['turbidity_equipment'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][turbidity_equipment]' : 'samples[row_0][turbidity_equipment]' }}" maxlength="255" />
+                @else
+                    <x-jet-input id="turbidity_equipment_0" class="form-control block mt-1 w-full" type="text" value="" name="samples[row_0][turbidity_equipment]" maxlength="255" data-index="{{ isset($i) ? $i : 0 }}"/>
+                @endif
+            </div>
+            <div class="w-full md:w-1/3 pr-3 mb-6 md:mb-0">
                 <x-jet-label for="point_{{ isset($i) ? $i : 0 }}" value="{{ __('Ponto de Coleta') }}" />
                 @if(isset($sample['point']))
                     <x-jet-input readonly="{{ !$formValue ? false : true}}" id="point_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full point" data-index="{{ isset($i) ? $i : 0 }}"

@@ -140,7 +140,7 @@
                                                     </td>
                                                     <td style="text-align: center; border: 0px;">
                                                         @if(isset($formPrint->formValue->svgs[$key][$key2]))
-                                                            @if($key2 == 'conc' && $formPrint->LQ[$key2] > $formPrint->formValue->svgs[$key][$key2])
+                                                            @if($formPrint->LQ[$key2] > $formPrint->formValue->svgs[$key][$key2])
                                                                 {{'< ' . number_format(Str::replaceFirst(',', '.', $formPrint->LQ[$key2]), $formPrint->places[$key2], ",", ".") }}
                                                             @else
                                                                 @if($key2 == 'eh' || $key2 == 'ntu')

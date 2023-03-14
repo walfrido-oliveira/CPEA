@@ -1189,4 +1189,23 @@
     document.querySelector("#search_container #q").addEventListener("keyup", function(e) {
         seachSample();
     });
+
+
+    function setTurbidity() {
+        const checked = document.getElementById("turbidity").checked;
+        if(checked) {
+            document.querySelectorAll(".turbidity-equipment").forEach(item => {
+                item.classList.remove("hidden");
+            });
+        }else {
+            document.querySelectorAll(".turbidity-equipment").forEach(item => {
+                item.classList.add("hidden");
+            });
+        }
+    }
+
+    setTurbidity();
+    document.querySelector("#turbidity").addEventListener("click", function() {
+        setTurbidity();
+    });
 </script>
