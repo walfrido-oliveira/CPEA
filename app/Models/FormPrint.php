@@ -49,8 +49,8 @@ class FormPrint extends Model
         $this->footer = Config::get("form_footer");
         $this->uncertaintyText = Config::get('form_uncertainty_text');
 
-        if(isset($this->formValue->values["responsible"])) {
-            $this->user = User::find($this->formValue->values["responsible"]);
+        if(isset($this->formValue->values["signer"])) {
+            $this->user = User::find($this->formValue->values["signer"]);
             $this->pathSigner = $this->user ? $this->user->signer : null;
         }
 

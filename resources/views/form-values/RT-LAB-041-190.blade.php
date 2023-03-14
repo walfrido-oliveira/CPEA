@@ -61,17 +61,21 @@
                     </div>
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                             <x-jet-label for="matrix" value="{{ __('Matriz') }}" />
                             <x-custom-select :options="$fields" value="{{ isset($formValue->values['matrix']) ? $formValue->values['matrix'] : null }}" name="matrix" id="matrix" class="mt-1"/>
                         </div>
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                             <x-jet-label for="emission" value="{{ __('Data/Hora da Emissão do Relatório') }}" />
                             <x-jet-input id="emission" class="form-control block mt-1 w-full" type="datetime-local" value="{{ isset($formValue->values['emission']) ? $formValue->values['emission'] : null }}" name="emission"/>
                         </div>
-                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="responsible" value="{{ __('Responsável') }}" />
+                        <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="responsible" value="{{ __('Responsável Laudo') }}" />
                             <x-custom-select :options="$users" value="{{ isset($formValue->values['responsible']) ? $formValue->values['responsible'] : null }}" name="responsible" id="responsible" class="mt-1"/>
+                        </div>
+                        <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="signer" value="{{ __('Resposável (Assinatura)') }}" />
+                            <x-custom-select :options="$users" value="{{ isset($formValue->values['signer']) ? $formValue->values['signer'] : null }}" name="signer" id="signer" class="mt-1"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
