@@ -289,6 +289,7 @@ class FormValueController extends Controller
         $samples = $formValue->values;
 
         $samples["samples"][$input["sample_index"]]["equipment"] = $input["equipment"];
+        $samples["samples"][$input["sample_index"]]["turbidity_equipment"] = $input["turbidity_equipment"];
         $samples["samples"][$input["sample_index"]]["point"] = $input["point"];
         $samples["samples"][$input["sample_index"]]["environment"] = $input["environment"];
         $samples["samples"][$input["sample_index"]]["collect"] = $input["collect"];
