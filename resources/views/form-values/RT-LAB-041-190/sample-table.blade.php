@@ -55,7 +55,7 @@
                             </td>
                             <td>
                                 @if(isset($formPrint->formValue->svgs[$row][$key]))
-                                    @if(floatval($formPrint->LQ[$key]) > floatval($formPrint->formValue->svgs[$row][$key]) && is_numeric($formPrint->formValue->svgs[$key][$key2]))
+                                    @if(floatval($formPrint->LQ[$key]) > floatval($formPrint->formValue->svgs[$row][$key]) && is_numeric($formPrint->formValue->svgs[$row][$key]))
                                         {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
                                     @else
                                         {{ number_format($formPrint->formValue->svgs[$row][$key], $formPrint->places[$key], ",", ".") }}
