@@ -23,7 +23,7 @@ class FormPrint extends Model
     public $signer;
     public $lastRev;
 
-    public User $user;
+    public $user;
     public Customer $customer;
 
     public $parameters;
