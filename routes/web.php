@@ -290,6 +290,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
             Route::get('/print/{form_value}/{project_id}', [FormPrintController::class, 'print'])->name('print');
             Route::get('/signer/{form_value}/{project_id}', [FormPrintController::class, 'signer'])->name('signer');
             Route::get('/create-sheet/{form_value}', [FormPrintController::class, 'createSheet'])->name('create-sheet');
+            Route::post('/upload-chart-image', [FormPrintController::class, 'uploadChartImage'])->name('upload-chart-image');
             Route::post('/signed', [FormRevController::class, 'signed'])->name('signed');
             Route::post('/rev', [FormRevController::class, 'store'])->name('rev');
         });

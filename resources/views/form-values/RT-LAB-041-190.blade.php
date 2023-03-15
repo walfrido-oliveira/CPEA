@@ -33,7 +33,7 @@
                                    target="_blank" class="btn-outline-info">{{ __('Assinar') }}</a>
                             </div>
                             <div class="m-2">
-                                <a id="signer_document" href="{{ route('fields.form-values.create-sheet', ['form_value' => $formValue->id]) }}"
+                                <a id="create_sheet" href="{{ route('fields.form-values.create-sheet', ['form_value' => $formValue->id]) }}"
                                    target="_blank" class="btn-outline-info">{{ __('Planilha') }}</a>
                             </div>
                         @endif

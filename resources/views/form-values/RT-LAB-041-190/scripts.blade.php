@@ -105,6 +105,9 @@
                                 }
                             }
                         },
+                        customCanvasBackgroundColor: {
+                            color: 'lightGreen',
+                        },
                     }
                 }
             };
@@ -112,13 +115,15 @@
             Chart.register({
                 id: 'customBg',
                 beforeDraw: function(chart) {
-
                     var ctx = chart.ctx;
                     var ruleIndex = 0;
                     var rules = chart.options.backgroundRules;
                     var yaxis = chart.scales.y;
                     var xaxis = chart.scales.x;
                     var partPercentage = 1 / (yaxis.ticks.length - 1);
+
+                    ctx.fillStyle = '#ffff';
+                    ctx.fillRect(0, 0, chart.width, chart.height);
 
                     ctx.fillStyle = rules[0].backgroundColor;
                     ctx.fillRect(xaxis.left, yaxis.top, (xaxis.width * partPercentage) * 5, yaxis
@@ -960,6 +965,11 @@
         });
     });
 
+    document.getElementById("create_sheet").addEventListener("click", function(e) {
+        e.preventDefault();
+        uploadChartImage();
+    });
+
     function uploadCoordinates(that) {
         document.getElementById("spin_load").classList.remove("hidden");
 
@@ -1022,7 +1032,6 @@
         var data = new FormData();
         data.append('_token', token);
         data.append('_method', method);
-        data.append('_method', method);
         data.append('file', files[0]);
         data.append('form_value_id', form_value_id);
         data.append('sample_index', sample_index);
@@ -1057,11 +1066,43 @@
         var data = new FormData();
         data.append('_token', token);
         data.append('_method', method);
-        data.append('_method', method);
         for (let index = 0; index < files.length; index++) {
             const file = files[index];
             data.append('file[]', file);
         }
+        data.append('form_value_id', form_value_id);
+
+        ajax.send(data);
+    }
+
+    function uploadChartImage() {
+        document.getElementById("spin_load").classList.remove("hidden");
+
+        let image = document.querySelector("#myChart").toDataURL('image/png');
+
+        let ajax = new XMLHttpRequest();
+        let url = "{!! route('fields.form-values.upload-chart-image') !!}";
+        let token = document.querySelector('meta[name="csrf-token"]').content;
+        let method = 'POST';
+        let form_value_id = document.querySelector(`#form_value_id`).value;
+
+        ajax.open(method, url);
+
+        ajax.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("spin_load").classList.add("hidden");
+                window.open("{{ route('fields.form-values.create-sheet', ['form_value' => $formValue->id]) }}", '_blank').focus();
+
+            } else if (this.readyState == 4 && this.status != 200) {
+                toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                that.value = '';
+            }
+        }
+
+        var data = new FormData();
+        data.append('_token', token);
+        data.append('_method', method);
+        data.append('image', image);
         data.append('form_value_id', form_value_id);
 
         ajax.send(data);

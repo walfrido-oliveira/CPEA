@@ -55,7 +55,7 @@
                             </td>
                             <td>
                                 @if(isset($formPrint->formValue->svgs[$row][$key]))
-                                    @if($key == 'conc' && $formPrint->LQ[$key] > $formPrint->formValue->svgs[$row][$key])
+                                    @if($formPrint->LQ[$key] > $formPrint->formValue->svgs[$row][$key])
                                         {{'< ' . number_format(Str::replaceFirst(',', '.', $formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
                                     @else
                                         {{ number_format($formPrint->formValue->svgs[$row][$key], $formPrint->places[$key], ",", ".") }}

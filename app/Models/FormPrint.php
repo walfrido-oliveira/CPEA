@@ -88,6 +88,8 @@ class FormPrint extends Model
             "salinity" => Config::get("form_salinity_lq"),
             "conc" => Config::get("form_conc_lq"),
             "ntu" => Config::get("form_ntu_lq"),
+            "eh" => null,
+            "sat" => null
         ];
 
         $this->places = [
