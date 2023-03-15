@@ -69,7 +69,7 @@
                     <div class="inner-results">
                         <h3>Resultados de Parâmetros Físico-Químicos</h3>
                         <h4>RELATÓRIO - {{ $formPrint->formValue->values["project_id"] }} </h4>
-                        @foreach ($samples as $key => $sample)
+                        @foreach ($samples as $row => $sample)
                             <div class="table-container">
                                 <table class="first">
                                     <thead>
@@ -128,39 +128,42 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($formPrint->parameters as $key2 => $value)
-                                            @if((!isset($formPrint->formValue->values['turbidity']) && $key2 != "ntu") ||
+                                        @foreach ($formPrint->parameters as $key => $value)
+                                            @if((!isset($formPrint->formValue->values['turbidity']) && $key != "ntu") ||
                                                 (isset($formPrint->formValue->values['turbidity'])))
                                                 <tr>
                                                     <td style="text-align: left; border: 0px; border-left: 1px double grey;">
                                                         {{ $value }}
                                                     </td>
                                                     <td style="text-align: center; border: 0px;">
-                                                        {{ $formPrint->unities[$key2] }}
+                                                        {{ $formPrint->unities[$key] }}
                                                     </td>
                                                     <td style="text-align: center; border: 0px;">
-                                                        @if(isset($formPrint->formValue->svgs[$key][$key2]))
-                                                            @if(floatval($formPrint->LQ[$key2]) > floatval($formPrint->formValue->svgs[$key][$key2]) && is_numeric($formPrint->formValue->svgs[$key][$key2]))
-                                                                {{'< ' . number_format(floatval($formPrint->LQ[$key2]), $formPrint->places[$key2], ",", ".") }}
+                                                        @php
+                                                            $value = $key == "ntu" || $key == "eh" ? $sample[$key . "_footer"] : $formPrint->formValue->svgs[$row][$key];
+                                                        @endphp
+                                                        @if($value)
+                                                            @if(floatval($formPrint->LQ[$key]) > floatval($value))
+                                                                {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
                                                             @else
-                                                                @if($key2 == 'eh' || $key2 == 'ntu')
-                                                                    {{ isset($sample[$key2 .  '_footer']) ? number_format($sample[$key2 .  '_footer'], $formPrint->places[$key2], ",", ".") : '-' }}
+                                                                @if($key == 'eh' || $key == 'ntu')
+                                                                    {{ isset($sample[$key .  '_footer']) ? number_format($sample[$key .  '_footer'], $formPrint->places[$key], ",", ".") : '-' }}
                                                                 @else
-                                                                    {{ number_format($formPrint->formValue->svgs[$key][$key2], $formPrint->places[$key2], ",", ".") }}
+                                                                    {{ number_format($value, $formPrint->places[$key], ",", ".") }}
                                                                 @endif
                                                             @endif
                                                         @endif
                                                     </td>
                                                     @if(isset($formPrint->formValue->values['uncertainty']))
                                                         <td style="text-align: center; border: 0px;">
-                                                            {{ isset($sample[$key2 . "_uncertainty_footer"]) ? '± ' . $sample[$key2 . "_uncertainty_footer"] : '-'}}
+                                                            {{ isset($sample[$key . "_uncertainty_footer"]) ? '± ' . $sample[$key . "_uncertainty_footer"] : '-'}}
                                                         </td>
                                                     @endif
                                                     <td style="text-align: center; border: 0px;">
-                                                        {{ Str::replace(".", ",", $formPrint->LQ[$key2]) }}
+                                                        {{ Str::replace(".", ",", $formPrint->LQ[$key]) }}
                                                     </td>
                                                     <td style="text-align: center; border: 0px; border-right: 1px double grey;">
-                                                        {{ $formPrint->range[$key2] }}
+                                                        {{ $formPrint->range[$key] }}
                                                     </td>
                                                 <tr>
                                             @endif
@@ -206,7 +209,7 @@
                                 </thead>
 
                                 <tbody>
-                                    @foreach ($coordinates as $key => $coordinate)
+                                    @foreach ($coordinates as $row => $coordinate)
                                         <tr>
                                             <td>
                                                 {{ isset($coordinate['point']) ? $coordinate['point'] : '' }}

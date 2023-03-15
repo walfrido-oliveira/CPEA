@@ -54,11 +54,14 @@
                                 {{ $formPrint->unities[$key] }}
                             </td>
                             <td>
-                                @if(isset($formPrint->formValue->svgs[$row][$key]))
-                                    @if(floatval($formPrint->LQ[$key]) > floatval($formPrint->formValue->svgs[$row][$key]) && is_numeric($formPrint->formValue->svgs[$row][$key]))
+                                @php
+                                    $value = $key == "ntu" || $key == "eh" ? $sample[$key . "_footer"] : $formPrint->formValue->svgs[$row][$key];
+                                @endphp
+                                @if($value)
+                                    @if(floatval($formPrint->LQ[$key]) > floatval($value))
                                         {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
                                     @else
-                                        {{ number_format($formPrint->formValue->svgs[$row][$key], $formPrint->places[$key], ",", ".") }}
+                                        {{ number_format($value, $formPrint->places[$key], ",", ".") }}
                                     @endif
                                 @endif
                             </td>

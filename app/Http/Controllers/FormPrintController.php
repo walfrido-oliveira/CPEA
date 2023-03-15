@@ -415,8 +415,9 @@ class FormPrintController extends Controller
 
             $indexRow = 0;
             foreach (["eh" => "EH", "ph" => "pH"] as $key => $value) {
-                if(isset($formPrint->formValue->svgs[$row][$key])) :
-                    if(floatval($formPrint->LQ[$key]) > floatval($formPrint->formValue->svgs[$row][$key]) && is_numeric($formPrint->formValue->svgs[$row][$key])) :
+                $value = $key == "ntu" || $key == "eh" ? $sample[$key . "_footer"] : $formPrint->formValue->svgs[$row][$key];
+                if($value) :
+                    if(floatval($formPrint->LQ[$key]) > floatval($formPrint->formValue->svgs[$row][$key])) :
                         $sheet->setCellValueByColumnAndRow(8 + $index, 12 + $indexRow, '< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", "."));
                     else :
                         $sheet->setCellValueByColumnAndRow(8 + $index, 12 + $indexRow, number_format($formPrint->formValue->svgs[$row][$key], $formPrint->places[$key], ",", "."));
