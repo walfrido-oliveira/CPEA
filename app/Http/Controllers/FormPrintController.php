@@ -417,7 +417,7 @@ class FormPrintController extends Controller
             foreach (["eh" => "EH", "ph" => "pH"] as $key => $value) {
                 if(isset($formPrint->formValue->svgs[$row][$key])) :
                     if(floatval($formPrint->LQ[$key]) > floatval($formPrint->formValue->svgs[$row][$key])) :
-                        $sheet->setCellValueByColumnAndRow(8 + $index, 12 + $indexRow, '< ' . number_format(Str::replaceFirst(',', '.', $formPrint->LQ[$key]), $formPrint->places[$key], ",", "."));
+                        $sheet->setCellValueByColumnAndRow(8 + $index, 12 + $indexRow, '< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", "."));
                     else :
                         $sheet->setCellValueByColumnAndRow(8 + $index, 12 + $indexRow, number_format($formPrint->formValue->svgs[$row][$key], $formPrint->places[$key], ",", "."));
                     endif;

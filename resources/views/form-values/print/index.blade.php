@@ -141,7 +141,7 @@
                                                     <td style="text-align: center; border: 0px;">
                                                         @if(isset($formPrint->formValue->svgs[$key][$key2]))
                                                             @if(floatval($formPrint->LQ[$key2]) > floatval($formPrint->formValue->svgs[$key][$key2]))
-                                                                {{'< ' . number_format(Str::replaceFirst(',', '.', $formPrint->LQ[$key2]), $formPrint->places[$key2], ",", ".") }}
+                                                                {{'< ' . number_format(floatval($formPrint->LQ[$key2]), $formPrint->places[$key2], ",", ".") }}
                                                             @else
                                                                 @if($key2 == 'eh' || $key2 == 'ntu')
                                                                     {{ isset($sample[$key2 .  '_footer']) ? number_format($sample[$key2 .  '_footer'], $formPrint->places[$key2], ",", ".") : '-' }}
