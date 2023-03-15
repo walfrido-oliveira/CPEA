@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Dompdf\Dompdf;
 use Nette\Utils\Image;
+use App\Models\FieldType;
 use App\Models\FormPrint;
 use App\Models\FormValue;
 use Illuminate\Support\Str;
@@ -169,7 +170,7 @@ class FormPrintController extends Controller
         $sheet->setCellValueByColumnAndRow(2, 9, 'Matriz');
         $sheet->getStyleByColumnAndRow(2, 9)->applyFromArray($bold10DefaultStyle);
 
-        $sheet->setCellValueByColumnAndRow(3, 9, $formValue->values['matrix']);
+        $sheet->setCellValueByColumnAndRow(3, 9, isset($formValue->values['matrix']) ? FieldType::find($formValue->values['matrix'])->name : null);
         $sheet->getStyleByColumnAndRow(3, 9)->applyFromArray($normal10DefaultStyle);
 
         $sheet->getStyleByColumnAndRow(2, 7, 3, 9)->applyFromArray($borderGray);
