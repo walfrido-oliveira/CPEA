@@ -52,6 +52,8 @@ class FormPrint extends Model
         if(isset($this->formValue->values["signer"])) {
             $this->user = User::find($this->formValue->values["signer"]);
             $this->pathSigner = $this->user ? $this->user->signer : null;
+        } else {
+            $this->user = User::find(0);
         }
 
         if(isset($this->formValue->values['client'])) $this->customer = Customer::find($this->formValue->values['client']);
