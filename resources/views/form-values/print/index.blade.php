@@ -140,7 +140,7 @@
                                                     </td>
                                                     <td style="text-align: center; border: 0px;">
                                                         @if(isset($formPrint->formValue->svgs[$key][$key2]))
-                                                            @if(floatval($formPrint->LQ[$key2]) > floatval($formPrint->formValue->svgs[$key][$key2]))
+                                                            @if(floatval($formPrint->LQ[$key2]) > floatval($formPrint->formValue->svgs[$key][$key2]) && is_numeric($formPrint->formValue->svgs[$key][$key2]))
                                                                 {{'< ' . number_format(floatval($formPrint->LQ[$key2]), $formPrint->places[$key2], ",", ".") }}
                                                             @else
                                                                 @if($key2 == 'eh' || $key2 == 'ntu')
