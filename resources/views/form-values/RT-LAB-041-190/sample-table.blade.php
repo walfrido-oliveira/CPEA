@@ -56,7 +56,7 @@
                             <td>
                                 @if(isset($formPrint->formValue->svgs[$row][$key]))
                                     @if(floatval($formPrint->LQ[$key]) > floatval($formPrint->formValue->svgs[$row][$key]))
-                                        {{'< ' . number_format(floatval($formPrint->LQ[$key])), $formPrint->places[$key], ",", ".") }}
+                                        {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
                                     @else
                                         {{ number_format($formPrint->formValue->svgs[$row][$key], $formPrint->places[$key], ",", ".") }}
                                     @endif
