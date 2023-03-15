@@ -196,9 +196,10 @@ class FormPrintController extends Controller
 
         $spreadsheet = new Spreadsheet();
         $spreadsheet->getActiveSheet()->setTitle("FINAL_ORDEM");
-        $spreadsheet->getDefaultStyle()->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB("FFF");
 
         $sheet = $spreadsheet->getActiveSheet();
+        $spreadsheet->getDefaultStyle()->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB("FFF");
+
 
         $boldDefaultStyle = [
             'font' => [ 'name' => 'Calibri Light',
@@ -437,7 +438,7 @@ class FormPrintController extends Controller
         $spreadsheet->createSheet();
         $spreadsheet->setActiveSheetIndex(2);
         $spreadsheet->getActiveSheet()->setTitle("Gráf pHxEH");
-        $spreadsheet->getDefaultStyle()->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB("D9D9D9");
+        $spreadsheet->getDefaultStyle()->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB("FFF");
 
         $sheet = $spreadsheet->getActiveSheet();
 
