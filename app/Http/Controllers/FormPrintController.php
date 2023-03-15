@@ -427,7 +427,7 @@ class FormPrintController extends Controller
                 $sheet->getColumnDimensionByColumn(8 + $index)->setAutoSize(true);
 
                 $indexRow++;
-            }''
+            }
 
             $index++;
         }
