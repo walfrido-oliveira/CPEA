@@ -1091,7 +1091,7 @@
         ajax.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 document.getElementById("spin_load").classList.add("hidden");
-                window.open("{{ route('fields.form-values.create-sheet', ['form_value' => $formValue->id]) }}", '_blank').focus();
+                window.open("@if($formValue){{ route('fields.form-values.create-sheet', ['form_value' => $formValue->id]) }}@endif", '_blank').focus();
 
             } else if (this.readyState == 4 && this.status != 200) {
                 document.getElementById("spin_load").classList.add("hidden");
