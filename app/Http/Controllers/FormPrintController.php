@@ -305,7 +305,6 @@ class FormPrintController extends Controller
             "conductivity" => "Condutividade (µS/cm)",
             "salinity" => "Salinidade",
             "temperature" => "Temperatura (C°)",
-            "ntu" => "Turbidez (NTU)",
         ];
 
         $columnsText = [
@@ -322,8 +321,12 @@ class FormPrintController extends Controller
             "Condutividade (µS/cm)",
             "Salinidade",
             "Temperatura (C°)",
-            "Turbidez (NTU)",
         ];
+
+        if(isset($formValue->values['turbidity'])) {
+            $formPrint->parameters["ntu"] = "Turbidez (NTU)";
+            $columnsText[] = "Turbidez (NTU)";
+        }
 
         $this->setTitleSheet("TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - FINAL", $sheet, $formValue,
                             $titleDefaultStyle, $boldDefaultStyle, $normalDefaultStyle,
@@ -415,7 +418,11 @@ class FormPrintController extends Controller
 
             $indexRow = 0;
             foreach (["eh" => "EH", "ph" => "pH"] as $key => $value) {
-                $value = $key == "ntu" || $key == "eh" ? $sample[$key . "_footer"] : $formPrint->formValue->svgs[$row][$key];
+                if($key == "ntu" || $key == "eh") :
+                    $value = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : "-";
+                else :
+                    $value =  $formPrint->formValue->svgs[$row][$key];
+                endif;
                 if($value) :
                     if(floatval($formPrint->LQ[$key]) > floatval($formPrint->formValue->svgs[$row][$key])) :
                         $sheet->setCellValueByColumnAndRow(8 + $index, 12 + $indexRow, '< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", "."));

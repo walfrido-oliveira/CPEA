@@ -140,7 +140,11 @@
                                                     </td>
                                                     <td style="text-align: center; border: 0px;">
                                                         @php
-                                                            $value = $key == "ntu" || $key == "eh" ? $sample[$key . "_footer"] : $formPrint->formValue->svgs[$row][$key];
+                                                            if($key == "ntu" || $key == "eh") :
+                                                                $value = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : "-";
+                                                            else :
+                                                                $value =  $formPrint->formValue->svgs[$row][$key];
+                                                            endif;
                                                         @endphp
                                                         @if($value)
                                                             @if(floatval($formPrint->LQ[$key]) > floatval($value))

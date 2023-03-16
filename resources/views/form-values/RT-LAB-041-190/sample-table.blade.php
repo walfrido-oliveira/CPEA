@@ -56,7 +56,7 @@
                             <td>
                                 @php
                                     if($key == "ntu" || $key == "eh") :
-                                        $value = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : null;
+                                        $value = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : "-";
                                     else :
                                         $value =  $formPrint->formValue->svgs[$row][$key];
                                     endif;

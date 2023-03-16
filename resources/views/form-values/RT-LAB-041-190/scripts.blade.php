@@ -5,11 +5,12 @@
 
 <script>
     window.addEventListener("load", function() {
-        setChart();
+        setChart("myChart");
+        setChart("myChart2");
     });
 
-    function setChart() {
-            var ctx = document.getElementById('myChart').getContext('2d');
+    function setChart(id) {
+            var ctx = document.getElementById(id).getContext('2d');
             const data = {
                 datasets: [{
                     labels: [
@@ -182,6 +183,7 @@
 
             var myChart = new Chart(ctx, config);
             window.myChart = myChart;
+
         }
 
 </script>
@@ -1078,7 +1080,7 @@
     function uploadChartImage() {
         document.getElementById("spin_load").classList.remove("hidden");
 
-        let image = document.querySelector("#myChart").toDataURL('image/png');
+        let image = document.querySelector("#myChart2").toDataURL('image/png');
 
         let ajax = new XMLHttpRequest();
         let url = "{!! route('fields.form-values.upload-chart-image') !!}";

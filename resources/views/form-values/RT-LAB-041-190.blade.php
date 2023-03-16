@@ -254,6 +254,9 @@
                                 </p>
                             </div>
                         </div>
+                        <div class="w-full">
+                            <canvas id="myChart2" width="800" height="400" style="display: block; box-sizing: border-box; height: 400px; width: 800px; max-height: 400px;position:absolute;left:-9999px;top:-9999px"></canvas>
+                        </div>
                     </div>
 
                     @include('form-values.RT-LAB-041-190.coordinates-table')
@@ -270,7 +273,6 @@
                                 </textarea>
                             </div>
                         </div>
-
                         <div class="flex flex-wrap mt-4">
                             <div class="w-full px-3 mb-6 md:mb-0">
                                 <x-jet-label for="approval_text" value="{{ __('Aprovação do Relatório') }}" />
@@ -280,7 +282,6 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </form>
         </div>
@@ -294,5 +295,7 @@
     @include("form-values.RT-LAB-041-190.signer-modal")
     @include("form-values.RT-LAB-041-190.add-results-modal")
     @include("form-values.RT-LAB-041-190.scripts")
+
+
 
 </x-app-layout>
