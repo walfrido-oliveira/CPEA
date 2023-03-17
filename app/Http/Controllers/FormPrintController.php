@@ -360,7 +360,7 @@ class FormPrintController extends Controller
                 if($key == "ntu" || $key == "eh") :
                     $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : $formValue->svgs[$row][$key];
                 elseif($key == "sat" && (!$formValue->svgs[$row][$key] || $formValue->svgs[$row][$key] == 0)) :
-                    $v = number_format(4, $formPrint->places[$key], ",", ".");
+                    $v = '<' . number_format(4, $formPrint->places[$key], ",", ".");
                 else :
                     $v =  $formPrint->formValue->svgs[$row][$key];
                 endif;
