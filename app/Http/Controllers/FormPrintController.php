@@ -357,12 +357,10 @@ class FormPrintController extends Controller
 
             $indexRow = 0;
             foreach ($formPrint->parameters as $key => $value) {
-                if(isset($formPrint->formValue->svgs[$row][$key])) :
-                    if($formPrint->LQ[$key] > $formPrint->formValue->svgs[$row][$key]) :
-                        $sheet->setCellValueByColumnAndRow(8 + $index, 16 + $indexRow, '< ' . number_format(Str::replaceFirst(',', '.', $formPrint->LQ[$key]), $formPrint->places[$key], ",", "."));
-                    else :
-                        $sheet->setCellValueByColumnAndRow(8 + $index, 16 + $indexRow, number_format($formPrint->formValue->svgs[$row][$key], $formPrint->places[$key], ",", "."));
-                    endif;
+                if($formPrint->LQ[$key] > $formPrint->formValue->svgs[$row][$key] || !$formPrint->formValue->svgs[$row][$key]) :
+                    $sheet->setCellValueByColumnAndRow(8 + $index, 16 + $indexRow, '< ' . number_format(Str::replaceFirst(',', '.', $formPrint->LQ[$key]), $formPrint->places[$key], ",", "."));
+                else :
+                    $sheet->setCellValueByColumnAndRow(8 + $index, 16 + $indexRow, number_format($formPrint->formValue->svgs[$row][$key], $formPrint->places[$key], ",", "."));
                 endif;
                 $sheet->getStyleByColumnAndRow(8 + $index, 16 + $indexRow)->applyFromArray($normal10DefaultStyle);
                 $sheet->getStyleByColumnAndRow(8 + $index, 16 + $indexRow)->getFont()->setBold(true);

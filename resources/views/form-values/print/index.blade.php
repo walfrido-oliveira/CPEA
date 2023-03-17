@@ -146,15 +146,14 @@
                                                                 $value =  $formPrint->formValue->svgs[$row][$key];
                                                             endif;
                                                         @endphp
-                                                        @if($value)
-                                                            @if(floatval($formPrint->LQ[$key]) > floatval($value) && is_numeric($formPrint->LQ[$key]))
-                                                                {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
+
+                                                        @if((floatval($formPrint->LQ[$key]) > floatval($value) || !$value) && is_numeric($formPrint->LQ[$key]))
+                                                            {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
+                                                        @else
+                                                            @if($key == 'eh' || $key == 'ntu')
+                                                                {{ isset($sample[$key .  '_footer']) ? number_format($sample[$key .  '_footer'], $formPrint->places[$key], ",", ".") : '-' }}
                                                             @else
-                                                                @if($key == 'eh' || $key == 'ntu')
-                                                                    {{ isset($sample[$key .  '_footer']) ? number_format($sample[$key .  '_footer'], $formPrint->places[$key], ",", ".") : '-' }}
-                                                                @else
-                                                                    {{ number_format($value, $formPrint->places[$key], ",", ".") }}
-                                                                @endif
+                                                                {{ number_format($value, $formPrint->places[$key], ",", ".") }}
                                                             @endif
                                                         @endif
                                                     </td>

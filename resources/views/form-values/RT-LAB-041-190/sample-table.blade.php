@@ -61,19 +61,18 @@
                                         $value =  $formPrint->formValue->svgs[$row][$key];
                                     endif;
                                 @endphp
-                                @if($value)
-                                    @if(floatval($formPrint->LQ[$key]) > floatval($value) && is_numeric($formPrint->LQ[$key]))
-                                        {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
-                                    @else
-                                        {{ number_format($value, $formPrint->places[$key], ",", ".") }}
-                                    @endif
+
+                                @if((floatval($formPrint->LQ[$key]) > floatval($value) || !$value) && is_numeric($formPrint->LQ[$key]))
+                                    {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
+                                @else
+                                    {{ number_format($value, $formPrint->places[$key], ",", ".") }}
                                 @endif
                             </td>
                             <td>
                                 {{ isset($sample[$key . "_uncertainty_footer"]) ?  '± ' . $sample[$key . "_uncertainty_footer"] : '-'}}
                             </td>
                             <td>
-                                {{ $formPrint->LQ[$key] }}
+                                {{ is_numeric($formPrint->LQ[$key]) ?  number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") : $formPrint->LQ[$key] }}
                             </td>
                             <td>
                                 {{ $formPrint->range[$key] }}
