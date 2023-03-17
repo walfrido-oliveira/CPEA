@@ -91,7 +91,7 @@ class FormPrint extends Model
             "conc" => Config::get("form_conc_lq"),
             "ntu" => Config::get("form_ntu_lq"),
             "eh" => null,
-            "sat" => null
+            "sat" => 4
         ];
 
         $this->places = [
