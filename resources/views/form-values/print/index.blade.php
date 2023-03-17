@@ -141,7 +141,7 @@
                                                     <td style="text-align: center; border: 0px;">
                                                         @php
                                                             if($key == "ntu" || $key == "eh") :
-                                                                $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : "-";
+                                                                $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : $formValue->svgs[$row][$key];
                                                             else :
                                                                 $v =  $formPrint->formValue->svgs[$row][$key];
                                                             endif;

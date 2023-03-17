@@ -358,7 +358,7 @@ class FormPrintController extends Controller
             $indexRow = 0;
             foreach ($formPrint->parameters as $key => $value) {
                 if($key == "ntu" || $key == "eh") :
-                    $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : "-";
+                    $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : $formValue->svgs[$row][$key];
                 else :
                     $v =  $formPrint->formValue->svgs[$row][$key];
                 endif;
