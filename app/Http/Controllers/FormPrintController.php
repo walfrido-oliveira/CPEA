@@ -363,7 +363,7 @@ class FormPrintController extends Controller
                     $v =  $formPrint->formValue->svgs[$row][$key];
                 endif;
 
-                if(($formPrint->LQ[$key] > $formPrint->formValue->svgs[$row][$key] || !$v) && is_numeric($formPrint->LQ[$key])) :
+                if(($formPrint->LQ[$key] > floatval($v) || !$v) && is_numeric($formPrint->LQ[$key])) :
                     $sheet->setCellValueByColumnAndRow(8 + $index, 16 + $indexRow, '< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", "."));
                 else :
                     $sheet->setCellValueByColumnAndRow(8 + $index, 16 + $indexRow, is_numeric($v) ? number_format($v, $formPrint->places[$key], ",", ".") : $v);
@@ -429,7 +429,7 @@ class FormPrintController extends Controller
                     $v =  $formPrint->formValue->svgs[$row][$key];
                 endif;
 
-                if(($formPrint->LQ[$key] > $formPrint->formValue->svgs[$row][$key] || !$v) && is_numeric($formPrint->LQ[$key])) :
+                if(($formPrint->LQ[$key] > floatval($v) || !$v) && is_numeric($formPrint->LQ[$key])) :
                     $sheet->setCellValueByColumnAndRow(8 + $index, 12 + $indexRow, '< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", "."));
                 else :
                     $sheet->setCellValueByColumnAndRow(8 + $index, 12 + $indexRow, is_numeric($v) ? number_format($v, $formPrint->places[$key], ",", ".") : $v);
