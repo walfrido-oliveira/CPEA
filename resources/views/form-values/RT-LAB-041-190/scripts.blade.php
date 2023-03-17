@@ -717,10 +717,16 @@
             var date3 = new Date(document.getElementById("date_end").value);
             var environmentValue = document.getElementById("environment_value");
             var environment = document.getElementById(`environment_${item.dataset.index}`);
+            var countSamples = 0;
 
             if(date1.getTime() >= date2.getTime() && date1.getTime() <= date3.getTime()) {
                 environment.value = environmentValue.value;
                 saveSample(document.querySelector(`.save-sample[data-index='sample_${item.dataset.index}']`), true);
+                countSamples++;
+            }
+
+            if(countSamples == 0) {
+                toastr.error("Nenhuma amostra encontrada com as datas informadas.");
             }
         });
 
