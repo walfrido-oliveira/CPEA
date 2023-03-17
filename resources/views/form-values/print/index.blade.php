@@ -147,7 +147,7 @@
                                                             endif;
                                                         @endphp
                                                         @if($value)
-                                                            @if(floatval($formPrint->LQ[$key]) > floatval($value))
+                                                            @if(floatval($formPrint->LQ[$key]) > floatval($value) && is_numeric($formPrint->LQ[$key]))
                                                                 {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
                                                             @else
                                                                 @if($key == 'eh' || $key == 'ntu')
