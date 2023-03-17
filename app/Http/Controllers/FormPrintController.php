@@ -358,15 +358,15 @@ class FormPrintController extends Controller
             $indexRow = 0;
             foreach ($formPrint->parameters as $key => $value) {
                 if($key == "ntu" || $key == "eh") :
-                    $value = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : "-";
+                    $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : "-";
                 else :
-                    $value =  $formPrint->formValue->svgs[$row][$key];
+                    $v =  $formPrint->formValue->svgs[$row][$key];
                 endif;
 
-                if(($formPrint->LQ[$key] > $formPrint->formValue->svgs[$row][$key] || !$value) && is_numeric($formPrint->LQ[$key])) :
+                if(($formPrint->LQ[$key] > $formPrint->formValue->svgs[$row][$key] || !$v) && is_numeric($formPrint->LQ[$key])) :
                     $sheet->setCellValueByColumnAndRow(8 + $index, 16 + $indexRow, '< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", "."));
                 else :
-                    $sheet->setCellValueByColumnAndRow(8 + $index, 16 + $indexRow, is_numeric($value) ? number_format($value, $formPrint->places[$key], ",", ".") : $value);
+                    $sheet->setCellValueByColumnAndRow(8 + $index, 16 + $indexRow, is_numeric($v) ? number_format($v, $formPrint->places[$key], ",", ".") : $v);
                 endif;
 
                 $sheet->getStyleByColumnAndRow(8 + $index, 16 + $indexRow)->applyFromArray($normal10DefaultStyle);
@@ -423,16 +423,16 @@ class FormPrintController extends Controller
 
             $indexRow = 0;
             foreach (["eh", "ph"] as $key) {
-                if($key == "ntu" || $key == "eh") :
-                    $value = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : "-";
+                if($key == "eh") :
+                    $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : "-";
                 else :
-                    $value =  $formPrint->formValue->svgs[$row][$key];
+                    $v =  $formPrint->formValue->svgs[$row][$key];
                 endif;
 
-                if(($formPrint->LQ[$key] > $formPrint->formValue->svgs[$row][$key] || !$value) && is_numeric($formPrint->LQ[$key])) :
+                if(($formPrint->LQ[$key] > $formPrint->formValue->svgs[$row][$key] || !$v) && is_numeric($formPrint->LQ[$key])) :
                     $sheet->setCellValueByColumnAndRow(8 + $index, 12 + $indexRow, '< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", "."));
                 else :
-                    $sheet->setCellValueByColumnAndRow(8 + $index, 12 + $indexRow, is_numeric($value) ? number_format($value, $formPrint->places[$key], ",", ".") : $value);
+                    $sheet->setCellValueByColumnAndRow(8 + $index, 12 + $indexRow, is_numeric($v) ? number_format($v, $formPrint->places[$key], ",", ".") : $v);
                 endif;
 
                 $sheet->getStyleByColumnAndRow(8 + $index, 12 + $indexRow)->applyFromArray($normal10DefaultStyle);
