@@ -596,7 +596,8 @@
         let form_value_id = document.querySelector(`#form_value_id`).value;
         let sample_index = document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`).value;
         let equipment = document.querySelector(`#${that.dataset.index} #equipment_${that.dataset.row}`).value;
-        let turbidity_equipment = document.querySelector(`#${that.dataset.index} #turbidity_equipment_${that.dataset.row}`).value;
+        let turbidity_equipment = document.querySelector(`#${that.dataset.index} #turbidity_equipment_${that.dataset.row}`) ?
+        document.querySelector(`#${that.dataset.index} #turbidity_equipment_${that.dataset.row}`).value : null;
         let point = document.querySelector(`#${that.dataset.index} #point_${that.dataset.row}`).value;
         let environment = document.querySelector(`#${that.dataset.index} #environment_${that.dataset.row}`).value;
         let collect = document.querySelector(`#${that.dataset.index} #collect_${that.dataset.row}`).value;
