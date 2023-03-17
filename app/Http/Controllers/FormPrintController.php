@@ -432,7 +432,7 @@ class FormPrintController extends Controller
                 if(($formPrint->LQ[$key] > $formPrint->formValue->svgs[$row][$key] || !$value) && is_numeric($formPrint->LQ[$key])) :
                     $sheet->setCellValueByColumnAndRow(8 + $index, 12 + $indexRow, '< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", "."));
                 else :
-                    $sheet->setCellValueByColumnAndRow(8 + $index, 12 + $indexRow, number_format($value, $formPrint->places[$key], ",", "."));
+                    $sheet->setCellValueByColumnAndRow(8 + $index, 12 + $indexRow, is_numeric($value) ? number_format($value, $formPrint->places[$key], ",", ".") : $value);
                 endif;
 
                 $sheet->getStyleByColumnAndRow(8 + $index, 12 + $indexRow)->applyFromArray($normal10DefaultStyle);
