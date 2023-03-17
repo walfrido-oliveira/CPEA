@@ -150,11 +150,7 @@
                                                         @if((floatval($formPrint->LQ[$key]) > floatval($value) || !$value) && is_numeric($formPrint->LQ[$key]))
                                                             {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
                                                         @else
-                                                            @if($key == 'eh' || $key == 'ntu')
-                                                                {{ isset($sample[$key .  '_footer']) ? number_format($sample[$key .  '_footer'], $formPrint->places[$key], ",", ".") : '-' }}
-                                                            @else
-                                                                {{ number_format($value, $formPrint->places[$key], ",", ".") }}
-                                                            @endif
+                                                            {{ is_numeric($value) ? number_format($value, $formPrint->places[$key], ",", ".") : $value }}
                                                         @endif
                                                     </td>
                                                     @if(isset($formPrint->formValue->values['uncertainty']))

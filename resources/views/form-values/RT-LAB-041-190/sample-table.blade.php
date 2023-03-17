@@ -65,7 +65,7 @@
                                 @if((floatval($formPrint->LQ[$key]) > floatval($value) || !$value) && is_numeric($formPrint->LQ[$key]))
                                     {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
                                 @else
-                                    {{ number_format($value, $formPrint->places[$key], ",", ".") }}
+                                    {{ is_numeric($value) ? number_format($value, $formPrint->places[$key], ",", ".") : $value }}
                                 @endif
                             </td>
                             <td>
