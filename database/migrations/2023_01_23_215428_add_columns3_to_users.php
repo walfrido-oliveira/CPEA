@@ -14,7 +14,7 @@ class AddColumns3ToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('dpto');
+            //$table->dropColumn('dpto');
             $table->foreignId('department_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('occupation_id')->nullable()->constrained()->onDelete('cascade');
 
