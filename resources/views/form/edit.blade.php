@@ -26,7 +26,7 @@
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="name" value="{{ __('Nome') }}" required/>
-                            <x-jet-input id="name" class="form-control block mt-1 w-full" :value="$form->name" type="text" name="name" maxlength="255" required autofocus autocomplete="name" placeholder="{{ __('Nome') }}"/>
+                            <x-jet-input id="name" readonly class="form-control block mt-1 w-full" :value="$form->name" type="text" name="name" maxlength="255" required autofocus autocomplete="name" placeholder="{{ __('Nome') }}"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="identification" value="{{ __('Identificação') }}" required/>
