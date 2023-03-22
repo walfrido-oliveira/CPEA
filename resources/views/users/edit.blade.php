@@ -36,7 +36,7 @@
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="email" value="{{ __('E-mail') }}"/>
-                            <x-jet-input id="email" class="form-control block mt-1 w-full" type="text" name="email" maxlength="255" :value="$user->email" readonly autofocus autocomplete="email"/>
+                            <x-jet-input id="email" class="form-control block mt-1 w-full" type="email" name="email" maxlength="255" :value="$user->email" readonly autofocus autocomplete="email"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="password" value="{{ __('Senha') }}" />

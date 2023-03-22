@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="py-6 create-users">
         <div class="md:max-w-6xl lg:max-w-full mx-auto px-4">
-            <form method="POST" action="{{ route('users.store') }}">
+            <form method="POST" action="{{ route('users.store') }}" enctype="multipart/form-data">
                 @csrf
                 @method("POST")
                 <div class="flex md:flex-row flex-col">
@@ -36,7 +36,7 @@
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="email" value="{{ __('E-mail') }}" required/>
-                            <x-jet-input id="email" class="form-control block mt-1 w-full" type="text" name="email" required maxlength="255" autofocus autocomplete="email" :value="old('email')"/>
+                            <x-jet-input id="email" class="form-control block mt-1 w-full" type="email" name="email" required maxlength="255" autofocus autocomplete="email" :value="old('email')"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="phone" value="{{ __('Telefone') }}" />

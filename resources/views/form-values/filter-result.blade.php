@@ -22,7 +22,11 @@
             <td>#{{ str_pad($form->id, 5, '0', STR_PAD_LEFT)}}</td>
             <td>{{ $form->form->name }}</td>
             <td>{{ isset($form->values['project_id']) ? $form->values['project_id'] : '' }}</td>
-            <td>{{ isset($form->values['matrix']) ? App\Models\FieldType::find($form->values['matrix'])->name : '-' }}</td>
+            <td>
+                @if(isset($form->values['matrix']))
+                        {{ App\Models\FieldType::find($form->values['matrix']) ? App\Models\FieldType::find($form->values['matrix'])->name : '-' }}
+                @endif
+            </td>
             <td>{{ $form->created_at ? $form->created_at->format("d/m/Y") : '-' }}</td>
             <td>{{ $form->updated_at ? $form->updated_at->format("d/m/Y") : '-' }}</td>
             <td>
