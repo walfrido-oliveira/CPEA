@@ -143,11 +143,11 @@
                     </thead>
                     <tbody id="table_result">
                         @foreach (array_chunk($sample['results'], 3)[0] as $key => $value)
-                            @include('form-values.RT-LAB-041-190.sample-fields', ['key' => $key, 'value' => $value])
+                            @include('form-values.RT-LAB-020.sample-fields', ['key' => $key, 'value' => $value])
                         @endforeach
                     </tbody>
                     <tfoot id="table_result_footer">
-                        @include('form-values.RT-LAB-041-190.sample-footer')
+                        @include('form-values.RT-LAB-020.sample-footer')
                     </tfoot>
                 </table>
             </div>
@@ -172,7 +172,7 @@
                             </thead>
                             <tbody id="table_result">
                                 @foreach (array_chunk($sample['results'], 3)[1] as $key2 => $value)
-                                    @include('form-values.RT-LAB-041-190.sample-fields', ['key' => ($key2 + $key + 1), 'value' => $value])
+                                    @include('form-values.RT-LAB-020.sample-fields', ['key' => ($key2 + $key + 1), 'value' => $value])
                                 @endforeach
                             </tbody>
                             <tfoot id="table_result_footer">

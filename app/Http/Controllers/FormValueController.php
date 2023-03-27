@@ -161,8 +161,12 @@ class FormValueController extends Controller
     {
         $formValue = FormValue::findOrFail($id);
 
-        $users = User::whereHas('occupation', function($q) {
+        $usersSiger = User::whereHas('occupation', function($q) {
             $q->where('occupations.name', 'Técnico de Campo');
+        })->get()->pluck('full_name', 'id');
+
+        $users = User::whereHas('occupation', function($q) {
+            $q->whereIn('occupations.name', ['Técnico de Campo', 'Auxiliar Técnico Analítico', 'Suporte Técnico Analítico', 'Analista da Qualidade', 'Estagiário']);
         })->get()->pluck('full_name', 'id');
 
         $customers = Customer::where('status', 'active')->pluck('name', 'id');
@@ -177,7 +181,8 @@ class FormValueController extends Controller
         $samplesTable = isset($values['samples']) ? $formValue->sortSamples("collect") : [];
 
         return view("form-values.$form->name", compact( "form", "project_id", "formValue", "users",
-                                                        "customers", "fields", "floatingMaterials", "formPrint", "samplesTable"));
+                                                        "customers", "fields", "floatingMaterials",
+                                                        "formPrint", "samplesTable", "usersSiger"));
     }
 
     /**

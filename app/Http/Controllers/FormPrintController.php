@@ -329,8 +329,8 @@ class FormPrintController extends Controller
         }
 
         $this->setTitleSheet("TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - FINAL", $sheet, $formValue,
-                            $titleDefaultStyle, $boldDefaultStyle, $normalDefaultStyle,
-                            $bold10DefaultStyle, $normal10DefaultStyle, $borderGray);
+                             $titleDefaultStyle, $boldDefaultStyle, $normalDefaultStyle,
+                             $bold10DefaultStyle, $normal10DefaultStyle, $borderGray);
 
         foreach ( $columnsText as $key => $column) {
             if($column != '') {
@@ -359,7 +359,7 @@ class FormPrintController extends Controller
             foreach ($formPrint->parameters as $key => $value) {
                 if($key == "ntu" || $key == "eh") :
                     $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : $formValue->svgs[$row][$key];
-                elseif($key == "sat" && (!$formValue->svgs[$row][$key] || $formValue->svgs[$row][$key] == 0)) :
+                elseif((!$formValue->svgs[$row][$key] || $formValue->svgs[$row][$key] == 0)) :
                     $v = '< ' . number_format(4, $formPrint->places[$key], ",", ".");
                 else :
                     $v =  $formPrint->formValue->svgs[$row][$key];

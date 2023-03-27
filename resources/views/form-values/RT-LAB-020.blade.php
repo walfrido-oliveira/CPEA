@@ -81,7 +81,7 @@
                         </div>
                         <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                             <x-jet-label for="signer" value="{{ __('Resposável (Assinatura)') }}" />
-                            <x-custom-select :options="$users" value="{{ isset($formValue->values['signer']) ? $formValue->values['signer'] : null }}" name="signer" id="signer" class="mt-1"/>
+                            <x-custom-select :options="$usersSiger" value="{{ isset($formValue->values['signer']) ? $formValue->values['signer'] : null }}" name="signer" id="signer" class="mt-1"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
@@ -192,11 +192,11 @@
                             @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
                                 @php $amostraIndex = 1; @endphp
                                 @foreach ($formValue->values['samples'] as $key => $sample)
-                                    @include('form-values.RT-LAB-041-190.sample', ['sample' => $sample, 'i' => Str::replace('row_', '', $key), 'amostraIndex' => $amostraIndex])
+                                    @include('form-values.RT-LAB-020.sample', ['sample' => $sample, 'i' => Str::replace('row_', '', $key), 'amostraIndex' => $amostraIndex])
                                     @php $amostraIndex++; @endphp
                                 @endforeach
                             @else
-                                @include('form-values.RT-LAB-041-190.sample')
+                                @include('form-values.RT-LAB-020.sample')
                             @endif
                         </div>
 
@@ -204,7 +204,7 @@
                             <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - FINAL</h3>
                             <div id="sample_list_container">
                                 @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
-                                    @include('form-values.RT-LAB-041-190.sample-list', ['count' => 3, 'type' => 'default', 'samples' => $formValue->values['samples']])
+                                    @include('form-values.RT-LAB-020.sample-list', ['count' => 3, 'type' => 'default', 'samples' => $formValue->values['samples']])
                                 @endif
                             </div>
 
@@ -233,7 +233,7 @@
                             <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - RELATÓRIO</h3>
                             @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
                                 @foreach ($samplesTable as $row => $sample)
-                                    @include('form-values.RT-LAB-041-190.sample-table', ['sample' => $sample])
+                                    @include('form-values.RT-LAB-020.sample-table', ['sample' => $sample])
                                 @endforeach
                             @endif
                         </div>
@@ -241,7 +241,7 @@
                         <div id="mode_sample_char" style="display: none" class="w-full">
                             <div id="sample_chart_container">
                                 @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
-                                    @include('form-values.RT-LAB-041-190.sample-chart', ['count' => 5, 'type' => 'default'])
+                                    @include('form-values.RT-LAB-020.sample-chart', ['count' => 5, 'type' => 'default'])
                                 @endif
                             </div>
                             <div class="w-5/6 items-center flex mt-5">
@@ -259,7 +259,7 @@
                         </div>
                     </div>
 
-                    @include('form-values.RT-LAB-041-190.coordinates-table')
+                    @include('form-values.RT-LAB-020.coordinates-table')
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4" id="mode_considerations" style="display: none">
                         <div class="w-full px-3 mb-6 md:mb-0 justify-start flex mt-2" id="coodinates_button">
@@ -290,11 +290,11 @@
 
     @include('form-values.infos-modal')
     @include('form-values.delete-modal')
-    @include("form-values.RT-LAB-041-190.environment-modal")
-    @include("form-values.RT-LAB-041-190.rev-modal")
-    @include("form-values.RT-LAB-041-190.signer-modal")
-    @include("form-values.RT-LAB-041-190.add-results-modal")
-    @include("form-values.RT-LAB-041-190.scripts")
+    @include("form-values.RT-LAB-020.environment-modal")
+    @include("form-values.RT-LAB-020.rev-modal")
+    @include("form-values.RT-LAB-020.signer-modal")
+    @include("form-values.RT-LAB-020.add-results-modal")
+    @include("form-values.RT-LAB-020.scripts")
 
 
 

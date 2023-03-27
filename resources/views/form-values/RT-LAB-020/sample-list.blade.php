@@ -45,7 +45,7 @@
                             @endif
                         </p>
                         @if(isset($formValue->svgs[$key]))
-                            @include('form-values.RT-LAB-041-190.sample-list-fields')
+                            @include('form-values.RT-LAB-020.sample-list-fields')
                         @endif
                     </div>
                 @endif
@@ -67,7 +67,7 @@
                             @endif
                         </p>
                         @if(isset($formValue->svgs[$key]))
-                            @include('form-values.RT-LAB-041-190.sample-list-fields')
+                            @include('form-values.RT-LAB-020.sample-list-fields')
                         @endif
                     </div>
                 @endif
