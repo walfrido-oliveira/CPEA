@@ -57,13 +57,19 @@ class FormValueController extends Controller
     {
         $form = Form::findOrFail($id);
         $formValue = null;
-        $users = User::whereHas('occupation', function($q) {
+
+        $usersSiger = User::whereHas('occupation', function($q) {
             $q->where('occupations.name', 'Técnico de Campo');
         })->get()->pluck('full_name', 'id');
+
+        $users = User::whereHas('occupation', function($q) {
+            $q->whereIn('occupations.name', ['Técnico de Campo', 'Auxiliar Técnico Analítico', 'Suporte Técnico Analítico', 'Analista da Qualidade', 'Estagiário']);
+        })->get()->pluck('full_name', 'id');
+
         $customers = Customer::where('status', 'active')->pluck('name', 'id');
         $fields = FieldType::pluck('name', 'id');
 
-        return view("form-values.$form->name", compact("form", "formValue", "users", "customers", "fields")
+        return view("form-values.$form->name", compact("form", "formValue", "users", "customers", "fields", "usersSiger")
         );
     }
 

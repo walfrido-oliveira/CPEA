@@ -23,8 +23,8 @@
     {{ number_format($formValue->svgs[$key]['conc'], $formPrint->places['conc'], ',', '.') }}
 </p>
 <p class="font-bold">
-    {{ number_format($samples[$key]["eh_footer"], $formPrint->places['eh'], ',', '.') }}
+    {{ isset($samples[$key]["eh_footer"]) ? number_format($samples[$key]["eh_footer"], $formPrint->places['eh'], ',', '.') : '' }}
 </p>
 <p class="font-bold">
-    {{ number_format($samples[$key]["ntu_footer"], $formPrint->places['ntu'], ',', '.') }}
+    {{ isset($samples[$key]["ntu_footer"]) ? number_format($samples[$key]["ntu_footer"], $formPrint->places['ntu'], ',', '.') : ''}}
 </p>
