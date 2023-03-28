@@ -170,7 +170,15 @@ class FormPrintController extends Controller
         $sheet->setCellValueByColumnAndRow(2, 9, 'Matriz');
         $sheet->getStyleByColumnAndRow(2, 9)->applyFromArray($bold10DefaultStyle);
 
-        $sheet->setCellValueByColumnAndRow(3, 9, isset($formValue->values['matrix']) ? FieldType::find($formValue->values['matrix'])->name : null);
+        $matrix = null;
+        if(isset($formValue->values['matrix'])) :
+            $matrix = FieldType::find($formValue->values['matrix']);
+        endif;
+        if($matrix) :
+            $matrix = $matrix->report_name ? $matrix->report_name : $matrix->name;
+        endif;
+
+        $sheet->setCellValueByColumnAndRow(3, 9, $matrix);
         $sheet->getStyleByColumnAndRow(3, 9)->applyFromArray($normal10DefaultStyle);
 
         $sheet->getStyleByColumnAndRow(2, 7, 3, 9)->applyFromArray($borderGray);
