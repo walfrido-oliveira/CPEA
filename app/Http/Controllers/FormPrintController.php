@@ -369,17 +369,17 @@ class FormPrintController extends Controller
                     $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : $formValue->svgs[$row][$key];
                 elseif($key == "sat" && (!$formValue->svgs[$row][$key] || $formValue->svgs[$row][$key] == 0)) :
                     $v = '< ' . number_format(4, $formPrint->places[$key], ",");
-                elseif((!$formValue->svgs[$row][$key] || $formValue->svgs[$row][$key] == 0)) :
+                elseif(!$formValue->svgs[$row][$key] || $formValue->svgs[$row][$key] == 0 || $formPrint->LQ[$key] > $formValue->svgs[$row][$key]) :
                     $v = '< ' . number_format($formPrint->LQ[$key], $formPrint->places[$key], ",");
                 else :
-                    $v =  $formPrint->formValue->svgs[$row][$key];
+                    $v =  number_format($formPrint->formValue->svgs[$row][$key], $formPrint->places[$key], ",", ".");
                 endif;
 
-                if(($formPrint->LQ[$key] > floatval($v) || !$v) && is_numeric($formPrint->LQ[$key])) :
-                    $sheet->setCellValueByColumnAndRow(8 + $index, 16 + $indexRow, '< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ","));
-                else :
-                    $sheet->setCellValueByColumnAndRow(8 + $index, 16 + $indexRow, is_numeric($v) ? number_format($v, $formPrint->places[$key], ",") : $v);
+                if(intval($formPrint->places[$key]) == 0) :
+                    $v = Str::replace(".", "", $v);
                 endif;
+
+                $sheet->setCellValueByColumnAndRow(8 + $index, 16 + $indexRow, $v);
 
                 $sheet->getStyleByColumnAndRow(8 + $index, 16 + $indexRow)->applyFromArray($normal10DefaultStyle);
                 $sheet->getStyleByColumnAndRow(8 + $index, 16 + $indexRow)->getFont()->setBold(true);
