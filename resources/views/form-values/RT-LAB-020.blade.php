@@ -80,7 +80,7 @@
                             <x-custom-select :options="$users" value="{{ isset($formValue->values['responsible']) ? $formValue->values['responsible'] : null }}" name="responsible" id="responsible" class="mt-1"/>
                         </div>
                         <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="signer" value="{{ __('Resposável (Assinatura)') }}" />
+                            <x-jet-label for="signer" value="{{ __('Responsável (Assinatura)') }}" />
                             <x-custom-select :options="$usersSiger" value="{{ isset($formValue->values['signer']) ? $formValue->values['signer'] : null }}" name="signer" id="signer" class="mt-1"/>
                         </div>
                     </div>
