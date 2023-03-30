@@ -41,7 +41,7 @@
                         </p>
                         <p>
                             @if(isset($value['collect']))
-                                {{ Carbon\Carbon::parse($value['collect'])->format("d/m/Y h:i") }}
+                                {{ Carbon\Carbon::parse($value['collect'])->format("d/m/Y H:i") }}
                             @endif
                         </p>
                         @if(isset($formValue->svgs[$key]))

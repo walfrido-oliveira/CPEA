@@ -357,7 +357,7 @@ class FormPrintController extends Controller
             $sheet->setCellValueByColumnAndRow(8 + $index, 12, Carbon::parse($sample['collect'])->format("d/m/Y"));
             $sheet->getStyleByColumnAndRow(8 + $index, 12)->applyFromArray($normal10DefaultStyle);
 
-            $sheet->setCellValueByColumnAndRow(8 + $index, 13, Carbon::parse($sample['collect'])->format("h:i"));
+            $sheet->setCellValueByColumnAndRow(8 + $index, 13, Carbon::parse($sample['collect'])->format("H:i"));
             $sheet->getStyleByColumnAndRow(8 + $index, 13)->applyFromArray($normal10DefaultStyle);
 
             $sheet->setCellValueByColumnAndRow(8 + $index, 14, $sample['environment']);

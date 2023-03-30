@@ -20,7 +20,7 @@
                             @if(isset($sample['collect']))  {{ Carbon\Carbon::parse($sample['collect'])->format("d/m/Y") }} @endif
                         </td>
                         <td>
-                            @if(isset($sample['collect'])) {{ Carbon\Carbon::parse($sample['collect'])->format("h:i") }} @endif
+                            @if(isset($sample['collect'])) {{ Carbon\Carbon::parse($sample['collect'])->format("H:i") }} @endif
                         </td>
                         <td>
                             @if(isset($sample['environment'])) {{ $sample['environment'] }} @endif
@@ -61,13 +61,13 @@
                             <td>
                                 @php
                                     if($key == "ntu" || $key == "eh") :
-                                        $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : $formValue->svgs[$row][$key];
+                                        $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : null;
                                     else :
                                         $v =  $formPrint->formValue->svgs[$row][$key];
                                     endif;
                                 @endphp
 
-                                @if((floatval($formPrint->LQ[$key]) > floatval($v) || !$v) && is_numeric($formPrint->LQ[$key]))
+                                @if((floatval($formPrint->LQ[$key]) > floatval($v) || !$v) && is_numeric($formPrint->LQ[$key]) && $v)
                                     {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
                                 @else
                                     {{ is_numeric($v) ? number_format($v, $formPrint->places[$key], ",", ".") : $v }}
