@@ -90,7 +90,7 @@
                                                 @if(isset($sample['collect']))  {{ Carbon\Carbon::parse($sample['collect'])->format("d/m/Y") }} @endif
                                             </td>
                                             <td>
-                                                @if(isset($sample['collect'])) {{ Carbon\Carbon::parse($sample['collect'])->format("h:i") }} @endif
+                                                @if(isset($sample['collect'])) {{ Carbon\Carbon::parse($sample['collect'])->format("H:i") }} @endif
                                             </td>
                                             <td>
                                                 @if(isset($sample['environment'])) {{ $sample['environment'] }} @endif
