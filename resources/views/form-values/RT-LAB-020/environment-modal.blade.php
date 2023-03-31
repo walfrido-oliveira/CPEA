@@ -19,11 +19,11 @@
                             <div class="flex flex-wrap mt-2 w-full">
                                 <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
                                     <x-jet-label for="date_start" value="{{ __('Início') }}" />
-                                    <x-jet-input id="date_start" class="form-control block mt-1 w-full" type="datetime-local" value="" name="date_start" />
+                                    <x-jet-input id="date_start" class="form-control block mt-1 w-full" type="date" value="" name="date_start" />
                                 </div>
                                 <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
                                     <x-jet-label for="date_end" value="{{ __('Fim') }}" />
-                                    <x-jet-input id="date_end" class="form-control block mt-1 w-full" type="datetime-local" value="" name="date_end" />
+                                    <x-jet-input id="date_end" class="form-control block mt-1 w-full" type="date" value="" name="date_end" />
                                 </div>
                             </div>
                             <div class="flex flex-wrap mt-2 w-full">

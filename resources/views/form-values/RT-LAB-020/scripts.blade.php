@@ -714,13 +714,23 @@
         var countSamples = 0;
 
         document.querySelectorAll("input.collect").forEach(item => {
-            var date1 = new Date(item.value);
-            var date2 = new Date(document.getElementById("date_start").value);
-            var date3 = new Date(document.getElementById("date_end").value);
-            var environmentValue = document.getElementById("environment_value");
-            var environment = document.getElementById(`environment_${item.dataset.index}`);
+            var date = new Date(item.value);
+            date = new Date(date.getFullYear(), date.getMonth(), date.getDate())
 
-            if(date1.getTime() >= date2.getTime() && date1.getTime() <= date3.getTime()) {
+            const  [yearStart, monthStart, dayStart] = document.getElementById("date_start").value.split("-");
+            const  [yearEnd, monthEnd, dayEnd] = document.getElementById("date_end").value.split("-");
+
+            const start = new Date(yearStart, monthStart - 1, dayStart);
+            const end = new Date(yearEnd, monthEnd - 1, dayEnd);
+
+            const environmentValue = document.getElementById("environment_value");
+            const environment = document.getElementById(`environment_${item.dataset.index}`);
+
+            console.log(date);
+            console.log(start);
+            console.log(end);
+
+            if(date >= start && date <= end) {
                 environment.value = environmentValue.value;
                 saveSample(document.querySelector(`.save-sample[data-index='sample_${item.dataset.index}']`), true);
                 countSamples++;

@@ -165,9 +165,7 @@ class FormValueController extends Controller
     {
         $formValue = FormValue::findOrFail($id);
 
-        $usersSiger = User::whereHas('occupation', function($q) {
-            $q->where('occupations.name', 'Técnico de Campo');
-        })->get()->pluck('full_name', 'id');
+        $usersSiger = User::whereNotNull('signer')->get()->pluck('full_name', 'id');
 
         $users = User::whereHas('occupation', function($q) {
             $q->whereIn('occupations.name', ['Técnico de Campo', 'Auxiliar Técnico Analítico', 'Suporte Técnico Analítico', 'Analista da Qualidade', 'Estagiário']);
