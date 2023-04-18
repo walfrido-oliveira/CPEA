@@ -69,9 +69,9 @@
 
                                 @if((floatval($formPrint->LQ[$key]) > floatval($v) || !$v) && is_numeric($formPrint->LQ[$key]) && $v)
                                     {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
-                                @elseif($key == "conductivity"  && $formPrint->svgs[$row][$key] >= 200000)
+                                @elseif($key == "conductivity"  && $v >= 200000)
                                     {{ "> 200000" }}
-                                @elseif($key == "salinity"  && $formPrint->svgs[$row][$key] >= 70)
+                                @elseif($key == "salinity"  && $v >= 70)
                                     {{ "> 70" }}
                                 @else
                                     {{ is_numeric($v) ? number_format($v, $formPrint->places[$key], ",", ".") : $v }}
