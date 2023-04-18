@@ -21,7 +21,7 @@
     </td>
     <td>
         <x-jet-input readonly="true" id="salinity" class="form-control block mt-1 w-full" type="number"
-        value="{{ isset($value['salinity']) ? number_format($value['salinity'], $formPrint->places['salinity']) : ''}}"
+        value="{{ isset($value['salinity']) ? number_format($value['salinity'], $formPrint->places['salinity'], '.', '') : ''}}"
         name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][salinity]' : 'samples[row_0][results]['. $key . '][salinity]' }}" step="any" />
     </td>
     <td>
