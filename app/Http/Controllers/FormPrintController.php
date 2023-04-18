@@ -371,6 +371,10 @@ class FormPrintController extends Controller
                     $v = '< ' . number_format(4, $formPrint->places[$key], ",");
                 elseif(!$formValue->svgs[$row][$key] || $formValue->svgs[$row][$key] == 0 || $formPrint->LQ[$key] > $formValue->svgs[$row][$key]) :
                     $v = '< ' . number_format($formPrint->LQ[$key], $formPrint->places[$key], ",");
+                elseif($key == "conductivity"  && $formValue->svgs[$row][$key] >= 200000) :
+                    $v = "> 200000";
+                elseif($key == "salinity"  && $formValue->svgs[$row][$key] >= 70) :
+                    $v = "> 70";
                 else :
                     $v =  number_format($formPrint->formValue->svgs[$row][$key], $formPrint->places[$key], ",", ".");
                 endif;
