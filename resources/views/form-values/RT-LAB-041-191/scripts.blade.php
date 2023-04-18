@@ -5,17 +5,18 @@
 
 <script>
     window.addEventListener("load", function() {
-        setChart();
+        setChart("myChart");
+        setChart("myChart2");
     });
 
-    function setChart() {
-            var ctx = document.getElementById('myChart').getContext('2d');
+    function setChart(id) {
+            var ctx = document.getElementById(id).getContext('2d');
             const data = {
                 datasets: [{
                     labels: [
                         @if (isset($formValue->values['samples'] ))
                             @foreach ($formValue->values['samples'] as $key => $sample)
-                                "{{ isset($sample['point']) ? $sample['point'] : '' }} - pH {{ isset($formValue->svgs[$key]['ph']) ? number_format($formValue->svgs[$key]['ph'], 1, ',', '.') : '' }} e EH {{ isset($formValue->svgs[$key]['eh']) ? number_format($formValue->svgs[$key]['eh'], 0, ',', '.') : '' }}",
+                                "{{ isset($sample['point']) ? $sample['point'] : '' }} - pH {{ isset($formValue->svgs[$key]['ph']) ? number_format($formValue->svgs[$key]['ph'], $formPrint->places['ph'], ',', '.') : '' }} e EH {{ isset($formValue->svgs[$key]['eh']) ? number_format($formValue->svgs[$key]['eh'], $formPrint->places['eh'], ',', '.') : '' }}",
                             @endforeach
                         @endif
                     ],
@@ -105,6 +106,9 @@
                                 }
                             }
                         },
+                        customCanvasBackgroundColor: {
+                            color: 'lightGreen',
+                        },
                     }
                 }
             };
@@ -112,13 +116,15 @@
             Chart.register({
                 id: 'customBg',
                 beforeDraw: function(chart) {
-
                     var ctx = chart.ctx;
                     var ruleIndex = 0;
                     var rules = chart.options.backgroundRules;
                     var yaxis = chart.scales.y;
                     var xaxis = chart.scales.x;
                     var partPercentage = 1 / (yaxis.ticks.length - 1);
+
+                    ctx.fillStyle = '#ffff';
+                    ctx.fillRect(0, 0, chart.width, chart.height);
 
                     ctx.fillStyle = rules[0].backgroundColor;
                     ctx.fillRect(xaxis.left, yaxis.top, (xaxis.width * partPercentage) * 5, yaxis
@@ -177,6 +183,7 @@
 
             var myChart = new Chart(ctx, config);
             window.myChart = myChart;
+
         }
 
 </script>
@@ -394,18 +401,22 @@
 </script>
 
 <script>
-    document.getElementById("mode_list_count").addEventListener("change", function() {
-        filterModeList(this.value);
+    document.querySelectorAll("#mode_list_count, #mode_list_filter").forEach( item => {
+        item.addEventListener("change", function(e) {
+            filterModeList(this.value);
+        });
     });
 
-    function filterModeList(count) {
+    function filterModeList() {
         document.getElementById("spin_load").classList.remove("hidden");
         let ajax = new XMLHttpRequest();
         let token = document.querySelector('meta[name="csrf-token"]').content;
         let method = 'POST';
         let form_value_id = document.querySelector(`#form_value_id`).value;
+        let count = document.querySelector("#mode_list_count").value;
         let url = "{!! route('fields.form-values.get-sample-list', ['form_value' => '#', 'count' => '?']) !!}".replace('#', form_value_id).replace('?', count);
         let type = document.querySelector("#filter_samples .active").dataset.status;
+        let mode_list_filter = document.querySelector("#mode_list_filter").value;
 
         ajax.open(method, url);
 
@@ -418,7 +429,6 @@
             } else if (this.readyState == 4 && this.status != 200) {
                 document.getElementById("spin_load").classList.add("hidden");
                 toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
-                that.value = '';
             }
         }
 
@@ -428,6 +438,7 @@
         data.append('id', form_value_id);
         data.append('count', count);
         data.append('type', type);
+        data.append('mode_list_filter', mode_list_filter);
 
         ajax.send(data);
     }
@@ -564,10 +575,8 @@
         item.addEventListener("click", function() {
             item.nextElementSibling.style.display = "inline-block";
             item.style.display = "none";
-            document.querySelectorAll(`#${this.dataset.index} td:not(.disabled-col) input,
-                                       #${this.dataset.index} td:not(.disabled-col) select`).forEach(item => {
+            document.querySelectorAll(`#${this.dataset.index} input`).forEach(item => {
                 item.readOnly = false;
-                item.disabled = false;
             });
         });
     });
@@ -578,7 +587,7 @@
         });
     });
 
-    function saveSample(that) {
+    function saveSample(that, noReaload = false) {
         document.getElementById("spin_load").classList.remove("hidden");
         let ajax = new XMLHttpRequest();
         let url = "{!! route('fields.form-values.save-sample') !!}";
@@ -587,28 +596,23 @@
         let form_value_id = document.querySelector(`#form_value_id`).value;
         let sample_index = document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`).value;
         let equipment = document.querySelector(`#${that.dataset.index} #equipment_${that.dataset.row}`).value;
+        let turbidity_equipment = document.querySelector(`#${that.dataset.index} #turbidity_equipment_${that.dataset.row}`) ?
+        document.querySelector(`#${that.dataset.index} #turbidity_equipment_${that.dataset.row}`).value : null;
         let point = document.querySelector(`#${that.dataset.index} #point_${that.dataset.row}`).value;
         let environment = document.querySelector(`#${that.dataset.index} #environment_${that.dataset.row}`).value;
         let collect = document.querySelector(`#${that.dataset.index} #collect_${that.dataset.row}`).value;
 
-        let eh_footer = document.querySelector(`#${that.dataset.index} #eh_footer_${that.dataset.row}`) ?
-        document.querySelector(`#${that.dataset.index} #eh_footer_${that.dataset.row}`).value : null;
-        let ntu_footer = document.querySelector(`#${that.dataset.index} #ntu_footer_${that.dataset.row}`) ?
-        document.querySelector(`#${that.dataset.index} #ntu_footer_${that.dataset.row}`).value : null;
-        let uncertainty_footer = document.querySelector(`#${that.dataset.index} #uncertainty_footer_${that.dataset.row}`) ?
-        document.querySelector(`#${that.dataset.index} #uncertainty_footer_${that.dataset.row}`).value : null;
-
-        const results = [...document.querySelectorAll(`#${that.dataset.index} #table_result input,
-                                                       #${that.dataset.index} #table_result select,
-                                                       #${that.dataset.index} input[type='checkbox']:checked`)];
+        const results = [...document.querySelectorAll(`#${that.dataset.index} #table_result input`)];
+        const footer = [...document.querySelectorAll(`#${that.dataset.index} #table_result_footer input`)];
 
         ajax.open(method, url);
 
         ajax.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 var resp = JSON.parse(ajax.response);
+                document.getElementById("spin_load").classList.add("hidden");
                 toastr.success(resp.message);
-                location.reload();
+                if (!noReaload) location.reload();
             } else if (this.readyState == 4 && this.status != 200) {
                 document.getElementById("spin_load").classList.add("hidden");
                 toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
@@ -622,61 +626,16 @@
         data.append('form_value_id', form_value_id);
         data.append('sample_index', sample_index);
         data.append('equipment', equipment);
+        data.append('turbidity_equipment', turbidity_equipment);
         data.append('point', point);
         data.append('environment', environment);
         data.append('collect', collect);
-        data.append('eh_footer', eh_footer);
-        data.append('ntu_footer', ntu_footer);
-        data.append('uncertainty_footer', uncertainty_footer);
 
         results.forEach(element => {
             data.append(element.name, element.value);
         });
 
-        ajax.send(data);
-    }
-
-    document.querySelectorAll("th input[type='checkbox']").forEach(item => {
-        item.addEventListener("change", function() {
-            saveSampleColumn(this)
-        });
-    });
-
-    function saveSampleColumn(that) {
-        let ajax = new XMLHttpRequest();
-        let url = "{!! route('fields.form-values.save-sample-column') !!}";
-        let token = document.querySelector('meta[name="csrf-token"]').content;
-        let method = 'POST';
-        let form_value_id = document.querySelector(`#form_value_id`).value;
-        let sample_index = document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`).value;
-
-        const checkeds = [...document.querySelectorAll(`#${that.dataset.index} input[type='checkbox']:checked`)];
-
-        ajax.open(method, url);
-
-        ajax.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var resp = JSON.parse(ajax.response);
-                const name = that.dataset.name;
-                document.querySelectorAll(`#${that.dataset.index} tbody[data-row='${that.dataset.row}'] td[data-name='${name}'],
-                                           #${that.dataset.index} tfoot[data-row='${that.dataset.row}'] td[data-name='${name}']`).forEach(item => {
-                    if(that.checked) item.classList.remove("disabled-col");
-                    if(!that.checked) item.classList.add("disabled-col");
-                });
-            } else if (this.readyState == 4 && this.status != 200) {
-                document.getElementById("spin_load").classList.add("hidden");
-                toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
-                that.value = '';
-            }
-        }
-
-        var data = new FormData();
-        data.append('_token', token);
-        data.append('_method', method);
-        data.append('form_value_id', form_value_id);
-        data.append('sample_index', sample_index);
-
-        checkeds.forEach(element => {
+        footer.forEach(element => {
             data.append(element.name, element.value);
         });
 
@@ -714,26 +673,73 @@
 
         ajax.send(data);
     }
+
+    function deleteCoordinate(that) {
+        document.getElementById("spin_load").classList.remove("hidden");
+        let ajax = new XMLHttpRequest();
+        let url = "{!! route('fields.form-values.delete-coordinate') !!}";
+        let token = document.querySelector('meta[name="csrf-token"]').content;
+        let method = 'POST';
+        let form_value_id = document.querySelector(`#form_value_id`).value;
+        let coordinate_index = that.dataset.row;
+
+        ajax.open(method, url);
+
+        ajax.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var resp = JSON.parse(ajax.response);
+                toastr.success(resp.message);
+                document.getElementById("spin_load").classList.add("hidden");
+                document.querySelector(`#table_coordinates tr[data-row='${coordinate_index}']`).remove();
+            } else if (this.readyState == 4 && this.status != 200) {
+                document.getElementById("spin_load").classList.add("hidden");
+                toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                that.value = '';
+            }
+        }
+
+        var data = new FormData();
+        data.append('_token', token);
+        data.append('_method', method);
+        data.append('form_value_id', form_value_id);
+        data.append('coordinate_index', coordinate_index);
+
+        ajax.send(data);
+    }
+
 </script>
 
 <script>
     document.getElementById("confirm_environment_modal").addEventListener("click", function() {
+        var countSamples = 0;
+
         document.querySelectorAll("input.collect").forEach(item => {
-            var date1 = new Date(item.value);
-            var date2 = new Date(document.getElementById("date_start").value);
-            var date3 = new Date(document.getElementById("date_end").value);
-            var environmentValue = document.getElementById("environment_value");
-            var environment = document.getElementById(`environment_${item.dataset.index}`);
+            var date = new Date(item.value);
+            date = new Date(date.getFullYear(), date.getMonth(), date.getDate())
 
-            console.log(date1.getTime() >= date2.getTime() && date1.getTime() <= date3.getTime());
-            console.log(date1.getTime() >= date2.getTime());
-            console.log(date1.getTime() <= date3.getTime());
+            const  [yearStart, monthStart, dayStart] = document.getElementById("date_start").value.split("-");
+            const  [yearEnd, monthEnd, dayEnd] = document.getElementById("date_end").value.split("-");
 
-            if(date1.getTime() >= date2.getTime() && date1.getTime() <= date3.getTime()) {
+            const start = new Date(yearStart, monthStart - 1, dayStart);
+            const end = new Date(yearEnd, monthEnd - 1, dayEnd);
+
+            const environmentValue = document.getElementById("environment_value");
+            const environment = document.getElementById(`environment_${item.dataset.index}`);
+
+            console.log(date);
+            console.log(start);
+            console.log(end);
+
+            if(date >= start && date <= end) {
                 environment.value = environmentValue.value;
-                console.log(environment.value);
+                saveSample(document.querySelector(`.save-sample[data-index='sample_${item.dataset.index}']`), true);
+                countSamples++;
             }
         });
+
+        if(countSamples == 0) {
+            toastr.error("Nenhuma amostra encontrada com as datas informadas.");
+        }
 
         var modal = document.getElementById("environment_modal");
         modal.classList.add("hidden");
@@ -752,10 +758,153 @@
         modal.classList.add("block");
     });
 
+    document.querySelectorAll(".add-results, .add-coordinates").forEach(item => {
+        item.addEventListener("click", function() {
+            var modal = document.getElementById("add_results_modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("block");
+            document.querySelector("#confirm_add_results_modal").dataset.index = item.dataset.index;
+            document.querySelector("#confirm_add_results_modal").dataset.row = item.dataset.row;
+        });
+    });
+
+    document.querySelector("#confirm_add_results_modal").addEventListener("click", function() {
+        document.getElementById("spin_load").classList.remove("hidden");
+
+        let that = this;
+        let ajax = new XMLHttpRequest();
+        let token = document.querySelector('meta[name="csrf-token"]').content;
+        let method = 'POST';
+        let form_value_id = document.querySelector(`#form_value_id`).value;
+        let sample_index = document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`) ?
+        document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`).value : null;
+        let amount = document.querySelector(`#add_results_modal #amount`).value;
+        let url = sample_index ? "{!! route('fields.form-values.import.add-results') !!}" : "{!! route('fields.form-values.import.add-coordinates') !!}";
+
+        ajax.open(method, url);
+
+        ajax.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var resp = JSON.parse(ajax.response);
+                toastr.success(resp.message);
+                location.reload();
+            } else if (this.readyState == 4 && this.status != 200) {
+                toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+            }
+        }
+
+        var data = new FormData();
+        data.append('_token', token);
+        data.append('_method', method);
+        data.append('form_value_id', form_value_id);
+        data.append('sample_index', sample_index);
+        data.append('amount', amount);
+
+        ajax.send(data);
+    });
+
     document.getElementById("help").addEventListener("click", function() {
         var modal = document.getElementById("modal");
         modal.classList.remove("hidden");
         modal.classList.add("block");
+    });
+
+    document.getElementById("signer_document").addEventListener("click", function(e) {
+        e.preventDefault();
+        var modal = document.getElementById("signer_modal");
+        modal.classList.remove("hidden");
+        modal.classList.add("block");
+
+        document.getElementById("confirm_signer_modal").addEventListener("click", function() {
+            let that = this;
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('fields.form-values.signed') !!}";
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let form_value_id = document.querySelector(`#form_value_id`).value;
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+                   if(resp.signed) {
+                    var modalSigner = document.getElementById("signer_modal");
+                    modalSigner.classList.add("hidden");
+                    modalSigner.classList.remove("block");
+
+                    var modalRev = document.getElementById("rev_modal");
+                    modalRev.classList.remove("hidden");
+                    modalRev.classList.add("block");
+                   } else {
+                    var url = `@if($formValue) {{ route('fields.form-values.signer', ['form_value' => $formValue->id, 'project_id' => isset($formValue) ? $formValue->values['project_id'] : '' . ".pdf"]) }} @endif`;
+                    window.open(url, '_blank').focus();
+                   }
+                } else if (this.readyState == 4 && this.status != 200) {
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('form_value_id', form_value_id);
+
+            ajax.send(data);
+        });
+
+        document.getElementById("confirm_rev_modal").addEventListener("click", function() {
+            let ajax = new XMLHttpRequest();
+            let url = "{!! route('fields.form-values.rev') !!}";
+            let token = document.querySelector('meta[name="csrf-token"]').content;
+            let method = 'POST';
+            let form_value_id = document.querySelector(`#form_value_id`).value;
+            let reason = document.getElementById("reason").value;
+
+            ajax.open(method, url);
+
+            ajax.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var resp = JSON.parse(ajax.response);
+
+                    var modalRev = document.getElementById("rev_modal");
+                    modalRev.classList.add("hidden");
+                    modalRev.classList.remove("block");
+
+                    var url = `@if($formValue) {{ route('fields.form-values.signer', ['form_value' => $formValue->id, 'project_id' => isset($formValue) ? $formValue->values['project_id'] : '' . ".pdf"]) }} @endif`;
+                    url = url + `?rev_id=${resp.form_rev.id}`;
+                    window.open(url, '_blank').focus();
+                } else if (this.readyState == 4 && this.status != 200) {
+                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                }
+            }
+
+            var data = new FormData();
+            data.append('_token', token);
+            data.append('_method', method);
+            data.append('form_value_id', form_value_id);
+            data.append('reason', reason);
+
+            ajax.send(data);
+        });
+    });
+
+    document.getElementById("cancel_rev_modal").addEventListener("click", function() {
+        var modal = document.getElementById("rev_modal");
+        modal.classList.add("hidden");
+        modal.classList.remove("block");
+    });
+
+    document.getElementById("cancel_add_results_modal").addEventListener("click", function() {
+        var modal = document.getElementById("add_results_modal");
+        modal.classList.add("hidden");
+        modal.classList.remove("block");
+    });
+
+    document.getElementById("cancel_signer_modal").addEventListener("click", function() {
+        var modal = document.getElementById("signer_modal");
+        modal.classList.add("hidden");
+        modal.classList.remove("block");
     });
 
     document.getElementById("cancel_delete_modal").addEventListener("click", function() {
@@ -764,7 +913,6 @@
         modal.classList.remove("block");
     });
 
-
     document.querySelectorAll(".remove-sample").forEach(item => {
         item.addEventListener("click", function() {
             var modal = document.getElementById("delete_modal");
@@ -772,11 +920,28 @@
             modal.classList.add("block");
             document.querySelector("#confirm_delete_modal").dataset.index = this.dataset.index;
             document.querySelector("#confirm_delete_modal").dataset.row = this.dataset.row;
+            document.querySelector("#confirm_delete_modal").dataset.type = "sample";
+        });
+    });
+
+    document.querySelectorAll(".remove-coordinate").forEach(item => {
+        item.addEventListener("click", function() {
+            var modal = document.getElementById("delete_modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("block");
+            document.querySelector("#confirm_delete_modal").dataset.row = this.dataset.row;
+            document.querySelector("#confirm_delete_modal").dataset.type = "coordinate";
         });
     });
 
     document.querySelector("#confirm_delete_modal").addEventListener("click", function() {
-        deleteSample(this);
+        if(this.dataset.type == "sample") deleteSample(this);
+        if(this.dataset.type == "coordinate") {
+            deleteCoordinate(this);
+            var modal = document.getElementById("delete_modal");
+            modal.classList.add("hidden");
+            modal.classList.remove("block");
+        }
     });
 
     document.getElementById("confirm_modal").addEventListener("click", function(e) {
@@ -818,6 +983,11 @@
         item.addEventListener("change", function(e) {
             uploadCoordinates(this);
         });
+    });
+
+    document.getElementById("create_sheet").addEventListener("click", function(e) {
+        e.preventDefault();
+        uploadChartImage();
     });
 
     function uploadCoordinates(that) {
@@ -882,7 +1052,6 @@
         var data = new FormData();
         data.append('_token', token);
         data.append('_method', method);
-        data.append('_method', method);
         data.append('file', files[0]);
         data.append('form_value_id', form_value_id);
         data.append('sample_index', sample_index);
@@ -917,11 +1086,43 @@
         var data = new FormData();
         data.append('_token', token);
         data.append('_method', method);
-        data.append('_method', method);
         for (let index = 0; index < files.length; index++) {
             const file = files[index];
             data.append('file[]', file);
         }
+        data.append('form_value_id', form_value_id);
+
+        ajax.send(data);
+    }
+
+    function uploadChartImage() {
+        document.getElementById("spin_load").classList.remove("hidden");
+
+        let image = document.querySelector("#myChart2").toDataURL('image/png');
+
+        let ajax = new XMLHttpRequest();
+        let url = "{!! route('fields.form-values.upload-chart-image') !!}";
+        let token = document.querySelector('meta[name="csrf-token"]').content;
+        let method = 'POST';
+        let form_value_id = document.querySelector(`#form_value_id`).value;
+
+        ajax.open(method, url);
+
+        ajax.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("spin_load").classList.add("hidden");
+                window.open("@if($formValue){{ route('fields.form-values.create-sheet', ['form_value' => $formValue->id]) }}@endif", '_blank').focus();
+
+            } else if (this.readyState == 4 && this.status != 200) {
+                document.getElementById("spin_load").classList.add("hidden");
+                toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+            }
+        }
+
+        var data = new FormData();
+        data.append('_token', token);
+        data.append('_method', method);
+        data.append('image', image);
         data.append('form_value_id', form_value_id);
 
         ajax.send(data);
@@ -957,8 +1158,7 @@
 
         document.getElementById("mode_table").appendChild(clone);
 
-        document.querySelectorAll(`#${id} input:not(#form_value_id):not(#sample_index_${num}),
-                                   #${id} select:not(#form_value_id):not(#sample_index_${num})`).forEach(item => {
+        document.querySelectorAll(`#${id} input:not(#form_value_id):not(#sample_index_${num})`).forEach(item => {
             item.value = "";
             item.disabled = false;
             document.querySelector(`#${id} .save-sample`).style.display = "inline-block";
@@ -1051,5 +1251,24 @@
 
     document.querySelector("#search_container #q").addEventListener("keyup", function(e) {
         seachSample();
+    });
+
+
+    function setTurbidity() {
+        const checked = document.getElementById("turbidity").checked;
+        if(checked) {
+            document.querySelectorAll(".turbidity-equipment").forEach(item => {
+                item.classList.remove("hidden");
+            });
+        }else {
+            document.querySelectorAll(".turbidity-equipment").forEach(item => {
+                item.classList.add("hidden");
+            });
+        }
+    }
+
+    setTurbidity();
+    document.querySelector("#turbidity").addEventListener("click", function() {
+        setTurbidity();
     });
 </script>

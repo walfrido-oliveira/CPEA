@@ -58,9 +58,14 @@
                         </svg>
                     </button>
                     <button type="button" class="btn-transition-primary save-sample px-1" title="Salvar Amostra" data-index="sample_{{ isset($i) ? $i : 0 }}" data-row="{{ isset($i) ? $i : 0 }}"
-                    @if(isset($i)) style="display: none" @endif>
+                        @if(isset($i)) style="display: none" @endif>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-8 w-8">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-wiph="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </button>
+                    <button type="button" class="btn-transition-primary add-results px-1" title="Adicionar Linhas" data-index="sample_{{ isset($i) ? $i : 0 }}" data-row="{{ isset($i) ? $i : 0 }}" @if(!isset($i)) style="display: none" @endif>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8 text-blue-500">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
                         </svg>
                     </button>
                 </div>
@@ -69,7 +74,7 @@
     </div>
     <div class="inputs w-full">
         <div class="flex flex-wrap mt-2 w-full">
-            <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
+            <div class="w-full md:w-1/3 pr-3 mb-6 md:mb-0">
                 <x-jet-label for="equipment_{{ isset($i) ? $i : 0 }}" value="{{ __('Equipamento') }}" />
                 @if(isset($sample['equipment']))
                     <x-jet-input readonly="{{ !$formValue ? false : true}}" id="equipment_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full" data-index="{{ isset($i) ? $i : 0 }}"
@@ -78,7 +83,16 @@
                     <x-jet-input id="equipment_0" class="form-control block mt-1 w-full" type="text" value="" name="samples[row_0][equipment]" maxlength="255" data-index="{{ isset($i) ? $i : 0 }}"/>
                 @endif
             </div>
-            <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
+            <div class="w-full md:w-1/3 pr-3 mb-6 md:mb-0 turbidity-equipment">
+                <x-jet-label for="turbidity_equipment_{{ isset($i) ? $i : 0 }}" value="{{ __('Equipamento Turbidez') }}" />
+                @if(isset($sample['turbidity_equipment']))
+                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="turbidity_equipment_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full" data-index="{{ isset($i) ? $i : 0 }}"
+                    type="text" value="{{ $sample['turbidity_equipment'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][turbidity_equipment]' : 'samples[row_0][turbidity_equipment]' }}" maxlength="255" />
+                @else
+                    <x-jet-input id="turbidity_equipment_0" class="form-control block mt-1 w-full" type="text" value="" name="samples[row_0][turbidity_equipment]" maxlength="255" data-index="{{ isset($i) ? $i : 0 }}"/>
+                @endif
+            </div>
+            <div class="w-full md:w-1/3 pr-3 mb-6 md:mb-0">
                 <x-jet-label for="point_{{ isset($i) ? $i : 0 }}" value="{{ __('Ponto de Coleta') }}" />
                 @if(isset($sample['point']))
                     <x-jet-input readonly="{{ !$formValue ? false : true}}" id="point_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full point" data-index="{{ isset($i) ? $i : 0 }}"
@@ -115,261 +129,25 @@
                 <table class="table table-responsive md:table w-full ">
                     <thead>
                         <tr class="thead-light">
-                            <th scope="col"  class="custom-th">
-                                {{ __('Temperatura [ºC]') }}
-                                <input type="checkbox" name="visible_temperature"
-                                id="visible_temperature_{{ isset($i) ? $i : 0 }}"
-                                @if(isset($sample['visible_temperature']))  checked @endif
-                                data-index="sample_{{ isset($i) ? $i : 0 }}" data-row="{{ isset($i) ? $i : 0 }}" data-name="temperature">
-                            </th>
-                            <th scope="col"  class="custom-th">
-                                {{ __('pH') }}
-                                <input type="checkbox" name="visible_ph"
-                                id="visible_ph_{{ isset($i) ? $i : 0 }}"
-                                @if(isset($sample['visible_ph']))  checked @endif
-                                data-index="sample_{{ isset($i) ? $i : 0 }}" data-row="{{ isset($i) ? $i : 0 }}" data-name="ph">
-                            </th>
-                            <th scope="col"  class="custom-th">
-                                {{ __('ORP [mV]') }}
-                                <input type="checkbox" name="visible_orp"
-                                id="visible_orp_{{ isset($i) ? $i : 0 }}"
-                                @if(isset($sample['visible_orp']))  checked @endif
-                                data-index="sample_{{ isset($i) ? $i : 0 }}" data-row="{{ isset($i) ? $i : 0 }}" data-name="orp">
-                            </th>
-                            <th scope="col"  class="custom-th">
-                                {{ __('Condutividade [µS/cm]') }}
-                                <input type="checkbox" name="visible_conductivity"
-                                id="visible_conductivity_{{ isset($i) ? $i : 0 }}"
-                                @if(isset($sample['visible_conductivity']))  checked @endif
-                                data-index="sample_{{ isset($i) ? $i : 0 }}" data-row="{{ isset($i) ? $i : 0 }}" data-name="conductivity">
-                            </th>
-                            <th scope="col"  class="custom-th">
-                                {{ __('Salinidade [psu]') }}
-                                <input type="checkbox" name="visible_salinity"
-                                id="visible_salinity_{{ isset($i) ? $i : 0 }}"
-                                @if(isset($sample['visible_salinity']))  checked @endif
-                                data-index="sample_{{ isset($i) ? $i : 0 }}" data-row="{{ isset($i) ? $i : 0 }}" data-name="salinity">
-                            </th>
-                            <th scope="col"  class="custom-th">
-                                {{ __('Press. [psi]') }}
-                                <input type="checkbox" name="visible_psi"
-                                id="visible_psi_{{ isset($i) ? $i : 0 }}"
-                                @if(isset($sample['visible_psi']))  checked @endif
-                                data-index="sample_{{ isset($i) ? $i : 0 }}" data-row="{{ isset($i) ? $i : 0 }}" data-name="psi">
-                            </th>
-                            <th scope="col"  class="custom-th">
-                                {{ __('Oxigênio Dissolvido (SAT) [%]') }}
-                                <input type="checkbox" name="visible_sat"
-                                id="visible_sat_{{ isset($i) ? $i : 0 }}"
-                                @if(isset($sample['visible_sat']))  checked @endif
-                                data-index="sample_{{ isset($i) ? $i : 0 }}" data-row="{{ isset($i) ? $i : 0 }}" data-name="sat">
-                            </th>
-                            <th scope="col"  class="custom-th">
-                                {{ __('Oxigênio Dissolvido (CONC) [mg/l]') }}
-                                <input type="checkbox" name="visible_conc"
-                                id="visible_conc_{{ isset($i) ? $i : 0 }}"
-                                @if(isset($sample['visible_conc']))  checked @endif
-                                data-index="sample_{{ isset($i) ? $i : 0 }}" data-row="{{ isset($i) ? $i : 0 }}" data-name="conc">
-                            </th>
-                            <th scope="col"  class="custom-th">
-                                {{ __('EH [mV]') }}
-                                <input type="checkbox" name="visible_eh"
-                                id="visible_eh_{{ isset($i) ? $i : 0 }}"
-                                @if(isset($sample['visible_eh']))  checked @endif
-                                data-index="sample_{{ isset($i) ? $i : 0 }}" data-row="{{ isset($i) ? $i : 0 }}" data-name="eh">
-                            </th>
-                            <th scope="col"  class="custom-th">
-                                {{ __('Turbidez [NTU]') }}
-                                <input type="checkbox" name="visible_ntu"
-                                id="visible_ntu_{{ isset($i) ? $i : 0 }}"
-                                @if(isset($sample['visible_ntu']))  checked @endif
-                                data-index="sample_{{ isset($i) ? $i : 0 }}" data-row="{{ isset($i) ? $i : 0 }}" data-name="ntu">
-                            </th>
-                            <th scope="col"  class="custom-th">
-                                {{ __('Incerteza') }}
-                                <input type="checkbox" name="visible_uncertainty"
-                                id="visible_uncertainty_{{ isset($i) ? $i : 0 }}"
-                                @if(isset($sample['visible_uncertainty']))  checked @endif
-                                data-index="sample_{{ isset($i) ? $i : 0 }}" data-row="{{ isset($i) ? $i : 0 }}" data-name="uncertainty">
-                            </th>
-                            <th scope="col"  class="custom-th">
-                                {{ __('Cloro [mg/l]') }}
-                                <input type="checkbox" name="visible_chlorine"
-                                id="visible_chlorine_{{ isset($i) ? $i : 0 }}"
-                                @if(isset($sample['visible_chlorine'])) checked @endif
-                                data-index="sample_{{ isset($i) ? $i : 0 }}" data-row="{{ isset($i) ? $i : 0 }}" data-name="chlorine">
-                            </th>
-                            <th scope="col"  class="custom-th">
-                                {{ __('Materiais Flutuantes') }}
-                                <input type="checkbox" name="visible_floating_materials"
-                                id="visible_visible_floating_materials_{{ isset($i) ? $i : 0 }}"
-                                @if(isset($sample['visible_floating_materials']))  checked @endif
-                                data-index="sample_{{ isset($i) ? $i : 0 }}" data-row="{{ isset($i) ? $i : 0 }}" data-name="floating_materials">
-                            </th>
-                            <th scope="col"  class="custom-th">
-                                {{ __('VOC [mg/l]') }}
-                                <input type="checkbox" name="visible_voc"
-                                id="visible_voc_{{ isset($i) ? $i : 0 }}"
-                                @if(isset($sample['visible_voc']))  checked @endif
-                                data-index="sample_{{ isset($i) ? $i : 0 }}" data-row="{{ isset($i) ? $i : 0 }}" data-name="voc">
-                            </th>
+                            <th scope="col"  class="custom-th">{{ __('Temperatura [ºC]') }}</th>
+                            <th scope="col"  class="custom-th">{{ __('pH') }}</th>
+                            <th scope="col"  class="custom-th">{{ __('ORP [mV]') }}</th>
+                            <th scope="col"  class="custom-th">{{ __('Condutividade [µS/cm]') }}</th>
+                            <th scope="col"  class="custom-th">{{ __('Salinidade [psu]') }}</th>
+                            <th scope="col"  class="custom-th">{{ __('Press. [psi]') }}</th>
+                            <th scope="col"  class="custom-th">{{ __('Oxigênio Dissolvido (SAT) [%]') }}</th>
+                            <th scope="col"  class="custom-th">{{ __('Oxigênio Dissolvido (CONC) [mg/l]') }}</th>
+                            <th scope="col"  class="custom-th">{{ __('EH [mV]') }}</th>
+                            <th scope="col"  class="custom-th">{{ __('Turbidez [NTU]') }}</th>
                         </tr>
                     </thead>
-                    <tbody id="table_result" data-row="{{ isset($i) ? $i : 0 }}">
+                    <tbody id="table_result">
                         @foreach (array_chunk($sample['results'], 3)[0] as $key => $value)
-                            <tr>
-                                <td class="@if(!isset($sample['visible_temperature'])) disabled-col @endif" data-name="temperature">
-                                    <x-jet-input readonly="true" id="temperature" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['temperature']) ? number_format($value['temperature'], 2) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][temperature]' : 'samples[row_0][results]['. $key . '][temperature]' }}" step="any" />
-                                </td>
-                                <td class="@if(!isset($sample['visible_ph'])) disabled-col @endif" data-name="ph">
-                                    <x-jet-input readonly="true" id="ph" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['ph']) ? number_format($value['ph'], 2) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][ph]' : 'samples[row_0][results]['. $key . '][ph]' }}" step="any" />
-                                </td>
-                                <td class="@if(!isset($sample['visible_orp'])) disabled-col @endif" data-name="orp">
-                                    <x-jet-input readonly="true" id="orp" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['orp']) ? number_format($value['orp'], 1) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][orp]' : 'samples[row_0][results]['. $key . '][orp]' }}" step="any" />
-                                </td>
-                                <td class="@if(!isset($sample['visible_conductivity'])) disabled-col @endif" data-name="conductivity">
-                                    <x-jet-input readonly="true" id="conductivity" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['conductivity']) ? number_format($value['conductivity'], 3, '.', '') : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][conductivity]' : 'samples[row_0][results]['. $key . '][conductivity]' }}" step="any" />
-                                </td>
-                                <td class="@if(!isset($sample['visible_salinity'])) disabled-col @endif" data-name="salinity">
-                                    <x-jet-input readonly="true" id="salinity" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['salinity']) ? number_format($value['salinity'], 3) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][salinity]' : 'samples[row_0][results]['. $key . '][salinity]' }}" step="any" />
-                                </td>
-                                <td class="@if(!isset($sample['visible_psi'])) disabled-col @endif" data-name="psi">
-                                    <x-jet-input readonly="true" id="psi" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['psi']) ? number_format($value['psi'], 3) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][psi]' : 'samples[row_0][results]['. $key . '][psi]' }}" step="any" />
-                                </td>
-                                <td class="@if(!isset($sample['visible_sat'])) disabled-col @endif" data-name="sat">
-                                    <x-jet-input readonly="true" id="sat" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['sat']) ? number_format($value['sat'], 1) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][sat]' : 'samples[row_0][results]['. $key . '][sat]' }}" step="any" />
-                                </td>
-                                <td class="@if(!isset($sample['visible_conc'])) disabled-col @endif" data-name="conc">
-                                    <x-jet-input readonly="true" id="conc" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['conc']) ? number_format($value['conc'], 3) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][conc]' : 'samples[row_0][results]['. $key . '][conc]' }}" step="any" />
-                                </td>
-                                <td class="@if(!isset($sample['visible_eh'])) disabled-col @endif" data-name="eh">-</td>
-                                <td class="@if(!isset($sample['visible_ntu'])) disabled-col @endif" data-name="ntu">-</td>
-                                <td class="@if(!isset($sample['visible_uncertainty'])) disabled-col @endif" data-name="uncertainty">-</td>
-                                <td class="@if(!isset($sample['visible_chlorine'])) disabled-col @endif" data-name="chlorine">
-                                    <x-jet-input readonly="true" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['chlorine']) ? number_format($value['chlorine'], 3) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][chlorine]' : 'samples[row_0][results]['. $key . '][chlorine]' }}" step="any" />
-                                </td>
-                                <td class="@if(!isset($sample['visible_floating_materials'])) disabled-col @endif" data-name="floating_materials">
-                                    <x-custom-select :options="$floatingMaterials" disabled="true"
-                                        value="{{ isset($value['floating_materials']) ? $value['floating_materials'] : ''}}"
-                                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][floating_materials]' : 'samples[row_0][results]['. $key . '][floating_materials]' }}"
-                                        class="mt-1"/>
-                                </td>
-                                <td class="@if(!isset($sample['visible_voc'])) disabled-col @endif" data-name="voc">
-                                    <x-jet-input readonly="true" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['voc']) ? number_format($value['voc'], 3) : ''}}"
-                                    name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][voc]' : 'samples[row_0][results]['. $key . '][voc]' }}" step="any" />
-                                </td>
-                            <tr>
+                            @include('form-values.RT-LAB-041-191.sample-fields', ['key' => $key, 'value' => $value])
                         @endforeach
                     </tbody>
-                    <tfoot data-row="{{ isset($i) ? $i : 0 }}">
-                        <tr>
-                            <td class="@if(!isset($sample['visible_temperature'])) disabled-col @endif" data-name="temperature">
-                                @if(isset($value['temperature']))
-                                    {{ number_format($formValue->svgs['row_' . ($i)]['temperature'], 2, ",", ".") }}
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td class="@if(!isset($sample['visible_ph'])) disabled-col @endif" data-name="ph">
-                                @if(isset($value['ph']))
-                                    {{ number_format($formValue->svgs['row_' . ($i)]['ph'], 2, ",", ".") }}
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td class="@if(!isset($sample['visible_orp'])) disabled-col @endif" data-name="orp">
-                                @if(isset($value['orp']))
-                                    {{ number_format($formValue->svgs['row_' . ($i)]['orp'], 1, ",", ".") }}
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td class="@if(!isset($sample['visible_conductivity'])) disabled-col @endif" data-name="conductivity">
-                                @if(isset($value['conductivity']))
-                                    {{ number_format($formValue->svgs['row_' . ($i)]['conductivity'], 3, ",", ".") }}
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td class="@if(!isset($sample['visible_salinity'])) disabled-col @endif" data-name="salinity">
-                                @if(isset($value['salinity']))
-                                    {{ number_format($formValue->svgs['row_' . ($i)]['salinity'], 3, ",", ".") }}
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td class="@if(!isset($sample['visible_psi'])) disabled-col @endif" data-name="sat">
-                               -
-                            </td>
-                            <td class="@if(!isset($sample['visible_sat'])) disabled-col @endif">
-                                @if(isset($value['sat']))
-                                    {{ number_format($formValue->svgs['row_' . ($i)]['sat'], 1, ",", ".") }}
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td class="@if(!isset($sample['visible_conc'])) disabled-col @endif" data-name="conc">
-                                @if(isset($value['conc']))
-                                    {{ number_format($formValue->svgs['row_' . ($i)]['conc'], 3, ",", ".") }}
-                                @else
-                                    -
-                                @endif
-                            </td>
-                            <td class="@if(!isset($sample['visible_eh'])) disabled-col @endif" data-name="eh">
-                                @php
-                                    if(!isset($sample['eh_footer'])) :
-                                        $sample['eh_footer'] = $formValue->svgs['row_' . ($i)]['eh'];
-                                    endif;
-                                @endphp
-                                @if(isset($sample['eh_footer']))
-                                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="eh_footer_{{ isset($i) ? $i : 0 }}"
-                                    class="form-control block mt-1 w-full eh_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
-                                    type="number" value="{{ $sample['eh_footer'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][eh_footer]' : 'samples[row_0][eh_footer]' }}" />
-                                @else
-                                    <x-jet-input id="point_0" class="form-control block mt-1 w-full point" type="number" value="" name="samples[row_0][point]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
-                                @endif
-                            </td>
-                            <td class="@if(!isset($sample['visible_ntu'])) disabled-col @endif" data-name="ntu">
-                                @php
-                                    if(!isset($sample['ntu_footer'])) :
-                                        $sample['ntu_footer'] = $formValue->svgs['row_' . ($i)]['ntu'];
-                                    endif;
-                                @endphp
-                                @if(isset($sample['ntu_footer']))
-                                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="ntu_footer_{{ isset($i) ? $i : 0 }}"
-                                    class="form-control block mt-1 w-full ntu_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
-                                    type="number" value="{{ $sample['ntu_footer'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][ntu_footer]' : 'samples[row_0][ntu_footer]' }}" />
-                                @else
-                                    <x-jet-input id="point_0" class="form-control block mt-1 w-full point" type="number" value="" name="samples[row_0][point]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
-                                @endif
-                            </td>
-                            <td class="@if(!isset($sample['visible_uncertainty'])) disabled-col @endif" data-name="uncertainty">
-                                @php
-                                    if(!isset($sample['uncertainty_footer'])) :
-                                        $sample['uncertainty_footer'] = "-";
-                                    endif;
-                                @endphp
-                                @if(isset($sample['uncertainty_footer']))
-                                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="uncertainty_footer_{{ isset($i) ? $i : 0 }}"
-                                    class="form-control block mt-1 w-full uncertainty_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
-                                    type="number" value="{{ $sample['uncertainty_footer'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][uncertainty_footer]' : 'samples[row_0][uncertainty_footer]' }}" />
-                                @else
-                                    <x-jet-input id="point_0" class="form-control block mt-1 w-full point" type="number" value="" name="samples[row_0][point]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
-                                @endif
-                            </td>
-                            <td class="@if(!isset($sample['visible_chlorine'])) disabled-col @endif" data-name="chlorine">-</td>
-                            <td class="@if(!isset($sample['visible_floating_materials'])) disabled-col @endif" data-name="floating_materials">-</td>
-                            <td class="@if(!isset($sample['visible_voc'])) disabled-col @endif" data-name="voc">-</td>
-                        <tr>
+                    <tfoot id="table_result_footer">
+                        @include('form-values.RT-LAB-041-191.sample-footer')
                     </tfoot>
                 </table>
             </div>
@@ -390,171 +168,16 @@
                                     <th scope="col"  class="custom-th">{{ __('Oxigênio Dissolvido (CONC) [mg/l]') }}</th>
                                     <th scope="col"  class="custom-th">{{ __('EH [mV]') }}</th>
                                     <th scope="col"  class="custom-th">{{ __('Turbidez [NTU]') }}</th>
-                                    <th scope="col"  class="custom-th">{{ __('Incerteza') }}</th>
-                                    <th scope="col"  class="custom-th">{{ __('Cloro [mg/l]') }}</th>
-                                    <th scope="col"  class="custom-th">{{ __('Materiais Flutuantes') }}</th>
-                                    <th scope="col"  class="custom-th">{{ __('VOC [mg/l]') }}</th>
                                 </tr>
                             </thead>
                             <tbody id="table_result">
                                 @foreach (array_chunk($sample['results'], 3)[1] as $key2 => $value)
-                                    @php
-                                        $key++;
-                                    @endphp
-                                    <tr>
-                                        <td>
-                                            <x-jet-input readonly="true" id="temperature" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['temperature']) ? number_format($value['temperature'], 2) : ''}}"
-                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][temperature]' : 'samples[row_0][results]['. $key . '][temperature]' }}" step="any" />
-                                        </td>
-                                        <td>
-                                            <x-jet-input readonly="true" id="ph" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['ph']) ? number_format($value['ph'], 2) : ''}}"
-                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][ph]' : 'samples[row_0][results]['. $key . '][ph]' }}" step="any" />
-                                        </td>
-                                        <td>
-                                            <x-jet-input readonly="true" id="orp'" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['orp']) ? number_format($value['orp'], 1) : ''}}"
-                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][orp]' : 'samples[row_0][results]['. $key . '][orp]' }}" step="any" />
-                                        </td>
-                                        <td>
-                                            <x-jet-input readonly="true" id="conductivity" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['conductivity']) ? number_format($value['conductivity'], 3, '.', '') : ''}}"
-                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][conductivity]' : 'samples[row_0][results]['. $key . '][conductivity]' }}" step="any" />
-                                        </td>
-                                        <td>
-                                            <x-jet-input readonly="true" id="salinity" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['salinity']) ? number_format($value['salinity'], 3) : ''}}"
-                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][salinity]' : 'samples[row_0][results]['. $key . '][salinity]' }}" step="any" />
-                                        </td>
-                                        <td>
-                                            <x-jet-input readonly="true" id="psi" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['psi']) ? number_format($value['psi'], 3) : ''}}"
-                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][psi]' : 'samples[row_0][results]['. $key . '][psi]' }}" step="any" />
-                                        </td>
-                                        <td>
-                                            <x-jet-input readonly="true" id="sat" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['sat']) ? number_format($value['sat'], 1) : ''}}"
-                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][sat]' : 'samples[row_0][results]['. $key . '][sat]' }}" step="any" />
-                                        </td>
-                                        <td><x-jet-input readonly="true" id="conc" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['conc']) ? number_format($value['conc'], 3) : ''}}"
-                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][conc]' : 'samples[row_0][results]['. $key . '][conc]' }}" step="any" />
-                                        </td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>-</td>
-                                        <td>
-                                            <x-jet-input readonly="true" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['chlorine']) ? number_format($value['chlorine'], 3) : ''}}"
-                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][chlorine]' : 'samples[row_0][results]['. $key . '][chlorine]' }}" step="any" />
-                                        </td>
-                                        <td>
-                                            <x-custom-select :options="$floatingMaterials"
-                                                value="{{ isset($value['floating_materials']) ? $value['floating_materials'] : ''}}"
-                                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][floating_materials]' : 'samples[row_0][results]['. $key . '][floating_materials]' }}"
-                                                class="mt-1"/>
-                                        </td>
-                                        <td>
-                                            <x-jet-input readonly="true" class="form-control block mt-1 w-full" type="number" value="{{ isset($value['voc']) ? number_format($value['voc'], 3) : ''}}"
-                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][voc]' : 'samples[row_0][results]['. $key . '][voc]' }}" step="any" />
-                                        </td>
-                                    <tr>
+                                    @include('form-values.RT-LAB-041-191.sample-fields', ['key' => ($key2 + $key + 1), 'value' => $value])
                                 @endforeach
                             </tbody>
-                            <tfoot>
+                            <tfoot id="table_result_footer">
                                 <tr>
-                                    <td>
-                                        @if(isset($value['temperature']))
-                                            {{ number_format($formValue->duplicates['row_' . ($i)]['temperature'], 2, ",", ".") }}
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if(isset($value['ph']))
-                                            {{ number_format($formValue->duplicates['row_' . ($i)]['ph'], 2, ",", ".") }}
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if(isset($value['orp']))
-                                            {{ number_format($formValue->duplicates['row_' . ($i)]['orp'], 1, ",", ".") }}
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if(isset($value['conductivity']))
-                                            {{ number_format($formValue->duplicates['row_' . ($i)]['conductivity'], 3, ",", ".") }}
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if(isset($value['salinity']))
-                                            {{ number_format($formValue->duplicates['row_' . ($i)]['conductivity'], 3, ",", ".") }}
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                    <td>
-                                        -
-                                    </td>
-                                    <td>
-                                        @if(isset($value['sat']))
-                                            {{ number_format($formValue->duplicates['row_' . ($i)]['sat'], 1, ",", ".") }}
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @if(isset($value['conc']))
-                                            {{ number_format($formValue->duplicates['row_' . ($i)]['conc'], 3, ",", ".") }}
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>-</td>
-                                    <td>
-                                        @php
-                                            if(!isset($sample['eh_footer_duplicates'])) :
-                                                $sample['eh_footer_duplicates'] = $formValue->duplicates['row_' . ($i)]['eh'];
-                                            endif;
-                                        @endphp
-                                        @if(isset($sample['eh_footer_duplicates']))
-                                            <x-jet-input readonly="{{ !$formValue ? false : true}}" id="eh_footer_duplicates_{{ isset($i) ? $i : 0 }}"
-                                            class="form-control block mt-1 w-full eh_footer_duplicates" data-index="{{ isset($i) ? $i : 0 }}" step="any"
-                                            type="number" value="{{ $sample['eh_footer_duplicates'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][eh_footer_duplicates]' : 'samples[row_0][eh_footer_duplicates]' }}" />
-                                        @else
-                                            <x-jet-input id="point_0" class="form-control block mt-1 w-full point" type="number" value="" name="samples[row_0][point]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @php
-                                            if(!isset($sample['ntu_footer_duplicates'])) :
-                                                $sample['ntu_footer_duplicates'] = $formValue->duplicates['row_' . ($i)]['ntu'];
-                                            endif;
-                                        @endphp
-                                        @if(isset($sample['ntu_footer_duplicates']))
-                                            <x-jet-input readonly="{{ !$formValue ? false : true}}" id="ntu_footer_duplicates_{{ isset($i) ? $i : 0 }}"
-                                            class="form-control block mt-1 w-full ntu_footer_duplicates" data-index="{{ isset($i) ? $i : 0 }}" step="any"
-                                            type="number" value="{{ $sample['ntu_footer_duplicates'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][ntu_footer_duplicates]' : 'samples[row_0][ntu_footer_duplicates]' }}" />
-                                        @else
-                                            <x-jet-input id="point_0" class="form-control block mt-1 w-full point" type="number" value="" name="samples[row_0][point]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        @php
-                                            if(!isset($sample['uncertainty_footer_duplicates'])) :
-                                                $sample['uncertainty_footer_duplicates'] = "-";
-                                            endif;
-                                        @endphp
-                                        @if(isset($sample['uncertainty_footer_duplicates']))
-                                            <x-jet-input readonly="{{ !$formValue ? false : true}}" id="uncertainty_footer_duplicates_{{ isset($i) ? $i : 0 }}"
-                                            class="form-control block mt-1 w-full uncertainty_footer_duplicates" data-index="{{ isset($i) ? $i : 0 }}" step="any"
-                                            type="number" value="{{ $sample['uncertainty_footer_duplicates'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][uncertainty_footer_duplicates]' : 'samples[row_0][uncertainty_footer_duplicates]' }}" />
-                                        @else
-                                            <x-jet-input id="point_0" class="form-control block mt-1 w-full point" type="number" value="" name="samples[row_0][point]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
-                                        @endif
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="11" class="text-center text-white" style="background-color: rgb(0, 94, 16)">% DPR</td>
+                                    <td colspan="10" class="text-center text-white" style="background-color: rgb(0, 94, 16)">% DPR</td>
                                 </tr>
                                 <tr>
                                     <td>
@@ -627,7 +250,6 @@
                                             -
                                         @endif
                                     </td>
-                                    <td>-</td>
                                 <tr>
                             </tfoot>
                         </table>

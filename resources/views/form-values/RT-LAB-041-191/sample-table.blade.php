@@ -1,51 +1,4 @@
 @if(isset($sample['results']))
-    @php
-        $parameters = [
-            "temperature" => "Temperatura",
-            "ph" => "pH",
-            "orp" => "ORP",
-            "conductivity" => "Condutividade",
-            "salinity" => "Salinidade",
-            "conc" => "OD"
-        ];
-
-        $unities = [
-            "temperature" => "°C",
-            "ph" => "-",
-            "orp" => "mV",
-            "conductivity" => "µS/cm",
-            "salinity" => "-",
-            "conc" => "mg/L"
-        ];
-
-        $LQ = [
-            "temperature" => "-",
-            "ph" => "-",
-            "orp" => "-",
-            "conductivity" => "20",
-            "salinity" => "0,01",
-            "conc" => "0,3"
-        ];
-
-        $places = [
-            "temperature" => 2,
-            "ph" => 2,
-            "orp" => 1,
-            "conductivity" => 3,
-            "salinity" => 3,
-            "conc" => 3
-        ];
-
-        $range = [
-            "temperature" => "4 a 40",
-            "ph" => "1 a 13",
-            "orp" => "-1400 a +1400",
-            "conductivity" => "-",
-            "salinity" => "-",
-            "conc" => "-"
-        ];
-    @endphp
-
     <div class="flex flex-wrap mt-2 w-full flex-col mode-sample-table px-3">
         <div class="border-2 my-2 @if(count(array_chunk($sample['results'], 3)) > 1) duplicates-table @else default-table @endif">
             <table class="table table-responsive md:table w-full">
@@ -67,13 +20,18 @@
                             @if(isset($sample['collect']))  {{ Carbon\Carbon::parse($sample['collect'])->format("d/m/Y") }} @endif
                         </td>
                         <td>
-                            @if(isset($sample['collect'])) {{ Carbon\Carbon::parse($sample['collect'])->format("h:i") }} @endif
+                            @if(isset($sample['collect'])) {{ Carbon\Carbon::parse($sample['collect'])->format("H:i") }} @endif
                         </td>
                         <td>
                             @if(isset($sample['environment'])) {{ $sample['environment'] }} @endif
                         </td>
                         <td>
-                            {{ isset($form->values['matrix']) ? App\Models\FieldType::find($form->values['matrix'])->name : '-' }}
+                            @if(isset($formPrint->formValue->values['matrix']))
+                                @php
+                                    $formType = App\Models\FieldType::find($formPrint->formValue->values['matrix']);
+                                @endphp
+                                {{  $formType->report_name ? $formType->report_name : $formType->name }}
+                            @endif
                         </td>
                     <tr>
                 </tbody>
@@ -86,27 +44,47 @@
                         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('Parâmetro') }}"/>
                         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('Unidade') }}"/>
                         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('Resultado') }}"/>
+                        <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('Incerteza') }}"/>
                         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('LQ') }}"/>
                         <x-table-sort-header :orderBy="null" :ascending="null" columnName="" columnText="{{ __('Faixa') }}"/>
                     </tr>
                 </thead>
                 <tbody id="table_result">
-                    @foreach ($parameters as $key => $value)
+                    @foreach ($formPrint->parameters as $key => $value)
                         <tr>
                             <td>
                                 {{ $value }}
                             </td>
                             <td>
-                                {{ $unities[$key] }}
+                                {{ $formPrint->unities[$key] }}
                             </td>
                             <td>
-                                {{ number_format($formValue->svgs['row_' . ($i)][$key], $places[$key], ",", ".") }}
+                                @php
+                                    if($key == "ntu" || $key == "eh") :
+                                        $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : null;
+                                    else :
+                                        $v =  $formPrint->formValue->svgs[$row][$key];
+                                    endif;
+                                @endphp
+
+                                @if((floatval($formPrint->LQ[$key]) > floatval($v) || !$v) && is_numeric($formPrint->LQ[$key]) && $v)
+                                    {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
+                                @elseif($key == "conductivity"  && $v >= 200000)
+                                    {{ "> 200000" }}
+                                @elseif($key == "salinity"  && $v >= 70)
+                                    {{ "> 70" }}
+                                @else
+                                    {{ is_numeric($v) ? number_format($v, $formPrint->places[$key], ",", ".") : $v }}
+                                @endif
                             </td>
                             <td>
-                                {{ $LQ[$key] }}
+                                {{ isset($sample[$key . "_uncertainty_footer"]) ?  '± ' . $sample[$key . "_uncertainty_footer"] : '-'}}
                             </td>
                             <td>
-                                {{ $range[$key] }}
+                                {{ is_numeric($formPrint->LQ[$key]) ?  number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") : $formPrint->LQ[$key] }}
+                            </td>
+                            <td>
+                                {{ $formPrint->range[$key] }}
                             </td>
                         <tr>
                     @endforeach

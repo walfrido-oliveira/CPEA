@@ -19,6 +19,11 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15" />
                 </svg>
             </button>
+            <button type="button" class="btn-transition-primary add-coordinates px-1" title="Adicionar Linhas" @if(!isset($formValue)) style="display: none" @endif>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-8 w-8 text-blue-500">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                </svg>
+            </button>
         </div>
     </div>
     <div class="my-2 px-3">
@@ -31,7 +36,7 @@
                     <th rowspan="2" style="vertical-align: middle;"  class="cursor-pointer px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                         {{ __('Zona') }}
                     </th>
-                    <th colspan="2" style="text-align: center" class="cursor-pointer px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
+                    <th colspan="3" style="text-align: center" class="cursor-pointer px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider text-center">
                         {{ __('Coordenadas UTM') }}
                     </th>
                 </tr>
@@ -42,13 +47,14 @@
                     <th class="cursor-pointer px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
                         {{ __('Northings (mN)') }}
                     </th>
+                    <th>Ações</th>
                 </tr>
             </thead>
 
             <tbody id="table_coordinates">
                 @if(isset($formValue->values['coordinates']))
                     @foreach ($formValue->values['coordinates'] as $key => $coordinate)
-                        <tr>
+                        <tr data-row="{{ $key }}">
                             <td>
                                 <x-jet-input readonly="true" id="point" class="form-control block mt-1 w-full" type="text" value="{{ isset($coordinate['point']) ? $coordinate['point'] : '' }}"
                                              name="{{ 'coordinates[' . $key . '][point]' }}" />
@@ -64,6 +70,13 @@
                             <td>
                                 <x-jet-input readonly="true" id="point" class="form-control block mt-1 w-full" type="text" value="{{ isset($coordinate['mn']) ? $coordinate['mn'] : '' }}"
                                              name="{{ 'coordinates[' . $key . '][mn]' }}"/>
+                            </td>
+                            <td>
+                                <button type="button" class="btn-transition-primary remove-coordinate px-1" title="Remover Coodernada"  data-row="{{ $key }}">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-wiph="1.5" stroke="currentColor" class="h-8 w-8 text-red-900">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </button>
                             </td>
                         </tr>
                     @endforeach

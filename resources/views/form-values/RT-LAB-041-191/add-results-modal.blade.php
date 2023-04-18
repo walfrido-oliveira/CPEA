@@ -1,4 +1,4 @@
-<div class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true" id="environment_modal">
+<div class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true" id="add_results_modal">
     <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
         <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
@@ -12,24 +12,14 @@
                     </div>
                     <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                         <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                            Condições Ambientais
+                            Resultados/Coordenadas
                         </h3>
                         <div class="mt-2">
-                            <p class="text-sm text-gray-500">Adicione a condição ambiental para o período informado.</p>
+                            <p class="text-sm text-gray-500">Adicionar linhas para os resultados.</p>
                             <div class="flex flex-wrap mt-2 w-full">
                                 <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
-                                    <x-jet-label for="date_start" value="{{ __('Início') }}" />
-                                    <x-jet-input id="date_start" class="form-control block mt-1 w-full" type="date" value="" name="date_start" />
-                                </div>
-                                <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
-                                    <x-jet-label for="date_end" value="{{ __('Fim') }}" />
-                                    <x-jet-input id="date_end" class="form-control block mt-1 w-full" type="date" value="" name="date_end" />
-                                </div>
-                            </div>
-                            <div class="flex flex-wrap mt-2 w-full">
-                                <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
-                                    <x-jet-label for="environment_value" value="{{ __('Condições ambientais nas últimas 24 hs') }}" />
-                                    <x-jet-input id="environment_value" class="form-control block mt-1 w-full" type="text" value="" name="environment_value" />
+                                    <x-jet-label for="amount" value="{{ __('Quantidade') }}" />
+                                    <x-jet-input id="amount" class="form-control block mt-1 w-full" type="number" value="" name="amount" min="1" max="20" />
                                 </div>
                             </div>
                         </div>
@@ -37,10 +27,10 @@
                 </div>
             </div>
             <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button type="button" id="confirm_environment_modal" class="btn-confirm" data-index="" data-row="">
+                <button type="button" id="confirm_add_results_modal" class="btn-confirm" data-index="">
                     Confirmar
                 </button>
-                <button type="button" id="cancel_environment_modal" class="btn-cancel" >
+                <button type="button" id="cancel_add_results_modal" class="btn-cancel" >
                     Cancelar
                 </button>
             </div>
