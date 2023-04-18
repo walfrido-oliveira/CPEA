@@ -62,28 +62,28 @@ class FormImportController extends Controller
                 $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["ph"] = floatval($value[3]);
             }
             if (isset($value[4])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["orp"] = floatval($value[4]);
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["orp"] = floatval($value[5]);
             }
             if (isset($value[5])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["conductivity"] = floatval($value[5]);
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["conductivity"] = floatval($value[6]);
             }
             if (isset($value[6])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["salinity"] = floatval($value[6]);
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["salinity"] = floatval($value[7]);
             }
             if (isset($value[7])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["psi"] = floatval($value[7]);
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["psi"] = floatval($value[8]);
             }
             if (isset($value[8])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["sat"] = floatval($value[8]);
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["sat"] = floatval($value[9]);
             }
             if (isset($value[9])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["conc"] = floatval($value[9]);
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["conc"] = floatval($value[10]);
             }
             if (isset($value[10])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["eh"] = floatval($value[10]);
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["eh"] = floatval($value[11]);
             }
             if (isset($value[11])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["ntu"] = floatval($value[11]);
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["ntu"] = floatval($value[12]);
             }
         }
 
@@ -579,28 +579,28 @@ class FormImportController extends Controller
                         $samples["samples"]["row_$max"]["results"][$key - 1]["ph"] = floatval($value[3]);
                     }
                     if (isset($value[4])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["orp"] = floatval($value[4]);
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["orp"] = floatval($value[5]);
                     }
                     if (isset($value[5])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["conductivity"] = $rows[0][5] == 'EC[µS/cm]' ? floatval($value[5]) : floatval($value[5]) * $microseccondInMille;
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["conductivity"] = $rows[0][6] == 'EC[µS/cm]' ? floatval($value[6]) : floatval($value[6]) * $microseccondInMille;
                     }
                     if (isset($value[6])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["salinity"] = $rows[0][5] == 'EC[µS/cm]' ? floatval($value[6]) : floatval($value[6]) * $micrometerInMetre;
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["salinity"] = $rows[0][7] == 'EC[µS/cm]' ? floatval($value[7]) : floatval($value[7]) * $micrometerInMetre;
                     }
                     if (isset($value[7])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["psi"] = floatval($value[7]);
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["psi"] = floatval($value[8]);
                     }
                     if (isset($value[8])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["sat"] = floatval($value[8]);
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["sat"] = floatval($value[9]);
                     }
                     if (isset($value[9])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["conc"] = floatval($value[9]);
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["conc"] = floatval($value[10]);
                     }
                     if (isset($value[10])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["eh"] = floatval($value[10]);
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["eh"] = floatval($value[11]);
                     }
                     if (isset($value[11])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["ntu"] = floatval($value[11]);
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["ntu"] = floatval($value[12]);
                     }
                 }
 
