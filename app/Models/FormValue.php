@@ -350,7 +350,7 @@ class FormValue extends Model
     {
         $values = $this->values;
         $coordinates = $values['coordinates'];
-        asort($coordinates);
+        if(is_array($coordinates)) asort($coordinates);
         return $coordinates;
     }
 }

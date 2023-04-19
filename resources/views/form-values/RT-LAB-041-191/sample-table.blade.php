@@ -51,42 +51,44 @@
                 </thead>
                 <tbody id="table_result">
                     @foreach ($formPrint->parameters as $key => $value)
-                        <tr>
-                            <td>
-                                {{ $value }}
-                            </td>
-                            <td>
-                                {{ $formPrint->unities[$key] }}
-                            </td>
-                            <td>
-                                @php
-                                    if($key == "ntu" || $key == "eh") :
-                                        $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : null;
-                                    else :
-                                        $v =  $formPrint->formValue->svgs[$row][$key];
-                                    endif;
-                                @endphp
+                        @if(isset($formValue->values[$key . "_column"]))
+                            <tr>
+                                <td>
+                                    {{ $value }}
+                                </td>
+                                <td>
+                                    {{ $formPrint->unities[$key] }}
+                                </td>
+                                <td>
+                                    @php
+                                        if($key == "ntu" || $key == "eh") :
+                                            $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : null;
+                                        else :
+                                            $v =  $formPrint->formValue->svgs[$row][$key];
+                                        endif;
+                                    @endphp
 
-                                @if((floatval($formPrint->LQ[$key]) > floatval($v) || !$v) && is_numeric($formPrint->LQ[$key]) && $v)
-                                    {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
-                                @elseif($key == "conductivity"  && $v >= 200000)
-                                    {{ "> 200000" }}
-                                @elseif($key == "salinity"  && $v >= 70)
-                                    {{ "> 70" }}
-                                @else
-                                    {{ is_numeric($v) ? number_format($v, $formPrint->places[$key], ",", ".") : $v }}
-                                @endif
-                            </td>
-                            <td>
-                                {{ isset($sample[$key . "_uncertainty_footer"]) ?  '± ' . $sample[$key . "_uncertainty_footer"] : '-'}}
-                            </td>
-                            <td>
-                                {{ is_numeric($formPrint->LQ[$key]) ?  number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") : $formPrint->LQ[$key] }}
-                            </td>
-                            <td>
-                                {{ $formPrint->range[$key] }}
-                            </td>
-                        <tr>
+                                    @if((floatval($formPrint->LQ[$key]) > floatval($v) || !$v) && is_numeric($formPrint->LQ[$key]) && $v)
+                                        {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
+                                    @elseif($key == "conductivity"  && $v >= 200000)
+                                        {{ "> 200000" }}
+                                    @elseif($key == "salinity"  && $v >= 70)
+                                        {{ "> 70" }}
+                                    @else
+                                        {{ is_numeric($v) ? number_format($v, $formPrint->places[$key], ",", ".") : $v }}
+                                    @endif
+                                </td>
+                                <td>
+                                    {{ isset($sample[$key . "_uncertainty_footer"]) ?  '± ' . $sample[$key . "_uncertainty_footer"] : '-'}}
+                                </td>
+                                <td>
+                                    {{ is_numeric($formPrint->LQ[$key]) ?  number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") : $formPrint->LQ[$key] }}
+                                </td>
+                                <td>
+                                    {{ $formPrint->range[$key] }}
+                                </td>
+                            <tr>
+                        @endif
                     @endforeach
                 </tbody>
             </table>

@@ -320,15 +320,6 @@ class FormPrintController extends Controller
             "Data da coleta",
             "Hora da coleta",
             "Condições ambientais nas últimas 24hs",
-            "",
-            "Oxigênio Dissolvido (mg/L)",
-            "Oxigênio Dissolvido ( % )",
-            "ORP (mV) correspondente às condições do meio",
-            "EH (mV) a 25ºC",
-            "Potencial hidrogeniônico - pH",
-            "Condutividade (µS/cm)",
-            "Salinidade",
-            "Temperatura (C°)",
         ];
 
         if(isset($formValue->values['turbidity'])) {
@@ -340,12 +331,21 @@ class FormPrintController extends Controller
                              $titleDefaultStyle, $boldDefaultStyle, $normalDefaultStyle,
                              $bold10DefaultStyle, $normal10DefaultStyle, $borderGray);
 
-        foreach ( $columnsText as $key => $column) {
-            if($column != '') {
-                $sheet->setCellValueByColumnAndRow(2, 11 + $key, $column);
-                $sheet->getStyleByColumnAndRow(2, 11 + $key, 7, 11 + $key)->applyFromArray($bold10DefaultStyle);
-                $sheet->mergeCellsByColumnAndRow(2, 11 + $key, 7, 11 + $key);
-            }
+        foreach ( $columnsText as $rowHeader => $column) {
+            $sheet->setCellValueByColumnAndRow(2, 11 + $rowHeader, $column);
+            $sheet->getStyleByColumnAndRow(2, 11 + $rowHeader, 7, 11 + $rowHeader)->applyFromArray($bold10DefaultStyle);
+            $sheet->mergeCellsByColumnAndRow(2, 11 + $rowHeader, 7, 11 + $rowHeader);
+        }
+
+        $rowHeader+= 2;
+        foreach ( $formPrint->parameters as $key => $column) {
+            if(((isset($formPrint->formValue->values[$key . "_column"]) && $formPrint->formValue->form->name == "RT-LAB-041-191") ||
+              ($formPrint->formValue->form->name != "RT-LAB-041-191"))) :
+                $sheet->setCellValueByColumnAndRow(2, 11 + $rowHeader, $column);
+                $sheet->getStyleByColumnAndRow(2, 11 + $rowHeader, 7, 11 + $rowHeader)->applyFromArray($bold10DefaultStyle);
+                $sheet->mergeCellsByColumnAndRow(2, 11 + $rowHeader, 7, 11 + $rowHeader);
+                $rowHeader++;
+            endif;
         }
 
         $index = 0;
@@ -365,31 +365,34 @@ class FormPrintController extends Controller
 
             $indexRow = 0;
             foreach ($formPrint->parameters as $key => $value) {
-                if($key == "ntu" || $key == "eh") :
-                    $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : $formValue->svgs[$row][$key];
-                elseif($key == "sat" && (!$formValue->svgs[$row][$key] || $formValue->svgs[$row][$key] == 0)) :
-                    $v = '< ' . number_format(4, $formPrint->places[$key], ",");
-                elseif(!$formValue->svgs[$row][$key] || $formValue->svgs[$row][$key] == 0 || $formPrint->LQ[$key] > $formValue->svgs[$row][$key]) :
-                    $v = '< ' . number_format($formPrint->LQ[$key], $formPrint->places[$key], ",");
-                elseif($key == "conductivity"  && $formValue->svgs[$row][$key] >= 200000) :
-                    $v = "> 200000";
-                elseif($key == "salinity"  && $formValue->svgs[$row][$key] >= 70) :
-                    $v = "> 70";
-                else :
-                    $v =  number_format($formPrint->formValue->svgs[$row][$key], $formPrint->places[$key], ",", ".");
+                if(((isset($formPrint->formValue->values[$key . "_column"]) && $formPrint->formValue->form->name == "RT-LAB-041-191") ||
+                    ($formPrint->formValue->form->name != "RT-LAB-041-191"))) :
+                    if($key == "ntu" || $key == "eh") :
+                        $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : $formValue->svgs[$row][$key];
+                    elseif($key == "sat" && (!$formValue->svgs[$row][$key] || $formValue->svgs[$row][$key] == 0)) :
+                        $v = '< ' . number_format(4, $formPrint->places[$key], ",");
+                    elseif(!$formValue->svgs[$row][$key] || $formValue->svgs[$row][$key] == 0 || $formPrint->LQ[$key] > $formValue->svgs[$row][$key]) :
+                        $v = '< ' . number_format($formPrint->LQ[$key], $formPrint->places[$key], ",");
+                    elseif($key == "conductivity"  && $formValue->svgs[$row][$key] >= 200000) :
+                        $v = "> 200000";
+                    elseif($key == "salinity"  && $formValue->svgs[$row][$key] >= 70) :
+                        $v = "> 70";
+                    else :
+                        $v =  number_format($formPrint->formValue->svgs[$row][$key], $formPrint->places[$key], ",", ".");
+                    endif;
+
+                    if(intval($formPrint->places[$key]) == 0) :
+                        $v = Str::replace(".", "", $v);
+                    endif;
+
+                    $sheet->setCellValueByColumnAndRow(8 + $index, 16 + $indexRow, $v);
+
+                    $sheet->getStyleByColumnAndRow(8 + $index, 16 + $indexRow)->applyFromArray($normal10DefaultStyle);
+                    $sheet->getStyleByColumnAndRow(8 + $index, 16 + $indexRow)->getFont()->setBold(true);
+                    $sheet->getColumnDimensionByColumn(8 + $index)->setAutoSize(true);
+
+                    $indexRow++;
                 endif;
-
-                if(intval($formPrint->places[$key]) == 0) :
-                    $v = Str::replace(".", "", $v);
-                endif;
-
-                $sheet->setCellValueByColumnAndRow(8 + $index, 16 + $indexRow, $v);
-
-                $sheet->getStyleByColumnAndRow(8 + $index, 16 + $indexRow)->applyFromArray($normal10DefaultStyle);
-                $sheet->getStyleByColumnAndRow(8 + $index, 16 + $indexRow)->getFont()->setBold(true);
-                $sheet->getColumnDimensionByColumn(8 + $index)->setAutoSize(true);
-
-                $indexRow++;
             }
 
             $index++;

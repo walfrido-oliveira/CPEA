@@ -129,46 +129,49 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($formPrint->parameters as $key => $value)
-                                            @if((!isset($formPrint->formValue->values['turbidity']) && $key != "ntu") ||
-                                                (isset($formPrint->formValue->values['turbidity'])))
-                                                <tr>
-                                                    <td style="text-align: left; border: 0px; border-left: 1px double grey;">
-                                                        {{ $value }}
-                                                    </td>
-                                                    <td style="text-align: center; border: 0px;">
-                                                        {{ $formPrint->unities[$key] }}
-                                                    </td>
-                                                    <td style="text-align: center; border: 0px;">
-                                                        @php
-                                                            if($key == "ntu" || $key == "eh") :
-                                                                $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : $formValue->svgs[$row][$key];
-                                                            else :
-                                                                $v =  $formPrint->formValue->svgs[$row][$key];
-                                                            endif;
-                                                        @endphp
-
-                                                        @if((floatval($formPrint->LQ[$key]) > floatval($v) || !$v) && is_numeric($formPrint->LQ[$key]))
-                                                            {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
-                                                        @elseif($key == "conductivity"  && $v >= 200000)
-                                                            {{ "> 200000" }}
-                                                        @elseif($key == "salinity"  && $v >= 70)
-                                                            {{ "> 70" }}
-                                                        @else
-                                                            {{ is_numeric($v) ? number_format($v, $formPrint->places[$key], ",", ".") : $v }}
-                                                        @endif
-                                                    </td>
-                                                    @if(isset($formPrint->formValue->values['uncertainty']))
-                                                        <td style="text-align: center; border: 0px;">
-                                                            {{ isset($sample[$key . "_uncertainty_footer"]) ? '± ' . $sample[$key . "_uncertainty_footer"] : '-'}}
+                                            @if((isset($formPrint->formValue->values[$key . "_column"]) && $formPrint->formValue->form->name == "RT-LAB-041-191") ||
+                                                ($formPrint->formValue->form->name != "RT-LAB-041-191"))
+                                                @if((!isset($formPrint->formValue->values['turbidity']) && $key != "ntu") ||
+                                                    (isset($formPrint->formValue->values['turbidity'])))
+                                                    <tr>
+                                                        <td style="text-align: left; border: 0px; border-left: 1px double grey;">
+                                                            {{ $value }}
                                                         </td>
-                                                    @endif
-                                                    <td style="text-align: center; border: 0px;">
-                                                        {{ Str::replace(".", ",", $formPrint->LQ[$key]) }}
-                                                    </td>
-                                                    <td style="text-align: center; border: 0px; border-right: 1px double grey;">
-                                                        {{ $formPrint->range[$key] }}
-                                                    </td>
-                                                <tr>
+                                                        <td style="text-align: center; border: 0px;">
+                                                            {{ $formPrint->unities[$key] }}
+                                                        </td>
+                                                        <td style="text-align: center; border: 0px;">
+                                                            @php
+                                                                if($key == "ntu" || $key == "eh") :
+                                                                    $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : $formValue->svgs[$row][$key];
+                                                                else :
+                                                                    $v =  $formPrint->formValue->svgs[$row][$key];
+                                                                endif;
+                                                            @endphp
+
+                                                            @if((floatval($formPrint->LQ[$key]) > floatval($v) || !$v) && is_numeric($formPrint->LQ[$key]))
+                                                                {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
+                                                            @elseif($key == "conductivity"  && $v >= 200000)
+                                                                {{ "> 200000" }}
+                                                            @elseif($key == "salinity"  && $v >= 70)
+                                                                {{ "> 70" }}
+                                                            @else
+                                                                {{ is_numeric($v) ? number_format($v, $formPrint->places[$key], ",", ".") : $v }}
+                                                            @endif
+                                                        </td>
+                                                        @if(isset($formPrint->formValue->values['uncertainty']))
+                                                            <td style="text-align: center; border: 0px;">
+                                                                {{ isset($sample[$key . "_uncertainty_footer"]) ? '± ' . $sample[$key . "_uncertainty_footer"] : '-'}}
+                                                            </td>
+                                                        @endif
+                                                        <td style="text-align: center; border: 0px;">
+                                                            {{ Str::replace(".", ",", $formPrint->LQ[$key]) }}
+                                                        </td>
+                                                        <td style="text-align: center; border: 0px; border-right: 1px double grey;">
+                                                            {{ $formPrint->range[$key] }}
+                                                        </td>
+                                                    <tr>
+                                                @endif
                                             @endif
                                         @endforeach
                                     </tbody>

@@ -101,69 +101,67 @@
                         </div>
                     </div>
 
-                    @if(!$formValue)
-                        <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                            <h2 class="w-full px-3 mb-6 md:mb-0">Selecione as colunas</h2>
-                            <div class="w-full px-3 mb-6 md:mb-0 grid gap-1 grid-cols-4">
-                                <label for="temperature_column" class="flex items-center">
-                                    <input id="temperature_column" type="checkbox" class="form-checkbox" name="temperature_column" value="true" @if(isset($formValue->values['temperature_column'])) checked @endif>
-                                    <span class="ml-2 text-sm text-gray-600">{{ __('Temperatura ºC') }}</span>
-                                </label>
-                                <label for="ph_column" class="flex items-center">
-                                    <input id="ph_column" type="checkbox" class="form-checkbox" name="ph_column" value="true" @if(isset($formValue->values['ph_column'])) checked @endif>
-                                    <span class="ml-2 text-sm text-gray-600">{{ __('pH') }}</span>
-                                </label>
-                                <label for="orp_column" class="flex items-center">
-                                    <input id="orp_column" type="checkbox" class="form-checkbox" name="orp_column" value="true" @if(isset($formValue->values['orp_column'])) checked @endif>
-                                    <span class="ml-2 text-sm text-gray-600">{{ __('ORP (mV)') }}</span>
-                                </label>
-                                <label for="conductivity_column" class="flex items-center">
-                                    <input id="conductivity_column" type="checkbox" class="form-checkbox" name="conductivity_column" value="true" @if(isset($formValue->values['conductivity_column'])) checked @endif>
-                                    <span class="ml-2 text-sm text-gray-600">{{ __('Condutividade') }}</span>
-                                </label>
-                                <label for="salinity_column" class="flex items-center">
-                                    <input id="salinity_column" type="checkbox" class="form-checkbox" name="salinity_column" value="true" @if(isset($formValue->values['salinity_column'])) checked @endif>
-                                    <span class="ml-2 text-sm text-gray-600">{{ __('Salinidade') }}</span>
-                                </label>
-                                <label for="psi_column" class="flex items-center">
-                                    <input id="psi_column" type="checkbox" class="form-checkbox" name="psi_column" value="true" @if(isset($formValue->values['psi_column'])) checked @endif>
-                                    <span class="ml-2 text-sm text-gray-600">{{ __('Press.[psi]') }}</span>
-                                </label>
-                                <label for="sat_column" class="flex items-center">
-                                    <input id="sat_column" type="checkbox" class="form-checkbox" name="sat_column" value="true" @if(isset($formValue->values['sat_column'])) checked @endif>
-                                    <span class="ml-2 text-sm text-gray-600">{{ __('Oxigênio Dissolvido (sat) (%)') }}</span>
-                                </label>
-                                <label for="conc_column" class="flex items-center">
-                                    <input id="conc_column" type="checkbox" class="form-checkbox" name="conc_column" value="true" @if(isset($formValue->values['conc_column'])) checked @endif>
-                                    <span class="ml-2 text-sm text-gray-600">{{ __('Oxigênio Dissolvido (conc) (mg/L)') }}</span>
-                                </label>
-                                <label for="eh_column" class="flex items-center">
-                                    <input id="eh_column" type="checkbox" class="form-checkbox" name="eh_column" value="true" @if(isset($formValue->values['eh_column'])) checked @endif>
-                                    <span class="ml-2 text-sm text-gray-600">{{ __('EH (mV)') }}</span>
-                                </label>
-                                <label for="ntu_column" class="flex items-center">
-                                    <input id="ntu_column" type="checkbox" class="form-checkbox" name="ntu_column" value="true" @if(isset($formValue->values['ntu_column'])) checked @endif>
-                                    <span class="ml-2 text-sm text-gray-600">{{ __('Turbidez (NTU)') }}</span>
-                                </label>
-                                <label for="uncertainty_column" class="flex items-center">
-                                    <input id="uncertainty_column" type="checkbox" class="form-checkbox" name="uncertainty_column" value="true" @if(isset($formValue->values['uncertainty_column'])) checked @endif>
-                                    <span class="ml-2 text-sm text-gray-600">{{ __('Incertezas') }}</span>
-                                </label>
-                                <label for="chlorine_column" class="flex items-center">
-                                    <input id="chlorine_column" type="checkbox" class="form-checkbox" name="chlorine_column" value="true" @if(isset($formValue->values['chlorine_column'])) checked @endif>
-                                    <span class="ml-2 text-sm text-gray-600">{{ __('Cloro (mg/l)') }}</span>
-                                </label>
-                                <label for="floating_materials_column" class="flex items-center">
-                                    <input id="floating_materials_column" type="checkbox" class="form-checkbox" name="floating_materials_column" value="true" @if(isset($formValue->values['floating_materials_column'])) checked @endif>
-                                    <span class="ml-2 text-sm text-gray-600">{{ __('Materiais Flutuantes') }}</span>
-                                </label>
-                                <label for="voc_column" class="flex items-center">
-                                    <input id="voc_column" type="checkbox" class="form-checkbox" name="voc_column" value="true" @if(isset($formValue->values['voc_column'])) checked @endif>
-                                    <span class="ml-2 text-sm text-gray-600">{{ __('VOC (mg/l)') }}</span>
-                                </label>
-                            </div>
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <h2 class="w-full px-3 mb-6 md:mb-0">Selecione as colunas</h2>
+                        <div class="w-full px-3 mb-6 md:mb-0 grid gap-1 grid-cols-4">
+                            <label for="temperature_column" class="flex items-center">
+                                <input id="temperature_column" type="checkbox" class="form-checkbox" name="temperature_column" value="true" @if(isset($formValue->values['temperature_column'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Temperatura ºC') }}</span>
+                            </label>
+                            <label for="ph_column" class="flex items-center">
+                                <input id="ph_column" type="checkbox" class="form-checkbox" name="ph_column" value="true" @if(isset($formValue->values['ph_column'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('pH') }}</span>
+                            </label>
+                            <label for="orp_column" class="flex items-center">
+                                <input id="orp_column" type="checkbox" class="form-checkbox" name="orp_column" value="true" @if(isset($formValue->values['orp_column'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('ORP (mV)') }}</span>
+                            </label>
+                            <label for="conductivity_column" class="flex items-center">
+                                <input id="conductivity_column" type="checkbox" class="form-checkbox" name="conductivity_column" value="true" @if(isset($formValue->values['conductivity_column'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Condutividade') }}</span>
+                            </label>
+                            <label for="salinity_column" class="flex items-center">
+                                <input id="salinity_column" type="checkbox" class="form-checkbox" name="salinity_column" value="true" @if(isset($formValue->values['salinity_column'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Salinidade') }}</span>
+                            </label>
+                            <label for="psi_column" class="flex items-center">
+                                <input id="psi_column" type="checkbox" class="form-checkbox" name="psi_column" value="true" @if(isset($formValue->values['psi_column'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Press.[psi]') }}</span>
+                            </label>
+                            <label for="sat_column" class="flex items-center">
+                                <input id="sat_column" type="checkbox" class="form-checkbox" name="sat_column" value="true" @if(isset($formValue->values['sat_column'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Oxigênio Dissolvido (sat) (%)') }}</span>
+                            </label>
+                            <label for="conc_column" class="flex items-center">
+                                <input id="conc_column" type="checkbox" class="form-checkbox" name="conc_column" value="true" @if(isset($formValue->values['conc_column'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Oxigênio Dissolvido (conc) (mg/L)') }}</span>
+                            </label>
+                            <label for="eh_column" class="flex items-center">
+                                <input id="eh_column" type="checkbox" class="form-checkbox" name="eh_column" value="true" @if(isset($formValue->values['eh_column'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('EH (mV)') }}</span>
+                            </label>
+                            <label for="ntu_column" class="flex items-center">
+                                <input id="ntu_column" type="checkbox" class="form-checkbox" name="ntu_column" value="true" @if(isset($formValue->values['ntu_column'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Turbidez (NTU)') }}</span>
+                            </label>
+                            <label for="uncertainty_column" class="flex items-center">
+                                <input id="uncertainty_column" type="checkbox" class="form-checkbox" name="uncertainty_column" value="true" @if(isset($formValue->values['uncertainty_column'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Incertezas') }}</span>
+                            </label>
+                            <label for="chlorine_column" class="flex items-center">
+                                <input id="chlorine_column" type="checkbox" class="form-checkbox" name="chlorine_column" value="true" @if(isset($formValue->values['chlorine_column'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Cloro (mg/l)') }}</span>
+                            </label>
+                            <label for="floating_materials_column" class="flex items-center">
+                                <input id="floating_materials_column" type="checkbox" class="form-checkbox" name="floating_materials_column" value="true" @if(isset($formValue->values['floating_materials_column'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Materiais Flutuantes') }}</span>
+                            </label>
+                            <label for="voc_column" class="flex items-center">
+                                <input id="voc_column" type="checkbox" class="form-checkbox" name="voc_column" value="true" @if(isset($formValue->values['voc_column'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('VOC (mg/l)') }}</span>
+                            </label>
                         </div>
-                    @endif
+                    </div>
 
                     @if($formValue)
                         <div class="flex flex-wrap mx-4 px-3 py-2 mt-4" id="samples">

@@ -15,15 +15,15 @@
                     <p class="font-bold">{{ __('Condições ambientais nas últimas 24 hs') }}</p>
                     <p class="font-bold">{{ __('DT/HR da Coleta') }}</p>
                     <p style="background-color: #FFF; margin-left: -12px; margin-right: -12px; margin-top: 3px; margin-bottom: 4px; height: 3px">&nbsp;</p>
-                    <p class="font-bold">{{ __('Temperatura [ºC]') }}</p>
-                    <p class="font-bold">{{ __('pH') }}</p>
-                    <p class="font-bold">{{ __('ORP [mV]') }}</p>
-                    <p class="font-bold">{{ __('Condutividade [µS/cm]') }}</p>
-                    <p class="font-bold">{{ __('Salinidade [psu]') }}</p>
-                    <p class="font-bold">{{ __('Oxigênio Dissolvido (SAT) [%]') }}</p>
-                    <p class="font-bold">{{ __('Oxigênio Dissolvido (CONC) [mg/l]') }}</p>
-                    <p class="font-bold">{{ __('EH [mV]') }}</p>
-                    <p class="font-bold">{{ __('Turbidez [NTU]') }}</p>
+                    @if(isset($formValue->values["temperature_column"]))<p class="font-bold">{{ __('Temperatura [ºC]') }}</p>@endif
+                    @if(isset($formValue->values["ph_column"]))<p class="font-bold">{{ __('pH') }}</p>@endif
+                    @if(isset($formValue->values["orp_column"]))<p class="font-bold">{{ __('ORP [mV]') }}</p>@endif
+                    @if(isset($formValue->values["conductivity_column"]))<p class="font-bold">{{ __('Condutividade [µS/cm]') }}</p>@endif
+                    @if(isset($formValue->values["salinity_column"]))<p class="font-bold">{{ __('Salinidade [psu]') }}</p>@endif
+                    @if(isset($formValue->values["sat_column"]))<p class="font-bold">{{ __('Oxigênio Dissolvido (SAT) [%]') }}</p>@endif
+                    @if(isset($formValue->values["conc_column"]))<p class="font-bold">{{ __('Oxigênio Dissolvido (CONC) [mg/l]') }}</p>@endif
+                    @if(isset($formValue->values["eh_column"]))<p class="font-bold">{{ __('EH [mV]') }}</p>@endif
+                    @if(isset($formValue->values["ntu_column"]))<p class="font-bold">{{ __('Turbidez [NTU]') }}</p>@endif
                 </div>
             @endif
             @foreach ($sampleArray as $key => $value)

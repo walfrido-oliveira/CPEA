@@ -88,12 +88,16 @@ class FormImportController extends Controller
         }
 
         $sampleCount = count($samples["samples"][$inputs["sample_index"]]["results"]);
-        $samples = $this->validadeTime($samples, $inputs["sample_index"]);
-        $samples = $this->validadeTemperature($samples, $inputs["sample_index"]);
-        $samples = $this->validadePH($samples, $inputs["sample_index"]);
-        $samples = $this->validadeOrp($samples, $inputs["sample_index"]);
-        $samples = $this->validadeConductivity($samples, $inputs["sample_index"]);
-        $samples = $this->validadeSat($samples, $inputs["sample_index"]);
+
+        if($formValue->form->name != "RT-LAB-041-191") {
+            $samples = $this->validadeTime($samples, $inputs["sample_index"]);
+            $samples = $this->validadeTemperature($samples, $inputs["sample_index"]);
+            $samples = $this->validadePH($samples, $inputs["sample_index"]);
+            $samples = $this->validadeOrp($samples, $inputs["sample_index"]);
+            $samples = $this->validadeConductivity($samples, $inputs["sample_index"]);
+            $samples = $this->validadeSat($samples, $inputs["sample_index"]);
+        }
+
         $samples["samples"][$inputs["sample_index"]]["invalid_rows"] =  $sampleCount > count($samples["samples"][$inputs["sample_index"]]["results"]);
 
         $sampleCount = count($samples["samples"][$inputs["sample_index"]]["results"]);
@@ -582,10 +586,10 @@ class FormImportController extends Controller
                         $samples["samples"]["row_$max"]["results"][$key - 1]["orp"] = floatval($value[5]);
                     }
                     if (isset($value[6])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["conductivity"] = $rows[0][6] == 'EC[µS/cm]' ? floatval($value[6]) : floatval($value[6]) * $microseccondInMille;
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["conductivity"] = $rows[0][6] != 'EC[µS/cm]' ? floatval($value[6]) : floatval($value[6]) * $microseccondInMille;
                     }
                     if (isset($value[7])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["salinity"] = $rows[0][6] == 'EC[µS/cm]' ? floatval($value[7]) : floatval($value[7]) * $micrometerInMetre;
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["salinity"] = $rows[0][6] != 'EC[µS/cm]' ? floatval($value[7]) : floatval($value[7]) * $micrometerInMetre;
                     }
                     if (isset($value[8])) {
                         $samples["samples"]["row_$max"]["results"][$key - 1]["psi"] = floatval($value[8]);
@@ -608,12 +612,16 @@ class FormImportController extends Controller
             }
 
             $sampleCount = count($samples["samples"]["row_$max"]["results"]);
-            $samples = $this->validadeTime($samples, "row_$max");
-            $samples = $this->validadeTemperature($samples, "row_$max");
-            $samples = $this->validadePH($samples, "row_$max");
-            $samples = $this->validadeOrp($samples, "row_$max");
-            $samples = $this->validadeConductivity($samples, "row_$max");
-            $samples = $this->validadeSat($samples, "row_$max");
+
+            if($formValue->form->name != "RT-LAB-041-191") {
+                $samples = $this->validadeTime($samples, "row_$max");
+                $samples = $this->validadeTemperature($samples, "row_$max");
+                $samples = $this->validadePH($samples, "row_$max");
+                $samples = $this->validadeOrp($samples, "row_$max");
+                $samples = $this->validadeConductivity($samples, "row_$max");
+                $samples = $this->validadeSat($samples, "row_$max");
+            }
+
             $samples["samples"]["row_$max"]["invalid_rows"] = $sampleCount > count($samples["samples"]["row_$max"]["results"]);
 
             $sampleCount = count($samples["samples"]["row_$max"]["results"]);
