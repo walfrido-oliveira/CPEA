@@ -186,7 +186,7 @@ class FormValueController extends Controller
         $samplesTable = isset($values['samples']) ? $formValue->sortSamples("collect") : [];
         $chuckSize = Config::get("default_duplicate_size");
 
-        $duplicateSize = DuplicateSize::where("form_id", $form->id, "field_type_id", $formValue->values['matrix'])->first();
+        $duplicateSize = DuplicateSize::where("form_id", $form->id)->where("field_type_id", $formValue->values['matrix'])->first();
 
         if($duplicateSize) $chuckSize = $duplicateSize->size;
 
