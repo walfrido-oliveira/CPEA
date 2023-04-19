@@ -585,7 +585,7 @@ class FormImportController extends Controller
                         $samples["samples"]["row_$max"]["results"][$key - 1]["conductivity"] = $rows[0][6] == 'EC[µS/cm]' ? floatval($value[6]) : floatval($value[6]) * $microseccondInMille;
                     }
                     if (isset($value[7])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["salinity"] = $rows[0][7] == 'EC[µS/cm]' ? floatval($value[7]) : floatval($value[7]) * $micrometerInMetre;
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["salinity"] = $rows[0][6] == 'EC[µS/cm]' ? floatval($value[7]) : floatval($value[7]) * $micrometerInMetre;
                     }
                     if (isset($value[8])) {
                         $samples["samples"]["row_$max"]["results"][$key - 1]["psi"] = floatval($value[8]);
