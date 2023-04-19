@@ -129,16 +129,7 @@
                 <table class="table table-responsive md:table w-full ">
                     <thead>
                         <tr class="thead-light">
-                            <th scope="col"  class="custom-th">{{ __('Temperatura [ºC]') }}</th>
-                            <th scope="col"  class="custom-th">{{ __('pH') }}</th>
-                            <th scope="col"  class="custom-th">{{ __('ORP [mV]') }}</th>
-                            <th scope="col"  class="custom-th">{{ __('Condutividade [µS/cm]') }}</th>
-                            <th scope="col"  class="custom-th">{{ __('Salinidade [psu]') }}</th>
-                            <th scope="col"  class="custom-th">{{ __('Press. [psi]') }}</th>
-                            <th scope="col"  class="custom-th">{{ __('Oxigênio Dissolvido (SAT) [%]') }}</th>
-                            <th scope="col"  class="custom-th">{{ __('Oxigênio Dissolvido (CONC) [mg/l]') }}</th>
-                            <th scope="col"  class="custom-th">{{ __('EH [mV]') }}</th>
-                            <th scope="col"  class="custom-th">{{ __('Turbidez [NTU]') }}</th>
+                            @include('form-values.RT-LAB-020.sample-headers')
                         </tr>
                     </thead>
                     <tbody id="table_result">
@@ -158,16 +149,7 @@
                         <table class="table table-responsive md:table w-full">
                             <thead>
                                 <tr class="thead-light">
-                                    <th scope="col"  class="custom-th">{{ __('Temperatura [ºC]') }}</th>
-                                    <th scope="col"  class="custom-th">{{ __('pH') }}</th>
-                                    <th scope="col"  class="custom-th">{{ __('ORP [mV]') }}</th>
-                                    <th scope="col"  class="custom-th">{{ __('Condutividade [µS/cm]') }}</th>
-                                    <th scope="col"  class="custom-th">{{ __('Salinidade [psu]') }}</th>
-                                    <th scope="col"  class="custom-th">{{ __('Press. [psi]') }}</th>
-                                    <th scope="col"  class="custom-th">{{ __('Oxigênio Dissolvido (SAT) [%]') }}</th>
-                                    <th scope="col"  class="custom-th">{{ __('Oxigênio Dissolvido (CONC) [mg/l]') }}</th>
-                                    <th scope="col"  class="custom-th">{{ __('EH [mV]') }}</th>
-                                    <th scope="col"  class="custom-th">{{ __('Turbidez [NTU]') }}</th>
+                                    @include('form-values.RT-LAB-020.sample-headers')
                                 </tr>
                             </thead>
                             <tbody id="table_result">

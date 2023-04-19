@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Form;
 use App\Models\User;
+use App\Models\Config;
 use App\Models\Customer;
 use App\Models\FieldType;
 use App\Models\FormPrint;
 use App\Models\FormValue;
 use Illuminate\Http\Request;
+use App\Models\DuplicateSize;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
@@ -66,8 +68,9 @@ class FormValueController extends Controller
 
         $customers = Customer::where('status', 'active')->pluck('name', 'id');
         $fields = FieldType::pluck('name', 'id');
+        $chuckSize = Config::get("default_duplicate_size");
 
-        return view("form-values.$form->name", compact("form", "formValue", "users", "customers", "fields", "usersSiger")
+        return view("form-values.$form->name", compact("form", "formValue", "users", "customers", "fields", "usersSiger", "chuckSize")
         );
     }
 
@@ -181,10 +184,14 @@ class FormValueController extends Controller
         $values = $formValue->values;
         $samplesTable = isset($values['samples']) ? $values['samples'] : [];
         $samplesTable = isset($values['samples']) ? $formValue->sortSamples("collect") : [];
+        $chuckSize = Config::get("default_duplicate_size");
 
-        return view("form-values.$form->name", compact( "form", "project_id", "formValue", "users",
-                                                        "customers", "fields", "floatingMaterials",
-                                                        "formPrint", "samplesTable", "usersSiger"));
+        $duplicateSize = DuplicateSize::where("form_id", $form->id, "field_type_id", $formValue->values['matrix'])->first();
+
+        if($duplicateSize) $chuckSize = $duplicateSize->size;
+
+        return view("form-values.$form->name", compact( "form", "project_id", "formValue", "users", "customers", "fields", "floatingMaterials", "formPrint", "samplesTable", "usersSiger",
+                                                        "chuckSize"));
     }
 
     /**

@@ -1,12 +1,12 @@
 <div class="w-full px-3 mt-4 mb-6 md:mb-0 flex flex-wrap sample
-            @if(isset($sample['results']))
-                @if(count(array_chunk($sample['results'], 3)) > 1) duplicates-table
-                 @else default-table
-                @endif
-            @else
-            default-table
-            @endif"
-            id="sample_{{ isset($i) ? $i : 0 }}">
+    @if(isset($sample['results']))
+        @if(count(array_chunk($sample['results'], $chuckSize)) > 1) duplicates-table
+            @else default-table
+        @endif
+    @else
+    default-table
+    @endif"
+    id="sample_{{ isset($i) ? $i : 0 }}">
     <div class="flex w-full">
         <h3 class="w-full mt-4 mb-6 md:mb-0 title">
             AMOSTRA <span>{{ isset($amostraIndex) ? $amostraIndex : 1 }}</span>
@@ -129,20 +129,11 @@
                 <table class="table table-responsive md:table w-full ">
                     <thead>
                         <tr class="thead-light">
-                            @if(isset($formValue->values["temperature_column"]))<th scope="col"  class="custom-th">{{ __('Temperatura [ºC]') }}</th> @endif
-                            @if(isset($formValue->values["ph_column"]))<th scope="col"  class="custom-th">{{ __('pH') }}</th> @endif
-                            @if(isset($formValue->values["orp_column"]))<th scope="col"  class="custom-th">{{ __('ORP [mV]') }}</th> @endif
-                            @if(isset($formValue->values["conductivity_column"]))<th scope="col"  class="custom-th">{{ __('Condutividade [µS/cm]') }}</th> @endif
-                            @if(isset($formValue->values["salinity_column"]))<th scope="col"  class="custom-th">{{ __('Salinidade [psu]') }}</th> @endif
-                            @if(isset($formValue->values["psi_column"]))<th scope="col"  class="custom-th">{{ __('Press. [psi]') }}</th> @endif
-                            @if(isset($formValue->values["sat_column"]))<th scope="col"  class="custom-th">{{ __('Oxigênio Dissolvido (SAT) [%]') }}</th> @endif
-                            @if(isset($formValue->values["conc_column"]))<th scope="col"  class="custom-th">{{ __('Oxigênio Dissolvido (CONC) [mg/l]') }}</th> @endif
-                            @if(isset($formValue->values["eh_column"]))<th scope="col"  class="custom-th">{{ __('EH [mV]') }}</th> @endif
-                            @if(isset($formValue->values["ntu_column"]))<th scope="col"  class="custom-th">{{ __('Turbidez [NTU]') }}</th> @endif
+                            @include('form-values.RT-LAB-041-191.sample-headers')
                         </tr>
                     </thead>
                     <tbody id="table_result">
-                        @foreach (array_chunk($sample['results'], 3)[0] as $key => $value)
+                        @foreach (array_chunk($sample['results'], $chuckSize)[0] as $key => $value)
                             @include('form-values.RT-LAB-041-191.sample-fields', ['key' => $key, 'value' => $value])
                         @endforeach
                     </tbody>
@@ -151,23 +142,14 @@
                     </tfoot>
                 </table>
             </div>
-            @if (isset(array_chunk($sample['results'], 3)[1]))
+            @if (isset(array_chunk($sample['results'], $chuckSize)[1]))
                 <div class="w-full mt-2 duplicate fade">
                     <h2 class="text-center text-white opacity-100 p-2 w-full" style="background-color: rgb(0, 94, 16)">DUPLICATA</h2>
                     @if(count($sample['results'])>= 6)
                         <table class="table table-responsive md:table w-full">
                             <thead>
                                 <tr class="thead-light">
-                                    @if(isset($formValue->values["temperature_column"]))<th scope="col"  class="custom-th">{{ __('Temperatura [ºC]') }}</th> @endif
-                                    @if(isset($formValue->values["ph_column"]))<th scope="col"  class="custom-th">{{ __('pH') }}</th> @endif
-                                    @if(isset($formValue->values["orp_column"]))<th scope="col"  class="custom-th">{{ __('ORP [mV]') }}</th> @endif
-                                    @if(isset($formValue->values["conductivity_column"]))<th scope="col"  class="custom-th">{{ __('Condutividade [µS/cm]') }}</th> @endif
-                                    @if(isset($formValue->values["salinity_column"]))<th scope="col"  class="custom-th">{{ __('Salinidade [psu]') }}</th> @endif
-                                    @if(isset($formValue->values["psi_column"]))<th scope="col"  class="custom-th">{{ __('Press. [psi]') }}</th> @endif
-                                    @if(isset($formValue->values["sat_column"]))<th scope="col"  class="custom-th">{{ __('Oxigênio Dissolvido (SAT) [%]') }}</th> @endif
-                                    @if(isset($formValue->values["conc_column"]))<th scope="col"  class="custom-th">{{ __('Oxigênio Dissolvido (CONC) [mg/l]') }}</th> @endif
-                                    @if(isset($formValue->values["eh_column"]))<th scope="col"  class="custom-th">{{ __('EH [mV]') }}</th> @endif
-                                    @if(isset($formValue->values["ntu_column"]))<th scope="col"  class="custom-th">{{ __('Turbidez [NTU]') }}</th> @endif
+                                    @include('form-values.RT-LAB-041-191.sample-headers')
                             </thead>
                             <tbody id="table_result">
                                 @foreach (array_chunk($sample['results'], 3)[1] as $key2 => $value)
