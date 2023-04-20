@@ -68,7 +68,7 @@
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full px-3 mb-6 md:mb-0">
-                            <x-jet-label :value="__('Casas Decimais')"/>
+                            <x-jet-label :value="__('Casas Decimais')" class="font-bold"/>
                         </div>
                         <div class="w-full md:w-1/5 px-3 mb-6 md:mb-0">
                             <x-jet-label :value="__('Temperatura')" for="form_temperature_places" required/>
@@ -135,8 +135,28 @@
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Cloro Total')" for="form_chlorine_places" required/>
+                            <x-jet-input id="form_chlorine_places" class="form-control block mt-1 w-full" type="number"
+                                         value="{{  App\Models\Config::get('form_chlorine_places') }}"
+                                         name="form_chlorine_places" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Cloro Livre Residual')" for="form_residualchlorine_places" required/>
+                            <x-jet-input id="form_residualchlorine_places" class="form-control block mt-1 w-full" type="number"
+                                         value="{{  App\Models\Config::get('form_residualchlorine_places') }}"
+                                         name="form_residualchlorine_places" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/5 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('VOC')" for="form_voc_places" required/>
+                            <x-jet-input id="form_voc_places" class="form-control block mt-1 w-full" type="number"
+                                         value="{{  App\Models\Config::get('form_voc_places') }}"
+                                         name="form_voc_places" step="any" />
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full px-3 mb-6 md:mb-0">
-                            <x-jet-label :value="__('Faixas')"/>
+                            <x-jet-label :value="__('Faixas')" class="font-bold"/>
                         </div>
                         <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
                             <x-jet-label :value="__('Temperatura')" for="form_temperature_range" required/>
@@ -182,10 +202,60 @@
                                          value="{{  App\Models\Config::get('form_ntu_range') }}"
                                          name="form_ntu_range" step="any" />
                         </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Cloro Total')" for="form_chlorine_range" required/>
+                            <x-jet-input id="form_chlorine_range" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_chlorine_range') }}"
+                                         name="form_chlorine_range" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Cloro Livre Residual')" for="form_residualchlorine_range" required/>
+                            <x-jet-input id="form_residualchlorine_range" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_residualchlorine_range') }}"
+                                         name="form_residualchlorine_range" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Aspecto')" for="form_aspect_range" required/>
+                            <x-jet-input id="form_aspect_range" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_aspect_range') }}"
+                                         name="form_aspect_range" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Corantes Artificiais')" for="form_artificialdyes_range" required/>
+                            <x-jet-input id="form_artificialdyes_range" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_artificialdyes_range') }}"
+                                         name="form_artificialdyes_range" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Materiais Flutuantes')" for="form_floatingmaterials_range" required/>
+                            <x-jet-input id="form_floatingmaterials_range" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_floatingmaterials_range') }}"
+                                         name="form_floatingmaterials_range" step="any" />
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Resíduos Sólidos Objetáveis')" for="form_objectablesolidwaste_range" required/>
+                            <x-jet-input id="form_objectablesolidwaste_range" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_objectablesolidwaste_range') }}"
+                                         name="form_objectablesolidwaste_range" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Óleos e Graxas Visíveis')" for="form_visibleoilsandgreases_range" required/>
+                            <x-jet-input id="form_visibleoilsandgreases_range" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_visibleoilsandgreases_range') }}"
+                                         name="form_visibleoilsandgreases_range" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('VOC [ppm]')" for="form_voc_range" required/>
+                            <x-jet-input id="form_voc_range" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_voc_range') }}"
+                                         name="form_voc_range" step="any" />
+                        </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full px-3 mb-6 md:mb-0">
-                            <x-jet-label :value="__('LQ')"/>
+                            <x-jet-label :value="__('LQ')" class="font-bold"/>
                         </div>
                         <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
                             <x-jet-label :value="__('Temperatura')" for="form_temperature_lq" required/>
@@ -230,6 +300,24 @@
                             <x-jet-input id="form_ntu_lq" class="form-control block mt-1 w-full" type="text"
                                          value="{{  App\Models\Config::get('form_ntu_lq') }}"
                                          name="form_ntu_lq" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Cloro Total')" for="form_chlorine_lq" required/>
+                            <x-jet-input id="form_chlorine_lq" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_chlorine_lq') }}"
+                                         name="form_chlorine_lq" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('Cloro Livre Residual')" for="form_residualchlorine_lq" required/>
+                            <x-jet-input id="form_residualchlorine_lq" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_residualchlorine_lq') }}"
+                                         name="form_residualchlorine_lq" step="any" />
+                        </div>
+                        <div class="w-full md:w-1/6 px-3 mb-6 md:mb-0">
+                            <x-jet-label :value="__('VOC')" for="form_voc_lq" required/>
+                            <x-jet-input id="form_voc_lq" class="form-control block mt-1 w-full" type="text"
+                                         value="{{  App\Models\Config::get('form_voc_lq') }}"
+                                         name="form_voc_lq" step="any" />
                         </div>
                     </div>
                 </div>

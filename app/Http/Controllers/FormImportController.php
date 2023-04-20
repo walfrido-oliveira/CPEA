@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\FormValue;
-use DASPRiD\Enum\NullValue;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -46,6 +45,8 @@ class FormImportController extends Controller
         $rows = $worksheet->toArray();
 
         $samples = $formValue->values;
+        $microseccondInMille = 1000;
+        $micrometerInMetre = 1000000;
 
         foreach ($rows as $key => $value) {
             if ($key == 0) {
@@ -65,10 +66,10 @@ class FormImportController extends Controller
                 $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["orp"] = floatval($value[5]);
             }
             if (isset($value[6])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["conductivity"] = floatval($value[6]);
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["conductivity"] = STr::contains($rows[0][6], 'EC[µS/cm]') ? floatval($value[6]) : floatval($value[6]) * $microseccondInMille;
             }
             if (isset($value[7])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["salinity"] = floatval($value[7]);
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["salinity"] = STr::contains($rows[0][6], 'EC[µS/cm]') ? floatval($value[7]) : floatval($value[7]) * $micrometerInMetre;
             }
             if (isset($value[8])) {
                 $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["psi"] = floatval($value[8]);
@@ -586,10 +587,10 @@ class FormImportController extends Controller
                         $samples["samples"]["row_$max"]["results"][$key - 1]["orp"] = floatval($value[5]);
                     }
                     if (isset($value[6])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["conductivity"] = $rows[0][6] != 'EC[µS/cm]' ? floatval($value[6]) : floatval($value[6]) * $microseccondInMille;
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["conductivity"] = STr::contains($rows[0][6], 'EC[µS/cm]') ? floatval($value[6]) : floatval($value[6]) * $microseccondInMille;
                     }
                     if (isset($value[7])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["salinity"] = $rows[0][6] != 'EC[µS/cm]' ? floatval($value[7]) : floatval($value[7]) * $micrometerInMetre;
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["salinity"] = STr::contains($rows[0][6], 'EC[µS/cm]') ? floatval($value[7]) : floatval($value[7]) * $micrometerInMetre;
                     }
                     if (isset($value[8])) {
                         $samples["samples"]["row_$max"]["results"][$key - 1]["psi"] = floatval($value[8]);
