@@ -80,9 +80,6 @@ class FormPrint extends Model
             "salinity" => "-",
             "conc" => "mg/L",
             "ntu" => "NTU",
-            "chlorine" => "mg/L",
-            "residualchlorine" => "mg/L",
-            "voc" => "ppm",
         ];
 
         $this->LQ = [
@@ -95,9 +92,6 @@ class FormPrint extends Model
             "ntu" => Config::get("form_ntu_lq"),
             "eh" => null,
             "sat" => null,
-            "chlorine" => Config::get("form_chlorine_lq"),
-            "residualchlorine" => Config::get("form_residualchlorine_lq"),
-            "voc" => Config::get("form_voc_lq"),
         ];
 
         $this->places = [
@@ -111,9 +105,6 @@ class FormPrint extends Model
             "sat" => intval(Config::get("form_sat_places")),
             "eh" => intval(Config::get("form_eh_places")),
             "ntu" => intval(Config::get("form_ntu_places")),
-            "chlorine" => intval(Config::get("form_chlorine_places")),
-            "residualchlorine" => intval(Config::get("form_residualchlorine_places")),
-            "voc" => intval(Config::get("form_voc_places")),
         ];
 
         $this->range = [
@@ -126,8 +117,60 @@ class FormPrint extends Model
             "ntu" => Config::get("form_ntu_range"),
             "chlorine" => Config::get("form_chlorine_range"),
             "residualchlorine" => Config::get("form_residualchlorine_range"),
+            "aspect" => Config::get("form_aspect_range"),
+            "artificialdyes" => Config::get("form_artificialdyes_range"),
+            "floatingmaterials" => Config::get("form_floatingmaterials_range"),
+            "objectablesolidwaste" => Config::get("form_objectablesolidwaste_range"),
+            "visibleoilsandgreases" => Config::get("form_visibleoilsandgreases_range"),
             "voc" => Config::get("form_voc_range"),
         ];
+
+        if($this->formValue->form->name == 'RT-LAB-041-191') {
+            $this->parameters["chlorine"] = "Cloro Total";
+            $this->parameters["residualchlorine"] = "Cloro Livre Residual";
+            $this->parameters["aspect"] = "Aspecto";
+            $this->parameters["artificialdyes"] = "Corantes Artificiais";
+            $this->parameters["floatingmaterials"] = "Materiais Flutuantes";
+            $this->parameters["objectablesolidwaste"] = "Resíduos Sólidos Objetáveis";
+            $this->parameters["visibleoilsandgreases"] = "Óleos e Graxas Visíveis";
+            $this->parameters["voc"] = "Aspecto";
+
+            $this->unities["chlorine"] = "mg/L";
+            $this->unities["residualchlorine"] = "mg/L";
+            $this->unities["aspect"] = "";
+            $this->unities["artificialdyes"] = "";
+            $this->unities["floatingmaterials"] = "";
+            $this->unities["objectablesolidwaste"] = "";
+            $this->unities["visibleoilsandgreases"] = "";
+            $this->unities["voc"] = "ppm";
+
+            $this->LQ["chlorine"] = Config::get("form_chlorine_lq");
+            $this->LQ["residualchlorine"] = Config::get("form_residualchlorine_lq");
+            $this->LQ["aspect"] = "";
+            $this->LQ["artificialdyes"] = "";
+            $this->LQ["floatingmaterials"] = "";
+            $this->LQ["objectablesolidwaste"] = "";
+            $this->LQ["visibleoilsandgreases"] = "";
+            $this->LQ["voc"] = Config::get("form_voc_lq");
+
+            $this->places["chlorine"] = intval(Config::get("form_chlorine_places"));
+            $this->places["residualchlorine"] = intval(Config::get("form_residualchlorine_places"));
+            $this->places["aspect"] = "";
+            $this->places["artificialdyes"] = "";
+            $this->places["floatingmaterials"] = "";
+            $this->places["objectablesolidwaste"] = "";
+            $this->places["visibleoilsandgreases"] = "";
+            $this->places["voc"] = intval(Config::get("form_voc_places"));
+
+            $this->range["chlorine"] = Config::get("form_chlorine_range");
+            $this->range["residualchlorine"] = Config::get("form_residualchlorine_range");
+            $this->range["aspect"] = Config::get("form_aspect_range");
+            $this->range["artificialdyes"] = Config::get("form_artificialdyes_range");
+            $this->range["floatingmaterials"] = Config::get("form_floatingmaterials_range");
+            $this->range["objectablesolidwaste"] = Config::get("form_objectablesolidwaste_range");
+            $this->range["visibleoilsandgreases"] = Config::get("form_visibleoilsandgreases_range");
+            $this->range["voc"] = Config::get("form_voc_range");
+        }
 
         if(isset($this->formValue->values['turbidity'])) {
             $this->refs = Ref::where('field_type_id', $this->formValue->values['matrix'])

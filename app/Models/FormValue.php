@@ -292,17 +292,17 @@ class FormValue extends Model
                     $sizeVoc = 0;
 
                     foreach(array_chunk($sample["results"], 3)[0] as $count) {
-                        if($count["temperature"]) $sizeTemperature++;
-                        if($count["ph"]) $sizePh++;
-                        if($count["orp"]) $sizeOrp++;
-                        if($count["conductivity"]) $sizeConductivity++;
-                        if($count["salinity"]) $sizeSalinity++;
-                        if($count["psi"]) $sizePsi++;
-                        if($count["sat"]) $sizeSat++;
-                        if($count["conc"]) $sizeConc++;
-                        if($count["chlorine"]) $sizeChlorine++;
-                        if($count["residualchlorine"]) $sizeResidualchlorine++;
-                        if($count["voc"]) $sizeVoc++;
+                        if(isset($count["temperature"])) $sizeTemperature++;
+                        if(isset($count["ph"])) $sizePh++;
+                        if(isset($count["orp"])) $sizeOrp++;
+                        if(isset($count["conductivity"])) $sizeConductivity++;
+                        if(isset($count["salinity"])) $sizeSalinity++;
+                        if(isset($count["psi"])) $sizePsi++;
+                        if(isset($count["sat"])) $sizeSat++;
+                        if(isset($count["conc"])) $sizeConc++;
+                        if(isset($count["chlorine"])) $sizeChlorine++;
+                        if(isset($count["residualchlorine"])) $sizeResidualchlorine++;
+                        if(isset($count["voc"])) $sizeVoc++;
                     }
 
                     $sum["temperature"] = 0;

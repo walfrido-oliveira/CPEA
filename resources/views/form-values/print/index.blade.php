@@ -141,22 +141,24 @@
                                                             {{ $formPrint->unities[$key] }}
                                                         </td>
                                                         <td style="text-align: center; border: 0px;">
-                                                            @php
-                                                                if($key == "ntu" || $key == "eh") :
-                                                                    $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : $formValue->svgs[$row][$key];
-                                                                else :
-                                                                    $v =  $formPrint->formValue->svgs[$row][$key];
-                                                                endif;
-                                                            @endphp
+                                                            @if(isset($formPrint->formValue->svgs[$row][$key]))
+                                                                @php
+                                                                    if($key == "ntu" || $key == "eh") :
+                                                                        $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : $formValue->svgs[$row][$key];
+                                                                    else :
+                                                                        $v =  $formPrint->formValue->svgs[$row][$key];
+                                                                    endif;
+                                                                @endphp
 
-                                                            @if((floatval($formPrint->LQ[$key]) > floatval($v) || !$v) && is_numeric($formPrint->LQ[$key]))
-                                                                {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
-                                                            @elseif($key == "conductivity"  && $v >= 200000)
-                                                                {{ "> 200000" }}
-                                                            @elseif($key == "salinity"  && $v >= 70)
-                                                                {{ "> 70" }}
-                                                            @else
-                                                                {{ is_numeric($v) ? number_format($v, $formPrint->places[$key], ",", ".") : $v }}
+                                                                @if((floatval($formPrint->LQ[$key]) > floatval($v) || !$v) && is_numeric($formPrint->LQ[$key]))
+                                                                    {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
+                                                                @elseif($key == "conductivity"  && $v >= 200000)
+                                                                    {{ "> 200000" }}
+                                                                @elseif($key == "salinity"  && $v >= 70)
+                                                                    {{ "> 70" }}
+                                                                @else
+                                                                    {{ is_numeric($v) ? number_format($v, $formPrint->places[$key], ",", ".") : $v }}
+                                                                @endif
                                                             @endif
                                                         </td>
                                                         @if(isset($formPrint->formValue->values['uncertainty']))
