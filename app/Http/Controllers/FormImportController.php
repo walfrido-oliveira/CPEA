@@ -63,13 +63,13 @@ class FormImportController extends Controller
                 $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["ph"] = floatval($value[3]);
             }
             if (isset($value[4])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["orp"] = floatval($value[5]);
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["orp"] = floatval($value[4]);
             }
             if (isset($value[6])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["conductivity"] = STr::contains($rows[0][6], 'EC[µS/cm]') ? floatval($value[6]) : floatval($value[6]) * $microseccondInMille;
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["conductivity"] = Str::contains($rows[0][6], 'EC[µS/cm]') ? floatval($value[6]) : floatval($value[6]) * $microseccondInMille;
             }
             if (isset($value[7])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["salinity"] = STr::contains($rows[0][6], 'EC[µS/cm]') ? floatval($value[7]) : floatval($value[7]) * $micrometerInMetre;
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["salinity"] = Str::contains($rows[0][6], 'EC[µS/cm]') ? floatval($value[7]) : floatval($value[7]) * $micrometerInMetre;
             }
             if (isset($value[8])) {
                 $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["psi"] = floatval($value[8]);
@@ -592,13 +592,13 @@ class FormImportController extends Controller
                         $samples["samples"]["row_$max"]["results"][$key - 1]["ph"] = floatval($value[3]);
                     }
                     if (isset($value[4])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["orp"] = floatval($value[5]);
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["orp"] = floatval($value[4]);
                     }
                     if (isset($value[6])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["conductivity"] = STr::contains($rows[0][6], 'EC[µS/cm]') ? floatval($value[6]) : floatval($value[6]) * $microseccondInMille;
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["conductivity"] = Str::contains($rows[0][6], 'EC[µS/cm]') ? floatval($value[6]) : floatval($value[6]) * $microseccondInMille;
                     }
                     if (isset($value[7])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["salinity"] = STr::contains($rows[0][6], 'EC[µS/cm]') ? floatval($value[7]) : floatval($value[7]) * $micrometerInMetre;
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["salinity"] = Str::contains($rows[0][6], 'EC[µS/cm]') ? floatval($value[7]) : floatval($value[7]) * $micrometerInMetre;
                     }
                     if (isset($value[8])) {
                         $samples["samples"]["row_$max"]["results"][$key - 1]["psi"] = floatval($value[8]);
