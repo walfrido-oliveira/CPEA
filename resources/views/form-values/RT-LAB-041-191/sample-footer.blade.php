@@ -115,6 +115,49 @@
             @endif
         </td>
     @endif
+    @if(isset($formValue->values["aspect_column"]))
+        <td>
+            -
+        </td>
+    @endif
+    @if(isset($formValue->values["artificialdyes_column"]))
+        <td>
+            -
+        </td>
+    @endif
+    @if(isset($formValue->values["floatingmaterials_column"]))
+        <td>
+            -
+        </td>
+    @endif
+    @if(isset($formValue->values["objectablesolidwaste_column"]))
+        <td>
+            -
+        </td>
+    @endif
+    @if(isset($formValue->values["visibleoilsandgreases_column"]))
+        <td>
+            -
+        </td>
+    @endif
+    @if(isset($formValue->values["voc_column"]))
+        <td>
+            @php
+                if(!isset($sample['voc_footer'])) :
+                    $sample['voc_footer'] = $formValue->svgs['row_' . ($i)]['voc'];
+                endif;
+            @endphp
+            @if(isset($sample['voc_footer']))
+                <x-jet-input readonly="{{ !$formValue ? false : true}}" id="voc_footer_{{ isset($i) ? $i : 0 }}"
+                            class="form-control block mt-1 w-full voc_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                            type="number" value="{{ $sample['voc_footer'] != 0 ? number_format($sample['voc_footer'], $formPrint->places['voc']) : '' }}"
+                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][voc_footer]' : 'samples[row_0][voc_footer]' }}" />
+            @else
+                <x-jet-input id="voc_footer_0" class="form-control block mt-1 w-full voc_footer" type="number" value=""
+                            name="samples[row_0][voc_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+            @endif
+        </td>
+    @endif
 </tr>
 <tr>
     <td colspan="10" class="text-center text-white" style="background-color: rgb(0, 94, 16)">Incertezas</td>
@@ -297,6 +340,49 @@
             @else
                 <x-jet-input id="residualchlorine_uncertainty_footer_0" class="form-control block mt-1 w-full residualchlorine_uncertainty_footer" type="number" value=""
                             name="samples[row_0][residualchlorine_uncertainty_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+            @endif
+        </td>
+    @endif
+    @if(isset($formValue->values["aspect_column"]))
+        <td>
+            -
+        </td>
+    @endif
+    @if(isset($formValue->values["artificialdyes_column"]))
+        <td>
+            -
+        </td>
+    @endif
+    @if(isset($formValue->values["floatingmaterials_column"]))
+        <td>
+            -
+        </td>
+    @endif
+    @if(isset($formValue->values["objectablesolidwaste_column"]))
+        <td>
+            -
+        </td>
+    @endif
+    @if(isset($formValue->values["visibleoilsandgreases_column"]))
+        <td>
+            -
+        </td>
+    @endif
+    @if(isset($formValue->values["voc_column"]))
+        <td>
+            @php
+                if(!isset($sample['voc_uncertainty_footer'])) :
+                    $sample['voc_uncertainty_footer'] = "-";
+                endif;
+            @endphp
+            @if(isset($sample['voc_uncertainty_footer']))
+                <x-jet-input readonly="{{ !$formValue ? false : true}}" id="voc_uncertainty_footer_{{ isset($i) ? $i : 0 }}"
+                            class="form-control block mt-1 w-full voc_uncertainty_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                            type="number" value="{{ $sample['voc_uncertainty_footer'] }}"
+                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][voc_uncertainty_footer]' : 'samples[row_0][voc_uncertainty_footer]' }}" />
+            @else
+                <x-jet-input id="voc_uncertainty_footer_0" class="form-control block mt-1 w-full voc_uncertainty_footer" type="number" value=""
+                            name="samples[row_0][voc_uncertainty_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
             @endif
         </td>
     @endif

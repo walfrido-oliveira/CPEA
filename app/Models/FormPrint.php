@@ -82,6 +82,7 @@ class FormPrint extends Model
             "ntu" => "NTU",
             "chlorine" => "mg/L",
             "residualchlorine" => "mg/L",
+            "voc" => "ppm",
         ];
 
         $this->LQ = [
@@ -96,6 +97,7 @@ class FormPrint extends Model
             "sat" => null,
             "chlorine" => Config::get("form_chlorine_lq"),
             "residualchlorine" => Config::get("form_residualchlorine_lq"),
+            "voc" => Config::get("form_voc_lq"),
         ];
 
         $this->places = [
@@ -111,6 +113,7 @@ class FormPrint extends Model
             "ntu" => intval(Config::get("form_ntu_places")),
             "chlorine" => intval(Config::get("form_chlorine_places")),
             "residualchlorine" => intval(Config::get("form_residualchlorine_places")),
+            "voc" => intval(Config::get("form_voc_places")),
         ];
 
         $this->range = [
@@ -123,6 +126,7 @@ class FormPrint extends Model
             "ntu" => Config::get("form_ntu_range"),
             "chlorine" => Config::get("form_chlorine_range"),
             "residualchlorine" => Config::get("form_residualchlorine_range"),
+            "voc" => Config::get("form_voc_range"),
         ];
 
         if(isset($this->formValue->values['turbidity'])) {

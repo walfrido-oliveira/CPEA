@@ -10,4 +10,10 @@
 @if(isset($formValue->values["ntu_column"]))<th scope="col"  class="custom-th">{{ __('Turbidez [NTU]') }}</th> @endif
 @if(isset($formValue->values["chlorine_column"]))<th scope="col"  class="custom-th">{{ __('Cloro Total [mg/L]') }}</th> @endif
 @if(isset($formValue->values["residualchlorine_column"]))<th scope="col"  class="custom-th">{{ __('Cloro Livre Residual [mg/L]') }}</th> @endif
+@if(isset($formValue->values["aspect_column"]))<th scope="col"  class="custom-th">{{ __('Aspecto') }}</th> @endif
+@if(isset($formValue->values["artificialdyes_column"]))<th scope="col"  class="custom-th">{{ __('Corantes Artificiais') }}</th> @endif
+@if(isset($formValue->values["floatingmaterials_column"]))<th scope="col"  class="custom-th">{{ __('Materiais Flutuantes') }}</th> @endif
+@if(isset($formValue->values["objectablesolidwaste_column"]))<th scope="col"  class="custom-th">{{ __('Resíduos Sólidos Objetáveis') }}</th> @endif
+@if(isset($formValue->values["visibleoilsandgreases_column"]))<th scope="col"  class="custom-th">{{ __('Óleos e Graxas Visíveis') }}</th> @endif
+@if(isset($formValue->values["voc_column"]))<th scope="col"  class="custom-th">{{ __('VOC [ppm]') }}</th> @endif
 <th scope="col"  class="custom-th">{{ __('Ações') }}</th>

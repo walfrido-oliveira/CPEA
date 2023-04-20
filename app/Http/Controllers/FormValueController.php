@@ -69,8 +69,9 @@ class FormValueController extends Controller
         $customers = Customer::where('status', 'active')->pluck('name', 'id');
         $fields = FieldType::pluck('name', 'id');
         $chuckSize = Config::get("default_duplicate_size");
+        $choises = ["Presente" => "Presente", "Ausente" => "Ausente"];
 
-        return view("form-values.$form->name", compact("form", "formValue", "users", "customers", "fields", "usersSiger", "chuckSize")
+        return view("form-values.$form->name", compact("form", "formValue", "users", "customers", "fields", "usersSiger", "chuckSize", "choises")
         );
     }
 
@@ -185,13 +186,15 @@ class FormValueController extends Controller
         $samplesTable = isset($values['samples']) ? $values['samples'] : [];
         $samplesTable = isset($values['samples']) ? $formValue->sortSamples("collect") : [];
         $chuckSize = Config::get("default_duplicate_size");
+        $choises = ["Presente" => "Presente", "Ausente" => "Ausente"];
+
 
         $duplicateSize = DuplicateSize::where("form_id", $form->id)->where("field_type_id", $formValue->values['matrix'])->first();
 
         if($duplicateSize) $chuckSize = $duplicateSize->size;
 
         return view("form-values.$form->name", compact( "form", "project_id", "formValue", "users", "customers", "fields", "floatingMaterials", "formPrint", "samplesTable", "usersSiger",
-                                                        "chuckSize"));
+                                                        "chuckSize", "choises"));
     }
 
     /**
@@ -359,6 +362,7 @@ class FormValueController extends Controller
             $samples["samples"][$input["sample_index"]]["ntu_uncertainty_footer"] = isset($input["samples"][$input["sample_index"]]["ntu_uncertainty_footer"]) ? $input["samples"][$input["sample_index"]]["ntu_uncertainty_footer"] : null;
             $samples["samples"][$input["sample_index"]]["chlorine_uncertainty_footer"] = isset($input["samples"][$input["sample_index"]]["chlorine_uncertainty_footer"]) ? $input["samples"][$input["sample_index"]]["chlorine_uncertainty_footer"] : null;
             $samples["samples"][$input["sample_index"]]["residualchlorine_uncertainty_footer"] = isset($input["samples"][$input["sample_index"]]["residualchlorine_uncertainty_footer"]) ? $input["samples"][$input["sample_index"]]["residualchlorine_uncertainty_footer"] : null;
+            $samples["samples"][$input["sample_index"]]["voc_uncertainty_footer"] = isset($input["samples"][$input["sample_index"]]["voc_uncertainty_footer"]) ? $input["samples"][$input["sample_index"]]["voc_uncertainty_footer"] : null;
         }
         if (isset($input["samples"][$input["sample_index"]]["results"])) {
             foreach ($input["samples"][$input["sample_index"]]["results"] as $key => $value ) {
@@ -378,6 +382,12 @@ class FormValueController extends Controller
 
                 $samples["samples"][$input["sample_index"]]["results"][$key]["chlorine"] = isset($value["chlorine"]) ? $value["chlorine"] : null;
                 $samples["samples"][$input["sample_index"]]["results"][$key]["residualchlorine"] = isset($value["residualchlorine"]) ? $value["residualchlorine"] : null;
+                $samples["samples"][$input["sample_index"]]["results"][$key]["aspect"] = isset($value["aspect"]) ? $value["aspect"] : null;
+                $samples["samples"][$input["sample_index"]]["results"][$key]["artificialdyes"] = isset($value["artificialdyes"]) ? $value["artificialdyes"] : null;
+                $samples["samples"][$input["sample_index"]]["results"][$key]["floatingmaterials"] = isset($value["floatingmaterials"]) ? $value["floatingmaterials"] : null;
+                $samples["samples"][$input["sample_index"]]["results"][$key]["objectablesolidwaste"] = isset($value["objectablesolidwaste"]) ? $value["objectablesolidwaste"] : null;
+                $samples["samples"][$input["sample_index"]]["results"][$key]["visibleoilsandgreases"] = isset($value["visibleoilsandgreases"]) ? $value["visibleoilsandgreases"] : null;
+                $samples["samples"][$input["sample_index"]]["results"][$key]["voc"] = isset($value["voc"]) ? $value["voc"] : null;
 
             }
         }

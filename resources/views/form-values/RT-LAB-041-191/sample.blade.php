@@ -269,6 +269,40 @@
                                             @endif
                                         </td>
                                     @endif
+                                    @if(isset($formValue->values["aspect_column"]))
+                                        <td>
+                                            -
+                                        </td>
+                                    @endif
+                                    @if(isset($formValue->values["artificialdyes_column"]))
+                                        <td>
+                                            -
+                                        </td>
+                                    @endif
+                                    @if(isset($formValue->values["floatingmaterials_column"]))
+                                        <td>
+                                            -
+                                        </td>
+                                    @endif
+                                    @if(isset($formValue->values["objectablesolidwaste_column"]))
+                                        <td>
+                                            -
+                                        </td>
+                                    @endif
+                                    @if(isset($formValue->values["visibleoilsandgreases_column"]))
+                                        <td>
+                                            -
+                                        </td>
+                                    @endif
+                                    @if(isset($formValue->values["voc_column"]))
+                                        <td>
+                                            @if(isset($value['voc']) && $formValue->svgs['row_' . ($i)]['voc'] != 0)
+                                                {{ number_format($formValue->dpr['row_' . ($i)]['voc'], 1, ",", ".") }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+                                    @endif
                                 <tr>
                             </tfoot>
                         </table>

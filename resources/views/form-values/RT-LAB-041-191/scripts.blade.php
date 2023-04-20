@@ -575,8 +575,9 @@
         item.addEventListener("click", function() {
             item.nextElementSibling.style.display = "inline-block";
             item.style.display = "none";
-            document.querySelectorAll(`#${this.dataset.index} input`).forEach(item => {
+            document.querySelectorAll(`#${this.dataset.index} input, #${this.dataset.index} select`).forEach(item => {
                 item.readOnly = false;
+                item.disabled = false;
             });
         });
     });
@@ -602,7 +603,7 @@
         let environment = document.querySelector(`#${that.dataset.index} #environment_${that.dataset.row}`).value;
         let collect = document.querySelector(`#${that.dataset.index} #collect_${that.dataset.row}`).value;
 
-        const results = [...document.querySelectorAll(`#${that.dataset.index} #table_result input`)];
+        const results = [...document.querySelectorAll(`#${that.dataset.index} #table_result input, #${that.dataset.index} #table_result select`)];
         const footer = [...document.querySelectorAll(`#${that.dataset.index} #table_result_footer input`)];
 
         ajax.open(method, url);

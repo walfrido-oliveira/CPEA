@@ -26,6 +26,7 @@
                     @if(isset($formValue->values["ntu_column"]))<p class="font-bold">{{ __('Turbidez [NTU]') }}</p>@endif
                     @if(isset($formValue->values["chlorine_column"]))<p class="font-bold">{{ __('Cloro Total [mg/L]') }}</p>@endif
                     @if(isset($formValue->values["residualchlorine_column"]))<p class="font-bold">{{ __('Cloro Livre Residual [mg/L]') }}</p>@endif
+                    @if(isset($formValue->values["voc_column"]))<p class="font-bold">{{ __('VOC [ppm]') }}</p>@endif
                 </div>
             @endif
             @foreach ($sampleArray as $key => $value)

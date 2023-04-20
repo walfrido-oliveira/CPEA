@@ -75,7 +75,49 @@
             name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][residualchlorine]' : 'samples[row_0][results]['. $key . '][residualchlorine]' }}" step="any" />
         </td>
     @endif
+    @if(isset($formValue->values["aspect_column"]))
+        <td>
+            <x-custom-select disabled="true" :options="$choises" value="{{ isset($value['aspect']) ? $value['aspect'] : null }}"
+            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][aspect]' : 'samples[row_0][results]['. $key . '][aspect]' }}"
+            id="aspect" class="mt-1" select-class="no-nice-select"/>
+        </td>
+    @endif
+    @if(isset($formValue->values["artificialdyes_column"]))
     <td>
+        <x-custom-select disabled="true" :options="$choises" value="{{ isset($value['artificialdyes']) ? $value['artificialdyes'] : null }}"
+        name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][artificialdyes]' : 'samples[row_0][results]['. $key . '][artificialdyes]' }}"
+        id="artificialdyes" class="mt-1" select-class="no-nice-select"/>
+    </td>
+    @endif
+    @if(isset($formValue->values["floatingmaterials_column"]))
+        <td>
+            <x-custom-select disabled="true" :options="$choises" value="{{ isset($value['floatingmaterials']) ? $value['floatingmaterials'] : null }}"
+            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][floatingmaterials]' : 'samples[row_0][results]['. $key . '][floatingmaterials]' }}"
+            id="floatingmaterials" class="mt-1" select-class="no-nice-select"/>
+        </td>
+    @endif
+    @if(isset($formValue->values["objectablesolidwaste_column"]))
+        <td>
+            <x-custom-select disabled="true" :options="$choises" value="{{ isset($value['objectablesolidwaste']) ? $value['objectablesolidwaste'] : null }}"
+            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][objectablesolidwaste]' : 'samples[row_0][results]['. $key . '][objectablesolidwaste]' }}"
+            id="objectablesolidwaste" class="mt-1" select-class="no-nice-select"/>
+        </td>
+    @endif
+    @if(isset($formValue->values["visibleoilsandgreases_column"]))
+        <td>
+            <x-custom-select disabled="true" :options="$choises" value="{{ isset($value['visibleoilsandgreases']) ? $value['visibleoilsandgreases'] : null }}"
+            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][visibleoilsandgreases]' : 'samples[row_0][results]['. $key . '][visibleoilsandgreases]' }}"
+            id="visibleoilsandgreases" class="mt-1" select-class="no-nice-select"/>
+        </td>
+    @endif
+    @if(isset($formValue->values["voc_column"]))
+        <td>
+            <x-jet-input readonly="true" id="voc" class="form-control block mt-1 w-full" type="number"
+            value="{{ isset($value['voc']) ? number_format($value['voc'], $formPrint->places['voc']) : ''}}"
+            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][voc]' : 'samples[row_0][results]['. $key . '][voc]' }}" step="any" />
+        </td>
+    @endif
+    <td style="width: 64px;">
         <button type="button" class="btn-transition-primary remove-result px-1" title="Remover Resultado" style="" data-index="row_{{ isset($i) ? $i : 0 }}" data-row="{{ $key }}">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-wiph="1.5" stroke="currentColor" class="h-8 w-8 text-red-900">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>

@@ -79,3 +79,12 @@
         @endif
     </p>
 @endif
+@if(isset($formValue->values["voc_column"]))
+    <p class="font-bold">
+        @if(isset($samples[$key]["voc_footer"]))
+            {{ number_format($samples[$key]["voc_footer"], $formPrint->places['voc'], ',', '.') }}
+        @else
+            {{ $formValue->svgs[$key]['voc'] > 0 ? number_format($formValue->svgs[$key]['voc'], $formPrint->places['voc'], ',', '.') : ''}}
+        @endif
+    </p>
+@endif

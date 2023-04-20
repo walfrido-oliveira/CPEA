@@ -181,6 +181,12 @@ class FormImportController extends Controller
             $samples["samples"][$inputs["sample_index"]]["results"][$max]["ntu"] = null;
             $samples["samples"][$inputs["sample_index"]]["results"][$max]["chlorine"] = null;
             $samples["samples"][$inputs["sample_index"]]["results"][$max]["residualchlorine"] = null;
+            $samples["samples"][$inputs["sample_index"]]["results"][$max]["aspect"] = null;
+            $samples["samples"][$inputs["sample_index"]]["results"][$max]["artificialdyes"] = null;
+            $samples["samples"][$inputs["sample_index"]]["results"][$max]["floatingmaterials"] = null;
+            $samples["samples"][$inputs["sample_index"]]["results"][$max]["objectablesolidwaste"] = null;
+            $samples["samples"][$inputs["sample_index"]]["results"][$max]["visibleoilsandgreases"] = null;
+            $samples["samples"][$inputs["sample_index"]]["results"][$max]["voc"] = null;
             $max++;
         }
 
