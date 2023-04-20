@@ -674,6 +674,40 @@
         ajax.send(data);
     }
 
+    function deleteResult(that) {
+        document.getElementById("spin_load").classList.remove("hidden");
+        let ajax = new XMLHttpRequest();
+        let url = "{!! route('fields.form-values.delete-result') !!}";
+        let token = document.querySelector('meta[name="csrf-token"]').content;
+        let method = 'POST';
+        let form_value_id = document.querySelector(`#form_value_id`).value;
+        let sample_index = that.dataset.index;
+        let index = that.dataset.row;
+
+        ajax.open(method, url);
+
+        ajax.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var resp = JSON.parse(ajax.response);
+                toastr.success(resp.message);
+                location.reload();
+            } else if (this.readyState == 4 && this.status != 200) {
+                document.getElementById("spin_load").classList.add("hidden");
+                toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                that.value = '';
+            }
+        }
+
+        var data = new FormData();
+        data.append('_token', token);
+        data.append('_method', method);
+        data.append('form_value_id', form_value_id);
+        data.append('sample_index', sample_index);
+        data.append('index', index);
+
+        ajax.send(data);
+    }
+
     function deleteCoordinate(that) {
         document.getElementById("spin_load").classList.remove("hidden");
         let ajax = new XMLHttpRequest();
@@ -924,6 +958,17 @@
         });
     });
 
+    document.querySelectorAll(".remove-result").forEach(item => {
+        item.addEventListener("click", function() {
+            var modal = document.getElementById("delete_modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("block");
+            document.querySelector("#confirm_delete_modal").dataset.index = this.dataset.index;
+            document.querySelector("#confirm_delete_modal").dataset.row = this.dataset.row;
+            document.querySelector("#confirm_delete_modal").dataset.type = "result";
+        });
+    });
+
     document.querySelectorAll(".remove-coordinate").forEach(item => {
         item.addEventListener("click", function() {
             var modal = document.getElementById("delete_modal");
@@ -936,6 +981,7 @@
 
     document.querySelector("#confirm_delete_modal").addEventListener("click", function() {
         if(this.dataset.type == "sample") deleteSample(this);
+        if(this.dataset.type == "result") deleteResult(this);
         if(this.dataset.type == "coordinate") {
             deleteCoordinate(this);
             var modal = document.getElementById("delete_modal");

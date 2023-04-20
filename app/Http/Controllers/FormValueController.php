@@ -259,6 +259,45 @@ class FormValueController extends Controller
         return response()->json($resp);
     }
 
+        /**
+     * Remove result
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteResult(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            "form_value_id" => ["required", "exists:form_values,id"],
+            "sample_index" => ["required"],
+            "index" => ["required"],
+        ]);
+
+        $inputs = $request->all();
+
+                if ($validator->fails() || $inputs['index'] == 0) {
+            return response()->json([
+                "message" => implode("<br>", $validator->messages()->all()),
+                    "alert-type" => "error",
+                ],403
+            );
+        }
+
+        $formValue = FormValue::findOrFail($inputs["form_value_id"]);
+        $samples = $formValue->values;
+        unset($samples["samples"][$inputs["sample_index"]]["results"][$inputs['index']]);
+
+        $formValue->values = $samples;
+        $formValue->save();
+
+        $resp = [
+            "message" => __("Dados adicionados com sucesso!"),
+            "alert-type" => "success",
+        ];
+
+        return response()->json($resp);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -309,17 +348,18 @@ class FormValueController extends Controller
         $samples["samples"][$input["sample_index"]]["collect"] = $input["collect"];
 
         if (isset($input["samples"])) {
-            $samples["samples"][$input["sample_index"]]["eh_footer"] = $input["samples"][$input["sample_index"]]["eh_footer"];
-            $samples["samples"][$input["sample_index"]]["ntu_footer"] = $input["samples"][$input["sample_index"]]["ntu_footer"];
-            $samples["samples"][$input["sample_index"]]["temperature_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["temperature_uncertainty_footer"];
-            $samples["samples"][$input["sample_index"]]["ph_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["ph_uncertainty_footer"];
-            $samples["samples"][$input["sample_index"]]["orp_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["orp_uncertainty_footer"];
-            $samples["samples"][$input["sample_index"]]["conductivity_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["conductivity_uncertainty_footer"];
-            $samples["samples"][$input["sample_index"]]["salinity_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["salinity_uncertainty_footer"];
-            $samples["samples"][$input["sample_index"]]["conc_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["conc_uncertainty_footer"];
-            $samples["samples"][$input["sample_index"]]["ntu_uncertainty_footer"] = $input["samples"][$input["sample_index"]]["ntu_uncertainty_footer"];
+            $samples["samples"][$input["sample_index"]]["eh_footer"] = isset($input["samples"][$input["sample_index"]]["eh_footer"]) ? $input["samples"][$input["sample_index"]]["eh_footer"] : null;
+            $samples["samples"][$input["sample_index"]]["ntu_footer"] = isset($input["samples"][$input["sample_index"]]["ntu_footer"]) ? $input["samples"][$input["sample_index"]]["ntu_footer"] : null;
+            $samples["samples"][$input["sample_index"]]["temperature_uncertainty_footer"] = isset($input["samples"][$input["sample_index"]]["temperature_uncertainty_footer"]) ? $input["samples"][$input["sample_index"]]["temperature_uncertainty_footer"] : null;
+            $samples["samples"][$input["sample_index"]]["ph_uncertainty_footer"] = isset($input["samples"][$input["sample_index"]]["ph_uncertainty_footer"]) ? $input["samples"][$input["sample_index"]]["ph_uncertainty_footer"] : null;
+            $samples["samples"][$input["sample_index"]]["orp_uncertainty_footer"] = isset($input["samples"][$input["sample_index"]]["orp_uncertainty_footer"]) ? $input["samples"][$input["sample_index"]]["orp_uncertainty_footer"] : null;
+            $samples["samples"][$input["sample_index"]]["conductivity_uncertainty_footer"] = isset($input["samples"][$input["sample_index"]]["conductivity_uncertainty_footer"]) ? $input["samples"][$input["sample_index"]]["conductivity_uncertainty_footer"] : null;
+            $samples["samples"][$input["sample_index"]]["salinity_uncertainty_footer"] = isset($input["samples"][$input["sample_index"]]["salinity_uncertainty_footer"]) ? $input["samples"][$input["sample_index"]]["salinity_uncertainty_footer"] : null;
+            $samples["samples"][$input["sample_index"]]["conc_uncertainty_footer"] = isset($input["samples"][$input["sample_index"]]["conc_uncertainty_footer"]) ? $input["samples"][$input["sample_index"]]["conc_uncertainty_footer"] : null;
+            $samples["samples"][$input["sample_index"]]["ntu_uncertainty_footer"] = isset($input["samples"][$input["sample_index"]]["ntu_uncertainty_footer"]) ? $input["samples"][$input["sample_index"]]["ntu_uncertainty_footer"] : null;
+            $samples["samples"][$input["sample_index"]]["chlorine_uncertainty_footer"] = isset($input["samples"][$input["sample_index"]]["chlorine_uncertainty_footer"]) ? $input["samples"][$input["sample_index"]]["chlorine_uncertainty_footer"] : null;
+            $samples["samples"][$input["sample_index"]]["residualchlorine_uncertainty_footer"] = isset($input["samples"][$input["sample_index"]]["residualchlorine_uncertainty_footer"]) ? $input["samples"][$input["sample_index"]]["residualchlorine_uncertainty_footer"] : null;
         }
-
         if (isset($input["samples"][$input["sample_index"]]["results"])) {
             foreach ($input["samples"][$input["sample_index"]]["results"] as $key => $value ) {
                 $samples["samples"][$input["sample_index"]]["results"][$key][ "temperature" ] = isset($value["temperature"]) ? $value["temperature"] : null;
@@ -337,8 +377,8 @@ class FormValueController extends Controller
                 $samples["samples"][$input["sample_index"]]["results"][$key]["uncertainty"] = isset($value["uncertainty"]) ? $value["uncertainty"] : null;
 
                 $samples["samples"][$input["sample_index"]]["results"][$key]["chlorine"] = isset($value["chlorine"]) ? $value["chlorine"] : null;
-                $samples["samples"][$input["sample_index"]]["results"][$key]["floating_materials"] = isset($value["floating_materials"]) ? $value["floating_materials"] : null;
-                $samples["samples"][$input["sample_index"]]["results"][$key]["voc"] = isset($value["voc"]) ? $value["voc"] : null;
+                $samples["samples"][$input["sample_index"]]["results"][$key]["residualchlorine"] = isset($value["residualchlorine"]) ? $value["residualchlorine"] : null;
+
             }
         }
 
@@ -376,21 +416,6 @@ class FormValueController extends Controller
         $formValue = FormValue::findOrFail($input["form_value_id"]);
 
         $samples = $formValue->values;
-
-        $samples["samples"][$input["sample_index"]]["visible_temperature"] = isset($input["visible_temperature"]) ? true : null;
-        $samples["samples"][$input["sample_index"]]["visible_ph"] = isset($input["visible_ph"]) ? true: null;
-        $samples["samples"][$input["sample_index"]]["visible_orp"] = isset($input["visible_orp"]) ? true : null;
-        $samples["samples"][$input["sample_index"]]["visible_conductivity"] = isset($input["visible_conductivity"]) ? true: null;
-        $samples["samples"][$input["sample_index"]]["visible_salinity"] = isset($input["visible_salinity"]) ? true : null;
-        $samples["samples"][$input["sample_index"]]["visible_psi"] = isset($input["visible_psi"]) ? true : null;
-        $samples["samples"][$input["sample_index"]]["visible_sat"] = isset($input["visible_sat"]) ? true : null;
-        $samples["samples"][$input["sample_index"]]["visible_conc"] = isset($input["visible_conc"]) ? true : null;
-        $samples["samples"][$input["sample_index"]]["visible_eh"] = isset($input["visible_eh"]) ? true: null;
-        $samples["samples"][$input["sample_index"]]["visible_ntu"] = isset($input["visible_ntu"]) ? true : null;
-        $samples["samples"][$input["sample_index"]]["visible_uncertainty"] = isset($input["visible_uncertainty"]) ? true : null;
-        $samples["samples"][$input["sample_index"]]["visible_chlorine"] = isset($input["visible_chlorine"]) ? true : null;
-        $samples["samples"][$input["sample_index"]]["visible_floating_materials"] = isset($input["visible_floating_materials"]) ? true: null;
-        $samples["samples"][$input["sample_index"]]["visible_voc"] = isset($input["visible_voc"]) ? true : null;
 
         $formValue->values = $samples;
         $formValue->save();

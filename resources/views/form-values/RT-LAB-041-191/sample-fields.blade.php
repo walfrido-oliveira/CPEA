@@ -61,4 +61,25 @@
     @if(isset($formValue->values["ntu_column"]))
         <td>-</td>
     @endif
+    @if(isset($formValue->values["chlorine_column"]))
+        <td>
+            <x-jet-input readonly="true" id="chlorine" class="form-control block mt-1 w-full" type="number"
+            value="{{ isset($value['chlorine']) ? number_format($value['chlorine'], $formPrint->places['chlorine']) : ''}}"
+            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][chlorine]' : 'samples[row_0][results]['. $key . '][chlorine]' }}" step="any" />
+        </td>
+    @endif
+    @if(isset($formValue->values["residualchlorine_column"]))
+        <td>
+            <x-jet-input readonly="true" id="residualchlorine" class="form-control block mt-1 w-full" type="number"
+            value="{{ isset($value['residualchlorine']) ? number_format($value['residualchlorine'], $formPrint->places['residualchlorine']) : ''}}"
+            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][residualchlorine]' : 'samples[row_0][results]['. $key . '][residualchlorine]' }}" step="any" />
+        </td>
+    @endif
+    <td>
+        <button type="button" class="btn-transition-primary remove-result px-1" title="Remover Resultado" style="" data-index="row_{{ isset($i) ? $i : 0 }}" data-row="{{ $key }}">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-wiph="1.5" stroke="currentColor" class="h-8 w-8 text-red-900">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+        </button>
+    </td>
 <tr>

@@ -52,3 +52,30 @@
         @endif
     </p>
 @endif
+@if(isset($formValue->values["ntu_column"]))
+    <p class="font-bold">
+        @if(isset($samples[$key]["ntu_footer"]))
+            {{ number_format($samples[$key]["ntu_footer"], $formPrint->places['ntu'], ',', '.') }}
+        @else
+            {{ $formValue->svgs[$key]['ntu'] > 0 ? number_format($formValue->svgs[$key]['ntu'], $formPrint->places['ntu'], ',', '.') : ''}}
+        @endif
+    </p>
+@endif
+@if(isset($formValue->values["chlorine_column"]))
+    <p class="font-bold">
+        @if(isset($samples[$key]["chlorine_footer"]))
+            {{ number_format($samples[$key]["chlorine_footer"], $formPrint->places['chlorine'], ',', '.') }}
+        @else
+            {{ $formValue->svgs[$key]['chlorine'] > 0 ? number_format($formValue->svgs[$key]['chlorine'], $formPrint->places['chlorine'], ',', '.') : ''}}
+        @endif
+    </p>
+@endif
+@if(isset($formValue->values["residualchlorine_column"]))
+    <p class="font-bold">
+        @if(isset($samples[$key]["residualchlorine_footer"]))
+            {{ number_format($samples[$key]["residualchlorine_footer"], $formPrint->places['residualchlorine'], ',', '.') }}
+        @else
+            {{ $formValue->svgs[$key]['residualchlorine'] > 0 ? number_format($formValue->svgs[$key]['residualchlorine'], $formPrint->places['residualchlorine'], ',', '.') : ''}}
+        @endif
+    </p>
+@endif

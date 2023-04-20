@@ -152,9 +152,29 @@
                                 <input id="chlorine_column" type="checkbox" class="form-checkbox" name="chlorine_column" value="true" @if(isset($formValue->values['chlorine_column'])) checked @endif>
                                 <span class="ml-2 text-sm text-gray-600">{{ __('Cloro (mg/l)') }}</span>
                             </label>
+                            <label for="residualchlorine_column" class="flex items-center">
+                                <input id="residualchlorine_column" type="checkbox" class="form-checkbox" name="residualchlorine_column" value="true" @if(isset($formValue->values['residualchlorine_column'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Cloro Total (mg/L)') }}</span>
+                            </label>
+                            <label for="aspect_column" class="flex items-center">
+                                <input id="aspect_column" type="checkbox" class="form-checkbox" name="aspect_column" value="true" @if(isset($formValue->values['aspect_column'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Aspecto') }}</span>
+                            </label>
+                            <label for="artificialdyes_column" class="flex items-center">
+                                <input id="artificialdyes_column" type="checkbox" class="form-checkbox" name="artificialdyes_column" value="true" @if(isset($formValue->values['artificialdyes_column'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Corantes Artificiais') }}</span>
+                            </label>
+                            <label for="floatingmaterials_column" class="flex items-center">
+                                <input id="floatingmaterials_column" type="checkbox" class="form-checkbox" name="floatingmaterials_column" value="true" @if(isset($formValue->values[''])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Materiais Flutuantes') }}</span>
+                            </label>
+                            <label for="visibleoilsandgreases_column" class="flex items-center">
+                                <input id="visibleoilsandgreases_column" type="checkbox" class="form-checkbox" name="visibleoilsandgreases_column" value="true" @if(isset($formValue->values['visibleoilsandgreases_column'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Resíduos Sólidos Objetáveis') }}</span>
+                            </label>
                             <label for="floating_materials_column" class="flex items-center">
                                 <input id="floating_materials_column" type="checkbox" class="form-checkbox" name="floating_materials_column" value="true" @if(isset($formValue->values['floating_materials_column'])) checked @endif>
-                                <span class="ml-2 text-sm text-gray-600">{{ __('Materiais Flutuantes') }}</span>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Óleos e Graxas Visíveis') }}</span>
                             </label>
                             <label for="voc_column" class="flex items-center">
                                 <input id="voc_column" type="checkbox" class="form-checkbox" name="voc_column" value="true" @if(isset($formValue->values['voc_column'])) checked @endif>

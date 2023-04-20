@@ -8,3 +8,6 @@
 @if(isset($formValue->values["conc_column"]))<th scope="col"  class="custom-th">{{ __('Oxigênio Dissolvido (CONC) [mg/l]') }}</th> @endif
 @if(isset($formValue->values["eh_column"]))<th scope="col"  class="custom-th">{{ __('EH [mV]') }}</th> @endif
 @if(isset($formValue->values["ntu_column"]))<th scope="col"  class="custom-th">{{ __('Turbidez [NTU]') }}</th> @endif
+@if(isset($formValue->values["chlorine_column"]))<th scope="col"  class="custom-th">{{ __('Cloro Total [mg/L]') }}</th> @endif
+@if(isset($formValue->values["residualchlorine_column"]))<th scope="col"  class="custom-th">{{ __('Cloro Livre Residual [mg/L]') }}</th> @endif
+<th scope="col"  class="custom-th">{{ __('Ações') }}</th>

@@ -79,6 +79,42 @@
             @endif
         </td>
     @endif
+    @if(isset($formValue->values["chlorine_column"]))
+        <td>
+            @php
+                if(!isset($sample['chlorine_footer'])) :
+                    $sample['chlorine_footer'] = $formValue->svgs['row_' . ($i)]['chlorine'];
+                endif;
+            @endphp
+            @if(isset($sample['chlorine_footer']))
+                <x-jet-input readonly="{{ !$formValue ? false : true}}" id="chlorine_footer_{{ isset($i) ? $i : 0 }}"
+                            class="form-control block mt-1 w-full chlorine_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                            type="number" value="{{ $sample['chlorine_footer'] != 0 ? number_format($sample['chlorine_footer'], $formPrint->places['chlorine']) : '' }}"
+                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][chlorine_footer]' : 'samples[row_0][chlorine_footer]' }}" />
+            @else
+                <x-jet-input id="chlorine_footer_0" class="form-control block mt-1 w-full chlorine_footer" type="number" value=""
+                            name="samples[row_0][chlorine_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+            @endif
+        </td>
+    @endif
+    @if(isset($formValue->values["residualchlorine_column"]))
+        <td>
+            @php
+                if(!isset($sample['residualchlorine_footer'])) :
+                    $sample['residualchlorine_footer'] = $formValue->svgs['row_' . ($i)]['residualchlorine'];
+                endif;
+            @endphp
+            @if(isset($sample['residualchlorine_footer']))
+                <x-jet-input readonly="{{ !$formValue ? false : true}}" id="residualchlorine_footer_{{ isset($i) ? $i : 0 }}"
+                            class="form-control block mt-1 w-full residualchlorine_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                            type="number" value="{{ $sample['residualchlorine_footer'] != 0 ? number_format($sample['residualchlorine_footer'], $formPrint->places['residualchlorine']) : '' }}"
+                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][residualchlorine_footer]' : 'samples[row_0][residualchlorine_footer]' }}" />
+            @else
+                <x-jet-input id="residualchlorine_footer_0" class="form-control block mt-1 w-full residualchlorine_footer" type="number" value=""
+                            name="samples[row_0][residualchlorine_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+            @endif
+        </td>
+    @endif
 </tr>
 <tr>
     <td colspan="10" class="text-center text-white" style="background-color: rgb(0, 94, 16)">Incertezas</td>
@@ -225,6 +261,42 @@
             @else
                 <x-jet-input id="ntu_uncertainty_footer_0" class="form-control block mt-1 w-full ntu_uncertainty_footer" type="number" value=""
                             name="samples[row_0][ntu_uncertainty_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+            @endif
+        </td>
+    @endif
+    @if(isset($formValue->values["chlorine_column"]))
+        <td>
+            @php
+                if(!isset($sample['chlorine_uncertainty_footer'])) :
+                    $sample['chlorine_uncertainty_footer'] = "-";
+                endif;
+            @endphp
+            @if(isset($sample['chlorine_uncertainty_footer']))
+                <x-jet-input readonly="{{ !$formValue ? false : true}}" id="chlorine_uncertainty_footer_{{ isset($i) ? $i : 0 }}"
+                            class="form-control block mt-1 w-full chlorine_uncertainty_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                            type="number" value="{{ $sample['chlorine_uncertainty_footer'] }}"
+                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][chlorine_uncertainty_footer]' : 'samples[row_0][chlorine_uncertainty_footer]' }}" />
+            @else
+                <x-jet-input id="chlorine_uncertainty_footer_0" class="form-control block mt-1 w-full chlorine_uncertainty_footer" type="number" value=""
+                            name="samples[row_0][chlorine_uncertainty_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+            @endif
+        </td>
+    @endif
+    @if(isset($formValue->values["residualchlorine_column"]))
+        <td>
+            @php
+                if(!isset($sample['residualchlorine_uncertainty_footer'])) :
+                    $sample['residualchlorine_uncertainty_footer'] = "-";
+                endif;
+            @endphp
+            @if(isset($sample['residualchlorine_uncertainty_footer']))
+                <x-jet-input readonly="{{ !$formValue ? false : true}}" id="residualchlorine_uncertainty_footer_{{ isset($i) ? $i : 0 }}"
+                            class="form-control block mt-1 w-full residualchlorine_uncertainty_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                            type="number" value="{{ $sample['residualchlorine_uncertainty_footer'] }}"
+                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][residualchlorine_uncertainty_footer]' : 'samples[row_0][residualchlorine_uncertainty_footer]' }}" />
+            @else
+                <x-jet-input id="residualchlorine_uncertainty_footer_0" class="form-control block mt-1 w-full residualchlorine_uncertainty_footer" type="number" value=""
+                            name="samples[row_0][residualchlorine_uncertainty_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
             @endif
         </td>
     @endif

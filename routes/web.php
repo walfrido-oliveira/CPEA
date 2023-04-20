@@ -272,6 +272,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
 
             Route::post('/delete-sample', [FormValueController::class, 'deleteSample'])->name('delete-sample');
             Route::post('/delete-coordinate', [FormValueController::class, 'deleteCoordinate'])->name('delete-coordinate');
+            Route::post('/delete-result', [FormValueController::class, 'deleteResult'])->name('delete-result');
             Route::delete('/{form_value}', [FormValueController::class, 'destroy'])->name('destroy');
 
             Route::post('/save-coordinate', [FormValueController::class, 'saveCoordinate'])->name('save-coordinate');

@@ -156,9 +156,9 @@ class FormImportController extends Controller
         $formValue = FormValue::findOrFail($inputs["form_value_id"]);
         $samples = $formValue->values;
 
-        $max = 0;
+        $max = -1;
 
-        if($samples["samples"][$inputs["sample_index"]]["results"]) {
+        if(isset($samples["samples"][$inputs["sample_index"]]["results"])) {
             $keys = array_keys($samples["samples"][$inputs["sample_index"]]["results"]);
             foreach ($keys as $value) {
                 if($value > $max) $max = $value;
@@ -179,6 +179,8 @@ class FormImportController extends Controller
             $samples["samples"][$inputs["sample_index"]]["results"][$max]["conc"] = null;
             $samples["samples"][$inputs["sample_index"]]["results"][$max]["eh"] = null;
             $samples["samples"][$inputs["sample_index"]]["results"][$max]["ntu"] = null;
+            $samples["samples"][$inputs["sample_index"]]["results"][$max]["chlorine"] = null;
+            $samples["samples"][$inputs["sample_index"]]["results"][$max]["residualchlorine"] = null;
             $max++;
         }
 

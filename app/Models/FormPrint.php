@@ -80,6 +80,8 @@ class FormPrint extends Model
             "salinity" => "-",
             "conc" => "mg/L",
             "ntu" => "NTU",
+            "chlorine" => "mg/L",
+            "residualchlorine" => "mg/L",
         ];
 
         $this->LQ = [
@@ -91,7 +93,9 @@ class FormPrint extends Model
             "conc" => Config::get("form_conc_lq"),
             "ntu" => Config::get("form_ntu_lq"),
             "eh" => null,
-            "sat" => null
+            "sat" => null,
+            "chlorine" => Config::get("form_chlorine_lq"),
+            "residualchlorine" => Config::get("form_residualchlorine_lq"),
         ];
 
         $this->places = [
@@ -105,6 +109,8 @@ class FormPrint extends Model
             "sat" => intval(Config::get("form_sat_places")),
             "eh" => intval(Config::get("form_eh_places")),
             "ntu" => intval(Config::get("form_ntu_places")),
+            "chlorine" => intval(Config::get("form_chlorine_places")),
+            "residualchlorine" => intval(Config::get("form_residualchlorine_places")),
         ];
 
         $this->range = [
@@ -115,6 +121,8 @@ class FormPrint extends Model
             "salinity" => Config::get("form_salinity_range"),
             "conc" => Config::get("form_conc_range"),
             "ntu" => Config::get("form_ntu_range"),
+            "chlorine" => Config::get("form_chlorine_range"),
+            "residualchlorine" => Config::get("form_residualchlorine_range"),
         ];
 
         if(isset($this->formValue->values['turbidity'])) {

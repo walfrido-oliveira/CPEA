@@ -127,6 +127,12 @@ class FormValue extends Model
                         if ($svgs[$key]["ntu"] != 0) {
                             $dpr[$key]["ntu"] = (($svgs[$key]["ntu"] - $duplicates[$key]["ntu"]) / $duplicatesSvgs[$key]["ntu"]) * 100;
                         }
+                        if ($svgs[$key]["chlorine"] != 0) {
+                            $dpr[$key]["chlorine"] = (($svgs[$key]["chlorine"] - $duplicates[$key]["chlorine"]) / $duplicatesSvgs[$key]["chlorine"]) * 100;
+                        }
+                        if ($svgs[$key]["residualchlorine"] != 0) {
+                            $dpr[$key]["residualchlorine"] = (($svgs[$key]["residualchlorine"] - $duplicates[$key]["residualchlorine"]) / $duplicatesSvgs[$key]["residualchlorine"]) * 100;
+                        }
                     }
                 }
             }
@@ -156,6 +162,8 @@ class FormValue extends Model
                         $duplicatesSvgs[$key]["conc"] = ($svgs[$key]["conc"] + $duplicates[$key]["conc"]) / 2;
                         $duplicatesSvgs[$key]["eh"] = ($svgs[$key]["eh"] + $duplicates[$key]["eh"]) / 2;
                         $duplicatesSvgs[$key]["ntu"] = ($svgs[$key]["ntu"] + $duplicates[$key]["ntu"]) / 2;
+                        $duplicatesSvgs[$key]["chlorine"] = ($svgs[$key]["chlorine"] + $duplicates[$key]["chlorine"]) / 2;
+                        $duplicatesSvgs[$key]["residualchlorine"] = ($svgs[$key]["residualchlorine"] + $duplicates[$key]["residualchlorine"]) / 2;
                     }
                 }
             }
@@ -183,6 +191,8 @@ class FormValue extends Model
                         $sum["sat"] = 0;
                         $sum["conc"] = 0;
                         $sum["ntu"] = 0;
+                        $sum["chlorine"] = 0;
+                        $sum["residualchlorine"] = 0;
 
                         foreach (array_chunk($sample["results"], 3)[1] as $value) {
                             if (isset($value["temperature"])) {
@@ -212,6 +222,12 @@ class FormValue extends Model
                             if (isset($value["ntu"])) {
                                 $sum["ntu"] += $value["ntu"];
                             }
+                            if (isset($value["chlorine"])) {
+                                $sum["chlorine"] += $value["chlorine"];
+                            }
+                            if (isset($value["residualchlorine"])) {
+                                $sum["residualchlorine"] += $value["residualchlorine"];
+                            }
                         }
 
                         $duplicates[$key]["temperature"] = $sum["temperature"] / $size;
@@ -224,6 +240,8 @@ class FormValue extends Model
                         $duplicates[$key]["conc"] = $sum["conc"] / $size;
                         $duplicates[$key]["eh"] = $duplicates[$key]["orp"] + 199;
                         $duplicates[$key]["ntu"] = $sum["ntu"] / $size;
+                        $duplicates[$key]["chlorine"] = $sum["chlorine"] / $size;
+                        $duplicates[$key]["residualchlorine"] = $sum["residualchlorine"] / $size;
                     }
                 }
             }
@@ -243,6 +261,8 @@ class FormValue extends Model
         $sizeSat = 0;
         $sizeConc = 0;
         $sizeNtu = 0;
+        $sizeChlorine = 0;
+        $sizeResidualchlorine = 0;
 
         if (isset($this->values["samples"])) {
             foreach ($this->values["samples"] as $key => $sample) {
@@ -257,6 +277,8 @@ class FormValue extends Model
                     $sizeSat = 0;
                     $sizeConc = 0;
                     $sizeNtu = 0;
+                    $sizeChlorine = 0;
+                    $sizeResidualchlorine = 0;
 
                     foreach(array_chunk($sample["results"], 3)[0] as $count) {
                         if($count["temperature"]) $sizeTemperature++;
@@ -267,6 +289,8 @@ class FormValue extends Model
                         if($count["psi"]) $sizePsi++;
                         if($count["sat"]) $sizeSat++;
                         if($count["conc"]) $sizeConc++;
+                        if($count["chlorine"]) $sizeChlorine++;
+                        if($count["residualchlorine"]) $sizeResidualchlorine++;
                     }
 
                     $sum["temperature"] = 0;
@@ -278,6 +302,8 @@ class FormValue extends Model
                     $sum["sat"] = 0;
                     $sum["conc"] = 0;
                     $sum["ntu"] = 0;
+                    $sum["chlorine"] = 0;
+                    $sum["residualchlorine"] = 0;
 
                     foreach (array_chunk($sample["results"], 3)[0] as $value) {
                         if (isset($value["temperature"])) {
@@ -307,6 +333,12 @@ class FormValue extends Model
                         if (isset($value["ntu"])) {
                             $sum["ntu"] += $value["ntu"];
                         }
+                        if (isset($value["chlorine"])) {
+                            $sum["chlorine"] += $value["chlorine"];
+                        }
+                        if (isset($value["residualchlorine"])) {
+                            $sum["residualchlorine"] += $value["residualchlorine"];
+                        }
                     }
 
                     $svgs[$key]["temperature"] = $sizeTemperature > 0 ? $sum["temperature"] / $sizeTemperature : null;
@@ -319,9 +351,12 @@ class FormValue extends Model
                     $svgs[$key]["conc"] = $sizeConc > 0 ? $sum["conc"] / $sizeConc : null;
                     $svgs[$key]["eh"] = $svgs[$key]["orp"] + 199;
                     $svgs[$key]["ntu"] = $sizeNtu > 0 ? $sum["ntu"] / $sizeNtu : 0;
+                    $svgs[$key]["chlorine"] = $sizeChlorine > 0 ? $sum["chlorine"] / $sizeChlorine : 0;
+                    $svgs[$key]["residualchlorine"] = $sizeResidualchlorine > 0 ? $sum["residualchlorine"] / $sizeResidualchlorine : 0;
                 }
             }
         }
+
         return $svgs;
     }
 
