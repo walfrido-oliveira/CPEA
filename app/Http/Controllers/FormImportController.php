@@ -47,6 +47,7 @@ class FormImportController extends Controller
         $samples = $formValue->values;
         $microseccondInMille = 1000;
         $micrometerInMetre = 1000000;
+        $plusColumn = Str::contains($rows[0][4], 'ORP[mV]') ? 0 : 1;
 
         foreach ($rows as $key => $value) {
             if ($key == 0) {
@@ -65,26 +66,26 @@ class FormImportController extends Controller
             if (isset($value[4])) {
                 $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["orp"] = floatval($value[4]);
             }
-            if (isset($value[6])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["conductivity"] = Str::contains($rows[0][6], 'EC[µS/cm]') ? floatval($value[6]) : floatval($value[6]) * $microseccondInMille;
+            if (isset($value[5 + $plusColumn])) {
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["conductivity"] = Str::contains($rows[0][5 + $plusColumn], 'EC[µS/cm]') ? floatval($value[5 + $plusColumn]) : floatval($value[5 + $plusColumn]) * $microseccondInMille;
             }
-            if (isset($value[7])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["salinity"] = Str::contains($rows[0][6], 'EC[µS/cm]') ? floatval($value[7]) : floatval($value[7]) * $micrometerInMetre;
+            if (isset($value[6 + $plusColumn])) {
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["salinity"] = Str::contains($rows[0][5 + $plusColumn], 'EC[µS/cm]') ? floatval($value[6 + $plusColumn]) : floatval($value[6 + $plusColumn]) * $micrometerInMetre;
             }
-            if (isset($value[8])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["psi"] = floatval($value[8]);
+            if (isset($value[7 + $plusColumn])) {
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["psi"] = floatval($value[7 + $plusColumn]);
             }
-            if (isset($value[9])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["sat"] = floatval($value[9]);
+            if (isset($value[8 + $plusColumn])) {
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["sat"] = floatval($value[8 + $plusColumn]);
             }
-            if (isset($value[10])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["conc"] = floatval($value[10]);
+            if (isset($value[9 + $plusColumn])) {
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["conc"] = floatval($value[9 + $plusColumn]);
             }
-            if (isset($value[11])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["eh"] = floatval($value[11]);
+            if (isset($value[10 + $plusColumn])) {
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["eh"] = floatval($value[10 + $plusColumn]);
             }
-            if (isset($value[12])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["ntu"] = floatval($value[12]);
+            if (isset($value[11 + $plusColumn])) {
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["ntu"] = floatval($value[11 + $plusColumn]);
             }
         }
 
@@ -575,6 +576,7 @@ class FormImportController extends Controller
             $rows = $worksheet->toArray();
             $microseccondInMille = 1000;
             $micrometerInMetre = 1000000;
+            $plusColumn = Str::contains($rows[0][4], 'ORP[mV]') ? 0 : 1;
 
             foreach ($rows as $key => $value) {
                 if ($key == 0) {
@@ -594,26 +596,26 @@ class FormImportController extends Controller
                     if (isset($value[4])) {
                         $samples["samples"]["row_$max"]["results"][$key - 1]["orp"] = floatval($value[4]);
                     }
-                    if (isset($value[6])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["conductivity"] = Str::contains($rows[0][6], 'EC[µS/cm]') ? floatval($value[6]) : floatval($value[6]) * $microseccondInMille;
+                    if (isset($value[5 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["conductivity"] = Str::contains($rows[0][5 + $plusColumn], 'EC[µS/cm]') ? floatval($value[5 + $plusColumn]) : floatval($value[5 + $plusColumn]) * $microseccondInMille;
                     }
-                    if (isset($value[7])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["salinity"] = Str::contains($rows[0][6], 'EC[µS/cm]') ? floatval($value[7]) : floatval($value[7]) * $micrometerInMetre;
+                    if (isset($value[6 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["salinity"] = Str::contains($rows[0][5 + $plusColumn], 'EC[µS/cm]') ? floatval($value[6 + $plusColumn]) : floatval($value[6 + $plusColumn]) * $micrometerInMetre;
                     }
-                    if (isset($value[8])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["psi"] = floatval($value[8]);
+                    if (isset($value[7 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["psi"] = floatval($value[7 + $plusColumn]);
                     }
-                    if (isset($value[9])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["sat"] = floatval($value[9]);
+                    if (isset($value[8 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["sat"] = floatval($value[8 + $plusColumn]);
                     }
-                    if (isset($value[10])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["conc"] = floatval($value[10]);
+                    if (isset($value[9 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["conc"] = floatval($value[9 + $plusColumn]);
                     }
-                    if (isset($value[11])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["eh"] = floatval($value[11]);
+                    if (isset($value[10 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["eh"] = floatval($value[10 + $plusColumn]);
                     }
-                    if (isset($value[12])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["ntu"] = floatval($value[12]);
+                    if (isset($value[11 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["ntu"] = floatval($value[11 + $plusColumn]);
                     }
                 }
 
