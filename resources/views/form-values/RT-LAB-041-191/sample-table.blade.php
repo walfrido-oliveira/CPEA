@@ -78,6 +78,8 @@
                                         @else
                                             {{ is_numeric($v) ? number_format($v, $formPrint->places[$key], ",", ".") : $v }}
                                         @endif
+                                    @else
+                                        -
                                     @endif
                                 </td>
                                 <td>
