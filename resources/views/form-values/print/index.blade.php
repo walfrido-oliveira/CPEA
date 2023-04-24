@@ -144,7 +144,7 @@
                                                             @if(isset($formPrint->formValue->svgs[$row][$key]))
                                                                 @php
                                                                     if($key == "ntu" || $key == "eh") :
-                                                                        $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : $formValue->svgs[$row][$key];
+                                                                        $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : $formPrint->formValue->svgs[$row][$key];
                                                                     else :
                                                                         $v =  $formPrint->formValue->svgs[$row][$key];
                                                                     endif;
