@@ -141,7 +141,7 @@
                                                             {{ $formPrint->unities[$key] }}
                                                         </td>
                                                         <td style="text-align: center; border: 0px;">
-                                                            @if(isset($formPrint->formValue->svgs[$row][$key]))
+                                                            @if(isset($formPrint->formValue->svgs[$row][$key]) || isset($sample[$key . "_footer"]))
                                                                 @php
                                                                     if($key == "ntu" || $key == "eh") :
                                                                         $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : $formPrint->formValue->svgs[$row][$key];
