@@ -60,7 +60,7 @@
                             </td>
                             <td>
                                 @php
-                                    if($key == "ntu" || $key == "eh") :
+                                    if(Str::contains($key, ["ntu", "eh"])) :
                                         $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : null;
                                     else :
                                         $v =  $formPrint->formValue->svgs[$row][$key];

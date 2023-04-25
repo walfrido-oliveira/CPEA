@@ -52,15 +52,6 @@
         @endif
     </p>
 @endif
-@if(isset($formValue->values["ntu_column"]))
-    <p class="font-bold">
-        @if(isset($samples[$key]["ntu_footer"]))
-            {{ number_format($samples[$key]["ntu_footer"], $formPrint->places['ntu'], ',', '.') }}
-        @else
-            {{ $formValue->svgs[$key]['ntu'] > 0 ? number_format($formValue->svgs[$key]['ntu'], $formPrint->places['ntu'], ',', '.') : ''}}
-        @endif
-    </p>
-@endif
 @if(isset($formValue->values["chlorine_column"]))
     <p class="font-bold">
         @if(isset($samples[$key]["chlorine_footer"]))
@@ -77,6 +68,31 @@
         @else
             {{ $formValue->svgs[$key]['residualchlorine'] > 0 ? number_format($formValue->svgs[$key]['residualchlorine'], $formPrint->places['residualchlorine'], ',', '.') : ''}}
         @endif
+    </p>
+@endif
+@if(isset($formValue->values["aspect_column"]))
+    <p class="font-bold">
+        {{ isset($samples[$key]["results"][0]["aspect"]) ? $samples[$key]["results"][0]["aspect"] : "-" }}
+    </p>
+@endif
+@if(isset($formValue->values["artificialdyes_column"]))
+    <p class="font-bold">
+        {{ isset($samples[$key]["results"][0]["artificialdyes"]) ? $samples[$key]["results"][0]["artificialdyes"] : "-" }}
+    </p>
+@endif
+@if(isset($formValue->values["floatingmaterials_column"]))
+    <p class="font-bold">
+        {{ isset($samples[$key]["results"][0]["floatingmaterials"]) ? $samples[$key]["results"][0]["floatingmaterials"] : "-" }}
+    </p>
+@endif
+@if(isset($formValue->values["objectablesolidwaste_column"]))
+    <p class="font-bold">
+        {{ isset($samples[$key]["results"][0]["objectablesolidwaste"]) ? $samples[$key]["results"][0]["objectablesolidwaste"] : "-" }}
+    </p>
+@endif
+@if(isset($formValue->values["visibleoilsandgreases_column"]))
+    <p class="font-bold">
+        {{ isset($samples[$key]["results"][0]["visibleoilsandgreases"]) ? $samples[$key]["results"][0]["visibleoilsandgreases"] : "-" }}
     </p>
 @endif
 @if(isset($formValue->values["voc_column"]))

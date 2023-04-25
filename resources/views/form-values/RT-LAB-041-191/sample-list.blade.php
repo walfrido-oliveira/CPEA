@@ -26,6 +26,11 @@
                     @if(isset($formValue->values["ntu_column"]))<p class="font-bold">{{ __('Turbidez [NTU]') }}</p>@endif
                     @if(isset($formValue->values["chlorine_column"]))<p class="font-bold">{{ __('Cloro Total [mg/L]') }}</p>@endif
                     @if(isset($formValue->values["residualchlorine_column"]))<p class="font-bold">{{ __('Cloro Livre Residual [mg/L]') }}</p>@endif
+                    @if(isset($formValue->values["aspect_column"]))<p class="font-bold">{{ __('Aspecto') }}</p>@endif
+                    @if(isset($formValue->values["artificialdyes_column"]))<p class="font-bold">{{ __('Corantes Artificiais') }}</p>@endif
+                    @if(isset($formValue->values["floatingmaterials_column"]))<p class="font-bold">{{ __('Materiais Flutuantes') }}</p>@endif
+                    @if(isset($formValue->values["visibleoilsandgreases_column"]))<p class="font-bold">{{ __('Resíduos Sólidos Objetáveis') }}</p>@endif
+                    @if(isset($formValue->values["visibleoilsandgreases_column"]))<p class="font-bold">{{ __('Óleos e Graxas Visíveis') }}</p>@endif
                     @if(isset($formValue->values["voc_column"]))<p class="font-bold">{{ __('VOC [ppm]') }}</p>@endif
                 </div>
             @endif

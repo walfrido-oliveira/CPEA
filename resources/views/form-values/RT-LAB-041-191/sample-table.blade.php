@@ -62,7 +62,7 @@
                                 <td>
                                     @if(isset($formPrint->formValue->svgs[$row][$key]) || isset($sample[$key . "_footer"]))
                                         @php
-                                            if($key == "ntu" || $key == "eh") :
+                                            if(Str::contains($key, ["ntu", "eh"])) :
                                                 $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : null;
                                             else :
                                                 $v =  $formPrint->formValue->svgs[$row][$key];
@@ -78,6 +78,8 @@
                                         @else
                                             {{ is_numeric($v) ? number_format($v, $formPrint->places[$key], ",", ".") : $v }}
                                         @endif
+                                    @elseif(Str::contains($key, ["aspect", "artificialdyes", "floatingmaterials", "objectablesolidwaste", "visibleoilsandgreases"]))
+                                        {{ isset($sample["results"][0][$key]) ? $sample["results"][0][$key] : "-" }}
                                     @else
                                         -
                                     @endif

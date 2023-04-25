@@ -367,7 +367,7 @@ class FormPrintController extends Controller
             foreach ($formPrint->parameters as $key => $value) {
                 if(((isset($formPrint->formValue->values[$key . "_column"]) && $formPrint->formValue->form->name == "RT-LAB-041-191") ||
                     ($formPrint->formValue->form->name != "RT-LAB-041-191"))) :
-                    if($key == "ntu" || $key == "eh") :
+                    if(Str::contains($key, ["ntu", "eh"])) :
                         $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : $formValue->svgs[$row][$key];
                     elseif($key == "sat" && (!$formValue->svgs[$row][$key] || $formValue->svgs[$row][$key] == 0)) :
                         $v = '< ' . number_format(4, $formPrint->places[$key], ",");
