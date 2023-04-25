@@ -137,20 +137,20 @@ class FormPrint extends Model
 
             $this->unities["chlorine"] = "mg/L";
             $this->unities["residualchlorine"] = "mg/L";
-            $this->unities["aspect"] = "";
-            $this->unities["artificialdyes"] = "";
-            $this->unities["floatingmaterials"] = "";
-            $this->unities["objectablesolidwaste"] = "";
-            $this->unities["visibleoilsandgreases"] = "";
+            $this->unities["aspect"] = "-";
+            $this->unities["artificialdyes"] = "-";
+            $this->unities["floatingmaterials"] = "-";
+            $this->unities["objectablesolidwaste"] = "-";
+            $this->unities["visibleoilsandgreases"] = "-";
             $this->unities["voc"] = "ppm";
 
             $this->LQ["chlorine"] = Config::get("form_chlorine_lq");
             $this->LQ["residualchlorine"] = Config::get("form_residualchlorine_lq");
-            $this->LQ["aspect"] = "";
-            $this->LQ["artificialdyes"] = "";
-            $this->LQ["floatingmaterials"] = "";
-            $this->LQ["objectablesolidwaste"] = "";
-            $this->LQ["visibleoilsandgreases"] = "";
+            $this->LQ["aspect"] = "-";
+            $this->LQ["artificialdyes"] = "-";
+            $this->LQ["floatingmaterials"] = "-";
+            $this->LQ["objectablesolidwaste"] = "-";
+            $this->LQ["visibleoilsandgreases"] = "-";
             $this->LQ["voc"] = Config::get("form_voc_lq");
 
             $this->places["chlorine"] = intval(Config::get("form_chlorine_places"));
