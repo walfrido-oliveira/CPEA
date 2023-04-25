@@ -1090,8 +1090,9 @@
                 toastr.success(resp.message);
                 location.reload();
             } else if (this.readyState == 4 && this.status != 200) {
+                var resp = JSON.parse(ajax.response);
                 document.getElementById("spin_load").classList.add("hidden");
-                toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+                toastr.error(resp.message);
                 that.value = '';
             }
         }
