@@ -84,8 +84,32 @@ class FormImportController extends Controller
             if (isset($value[10 + $plusColumn])) {
                 $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["eh"] = floatval($value[10 + $plusColumn]);
             }
-            if (isset($value[11 + $plusColumn])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["ntu"] = floatval($value[11 + $plusColumn]);
+            if (isset($value[12 + $plusColumn])) {
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["ntu"] = floatval($value[12 + $plusColumn]);
+            }
+            if (isset($value[13 + $plusColumn])) {
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["chlorine"] = floatval($value[13 + $plusColumn]);
+            }
+            if (isset($value[14 + $plusColumn])) {
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["residualchlorine"] = floatval($value[14 + $plusColumn]);
+            }
+            if (isset($value[15 + $plusColumn])) {
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["voc"] = floatval($value[15 + $plusColumn]);
+            }
+            if (isset($value[16 + $plusColumn])) {
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["aspect"] = $value[16 + $plusColumn];
+            }
+            if (isset($value[17 + $plusColumn])) {
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["artificialdyes"] = $value[17 + $plusColumn];
+            }
+            if (isset($value[18 + $plusColumn])) {
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["floatingmaterials"] = $value[18 + $plusColumn];
+            }
+            if (isset($value[19 + $plusColumn])) {
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["objectablesolidwaste"] = $value[19 + $plusColumn];
+            }
+            if (isset($value[20 + $plusColumn])) {
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["visibleoilsandgreases"] = $value[20 + $plusColumn];
             }
         }
 
@@ -118,6 +142,178 @@ class FormImportController extends Controller
                 $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["eh"] = null;
                 $samples["samples"][$inputs["sample_index"]]["results"][$sampleCount + $i]["ntu"] = null;
             }
+        }
+
+        $formValue->values = $samples;
+        $formValue->save();
+
+        $resp = [
+            "message" => __("Dados importados com sucesso!"),
+            "alert-type" => "success",
+        ];
+
+        return response()->json($resp);
+    }
+
+    /**
+     * Import samples from files
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function importSamples(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            "files.*" => "required|mimes:xls,xlsx|max:4096",
+            "form_value_id" => ["required", "exists:form_values,id"],
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    "message" => implode("<br>", $validator->messages()->all()),
+                    "alert-type" => "error",
+                ],
+                403
+            );
+        }
+
+        $inputs = $request->all();
+
+        $formValue = FormValue::findOrFail($inputs["form_value_id"]);
+        $samples = $formValue->values;
+        $max = 0;
+
+        if(isset($samples["samples"])) {
+            $keys = array_keys($samples["samples"]);
+            foreach ($keys as $value) {
+                $key = Str::replace("row_", "", $value);
+                if($key > $max) $max = $key;
+            }
+        }
+        if($max > 0) $max++;
+
+        foreach ($request->file()['file'] as $file) {
+            $spreadsheet = IOFactory::load($file->path());
+
+            $spreadsheet->setActiveSheetIndex(0);
+            $worksheet = $spreadsheet->getActiveSheet();
+            $rows = $worksheet->toArray();
+
+
+            $samples["samples"]["row_$max"]["equipment"] = $rows[3][1];
+            $samples["samples"]["row_$max"]["point"] = $rows[17][1];
+            $samples["samples"]["row_$max"]["environment"] = 'Sem chuva';
+            $samples["samples"]["row_$max"]["collect"] = Carbon::createFromFormat('Y/m/d - H:i:s',  $rows[19][1])->toDateTimeLocalString();
+
+
+            $spreadsheet->setActiveSheetIndex(1);
+            $worksheet = $spreadsheet->getActiveSheet();
+            $rows = $worksheet->toArray();
+            $microseccondInMille = 1000;
+            $micrometerInMetre = 1000000;
+            $plusColumn = Str::contains($rows[0][4], 'ORP[mV]') ? 0 : 1;
+
+            foreach ($rows as $key => $value) {
+                if ($key == 0) {
+                    continue;
+                }
+
+                if(is_numeric($value[2])) {
+                    if (isset($value[1])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["time"] = $value[1];
+                    }
+                    if (isset($value[2])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["temperature"] = floatval($value[2]);
+                    }
+                    if (isset($value[3])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["ph"] = floatval($value[3]);
+                    }
+                    if (isset($value[4])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["orp"] = floatval($value[4]);
+                    }
+                    if (isset($value[5 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["conductivity"] = Str::contains($rows[0][5 + $plusColumn], 'EC[µS/cm]') ? floatval($value[5 + $plusColumn]) : floatval($value[5 + $plusColumn]) * $microseccondInMille;
+                    }
+                    if (isset($value[6 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["salinity"] = Str::contains($rows[0][5 + $plusColumn], 'EC[µS/cm]') ? floatval($value[6 + $plusColumn]) : floatval($value[6 + $plusColumn]) * $micrometerInMetre;
+                    }
+                    if (isset($value[7 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["psi"] = floatval($value[7 + $plusColumn]);
+                    }
+                    if (isset($value[8 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["sat"] = floatval($value[8 + $plusColumn]);
+                    }
+                    if (isset($value[9 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["conc"] = floatval($value[9 + $plusColumn]);
+                    }
+                    if (isset($value[10 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["eh"] = floatval($value[10 + $plusColumn]);
+                    }
+                    if (isset($value[12 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["ntu"] = floatval($value[12 + $plusColumn]);
+                    }
+                    if (isset($value[13 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["chlorine"] = floatval($value[13 + $plusColumn]);
+                    }
+                    if (isset($value[14 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["residualchlorine"] = floatval($value[14 + $plusColumn]);
+                    }
+                    if (isset($value[15 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["voc"] = floatval($value[15 + $plusColumn]);
+                    }
+                    if (isset($value[16 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["aspect"] = $value[16 + $plusColumn];
+                    }
+                    if (isset($value[17 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["artificialdyes"] = $value[17 + $plusColumn];
+                    }
+                    if (isset($value[18 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["floatingmaterials"] = $value[18 + $plusColumn];
+                    }
+                    if (isset($value[19 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["objectablesolidwaste"] = $value[19 + $plusColumn];
+                    }
+                    if (isset($value[20 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["visibleoilsandgreases"] = $value[20 + $plusColumn];
+                    }
+                }
+
+
+            }
+
+            $sampleCount = count($samples["samples"]["row_$max"]["results"]);
+
+            if($formValue->form->name != "RT-LAB-041-191") {
+                $samples = $this->validadeTime($samples, "row_$max");
+                $samples = $this->validadeTemperature($samples, "row_$max");
+                $samples = $this->validadePH($samples, "row_$max");
+                $samples = $this->validadeOrp($samples, "row_$max");
+                $samples = $this->validadeConductivity($samples, "row_$max");
+                $samples = $this->validadeSat($samples, "row_$max");
+            }
+
+            $samples["samples"]["row_$max"]["invalid_rows"] = $sampleCount > count($samples["samples"]["row_$max"]["results"]);
+
+            $sampleCount = count($samples["samples"]["row_$max"]["results"]);
+            $sampleAdd = 3 - $sampleCount;
+
+            if ($sampleAdd > 0) {
+                for ($i=0; $i < $sampleAdd; $i++) {
+                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["temperature"] = null;
+                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["ph"] = null;
+                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["orp"] = null;
+                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["conductivity"] = null;
+                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["salinity"] = null;
+                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["psi"] = null;
+                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["sat"] = null;
+                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["conc"] = null;
+                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["eh"] = null;
+                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["ntu"] = null;
+                }
+            }
+
+            $max++;
         }
 
         $formValue->values = $samples;
@@ -519,151 +715,5 @@ class FormImportController extends Controller
         return response()->json($resp);
     }
 
-    /**
-     * Import samples from files
-     *
-     * @param  Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function importSamples(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            "files.*" => "required|mimes:xls,xlsx|max:4096",
-            "form_value_id" => ["required", "exists:form_values,id"],
-        ]);
 
-        if ($validator->fails()) {
-            return response()->json(
-                [
-                    "message" => implode("<br>", $validator->messages()->all()),
-                    "alert-type" => "error",
-                ],
-                403
-            );
-        }
-
-        $inputs = $request->all();
-
-        $formValue = FormValue::findOrFail($inputs["form_value_id"]);
-        $samples = $formValue->values;
-        $max = 0;
-
-        if(isset($samples["samples"])) {
-            $keys = array_keys($samples["samples"]);
-            foreach ($keys as $value) {
-                $key = Str::replace("row_", "", $value);
-                if($key > $max) $max = $key;
-            }
-        }
-        if($max > 0) $max++;
-
-        foreach ($request->file()['file'] as $file) {
-            $spreadsheet = IOFactory::load($file->path());
-
-            $spreadsheet->setActiveSheetIndex(0);
-            $worksheet = $spreadsheet->getActiveSheet();
-            $rows = $worksheet->toArray();
-
-
-            $samples["samples"]["row_$max"]["equipment"] = $rows[3][1];
-            $samples["samples"]["row_$max"]["point"] = $rows[17][1];
-            $samples["samples"]["row_$max"]["environment"] = 'Sem chuva';
-            $samples["samples"]["row_$max"]["collect"] = Carbon::createFromFormat('Y/m/d - H:i:s',  $rows[19][1])->toDateTimeLocalString();
-
-
-            $spreadsheet->setActiveSheetIndex(1);
-            $worksheet = $spreadsheet->getActiveSheet();
-            $rows = $worksheet->toArray();
-            $microseccondInMille = 1000;
-            $micrometerInMetre = 1000000;
-            $plusColumn = Str::contains($rows[0][4], 'ORP[mV]') ? 0 : 1;
-
-            foreach ($rows as $key => $value) {
-                if ($key == 0) {
-                    continue;
-                }
-
-                if(is_numeric($value[2])) {
-                    if (isset($value[1])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["time"] = $value[1];
-                    }
-                    if (isset($value[2])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["temperature"] = floatval($value[2]);
-                    }
-                    if (isset($value[3])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["ph"] = floatval($value[3]);
-                    }
-                    if (isset($value[4])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["orp"] = floatval($value[4]);
-                    }
-                    if (isset($value[5 + $plusColumn])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["conductivity"] = Str::contains($rows[0][5 + $plusColumn], 'EC[µS/cm]') ? floatval($value[5 + $plusColumn]) : floatval($value[5 + $plusColumn]) * $microseccondInMille;
-                    }
-                    if (isset($value[6 + $plusColumn])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["salinity"] = Str::contains($rows[0][5 + $plusColumn], 'EC[µS/cm]') ? floatval($value[6 + $plusColumn]) : floatval($value[6 + $plusColumn]) * $micrometerInMetre;
-                    }
-                    if (isset($value[7 + $plusColumn])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["psi"] = floatval($value[7 + $plusColumn]);
-                    }
-                    if (isset($value[8 + $plusColumn])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["sat"] = floatval($value[8 + $plusColumn]);
-                    }
-                    if (isset($value[9 + $plusColumn])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["conc"] = floatval($value[9 + $plusColumn]);
-                    }
-                    if (isset($value[10 + $plusColumn])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["eh"] = floatval($value[10 + $plusColumn]);
-                    }
-                    if (isset($value[11 + $plusColumn])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["ntu"] = floatval($value[11 + $plusColumn]);
-                    }
-                }
-
-
-            }
-
-            $sampleCount = count($samples["samples"]["row_$max"]["results"]);
-
-            if($formValue->form->name != "RT-LAB-041-191") {
-                $samples = $this->validadeTime($samples, "row_$max");
-                $samples = $this->validadeTemperature($samples, "row_$max");
-                $samples = $this->validadePH($samples, "row_$max");
-                $samples = $this->validadeOrp($samples, "row_$max");
-                $samples = $this->validadeConductivity($samples, "row_$max");
-                $samples = $this->validadeSat($samples, "row_$max");
-            }
-
-            $samples["samples"]["row_$max"]["invalid_rows"] = $sampleCount > count($samples["samples"]["row_$max"]["results"]);
-
-            $sampleCount = count($samples["samples"]["row_$max"]["results"]);
-            $sampleAdd = 3 - $sampleCount;
-
-            if ($sampleAdd > 0) {
-                for ($i=0; $i < $sampleAdd; $i++) {
-                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["temperature"] = null;
-                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["ph"] = null;
-                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["orp"] = null;
-                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["conductivity"] = null;
-                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["salinity"] = null;
-                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["psi"] = null;
-                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["sat"] = null;
-                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["conc"] = null;
-                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["eh"] = null;
-                    $samples["samples"]["row_$max"]["results"][$sampleCount + $i]["ntu"] = null;
-                }
-            }
-
-            $max++;
-        }
-
-        $formValue->values = $samples;
-        $formValue->save();
-
-        $resp = [
-            "message" => __("Dados importados com sucesso!"),
-            "alert-type" => "success",
-        ];
-
-        return response()->json($resp);
-    }
 }
