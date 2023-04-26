@@ -58,7 +58,7 @@ class FieldTypeController extends Controller
             'alert-type' => 'success'
         ];
 
-        return redirect()->route('registers.field-type.index')->with($resp);
+        return redirect()->route('fields.field-type.index')->with($resp);
     }
 
     /**
@@ -113,7 +113,7 @@ class FieldTypeController extends Controller
             'alert-type' => 'success'
         ];
 
-        return redirect()->route('registers.field-type.index')->with($resp);
+        return redirect()->route('fields.field-type.index')->with($resp);
     }
 
     /**

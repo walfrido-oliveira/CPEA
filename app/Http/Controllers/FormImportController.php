@@ -191,7 +191,8 @@ class FormImportController extends Controller
                 if($key > $max) $max = $key;
             }
         }
-        if($max > 0) $max++;
+
+        $max++;
 
         foreach ($request->file()['file'] as $file) {
             $spreadsheet = IOFactory::load($file->path());
