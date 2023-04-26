@@ -84,32 +84,32 @@ class FormImportController extends Controller
             if (isset($value[10 + $plusColumn])) {
                 $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["eh"] = floatval($value[10 + $plusColumn]);
             }
+            if (isset($value[11 + $plusColumn])) {
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["ntu"] = floatval($value[11 + $plusColumn]);
+            }
             if (isset($value[12 + $plusColumn])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["ntu"] = floatval($value[12 + $plusColumn]);
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["chlorine"] = floatval($value[12 + $plusColumn]);
             }
             if (isset($value[13 + $plusColumn])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["chlorine"] = floatval($value[13 + $plusColumn]);
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["residualchlorine"] = floatval($value[13 + $plusColumn]);
             }
             if (isset($value[14 + $plusColumn])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["residualchlorine"] = floatval($value[14 + $plusColumn]);
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["voc"] = floatval($value[14 + $plusColumn]);
             }
             if (isset($value[15 + $plusColumn])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["voc"] = floatval($value[15 + $plusColumn]);
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["aspect"] = $value[15 + $plusColumn];
             }
             if (isset($value[16 + $plusColumn])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["aspect"] = $value[16 + $plusColumn];
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["artificialdyes"] = $value[16 + $plusColumn];
             }
             if (isset($value[17 + $plusColumn])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["artificialdyes"] = $value[17 + $plusColumn];
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["floatingmaterials"] = $value[17 + $plusColumn];
             }
             if (isset($value[18 + $plusColumn])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["floatingmaterials"] = $value[18 + $plusColumn];
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["objectablesolidwaste"] = $value[18 + $plusColumn];
             }
             if (isset($value[19 + $plusColumn])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["objectablesolidwaste"] = $value[19 + $plusColumn];
-            }
-            if (isset($value[20 + $plusColumn])) {
-                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["visibleoilsandgreases"] = $value[20 + $plusColumn];
+                $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["visibleoilsandgreases"] = $value[19 + $plusColumn];
             }
         }
 
@@ -250,37 +250,39 @@ class FormImportController extends Controller
                     if (isset($value[10 + $plusColumn])) {
                         $samples["samples"]["row_$max"]["results"][$key - 1]["eh"] = floatval($value[10 + $plusColumn]);
                     }
+                    if (isset($value[11 + $plusColumn])) {
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["ntu"] = floatval($value[11 + $plusColumn]);
+                    }
                     if (isset($value[12 + $plusColumn])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["ntu"] = floatval($value[12 + $plusColumn]);
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["chlorine"] = floatval($value[12 + $plusColumn]);
                     }
                     if (isset($value[13 + $plusColumn])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["chlorine"] = floatval($value[13 + $plusColumn]);
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["residualchlorine"] = floatval($value[13 + $plusColumn]);
                     }
                     if (isset($value[14 + $plusColumn])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["residualchlorine"] = floatval($value[14 + $plusColumn]);
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["voc"] = floatval($value[14 + $plusColumn]);
                     }
                     if (isset($value[15 + $plusColumn])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["voc"] = floatval($value[15 + $plusColumn]);
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["aspect"] = $value[15 + $plusColumn];
                     }
                     if (isset($value[16 + $plusColumn])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["aspect"] = $value[16 + $plusColumn];
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["artificialdyes"] = $value[16 + $plusColumn];
                     }
                     if (isset($value[17 + $plusColumn])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["artificialdyes"] = $value[17 + $plusColumn];
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["floatingmaterials"] = $value[17 + $plusColumn];
                     }
                     if (isset($value[18 + $plusColumn])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["floatingmaterials"] = $value[18 + $plusColumn];
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["objectablesolidwaste"] = $value[18 + $plusColumn];
                     }
                     if (isset($value[19 + $plusColumn])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["objectablesolidwaste"] = $value[19 + $plusColumn];
-                    }
-                    if (isset($value[20 + $plusColumn])) {
-                        $samples["samples"]["row_$max"]["results"][$key - 1]["visibleoilsandgreases"] = $value[20 + $plusColumn];
+                        $samples["samples"]["row_$max"]["results"][$key - 1]["visibleoilsandgreases"] = $value[19 + $plusColumn];
                     }
                 }
 
 
             }
+
+            dd($samples);
 
             $sampleCount = count($samples["samples"]["row_$max"]["results"]);
 
