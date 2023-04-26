@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\ProjectPointMatrix;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Arr;
 
 class Project extends Model
 {
@@ -168,7 +169,9 @@ class Project extends Model
             }
         }
 
-        $guidingParameters = GuidingParameter::whereIn("id", $ids)->get();
+        foreach ($ids as $id) {
+            $guidingParameters->push(GuidingParameter::find($id));
+        }
 
         $guidingParameters2 = $this->projectPointMatrices()
         ->select('guiding_parameters.*')
@@ -183,7 +186,11 @@ class Project extends Model
         ->distinct()
         ->get();
 
-        $guidingParameters = $guidingParameters->merge($guidingParameters2);
+        foreach ($guidingParameters2 as $guidingParameter) {
+            if(!in_array($guidingParameter->id, $ids)) {
+                $guidingParameters->push($guidingParameter);
+            }
+        }
 
         $result[0] = $guidingParameters;
         $result[1] = $colors;
