@@ -282,8 +282,6 @@ class FormImportController extends Controller
 
             }
 
-            dd($samples);
-
             $sampleCount = count($samples["samples"]["row_$max"]["results"]);
 
             if($formValue->form->name != "RT-LAB-041-191") {
