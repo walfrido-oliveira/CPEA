@@ -67,7 +67,7 @@ class FormValueController extends Controller
         })->get()->pluck('full_name', 'id');
 
         $customers = Customer::where('status', 'active')->pluck('name', 'id');
-        $fields = FieldType::pluck('name', 'id');
+        $fields = FieldType::orderBy("name", "ASC")->pluck('name', 'id');
         $chuckSize = Config::get("default_duplicate_size");
         $choises = ["Presente" => "Presente", "Ausente" => "Ausente"];
 
@@ -176,7 +176,7 @@ class FormValueController extends Controller
         })->get()->pluck('full_name', 'id');
 
         $customers = Customer::where('status', 'active')->pluck('name', 'id');
-        $fields = FieldType::pluck('name', 'id');
+        $fields = FieldType::orderBy("name", "ASC")->pluck('name', 'id');
         $floatingMaterials = ["Ausênte" => "Ausênte", "Presente" => "Presente"];
         $form = $formValue->form;
         $project_id = $formValue->values["project_id"];
@@ -206,7 +206,6 @@ class FormValueController extends Controller
     public function filter(Request $request)
     {
         $forms = FormValue::filter($request->all());
-        $forms = $forms->setPath("");
         $orderBy = $request->get("order_by");
         $ascending = $request->get("ascending");
         $paginatePerPage = $request->get("paginate_per_page");

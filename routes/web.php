@@ -47,6 +47,7 @@ use App\Http\Controllers\CalculationVariableController;
 use App\Http\Controllers\EnvironmentalAgencyController;
 use App\Http\Controllers\PointIdentificationController;
 use App\Http\Controllers\CalculationParameterController;
+use App\Http\Controllers\FieldTypeController;
 use App\Http\Controllers\GuidingParameterValueController;
 use App\Http\Controllers\ParameterAnalysisGroupController;
 use App\Http\Controllers\GuidingParameterRefValueController;
@@ -299,6 +300,14 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::prefix('configuracoes')->name('config.')->group(function(){
             Route::get('/', [FormConfigController::class, 'index'])->name('index');
             Route::post('/store', [FormConfigController::class, 'store'])->name('store');
+        });
+
+        Route::resource('matrizes', FieldTypeController::class, [
+            'names' => 'field-type'])->parameters([])->parameters([
+            'matrizes' => 'field-type'
+        ]);
+        Route::prefix('matrizes')->name('field-type.')->group(function(){
+            Route::post('/filter', [FieldTypeController::class, 'filter'])->name('filter');
         });
 
         Route::resource('referencias', RefController::class, [

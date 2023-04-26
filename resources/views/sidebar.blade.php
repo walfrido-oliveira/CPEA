@@ -162,6 +162,9 @@
                     <a class="@if(request()->routeIs('fields.form.index')) {{ 'active' }} @endif" href="{{ route('fields.form.index') }}">Formulários</a>
                 </div>
                 <div class="px-0 py-0 ">
+                    <a class="@if(request()->routeIs('fields.field-type.index')) {{ 'active' }} @endif" href="{{ route('fields.field-type.index') }}">Matrizes</a>
+                </div>
+                <div class="px-0 py-0 ">
                     <a class="@if(request()->routeIs('fields.ref.index')) {{ 'active' }} @endif" href="{{ route('fields.ref.index') }}">Referências</a>
                 </div>
                 <div class="px-0 py-0 ">
