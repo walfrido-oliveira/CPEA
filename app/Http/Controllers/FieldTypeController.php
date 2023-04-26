@@ -142,15 +142,15 @@ class FieldTypeController extends Controller
      */
     public function filter(Request $request)
     {
-        $fieldType = FieldType::filter($request->all());
+        $fieldTypes = FieldType::filter($request->all());
         $orderBy = $request->get('order_by');
         $ascending = $request->get('ascending');
         $paginatePerPage = $request->get('paginate_per_page');
 
         return response()->json([
-            'filter_result' => view('field-type.filter-result', compact('fieldType', 'orderBy', 'ascending'))->render(),
+            'filter_result' => view('field-type.filter-result', compact('fieldTypes', 'orderBy', 'ascending'))->render(),
             'pagination' => view('layouts.pagination', [
-                'models' => $fieldType,
+                'models' => $fieldTypes,
                 'order_by' => $orderBy,
                 'ascending' => $ascending,
                 'paginate_per_page' => $paginatePerPage,
