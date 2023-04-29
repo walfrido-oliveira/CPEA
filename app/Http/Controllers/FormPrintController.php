@@ -112,63 +112,63 @@ class FormPrintController extends Controller
     private function setTitleSheet($title, $sheet, $formValue, $titleDefaultStyle, $boldDefaultStyle,
                                    $normalDefaultStyle, $bold10DefaultStyle, $normal10DefaultStyle, $borderGray)
     {
-        $sheet->setCellValueByColumnAndRow(2, 2, $title);
-        $sheet->getStyleByColumnAndRow(2, 2, 13, 2)->applyFromArray($titleDefaultStyle);
+        $sheet->setCellValue(2, 2, $title);
+        $sheet->getStyle(2, 2, 13, 2)->applyFromArray($titleDefaultStyle);
         $sheet->mergeCellsByColumnAndRow(2, 2, 13, 2);
 
-        $sheet->setCellValueByColumnAndRow(2, 3, 'LABORATÓRIO CPEA');
-        $sheet->getStyleByColumnAndRow(2, 3, 3, 4)->applyFromArray($boldDefaultStyle);
+        $sheet->setCellValue(2, 3, 'LABORATÓRIO CPEA');
+        $sheet->getStyle(2, 3, 3, 4)->applyFromArray($boldDefaultStyle);
         $sheet->mergeCellsByColumnAndRow(2, 3, 3, 4);
         $sheet->getColumnDimensionByColumn(2)->setWidth(23.86);
 
-        $sheet->setCellValueByColumnAndRow(4, 3, 'Identificação');
-        $sheet->getStyleByColumnAndRow(4, 3, 7, 3)->applyFromArray($boldDefaultStyle);
+        $sheet->setCellValue(4, 3, 'Identificação');
+        $sheet->getStyle(4, 3, 7, 3)->applyFromArray($boldDefaultStyle);
         $sheet->mergeCellsByColumnAndRow(4, 3, 7, 3);
 
-        $sheet->setCellValueByColumnAndRow(4, 4, $formValue->form->name);
-        $sheet->getStyleByColumnAndRow(4, 4, 7, 4)->applyFromArray($normalDefaultStyle);
+        $sheet->setCellValue(4, 4, $formValue->form->name);
+        $sheet->getStyle(4, 4, 7, 4)->applyFromArray($normalDefaultStyle);
         $sheet->mergeCellsByColumnAndRow(4, 4, 7, 4);
 
-        $sheet->setCellValueByColumnAndRow(8, 3, 'Referência');
-        $sheet->getStyleByColumnAndRow(8, 3, 11, 3)->applyFromArray($boldDefaultStyle);
+        $sheet->setCellValue(8, 3, 'Referência');
+        $sheet->getStyle(8, 3, 11, 3)->applyFromArray($boldDefaultStyle);
         $sheet->mergeCellsByColumnAndRow(8, 3, 11, 3);
 
-        $sheet->setCellValueByColumnAndRow(8, 4, $formValue->form->ref);
-        $sheet->getStyleByColumnAndRow(8, 4, 11, 4)->applyFromArray($normalDefaultStyle);
+        $sheet->setCellValue(8, 4, $formValue->form->ref);
+        $sheet->getStyle(8, 4, 11, 4)->applyFromArray($normalDefaultStyle);
         $sheet->mergeCellsByColumnAndRow(8, 4, 11, 4);
 
-        $sheet->setCellValueByColumnAndRow(12, 3, 'Versão');
-        $sheet->getStyleByColumnAndRow(12, 3)->applyFromArray($boldDefaultStyle);
+        $sheet->setCellValue(12, 3, 'Versão');
+        $sheet->getStyle(12, 3)->applyFromArray($boldDefaultStyle);
 
-        $sheet->setCellValueByColumnAndRow(12, 4, $formValue->form->version);
-        $sheet->getStyleByColumnAndRow(12, 4)->applyFromArray($normalDefaultStyle);
+        $sheet->setCellValue(12, 4, $formValue->form->version);
+        $sheet->getStyle(12, 4)->applyFromArray($normalDefaultStyle);
 
-        $sheet->setCellValueByColumnAndRow(13, 3, 'Publicação');
-        $sheet->getStyleByColumnAndRow(13, 3)->applyFromArray($boldDefaultStyle);
+        $sheet->setCellValue(13, 3, 'Publicação');
+        $sheet->getStyle(13, 3)->applyFromArray($boldDefaultStyle);
         $sheet->getColumnDimensionByColumn(13)->setAutoSize(true);
 
-        $sheet->setCellValueByColumnAndRow(13, 4, $formValue->form->published_at ? $formValue->form->published_at->format('d/m/Y') : null);
-        $sheet->getStyleByColumnAndRow(13, 4)->applyFromArray($normalDefaultStyle);
+        $sheet->setCellValue(13, 4, $formValue->form->published_at ? $formValue->form->published_at->format('d/m/Y') : null);
+        $sheet->getStyle(13, 4)->applyFromArray($normalDefaultStyle);
 
-        $sheet->getStyleByColumnAndRow(14, 2, 14, 4)->applyFromArray($boldDefaultStyle);
+        $sheet->getStyle(14, 2, 14, 4)->applyFromArray($boldDefaultStyle);
         $sheet->mergeCellsByColumnAndRow(14, 2, 14, 4);
         $sheet->getColumnDimensionByColumn(14)->setWidth(15);
 
-        $sheet->setCellValueByColumnAndRow(2, 7, 'Laboratório');
-        $sheet->getStyleByColumnAndRow(2, 7)->applyFromArray($bold10DefaultStyle);
+        $sheet->setCellValue(2, 7, 'Laboratório');
+        $sheet->getStyle(2, 7)->applyFromArray($bold10DefaultStyle);
 
-        $sheet->setCellValueByColumnAndRow(3, 7, 'CPEA');
-        $sheet->getStyleByColumnAndRow(3, 7)->applyFromArray($normal10DefaultStyle);
+        $sheet->setCellValue(3, 7, 'CPEA');
+        $sheet->getStyle(3, 7)->applyFromArray($normal10DefaultStyle);
 
-        $sheet->setCellValueByColumnAndRow(2, 8, 'Projeto');
-        $sheet->getStyleByColumnAndRow(2, 8)->applyFromArray($bold10DefaultStyle);
+        $sheet->setCellValue(2, 8, 'Projeto');
+        $sheet->getStyle(2, 8)->applyFromArray($bold10DefaultStyle);
 
-        $sheet->setCellValueByColumnAndRow(3, 8, $formValue->values['project_id']);
-        $sheet->getStyleByColumnAndRow(3, 8)->applyFromArray($normal10DefaultStyle);
+        $sheet->setCellValue(3, 8, $formValue->values['project_id']);
+        $sheet->getStyle(3, 8)->applyFromArray($normal10DefaultStyle);
         $sheet->getColumnDimensionByColumn(3)->setAutoSize(true);
 
-        $sheet->setCellValueByColumnAndRow(2, 9, 'Matriz');
-        $sheet->getStyleByColumnAndRow(2, 9)->applyFromArray($bold10DefaultStyle);
+        $sheet->setCellValue(2, 9, 'Matriz');
+        $sheet->getStyle(2, 9)->applyFromArray($bold10DefaultStyle);
 
         $matrix = null;
         if(isset($formValue->values['matrix'])) :
@@ -178,10 +178,10 @@ class FormPrintController extends Controller
             $matrix = $matrix->report_name ? $matrix->report_name : $matrix->name;
         endif;
 
-        $sheet->setCellValueByColumnAndRow(3, 9, $matrix);
-        $sheet->getStyleByColumnAndRow(3, 9)->applyFromArray($normal10DefaultStyle);
+        $sheet->setCellValue(3, 9, $matrix);
+        $sheet->getStyle(3, 9)->applyFromArray($normal10DefaultStyle);
 
-        $sheet->getStyleByColumnAndRow(2, 7, 3, 9)->applyFromArray($borderGray);
+        $sheet->getStyle(2, 7, 3, 9)->applyFromArray($borderGray);
 
         $drawing = new Drawing();
         $drawing->setName('logo');
@@ -324,7 +324,6 @@ class FormPrintController extends Controller
 
         if(isset($formValue->values['turbidity'])) {
             $formPrint->parameters["ntu"] = "Turbidez (NTU)";
-            $columnsText[] = "Turbidez (NTU)";
         }
 
         $this->setTitleSheet("TABELA DOS PARÂMETROS FÍSICO-QUÍMICOS - FINAL", $sheet, $formValue,
@@ -332,43 +331,42 @@ class FormPrintController extends Controller
                              $bold10DefaultStyle, $normal10DefaultStyle, $borderGray);
 
         foreach ( $columnsText as $rowHeader => $column) {
-            $sheet->setCellValueByColumnAndRow(2, 11 + $rowHeader, $column);
-            $sheet->getStyleByColumnAndRow(2, 11 + $rowHeader, 7, 11 + $rowHeader)->applyFromArray($bold10DefaultStyle);
-            $sheet->mergeCellsByColumnAndRow(2, 11 + $rowHeader, 7, 11 + $rowHeader);
+            $sheet->setCellValue([2, 11 + $rowHeader], $column);
+            $sheet->getStyle([2, 11 + $rowHeader, 7, 11 + $rowHeader])->applyFromArray($bold10DefaultStyle);
+            $sheet->mergeCells([2, 11 + $rowHeader, 7, 11 + $rowHeader]);
         }
 
         $rowHeader+= 2;
         foreach ( $formPrint->parameters as $key => $column) {
             if(((isset($formPrint->formValue->values[$key . "_column"]) && $formPrint->formValue->form->name == "RT-LAB-041-191") ||
               ($formPrint->formValue->form->name != "RT-LAB-041-191"))) :
-                $sheet->setCellValueByColumnAndRow(2, 11 + $rowHeader, $column);
-                $sheet->getStyleByColumnAndRow(2, 11 + $rowHeader, 7, 11 + $rowHeader)->applyFromArray($bold10DefaultStyle);
-                $sheet->mergeCellsByColumnAndRow(2, 11 + $rowHeader, 7, 11 + $rowHeader);
+                $sheet->setCellValue([2, 11 + $rowHeader], $column);
+                $sheet->getStyle([2, 11 + $rowHeader, 7, 11 + $rowHeader])->applyFromArray($bold10DefaultStyle);
+                $sheet->mergeCells([2, 11 + $rowHeader, 7, 11 + $rowHeader]);
                 $rowHeader++;
             endif;
         }
 
         $index = 0;
         foreach ($formValue->values['samples'] as $row => $sample) {
-            $sheet->setCellValueByColumnAndRow(8 + $index, 11, $sample['point']);
-            $sheet->getStyleByColumnAndRow(8 + $index, 11)->applyFromArray($bold10DefaultStyle);
-            $sheet->getStyleByColumnAndRow(8 + $index, 11)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $sheet->setCellValue([8 + $index, 11], $sample['point']);
+            $sheet->getStyle([8 + $index, 11])->applyFromArray($bold10DefaultStyle);
+            $sheet->getStyle([8 + $index, 11])->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
-            $sheet->setCellValueByColumnAndRow(8 + $index, 12, Carbon::parse($sample['collect'])->format("d/m/Y"));
-            $sheet->getStyleByColumnAndRow(8 + $index, 12)->applyFromArray($normal10DefaultStyle);
+            $sheet->setCellValue([8 + $index, 12], Carbon::parse($sample['collect'])->format("d/m/Y"));
+            $sheet->getStyle([8 + $index, 12])->applyFromArray($normal10DefaultStyle);
 
-            $sheet->setCellValueByColumnAndRow(8 + $index, 13, Carbon::parse($sample['collect'])->format("H:i"));
-            $sheet->getStyleByColumnAndRow(8 + $index, 13)->applyFromArray($normal10DefaultStyle);
+            $sheet->setCellValue([8 + $index, 13], Carbon::parse($sample['collect'])->format("H:i"));
+            $sheet->getStyle([8 + $index, 13])->applyFromArray($normal10DefaultStyle);
 
-            $sheet->setCellValueByColumnAndRow(8 + $index, 14, $sample['environment']);
-            $sheet->getStyleByColumnAndRow(8 + $index, 14)->applyFromArray($normal10DefaultStyle);
+            $sheet->setCellValue([8 + $index, 14], $sample['environment']);
+            $sheet->getStyle([8 + $index, 14])->applyFromArray($normal10DefaultStyle);
 
             $indexRow = 0;
             foreach ($formPrint->parameters as $key => $value) {
-                if(((isset($formPrint->formValue->values[$key . "_column"]) && $formPrint->formValue->form->name == "RT-LAB-041-191") ||
-                    ($formPrint->formValue->form->name != "RT-LAB-041-191"))) :
+                if(((isset($formPrint->formValue->values[$key . "_column"]) && $formPrint->formValue->form->name == "RT-LAB-041-191") || ($formPrint->formValue->form->name != "RT-LAB-041-191"))) :
                     if(Str::contains($key, ["ntu", "eh"])) :
-                        $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : $formValue->svgs[$row][$key];
+                        $v = number_format(isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : $formValue->svgs[$row][$key], $formPrint->places[$key], ",", ".");
                     elseif($key == "sat" && (!$formValue->svgs[$row][$key] || $formValue->svgs[$row][$key] == 0)) :
                         $v = '< ' . number_format(4, $formPrint->places[$key], ",");
                     elseif(!$formValue->svgs[$row][$key] || $formValue->svgs[$row][$key] == 0 || $formPrint->LQ[$key] > $formValue->svgs[$row][$key]) :
@@ -385,10 +383,10 @@ class FormPrintController extends Controller
                         $v = Str::replace(".", "", $v);
                     endif;
 
-                    $sheet->setCellValueByColumnAndRow(8 + $index, 16 + $indexRow, $v);
+                    $sheet->setCellValue(8 + $index, 16 + $indexRow, $v);
 
-                    $sheet->getStyleByColumnAndRow(8 + $index, 16 + $indexRow)->applyFromArray($normal10DefaultStyle);
-                    $sheet->getStyleByColumnAndRow(8 + $index, 16 + $indexRow)->getFont()->setBold(true);
+                    $sheet->getStyle([8 + $index, 16 + $indexRow])->applyFromArray($normal10DefaultStyle);
+                    $sheet->getStyle([8 + $index, 16 + $indexRow])->getFont()->setBold(true);
                     $sheet->getColumnDimensionByColumn(8 + $index)->setAutoSize(true);
 
                     $indexRow++;
@@ -398,8 +396,8 @@ class FormPrintController extends Controller
             $index++;
         }
 
-        $sheet->getStyleByColumnAndRow(2, 15, 8 + $index - 1, 15)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB("C0C0C0");
-        $sheet->getStyleByColumnAndRow(2, 15, 8 + $index - 1, 15)->applyFromArray([
+        $sheet->getStyle([2, 15, 8 + $index - 1, 15])->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB("C0C0C0");
+        $sheet->getStyle([2, 15, 8 + $index - 1, 15])->applyFromArray([
             'borders' => [
                 'outline' => [
                     'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
@@ -407,7 +405,7 @@ class FormPrintController extends Controller
             ]
         ]);
 
-        $sheet->getStyleByColumnAndRow(2, 11, 8 + $index - 1, 16 + $indexRow - 1)->applyFromArray($borderGray);
+        $sheet->getStyle([2, 11, 8 + $index - 1, 16 + $indexRow - 1])->applyFromArray($borderGray);
 
         $spreadsheet->createSheet();
         $spreadsheet->setActiveSheetIndex(1);
@@ -428,17 +426,17 @@ class FormPrintController extends Controller
 
         foreach ( $columnsText as $key => $column) {
             if($column != '') {
-                $sheet->setCellValueByColumnAndRow(2, 11 + $key, $column);
-                $sheet->getStyleByColumnAndRow(2, 11 + $key, 7, 11 + $key)->applyFromArray($bold10DefaultStyle);
-                $sheet->mergeCellsByColumnAndRow(2, 11 + $key, 7, 11 + $key);
+                $sheet->setCellValue([2, 11 + $key], $column);
+                $sheet->getStyle([2, 11 + $key, 7, 11 + $key])->applyFromArray($bold10DefaultStyle);
+                $sheet->mergeCells([2, 11 + $key, 7, 11 + $key]);
             }
         }
 
         $index = 0;
         foreach ($formValue->values['samples'] as $row => $sample) {
-            $sheet->setCellValueByColumnAndRow(8 + $index, 11, $sample['point']);
-            $sheet->getStyleByColumnAndRow(8 + $index, 11)->applyFromArray($bold10DefaultStyle);
-            $sheet->getStyleByColumnAndRow(8 + $index, 11)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $sheet->setCellValue([8 + $index, 11], $sample['point']);
+            $sheet->getStyle([8 + $index, 11])->applyFromArray($bold10DefaultStyle);
+            $sheet->getStyle([8 + $index, 11])->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
             $indexRow = 0;
             foreach (["eh", "ph"] as $key) {
@@ -449,13 +447,13 @@ class FormPrintController extends Controller
                 endif;
 
                 if(($formPrint->LQ[$key] > floatval($v) || !$v) && is_numeric($formPrint->LQ[$key])) :
-                    $sheet->setCellValueByColumnAndRow(8 + $index, 12 + $indexRow, '< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ","));
+                    $sheet->setCellValue([8 + $index, 12 + $indexRow], '< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ","));
                 else :
-                    $sheet->setCellValueByColumnAndRow(8 + $index, 12 + $indexRow, is_numeric($v) ? number_format($v, $formPrint->places[$key], ",") : $v);
+                    $sheet->setCellValue([8 + $index, 12 + $indexRow], is_numeric($v) ? number_format($v, $formPrint->places[$key], ",") : $v);
                 endif;
 
-                $sheet->getStyleByColumnAndRow(8 + $index, 12 + $indexRow)->applyFromArray($normal10DefaultStyle);
-                $sheet->getStyleByColumnAndRow(8 + $index, 12 + $indexRow)->getFont()->setBold(true);
+                $sheet->getStyle([8 + $index, 12 + $indexRow])->applyFromArray($normal10DefaultStyle);
+                $sheet->getStyle([8 + $index, 12 + $indexRow])->getFont()->setBold(true);
                 $sheet->getColumnDimensionByColumn(8 + $index)->setAutoSize(true);
 
                 $indexRow++;
@@ -464,7 +462,7 @@ class FormPrintController extends Controller
             $index++;
         }
 
-        $sheet->getStyleByColumnAndRow(2, 11, 8 + $index - 1, 12 + $indexRow - 1)->applyFromArray($borderGray);
+        $sheet->getStyle(2, 11, 8 + $index - 1, 12 + $indexRow - 1)->applyFromArray($borderGray);
 
 
         $spreadsheet->createSheet();
