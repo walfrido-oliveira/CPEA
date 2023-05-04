@@ -416,5 +416,5 @@ input:read-only {
 
 .mode-table select,
 .mode-table input {
-    min-width: 100px;
+    min-width: max-content;
 }
