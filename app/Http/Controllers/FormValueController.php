@@ -361,6 +361,17 @@ class FormValueController extends Controller
             $samples["samples"][$input["sample_index"]]["visibleoilsandgreases_footer"] = isset($input["samples"][$input["sample_index"]]["visibleoilsandgreases_footer"]) ? $input["samples"][$input["sample_index"]]["visibleoilsandgreases_footer"] : null;
             $samples["samples"][$input["sample_index"]]["voc_footer"] = isset($input["samples"][$input["sample_index"]]["voc_footer"]) ? $input["samples"][$input["sample_index"]]["voc_footer"] : null;
 
+            $samples["samples"][$input["sample_index"]]["eh_footer_duplicate"] = isset($input["samples"][$input["sample_index"]]["eh_footer_duplicate"]) ? $input["samples"][$input["sample_index"]]["eh_footer_duplicate"] : null;
+            $samples["samples"][$input["sample_index"]]["ntu_footer_duplicate"] = isset($input["samples"][$input["sample_index"]]["ntu_footer_duplicate"]) ? $input["samples"][$input["sample_index"]]["ntu_footer_duplicate"] : null;
+            $samples["samples"][$input["sample_index"]]["chlorine_footer_duplicate"] = isset($input["samples"][$input["sample_index"]]["chlorine_footer_duplicate"]) ? $input["samples"][$input["sample_index"]]["chlorine_footer_duplicate"] : null;
+            $samples["samples"][$input["sample_index"]]["residualchlorine_footer_duplicate"] = isset($input["samples"][$input["sample_index"]]["residualchlorine_footer_duplicate"]) ? $input["samples"][$input["sample_index"]]["residualchlorine_footer_duplicate"] : null;
+            $samples["samples"][$input["sample_index"]]["aspect_footer_duplicate"] = isset($input["samples"][$input["sample_index"]]["aspect_footer_duplicate"]) ? $input["samples"][$input["sample_index"]]["aspect_footer_duplicate"] : null;
+            $samples["samples"][$input["sample_index"]]["artificialdyes_footer_duplicate"] = isset($input["samples"][$input["sample_index"]]["artificialdyes_footer_duplicate"]) ? $input["samples"][$input["sample_index"]]["artificialdyes_footer_duplicate"] : null;
+            $samples["samples"][$input["sample_index"]]["floatingmaterials_footer_duplicate"] = isset($input["samples"][$input["sample_index"]]["floatingmaterials_footer_duplicate"]) ? $input["samples"][$input["sample_index"]]["floatingmaterials_footer_duplicate"] : null;
+            $samples["samples"][$input["sample_index"]]["objectablesolidwaste_footer_duplicate"] = isset($input["samples"][$input["sample_index"]]["objectablesolidwaste_footer_duplicate"]) ? $input["samples"][$input["sample_index"]]["objectablesolidwaste_footer_duplicate"] : null;
+            $samples["samples"][$input["sample_index"]]["visibleoilsandgreases_footer_duplicate"] = isset($input["samples"][$input["sample_index"]]["visibleoilsandgreases_footer_duplicate"]) ? $input["samples"][$input["sample_index"]]["visibleoilsandgreases_footer_duplicate"] : null;
+            $samples["samples"][$input["sample_index"]]["voc_footer_duplicate"] = isset($input["samples"][$input["sample_index"]]["voc_footer_duplicate"]) ? $input["samples"][$input["sample_index"]]["voc_footer_duplicate"] : null;
+
 
             $samples["samples"][$input["sample_index"]]["temperature_uncertainty_footer"] = isset($input["samples"][$input["sample_index"]]["temperature_uncertainty_footer"]) ? $input["samples"][$input["sample_index"]]["temperature_uncertainty_footer"] : null;
             $samples["samples"][$input["sample_index"]]["ph_uncertainty_footer"] = isset($input["samples"][$input["sample_index"]]["ph_uncertainty_footer"]) ? $input["samples"][$input["sample_index"]]["ph_uncertainty_footer"] : null;

@@ -59,52 +59,107 @@
                         @endif
                         @if(isset($formValue->values["eh_column"]))
                             <td>
-                                {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['eh'], $formPrint->places['eh'], ",", ".") }}
+                                @php
+                                    if(!isset($sample['eh_footer_duplicate'])) :
+                                        $sample['eh_footer_duplicate'] = $formValue->duplicates_svgs['row_' . ($i)]['eh'];
+                                    endif;
+                                @endphp
+                                @if(isset($sample['eh_footer_duplicate']))
+                                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="eh_footer_duplicate_{{ isset($i) ? $i : 0 }}"
+                                                class="form-control block mt-1 w-full eh_footer_duplicate" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                                                type="number" value="{{ number_format($sample['eh_footer_duplicate'], $formPrint->places['eh']) }}"
+                                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][eh_footer_duplicate]' : 'samples[row_0][eh_footer_duplicate]' }}" />
+                                @else
+                                    <x-jet-input id="eh_footer_duplicate_0" class="form-control block mt-1 w-full eh_footer_duplicate" type="number" value=""
+                                                name="samples[row_0][eh_footer_duplicate]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+                                @endif
                             </td>
                         @endif
                         @if(isset($formValue->values["ntu_column"]))
                             <td>
-                                {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['ntu'], $formPrint->places['eh'], ",", ".") }}
+                                @if(isset($sample['ntu_footer_duplicate']))
+                                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="ntu_footer_duplicate_{{ isset($i) ? $i : 0 }}"
+                                                class="form-control block mt-1 w-full ntu_footer_duplicate" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                                                type="number" value="{{ $sample['ntu_footer_duplicate'] != 0 ? number_format($sample['ntu_footer_duplicate'], $formPrint->places['ntu']) : '' }}"
+                                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][ntu_footer_duplicate]' : 'samples[row_0][ntu_footer_duplicate]' }}" />
+                                @else
+                                    <x-jet-input id="ntu_footer_duplicate_0" class="form-control block mt-1 w-full ntu_footer_duplicate" type="number" value=""
+                                                name="samples[row_0][ntu_footer_duplicate]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+                                @endif
                             </td>
                         @endif
                         @if(isset($formValue->values["chlorine_column"]))
                             <td>
-                                {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['chlorine'], $formPrint->places['eh'], ",", ".") }}
+                                @if(isset($sample['chlorine_footer_duplicate']))
+                                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="chlorine_footer_duplicate_{{ isset($i) ? $i : 0 }}"
+                                                class="form-control block mt-1 w-full chlorine_footer_duplicate" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                                                type="number" value="{{ $sample['chlorine_footer_duplicate'] != 0 ? number_format($sample['chlorine_footer_duplicate'], $formPrint->places['chlorine']) : '' }}"
+                                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][chlorine_footer_duplicate]' : 'samples[row_0][chlorine_footer_duplicate]' }}" />
+                                @else
+                                    <x-jet-input id="chlorine_footer_duplicate_0" class="form-control block mt-1 w-full chlorine_footer_duplicate" type="number" value=""
+                                                name="samples[row_0][chlorine_footer_duplicate]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+                                @endif
                             </td>
                         @endif
                         @if(isset($formValue->values["residualchlorine_column"]))
                             <td>
-                                {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['residualchlorine'], $formPrint->places['eh'], ",", ".") }}
+                                @if(isset($sample['residualchlorine_footer_duplicate']))
+                                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="residualchlorine_footer_duplicate_{{ isset($i) ? $i : 0 }}"
+                                                class="form-control block mt-1 w-full residualchlorine_footer_duplicate" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                                                type="number" value="{{ $sample['residualchlorine_footer_duplicate'] != 0 ? number_format($sample['residualchlorine_footer_duplicate'], $formPrint->places['residualchlorine']) : '' }}"
+                                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][residualchlorine_footer_duplicate]' : 'samples[row_0][residualchlorine_footer_duplicate]' }}" />
+                                @else
+                                    <x-jet-input id="residualchlorine_footer_duplicate_0" class="form-control block mt-1 w-full residualchlorine_footer_duplicate" type="number" value=""
+                                                name="samples[row_0][residualchlorine_footer_duplicate]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+                                @endif
                             </td>
                         @endif
                         @if(isset($formValue->values["aspect_column"]))
                             <td>
-                                -
+                                <x-custom-select disabled="true" :options="$choises" value="{{ isset($value['aspect_footer_duplicate']) ? $value['aspect_footer_duplicate'] : null }}"
+                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][aspect_footer_duplicate]' : 'samples[row_0][results]['. $key . '][aspect_footer_duplicate]' }}"
+                                id="aspect_footer_duplicate" class="mt-1" select-class="no-nice-select"/>
                             </td>
                         @endif
                         @if(isset($formValue->values["artificialdyes_column"]))
                             <td>
-                                -
+                                <x-custom-select disabled="true" :options="$choises" value="{{ isset($value['floatingmaterials_footer_duplicate']) ? $value['floatingmaterials_footer_duplicate'] : null }}"
+                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][floatingmaterials_footer_duplicate]' : 'samples[row_0][results]['. $key . '][floatingmaterials_footer_duplicate]' }}"
+                                id="floatingmaterials_footer_duplicate" class="mt-1" select-class="no-nice-select"/>
                             </td>
                         @endif
                         @if(isset($formValue->values["floatingmaterials_column"]))
                             <td>
-                                -
+                                <x-custom-select disabled="true" :options="$choises" value="{{ isset($value['floatingmaterials_footer_duplicate']) ? $value['floatingmaterials_footer_duplicate'] : null }}"
+                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][floatingmaterials_footer_duplicate]' : 'samples[row_0][results]['. $key . '][floatingmaterials_footer_duplicate]' }}"
+                                id="floatingmaterials_footer_duplicate" class="mt-1" select-class="no-nice-select"/>
                             </td>
                         @endif
                         @if(isset($formValue->values["objectablesolidwaste_column"]))
                             <td>
-                                -
+                                <x-custom-select disabled="true" :options="$choises" value="{{ isset($value['objectablesolidwaste_footer_duplicate']) ? $value['objectablesolidwaste_footer_duplicate'] : null }}"
+                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][objectablesolidwaste_footer_duplicate]' : 'samples[row_0][results]['. $key . '][objectablesolidwaste_footer_duplicate]' }}"
+                                id="objectablesolidwaste_footer_duplicate" class="mt-1" select-class="no-nice-select"/>
                             </td>
                         @endif
                         @if(isset($formValue->values["visibleoilsandgreases_column"]))
                             <td>
-                                -
+                                <x-custom-select disabled="true" :options="$choises" value="{{ isset($value['visibleoilsandgreases_footer_duplicate']) ? $value['visibleoilsandgreases_footer_duplicate'] : null }}"
+                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][visibleoilsandgreases_footer_duplicate]' : 'samples[row_0][results]['. $key . '][visibleoilsandgreases_footer_duplicate]' }}"
+                                id="visibleoilsandgreases_footer_duplicate" class="mt-1" select-class="no-nice-select"/>
                             </td>
                         @endif
                         @if(isset($formValue->values["voc_column"]))
                             <td>
-                                {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['voc'], $formPrint->places['eh'], ",", ".") }}
+                                @if(isset($sample['voc_footer_duplicate']))
+                                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="voc_footer_duplicate_{{ isset($i) ? $i : 0 }}"
+                                                class="form-control block mt-1 w-full voc_footer_duplicate" data-index="{{ isset($i) ? $i : 0 }}" step="any"
+                                                type="number" value="{{ $sample['voc_footer_duplicate'] != 0 ? number_format($sample['voc_footer_duplicate'], $formPrint->places['voc']) : '' }}"
+                                                name="{{ isset($i) ? 'samples[row_' . ($i) . '][voc_footer_duplicate]' : 'samples[row_0][voc_footer_duplicate]' }}" />
+                                @else
+                                    <x-jet-input id="voc_footer_duplicate_0" class="form-control block mt-1 w-full voc_footer_duplicate" type="number" value=""
+                                                name="samples[row_0][voc_footer_duplicate]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
+                                @endif
                             </td>
                         @endif
                     </tr>
