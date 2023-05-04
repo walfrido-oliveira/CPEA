@@ -248,17 +248,17 @@
                                 @endif
                             </td>
                         @endif
-                        @if(isset($formValue->values["ntu_column"]))
+                        @if(isset($formValue->values["ntu_column"]) && $sample["ntu_footer_duplicate"] != 0)
                             <td>
                                 {{ number_format($formValue->dpr['row_' . ($i)]['ntu'], 1, ",", ".") }}
                             </td>
                         @endif
-                        @if(isset($formValue->values["chlorine_column"]))
+                        @if(isset($formValue->values["chlorine_column"]) && $sample["chlorine_footer_duplicate"] != 0)
                             <td>
                                 {{ number_format($formValue->dpr['row_' . ($i)]['chlorine'], 1, ",", ".") }}
                             </td>
                         @endif
-                        @if(isset($formValue->values["residualchlorine_column"]))
+                        @if(isset($formValue->values["residualchlorine_column"]) && $sample["residualchlorine_footer_duplicate"] != 0)
                             <td>
                                 {{ number_format($formValue->dpr['row_' . ($i)]['residualchlorine'], 1, ",", ".") }}
                             </td>
@@ -288,7 +288,7 @@
                                 -
                             </td>
                         @endif
-                        @if(isset($formValue->values["voc_column"]))
+                        @if(isset($formValue->values["voc_column"]) && $sample["voc_footer_duplicate"] != 0)
                             <td>
                                 {{ number_format($formValue->dpr['row_' . ($i)]['voc'], 1, ",", ".") }}
                             </td>

@@ -138,7 +138,7 @@
                             @endif
                         </td>
                         <td>
-                            @if(isset($formPrint->formValue->values['turbidity']))
+                            @if(isset($formPrint->formValue->values['turbidity']) && $sample["ntu_footer_duplicate"] != 0)
                                 {{ number_format($formValue->dpr['row_' . ($i)]['ntu'], 1, ",", ".") }}
                             @else
                                 -
