@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Config;
 use Illuminate\Http\Request;
-use App\Http\Requests\ConfigRequest;
 use Illuminate\Support\Facades\Redirect;
 
 class FormConfigController extends Controller
