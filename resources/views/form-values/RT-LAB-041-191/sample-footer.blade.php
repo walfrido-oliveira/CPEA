@@ -117,27 +117,37 @@
     @endif
     @if(isset($formValue->values["aspect_column"]))
         <td>
-            -
+            <x-custom-select disabled="true" :options="$choises" value="{{ isset($value['aspect_footer']) ? $value['aspect_footer'] : null }}"
+            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][aspect_footer]' : 'samples[row_0][results]['. $key . '][aspect_footer]' }}"
+            id="aspect_footer" class="mt-1" select-class="no-nice-select"/>
         </td>
     @endif
     @if(isset($formValue->values["artificialdyes_column"]))
         <td>
-            -
+            <x-custom-select disabled="true" :options="$choises" value="{{ isset($value['artificialdyes_footer']) ? $value['artificialdyes_footer'] : null }}"
+            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][artificialdyes_footer]' : 'samples[row_0][results]['. $key . '][artificialdyes_footer]' }}"
+            id="artificialdyes_footer" class="mt-1" select-class="no-nice-select"/>
         </td>
     @endif
     @if(isset($formValue->values["floatingmaterials_column"]))
         <td>
-            -
+            <x-custom-select disabled="true" :options="$choises" value="{{ isset($value['floatingmaterials_footer']) ? $value['floatingmaterials_footer'] : null }}"
+            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][floatingmaterials_footer]' : 'samples[row_0][results]['. $key . '][floatingmaterials_footer]' }}"
+            id="floatingmaterials_footer" class="mt-1" select-class="no-nice-select"/>
         </td>
     @endif
     @if(isset($formValue->values["objectablesolidwaste_column"]))
         <td>
-            -
+            <x-custom-select disabled="true" :options="$choises" value="{{ isset($value['objectablesolidwaste_footer']) ? $value['objectablesolidwaste_footer'] : null }}"
+            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][objectablesolidwaste_footer]' : 'samples[row_0][results]['. $key . '][objectablesolidwaste_footer]' }}"
+            id="objectablesolidwaste_footer" class="mt-1" select-class="no-nice-select"/>
         </td>
     @endif
     @if(isset($formValue->values["visibleoilsandgreases_column"]))
         <td>
-            -
+            <x-custom-select disabled="true" :options="$choises" value="{{ isset($value['visibleoilsandgreases_footer']) ? $value['visibleoilsandgreases_footer'] : null }}"
+            name="{{ isset($i) ? 'samples[row_' . ($i) . '][results][' . $key . '][visibleoilsandgreases_footer]' : 'samples[row_0][results]['. $key . '][visibleoilsandgreases_footer]' }}"
+            id="visibleoilsandgreases_footer" class="mt-1" select-class="no-nice-select"/>
         </td>
     @endif
     @if(isset($formValue->values["voc_column"]))
