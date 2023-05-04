@@ -138,7 +138,7 @@
                             @endif
                         </td>
                         <td>
-                            @if(isset($value['ntu']) && $formValue->svgs['row_' . ($i)]['ntu'] != 0)
+                            @if(isset($formPrint->formValue->values['turbidity']))
                                 {{ number_format($formValue->dpr['row_' . ($i)]['ntu'], 1, ",", ".") }}
                             @else
                                 -
@@ -150,3 +150,5 @@
         @endif
     </div>
 @endif
+
+

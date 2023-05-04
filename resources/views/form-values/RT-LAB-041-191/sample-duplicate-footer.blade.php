@@ -250,29 +250,17 @@
                         @endif
                         @if(isset($formValue->values["ntu_column"]))
                             <td>
-                                @if(isset($value['ntu']) && $formValue->svgs['row_' . ($i)]['ntu'] != 0)
-                                    {{ number_format($formValue->dpr['row_' . ($i)]['ntu'], 1, ",", ".") }}
-                                @else
-                                    -
-                                @endif
+                                {{ number_format($formValue->dpr['row_' . ($i)]['ntu'], 1, ",", ".") }}
                             </td>
                         @endif
                         @if(isset($formValue->values["chlorine_column"]))
                             <td>
-                                @if(isset($value['chlorine']) && $formValue->svgs['row_' . ($i)]['chlorine'] != 0)
-                                    {{ number_format($formValue->dpr['row_' . ($i)]['chlorine'], 1, ",", ".") }}
-                                @else
-                                    -
-                                @endif
+                                {{ number_format($formValue->dpr['row_' . ($i)]['chlorine'], 1, ",", ".") }}
                             </td>
                         @endif
                         @if(isset($formValue->values["residualchlorine_column"]))
                             <td>
-                                @if(isset($value['residualchlorine']) && $formValue->svgs['row_' . ($i)]['residualchlorine'] != 0)
-                                    {{ number_format($formValue->dpr['row_' . ($i)]['residualchlorine'], 1, ",", ".") }}
-                                @else
-                                    -
-                                @endif
+                                {{ number_format($formValue->dpr['row_' . ($i)]['residualchlorine'], 1, ",", ".") }}
                             </td>
                         @endif
                         @if(isset($formValue->values["aspect_column"]))
@@ -302,11 +290,7 @@
                         @endif
                         @if(isset($formValue->values["voc_column"]))
                             <td>
-                                @if(isset($value['voc']) && $formValue->svgs['row_' . ($i)]['voc'] != 0)
-                                    {{ number_format($formValue->dpr['row_' . ($i)]['voc'], 1, ",", ".") }}
-                                @else
-                                    -
-                                @endif
+                                {{ number_format($formValue->dpr['row_' . ($i)]['voc'], 1, ",", ".") }}
                             </td>
                         @endif
                     <tr>
