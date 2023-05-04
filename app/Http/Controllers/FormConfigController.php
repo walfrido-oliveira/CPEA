@@ -31,10 +31,10 @@ class FormConfigController extends Controller
     /**
      * Update config in storage.
      *
-     * @param  ConfigRequest  $request
+     * @param  Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ConfigRequest $request)
+    public function store(Request $request)
     {
         $data = $request->except('_method', '_token', 'logo', 'cert');
 

@@ -20,7 +20,7 @@
                 <div class="py-2 my-2 bg-white rounded-lg min-h-screen">
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full px-3 mb-6 md:mb-0">
-                            <img src="{{ asset($logo) }}" alt="Logo formulário">
+                            <img style="max-width: 300px; max-height: 300px;" src="{{ asset($logo) }}" alt="Logo formulário">
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
                             <x-jet-label :value="__('Logo')" for="logo"/>
@@ -29,7 +29,7 @@
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full px-3 mb-6 md:mb-0">
-                            <img src="{{ asset($cert) }}" alt="Acreditação formulário">
+                            <img style="max-width: 300px; max-height: 300px;" src="{{ asset($cert) }}" alt="Acreditação formulário">
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 mt-2">
                             <x-jet-label :value="__('Selo Acreditação')" for="cert"/>
