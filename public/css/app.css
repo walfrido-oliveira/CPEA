@@ -3439,7 +3439,8 @@ input:read-only {
 }
 .mode-table select,
 .mode-table input {
-    min-width: 100px;
+    min-width: -moz-max-content;
+    min-width: max-content;
 }
 .hover\:border-gray-300:hover {
 	--tw-border-opacity: 1;
