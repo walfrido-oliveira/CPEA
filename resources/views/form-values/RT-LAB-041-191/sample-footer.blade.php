@@ -1,6 +1,6 @@
 
 <tr>
-    <td colspan="10" class="text-center text-white" style="background-color: rgb(0, 94, 16)">Resultados</td>
+    <td colspan="100%" class="text-center text-white" style="background-color: rgb(0, 94, 16)">Resultados</td>
 </tr>
 <tr>
     @if(isset($formValue->values["temperature_column"]))
@@ -160,7 +160,7 @@
     @endif
 </tr>
 <tr>
-    <td colspan="10" class="text-center text-white" style="background-color: rgb(0, 94, 16)">Incertezas</td>
+    <td colspan="100%" class="text-center text-white" style="background-color: rgb(0, 94, 16)">Incertezas</td>
 </tr>
 <tr>
     @if(isset($formValue->values["temperature_column"]))
