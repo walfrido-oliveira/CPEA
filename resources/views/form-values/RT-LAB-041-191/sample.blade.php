@@ -142,7 +142,7 @@
                     </tfoot>
                 </table>
             </div>
-            @include('form-values-RT-LAB-041-191-sample-duplicate-footer')
+            @include('form-values.RT-LAB-041-191.sample-duplicate-footer')
         </div>
     @endif
 </div>
