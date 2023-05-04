@@ -174,7 +174,7 @@
                             </label>
                             <label for="voc_column" class="flex items-center">
                                 <input id="voc_column" type="checkbox" class="form-checkbox" name="voc_column" value="true" @if(isset($formValue->values['voc_column'])) checked @endif>
-                                <span class="ml-2 text-sm text-gray-600">{{ __('VOC (mg/l)') }}</span>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('VOC (ppm)') }}</span>
                             </label>
                         </div>
                     </div>

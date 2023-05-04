@@ -133,7 +133,7 @@ class FormPrint extends Model
             $this->parameters["floatingmaterials"] = "Materiais Flutuantes";
             $this->parameters["objectablesolidwaste"] = "Resíduos Sólidos Objetáveis";
             $this->parameters["visibleoilsandgreases"] = "Óleos e Graxas Visíveis";
-            $this->parameters["voc"] = "Aspecto";
+            $this->parameters["voc"] = "VOC";
 
             $this->unities["chlorine"] = "mg/L";
             $this->unities["residualchlorine"] = "mg/L";
