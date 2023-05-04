@@ -143,7 +143,7 @@
                                                         <td style="text-align: center; border: 0px;">
                                                             @if(isset($formPrint->formValue->svgs[$row][$key]) || isset($sample[$key . "_footer"]))
                                                                 @php
-                                                                    if(sset($sample[$key . "_footer"])) :
+                                                                    if(isset($sample[$key . "_footer"])) :
                                                                         $v = $sample[$key . "_footer"];
                                                                     else :
                                                                         $v =  $formPrint->formValue->svgs[$row][$key];
