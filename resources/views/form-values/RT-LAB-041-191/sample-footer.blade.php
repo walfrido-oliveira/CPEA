@@ -63,11 +63,6 @@
     @endif
     @if(isset($formValue->values["ntu_column"]))
         <td>
-            @php
-                if(!isset($sample['ntu_footer'])) :
-                    $sample['ntu_footer'] = $formValue->svgs['row_' . ($i)]['ntu'];
-                endif;
-            @endphp
             @if(isset($sample['ntu_footer']))
                 <x-jet-input readonly="{{ !$formValue ? false : true}}" id="ntu_footer_{{ isset($i) ? $i : 0 }}"
                             class="form-control block mt-1 w-full ntu_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
@@ -81,11 +76,6 @@
     @endif
     @if(isset($formValue->values["chlorine_column"]))
         <td>
-            @php
-                if(!isset($sample['chlorine_footer'])) :
-                    $sample['chlorine_footer'] = $formValue->svgs['row_' . ($i)]['chlorine'];
-                endif;
-            @endphp
             @if(isset($sample['chlorine_footer']))
                 <x-jet-input readonly="{{ !$formValue ? false : true}}" id="chlorine_footer_{{ isset($i) ? $i : 0 }}"
                             class="form-control block mt-1 w-full chlorine_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
@@ -99,11 +89,6 @@
     @endif
     @if(isset($formValue->values["residualchlorine_column"]))
         <td>
-            @php
-                if(!isset($sample['residualchlorine_footer'])) :
-                    $sample['residualchlorine_footer'] = $formValue->svgs['row_' . ($i)]['residualchlorine'];
-                endif;
-            @endphp
             @if(isset($sample['residualchlorine_footer']))
                 <x-jet-input readonly="{{ !$formValue ? false : true}}" id="residualchlorine_footer_{{ isset($i) ? $i : 0 }}"
                             class="form-control block mt-1 w-full residualchlorine_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
@@ -152,11 +137,6 @@
     @endif
     @if(isset($formValue->values["voc_column"]))
         <td>
-            @php
-                if(!isset($sample['voc_footer'])) :
-                    $sample['voc_footer'] = $formValue->svgs['row_' . ($i)]['voc'];
-                endif;
-            @endphp
             @if(isset($sample['voc_footer']))
                 <x-jet-input readonly="{{ !$formValue ? false : true}}" id="voc_footer_{{ isset($i) ? $i : 0 }}"
                             class="form-control block mt-1 w-full voc_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"

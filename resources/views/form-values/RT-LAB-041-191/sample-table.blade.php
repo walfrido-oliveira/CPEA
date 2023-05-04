@@ -62,8 +62,8 @@
                                 <td>
                                     @if(isset($formPrint->formValue->svgs[$row][$key]) || isset($sample[$key . "_footer"]))
                                         @php
-                                            if(Str::contains($key, ["ntu", "eh"])) :
-                                                $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : null;
+                                            if(isset($sample[$key . "_footer"])) :
+                                                $v = $sample[$key . "_footer"];
                                             else :
                                                 $v =  $formPrint->formValue->svgs[$row][$key];
                                             endif;

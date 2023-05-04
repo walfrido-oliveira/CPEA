@@ -381,8 +381,8 @@ class FormPrintController extends Controller
                 if(((isset($formPrint->formValue->values[$key . "_column"]) && $formPrint->formValue->form->name == "RT-LAB-041-191") || ($formPrint->formValue->form->name != "RT-LAB-041-191"))) :
 
                     if(isset($formPrint->formValue->svgs[$row][$key])) :
-                        if(Str::contains($key, ["ntu", "eh"])) :
-                            $v = number_format(isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : $formValue->svgs[$row][$key], $formPrint->places[$key], ",", ".");
+                        if(isset($sample[$key . "_footer"])) :
+                            $v = number_format($sample[$key . "_footer"], $formPrint->places[$key], ",", ".");
 
                         elseif($key == "sat" && (!$formValue->svgs[$row][$key] || $formValue->svgs[$row][$key] == 0)) :
                             $v = '< ' . number_format(4, $formPrint->places[$key], ",");
