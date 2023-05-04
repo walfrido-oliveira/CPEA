@@ -124,9 +124,9 @@
         </div>
     </div>
     @if(isset($sample['results']))
-        <div class="flex flex-wrap mt-2 w-full mode-table pr-3">
-            <div class="w-full">
-                <table class="table table-responsive md:table w-full ">
+        <div class="flex flex-wrap mt-2 w-full mode-table pr-3" style="width: calc(100vw - 26rem);">
+            <div class="table-responsive">
+                <table class="table">
                     <thead>
                         <tr class="thead-light">
                             @include('form-values.RT-LAB-041-191.sample-headers')
