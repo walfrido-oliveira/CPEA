@@ -414,6 +414,7 @@ input:read-only {
     width: calc(100vw - 26rem);
 }
 
+.mode-table select,
 .mode-table input {
     min-width: 100px;
 }
