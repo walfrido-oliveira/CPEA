@@ -409,3 +409,11 @@ input:read-only {
 .disabled-col {
     background-color: #ecf0f5;
 }
+
+.mode-table {
+    width: calc(100vw - 26rem);
+}
+
+.mode-table input {
+    min-width: 100px;
+}

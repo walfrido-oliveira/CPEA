@@ -124,7 +124,7 @@
         </div>
     </div>
     @if(isset($sample['results']))
-        <div class="flex flex-wrap mt-2 w-full mode-table pr-3" style="width: calc(100vw - 26rem);">
+        <div class="flex flex-wrap mt-2 w-full mode-table pr-3">
             <div class="table-responsive">
                 <table class="table">
                     <thead>
