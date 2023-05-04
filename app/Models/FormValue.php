@@ -124,17 +124,22 @@ class FormValue extends Model
                         if ($svgs[$key]["eh"] != 0) {
                             $dpr[$key]["eh"] = (($svgs[$key]["eh"] - $duplicates[$key]["eh"]) / $duplicatesSvgs[$key]["eh"]) * 100;
                         }
+
                         if ($svgs[$key]["ntu"] != 0) {
-                            $dpr[$key]["ntu"] = (($svgs[$key]["ntu"] - $duplicates[$key]["ntu"]) / $duplicatesSvgs[$key]["ntu"]) * 100;
+                            $dpr[$key]["ntu"] = ( ($sample["ntu_footer_duplicate"]  - $sample["ntu_footer_duplicate"]) /
+                            (($sample["ntu_footer_duplicate"]  + $sample["ntu_footer_duplicate"]) / 2)) * 100;
                         }
                         if ($svgs[$key]["chlorine"] != 0) {
-                            $dpr[$key]["chlorine"] = (($svgs[$key]["chlorine"] - $duplicates[$key]["chlorine"]) / $duplicatesSvgs[$key]["chlorine"]) * 100;
+                            $dpr[$key]["chlorine"] = ( ($sample["chlorine_footer_duplicate"]  - $sample["chlorine_footer_duplicate"]) /
+                            (($sample["chlorine_footer_duplicate"]  + $sample["chlorine_footer_duplicate"]) / 2)) * 100;
                         }
                         if ($svgs[$key]["residualchlorine"] != 0) {
-                            $dpr[$key]["residualchlorine"] = (($svgs[$key]["residualchlorine"] - $duplicates[$key]["residualchlorine"]) / $duplicatesSvgs[$key]["residualchlorine"]) * 100;
+                            $dpr[$key]["residualchlorine"] = ( ($sample["residualchlorine_footer_duplicate"]  - $sample["residualchlorine_footer_duplicate"]) /
+                            (($sample["residualchlorine_footer_duplicate"]  + $sample["residualchlorine_footer_duplicate"]) / 2)) * 100;
                         }
                         if ($svgs[$key]["voc"] != 0) {
-                            $dpr[$key]["voc"] = (($svgs[$key]["voc"] - $duplicates[$key]["voc"]) / $duplicatesSvgs[$key]["voc"]) * 100;
+                            $dpr[$key]["voc"] = ( ($sample["voc_footer_duplicate"]  - $sample["voc_footer_duplicate"]) /
+                            (($sample["voc_footer_duplicate"]  + $sample["voc_footer_duplicate"]) / 2)) * 100;
                         }
                     }
                 }
