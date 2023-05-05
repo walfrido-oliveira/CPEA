@@ -125,21 +125,21 @@ class FormValue extends Model
                             $dpr[$key]["eh"] = (($svgs[$key]["eh"] - $duplicates[$key]["eh"]) / $duplicatesSvgs[$key]["eh"]) * 100;
                         }
 
-                        if ($sample["ntu_footer_duplicate"] != 0) {
-                            $dpr[$key]["ntu"] = ( ($sample["ntu_footer_duplicate"]  - $sample["ntu_footer_duplicate"]) /
-                            (($sample["ntu_footer_duplicate"]  + $sample["ntu_footer_duplicate"]) / 2)) * 100;
+                        if (isset($sample["ntu_footer_duplicate"])) {
+                            $dpr[$key]["ntu"] = ( ($sample["ntu_footer"]  - $sample["ntu_footer_duplicate"]) /
+                            (($sample["ntu_footer"]  + $sample["ntu_footer_duplicate"]) / 2)) * 100;
                         }
-                        if ($svgs[$key]["chlorine"] != 0) {
-                            $dpr[$key]["chlorine"] = ( ($sample["chlorine_footer_duplicate"]  - $sample["chlorine_footer_duplicate"]) /
-                            (($sample["chlorine_footer_duplicate"]  + $sample["chlorine_footer_duplicate"]) / 2)) * 100;
+                        if (isset($svgs[$key]["chlorine_footer_duplicate"])) {
+                            $dpr[$key]["chlorine"] = ( ($sample["chlorine_footer"]  - $sample["chlorine_footer_duplicate"]) /
+                            (($sample["chlorine_footer"]  + $sample["chlorine_footer_duplicate"]) / 2)) * 100;
                         }
-                        if ($sample["residualchlorine_footer_duplicate"] != 0) {
-                            $dpr[$key]["residualchlorine"] = ( ($sample["residualchlorine_footer_duplicate"]  - $sample["residualchlorine_footer_duplicate"]) /
-                            (($sample["residualchlorine_footer_duplicate"]  + $sample["residualchlorine_footer_duplicate"]) / 2)) * 100;
+                        if (isset($sample["residualchlorine_footer_duplicate"])) {
+                            $dpr[$key]["residualchlorine"] = ( ($sample["residualchlorine_footer"]  - $sample["residualchlorine_footer_duplicate"]) /
+                            (($sample["residualchlorine_footer"]  + $sample["residualchlorine_footer_duplicate"]) / 2)) * 100;
                         }
-                        if ($sample["voc_footer_duplicate"] != 0) {
-                            $dpr[$key]["voc"] = ( ($sample["voc_footer_duplicate"]  - $sample["voc_footer_duplicate"]) /
-                            (($sample["voc_footer_duplicate"]  + $sample["voc_footer_duplicate"]) / 2)) * 100;
+                        if (isset($sample["voc_footer_duplicate"])) {
+                            $dpr[$key]["voc"] = ( ($sample["voc_footer"]  - $sample["voc_footer_duplicate"]) /
+                            (($sample["voc_footer"]  + $sample["voc_footer_duplicate"]) / 2)) * 100;
                         }
                     }
                 }
