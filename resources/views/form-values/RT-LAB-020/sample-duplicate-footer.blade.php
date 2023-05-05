@@ -131,14 +131,14 @@
                             @endif
                         </td>
                         <td>
-                            @if(isset($value['eh']) && $formValue->svgs['row_' . ($i)]['eh'] != 0)
+                            @if(isset($sample["ntu_footer_duplicate"]))
                                 {{ number_format($formValue->dpr['row_' . ($i)]['eh'], 1, ",", ".") }}
                             @else
                                 -
                             @endif
                         </td>
                         <td>
-                            @if(isset($formPrint->formValue->values['turbidity']) && $sample["ntu_footer_duplicate"] != 0)
+                            @if(isset($formPrint->formValue->values['turbidity']) && isset($sample["ntu_footer_duplicate"]))
                                 {{ number_format($formValue->dpr['row_' . ($i)]['ntu'], 1, ",", ".") }}
                             @else
                                 -
