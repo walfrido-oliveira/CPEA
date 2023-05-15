@@ -179,7 +179,7 @@ class FormValueController extends Controller
         $fields = FieldType::orderBy("name", "ASC")->pluck('name', 'id');
         $floatingMaterials = ["Ausênte" => "Ausênte", "Presente" => "Presente"];
         $form = $formValue->form;
-        $project_id = $formValue->values["project_id"];
+        $project_id = isset($formValue->values["project_id"]) ? $formValue->values["project_id"] : null;
         $formPrint = new FormPrint($formValue, false);
 
         $values = $formValue->values;
