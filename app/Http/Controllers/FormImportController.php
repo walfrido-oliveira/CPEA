@@ -426,7 +426,7 @@ class FormImportController extends Controller
 
         $max = 0;
 
-        if($coordinates["coordinates"]) {
+        if(isset($coordinates["coordinates"])) {
             $keys = array_keys($coordinates["coordinates"]);
             foreach ($keys as $value) {
                 if($value > $max) $max = $value;

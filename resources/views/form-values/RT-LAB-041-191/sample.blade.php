@@ -124,7 +124,7 @@
         </div>
     </div>
     @if(isset($sample['results']))
-        <div class="flex flex-wrap mt-2 w-full mode-table table-responsive @if(app('request')->has('filter_duplicate')) fade @endif pr-3">
+        <div id="samples_table" class="flex flex-wrap mt-2 w-full mode-table table-responsive @if(app('request')->has('filter_duplicate')) fade @endif pr-3">
             <div>
                 <table class="table">
                     <thead>
@@ -143,6 +143,41 @@
                 </table>
             </div>
             @include('form-values.RT-LAB-041-191.sample-duplicate-footer')
+
+            <div class="fl-scrolls fl-scrolls-hidden" style="width: 610px; left: 628.5px;"><div style="width: 884px;"></div></div>
         </div>
     @endif
 </div>
+
+<style>
+    .fl-scrolls, .fl-scrolls div {
+        font-size: 0;
+        line-height: 0;
+        margin: 0;
+        padding: 0;
+    }
+
+    .fl-scrolls {
+        bottom: 0;
+        height: 35px;
+        overflow: auto;
+        position: fixed;
+    }
+
+    .fl-scrolls div {
+        height: 1px;
+        overflow: hidden;
+    }
+</style>
+
+<script>
+    window.addEventListener("load", function() {
+        document.querySelector(".fl-scrolls div").style.width = document.querySelector("#table_result").clientWidth + 'px';
+    });
+    var wrapper1 = document.querySelector('.fl-scrolls');
+    var wrapper2 = document.querySelector('#samples_table');
+
+    wrapper1.onscroll = function() {
+        wrapper2.scrollLeft = wrapper1.scrollLeft;
+    };
+</script>

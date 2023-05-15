@@ -214,7 +214,7 @@ class FormPrint extends Model
         }
 
         foreach ($this->externalRefs as $externalRef) {
-            if(is_array($ref->params)) if(in_array($key ,$externalRef->params)) $tempExternalRefs[] = $externalRef;
+            if(is_array($externalRef->params)) if(in_array($key ,$externalRef->params)) $tempExternalRefs[] = $externalRef;
         }
 
 

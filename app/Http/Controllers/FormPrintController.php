@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Dompdf\Dompdf;
-use Nette\Utils\Image;
 use App\Models\FieldType;
 use App\Models\FormPrint;
 use App\Models\FormValue;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
@@ -26,7 +24,11 @@ class FormPrintController extends Controller
      */
     public function print($id)
     {
+
         $formValue = FormValue::findOrFail($id);
+
+        $this->checkLaudoFields($formValue);
+
         $formPrint = new FormPrint($formValue, false);
 
         if(isset($formPrint->formValue->values['samples'])) {
@@ -59,14 +61,8 @@ class FormPrintController extends Controller
         }, 200);
     }
 
-    /**
-     * Print Form
-     */
-    public function signer(Request $request, $id)
+    private function checkLaudoFields($formValue)
     {
-        $formValue = FormValue::findOrFail($id);
-        $formPrint = new FormPrint($formValue, true);
-
         if (
             !isset($formValue->values["samples"]) || !isset($formValue->values["coordinates"]) ||
             !isset($formValue->values["additional_info"]) || !isset($formValue->values["approval_text"]) ||
@@ -78,6 +74,18 @@ class FormPrintController extends Controller
             ];
             return redirect()->route('fields.form-values.index')->with($resp);
         }
+    }
+
+    /**
+     * Print Form
+     */
+    public function signer(Request $request, $id)
+    {
+        $formValue = FormValue::findOrFail($id);
+
+        $this->checkLaudoFields($formValue);
+
+        $formPrint = new FormPrint($formValue, true);
 
         if ($formValue->signed && !$request->has('rev_id')) {
             $resp = [
