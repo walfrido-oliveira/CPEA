@@ -124,8 +124,8 @@
         </div>
     </div>
     @if(isset($sample['results']))
-        <div class="flex flex-wrap mt-2 w-full mode-table @if(app('request')->has('filter_duplicate')) fade @endif pr-3">
-            <div class="table-responsive">
+        <div class="flex flex-wrap mt-2 w-full mode-table table-responsive @if(app('request')->has('filter_duplicate')) fade @endif pr-3">
+            <div>
                 <table class="table">
                     <thead>
                         <tr class="thead-light">
