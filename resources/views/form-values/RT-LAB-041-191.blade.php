@@ -227,13 +227,13 @@
                             <div class="border-b border-gray-200 dark:border-gray-700 flex px-3 w-full my-4">
                                 <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400" style="width:70%" id="filter_samples">
                                     <li class="mr-2">
-                                        <a href="#" data-status="default" id="filter_default" class="active inline-flex p-4 border-b-2 border-green-900 rounded-t-lg  dark:text-blue-500 dark:border-blue-500 active" aria-current="page">
+                                        <a href="#filter_default" data-status="default" id="filter_default" class="active inline-flex p-4 border-b-2 border-green-900 rounded-t-lg  dark:text-blue-500 dark:border-blue-500 active" aria-current="page">
                                             Dados
                                         </a>
                                     </li>
                                     @if($formValue)
                                         <li class="mr-2">
-                                            <a href="#" data-status="duplicates" id="filter_duplicate" class="inline-flex p-4 border-b-2 rounded-t-lg  dark:text-blue-500 dark:border-blue-500" >
+                                            <a href="#filter_duplicate" data-status="duplicates" id="filter_duplicate" class="inline-flex p-4 border-b-2 rounded-t-lg  dark:text-blue-500 dark:border-blue-500" >
                                                 Duplicatas
                                             </a>
                                         </li>
