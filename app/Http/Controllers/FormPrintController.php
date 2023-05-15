@@ -387,7 +387,7 @@ class FormPrintController extends Controller
                         elseif($key == "sat" && (!$formValue->svgs[$row][$key] || $formValue->svgs[$row][$key] == 0)) :
                             $v = '< ' . number_format(4, $formPrint->places[$key], ",");
 
-                        elseif(!$formValue->svgs[$row][$key] || $formValue->svgs[$row][$key] == 0 || $formPrint->LQ[$key] > $formValue->svgs[$row][$key]) :
+                        elseif((!$formValue->svgs[$row][$key] || $formValue->svgs[$row][$key] == 0 || $formPrint->LQ[$key] > $formValue->svgs[$row][$key]) && is_numeric($formPrint->LQ[$key])) :
                             $v = '< ' . number_format($formPrint->LQ[$key], $formPrint->places[$key], ",");
 
                         elseif($key == "conductivity"  && $formValue->svgs[$row][$key] >= 200000) :
