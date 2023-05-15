@@ -43,13 +43,15 @@
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="params" value="{{ __('Parametros') }}" />
                             @php $paramsValue = []; @endphp
-                            @foreach ($params as $key => $param)
-                                @if(in_array($key, $ref->params))
-                                    @php
-                                        $paramsValue[$key] = $param;
-                                    @endphp
-                                @endif
-                            @endforeach
+                            @if(is_array($ref->params))
+                                @foreach ($params as $key => $param)
+                                    @if(in_array($key, $ref->params))
+                                        @php
+                                            $paramsValue[$key] = $param;
+                                        @endphp
+                                    @endif
+                                @endforeach
+                            @endif
                             <x-custom-multi-select multiple :options="$params" name="params[]" id="params" :value="$paramsValue" select-class="form-input" class="mt-1" no-filter="no-filter"/>
                         </div>
                     </div>
