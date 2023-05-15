@@ -110,7 +110,7 @@ class RefController extends Controller
         $ref = Ref::findOrFail($id);
 
         $request->validate([
-            'name' => ['required', 'string', 'max:255',
+            'name' => ['required', 'string', 'max:255'],
             'field_type_id' => ['required', 'string', 'max:255', 'exists:field_types,id'],
             'type' => ['required', 'string', 'in:Referências,Referência Externa']
         ]);
