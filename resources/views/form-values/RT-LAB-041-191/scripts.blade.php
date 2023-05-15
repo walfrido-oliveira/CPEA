@@ -620,9 +620,9 @@
 
                 if(status == 'duplicates'){
                     url.searchParams.set('filter_duplicate', 1);
-                    if (!noReaload) window.location.href = `${url.href}#${that.dataset.index}`;
+                    if (!noReaload) window.location.href = `${url.href}`;
                 } else {
-                    if (!noReaload) window.location.href = `${window.location.href}#${that.dataset.index}`;
+                    if (!noReaload) location.reload();
                 }
 
             } else if (this.readyState == 4 && this.status != 200) {
