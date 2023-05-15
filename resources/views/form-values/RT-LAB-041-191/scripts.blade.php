@@ -620,9 +620,9 @@
 
                 if(status == 'duplicates'){
                     url.searchParams.set('filter_duplicate', 1);
-                    if (!noReaload) window.location.href = url.href;
+                    if (!noReaload) window.location.href = `${url.href}#${that.dataset.index}`;
                 } else {
-                    if (!noReaload) location.reload();
+                    if (!noReaload) window.location.href = `${window.location.href}#${that.dataset.index}`;
                 }
 
             } else if (this.readyState == 4 && this.status != 200) {
@@ -1329,7 +1329,9 @@
     }
 
     setTurbidity();
-    document.querySelector("#turbidity").addEventListener("click", function() {
-        setTurbidity();
-    });
+    if(document.getElementById("turbidity")) {
+        document.querySelector("#turbidity").addEventListener("click", function() {
+            setTurbidity();
+        });
+    }
 </script>
