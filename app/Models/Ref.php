@@ -15,7 +15,16 @@ class Ref extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'field_type_id', 'turbidity', 'type', 'desc'
+        'name', 'field_type_id', 'type', 'desc', 'params'
+    ];
+
+     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'params' => 'array',
     ];
 
 
@@ -84,4 +93,21 @@ class Ref extends Model
         return $this->belongsTo(FieldType::class);
     }
 
+    public static function paramsTypes() {
+        return [
+            'temperature' => 'Temperatura',
+            'ph' => 'pH',
+            'orp' => 'ORP',
+            'conductivity' => 'Condutividade',
+            'salinity' => 'Salinidade',
+            'psi' => 'Press.',
+            'sat' => 'Oxigênio Dissolvido (sat)',
+            'conc' => 'Oxigênio Dissolvido (conc)',
+            'eh' => 'EH',
+            'ntu' => 'Turbidez',
+            'chlorine' => 'Cloro Total',
+            'residualchlorine' => 'Cloro Livre Residual',
+            'voc' => 'VOC',
+        ];
+    }
 }

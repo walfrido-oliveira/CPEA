@@ -33,8 +33,9 @@ class RefController extends Controller
     {
         $fields = FieldType::all()->pluck('name', 'id');
         $types = Ref::types();
+        $params = Ref::paramsTypes();
 
-        return view('ref.create', compact('fields','types'));
+        return view('ref.create', compact('fields','types', 'params'));
     }
 
     /**
@@ -56,9 +57,9 @@ class RefController extends Controller
         Ref::create([
             'name' => $input['name'],
             'field_type_id' => $input['field_type_id'],
-            'turbidity' => isset($input['turbidity']) ? true : false,
             'type' => $input['type'],
             'desc' => $input['desc'],
+            'params' => $input['params'],
         ]);
 
         $resp = [
@@ -92,8 +93,9 @@ class RefController extends Controller
         $ref = Ref::findOrFail($id);
         $fields = FieldType::all()->pluck('name', 'id');
         $types = Ref::types();
+        $params = Ref::paramsTypes();
 
-        return view('ref.edit', compact('ref', 'fields', 'types'));
+        return view('ref.edit', compact('ref', 'fields', 'types', 'params'));
     }
 
     /**
@@ -118,9 +120,9 @@ class RefController extends Controller
         $ref->update([
             'name' => $input['name'],
             'field_type_id' => $input['field_type_id'],
-            'turbidity' => isset($input['turbidity']) ? true : false,
             'type' => $input['type'],
             'desc' => $input['desc'],
+            'params' => $input['params'],
         ]);
 
         $resp = [

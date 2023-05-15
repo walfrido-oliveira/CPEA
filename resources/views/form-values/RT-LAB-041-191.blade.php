@@ -122,7 +122,7 @@
                             </label>
                             <label for="psi_column" class="flex items-center">
                                 <input id="psi_column" type="checkbox" class="form-checkbox" name="psi_column" value="true" @if(isset($formValue->values['psi_column'])) checked @endif>
-                                <span class="ml-2 text-sm text-gray-600">{{ __('Press.[psi]') }}</span>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Press. (psi)') }}</span>
                             </label>
                             <label for="sat_column" class="flex items-center">
                                 <input id="sat_column" type="checkbox" class="form-checkbox" name="sat_column" value="true" @if(isset($formValue->values['sat_column'])) checked @endif>

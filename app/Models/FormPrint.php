@@ -172,31 +172,52 @@ class FormPrint extends Model
             $this->range["voc"] = Config::get("form_voc_range");
         }
 
-        if(isset($this->formValue->values['turbidity'])) {
-            $this->refs = Ref::where('field_type_id', $this->formValue->values['matrix'])
-            ->where("type", "Referências")
-            ->get();
+        $this->refs = Ref::where('field_type_id', $this->formValue->values['matrix'])
+        ->where("type", "Referências")
+        ->get();
 
-            $this->externalRefs = Ref::where('field_type_id', $this->formValue->values['matrix'])
-            ->where("type", "Referência Externa")
-            ->get();
+        $this->externalRefs = Ref::where('field_type_id', $this->formValue->values['matrix'])
+        ->where("type", "Referência Externa")
+        ->get();
 
+        if($this->formValue->form->name != 'RT-LAB-041-191') {
+            if(isset($this->formValue->values['turbidity'])) {
+                $this->getRefs("ntu");
+            }
         } else {
-            $this->refs = Ref::where('field_type_id', $this->formValue->values['matrix'])
-            ->where("type", "Referências")
-            ->where("turbidity", false)
-            ->get();
-
-            $this->externalRefs = Ref::where('field_type_id', $this->formValue->values['matrix'])
-            ->where("type", "Referência Externa")
-            ->where("turbidity", false)
-            ->get();
+            foreach ($this->parameters as $key => $value) {
+                if(isset($formValue->values[$key . "_column"])) {
+                    $this->getRefs($key);
+                }
+            }
         }
+
 
         if ($this->formValue->formRevs()->latest()->first()) {
             $this->lastRev = $this->formValue->formRevs()->latest()->first();
         }
 
+    }
+
+    /**
+     *
+     * @return Array
+     */
+    private function getRefs($key)
+    {
+        $tempRefs = [];
+        $tempExternalRefs = [];
+
+        foreach ($this->refs as $ref) {
+            if(in_array($key ,$ref->params)) $tempRefs[] = $ref;
+        }
+
+        foreach ($this->externalRefs as $externalRef) {
+            if(in_array($key ,$externalRef->params)) $tempExternalRefs[] = $externalRef;
+        }
+
+        $this->refs = $tempRefs;
+        $this->externalRefs = $tempExternalRefs;
     }
 
 }

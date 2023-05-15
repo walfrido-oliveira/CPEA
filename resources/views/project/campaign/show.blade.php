@@ -130,7 +130,7 @@
                                     </div>
                                     <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                                         <x-jet-label for="guiding_parameter_1" value="{{ __('Param. Orientador Ambiental') }}"/>
-                                        <x-custom-multi-select multiple :options="$guidingParameters" name="inputs[row_1][guiding_parameters_id][]" id="guiding_parameter_1" value="" select-class="form-input no-nice-select" class="mt-1" no-filter="no-filter" />
+                                        <x-VOC (ppm) multiple :options="$guidingParameters" name="inputs[row_1][guiding_parameters_id][]" id="guiding_parameter_1" value="" select-class="form-input no-nice-select" class="mt-1" no-filter="no-filter" />
                                     </div>
                                 </div>
                             @endif

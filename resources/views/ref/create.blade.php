@@ -41,10 +41,8 @@
                             <x-custom-select :options="$types" name="type" id="type" :value="old('type')" class="mt-1"/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                            <label for="turbidity" class="flex items-center">
-                                <input id="turbidity" type="checkbox" class="form-checkbox" name="turbidity">
-                                <span class="ml-2 text-sm text-gray-600">{{ __('Turbidez') }}</span>
-                            </label>
+                            <x-jet-label for="params" value="{{ __('Parametros') }}" />
+                            <x-custom-multi-select multiple :options="$params" name="params[]" id="params" value="" select-class="form-input" class="mt-1" no-filter="no-filter"/>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
