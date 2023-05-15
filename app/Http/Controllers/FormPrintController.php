@@ -27,7 +27,7 @@ class FormPrintController extends Controller
 
         $formValue = FormValue::findOrFail($id);
 
-        $this->checkLaudoFields($formValue);
+        if(!$this->checkLaudoFields($formValue)) return redirect()->route('fields.form-values.edit',['form_value' => $id])->with($this->getLaudoMessage());
 
         $formPrint = new FormPrint($formValue, false);
 
@@ -68,12 +68,17 @@ class FormPrintController extends Controller
             !isset($formValue->values["additional_info"]) || !isset($formValue->values["approval_text"]) ||
             $formValue->values["additional_info"] == '' || $formValue->values["approval_text"] == ''
         ) {
-            $resp = [
-                "message" => __("Laudo não possuí todos dados preenchidos!"),
-                "alert-type" => "error",
-            ];
-            return redirect()->route('fields.form-values.index')->with($resp);
+            return false;
         }
+        return true;
+    }
+
+    private function getLaudoMessage()
+    {
+        return $resp = [
+            "message" => __("Laudo não possuí todos dados preenchidos!"),
+            "alert-type" => "error",
+        ];
     }
 
     /**
@@ -83,7 +88,7 @@ class FormPrintController extends Controller
     {
         $formValue = FormValue::findOrFail($id);
 
-        $this->checkLaudoFields($formValue);
+        if(!$this->checkLaudoFields($formValue)) return redirect()->route('fields.form-values.edit',['form_value' => $id])->with($this->getLaudoMessage());
 
         $formPrint = new FormPrint($formValue, true);
 
