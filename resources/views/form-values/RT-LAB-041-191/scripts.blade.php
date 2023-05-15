@@ -612,8 +612,19 @@
             if (this.readyState == 4 && this.status == 200) {
                 var resp = JSON.parse(ajax.response);
                 document.getElementById("spin_load").classList.add("hidden");
+
                 toastr.success(resp.message);
-                if (!noReaload) location.reload();
+
+                const status = document.querySelector("#filter_samples a.active").dataset.status;
+                const url = new URL(window.location.href);
+
+                if(status == 'duplicates'){
+                    url.searchParams.set('filter_duplicate', 1);
+                    if (!noReaload) window.location.href = url.href;
+                } else {
+                    if (!noReaload) location.reload();
+                }
+
             } else if (this.readyState == 4 && this.status != 200) {
                 document.getElementById("spin_load").classList.add("hidden");
                 toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
@@ -1303,15 +1314,17 @@
 
 
     function setTurbidity() {
-        const checked = document.getElementById("turbidity").checked;
-        if(checked) {
-            document.querySelectorAll(".turbidity-equipment").forEach(item => {
-                item.classList.remove("hidden");
-            });
-        }else {
-            document.querySelectorAll(".turbidity-equipment").forEach(item => {
-                item.classList.add("hidden");
-            });
+        if(document.getElementById("turbidity")) {
+            const checked = document.getElementById("turbidity").checked;
+            if(checked) {
+                document.querySelectorAll(".turbidity-equipment").forEach(item => {
+                    item.classList.remove("hidden");
+                });
+            }else {
+                document.querySelectorAll(".turbidity-equipment").forEach(item => {
+                    item.classList.add("hidden");
+                });
+            }
         }
     }
 
