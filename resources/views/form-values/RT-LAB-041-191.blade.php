@@ -418,7 +418,6 @@
                 maxVisibleY = window.innerHeight || document.documentElement.clientHeight;
                 mustHide = ((contRect.bottom <= maxVisibleY) || (contRect.top > maxVisibleY));
             }
-            console.log(item.parentElement.parentElement);
             return mustHide;
         }
     </script>
