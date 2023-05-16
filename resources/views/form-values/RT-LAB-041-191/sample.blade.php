@@ -126,7 +126,7 @@
         </div>
     </div>
     @if(isset($sample['results']))
-        <div id="samples_table" class="flex flex-wrap mt-2 w-full mode-table table-responsive pr-3">
+        <div class="flex flex-wrap mt-2 w-full mode-table table-responsive pr-3" style="overflow: hidden;">
             <div>
                 <table class="table">
                     <thead>
@@ -146,7 +146,7 @@
             </div>
             @include('form-values.RT-LAB-041-191.sample-duplicate-footer')
 
-            <div class="fl-scrolls fl-scrolls-hidden"><div></div></div>
+            <div class="fl-scrolls fl-scrolls-hidden" id="fl_scroll_{{ isset($i) ? $i : 0 }}"><div></div></div>
         </div>
     @endif
 </div>

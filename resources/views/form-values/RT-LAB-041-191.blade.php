@@ -266,7 +266,7 @@
                                 </div>
                             </div>
 
-                            <div id="mode_table" class="w-full">
+                            <div id="mode_table" class="w-full ">
                                 <h3 class="w-full md:w-1/2 px-3 mb-6 md:mb-0">RESULTADOS DOS PARÂMETROS FÍSICO-QUÍMICOS - DADOS</h3>
                                 @if(isset($formValue->values['samples']) && count($formValue->values['samples']) > 0)
                                     @php $amostraIndex = 1; @endphp
@@ -301,8 +301,9 @@
                                     <p class="text-sm text-gray-700 leading-5 m-0 inline-flex">
                                         Filtrar por
                                         <div class="w-1/2 inline-flex ml-1 mr-1">
-                                            <x-custom-select data-reverse="true" select-class="no-nice-select" :options="['' => '', 'point' => 'Nome do Ponto', 'collect' => 'Data e Hora de Coleta']"
-                                                            name="mode_list_filter" id="mode_list_filter" :value="''"/>
+                                            <x-custom-select data-reverse="true" select-class="no-nice-select"
+                                                             :options="['' => '', 'point' => 'Nome do Ponto', 'collect' => 'Data e Hora de Coleta']"
+                                                             name="mode_list_filter" id="mode_list_filter" :value="''"/>
                                         </div>
                                     </p>
                                 </div>
@@ -389,12 +390,18 @@
 
                 item.onscroll = function() {
                     item.parentElement.scrollLeft = item.scrollLeft;
+                    document.querySelectorAll(`.fl-scrolls:not(#${item.id})`).forEach(item2 => {
+                        item2.scrollLeft = item.parentElement.scrollLeft
+                    });
                 };
 
-                item.parentElement.onscroll = function() {
-                    item.scrollLeft = item.parentElement.scrollLeft;
-                };
+            });
+        });
 
+        window.addEventListener("rezise", function() {
+            document.querySelectorAll(".fl-scrolls").forEach(item => {
+                item.style.width = parseInt(document.querySelector("#mode_table").clientWidth) + 'px';
+                item.querySelector("div").style.width = parseInt(item.parentElement.querySelector(".table").clientWidth + 20) + 'px';
             });
         });
 
