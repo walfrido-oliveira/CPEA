@@ -1,7 +1,9 @@
 <div class="w-full px-3 mt-4 mb-6 md:mb-0 flex flex-wrap sample
     @if(isset($sample['results']))
-        @if(count(array_chunk($sample['results'], $chuckSize)) > 1) duplicates-table
-            @else default-table
+        @if(count(array_chunk($sample['results'], $chuckSize)) > 1)
+            duplicates-table
+        @else
+            default-table @if(app('request')->has('filter_duplicate')) fade @endif
         @endif
     @else
     default-table
@@ -124,7 +126,7 @@
         </div>
     </div>
     @if(isset($sample['results']))
-        <div id="samples_table" class="flex flex-wrap mt-2 w-full mode-table table-responsive @if(app('request')->has('filter_duplicate')) fade @endif pr-3">
+        <div id="samples_table" class="flex flex-wrap mt-2 w-full mode-table table-responsive pr-3">
             <div>
                 <table class="table">
                     <thead>

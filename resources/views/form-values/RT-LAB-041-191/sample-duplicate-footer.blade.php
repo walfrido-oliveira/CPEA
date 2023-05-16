@@ -1,5 +1,5 @@
 @if (isset(array_chunk($sample['results'], $chuckSize)[1]))
-    <div class="w-full mt-2 duplicate @if(!app('request')->has('filter_duplicate')) fade @endif">
+    <div class="w-full mt-2 duplicate">
         <h2 class="text-center text-white opacity-100 p-2 w-full" style="background-color: rgb(0, 94, 16)">DUPLICATA</h2>
         @if(count($sample['results'])>= 1)
             <table class="table md:table w-full">
