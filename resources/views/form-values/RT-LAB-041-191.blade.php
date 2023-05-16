@@ -385,7 +385,7 @@
         window.addEventListener("load", function() {
             document.querySelectorAll(".fl-scrolls").forEach(item => {
                 item.style.width = parseInt(document.querySelector("#mode_table").clientWidth) + 'px';
-                item.querySelector("div").style.width = parseInt(document.querySelector("#samples_table .table").clientWidth + 20) + 'px';
+                item.querySelector("div").style.width = parseInt(item.parentElement.querySelector(".table").clientWidth + 20) + 'px';
 
                 item.onscroll = function() {
                     item.parentElement.scrollLeft = item.scrollLeft;
@@ -395,28 +395,18 @@
                     item.scrollLeft = item.parentElement.scrollLeft;
                 };
 
-                window.onscroll = function() {
-                    if(!checkVisibility(item)) {
-                        item.classList.remove("fl-scrolls-hidden");
-                    } else {
-                        item.classList.add("fl-scrolls-hidden");
-                    }
-                };
             });
         });
 
-
-        //wrapper1.onscroll = function() {
-        //    wrapper2.scrollLeft = wrapper1.scrollLeft;
-        //};
-
-        //window.onscroll = function() {
-        //    if(!checkVisibility()) {
-        //       wrapper1.classList.remove("fl-scrolls-hidden");
-        //    } else {
-        //       wrapper1.classList.add("fl-scrolls-hidden");
-        //   }
-        //}
+        window.onscroll = function() {
+            document.querySelectorAll(".fl-scrolls").forEach(item => {
+                if(!checkVisibility(item)) {
+                    item.classList.remove("fl-scrolls-hidden");
+                } else {
+                    item.classList.add("fl-scrolls-hidden");
+                }
+            });
+        };
 
         function checkVisibility(item) {
             var mustHide = (item.scrollWidth <= item.offsetWidth),
@@ -424,10 +414,11 @@
                 maxVisibleY;
 
             if (!mustHide) {
-                contRect = document.querySelector("#mode_table").getBoundingClientRect();
+                contRect = item.parentElement.parentElement.getBoundingClientRect();
                 maxVisibleY = window.innerHeight || document.documentElement.clientHeight;
                 mustHide = ((contRect.bottom <= maxVisibleY) || (contRect.top > maxVisibleY));
             }
+            console.log(item.parentElement.parentElement);
             return mustHide;
         }
     </script>
