@@ -2,12 +2,13 @@
     <div class="w-full mt-2 duplicate">
         @if(count($sample['results'])>= 1)
             <table class="table md:table w-full">
-                <tr>
-                    <td colspan="100%" class="text-center text-white" style="background-color: rgb(0, 94, 16)">DUPLICATA</td>
-                </tr>
                 <thead>
+                    <tr>
+                        <td colspan="100%" class="text-center text-white" style="background-color: rgb(0, 94, 16)">Duplicata</td>
+                    </tr>
                     <tr class="thead-light">
                         @include('form-values.RT-LAB-041-191.sample-headers')
+                    </tr>
                 </thead>
                 <tbody id="table_result">
                     @foreach (array_chunk($sample['results'], $chuckSize)[1] as $key2 => $value)
