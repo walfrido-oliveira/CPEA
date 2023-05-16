@@ -146,7 +146,7 @@
             </div>
             @include('form-values.RT-LAB-041-191.sample-duplicate-footer')
 
-            <div class="fl-scrolls fl-scrolls-hidden" style="width: 610px; left: 628.5px;"><div style="width: 884px;"></div></div>
+            <div class="fl-scrolls fl-scrolls-hidden"><div></div></div>
         </div>
     @endif
 </div>
@@ -170,16 +170,10 @@
         height: 1px;
         overflow: hidden;
     }
+
+    .fl-scrolls-hidden {
+        bottom: 9999px;
+    }
 </style>
 
-<script>
-    window.addEventListener("load", function() {
-        document.querySelector(".fl-scrolls div").style.width = document.querySelector("#table_result").clientWidth + 'px';
-    });
-    var wrapper1 = document.querySelector('.fl-scrolls');
-    var wrapper2 = document.querySelector('#samples_table');
 
-    wrapper1.onscroll = function() {
-        wrapper2.scrollLeft = wrapper1.scrollLeft;
-    };
-</script>

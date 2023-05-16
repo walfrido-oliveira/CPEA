@@ -378,6 +378,58 @@
     @include("form-values.RT-LAB-041-191.add-results-modal")
     @include("form-values.RT-LAB-041-191.scripts")
 
+    <script>
+        var wrapper1 = document.querySelector('.fl-scrolls');
+        var wrapper2 = document.querySelector('#samples_table');
 
+        window.addEventListener("load", function() {
+            document.querySelectorAll(".fl-scrolls").forEach(item => {
+                item.style.width = parseInt(document.querySelector("#mode_table").clientWidth) + 'px';
+                item.querySelector("div").style.width = parseInt(document.querySelector("#samples_table .table").clientWidth + 20) + 'px';
+
+                item.onscroll = function() {
+                    item.parentElement.scrollLeft = item.scrollLeft;
+                };
+
+                item.parentElement.onscroll = function() {
+                    item.scrollLeft = item.parentElement.scrollLeft;
+                };
+
+                window.onscroll = function() {
+                    if(!checkVisibility(item)) {
+                        item.classList.remove("fl-scrolls-hidden");
+                    } else {
+                        item.classList.add("fl-scrolls-hidden");
+                    }
+                };
+            });
+        });
+
+
+        //wrapper1.onscroll = function() {
+        //    wrapper2.scrollLeft = wrapper1.scrollLeft;
+        //};
+
+        //window.onscroll = function() {
+        //    if(!checkVisibility()) {
+        //       wrapper1.classList.remove("fl-scrolls-hidden");
+        //    } else {
+        //       wrapper1.classList.add("fl-scrolls-hidden");
+        //   }
+        //}
+
+        function checkVisibility(item) {
+            var mustHide = (item.scrollWidth <= item.offsetWidth),
+                contRect,
+                maxVisibleY;
+
+            if (!mustHide) {
+                contRect = document.querySelector("#mode_table").getBoundingClientRect();
+                maxVisibleY = window.innerHeight || document.documentElement.clientHeight;
+                mustHide = ((contRect.bottom <= maxVisibleY) || (contRect.top > maxVisibleY));
+            }
+            return mustHide;
+        }
+    </script>
 
 </x-app-layout>
