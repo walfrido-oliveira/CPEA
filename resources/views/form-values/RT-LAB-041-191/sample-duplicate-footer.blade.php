@@ -1,8 +1,10 @@
 @if (isset(array_chunk($sample['results'], $chuckSize)[1]))
     <div class="w-full mt-2 duplicate">
-        <h2 class="text-center text-white opacity-100 p-2 w-full" style="background-color: rgb(0, 94, 16)">DUPLICATA</h2>
         @if(count($sample['results'])>= 1)
             <table class="table md:table w-full">
+                <tr>
+                    <td colspan="100%" class="text-center text-white" style="background-color: rgb(0, 94, 16)">DUPLICATA</td>
+                </tr>
                 <thead>
                     <tr class="thead-light">
                         @include('form-values.RT-LAB-041-191.sample-headers')
