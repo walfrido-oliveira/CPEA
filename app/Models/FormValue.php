@@ -121,7 +121,7 @@ class FormValue extends Model
                         if ($svgs[$key]["conc"] != 0) {
                             $dpr[$key]["conc"] = (($svgs[$key]["conc"] - $duplicates[$key]["conc"]) / $duplicatesSvgs[$key]["conc"]) * 100;
                         }
-                        if (isset($sample["eh_footer_duplicate"])) {
+                        if ($svgs[$key]["eh"] != 0) {
                             $dpr[$key]["eh"] = (($svgs[$key]["eh"] - $duplicates[$key]["eh"]) / $duplicatesSvgs[$key]["eh"]) * 100;
                         }
 
