@@ -604,7 +604,7 @@
         let collect = document.querySelector(`#${that.dataset.index} #collect_${that.dataset.row}`).value;
 
         const results = [...document.querySelectorAll(`#${that.dataset.index} #table_result input, #${that.dataset.index} #table_result select`)];
-        const footer = [...document.querySelectorAll(`#${that.dataset.index} #table_result_footer input`)];
+        const footer = [...document.querySelectorAll(`#${that.dataset.index} #table_result_footer input, #${that.dataset.index} #table_result_footer select`)];
 
         ajax.open(method, url);
 
