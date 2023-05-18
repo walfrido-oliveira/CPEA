@@ -184,7 +184,7 @@ class FormPrint extends Model
         } else {
             foreach ($this->parameters as $key => $value) {
                 if(isset($formValue->values[$key . "_column"])) {
-                    $this->getRefs("temperature");
+                    $this->getRefs($key);
                 }
             }
         }
@@ -209,18 +209,21 @@ class FormPrint extends Model
         $externalRefs = Ref::where('field_type_id', $this->formValue->values['matrix'])
         ->where("type", "Referência Externa")
         ->get();
+
         foreach ($refs as $ref) {
             if(is_array($ref->params)) {
                 if(in_array($key, $ref->params) && !$this->refs->contains('id', '=', $ref->id)) {
-                    $this->refs[] = $ref;
+                    $this->refs->push($ref);
+
                 }
+
             }
         }
 
         foreach ($externalRefs as $externalRef) {
             if(is_array($externalRef->params)) {
                 if(in_array($key, $externalRef->params) && !$this->externalRefs->contains('id', '=', $externalRef->id)) {
-                    $this->externalRefs[] = $externalRef;
+                    $this->externalRefs->push($externalRef);
                 }
             }
         }
