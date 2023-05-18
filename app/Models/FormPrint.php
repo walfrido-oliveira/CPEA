@@ -172,17 +172,11 @@ class FormPrint extends Model
             $this->range["voc"] = Config::get("form_voc_range");
         }
 
-        $this->refs = Ref::where('field_type_id', $this->formValue->values['matrix'])
-        ->where("type", "Referências")
-        ->get();
-
-        $this->externalRefs = Ref::where('field_type_id', $this->formValue->values['matrix'])
-        ->where("type", "Referência Externa")
-        ->get();
-
         if($this->formValue->form->name != 'RT-LAB-041-191') {
-            if(isset($this->formValue->values['turbidity'])) {
-                $this->getRefs("ntu");
+            foreach ($this->parameters as $key => $value) {
+                if(($key != "ntu") || ($key == "ntu" && isset($this->formValue->values['turbidity']))) {
+                    $this->getRefs($key);
+                }
             }
         } else {
             foreach ($this->parameters as $key => $value) {
@@ -208,12 +202,20 @@ class FormPrint extends Model
         $tempRefs = [];
         $tempExternalRefs = [];
 
+        $refs = Ref::where('field_type_id', $this->formValue->values['matrix'])
+        ->where("type", "Referências")
+        ->get();
 
-        foreach ($this->refs as $ref) {
+        $externalRefs = Ref::where('field_type_id', $this->formValue->values['matrix'])
+        ->where("type", "Referência Externa")
+        ->get();
+
+
+        foreach ($refs as $ref) {
             if(is_array($ref->params)) if(in_array($key ,$ref->params)) $tempRefs[] = $ref;
         }
 
-        foreach ($this->externalRefs as $externalRef) {
+        foreach ($externalRefs as $externalRef) {
             if(is_array($externalRef->params)) if(in_array($key ,$externalRef->params)) $tempExternalRefs[] = $externalRef;
         }
 
