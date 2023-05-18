@@ -181,7 +181,7 @@ class FormPrint extends Model
         } else {
             foreach ($this->parameters as $key => $value) {
                 if(isset($formValue->values[$key . "_column"])) {
-                    $this->getRefs($key);
+                    $this->getRefs("temperature");
                 }
             }
         }
@@ -210,15 +210,13 @@ class FormPrint extends Model
         ->where("type", "Referência Externa")
         ->get();
 
-
         foreach ($refs as $ref) {
-            if(is_array($ref->params)) if(in_array($key ,$ref->params)) $tempRefs[] = $ref;
+            if(is_array($ref->params)) if(in_array($key, $ref->params)) $tempRefs[] = $ref;
         }
 
         foreach ($externalRefs as $externalRef) {
             if(is_array($externalRef->params)) if(in_array($key ,$externalRef->params)) $tempExternalRefs[] = $externalRef;
         }
-
 
         $this->refs = $tempRefs;
         $this->externalRefs = $tempExternalRefs;
