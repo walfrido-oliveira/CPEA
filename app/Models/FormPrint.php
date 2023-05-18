@@ -39,6 +39,9 @@ class FormPrint extends Model
 
     function __construct(FormValue $formValue, $signerFile = false)
     {
+        $this->refs = collect();
+        $this->externalRefs = collect();
+
         $this->formValue = $formValue;
 
         $this->signerFile = $signerFile;
@@ -199,9 +202,6 @@ class FormPrint extends Model
      */
     private function getRefs($key)
     {
-        $tempRefs = [];
-        $tempExternalRefs = [];
-
         $refs = Ref::where('field_type_id', $this->formValue->values['matrix'])
         ->where("type", "Referências")
         ->get();
@@ -209,17 +209,23 @@ class FormPrint extends Model
         $externalRefs = Ref::where('field_type_id', $this->formValue->values['matrix'])
         ->where("type", "Referência Externa")
         ->get();
-
         foreach ($refs as $ref) {
-            if(is_array($ref->params)) if(in_array($key, $ref->params)) $tempRefs[] = $ref;
+            if(is_array($ref->params)) {
+                if(in_array($key, $ref->params) && !$this->refs->contains('id', '=', $ref->id)) {
+                    $this->refs[] = $ref;
+                }
+            }
         }
 
         foreach ($externalRefs as $externalRef) {
-            if(is_array($externalRef->params)) if(in_array($key ,$externalRef->params)) $tempExternalRefs[] = $externalRef;
+            if(is_array($externalRef->params)) {
+                if(in_array($key, $externalRef->params) && !$this->externalRefs->contains('id', '=', $externalRef->id)) {
+                    $this->externalRefs[] = $externalRef;
+                }
+            }
         }
 
-        $this->refs = $tempRefs;
-        $this->externalRefs = $tempExternalRefs;
+
     }
 
 }
