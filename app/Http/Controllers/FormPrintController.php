@@ -214,6 +214,7 @@ class FormPrintController extends Controller
     {
         $formValue = FormValue::findOrFail($id);
         $formPrint = new FormPrint($formValue);
+        $samples = $formValue->sortSamples('point');
 
         $spreadsheet = new Spreadsheet();
         $spreadsheet->getActiveSheet()->setTitle("FINAL_ORDEM");
@@ -373,7 +374,7 @@ class FormPrintController extends Controller
         }
 
         $index = 0;
-        foreach ($formValue->values['samples'] as $row => $sample) {
+        foreach ($samples as $row => $sample) {
             $sheet->setCellValue([8 + $index, 11], $sample['point']);
             $sheet->getStyle([8 + $index, 11])->applyFromArray($bold10DefaultStyle);
             $sheet->getStyle([8 + $index, 11])->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
@@ -473,7 +474,7 @@ class FormPrintController extends Controller
         }
 
         $index = 0;
-        foreach ($formValue->values['samples'] as $row => $sample) {
+        foreach ($samples as $row => $sample) {
             $sheet->setCellValue([8 + $index, 11], $sample['point']);
             $sheet->getStyle([8 + $index, 11])->applyFromArray($bold10DefaultStyle);
             $sheet->getStyle([8 + $index, 11])->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
