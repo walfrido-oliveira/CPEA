@@ -9,7 +9,7 @@
     default-table
     @endif"
     id="sample_{{ isset($i) ? $i : 0 }}">
-    <div class="flex w-full">
+    <div class="flex w-full md:flex-nowrap flex-wrap">
         <h3 class="w-full mt-4 mb-6 md:mb-0 title">
             AMOSTRA <span>{{ isset($amostraIndex) ? $amostraIndex : 1 }}</span>
             @if(isset($sample["invalid_rows"]))
@@ -31,7 +31,7 @@
                 </svg>
             @endif
         </h3>
-        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 flex justify-end align-baseline buttons" style="align-items: baseline;">
+        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0 flex md:justify-end justify-center align-baseline buttons" style="align-items: baseline;">
             <button class="add-sample btn-transition-primary px-1" type="button" title="Adicionar Amostra">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-900" fill="none" viewBox="0 0 24 24" stroke-wiph="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -126,7 +126,7 @@
         </div>
     </div>
     @if(isset($sample['results']))
-        <div class="flex flex-wrap mt-2 w-full mode-table table-responsive pr-3" style="overflow: hidden;">
+        <div class="flex flex-wrap mt-2 w-full mode-table table-responsive pr-3">
             <div>
                 <table class="table">
                     <thead>
@@ -150,30 +150,5 @@
         </div>
     @endif
 </div>
-
-<style>
-    .fl-scrolls, .fl-scrolls div {
-        font-size: 0;
-        line-height: 0;
-        margin: 0;
-        padding: 0;
-    }
-
-    .fl-scrolls {
-        bottom: 0;
-        height: 35px;
-        overflow: auto;
-        position: fixed;
-    }
-
-    .fl-scrolls div {
-        height: 1px;
-        overflow: hidden;
-    }
-
-    .fl-scrolls-hidden {
-        bottom: 9999px;
-    }
-</style>
 
 

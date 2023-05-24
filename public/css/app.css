@@ -1147,6 +1147,9 @@ select {
 .z-10 {
 	z-index: 10;
 }
+.order-2 {
+	order: 2;
+}
 .col-span-6 {
 	grid-column: span 6 / span 6;
 }
@@ -3434,12 +3437,34 @@ input:read-only {
 .disabled-col {
     background-color: #ecf0f5;
 }
-.mode-table {
-    width: calc(100vw - 26rem);
+@media only screen and (min-width: 900px) {
+    .mode-table {
+        width: calc(100vw - 26rem);
+        overflow: hidden;
+    }
 }
 .mode-table select,
 .mode-table input {
     min-width: 100px;
+}
+.fl-scrolls, .fl-scrolls div {
+    font-size: 0;
+    line-height: 0;
+    margin: 0;
+    padding: 0;
+}
+.fl-scrolls {
+    bottom: 0;
+    height: 35px;
+    overflow: auto;
+    position: fixed;
+}
+.fl-scrolls div {
+    height: 1px;
+    overflow: hidden;
+}
+.fl-scrolls-hidden {
+    bottom: 9999px;
 }
 .hover\:border-gray-300:hover {
 	--tw-border-opacity: 1;
@@ -3888,6 +3913,10 @@ input:read-only {
 }
 @media (min-width: 768px) {
 
+	.md\:order-1 {
+		order: 1;
+	}
+
 	.md\:col-span-2 {
 		grid-column: span 2 / span 2;
 	}
@@ -3998,6 +4027,10 @@ input:read-only {
 
 	.md\:w-1\/12 {
 		width: 8.333333%;
+	}
+
+	.md\:w-3\/4 {
+		width: 75%;
 	}
 
 	.md\:w-1\/5 {

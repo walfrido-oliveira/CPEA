@@ -20,8 +20,9 @@ class RefController extends Controller
         $refs =  Ref::filter($request->all());
         $ascending = isset($query['ascending']) ? $query['ascending'] : 'desc';
         $orderBy = isset($query['order_by']) ? $query['order_by'] : 'name';
+        $fields = FieldType::all()->pluck('name', 'id');
 
-         return view('ref.index', compact('refs', 'ascending', 'orderBy'));
+        return view('ref.index', compact('refs', 'ascending', 'orderBy', 'fields'));
     }
 
     /**
@@ -60,6 +61,7 @@ class RefController extends Controller
             'type' => $input['type'],
             'desc' => $input['desc'],
             'params' => $input['params'],
+            'multiparameter' => isset($input['multiparameter']) ? true : false,
         ]);
 
         $resp = [
@@ -123,6 +125,7 @@ class RefController extends Controller
             'type' => $input['type'],
             'desc' => $input['desc'],
             'params' => $input['params'],
+            'multiparameter' => isset($input['multiparameter']) ? true : false,
         ]);
 
         $resp = [

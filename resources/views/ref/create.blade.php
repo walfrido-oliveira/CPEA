@@ -36,13 +36,19 @@
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                             <x-jet-label for="type" value="{{ __('Tipo') }}" />
                             <x-custom-select :options="$types" name="type" id="type" :value="old('type')" class="mt-1"/>
                         </div>
-                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                             <x-jet-label for="params" value="{{ __('Parametros') }}" />
-                            <x-custom-multi-select multiple :options="$params" name="params[]" id="params" value="" select-class="form-input" class="mt-1" no-filter="no-filter"/>
+                            <x-custom-multi-select multiple :options="$params" name="params[]" id="params" :value="[]" select-class="form-input" class="mt-1" no-filter="no-filter"/>
+                        </div>
+                        <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                            <label for="multiparameter" class="flex items-center">
+                                <input id="multiparameter" type="checkbox" class="form-checkbox" name="multiparameter" value="true" @if(old('multiparameter')) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Multiparametros') }}</span>
+                            </label>
                         </div>
                     </div>
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">

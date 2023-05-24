@@ -62,15 +62,7 @@
                         @endif
                         @if(isset($formValue->values["eh_column"]))
                             <td>
-                                @php
-                                    if(!isset($sample['eh_footer_duplicate'])) :
-                                        $sample['eh_footer_duplicate'] = $formValue->duplicates_svgs['row_' . ($i)]['eh'];
-                                    endif;
-                                @endphp
-                                <x-jet-input readonly="{{ !$formValue ? false : true}}" id="eh_footer_duplicate_{{ isset($i) ? $i : 0 }}"
-                                            class="form-control block mt-1 w-full eh_footer_duplicate" data-index="{{ isset($i) ? $i : 0 }}" step="any"
-                                            type="number" value="{{ isset($sample['eh_footer_duplicate']) ? number_format($sample['eh_footer_duplicate'], $formPrint->places['eh']) : '' }}"
-                                            name="{{ isset($i) ? 'samples[row_' . ($i) . '][eh_footer_duplicate]' : 'samples[row_0][eh_footer_duplicate]' }}" />
+                                {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['eh'], $formPrint->places['eh'], ",", ".") }}
                             </td>
                         @endif
                         @if(isset($formValue->values["ntu_column"]))

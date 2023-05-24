@@ -45,15 +45,7 @@
     @endif
     @if(isset($formValue->values["eh_column"]))
         <td>
-            @php
-                if(!isset($sample['eh_footer'])) :
-                    $sample['eh_footer'] = $formValue->svgs['row_' . ($i)]['eh'];
-                endif;
-            @endphp
-           <x-jet-input readonly="{{ !$formValue ? false : true}}" id="eh_footer_{{ isset($i) ? $i : 0 }}"
-                        class="form-control block mt-1 w-full eh_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
-                        type="number" value="{{ isset($sample['eh_footer']) ? number_format($sample['eh_footer'], $formPrint->places['eh']) : '' }}"
-                        name="{{ isset($i) ? 'samples[row_' . ($i) . '][eh_footer]' : 'samples[row_0][eh_footer]' }}" />
+            {{ number_format($formValue->svgs['row_' . ($i)]['eh'], $formPrint->places['eh'], ",", ".") }}
         </td>
     @endif
     @if(isset($formValue->values["ntu_column"]))

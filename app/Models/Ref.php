@@ -15,7 +15,7 @@ class Ref extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'field_type_id', 'type', 'desc', 'params'
+        'name', 'field_type_id', 'type', 'desc', 'params', 'multiparameter'
     ];
 
      /**
@@ -58,11 +58,11 @@ class Ref extends Model
                 }
             }
 
-            if(isset($query['field']))
+            if(isset($query['field_type_id']))
             {
-                if(!is_null($query['field']))
+                if(!is_null($query['field_type_id']))
                 {
-                    $q->where('field', 'like','%' . $query['field'] . '%');
+                    $q->where('field_type_id',  $query['field_type_id']);
                 }
             }
 
@@ -108,6 +108,11 @@ class Ref extends Model
             'chlorine' => 'Cloro Total',
             'residualchlorine' => 'Cloro Livre Residual',
             'voc' => 'VOC',
+            'aspect' => 'Aspecto',
+            'artificialdyes' => 'Corantes Artificiais',
+            'floatingmaterials' => 'Materiais Flutuantes',
+            'objectablesolidwaste' => 'Resíduos Sólidos Objetáveis',
+            'visibleoilsandgreases' => 'Óleos e Graxas Visíveis'
         ];
     }
 }

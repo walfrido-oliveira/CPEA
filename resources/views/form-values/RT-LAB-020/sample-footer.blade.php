@@ -28,20 +28,7 @@
         {{ number_format($formValue->svgs['row_' . ($i)]['conc'], $formPrint->places['conc'], ",", ".") }}
     </td>
     <td>
-        @php
-            if(!isset($sample['eh_footer'])) :
-                $sample['eh_footer'] = $formValue->svgs['row_' . ($i)]['eh'];
-            endif;
-        @endphp
-        @if(isset($sample['eh_footer']))
-            <x-jet-input readonly="{{ !$formValue ? false : true}}" id="eh_footer_{{ isset($i) ? $i : 0 }}"
-                         class="form-control block mt-1 w-full eh_footer" data-index="{{ isset($i) ? $i : 0 }}" step="any"
-                         type="number" value="{{ number_format($sample['eh_footer'], $formPrint->places['eh']) }}"
-                         name="{{ isset($i) ? 'samples[row_' . ($i) . '][eh_footer]' : 'samples[row_0][eh_footer]' }}" />
-        @else
-            <x-jet-input id="eh_footer_0" class="form-control block mt-1 w-full eh_footer" type="number" value=""
-                         name="samples[row_0][eh_footer]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
-        @endif
+        {{ number_format($formValue->svgs['row_' . ($i)]['eh'], $formPrint->places['eh'], ",", ".") }}
     </td>
     <td>
         @php

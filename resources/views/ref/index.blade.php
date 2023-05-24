@@ -20,16 +20,16 @@
                 <div class="filter-container">
                     <div class="flex -mx-3 mb-6 p-3 md:flex-row flex-col w-full">
                         <div class="w-full md:w-1/3 px-2 mb-6 md:mb-0">
-                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="id">
-                                {{ __('ID') }}
-                            </label>
-                            <x-jet-input id="id" class="form-control block w-full filter-field" type="text" name="id" :value="app('request')->input('id')" autofocus autocomplete="id" />
-                        </div>
-                        <div class="w-full md:w-1/3 px-2 mb-6 md:mb-0">
                             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
                                 {{ __('Nome') }}
                             </label>
                             <x-jet-input id="name" class="form-control block w-full filter-field" type="text" name="name" :value="app('request')->input('name')" autofocus autocomplete="name" />
+                        </div>
+                        <div class="w-full md:w-1/3 px-2 mb-6 md:mb-0">
+                            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="name">
+                                {{ __('Matrix') }}
+                            </label>
+                            <x-custom-select :options="$fields" name="field_type_id" id="field_type_id" :value="old('field_type_id')" class="mt-1"/>
                         </div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@
                 var token = document.querySelector('meta[name="csrf-token"]').content;
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
-                var id = document.getElementById("id").value;
+                var field_type_id = document.getElementById("field_type_id").value;
                 var name = document.getElementById("name").value;
 
                 ajax.open(method, url);
@@ -84,7 +84,7 @@
                 data.append('paginate_per_page', paginationPerPage);
                 data.append('ascending', ascending);
                 data.append('order_by', orderBY);
-                if(id) data.append('id', id);
+                if(field_type_id) data.append('field_type_id', field_type_id);
                 if(name) data.append('name', name);
 
                 ajax.send(data);
@@ -103,7 +103,7 @@
                 var method = 'POST';
                 var paginationPerPage = document.getElementById("paginate_per_page").value;
 
-                var id = document.getElementById("id").value;
+                var field_type_id = document.getElementById("field_type_id").value;
                 var name = document.getElementById("name").value;
 
                 ajax.open(method, url);
@@ -129,7 +129,7 @@
                 data.append('paginate_per_page', paginationPerPage);
                 data.append('ascending', ascending);
                 data.append('order_by', orderBY);
-                if(id) data.append('id', id);
+                if(field_type_id) data.append('field_type_id', field_type_id);
                 if(name) data.append('name', name);
 
 

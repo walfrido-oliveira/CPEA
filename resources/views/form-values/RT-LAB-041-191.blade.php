@@ -16,7 +16,7 @@
                     <div class="w-full flex items-center">
                         <h1>{{ __('Formulário')}}  {{ $form->name }}</h1>
                     </div>
-                    <div class="w-full flex justify-end">
+                    <div class="w-full flex md:justify-end md:flex-nowrap flex-wrap">
                         <div class="m-2 ">
                             <button type="submit" class="btn-outline-success" id="save_form">{{ __('Salvar') }}</button>
                         </div>
@@ -94,12 +94,16 @@
                                 <input id="uncertainty" type="checkbox" class="form-checkbox" name="uncertainty" value="true" @if(isset($formValue->values['uncertainty'])) checked @endif>
                                 <span class="ml-2 text-sm text-gray-600">{{ __('Incerteza?') }}</span>
                             </label>
+                            <label for="multiparameter" class="flex items-center">
+                                <input id="multiparameter" type="checkbox" class="form-checkbox" name="multiparameter" value="true" @if(isset($formValue->values['multiparameter'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Multiparametros?') }}</span>
+                            </label>
                         </div>
                     </div>
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <h2 class="w-full px-3 mb-6 md:mb-0">Selecione as colunas</h2>
-                        <div class="w-full px-3 mb-6 md:mb-0 grid gap-1 grid-cols-4">
+                        <div class="w-full px-3 mb-6 md:mb-0 md:grid gap-1 grid-cols-4">
                             <label for="temperature_column" class="flex items-center">
                                 <input id="temperature_column" type="checkbox" class="form-checkbox" name="temperature_column" value="true" @if(isset($formValue->values['temperature_column'])) checked @endif>
                                 <span class="ml-2 text-sm text-gray-600">{{ __('Temperatura ºC') }}</span>
@@ -224,8 +228,8 @@
                                 </div>
                             </div>
 
-                            <div class="border-b border-gray-200 dark:border-gray-700 flex px-3 w-full my-4">
-                                <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400" style="width:70%" id="filter_samples">
+                            <div class="border-b border-gray-200 dark:border-gray-700 flex px-3 w-full my-4 md:flex-nowrap flex-wrap">
+                                <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400 md:w-3/4 w-full md:order-1 order-2" id="filter_samples">
                                     <li class="mr-2">
                                         <a href="#filter_default" data-status="default" id="filter_default" class="@if(!app('request')->has('filter_duplicate')) active  border-green-900 @endif inline-flex p-4 border-b-2 rounded-t-lg  dark:text-blue-500 dark:border-blue-500">
                                             Dados
@@ -239,7 +243,7 @@
                                         </li>
                                     @endif
                                 </ul>
-                                <div class="flex justify-end" style="width:30%" id="search_container">
+                                <div class="flex md:justify-end md:w-1/4 w-full" id="search_container">
                                     <div class="py-2 m-2 flex md:justify-end justify-start w-full" x-data="{ shearch: false }">
                                         <div class="w-full block" id="search-content">
                                             <div class="container mx-auto">

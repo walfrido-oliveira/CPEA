@@ -98,6 +98,10 @@
                                 <input id="uncertainty" type="checkbox" class="form-checkbox" name="uncertainty" value="true" @if(isset($formValue->values['uncertainty'])) checked @endif>
                                 <span class="ml-2 text-sm text-gray-600">{{ __('Incerteza?') }}</span>
                             </label>
+                            <label for="multiparameter" class="flex items-center">
+                                <input id="multiparameter" type="checkbox" class="form-checkbox" name="multiparameter" value="true" @if(isset($formValue->values['multiparameter'])) checked @endif>
+                                <span class="ml-2 text-sm text-gray-600">{{ __('Multiparametros?') }}</span>
+                            </label>
                         </div>
                     </div>
 

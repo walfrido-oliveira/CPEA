@@ -178,13 +178,13 @@ class FormPrint extends Model
         if($this->formValue->form->name != 'RT-LAB-041-191') {
             foreach ($this->parameters as $key => $value) {
                 if(($key != "ntu") || ($key == "ntu" && isset($this->formValue->values['turbidity']))) {
-                    $this->getRefs($key);
+                    $this->getRefs($key, isset($this->formValue->values['multiparameter']));
                 }
             }
         } else {
             foreach ($this->parameters as $key => $value) {
                 if(isset($formValue->values[$key . "_column"])) {
-                    $this->getRefs($key);
+                    $this->getRefs($key, isset($this->formValue->values['multiparameter']));
                 }
             }
         }
@@ -200,14 +200,16 @@ class FormPrint extends Model
      *
      * @return Array
      */
-    private function getRefs($key)
+    private function getRefs($key, $multiparameter)
     {
         $refs = Ref::where('field_type_id', $this->formValue->values['matrix'])
         ->where("type", "Referências")
+        ->where("multiparameter", $multiparameter)
         ->get();
 
         $externalRefs = Ref::where('field_type_id', $this->formValue->values['matrix'])
-        ->where("type", "Referência Externa")
+        ->where("type", "Referências")
+        ->where("multiparameter", $multiparameter)
         ->get();
 
         foreach ($refs as $ref) {
@@ -216,7 +218,6 @@ class FormPrint extends Model
                     $this->refs->push($ref);
 
                 }
-
             }
         }
 

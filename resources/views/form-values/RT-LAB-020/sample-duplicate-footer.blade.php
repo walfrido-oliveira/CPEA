@@ -43,20 +43,7 @@
                             {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['conc'], $formPrint->places['conc'], ",", ".") }}
                         </td>
                         <td>
-                            @php
-                                if(!isset($sample['eh_footer_duplicate'])) :
-                                    $sample['eh_footer_duplicate'] = $formValue->duplicates_svgs['row_' . ($i)]['eh'];
-                                endif;
-                            @endphp
-                            @if(isset($sample['eh_footer_duplicate']))
-                                <x-jet-input readonly="{{ !$formValue ? false : true}}" id="eh_footer_duplicate_{{ isset($i) ? $i : 0 }}"
-                                             class="form-control block mt-1 w-full eh_footer_duplicate" data-index="{{ isset($i) ? $i : 0 }}" step="any"
-                                             type="number" value="{{ number_format($sample['eh_footer_duplicate'], $formPrint->places['eh']) }}"
-                                             name="{{ isset($i) ? 'samples[row_' . ($i) . '][eh_footer_duplicate]' : 'samples[row_0][eh_footer_duplicate]' }}" />
-                            @else
-                                <x-jet-input id="eh_footer_duplicate_0" class="form-control block mt-1 w-full eh_footer_duplicate" type="number" value=""
-                                             name="samples[row_0][eh_footer_duplicate]" step="any" data-index="{{ isset($i) ? $i : 0 }}"/>
-                            @endif
+                            {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['eh'], $formPrint->places['eh'], ",", ".") }}
                         </td>
                         <td>
                             @if(isset($sample['ntu_footer_duplicate']))
