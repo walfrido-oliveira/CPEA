@@ -208,7 +208,7 @@ class FormPrint extends Model
         ->get();
 
         $externalRefs = Ref::where('field_type_id', $this->formValue->values['matrix'])
-        ->where("type", "Referências")
+        ->where("type", "Referência Externa")
         ->where("multiparameter", $multiparameter)
         ->get();
 
