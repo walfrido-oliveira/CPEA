@@ -43,7 +43,7 @@ class FormPrintController extends Controller
             $formPrint->formValue->values = $values;
         }
 
-        if($request->hast("debug")) return view('form-values.print.index', compact('formPrint'));
+        if($request->has("debug")) return view('form-values.print.index', compact('formPrint'));
 
         $html = view('form-values.print.index', compact('formPrint'))->render();
 
