@@ -48,13 +48,13 @@
             <div class="refs-external-values">
                 <p class="title"><b>Referências externas</b></p>
                 @foreach ($formPrint->externalRefs as $ref)
-                    <p class="content"><b>{{ $ref->name }}:</b> {{ $ref->desc }}</p>
+                    <p class="content" @if(count($formPrint->externalRefs) > 8 || count($formPrint->refs) > 8) style="line-height: 20px;" @endif><b>{{ $ref->name }}:</b> {{ $ref->desc }}</p>
                 @endforeach
             </div>
-            <div class="refs-values">
+            <div class="refs-values" @if(count($formPrint->externalRefs) > 8 || count($formPrint->refs) > 8) style="margint-top: 50px;" @endif>
                 <p class="title"><b>Referências</b></p>
                 @foreach ($formPrint->refs as $ref)
-                    <p class="content"><b>{{ $ref->name }}:</b> {{ $ref->desc }}</p>
+                    <p class="content" @if(count($formPrint->externalRefs) > 8 || count($formPrint->refs) > 8) style="line-height: 20px;" @endif><b>{{ $ref->name }}:</b> {{ $ref->desc }}</p>
                 @endforeach
             </div>
         </div>
