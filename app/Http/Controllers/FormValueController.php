@@ -345,6 +345,9 @@ class FormValueController extends Controller
 
         $samples["samples"][$input["sample_index"]]["equipment"] = $input["equipment"];
         $samples["samples"][$input["sample_index"]]["turbidity_equipment"] = $input["turbidity_equipment"];
+        $samples["samples"][$input["sample_index"]]["chlorine_equipment"] = isset($input["chlorine_equipment"]) ? $input["chlorine_equipment"] : null;
+        $samples["samples"][$input["sample_index"]]["voc_equipment"] = isset($input["voc_equipment"]) ? $input["voc_equipment"] : null;
+        $samples["samples"][$input["sample_index"]]["orp_equipment"] = isset($input["orp_equipment"]) ? $input["orp_equipment"] : null;
         $samples["samples"][$input["sample_index"]]["point"] = $input["point"];
         $samples["samples"][$input["sample_index"]]["environment"] = $input["environment"];
         $samples["samples"][$input["sample_index"]]["collect"] = $input["collect"];

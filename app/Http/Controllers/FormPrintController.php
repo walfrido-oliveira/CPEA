@@ -22,7 +22,7 @@ class FormPrintController extends Controller
     /**
      * Print Form
      */
-    public function print($id)
+    public function print(Request $request, $id)
     {
 
         $formValue = FormValue::findOrFail($id);
@@ -42,6 +42,8 @@ class FormPrintController extends Controller
             $values['coordinates'] = $coordinates;
             $formPrint->formValue->values = $values;
         }
+
+        if($request->hast("debug")) return view('form-values.print.index', compact('formPrint'));
 
         $html = view('form-values.print.index', compact('formPrint'))->render();
 
@@ -75,7 +77,7 @@ class FormPrintController extends Controller
 
     private function getLaudoMessage()
     {
-        return $resp = [
+        return [
             "message" => __("Laudo não possuí todos dados preenchidos!"),
             "alert-type" => "error",
         ];

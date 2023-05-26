@@ -243,7 +243,7 @@
                                         </li>
                                     @endif
                                 </ul>
-                                <div class="flex md:justify-end md:w-1/4 w-full" id="search_container">
+                                <div class="flex md:justify-end md:w-1/4 w-full md-order-2 order-1" id="search_container">
                                     <div class="py-2 m-2 flex md:justify-end justify-start w-full" x-data="{ shearch: false }">
                                         <div class="w-full block" id="search-content">
                                             <div class="container mx-auto">

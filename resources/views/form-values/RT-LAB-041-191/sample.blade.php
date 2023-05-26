@@ -76,52 +76,53 @@
     </div>
     <div class="inputs w-full">
         <div class="flex flex-wrap mt-2 w-full">
-            <div class="w-full md:w-1/3 pr-3 mb-6 md:mb-0">
-                <x-jet-label for="equipment_{{ isset($i) ? $i : 0 }}" value="{{ __('Equipamento') }}" />
-                @if(isset($sample['equipment']))
-                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="equipment_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full" data-index="{{ isset($i) ? $i : 0 }}"
-                    type="text" value="{{ $sample['equipment'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][equipment]' : 'samples[row_0][equipment]' }}" maxlength="255" />
-                @else
-                    <x-jet-input id="equipment_0" class="form-control block mt-1 w-full" type="text" value="" name="samples[row_0][equipment]" maxlength="255" data-index="{{ isset($i) ? $i : 0 }}"/>
-                @endif
-            </div>
-            <div class="w-full md:w-1/3 pr-3 mb-6 md:mb-0 turbidity-equipment">
-                <x-jet-label for="turbidity_equipment_{{ isset($i) ? $i : 0 }}" value="{{ __('Equipamento Turbidez') }}" />
-                @if(isset($sample['turbidity_equipment']))
-                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="turbidity_equipment_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full" data-index="{{ isset($i) ? $i : 0 }}"
-                    type="text" value="{{ $sample['turbidity_equipment'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][turbidity_equipment]' : 'samples[row_0][turbidity_equipment]' }}" maxlength="255" />
-                @else
-                    <x-jet-input id="turbidity_equipment_0" class="form-control block mt-1 w-full" type="text" value="" name="samples[row_0][turbidity_equipment]" maxlength="255" data-index="{{ isset($i) ? $i : 0 }}"/>
-                @endif
-            </div>
-            <div class="w-full md:w-1/3 pr-3 mb-6 md:mb-0">
+            <div class="w-full md:w-1/4 pr-3 mb-6 md:mb-0">
                 <x-jet-label for="point_{{ isset($i) ? $i : 0 }}" value="{{ __('Ponto de Coleta') }}" />
-                @if(isset($sample['point']))
-                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="point_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full point" data-index="{{ isset($i) ? $i : 0 }}"
-                    type="text" value="{{ $sample['point'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][point]' : 'samples[row_0][point]' }}" maxlength="255" />
-                @else
-                    <x-jet-input id="point_0" class="form-control block mt-1 w-full point" type="text" value="" name="samples[row_0][point]" maxlength="255" data-index="{{ isset($i) ? $i : 0 }}"/>
-                @endif
+                <x-jet-input readonly="{{ !$formValue ? false : true}}" id="point_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full point" data-index="{{ isset($i) ? $i : 0 }}"
+                             type="text" value="{{ isset($sample['point']) ? $sample['point'] : null }}" name="{{ 'samples[row_' . (isset($i) ? $i : 0) . '][point]' }}" maxlength="255" />
+
+            </div>
+            <div class="w-full md:w-1/4 pr-3 mb-6 md:mb-0">
+                <x-jet-label for="collect_{{ isset($i) ? $i : 0 }}" value="{{ __('DT/HR da Coleta') }}" />
+                <x-jet-input readonly="{{ !$formValue ? false : true}}" id="collect_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full collect" data-index="{{ isset($i) ? $i : 0 }}"
+                             type="datetime-local" value="{{ isset($sample['collect']) ? $sample['collect'] : null }}" name="{{ 'samples[row_' . (isset($i) ? $i : 0) . '][collect]' }}"  />
+            </div>
+            <div class="w-full md:w-1/4 pr-3 mb-6 md:mb-0">
+                <x-jet-label for="equipment_{{ isset($i) ? $i : 0 }}" value="{{ __('Equipamento') }}" />
+                <x-jet-input readonly="{{ !$formValue ? false : true}}" id="equipment_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full" data-index="{{ isset($i) ? $i : 0 }}"
+                             type="text" value="{{ isset($sample['equipment']) ? $sample['equipment'] : null }}" name="{{ 'samples[row_' . (isset($i) ? $i : 0) . '][equipment]' }}"
+                             maxlength="255" />
+            </div>
+            <div class="w-full md:w-1/4 pr-3 mb-6 md:mb-0">
+                <x-jet-label for="environment_{{ isset($i) ? $i : 0 }}" value="{{ __('Condições ambientais nas últimas 24 hs') }}" />
+                <x-jet-input readonly="{{ !$formValue ? false : true}}" id="environment_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full environment" data-index="{{ isset($i) ? $i : 0 }}"
+                             type="text" value="{{ isset($sample['environment']) ? $sample['environment'] : null }}" name="{{ 'samples[row_' . (isset($i) ? $i : 0) . '][environment]' }}" maxlength="255" />
             </div>
         </div>
         <div class="flex flex-wrap mt-2 w-full">
-            <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
-                <x-jet-label for="environment_{{ isset($i) ? $i : 0 }}" value="{{ __('Condições ambientais nas últimas 24 hs') }}" />
-                @if(isset($sample['environment']))
-                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="environment_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full environment" data-index="{{ isset($i) ? $i : 0 }}"
-                    type="text" value="{{ $sample['environment'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][environment]' : 'samples[row_0][environment]' }}" maxlength="255" />
-                @else
-                    <x-jet-input id="environment_0" class="form-control block mt-1 w-full environment" type="text" value="" name="samples[row_0][environment]" maxlength="255" data-index="{{ isset($i) ? $i : 0 }}"/>
-                @endif
+            <div class="w-full md:w-1/4 pr-3 mb-6 md:mb-0 turbidity-equipment">
+                <x-jet-label for="turbidity_equipment_{{ isset($i) ? $i : 0 }}" value="{{ __('Equipamento para Turbidez') }}" />
+                <x-jet-input readonly="{{ !$formValue ? false : true}}" id="turbidity_equipment_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full" data-index="{{ isset($i) ? $i : 0 }}"
+                             type="text" value="{{ isset($sample['turbidity_equipment']) ? $sample['turbidity_equipment'] : null }}" name="{{ 'samples[row_' . (isset($i) ? $i : 0) . '][turbidity_equipment]' }}"
+                             maxlength="255" />
             </div>
-            <div class="w-full md:w-1/2 pr-3 mb-6 md:mb-0">
-                <x-jet-label for="collect_{{ isset($i) ? $i : 0 }}" value="{{ __('DT/HR da Coleta') }}" />
-                @if(isset($sample['collect']))
-                    <x-jet-input readonly="{{ !$formValue ? false : true}}" id="collect_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full collect" data-index="{{ isset($i) ? $i : 0 }}"
-                    type="datetime-local" value="{{ $sample['collect'] }}" name="{{ isset($i) ? 'samples[row_' . ($i) . '][collect]' : 'samples[row_0][collect]' }}" />
-                @else
-                    <x-jet-input id="collect_0" class="form-control block mt-1 w-full collect" type="datetime-local" value="" name="samples[row_0][collect]" data-index="{{ isset($i) ? $i : 0 }}"/>
-                @endif
+            <div class="w-full md:w-1/4 pr-3 mb-6 md:mb-0 chlorine-equipment">
+                <x-jet-label for="chlorine_equipment_{{ isset($i) ? $i : 0 }}" value="{{ __('Equipamento para Cloro') }}" />
+                <x-jet-input readonly="{{ !$formValue ? false : true}}" id="chlorine_equipment_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full" data-index="{{ isset($i) ? $i : 0 }}"
+                             type="text" value="{{ isset($sample['chlorine_equipment']) ? $sample['chlorine_equipment'] : null }}" name="{{ 'samples[row_' . (isset($i) ? $i : 0) . '][chlorine_equipment]' }}"
+                             maxlength="255" />
+            </div>
+            <div class="w-full md:w-1/4 pr-3 mb-6 md:mb-0 voc-equipment">
+                <x-jet-label for="voc_equipment_{{ isset($i) ? $i : 0 }}" value="{{ __('Equipamento para VOC') }}" />
+                <x-jet-input readonly="{{ !$formValue ? false : true}}" id="voc_equipment_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full" data-index="{{ isset($i) ? $i : 0 }}"
+                             type="text" value="{{ isset($sample['voc_equipment']) ? $sample['voc_equipment'] : null }}" name="{{ 'samples[row_' . (isset($i) ? $i : 0) . '][voc_equipment]' }}"
+                             maxlength="255" />
+            </div>
+            <div class="w-full md:w-1/4 pr-3 mb-6 md:mb-0 orp-equipment">
+                <x-jet-label for="orp_equipment_{{ isset($i) ? $i : 0 }}" value="{{ __('Equipamento para ORP') }}" />
+                <x-jet-input readonly="{{ !$formValue ? false : true}}" id="orp_equipment_{{ isset($i) ? $i : 0 }}" class="form-control block mt-1 w-full" data-index="{{ isset($i) ? $i : 0 }}"
+                             type="text" value="{{ isset($sample['orp_equipment']) ? $sample['orp_equipment'] : null }}" name="{{ 'samples[row_' . (isset($i) ? $i : 0) . '][orp_equipment]' }}"
+                             maxlength="255" />
             </div>
         </div>
     </div>

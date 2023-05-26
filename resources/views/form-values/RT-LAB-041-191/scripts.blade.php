@@ -597,8 +597,10 @@
         let form_value_id = document.querySelector(`#form_value_id`).value;
         let sample_index = document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`).value;
         let equipment = document.querySelector(`#${that.dataset.index} #equipment_${that.dataset.row}`).value;
-        let turbidity_equipment = document.querySelector(`#${that.dataset.index} #turbidity_equipment_${that.dataset.row}`) ?
-        document.querySelector(`#${that.dataset.index} #turbidity_equipment_${that.dataset.row}`).value : null;
+        let turbidity_equipment = document.querySelector(`#${that.dataset.index} #turbidity_equipment_${that.dataset.row}`).value;
+        let chlorine_equipment = document.querySelector(`#${that.dataset.index} #chlorine_equipment_${that.dataset.row}`).value;
+        let voc_equipment = document.querySelector(`#${that.dataset.index} #voc_equipment_${that.dataset.row}`).value;
+        let orp_equipment = document.querySelector(`#${that.dataset.index} #orp_equipment_${that.dataset.row}`).value;
         let point = document.querySelector(`#${that.dataset.index} #point_${that.dataset.row}`).value;
         let environment = document.querySelector(`#${that.dataset.index} #environment_${that.dataset.row}`).value;
         let collect = document.querySelector(`#${that.dataset.index} #collect_${that.dataset.row}`).value;
@@ -639,6 +641,9 @@
         data.append('sample_index', sample_index);
         data.append('equipment', equipment);
         data.append('turbidity_equipment', turbidity_equipment);
+        data.append('chlorine_equipment', chlorine_equipment);
+        data.append('voc_equipment', voc_equipment);
+        data.append('orp_equipment', orp_equipment);
         data.append('point', point);
         data.append('environment', environment);
         data.append('collect', collect);
