@@ -14,24 +14,24 @@
         <tr>
             <td>
                 @if ($campaign->project->customer)
-                    <a class="text-item-table" href="{{ route('sample-analysis.show', ['campaign' => $campaign->id]) }}">{{ $campaign->project->customer->name }}</a>
+                    <a class="text-item-table" href="{{ route('sample-analysis.show', ['campaign' => $campaign->id, 'paginate_per_page' => 500]) }}">{{ $campaign->project->customer->name }}</a>
                 @endif
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('sample-analysis.show', ['campaign' => $campaign->id]) }}">{{ $campaign->project->project_cod }}</a>
+                <a class="text-item-table" href="{{ route('sample-analysis.show', ['campaign' => $campaign->id, 'paginate_per_page' => 500]) }}">{{ $campaign->project->project_cod }}</a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('sample-analysis.show', ['campaign' => $campaign->id]) }}">
+                <a class="text-item-table" href="{{ route('sample-analysis.show', ['campaign' => $campaign->id, 'paginate_per_page' => 500]) }}">
                     {{ $campaign->name }}
                 </a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('sample-analysis.show', ['campaign' => $campaign->id]) }}">
+                <a class="text-item-table" href="{{ route('sample-analysis.show', ['campaign' => $campaign->id, 'paginate_per_page' => 500]) }}">
                     {{ implode(", ", $campaign->labs()->groupBy('name')->pluck('name')->toArray()) }}
                 </a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('sample-analysis.show', ['campaign' => $campaign->id]) }}">
+                <a class="text-item-table" href="{{ route('sample-analysis.show', ['campaign' => $campaign->id, 'paginate_per_page' => 500]) }}">
                     @switch($campaign->project->status)
                         @case("sent")
                             <span class="w-24 py-1 badge-light-primary">{{ __($campaign->project->status) }}</span>
@@ -50,7 +50,7 @@
                 </a>
             </td>
             <td>
-                <a class="text-item-table" href="{{ route('sample-analysis.show', ['campaign' => $campaign->id]) }}">
+                <a class="text-item-table" href="{{ route('sample-analysis.show', ['campaign' => $campaign->id, 'paginate_per_page' => 500]) }}">
                     <span class="block">{{ $campaign->project->updated_at->format('d/m/Y') }}</span>
                     <span class="block">{{ $campaign->project->updated_at->format('h:m') }}</span>
                 </a>

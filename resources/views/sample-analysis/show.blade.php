@@ -233,6 +233,9 @@
                             @include('sample-analysis.parameter-analysis-result')
                         </table>
                     </div>
+                    <div class="flex w-full mt-4 p-2" id="point_matrix_pagination">
+                        {{ $projectPointMatrices->appends(['paginate_per_page' => 500])->links()}}
+                    </div>
                 </div>
             </form>
         </div>

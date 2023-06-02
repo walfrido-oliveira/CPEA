@@ -102,6 +102,18 @@ class FormPrintController extends Controller
             return redirect()->route('fields.form-values.index')->with($resp);
         }
 
+        if(isset($formPrint->formValue->values['samples'])) {
+            $values = $formPrint->formValue->values;
+            $samples = $values['samples'];
+            $coordinates = $values['coordinates'];
+            $samples = $formValue->sortSamples('collect');
+            $coordinates = $formValue->sortCoordinates();
+
+            $values['samples'] = $samples;
+            $values['coordinates'] = $coordinates;
+            $formPrint->formValue->values = $values;
+        }
+
         $formValue->signed = true;
 
         $formValue->save();

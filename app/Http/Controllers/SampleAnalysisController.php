@@ -49,7 +49,7 @@ class SampleAnalysisController extends Controller
         ->orderBy('point_identifications.identification', 'asc')
         ->orderBy('parameter_analysis_groups.name', 'asc')
         ->select('project_point_matrices.*')
-        ->get();
+        ->paginate(500, ['*'], 'samples');
 
         return view('sample-analysis.show', compact('campaign', 'projectPointMatrices', 'status', 'analysisOrders'));
     }
