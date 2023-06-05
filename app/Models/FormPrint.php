@@ -232,4 +232,19 @@ class FormPrint extends Model
 
     }
 
+    public function samplePerPage()
+    {
+        $count = 0;
+        foreach ($this->parameters as $key => $value){
+            if((isset($this->formValue->values[$key . "_column"]) && $this->formValue->form->name == "RT-LAB-041-191") ||
+               ($this->formValue->form->name != "RT-LAB-041-191")) {
+                if((!isset($this->formValue->values['turbidity']) && $key != "ntu") ||
+                  (isset($this->formValue->values['turbidity']))) {
+                    $count++;
+                }
+            }
+        }
+        return $count;
+    }
+
 }

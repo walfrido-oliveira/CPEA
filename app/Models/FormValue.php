@@ -183,6 +183,18 @@ class FormValue extends Model
     public function getDuplicatesAttribute()
     {
         $duplicates = [];
+        $sizeTemperature = 0;
+        $sizePh = 0;
+        $sizeOrp = 0;
+        $sizeConductivity = 0;
+        $sizeSalinity = 0;
+        $sizePsi = 0;
+        $sizeSat = 0;
+        $sizeConc = 0;
+        $sizeNtu = 0;
+        $sizeChlorine = 0;
+        $sizeResidualchlorine = 0;
+        $sizeVoc = 0;
 
         if (isset($this->values["samples"])) {
             foreach ($this->values["samples"] as $key => $sample) {
@@ -191,6 +203,34 @@ class FormValue extends Model
                     $size = count(array_chunk($sample["results"], 3)[0]);
 
                     if (isset(array_chunk($sample["results"], 3)[1])) {
+                        $sum = [];
+                        $sizeTemperature = 0;
+                        $sizePh = 0;
+                        $sizeOrp = 0;
+                        $sizeConductivity = 0;
+                        $sizeSalinity = 0;
+                        $sizePsi = 0;
+                        $sizeSat = 0;
+                        $sizeConc = 0;
+                        $sizeNtu = 0;
+                        $sizeChlorine = 0;
+                        $sizeResidualchlorine = 0;
+                        $sizeVoc = 0;
+
+                        foreach(array_chunk($sample["results"], 3)[1] as $count) {
+                            if(isset($count["temperature"])) $sizeTemperature++;
+                            if(isset($count["ph"])) $sizePh++;
+                            if(isset($count["orp"])) $sizeOrp++;
+                            if(isset($count["conductivity"])) $sizeConductivity++;
+                            if(isset($count["salinity"])) $sizeSalinity++;
+                            if(isset($count["psi"])) $sizePsi++;
+                            if(isset($count["sat"])) $sizeSat++;
+                            if(isset($count["conc"])) $sizeConc++;
+                            if(isset($count["chlorine"])) $sizeChlorine++;
+                            if(isset($count["residualchlorine"])) $sizeResidualchlorine++;
+                            if(isset($count["voc"])) $sizeVoc++;
+                        }
+
                         $sum["temperature"] = 0;
                         $sum["ph"] = 0;
                         $sum["orp"] = 0;
@@ -243,19 +283,19 @@ class FormValue extends Model
                             }
                         }
 
-                        $duplicates[$key]["temperature"] = $sum["temperature"] / $size;
-                        $duplicates[$key]["ph"] = $sum["ph"] / $size;
-                        $duplicates[$key]["orp"] = $sum["orp"] / $size;
-                        $duplicates[$key]["conductivity"] = $sum["conductivity"] / $size;
-                        $duplicates[$key]["salinity"] = $sum["salinity"] / $size;
-                        $duplicates[$key]["psi"] = $sum["psi"] / $size;
-                        $duplicates[$key]["sat"] = $sum["sat"] / $size;
-                        $duplicates[$key]["conc"] = $sum["conc"] / $size;
+                        $duplicates[$key]["temperature"] = $sizeTemperature > 0 ? $sum["temperature"] / $sizeTemperature : null;
+                        $duplicates[$key]["ph"] = $sizePh > 0 ? $sum["ph"] / $sizePh : null;
+                        $duplicates[$key]["orp"] = $sizeOrp > 0 ? $sum["orp"] / $sizeOrp : null;
+                        $duplicates[$key]["conductivity"] = $sizeConductivity > 0 ? $sum["conductivity"] / $sizeConductivity : null;
+                        $duplicates[$key]["salinity"] = $sizeSalinity > 0 ? $sum["salinity"] / $sizeSalinity : null;
+                        $duplicates[$key]["psi"] = $sizePsi > 0 ? $sum["psi"] / $sizePsi : null;
+                        $duplicates[$key]["sat"] = $sizeSat > 0 ? $sum["sat"] / $sizeSat : null;
+                        $duplicates[$key]["conc"] = $sizeConc > 0 ? $sum["conc"] / $sizeConc : null;
                         $duplicates[$key]["eh"] = $duplicates[$key]["orp"] + 199;
-                        $duplicates[$key]["ntu"] = $sum["ntu"] / $size;
-                        $duplicates[$key]["chlorine"] = $sum["chlorine"] / $size;
-                        $duplicates[$key]["residualchlorine"] = $sum["residualchlorine"] / $size;
-                        $duplicates[$key]["voc"] = $sum["voc"] / $size;
+                        $duplicates[$key]["ntu"] = $sizeNtu > 0 ? $sum["ntu"] / $sizeNtu : 0;
+                        $duplicates[$key]["chlorine"] = $sizeChlorine > 0 ? $sum["chlorine"] / $sizeChlorine : 0;
+                        $duplicates[$key]["residualchlorine"] = $sizeResidualchlorine > 0 ? $sum["residualchlorine"] / $sizeResidualchlorine : 0;
+                        $duplicates[$key]["voc"] = $sizeVoc > 0 ? $sum["voc"] / $sizeVoc : 0;
                     }
                 }
             }
@@ -305,6 +345,7 @@ class FormValue extends Model
                         if(isset($count["psi"])) $sizePsi++;
                         if(isset($count["sat"])) $sizeSat++;
                         if(isset($count["conc"])) $sizeConc++;
+                        if(isset($count["ntu"])) $sizeNtu++;
                         if(isset($count["chlorine"])) $sizeChlorine++;
                         if(isset($count["residualchlorine"])) $sizeResidualchlorine++;
                         if(isset($count["voc"])) $sizeVoc++;

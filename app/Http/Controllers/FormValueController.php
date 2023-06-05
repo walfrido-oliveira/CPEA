@@ -375,7 +375,6 @@ class FormValueController extends Controller
             $samples["samples"][$input["sample_index"]]["visibleoilsandgreases_footer_duplicate"] = isset($input["samples"][$input["sample_index"]]["visibleoilsandgreases_footer_duplicate"]) ? $input["samples"][$input["sample_index"]]["visibleoilsandgreases_footer_duplicate"] : null;
             $samples["samples"][$input["sample_index"]]["voc_footer_duplicate"] = isset($input["samples"][$input["sample_index"]]["voc_footer_duplicate"]) ? $input["samples"][$input["sample_index"]]["voc_footer_duplicate"] : null;
 
-
             $samples["samples"][$input["sample_index"]]["temperature_uncertainty_footer"] = isset($input["samples"][$input["sample_index"]]["temperature_uncertainty_footer"]) ? $input["samples"][$input["sample_index"]]["temperature_uncertainty_footer"] : null;
             $samples["samples"][$input["sample_index"]]["ph_uncertainty_footer"] = isset($input["samples"][$input["sample_index"]]["ph_uncertainty_footer"]) ? $input["samples"][$input["sample_index"]]["ph_uncertainty_footer"] : null;
             $samples["samples"][$input["sample_index"]]["orp_uncertainty_footer"] = isset($input["samples"][$input["sample_index"]]["orp_uncertainty_footer"]) ? $input["samples"][$input["sample_index"]]["orp_uncertainty_footer"] : null;

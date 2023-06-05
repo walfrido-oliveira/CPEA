@@ -74,14 +74,14 @@
     @endif
     @if(isset($formValue->values["aspect_column"]))
         <td>
-            <x-custom-select disabled="true" :options="$choises" value="{{ isset($value['aspect_footer']) ? $value['aspect_footer'] : null }}"
+            <x-custom-select disabled="true" :options="$choises" value="{{ isset($sample['aspect_footer']) ? $sample['aspect_footer'] : null }}"
             name="{{ isset($i) ? 'samples[row_' . ($i) . '][aspect_footer]' : 'samples[row_0][aspect_footer]' }}"
             id="aspect_footer" class="mt-1" select-class="no-nice-select"/>
         </td>
     @endif
     @if(isset($formValue->values["artificialdyes_column"]))
         <td>
-            <x-custom-select disabled="true" :options="$choises" value="{{ isset($value['artificialdyes_footer']) ? $value['artificialdyes_footer'] : null }}"
+            <x-custom-select disabled="true" :options="$choises" value="{{ isset($sample['artificialdyes_footer']) ? $sample['artificialdyes_footer'] : null }}"
             name="{{ isset($i) ? 'samples[row_' . ($i) . '][artificialdyes_footer]' : 'samples[row_0][artificialdyes_footer]' }}"
             id="artificialdyes_footer" class="mt-1" select-class="no-nice-select"/>
         </td>

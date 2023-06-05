@@ -129,7 +129,7 @@
     @if(isset($sample['results']))
         <div class="flex flex-wrap mt-2 w-full mode-table table-responsive pr-3">
             <div>
-                <table class="table">
+                <table class="table w-full">
                     <thead>
                         <tr class="thead-light">
                             @include('form-values.RT-LAB-041-191.sample-headers')

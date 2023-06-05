@@ -65,7 +65,7 @@
         @include('form-values.print.sub-header')
         <div id="results">
             @if (isset($formPrint->formValue->values['samples']))
-                @foreach (array_chunk($formPrint->formValue->values['samples'], 5, true) as  $samples)
+                @foreach (array_chunk($formPrint->formValue->values['samples'], $formPrint->samplePerPage() > 7 ? 4 : 5, true) as  $samples)
                     <div class="inner-results">
                         <h3>Resultados de Parâmetros Físico-Químicos</h3>
                         <h4>RELATÓRIO - {{ $formPrint->formValue->values["project_id"] }} </h4>

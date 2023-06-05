@@ -1,5 +1,5 @@
 @if (isset(array_chunk($sample['results'], $chuckSize)[1]))
-    <div class="w-full mt-2 duplicate">
+    <div class="w-full mt-2 duplicate fade">
         @if(count($sample['results'])>= 1)
             <table class="table md:table w-full">
                 <thead>
@@ -20,27 +20,27 @@
                         <td colspan="100%" class="text-center text-white" style="background-color: rgb(0, 94, 16)">Resultados</td>
                     </tr>
                     <tr>
-                        @if(isset($formValue->values["temperature_column"]))
+                        @if(isset($formValue->values["temperature_column"]) && isset($formValue->duplicates_svgs['row_' . ($i)]['temperature']))
                             <td>
                                 {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['temperature'], $formPrint->places['temperature'], ",", ".") }}
                             </td>
                         @endif
-                        @if(isset($formValue->values["ph_column"]))
+                        @if(isset($formValue->values["ph_column"]) && isset($formValue->duplicates_svgs['row_' . ($i)]['ph']))
                             <td>
                                 {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['ph'], $formPrint->places['ph'], ",", ".") }}
                             </td>
                         @endif
-                        @if(isset($formValue->values["orp_column"]))
+                        @if(isset($formValue->values["orp_column"]) && isset($formValue->duplicates_svgs['row_' . ($i)]['orp']))
                             <td>
                                 {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['orp'], $formPrint->places['orp'], ",", ".") }}
                             </td>
                         @endif
-                        @if(isset($formValue->values["conductivity_column"]))
+                        @if(isset($formValue->values["conductivity_column"]) && isset($formValue->duplicates_svgs['row_' . ($i)]['conductivity']))
                             <td>
                                 {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['conductivity'], $formPrint->places['conductivity'], ",", ".") }}
                             </td>
                         @endif
-                        @if(isset($formValue->values["salinity_column"]))
+                        @if(isset($formValue->values["salinity_column"]) && isset($formValue->duplicates_svgs['row_' . ($i)]['salinity']))
                             <td>
                                 {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['salinity'], $formPrint->places['salinity'], ",", ".") }}
                             </td>
@@ -50,17 +50,17 @@
                                 -
                             </td>
                         @endif
-                        @if(isset($formValue->values["sat_column"]))
+                        @if(isset($formValue->values["sat_column"]) && isset($formValue->duplicates_svgs['row_' . ($i)]['sat']))
                             <td>
                                 {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['sat'], $formPrint->places['sat'], ",", ".") }}
                             </td>
                         @endif
-                        @if(isset($formValue->values["conc_column"]))
+                        @if(isset($formValue->values["conc_column"]) && isset($formValue->duplicates_svgs['row_' . ($i)]['conc']))
                             <td>
                                 {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['conc'], $formPrint->places['conc'], ",", ".") }}
                             </td>
                         @endif
-                        @if(isset($formValue->values["eh_column"]))
+                        @if(isset($formValue->values["eh_column"]) && isset($formValue->duplicates_svgs['row_' . ($i)]['eh']))
                             <td>
                                 {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['eh'], $formPrint->places['eh'], ",", ".") }}
                             </td>
@@ -137,98 +137,98 @@
                         <td colspan="100%" class="text-center text-white" style="background-color: rgb(0, 94, 16)">% DPR</td>
                     </tr>
                     <tr>
-                        @if(isset($formValue->values["temperature_column"]))
+                        @if(isset($formValue->values["temperature_column"]) && isset($formValue->dpr['row_' . ($i)]['temperature']))
                             <td>
-                                @if(isset($value['temperature']) && $formValue->svgs['row_' . ($i)]['temperature'] != 0)
+                                @if($formValue->dpr['row_' . ($i)]['temperature'] != 0)
                                     {{ number_format($formValue->dpr['row_' . ($i)]['temperature'], $formPrint->places['temperature'], ",", ".") }}
                                 @else
                                     -
                                 @endif
                             </td>
                         @endif
-                        @if(isset($formValue->values["ph_column"]))
+                        @if(isset($formValue->values["ph_column"]) && isset($formValue->dpr['row_' . ($i)]['ph']))
                             <td>
-                                @if(isset($value['ph']) && $formValue->svgs['row_' . ($i)]['ph'] != 0)
+                                @if($formValue->dpr['row_' . ($i)]['ph'] != 0)
                                     {{ number_format($formValue->dpr['row_' . ($i)]['ph'], $formPrint->places['ph'], ",", ".") }}
                                 @else
                                     -
                                 @endif
                             </td>
                         @endif
-                        @if(isset($formValue->values["orp_column"]))
+                        @if(isset($formValue->values["orp_column"]) && isset($formValue->dpr['row_' . ($i)]['orp']))
                             <td>
-                                @if(isset($value['orp']) && $formValue->svgs['row_' . ($i)]['orp'] != 0)
+                                @if($formValue->dpr['row_' . ($i)]['orp'] != 0)
                                     {{ number_format($formValue->dpr['row_' . ($i)]['orp'], $formPrint->places['orp'], ",", ".") }}
                                 @else
                                     -
                                 @endif
                             </td>
                         @endif
-                        @if(isset($formValue->values["conductivity_column"]))
+                        @if(isset($formValue->values["conductivity_column"]) && isset($formValue->dpr['row_' . ($i)]['conductivity']))
                             <td>
-                                @if(isset($value['conductivity']) && $formValue->svgs['row_' . ($i)]['conductivity'] != 0)
+                                @if($formValue->dpr['row_' . ($i)]['conductivity'] != 0)
                                     {{ number_format($formValue->dpr['row_' . ($i)]['conductivity'], $formPrint->places['conductivity'], ",", ".") }}
                                 @else
                                     -
                                 @endif
                             </td>
                         @endif
-                        @if(isset($formValue->values["salinity_column"]))
+                        @if(isset($formValue->values["salinity_column"]) && isset($formValue->dpr['row_' . ($i)]['salinity']))
                             <td>
-                                @if(isset($value['salinity']) && $formValue->svgs['row_' . ($i)]['salinity'] != 0)
+                                @if($formValue->dpr['row_' . ($i)]['salinity'] != 0)
                                     {{ number_format($formValue->dpr['row_' . ($i)]['salinity'], $formPrint->places['salinity'], ",", ".") }}
                                 @else
                                     -
                                 @endif
                             </td>
                         @endif
-                        @if(isset($formValue->values["psi_column"]))
+                        @if(isset($formValue->values["psi_column"]) && isset($formValue->dpr['row_' . ($i)]['psi']))
                             <td>
-                                @if(isset($value['psi']) && $formValue->svgs['row_' . ($i)]['psi'] != 0)
+                                @if($formValue->dpr['row_' . ($i)]['psi'] != 0)
                                     {{ number_format($formValue->dpr['row_' . ($i)]['psi'], $formPrint->places['psi'], ",", ".") }}
                                 @else
                                     -
                                 @endif
                             </td>
                         @endif
-                        @if(isset($formValue->values["sat_column"]))
+                        @if(isset($formValue->values["sat_column"]) && isset($formValue->dpr['row_' . ($i)]['sat']))
                             <td>
-                                @if(isset($value['sat']) && $formValue->svgs['row_' . ($i)]['sat'] != 0)
+                                @if($formValue->dpr['row_' . ($i)]['sat'] != 0)
                                     {{ number_format($formValue->dpr['row_' . ($i)]['sat'], $formPrint->places['sat'], ",", ".") }}
                                 @else
                                     -
                                 @endif
                             </td>
                         @endif
-                        @if(isset($formValue->values["conc_column"]))
+                        @if(isset($formValue->values["conc_column"]) && isset($formValue->dpr['row_' . ($i)]['conc']))
                             <td>
-                                @if(isset($value['conc']) && $formValue->svgs['row_' . ($i)]['conc'] != 0)
+                                @if($formValue->dpr['row_' . ($i)]['conc'] != 0)
                                     {{ number_format($formValue->dpr['row_' . ($i)]['conc'], $formPrint->places['conc'], ",", ".") }}
                                 @else
                                     -
                                 @endif
                             </td>
                         @endif
-                        @if(isset($formValue->values["eh_column"]))
+                        @if(isset($formValue->values["eh_column"]) && isset($formValue->dpr['row_' . ($i)]['eh']))
                             <td>
-                                @if(isset($value['eh']) && $formValue->svgs['row_' . ($i)]['eh'] != 0)
+                                @if($formValue->dpr['row_' . ($i)]['eh'] != 0)
                                     {{ number_format($formValue->dpr['row_' . ($i)]['eh'], $formPrint->places['eh'], ",", ".") }}
                                 @else
                                     -
                                 @endif
                             </td>
                         @endif
-                        @if(isset($formValue->values["ntu_column"]))
+                        @if(isset($formValue->values["ntu_column"]) && isset($formValue->dpr['row_' . ($i)]['ntu']))
                             <td>
                                 {{ number_format($formValue->dpr['row_' . ($i)]['ntu'], $formPrint->places['ntu'], ",", ".") }}
                             </td>
                         @endif
-                        @if(isset($formValue->values["chlorine_column"]))
+                        @if(isset($formValue->values["chlorine_column"]) && isset($formValue->dpr['row_' . ($i)]['chlorine']))
                             <td>
                                 {{ isset($formValue->dpr['row_' . ($i)]['chlorine']) ? number_format($formValue->dpr['row_' . ($i)]['chlorine'], $formPrint->places['chlorine'], ",", ".") : '' }}
                             </td>
                         @endif
-                        @if(isset($formValue->values["residualchlorine_column"]))
+                        @if(isset($formValue->values["residualchlorine_column"]) && isset($formValue->dpr['row_' . ($i)]['residualchlorine']))
                             <td>
                                 {{ isset($formValue->dpr['row_' . ($i)]['residualchlorine']) ? number_format($formValue->dpr['row_' . ($i)]['residualchlorine'], $formPrint->places['residualchlorine'], ",", ".") : '' }}
                             </td>
