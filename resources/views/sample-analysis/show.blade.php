@@ -337,7 +337,7 @@
                     window.SpinLoad.hidden();
                 } else {
                     window.SpinLoad.hidden();
-                    toastr.error("{{ __('Error ao baixar ') }}" + this.status + ".");
+                    toastr.error("{{ __('Não foi possível gerar o arquivo, devido a dados inconsistentes. ') }}");
                 }
             };
 
