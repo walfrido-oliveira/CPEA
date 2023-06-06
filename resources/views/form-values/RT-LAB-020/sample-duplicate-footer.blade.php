@@ -19,31 +19,31 @@
                     </tr>
                     <tr>
                         <td>
-                            {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['temperature'], $formPrint->places['temperature'], ",", ".") }}
+                            {{ number_format($formValue->duplicates['row_' . ($i)]['temperature'], $formPrint->places['temperature'], ",", ".") }}
                         </td>
                         <td>
-                            {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['ph'], $formPrint->places['ph'], ",", ".") }}
+                            {{ number_format($formValue->duplicates['row_' . ($i)]['ph'], $formPrint->places['ph'], ",", ".") }}
                         </td>
                         <td>
-                            {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['orp'], $formPrint->places['orp'], ",", ".") }}
+                            {{ number_format($formValue->duplicates['row_' . ($i)]['orp'], $formPrint->places['orp'], ",", ".") }}
                         </td>
                         <td>
-                            {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['conductivity'], $formPrint->places['conductivity'], ",", ".") }}
+                            {{ number_format($formValue->duplicates['row_' . ($i)]['conductivity'], $formPrint->places['conductivity'], ",", ".") }}
                         </td>
                         <td>
-                            {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['salinity'], $formPrint->places['salinity'], ",", ".") }}
+                            {{ number_format($formValue->duplicates['row_' . ($i)]['salinity'], $formPrint->places['salinity'], ",", ".") }}
                         </td>
                         <td>
                             -
                         </td>
                         <td>
-                            {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['sat'], $formPrint->places['sat'], ",", ".") }}
+                            {{ number_format($formValue->duplicates['row_' . ($i)]['sat'], $formPrint->places['sat'], ",", ".") }}
                         </td>
                         <td>
-                            {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['conc'], $formPrint->places['conc'], ",", ".") }}
+                            {{ number_format($formValue->duplicates['row_' . ($i)]['conc'], $formPrint->places['conc'], ",", ".") }}
                         </td>
                         <td>
-                            {{ number_format($formValue->duplicates_svgs['row_' . ($i)]['eh'], $formPrint->places['eh'], ",", ".") }}
+                            {{ number_format($formValue->duplicates['row_' . ($i)]['eh'], $formPrint->places['eh'], ",", ".") }}
                         </td>
                         <td>
                             @if(isset($sample['ntu_footer_duplicate']))
