@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Models\Config;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -46,6 +47,15 @@ class FormValue extends Model
     public function formRevs()
     {
         return $this->HasMany(FormRev::class);
+    }
+
+    public function chuckSize()
+    {
+        $chuckSize = Config::get("default_duplicate_size");
+        $duplicateSize = DuplicateSize::where("form_id", $this->form_id)->where("field_type_id", $this->values['matrix'])->first();
+        if($duplicateSize) $chuckSize = $duplicateSize->size;
+
+        return $chuckSize;
     }
 
     /**
@@ -96,7 +106,7 @@ class FormValue extends Model
         if (isset($this->values["samples"])) {
             foreach ($this->values["samples"] as $key => $sample) {
                 if (isset($sample["results"])) {
-                    if (isset(array_chunk($sample["results"], 3)[1])) {
+                    if (isset(array_chunk($sample["results"], $this->chuckSize())[1])) {
                         if ($svgs[$key]["temperature"] != 0) {
                             $dpr[$key]["temperature"] = (($svgs[$key]["temperature"] - $duplicates[$key]["temperature"]) / $duplicatesSvgs[$key]["temperature"]) * 100;
                         }
@@ -158,7 +168,7 @@ class FormValue extends Model
             foreach ($this->values["samples"] as $key => $sample) {
                 if (isset($sample["results"])) {
 
-                    if (isset(array_chunk($sample["results"], 3)[1])) {
+                    if (isset(array_chunk($sample["results"], $this->chuckSize())[1])) {
 
                         $duplicatesSvgs[$key]["temperature"] = ($svgs[$key]["temperature"] + $duplicates[$key]["temperature"]) / 2;
                         $duplicatesSvgs[$key]["ph"] = ($svgs[$key]["ph"] + $duplicates[$key]["ph"]) / 2;
@@ -202,7 +212,7 @@ class FormValue extends Model
                     $sum = [];
                     $size = count(array_chunk($sample["results"], 3)[0]);
 
-                    if (isset(array_chunk($sample["results"], 3)[1])) {
+                    if (isset(array_chunk($sample["results"], $this->chuckSize())[1])) {
                         $sum = [];
                         $sizeTemperature = 0;
                         $sizePh = 0;
@@ -217,7 +227,7 @@ class FormValue extends Model
                         $sizeResidualchlorine = 0;
                         $sizeVoc = 0;
 
-                        foreach(array_chunk($sample["results"], 3)[1] as $count) {
+                        foreach(array_chunk($sample["results"], $this->chuckSize())[1] as $count) {
                             if(isset($count["temperature"])) $sizeTemperature++;
                             if(isset($count["ph"])) $sizePh++;
                             if(isset($count["orp"])) $sizeOrp++;
@@ -244,7 +254,7 @@ class FormValue extends Model
                         $sum["residualchlorine"] = 0;
                         $sum["voc"] = 0;
 
-                        foreach (array_chunk($sample["results"], 3)[1] as $value) {
+                        foreach (array_chunk($sample["results"], $this->chuckSize())[1] as $value) {
                             if (isset($value["temperature"])) {
                                 $sum["temperature"] += $value["temperature"];
                             }
@@ -336,7 +346,7 @@ class FormValue extends Model
                     $sizeResidualchlorine = 0;
                     $sizeVoc = 0;
 
-                    foreach(array_chunk($sample["results"], 3)[0] as $count) {
+                    foreach(array_chunk($sample["results"], $this->chuckSize())[0] as $count) {
                         if(isset($count["temperature"])) $sizeTemperature++;
                         if(isset($count["ph"])) $sizePh++;
                         if(isset($count["orp"])) $sizeOrp++;
@@ -364,7 +374,7 @@ class FormValue extends Model
                     $sum["residualchlorine"] = 0;
                     $sum["voc"] = 0;
 
-                    foreach (array_chunk($sample["results"], 3)[0] as $value) {
+                    foreach (array_chunk($sample["results"], $this->chuckSize())[0] as $value) {
                         if (isset($value["temperature"])) {
                             $sum["temperature"] += $value["temperature"];
                         }
