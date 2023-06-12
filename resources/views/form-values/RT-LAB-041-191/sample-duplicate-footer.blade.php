@@ -20,29 +20,34 @@
                         <td colspan="100%" class="text-center text-white" style="background-color: rgb(0, 94, 16)">Resultados</td>
                     </tr>
                     <tr>
-                        @if(isset($formValue->values["temperature_column"]) && isset($formValue->duplicates['row_' . ($i)]['temperature']))
+                        @if(isset($formValue->values["temperature_column"]))
                             <td>
-                                {{ number_format($formValue->duplicates['row_' . ($i)]['temperature'], $formPrint->places['temperature'], ",", ".") }}
+                                {{ isset($formValue->duplicates['row_' . ($i)]['temperature']) ?
+                                number_format($formValue->duplicates['row_' . ($i)]['temperature'], $formPrint->places['temperature'], ",", ".") : '-'}}
                             </td>
                         @endif
-                        @if(isset($formValue->values["ph_column"]) && isset($formValue->duplicates['row_' . ($i)]['ph']))
+                        @if(isset($formValue->values["ph_column"]))
                             <td>
-                                {{ number_format($formValue->duplicates['row_' . ($i)]['ph'], $formPrint->places['ph'], ",", ".") }}
+                                {{ isset($formValue->duplicates['row_' . ($i)]['ph']) ?
+                                number_format($formValue->duplicates['row_' . ($i)]['ph'], $formPrint->places['ph'], ",", ".") : '-' }}
                             </td>
                         @endif
-                        @if(isset($formValue->values["orp_column"]) && isset($formValue->duplicates['row_' . ($i)]['orp']))
+                        @if(isset($formValue->values["orp_column"]))
                             <td>
-                                {{ number_format($formValue->duplicates['row_' . ($i)]['orp'], $formPrint->places['orp'], ",", ".") }}
+                                {{ isset($formValue->duplicates['row_' . ($i)]['orp']) ?
+                                number_format($formValue->duplicates['row_' . ($i)]['orp'], $formPrint->places['orp'], ",", ".") : '-' }}
                             </td>
                         @endif
-                        @if(isset($formValue->values["conductivity_column"]) && isset($formValue->duplicates['row_' . ($i)]['conductivity']))
+                        @if(isset($formValue->values["conductivity_column"]) )
                             <td>
-                                {{ number_format($formValue->duplicates['row_' . ($i)]['conductivity'], $formPrint->places['conductivity'], ",", ".") }}
+                                {{ isset($formValue->duplicates['row_' . ($i)]['conductivity']) ?
+                                number_format($formValue->duplicates['row_' . ($i)]['conductivity'], $formPrint->places['conductivity'], ",", ".") : '-' }}
                             </td>
                         @endif
-                        @if(isset($formValue->values["salinity_column"]) && isset($formValue->duplicates['row_' . ($i)]['salinity']))
+                        @if(isset($formValue->values["salinity_column"]))
                             <td>
-                                {{ number_format($formValue->duplicates['row_' . ($i)]['salinity'], $formPrint->places['salinity'], ",", ".") }}
+                                {{ isset($formValue->duplicates['row_' . ($i)]['salinity']) ?
+                                number_format($formValue->duplicates['row_' . ($i)]['salinity'], $formPrint->places['salinity'], ",", ".") : '-'}}
                             </td>
                         @endif
                         @if(isset($formValue->values["psi_column"]))
@@ -50,19 +55,22 @@
                                 -
                             </td>
                         @endif
-                        @if(isset($formValue->values["sat_column"]) && isset($formValue->duplicates['row_' . ($i)]['sat']))
+                        @if(isset($formValue->values["sat_column"]))
                             <td>
-                                {{ number_format($formValue->duplicates['row_' . ($i)]['sat'], $formPrint->places['sat'], ",", ".") }}
+                                {{ isset($formValue->duplicates['row_' . ($i)]['sat']) ?
+                                number_format($formValue->duplicates['row_' . ($i)]['sat'], $formPrint->places['sat'], ",", ".") : '-' }}
                             </td>
                         @endif
-                        @if(isset($formValue->values["conc_column"]) && isset($formValue->duplicates['row_' . ($i)]['conc']))
+                        @if(isset($formValue->values["conc_column"]))
                             <td>
-                                {{ number_format($formValue->duplicates['row_' . ($i)]['conc'], $formPrint->places['conc'], ",", ".") }}
+                                {{ isset($formValue->duplicates['row_' . ($i)]['conc']) ?
+                                number_format($formValue->duplicates['row_' . ($i)]['conc'], $formPrint->places['conc'], ",", ".") : '-' }}
                             </td>
                         @endif
-                        @if(isset($formValue->values["eh_column"]) && isset($formValue->duplicates['row_' . ($i)]['eh']))
+                        @if(isset($formValue->values["eh_column"]))
                             <td>
-                                {{ number_format($formValue->duplicates['row_' . ($i)]['eh'], $formPrint->places['eh'], ",", ".") }}
+                                {{ isset($formValue->duplicates['row_' . ($i)]['eh']) ?
+                                number_format($formValue->duplicates['row_' . ($i)]['eh'], $formPrint->places['eh'], ",", ".") : '-'}}
                             </td>
                         @endif
                         @if(isset($formValue->values["ntu_column"]))
