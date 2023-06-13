@@ -48,11 +48,12 @@ class FormImportController extends Controller
         $microseccondInMille = 1000;
         $micrometerInMetre = 1000000;
         $plusColumn = Str::contains($rows[0][4], 'ORP[mV]') ? 0 : 1;
+        $size = count($rows);
 
         foreach ($rows as $key => $value) {
-            if ($key == 0) {
-                continue;
-            }
+            if ($key == 0) continue;
+
+            if($formValue->form->name == "RT-LAB-041-191" && ($size == 4 || $size == 5) && $key > 4) break;
 
             if (isset($value[1])) {
                 $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["time"] = $value[1];
@@ -214,11 +215,12 @@ class FormImportController extends Controller
             $microseccondInMille = 1000;
             $micrometerInMetre = 1000000;
             $plusColumn = Str::contains($rows[0][4], 'ORP[mV]') ? 0 : 1;
+            $size = count($rows);
 
             foreach ($rows as $key => $value) {
-                if ($key == 0) {
-                    continue;
-                }
+                if ($key == 0) continue;
+
+                if($formValue->form->name == "RT-LAB-041-191" && ($size == 4 || $size == 5) && $key > 4) break;
 
                 if(is_numeric($value[2])) {
                     if (isset($value[1])) {
