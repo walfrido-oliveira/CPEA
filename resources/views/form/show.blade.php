@@ -10,10 +10,7 @@
                         <a class="btn-outline-info" href="{{ route('fields.form.index') }}">{{ __('Listar') }}</a>
                     </div>
                     <div class="m-2">
-                        <a class="btn-outline-warning" href="{{ route('fields.form.edit', ['ref' => $form->id]) }}">{{ __('Editar') }}</a>
-                    </div>
-                    <div class="m-2">
-                        <button type="button" class="btn-outline-danger delete-ref" id="ref_delete" data-toggle="modal" data-target="#delete_modal" data-id="{{ $form->id }}">{{ __('Apagar') }}</button>
+                        <a class="btn-outline-warning" href="{{ route('fields.form.edit', ['form' => $form->id]) }}">{{ __('Editar') }}</a>
                     </div>
                 </div>
             </div>
