@@ -85,7 +85,7 @@
              msg="{{ __('Deseja realmente apagar esse usuário?') }}"
              confirm="{{ __('Sim') }}" cancel="{{ __('Não') }}" id="delete_ref_modal"
              method="DELETE"
-             url="{{ route('fields.form.destroy', ['ref' => $form->id]) }}"
+             url="{{ route('fields.form.destroy', ['form' => $form->id]) }}"
              redirect-url="{{ route('fields.form.index') }}"/>
 
     <script>
