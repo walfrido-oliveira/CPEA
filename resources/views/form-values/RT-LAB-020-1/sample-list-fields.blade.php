@@ -77,22 +77,22 @@
 @endif
 @if(isset($formValue->values["artificialdyes_column"]))
     <p class="font-bold">
-        {{ isset($samples[$key]["results"][0]["artificialdyes"]) ? $samples[$key]["results"][0]["artificialdyes"] : "-" }}
+        {{ isset($samples[$key]["artificialdyes_footer"]) ? $samples[$key]["artificialdyes_footer"] : "-" }}
     </p>
 @endif
 @if(isset($formValue->values["floatingmaterials_column"]))
     <p class="font-bold">
-        {{ isset($samples[$key]["results"][0]["floatingmaterials"]) ? $samples[$key]["results"][0]["floatingmaterials"] : "-" }}
+        {{ isset($samples[$key]["floatingmaterials_footer"]) ? $samples[$key]["floatingmaterials_footer"] : "-" }}
     </p>
 @endif
 @if(isset($formValue->values["objectablesolidwaste_column"]))
     <p class="font-bold">
-        {{ isset($samples[$key]["results"][0]["objectablesolidwaste"]) ? $samples[$key]["results"][0]["objectablesolidwaste"] : "-" }}
+        {{ isset($samples[$key]["objectablesolidwaste_footer"]) ? $samples[$key]["objectablesolidwaste_footer"] : "-" }}
     </p>
 @endif
 @if(isset($formValue->values["visibleoilsandgreases_column"]))
     <p class="font-bold">
-        {{ isset($samples[$key]["results"][0]["visibleoilsandgreases"]) ? $samples[$key]["results"][0]["visibleoilsandgreases"] : "-" }}
+        {{ isset($samples[$key]["visibleoilsandgreases_footer"]) ? $samples[$key]["visibleoilsandgreases_footer"] : "-" }}
     </p>
 @endif
 @if(isset($formValue->values["voc_column"]))
