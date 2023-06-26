@@ -350,7 +350,7 @@ class FormPrintController extends Controller
             "Condições ambientais nas últimas 24hs",
         ];
 
-        if($formPrint->formValue->form->name == "RT-LAB-041-191") :
+        if($formPrint->formValue->form->name == "RT-LAB-020-1") :
             $formPrint->parameters["chlorine"] = "Cloro Total (mg/L)";
             $formPrint->parameters["residualchlorine"] = "Cloro Livre Residual (mg/L)";
             $formPrint->parameters["aspect"] = "Aspecto";
@@ -361,7 +361,7 @@ class FormPrintController extends Controller
             $formPrint->parameters["voc"] = "VOC (ppm)";
         endif;
 
-        if(isset($formValue->values['turbidity']) && $formPrint->formValue->form->name != "RT-LAB-041-191") :
+        if(isset($formValue->values['turbidity']) && $formPrint->formValue->form->name != "RT-LAB-020-1") :
             $formPrint->parameters["ntu"] = "Turbidez (NTU)";
         endif;
 
@@ -378,8 +378,8 @@ class FormPrintController extends Controller
 
         $rowHeader+= 2;
         foreach ( $formPrint->parameters as $key => $column) {
-            if(((isset($formPrint->formValue->values[$key . "_column"]) && $formPrint->formValue->form->name == "RT-LAB-041-191") ||
-              ($formPrint->formValue->form->name != "RT-LAB-041-191"))) :
+            if(((isset($formPrint->formValue->values[$key . "_column"]) && $formPrint->formValue->form->name == "RT-LAB-020-1") ||
+              ($formPrint->formValue->form->name != "RT-LAB-020-1"))) :
                 $sheet->setCellValue([2, 11 + $rowHeader], $column);
                 $sheet->getStyle([2, 11 + $rowHeader, 7, 11 + $rowHeader])->applyFromArray($bold10DefaultStyle);
                 $sheet->mergeCells([2, 11 + $rowHeader, 7, 11 + $rowHeader]);
@@ -406,7 +406,7 @@ class FormPrintController extends Controller
             $v = "-";
 
             foreach ($formPrint->parameters as $key => $value) {
-                if(((isset($formPrint->formValue->values[$key . "_column"]) && $formPrint->formValue->form->name == "RT-LAB-041-191") || ($formPrint->formValue->form->name != "RT-LAB-041-191"))) :
+                if(((isset($formPrint->formValue->values[$key . "_column"]) && $formPrint->formValue->form->name == "RT-LAB-020-1") || ($formPrint->formValue->form->name != "RT-LAB-020-1"))) :
 
                     if(isset($formPrint->formValue->svgs[$row][$key])) :
                         if(isset($sample[$key . "_footer"])) :

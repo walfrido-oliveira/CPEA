@@ -53,7 +53,7 @@ class FormImportController extends Controller
         foreach ($rows as $key => $value) {
             if ($key == 0) continue;
 
-            if($formValue->form->name == "RT-LAB-041-191" && ($size == 4 || $size == 5) && $key > 4) break;
+            if($formValue->form->name == "RT-LAB-020-1" && ($size == 4 || $size == 5) && $key > 4) break;
 
             if (isset($value[1])) {
                 $samples["samples"][$inputs["sample_index"]]["results"][$key - 1]["time"] = $value[1];
@@ -116,7 +116,7 @@ class FormImportController extends Controller
 
         $sampleCount = count($samples["samples"][$inputs["sample_index"]]["results"]);
 
-        if($formValue->form->name != "RT-LAB-041-191") {
+        if($formValue->form->name != "RT-LAB-020-1") {
             $samples = $this->validadeTime($samples, $inputs["sample_index"]);
             $samples = $this->validadeTemperature($samples, $inputs["sample_index"]);
             $samples = $this->validadePH($samples, $inputs["sample_index"]);
@@ -220,7 +220,7 @@ class FormImportController extends Controller
             foreach ($rows as $key => $value) {
                 if ($key == 0) continue;
 
-                if($formValue->form->name == "RT-LAB-041-191" && ($size == 4 || $size == 5) && $key > 4) break;
+                if($formValue->form->name == "RT-LAB-020-1" && ($size == 4 || $size == 5) && $key > 4) break;
 
                 if(is_numeric($value[2])) {
                     if (isset($value[1])) {
@@ -287,7 +287,7 @@ class FormImportController extends Controller
 
             $sampleCount = count($samples["samples"]["row_$max"]["results"]);
 
-            if($formValue->form->name != "RT-LAB-041-191") {
+            if($formValue->form->name != "RT-LAB-020-1") {
                 $samples = $this->validadeTime($samples, "row_$max");
                 $samples = $this->validadeTemperature($samples, "row_$max");
                 $samples = $this->validadePH($samples, "row_$max");

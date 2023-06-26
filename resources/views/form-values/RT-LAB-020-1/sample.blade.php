@@ -132,20 +132,20 @@
                 <table class="table w-full">
                     <thead>
                         <tr class="thead-light">
-                            @include('form-values.RT-LAB-041-191.sample-headers')
+                            @include('form-values.RT-LAB-020-1.sample-headers')
                         </tr>
                     </thead>
                     <tbody id="table_result">
                         @foreach (array_chunk($sample['results'], $chuckSize)[0] as $key => $value)
-                            @include('form-values.RT-LAB-041-191.sample-fields', ['key' => $key, 'value' => $value])
+                            @include('form-values.RT-LAB-020-1.sample-fields', ['key' => $key, 'value' => $value])
                         @endforeach
                     </tbody>
                     <tfoot id="table_result_footer">
-                        @include('form-values.RT-LAB-041-191.sample-footer')
+                        @include('form-values.RT-LAB-020-1.sample-footer')
                     </tfoot>
                 </table>
             </div>
-            @include('form-values.RT-LAB-041-191.sample-duplicate-footer')
+            @include('form-values.RT-LAB-020-1.sample-duplicate-footer')
 
             <div class="fl-scrolls fl-scrolls-hidden" id="fl_scroll_{{ isset($i) ? $i : 0 }}"><div></div></div>
         </div>

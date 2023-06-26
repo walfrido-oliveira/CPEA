@@ -129,8 +129,8 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($formPrint->parameters as $key => $value)
-                                            @if((isset($formPrint->formValue->values[$key . "_column"]) && $formPrint->formValue->form->name == "RT-LAB-041-191") ||
-                                                ($formPrint->formValue->form->name != "RT-LAB-041-191"))
+                                            @if((isset($formPrint->formValue->values[$key . "_column"]) && $formPrint->formValue->form->name == "RT-LAB-020-1") ||
+                                                ($formPrint->formValue->form->name != "RT-LAB-020-1"))
                                                 @if((!isset($formPrint->formValue->values['turbidity']) && $key != "ntu") ||
                                                     (isset($formPrint->formValue->values['turbidity'])))
                                                     <tr>

@@ -128,7 +128,7 @@ class FormPrint extends Model
             "voc" => Config::get("form_voc_range"),
         ];
 
-        if($this->formValue->form->name == 'RT-LAB-041-191') {
+        if($this->formValue->form->name == 'RT-LAB-020-1') {
             $this->parameters["chlorine"] = "Cloro Total";
             $this->parameters["residualchlorine"] = "Cloro Livre Residual";
             $this->parameters["aspect"] = "Aspecto";
@@ -175,7 +175,7 @@ class FormPrint extends Model
             $this->range["voc"] = Config::get("form_voc_range");
         }
 
-        if($this->formValue->form->name != 'RT-LAB-041-191') {
+        if($this->formValue->form->name != 'RT-LAB-020-1') {
             foreach ($this->parameters as $key => $value) {
                 if(($key != "ntu") || ($key == "ntu" && isset($this->formValue->values['turbidity']))) {
                     $this->getRefs($key, isset($this->formValue->values['multiparameter']));
@@ -236,8 +236,8 @@ class FormPrint extends Model
     {
         $count = 0;
         foreach ($this->parameters as $key => $value){
-            if((isset($this->formValue->values[$key . "_column"]) && $this->formValue->form->name == "RT-LAB-041-191") ||
-               ($this->formValue->form->name != "RT-LAB-041-191")) {
+            if((isset($this->formValue->values[$key . "_column"]) && $this->formValue->form->name == "RT-LAB-020-1") ||
+               ($this->formValue->form->name != "RT-LAB-020-1")) {
                 if((!isset($this->formValue->values['turbidity']) && $key != "ntu") ||
                   (isset($this->formValue->values['turbidity']))) {
                     $count++;

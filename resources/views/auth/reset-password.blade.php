@@ -11,7 +11,7 @@
         <form method="POST" action="{{ route('password.update') }}">
             @csrf
 
-            <input type="hidden" name="token" value="{{ $request->route('token') }}">
+            <input type="hidden" name="token" value="{{ app('request')->route('token') }}">
 
             <div class="mt-4">
                 <x-jet-input id="email" class="form-control block mt-1 w-full" type="hidden" name="email" :value="old('email', $request->email)" required readonly autofocus />

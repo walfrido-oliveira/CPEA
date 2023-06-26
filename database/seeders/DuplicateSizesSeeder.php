@@ -17,19 +17,19 @@ class DuplicateSizesSeeder extends Seeder
     public function run()
     {
         DuplicateSize::create([
-            'form_id' => Form::where('name', 'RT-LAB-041-191')->first()->id,
+            'form_id' => Form::where('name', 'RT-LAB-020-1')->first()->id,
             'field_type_id' => FieldType::where('name', 'Efluente')->first()->id,
             'size' => 2
         ]);
 
         DuplicateSize::create([
-            'form_id' => Form::where('name', 'RT-LAB-041-191')->first()->id,
+            'form_id' => Form::where('name', 'RT-LAB-020-1')->first()->id,
             'field_type_id' => FieldType::where('name', 'Ar Ambiente')->first()->id,
             'size' => 2
         ]);
 
         DuplicateSize::create([
-            'form_id' => Form::where('name', 'RT-LAB-041-191')->first()->id,
+            'form_id' => Form::where('name', 'RT-LAB-020-1')->first()->id,
             'field_type_id' => FieldType::where('name', 'Ar do solo')->first()->id,
             'size' => 2
         ]);

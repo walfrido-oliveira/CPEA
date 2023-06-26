@@ -7,12 +7,12 @@
                         <td colspan="100%" class="text-center text-white" style="background-color: rgb(0, 94, 16)">Duplicata</td>
                     </tr>
                     <tr class="thead-light">
-                        @include('form-values.RT-LAB-041-191.sample-headers')
+                        @include('form-values.RT-LAB-020-1.sample-headers')
                     </tr>
                 </thead>
                 <tbody id="table_result">
                     @foreach (array_chunk($sample['results'], $chuckSize)[1] as $key2 => $value)
-                        @include('form-values.RT-LAB-041-191.sample-fields', ['key' => ($key2 + $key + 1), 'value' => $value])
+                        @include('form-values.RT-LAB-020-1.sample-fields', ['key' => ($key2 + $key + 1), 'value' => $value])
                     @endforeach
                 </tbody>
                 <tfoot id="table_result_footer">
