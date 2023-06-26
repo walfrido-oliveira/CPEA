@@ -109,14 +109,6 @@ class Project extends Model
                 }
             }
 
-            if(isset($query['lab']))
-            {
-                if(!is_null($query['lab']))
-                {
-                    #$q->where('project_cod', 'like','%' . $query['project_cod'] . '%');
-                }
-            }
-
             if(isset($query['customer_id']))
             {
                 if(!is_null($query['customer_id']))
@@ -170,7 +162,8 @@ class Project extends Model
         }
 
         foreach ($ids as $id) {
-            $guidingParameters->push(GuidingParameter::find($id));
+            $guidingParameter = GuidingParameter::find($id);
+            if($guidingParameter) $guidingParameters->push(GuidingParameter::find($id));
         }
 
         $guidingParameters2 = $this->projectPointMatrices()
