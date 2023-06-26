@@ -429,7 +429,7 @@ class FormPrintController extends Controller
                         endif;
 
                     elseif(Str::contains($key, ["aspect", "artificialdyes", "floatingmaterials", "objectablesolidwaste", "visibleoilsandgreases"])) :
-                        $v = isset($sample["results"][0][$key]) ? $sample["results"][0][$key] : "-" ;
+                        $v = isset($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : "-" ;
                     else :
                         $v = "-";
                     endif;
