@@ -180,7 +180,7 @@ class FormValueController extends Controller
         $floatingMaterials = ["Ausênte" => "Ausênte", "Presente" => "Presente"];
         $form = $formValue->form;
         $project_id = isset($formValue->values["project_id"]) ? $formValue->values["project_id"] : null;
-        $formPrint = new FormPrint($formValue, false);
+        $formPrint = new FormPrint(FormValue::findOrFail($id), false);
 
         $values = $formValue->values;
         $samplesTable = isset($values['samples']) ? $values['samples'] : [];

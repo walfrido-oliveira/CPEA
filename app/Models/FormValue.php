@@ -31,6 +31,22 @@ class FormValue extends Model
         'signed' => 'boolean',
     ];
 
+    public $svgs;
+    public $duplicates;
+    public $duplicatesSvgs;
+    public $dpr;
+
+
+    protected static function booted(): void
+    {
+        static::retrieved(function (FormValue $formValue) {
+            $formValue->svgs = $formValue->getSVG();
+            $formValue->duplicates = $formValue->getDuplicates();
+            $formValue->duplicatesSvgs = $formValue->getDuplicatesSVG();
+            $formValue->dpr = $formValue->getDPR();
+        });
+    }
+
     /**
      * Get field type
      *
@@ -96,7 +112,7 @@ class FormValue extends Model
         return $envionmentalAreas->paginate($perPage);
     }
 
-    public function getDPRAttribute()
+    public function getDPR()
     {
         $dpr = [];
         $svgs = $this->svgs;
@@ -158,7 +174,7 @@ class FormValue extends Model
         return $dpr;
     }
 
-    public function getDuplicatesSvgsAttribute()
+    public function getDuplicatesSVG()
     {
         $duplicatesSvgs = [];
         $svgs = $this->svgs;
@@ -190,7 +206,7 @@ class FormValue extends Model
         return $duplicatesSvgs;
     }
 
-    public function getDuplicatesAttribute()
+    public function getDuplicates()
     {
         $duplicates = [];
         $sizeTemperature = 0;
@@ -313,7 +329,7 @@ class FormValue extends Model
         return $duplicates;
     }
 
-    public function getSvgsAttribute()
+    public function getSVG()
     {
         $svgs = [];
         $sizeTemperature = 0;
@@ -360,7 +376,6 @@ class FormValue extends Model
                         if(isset($count["residualchlorine"])) $sizeResidualchlorine++;
                         if(isset($count["voc"])) $sizeVoc++;
                     }
-
                     $sum["temperature"] = 0;
                     $sum["ph"] = 0;
                     $sum["orp"] = 0;
@@ -429,7 +444,6 @@ class FormValue extends Model
                 }
             }
         }
-
         return $svgs;
     }
 
