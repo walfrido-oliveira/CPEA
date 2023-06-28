@@ -2145,18 +2145,6 @@ select {
 	--tw-text-opacity: 1;
 	color: rgba(245, 158, 11, var(--tw-text-opacity));
 }
-.text-black {
-	--tw-text-opacity: 1;
-	color: rgba(0, 0, 0, var(--tw-text-opacity));
-}
-.text-green-900 {
-	--tw-text-opacity: 1;
-	color: rgba(6, 78, 59, var(--tw-text-opacity));
-}
-.text-red-900 {
-	--tw-text-opacity: 1;
-	color: rgba(127, 29, 29, var(--tw-text-opacity));
-}
 .text-blue-900 {
 	--tw-text-opacity: 1;
 	color: rgba(30, 58, 138, var(--tw-text-opacity));
@@ -2164,6 +2152,18 @@ select {
 .text-blue-500 {
 	--tw-text-opacity: 1;
 	color: rgba(59, 130, 246, var(--tw-text-opacity));
+}
+.text-red-900 {
+	--tw-text-opacity: 1;
+	color: rgba(127, 29, 29, var(--tw-text-opacity));
+}
+.text-black {
+	--tw-text-opacity: 1;
+	color: rgba(0, 0, 0, var(--tw-text-opacity));
+}
+.text-green-900 {
+	--tw-text-opacity: 1;
+	color: rgba(6, 78, 59, var(--tw-text-opacity));
 }
 .text-green-700 {
 	--tw-text-opacity: 1;
