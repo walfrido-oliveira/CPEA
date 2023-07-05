@@ -69,7 +69,7 @@
                                             endif;
                                         @endphp
 
-                                        @if((floatval($formPrint->LQ[$key]) > floatval($v) || !$v) && is_numeric($formPrint->LQ[$key]) && $v)
+                                        @if((floatval($formPrint->LQ[$key]) >= floatval($v) || !$v) && is_numeric($formPrint->LQ[$key]) && $v)
                                             {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
                                         @elseif($key == "conductivity"  && $v >= 200000)
                                             {{ "> 200000" }}
