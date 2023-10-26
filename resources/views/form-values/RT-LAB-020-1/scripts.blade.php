@@ -763,6 +763,7 @@
 <script>
     document.getElementById("confirm_environment_modal").addEventListener("click", function() {
         var countSamples = 0;
+        var samples = "";
 
         document.querySelectorAll("input.collect").forEach(item => {
             var date = new Date(item.value);
@@ -785,11 +786,15 @@
                 environment.value = environmentValue.value;
                 saveSample(document.querySelector(`.save-sample[data-index='sample_${item.dataset.index}']`), true);
                 countSamples++;
+                samples += `<p>Amostra ${item.dataset.index + 1}</p>`;
             }
         });
 
         if(countSamples == 0) {
             toastr.error("Nenhuma amostra encontrada com as datas informadas.");
+        } else {
+            samples += countSamples > 1 ? "<p>Foram atualizadas</p>" : "<p>Foi atualizada</p>";
+            toastr.success(samples);
         }
 
         var modal = document.getElementById("environment_modal");
