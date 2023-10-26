@@ -58,18 +58,18 @@
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="project_id" value="{{ __('Projeto') }}"/>
-                            <x-jet-input id="project_id" class="form-control block mt-1 w-full" type="text" name="project_id" maxlength="255" value="{{ isset($formValue) ? $formValue->values['project_id'] : old('project_id') }}"/>
+                            <x-jet-input id="project_id" class="form-control block mt-1 w-full" type="text" name="project_id" maxlength="255" value="{{ isset($formValue) ? $formValue->values['project_id'] : old('project_id') }}" requered/>
                         </div>
                         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <x-jet-label for="client" value="{{ __('Cliente') }}" />
-                            <x-custom-select :options="$customers" value="{{ isset($formValue->values['client']) ? $formValue->values['client'] : null }}" name="client" id="client" class="mt-1"/>
+                            <x-custom-select :options="$customers" value="{{ isset($formValue->values['client']) ? $formValue->values['client'] : null }}" name="client" id="client" class="mt-1" requered/>
                         </div>
                     </div>
 
                     <div class="flex flex-wrap mx-4 px-3 py-2 mt-4">
                         <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                             <x-jet-label for="matrix" value="{{ __('Matriz') }}" />
-                            <x-custom-select :options="$fields" value="{{ isset($formValue->values['matrix']) ? $formValue->values['matrix'] : null }}" name="matrix" id="matrix" class="mt-1"/>
+                            <x-custom-select :options="$fields" value="{{ isset($formValue->values['matrix']) ? $formValue->values['matrix'] : null }}" name="matrix" id="matrix" class="mt-1" requered/>
                         </div>
                         <div class="w-full md:w-1/4 px-3 mb-6 md:mb-0">
                             <x-jet-label for="emission" value="{{ __('Data/Hora da Emissão do Relatório') }}" />
