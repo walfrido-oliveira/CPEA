@@ -1235,6 +1235,9 @@ class AnalysisResultController extends Controller
         $obj->result = $r2;
       }
 
+     $duplicata = Str::contains($obj->samplename, "DUP");
+
+
       if ($obj->project && $obj->samplename) {
 
         $analysisResult = AnalysisResult::firstOrCreate([
@@ -1269,6 +1272,7 @@ class AnalysisResultController extends Controller
           'casnumber' => $obj->casnumber,
           'surrogate' => $obj->surrogate,
           'tic' => $obj->tic,
+          'duplicata' => $duplicata,
 
           /** CONVERSÃO */
           'result' => $obj->result,

@@ -14,7 +14,7 @@ class AddColumnDuplicataToAnalysisResults extends Migration
     public function up()
     {
         Schema::table('analysis_results', function ($table) {
-            $table->integer('duplicata');
+            $table->boolean('duplicata');
         });
     }
 
