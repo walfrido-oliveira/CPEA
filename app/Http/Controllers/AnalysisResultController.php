@@ -681,6 +681,522 @@ class AnalysisResultController extends Controller
     }, "$project->project_cod.xls");
   }
 
+  public function downloadDUPType($id)
+  {
+    $campaign = Campaign::findOrFail($id);
+    $project = $campaign->project;
+    $colors = ["D0CECE", "CCFFCC", "FFFF99"];
+    $guidingParameters = [
+      GuidingParameter::where("name", "DUP 10.004 - Massa Bruta")->first(),
+      GuidingParameter::where("name", "DUP 10.004 Anexo F - Extrato Lixiviado")->first(),
+      GuidingParameter::where("name", "DUP 10.004 Anexo G - Extrato Solubilizado")->first(),
+    ];
+
+    $matrixes = [
+      AnalysisMatrix::where("name", "Resíduo Sólido")->first(),
+      AnalysisMatrix::where("name", "Resíduo Sólido - Lixiviado")->first(),
+      AnalysisMatrix::where("name", "Resíduo Sólido - Solubilizado")->first(),
+    ];
+
+    $sampleNames = $campaign
+      ->projectPointMatrices()
+      ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+      ->groupBy('point_identifications.identification')
+      ->pluck('point_identifications.identification');
+
+    $projectPointMatrices = $campaign->projectPointMatrices()
+      ->with('pointIdentification')
+      ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+      ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+      ->leftJoin('parameter_analysis_groups as t1', 't1.id', '=', 'parameter_analyses.parameter_analysis_group_id')
+      ->orderByRaw("INET_ATON(SUBSTRING_INDEX(CONCAT(t1.`order`,'.0.0.0'),'.',4))")
+      ->orderBy('parameter_analyses.order', 'asc')
+      ->select('project_point_matrices.*')
+      ->get();
+
+    $guidingParametersValues  = [];
+    $guidingParametersIds = [];
+    for ($b = 0; $b < count($guidingParameters); $b++) {
+      $guidingParametersIds[] = $guidingParameters[$b]->id;
+    }
+
+    $spreadsheet = new Spreadsheet();
+
+    $border = [
+      'borders' => [
+        'allBorders' => [
+          'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+        ],
+      ],
+    ];
+
+    $borderOutline = [
+      'borders' => [
+        'outline' => [
+          'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
+        ],
+      ],
+    ];
+
+    foreach ($sampleNames as $sampleKey => $sampleValue) {
+        dd($sampleNames);
+      if ($sampleKey > 0) $spreadsheet->createSheet();
+
+      $spreadsheet->setActiveSheetIndex($sampleKey);
+      $spreadsheet->getActiveSheet()->setTitle($sampleValue);
+
+      $sheet = $spreadsheet->getActiveSheet();
+
+      $result = $campaign->analysisResults()->where('samplename', $sampleValue)->first();
+      $branch = count($campaign->analysisResults) > 0 ? $result->batch : null;
+      $labsampid = count($campaign->analysisResults) > 0 ? $result->labsampid : null;
+      $dataCollection = count($campaign->projectPointMatrices) > 0 ? $result->projectPointMatrix->date_collection : null;
+
+      $sheet->setCellValueByColumnAndRow(1, 1, $sampleValue);
+      $sheet->getStyleByColumnAndRow(1, 1)->getFont()->setBold(true);
+      $sheet->getStyleByColumnAndRow(1, 1)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+      $sheet->getStyleByColumnAndRow(1, 1)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+      for ($i = 1; $i <= 9; $i++) $sheet->getStyleByColumnAndRow($i, 1)->applyFromArray($border);
+      $sheet->mergeCellsByColumnAndRow(1, 1, 9, 1);
+
+      $sheet->setCellValueByColumnAndRow(1, 2, 'Data de coleta:');
+      $sheet->setCellValueByColumnAndRow(2, 2, $dataCollection ? $dataCollection->format("d/m/Y") : null);
+      $sheet->setCellValueByColumnAndRow(1, 3, 'Identificação do Laboratório:');
+      $sheet->setCellValueByColumnAndRow(2, 3, $labsampid);
+      $sheet->setCellValueByColumnAndRow(5, 2, 'Hora de coleta:');
+      $sheet->setCellValueByColumnAndRow(6, 2, $dataCollection ? $dataCollection->format("H:i") : null);
+      $sheet->setCellValueByColumnAndRow(5, 3, 'Grupo do Laboratório:');
+      $sheet->setCellValueByColumnAndRow(6, 3, $branch);
+      for ($i = 1; $i <= 9; $i++) $sheet->getStyleByColumnAndRow($i, 2)->applyFromArray($border);
+      for ($i = 1; $i <= 9; $i++) $sheet->getStyleByColumnAndRow($i, 3)->applyFromArray($border);
+      $sheet->getColumnDimensionByColumn(1)->setAutoSize(true);
+      $sheet->mergeCellsByColumnAndRow(2, 2, 4, 2);
+      $sheet->mergeCellsByColumnAndRow(2, 3, 4, 3);
+      $sheet->mergeCellsByColumnAndRow(6, 2, 9, 2);
+      $sheet->mergeCellsByColumnAndRow(6, 3, 9, 3);
+
+      $sheet->setCellValueByColumnAndRow(1, 4, 'Parâmetro');
+      $sheet->getStyleByColumnAndRow(1, 4)->getFont()->setBold(true);
+      $sheet->getStyleByColumnAndRow(1, 4)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+      $sheet->getStyleByColumnAndRow(1, 4)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+      $sheet->getStyleByColumnAndRow(1, 4)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+      for ($i = 4; $i <= 5; $i++) $sheet->getStyleByColumnAndRow(1, $i)->applyFromArray($border);
+      $sheet->mergeCellsByColumnAndRow(1, 4, 1, 5);
+
+      $sheet->setCellValueByColumnAndRow(2, 4, 'Resíduo bruto');
+      $sheet->getStyleByColumnAndRow(2, 4)->getFont()->setBold(true);
+      $sheet->getStyleByColumnAndRow(2, 4)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+      $sheet->getStyleByColumnAndRow(2, 4)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+      $sheet->getStyleByColumnAndRow(2, 4)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB($colors[0]);
+      for ($i = 2; $i <= 4; $i++) $sheet->getStyleByColumnAndRow($i, 4)->applyFromArray($border);
+      $sheet->mergeCellsByColumnAndRow(2, 4, 4, 4);
+
+      $sheet->setCellValueByColumnAndRow(2, 5, 'Unidade da medida realizada na massa bruta');
+      $sheet->getStyleByColumnAndRow(2, 5)->getFont()->setBold(true);
+      $sheet->getStyleByColumnAndRow(2, 5)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+      $sheet->getStyleByColumnAndRow(2, 5)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+      $sheet->getStyleByColumnAndRow(2, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+      $sheet->getStyleByColumnAndRow(2, 5)->applyFromArray($border);
+      $sheet->getStyleByColumnAndRow(2, 5)->getAlignment()->setWrapText(true);
+
+      $sheet->setCellValueByColumnAndRow(3, 5, 'Limites aceitáveis estabelecidos pela ABNT NBR 10.004/04  na massa bruta');
+      $sheet->getStyleByColumnAndRow(3, 5)->getFont()->setBold(true);
+      $sheet->getStyleByColumnAndRow(3, 5)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+      $sheet->getStyleByColumnAndRow(3, 5)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+      $sheet->getStyleByColumnAndRow(3, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+      $sheet->getStyleByColumnAndRow(3, 5)->applyFromArray($border);
+      $sheet->getStyleByColumnAndRow(3, 5)->getAlignment()->setWrapText(true);
+
+      $sheet->setCellValueByColumnAndRow(4, 5, 'Resultado obtido na massa bruta do resíduo');
+      $sheet->getStyleByColumnAndRow(4, 5)->getFont()->setBold(true);
+      $sheet->getStyleByColumnAndRow(4, 5)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+      $sheet->getStyleByColumnAndRow(4, 5)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+      $sheet->getStyleByColumnAndRow(4, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+      $sheet->getStyleByColumnAndRow(4, 5)->applyFromArray($border);
+      $sheet->getStyleByColumnAndRow(4, 5)->getAlignment()->setWrapText(true);
+
+      $sheet->setCellValueByColumnAndRow(5, 4, 'Unidade da medida realizada nos extratos lixiviado e solubilizado');
+      $sheet->getStyleByColumnAndRow(5, 4)->getFont()->setBold(true);
+      $sheet->getStyleByColumnAndRow(5, 4)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+      $sheet->getStyleByColumnAndRow(5, 4)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+      $sheet->getStyleByColumnAndRow(5, 4)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+      $sheet->getStyleByColumnAndRow(5, 4)->applyFromArray($border);
+      for ($i = 4; $i <= 5; $i++) $sheet->getStyleByColumnAndRow(5, $i)->applyFromArray($border);
+      $sheet->getStyleByColumnAndRow(5, 4)->getAlignment()->setWrapText(true);
+      $sheet->mergeCellsByColumnAndRow(5, 4, 5, 5);
+
+      $sheet->setCellValueByColumnAndRow(6, 4, 'Extrato Lixiviado');
+      $sheet->getStyleByColumnAndRow(6, 4)->getFont()->setBold(true);
+      $sheet->getStyleByColumnAndRow(6, 4)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+      $sheet->getStyleByColumnAndRow(6, 4)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+      $sheet->getStyleByColumnAndRow(6, 4)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB($colors[1]);
+      for ($i = 6; $i <= 7; $i++) $sheet->getStyleByColumnAndRow($i, 4)->applyFromArray($border);
+      $sheet->mergeCellsByColumnAndRow(6, 4, 7, 4);
+
+      $sheet->setCellValueByColumnAndRow(8, 4, 'Extrato Solubilizado');
+      $sheet->getStyleByColumnAndRow(8, 4)->getFont()->setBold(true);
+      $sheet->getStyleByColumnAndRow(8, 4)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+      $sheet->getStyleByColumnAndRow(8, 4)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+      $sheet->getStyleByColumnAndRow(8, 4)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB($colors[2]);
+      for ($i = 8; $i <= 9; $i++) $sheet->getStyleByColumnAndRow($i, 4)->applyFromArray($border);
+      $sheet->mergeCellsByColumnAndRow(8, 4, 9, 4);
+
+      $sheet->setCellValueByColumnAndRow(6, 5, 'Limite NBR 10.004             Anexo F');
+      $sheet->getStyleByColumnAndRow(6, 5)->getFont()->setBold(true);
+      $sheet->getStyleByColumnAndRow(6, 5)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+      $sheet->getStyleByColumnAndRow(6, 5)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+      $sheet->getStyleByColumnAndRow(6, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+      $sheet->getStyleByColumnAndRow(6, 5)->applyFromArray($border);
+      $sheet->getStyleByColumnAndRow(6, 5)->getAlignment()->setWrapText(true);
+
+      $sheet->setCellValueByColumnAndRow(7, 5, 'Concentração  no extrato lixiviado');
+      $sheet->getStyleByColumnAndRow(7, 5)->getFont()->setBold(true);
+      $sheet->getStyleByColumnAndRow(7, 5)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+      $sheet->getStyleByColumnAndRow(7, 5)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+      $sheet->getStyleByColumnAndRow(7, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+      $sheet->getStyleByColumnAndRow(7, 5)->applyFromArray($border);
+      $sheet->getStyleByColumnAndRow(7, 5)->getAlignment()->setWrapText(true);
+
+      $sheet->setCellValueByColumnAndRow(8, 5, 'Limite NBR 10.004               Anexo G ');
+      $sheet->getStyleByColumnAndRow(8, 5)->getFont()->setBold(true);
+      $sheet->getStyleByColumnAndRow(8, 5)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+      $sheet->getStyleByColumnAndRow(8, 5)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+      $sheet->getStyleByColumnAndRow(8, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+      $sheet->getStyleByColumnAndRow(8, 5)->applyFromArray($border);
+      $sheet->getStyleByColumnAndRow(8, 5)->getAlignment()->setWrapText(true);
+
+      $sheet->setCellValueByColumnAndRow(9, 5, 'Concentração      no extrato solubilizado');
+      $sheet->getStyleByColumnAndRow(9, 5)->getFont()->setBold(true);
+      $sheet->getStyleByColumnAndRow(9, 5)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+      $sheet->getStyleByColumnAndRow(9, 5)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+      $sheet->getStyleByColumnAndRow(9, 5)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+      $sheet->getStyleByColumnAndRow(9, 5)->applyFromArray($border);
+      $sheet->getStyleByColumnAndRow(9, 5)->getAlignment()->setWrapText(true);
+
+      $analysisResult = $campaign->analysisResults()->groupBy('samplename')->get();
+
+      /* PARAMETROS DE ANÁLISE */
+      $row = 6;
+      $groupParameterAnalysis = [];
+      $parameterAnalysis = [];
+
+      for ($i = 0; $i < count($projectPointMatrices); $i++) {
+        if ($i == 0) {
+          if ($projectPointMatrices[$i]->parameterAnalysis->parameterAnalysisGroup) {
+            $parents = $this->getParameterAnalysisGroup($projectPointMatrices[$i]->parameterAnalysis);
+            for ($j = count($parents) - 1; $j >= 0; $j--) {
+              $groupParameterAnalysis[] = $parents[$j]->name;
+              $sheet->setCellValueByColumnAndRow(1, $row, $parents[$j]->name);
+              $sheet->getStyleByColumnAndRow(1, $row)->getFont()->setBold(true);
+              for ($g = 1; $g <= 9; $g++) {
+                $sheet->getStyleByColumnAndRow($g, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+                $sheet->getStyleByColumnAndRow($g, $row)->applyFromArray($border);
+              }
+              $row++;
+            }
+          }
+        } else {
+          if (
+            $projectPointMatrices[$i]->parameterAnalysis->parameter_analysis_group_id !=
+            $projectPointMatrices[$i - 1]->parameterAnalysis->parameter_analysis_group_id
+          ) {
+            $parents = $this->getParameterAnalysisGroup($projectPointMatrices[$i]->parameterAnalysis);
+            for ($j = count($parents) - 1; $j >= 0; $j--) {
+              if (in_array($parents[$j]->name, $groupParameterAnalysis)) continue;
+              $groupParameterAnalysis[] = $parents[$j]->name;
+              $sheet->setCellValueByColumnAndRow(1, $row, $parents[$j]->name);
+              $sheet->getStyleByColumnAndRow(1, $row)->getFont()->setBold(true);
+              for ($g = 1; $g <= 9; $g++) {
+                $sheet->getStyleByColumnAndRow($g, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+                $sheet->getStyleByColumnAndRow($g, $row)->applyFromArray($border);
+              }
+              $row++;
+            }
+          }
+        }
+
+        if (!in_array($projectPointMatrices[$i]->parameterAnalysis->analysis_parameter_name, $parameterAnalysis) || $i == 0) {
+
+          $sheet->setCellValueByColumnAndRow(1, $row, $projectPointMatrices[$i]->parameterAnalysis->analysis_parameter_name);
+
+          for ($k = 0; $k < count($guidingParameters); $k++) {
+
+            if (isset($projectPointMatrices[$i]->analysisResult[0])) {
+              if ($k == 0) {
+                $sheet->setCellValueByColumnAndRow(2,  $row, $projectPointMatrices[$i]->analysisResult[0]->units);
+                $sheet->getStyleByColumnAndRow(2, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $sheet->getStyleByColumnAndRow(2, $row)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+              }
+              if ($k == 1) {
+                $sheet->setCellValueByColumnAndRow(5,  $row, $projectPointMatrices[$i]->analysisResult[0]->units);
+                $sheet->getStyleByColumnAndRow(5, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+                $sheet->getStyleByColumnAndRow(5, $row)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+              }
+            }
+
+
+            $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $guidingParameters[$k]->id)
+              ->where('parameter_analysis_id', $projectPointMatrices[$i]->parameter_analysis_id)
+              ->first();
+
+            $indexColumn = 3;
+            switch ($k) {
+              case 0:
+                $indexColumn = 3;
+                break;
+              case 1:
+                $indexColumn = 6;
+                break;
+              case 2:
+                $indexColumn = 8;
+                break;
+            }
+
+            if ($guidingParametersValue) {
+              if ($guidingParametersValue->guidingValue) {
+                if (Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo'])) {
+                  $sheet->setCellValueByColumnAndRow($indexColumn, $row, $guidingParametersValue->guiding_legislation_value);
+                }
+                if (Str::contains($guidingParametersValue->guidingValue->name, ['Qualitativo'])) {
+                  $sheet->setCellValueByColumnAndRow($indexColumn, $row, 'Virtualmente ausente');
+                }
+                if (Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo'])) {
+                  $sheet->setCellValueByColumnAndRow(
+                    $indexColumn,
+                    $row,
+                    Str::replace(".", ",", $guidingParametersValue->guiding_legislation_value) . ' - ' .
+                      Str::replace(".", ",", $guidingParametersValue->guiding_legislation_value_1)
+                  );
+                }
+              } else {
+                $sheet->setCellValueByColumnAndRow($indexColumn,  $row, $guidingParametersValue->guiding_legislation_value);
+              }
+            } else {
+              $sheet->setCellValueByColumnAndRow($indexColumn, $row, "-");
+            }
+
+            $sheet->getStyleByColumnAndRow($indexColumn, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $sheet->getStyleByColumnAndRow($indexColumn, $row)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            $sheet->getStyleByColumnAndRow($indexColumn, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $colors[$k]));
+            $sheet->getStyleByColumnAndRow($indexColumn, $row)->applyFromArray($border);
+
+            $indexColumn = 4;
+            switch ($k) {
+              case 0:
+                $indexColumn = 4;
+                break;
+              case 1:
+                $indexColumn = 7;
+                break;
+              case 2:
+                $indexColumn = 9;
+                break;
+            }
+
+            for ($l = 0; $l < count($analysisResult); $l++) {
+              $sheet->setCellValueByColumnAndRow($indexColumn, $row, "N/A");
+              $sheet->getStyleByColumnAndRow($indexColumn, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+              $sheet->getStyleByColumnAndRow($indexColumn, $row)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+              $sheet->getStyleByColumnAndRow($indexColumn, $row)->applyFromArray($border);
+            }
+
+            $value =  $campaign->analysisResults()
+              ->with('projectPointMatrix')
+              ->leftJoin('project_point_matrices', 'analysis_results.project_point_matrix_id', '=', 'project_point_matrices.id')
+              ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+              ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+              ->where("project_point_matrices.parameter_analysis_id", $projectPointMatrices[$i]->parameter_analysis_id)
+              ->where("point_identifications.identification", $sampleValue)
+              ->where('matrix', $matrixes[$k]->name)
+              ->first();
+
+            if (!$value) continue;
+
+            $result =  Str::replace(["*J", " [1]"], "", $value->result);
+            $result = Str::replace(["<", "< "], "", $result);
+            $result = Str::replace(",", ".", $result);
+
+            $rl =  Str::replace(["*J", " [1]"], "", $value->rl);
+            $rl = Str::replace(["<", "< "], "", $rl);
+            $rl = Str::replace(",", ".", $rl);
+            $rl = $rl == '' ? 0 : $rl;
+
+            $resultValue = $result;
+            $rlValue = $rl;
+
+            $token = ($resultValue < $rlValue || !$value->result) && !Str::contains($value->resultreal, ["j", "J"]);
+            $bold = $resultValue >= $rlValue && !Str::contains($value->resultreal, ["<", "< "]) && is_numeric(Str::replace(",", ".", $value->resultreal))
+              || (Str::contains($value->resultreal, ["J", "j"]) && !Str::contains($value->resultreal, ["<", "< "]));
+
+            if (is_numeric($result)) $result = number_format($result, 5, ",", ".");
+
+            $result = $result == '0,000' ? 'N/A' : $result;
+            $result = $token || Str::contains($value->resultreal, ["<"]) && !Str::contains($result, 'N/A') ? "< $result" : $result;
+
+            if ($value->result == '') $result = "< " . number_format($rl, 5, ",", ".");
+
+            if ($value->snote10) {
+              if (Str::contains($value->snote10, ["*j", "*J"])) {
+                $resultSnote10 = filter_var(Str::replace(",", ".", $value->snote10), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+
+                $bold = !Str::contains($value->snote10, ["<"]);
+
+                if (is_numeric($resultSnote10)) {
+                  if ($value->resultreal != '') {
+                    if ($result >= $resultSnote10) {
+                      $result = number_format($resultSnote10, 5, ",", ".");
+                      $result = Str::contains($value->snote10, ["<"]) ? "< $result" : $result;
+                      $resultValue = $resultSnote10;
+                      $bold = !Str::contains($value->snote10, ["<"]);
+                    }
+                  } else {
+                    $result = number_format($resultSnote10, 5, ",", ".");
+                    $result = Str::contains($value->snote10, ["<"]) ? "< $result" : $result;
+                    $resultValue = $resultSnote10;
+                  }
+                }
+              }
+            }
+
+            $sheet->setCellValueByColumnAndRow($indexColumn, $row, $result);
+
+            if ((Str::contains($value->resultreal, ["j", "J"]) && !Str::contains($value->resultreal, ["<"])) || $bold || $value->snote6 == '*') {
+              $sheet->getStyleByColumnAndRow($indexColumn, $row)->getFont()->setBold(true);
+            }
+
+            if ($value->anadate && $value->prepdate && $value->projectPointMatrix->parameterMethodPreparation) {
+              $anadate = Carbon::createFromFormat('d/m/Y', Str::substr($value->anadate, 0, 10));
+              $prepdate = Carbon::createFromFormat('d/m/Y', Str::substr($value->prepdate, 0, 10));
+
+              if ($prepdate->diffInDays($anadate) > $value->projectPointMatrix->parameterMethodPreparation->time_preparation) {
+                $styleArray = array(
+                  'borders' => array(
+                    'allBorders' => array(
+                      'borderStyle' => Border::BORDER_THIN,
+                      'color' => array('argb' => 'FFFF0000'),
+                    ),
+                  ),
+                );
+                $sheet->getStyleByColumnAndRow(4, $row)->applyFromArray($styleArray);
+              }
+            }
+
+            $colorsGuidingParametersId = [];
+
+            for ($x = 0; $x < count($guidingParametersIds); $x++) {
+              $colorsGuidingParametersId[$x] = [
+                "guiding_parameter_id" => $guidingParametersIds[$x],
+                "color" => $colors[$x]
+              ];
+            }
+
+            $guidingParametersValues = GuidingParameterValue::where("guiding_parameter_id", $guidingParametersIds[$k])
+              ->where('parameter_analysis_id', $projectPointMatrices[$i]->parameter_analysis_id)
+              ->orderBy('guiding_legislation_value', 'DESC')
+              ->get();
+
+            $b = 0;
+            foreach ($guidingParametersValues as $guidingParametersValue) {
+              if ($guidingParametersValue) {
+                $color = $colorsGuidingParametersId[array_search($guidingParametersValue->guiding_parameter_id, array_column($colorsGuidingParametersId, 'guiding_parameter_id'))]["color"];
+
+                if (Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo'])) {
+                  if ($resultValue > $guidingParametersValue->guiding_legislation_value) {
+                    $sheet->getStyleByColumnAndRow($indexColumn, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $color));
+                  }
+                }
+                if ($guidingParametersValue->guidingValue->name == 'Intervalo') {
+                  if (($resultValue < $guidingParametersValue->guiding_legislation_value || $resultValue > $guidingParametersValue->guiding_legislation_value_1)) {
+                    $sheet->getStyleByColumnAndRow($indexColumn, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $color));
+                  }
+                }
+                if ($guidingParametersValue->guidingValue->name == 'Intervalo de Aceitação') {
+                  if ($resultValue > $rlValue) {
+                    $sheet->getStyleByColumnAndRow($indexColumn, $row)->getFont()->setBold(true);
+                  }
+                }
+                if (Str::contains($guidingParametersValue->guidingValue->name, ['Qualitativo'])) {
+                  if (is_numeric($resultValue)) {
+                    if ($resultValue >= $rlValue && !Str::contains($value->resultreal, ["<", "< "])) {
+                      $sheet->getStyleByColumnAndRow($indexColumn, $row)->getFont()->setBold(true);
+                      $sheet->getStyleByColumnAndRow($indexColumn, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $color));
+                    }
+                  } else {
+                    if ($value->resultreal == 'Presente' || $value->resultreal == 'Presença') {
+                      $sheet->getStyleByColumnAndRow($indexColumn, $row)->getFont()->setBold(true);
+                      $sheet->getStyleByColumnAndRow($indexColumn, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $color));
+                    }
+                  }
+                }
+              }
+              $b++;
+            }
+          }
+
+
+          $sheet->getColumnDimensionByColumn(1)->setWidth(31);
+          $sheet->getColumnDimensionByColumn(2)->setWidth(14.86);
+          $sheet->getColumnDimensionByColumn(3)->setWidth(14.86);
+          $sheet->getColumnDimensionByColumn(4)->setWidth(14.86);
+          $sheet->getColumnDimensionByColumn(5)->setWidth(30);
+          $sheet->getColumnDimensionByColumn(6)->setWidth(14.86);
+          $sheet->getColumnDimensionByColumn(7)->setWidth(14.86);
+          $sheet->getColumnDimensionByColumn(8)->setWidth(14.86);
+          $sheet->getColumnDimensionByColumn(9)->setWidth(14.86);
+
+          $sheet->getStyleByColumnAndRow(1, $row)->applyFromArray($border);
+          $sheet->getStyleByColumnAndRow(2, $row)->applyFromArray($border);
+          $sheet->getStyleByColumnAndRow(3, $row)->applyFromArray($border);
+          $sheet->getStyleByColumnAndRow(4, $row)->applyFromArray($border);
+          $sheet->getStyleByColumnAndRow(5, $row)->applyFromArray($border);
+          $sheet->getStyleByColumnAndRow(6, $row)->applyFromArray($border);
+          $sheet->getStyleByColumnAndRow(7, $row)->applyFromArray($border);
+          $sheet->getStyleByColumnAndRow(8, $row)->applyFromArray($border);
+          $sheet->getStyleByColumnAndRow(9, $row)->applyFromArray($border);
+
+          $parameterAnalysis[] = $projectPointMatrices[$i]->parameterAnalysis->analysis_parameter_name;
+          $row++;
+        }
+      }
+
+      for ($h = 1; $h <= 9; $h++) {
+        $sheet->getStyleByColumnAndRow($h, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+        $sheet->getStyleByColumnAndRow($h, $row)->applyFromArray($border);
+        $sheet->mergeCellsByColumnAndRow(1, $row, 9, $row);
+      }
+
+      $richText = new \PhpOffice\PhpSpreadsheet\RichText\RichText();
+      $class = $richText->createTextRun('Classificação:');
+      $class->getFont()->setBold(true);
+      $richText->createText(' Com base nos resultados obtidos, conforme o relatório de ensaio (identificação do laboratório) do laboratório (identificação do nome do laboratório) o resíduo foi classificado como ');
+      $class2 = $richText->createTextRun('Classe IIA-não Inerte');
+      $class2->getFont()->setBold(true);
+      $class2->getFont()->getColor()->setRGB("FF0000");
+      $richText->createText(', devido às concentrações de (indicar compostos que estão acima do extrato para a respectiva classificação) no extrato (indicar extrato) estar acima do limite estabelecido no (resíduo bruto/Anexo-F/Anexo-G) - Padrões para o ensaio de (massa bruta/lixiviação/solubilização) da norma ABNT NBR 10.004/04.');
+
+      $sheet->setCellValueByColumnAndRow(1, $row + 1, $richText);
+      $sheet->getStyleByColumnAndRow(1, $row + 1)->getAlignment()->setWrapText(true);
+      for ($i = 1; $i <= 9; $i++) $sheet->getStyleByColumnAndRow($i, $row + 1)->applyFromArray($border);
+      $sheet->mergeCellsByColumnAndRow(1, $row + 1, 9, $row + 1);
+      $sheet->getRowDimension($row + 1)->setRowHeight(60.75);
+      $sheet->getStyleByColumnAndRow(1, $row + 1)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+      $sheet->getStyleByColumnAndRow(1, $row + 1)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+
+      $sheet->getStyleByColumnAndRow(1, 1, 9, $row)->applyFromArray($borderOutline);
+      $sheet->getStyleByColumnAndRow(1, 1, 9, $row + 1)->applyFromArray($borderOutline);
+      $sheet->getStyleByColumnAndRow(1, 4, 1, $row - 1)->applyFromArray($borderOutline);
+      $sheet->getStyleByColumnAndRow(2, 4, 4, $row - 1)->applyFromArray($borderOutline);
+      $sheet->getStyleByColumnAndRow(5, 4, 9, $row - 1)->applyFromArray($borderOutline);
+    }
+
+
+    $writer = new Xls($spreadsheet);
+
+    return response()->streamDownload(function () use ($writer) {
+      $writer->save("php://output");
+    }, "$project->project_cod.xls");
+  }
+
   /**
    * Download results
    *
@@ -1132,6 +1648,7 @@ class AnalysisResultController extends Controller
       $obj->snote8 = $this->searchCellByValue("snote8", $rows[0], $order->lab, $value, 50); #$value[50];
       $obj->snote9 = $this->searchCellByValue("snote9", $rows[0], $order->lab, $value, 51); #$value[51];
       $obj->snote10 = $this->searchCellByValue("snote10", $rows[0], $order->lab, $value, 52); #$value[52];
+      $obj->duplicata = FALSE;
 
       $tokenResult = Str::contains($obj->result, "<");
       $tokenDl = Str::contains($obj->dl, "<");
@@ -1162,7 +1679,7 @@ class AnalysisResultController extends Controller
         ->whereHas('parameterAnalysis', function ($q) use ($obj) {
           $q->where(DB::raw("replace(parameter_analyses.analysis_parameter_name, ' ', '')"), Str::of(Str::replace(' ', '', $obj->analyte))->trim());
         })->whereHas('pointIdentification', function ($q) use ($obj) {
-          $q->where(DB::raw("LOWER(replace(point_identifications.identification, ' ', ''))"), Str::lower(Str::of(Str::replace(' ', '',  $obj->samplename))->trim()));
+          $q->where(DB::raw("LOWER(replace(point_identifications.identification, ' ', ''))"), Str::lower(Str::of(Str::replace([' ', '-DUP'], '',  $obj->samplename))->trim()));
         })->whereHas('analysisMatrix', function ($q) use ($obj) {
           $q->where(DB::raw("replace(analysis_matrices.name, ' ', '')"), Str::of(Str::replace(' ', '', $obj->matrix))->trim());
         })
@@ -1235,10 +1752,8 @@ class AnalysisResultController extends Controller
         $obj->result = $r2;
       }
 
-     $duplicata = Str::contains($obj->samplename, "DUP");
-
-
       if ($obj->project && $obj->samplename) {
+
 
         $analysisResult = AnalysisResult::firstOrCreate([
           'project_point_matrix_id' => $projectPointMatrices->id,
@@ -1246,6 +1761,7 @@ class AnalysisResultController extends Controller
           'samplename' => $obj->samplename,
           'matrix' => $obj->matrix,
         ]);
+        $obj->duplicata = Str::contains($obj->samplename, "-DUP");
 
         $analysisResult->update([
           'client' => $obj->client,
@@ -1272,7 +1788,7 @@ class AnalysisResultController extends Controller
           'casnumber' => $obj->casnumber,
           'surrogate' => $obj->surrogate,
           'tic' => $obj->tic,
-          'duplicata' => $duplicata,
+          'duplicata' => Str::contains($obj->samplename, "-DUP"),
 
           /** CONVERSÃO */
           'result' => $obj->result,
