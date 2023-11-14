@@ -132,6 +132,10 @@
                                             @if((isset($formPrint->formValue->values[$key . "_column"]) && $formPrint->formValue->form->name == "RT-LAB-020-1") ||
                                                 ($formPrint->formValue->form->name != "RT-LAB-020-1"))
 
+                                                @if($formPrint->formValue->form->name == "RT-LAB-020" && $key == "ntu" && !$formPrint->formValue->turbidity)
+                                                    @php continue @endphp
+                                                @endif
+
                                                 <tr>
                                                     <td style="text-align: left; border: 0px; border-left: 1px double grey;">
                                                         {{ $value }}
@@ -141,7 +145,7 @@
                                                     </td>
                                                     <td style="text-align: center; border: 0px;">
                                                         @if(isset($formPrint->formValue->svgs[$row][$key]) || isset($sample[$key . "_footer"]))
-                                                            @php
+                                                               @php
                                                                 if(isset($sample[$key . "_footer"])) :
                                                                     $v = $sample[$key . "_footer"];
                                                                 else :
