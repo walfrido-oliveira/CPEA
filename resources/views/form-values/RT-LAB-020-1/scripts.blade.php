@@ -895,6 +895,9 @@
                    } else {
                     var url = `@if($formValue) {{ route('fields.form-values.signer', ['form_value' => $formValue->id, 'project_id' => isset($formValue) ? $formValue->values['project_id'] : '' . ".pdf"]) }} @endif`;
                     window.open(url, '_blank').focus();
+                    var modalSigner = document.getElementById("signer_modal");
+                    modalSigner.classList.add("hidden");
+                    modalSigner.classList.remove("block");
                    }
                 } else if (this.readyState == 4 && this.status != 200) {
                     toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
