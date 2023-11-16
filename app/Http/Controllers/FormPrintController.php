@@ -68,7 +68,8 @@ class FormPrintController extends Controller
         if (
             !isset($formValue->values["samples"]) || !isset($formValue->values["coordinates"]) ||
             !isset($formValue->values["additional_info"]) || !isset($formValue->values["approval_text"]) ||
-            $formValue->values["additional_info"] == '' || $formValue->values["approval_text"] == ''
+            $formValue->values["additional_info"] == '' || $formValue->values["approval_text"] == '' ||
+            !$formValue->values["signer"]
         ) {
             return false;
         }

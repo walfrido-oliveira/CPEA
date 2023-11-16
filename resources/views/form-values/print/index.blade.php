@@ -273,7 +273,7 @@
         </div>
 
         <div id="signer">
-            @if ( $formPrint->signerFile)
+            @if ( $formPrint->signerFile || $formPrint->formValue->signed)
                 <img src="data:image/png;base64, {{ $formPrint->signer }}" width="70" height="70">
             @endif
             @if($formPrint->user)
