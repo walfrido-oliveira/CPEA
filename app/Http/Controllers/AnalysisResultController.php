@@ -863,7 +863,7 @@ class AnalysisResultController extends Controller
         ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
         ->where("project_point_matrices.parameter_analysis_id", $projectPointMatrices[$i]->parameter_analysis_id)
         ->where("analysis_results.duplicata", false)
-        >first();
+        ->first();
 
         $valueDup = $campaign->analysisResults()->with('projectPointMatrix')
         ->with('projectPointMatrix')
@@ -872,7 +872,7 @@ class AnalysisResultController extends Controller
         ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
         ->where("project_point_matrices.parameter_analysis_id", $projectPointMatrices[$i]->parameter_analysis_id)
         ->where("analysis_results.duplicata", true)
-        >first();
+        ->first();
 
         $cellDprResult = ((($valueNormal->result - $valueDup->result) / (($valueNormal->result + $valueDup->result) /2 )) *100);
         $sheet->setCellValueByColumnAndRow(5, $row, number_format($cellDprResult, 0, ",", "."));
