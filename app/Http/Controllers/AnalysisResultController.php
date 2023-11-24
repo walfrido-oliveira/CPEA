@@ -789,7 +789,6 @@ class AnalysisResultController extends Controller
     $sheet->getStyleByColumnAndRow(5, 1)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
     $sheet->mergeCells('E1:E5');
     $sheet->getStyle("E1:E5")->applyFromArray($border);
-    // $sheet->setCellValueByColumnAndRow(5, 8, "TESTE");
 
     // Intervalo
     $sheet->setCellValueByColumnAndRow(6, 1, 'Intervalo de aceitação');
@@ -963,7 +962,9 @@ class AnalysisResultController extends Controller
           $sheet->setCellValueByColumnAndRow($k + $a + 3, $row, $result);
           $sheet->setCellValueByColumnAndRow(2,  $row, $value->units);
           $cellDprResult = ((($value->result - $valueDup->result) / (($value->result + $valueDup->result) /2 )) *100);
-          $sheet->setCellValueByColumnAndRow(5, $row, number_format($cellDprResult, 5, ",", "."));
+          $sheet->setCellValueByColumnAndRow(5, $row, number_format($cellDprResult, 0, ",", "."));
+          $sheet->getStyleByColumnAndRow(5, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+          $sheet->getStyleByColumnAndRow(5, $row)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
 
           if ((Str::contains($value->resultreal, ["j", "J"]) && !Str::contains($value->resultreal, ["<"])) || $bold || $value->snote6 == '*') {
             $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFont()->setBold(true);
@@ -1633,7 +1634,6 @@ class AnalysisResultController extends Controller
             $r2 = Str::replace(["<", "< ", " "], "", $r2);
             $r2 = Str::replace([","], ".", $r2);
             $obj->result = $r2;
-            $obj->totalDup += (float)$obj->result;
         } else {
             $r2 =  Str::replace(["*J", " [1]"], "", $obj->result);
             $r2 = Str::replace(["<", "< ", " "], "", $r2);
@@ -1641,8 +1641,6 @@ class AnalysisResultController extends Controller
             $obj->result = $r2;
             $obj->totalResult += (float)$obj->result;
         }
-
-        $obj->dprResult = ((($obj->totalResult - $obj->totalDup) / (($obj->totalResult + $obj->totalDup) / 2)) * 100);
 
 
         $analysisResult->update([
