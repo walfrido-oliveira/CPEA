@@ -43,7 +43,7 @@
                             <x-jet-input id="final_validity" class="form-control block mt-1 w-full" type="datetime-local" name="final_validity"  required autofocus autocomplete="final_validity" :value="$parameterAnalysisGroup->final_validity->format('Y-m-d\TH:i')"/>
                         </div>
                         <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                            <x-jet-label for="acceptance_interval" value="{{ __('Intervalo de Aceitação') }}"/>
+                            <x-jet-label for="acceptance_interval" value="{{ __('Intervalo de Aceitação') }}" required/>
                             <x-jet-input id="acceptance_interval" class="form-control block mt-1 w-full" type="number" step="any" name="acceptance_interval" maxlength="18" autofocus autocomplete="acceptance_interval" :value="$parameterAnalysisGroup->acceptance_interval"/>
                         </div>
                     </div>
