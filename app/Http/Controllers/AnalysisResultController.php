@@ -847,39 +847,7 @@ class AnalysisResultController extends Controller
       if (!in_array($projectPointMatrices[$i]->parameterAnalysis->analysis_parameter_name, $parameterAnalysis) || $i == 0) {
         $sheet->setCellValueByColumnAndRow(1, $row, $projectPointMatrices[$i]->parameterAnalysis->analysis_parameter_name);
 
-        for ($k = 0; $k < count($guidingParameters); $k++) {
-          $guidingParametersValue = GuidingParameterValue::where("guiding_parameter_id", $guidingParameters[$k]->id)
-            ->where('parameter_analysis_id', $projectPointMatrices[$i]->parameter_analysis_id)
-            ->first();
-
-          if ($guidingParametersValue) {
-            if ($guidingParametersValue->guidingValue) {
-              if (Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo'])) {
-                $sheet->setCellValueByColumnAndRow($k + 3, $row,  Str::replace(".", ",", $guidingParametersValue->guiding_legislation_value));
-              }
-              if (Str::contains($guidingParametersValue->guidingValue->name, ['Qualitativo'])) {
-                $sheet->setCellValueByColumnAndRow($k + 3, $row, 'Virtualmente ausente');
-              }
-              if (Str::contains($guidingParametersValue->guidingValue->name, ['Intervalo'])) {
-                $sheet->setCellValueByColumnAndRow(
-                  $k + 3,
-                  $row,
-                  Str::replace(".", ",", $guidingParametersValue->guiding_legislation_value) . ' - ' .
-                  Str::replace(".", ",", $guidingParametersValue->guiding_legislation_value_1)
-                );
-              }
-            } else {
-              $sheet->setCellValueByColumnAndRow($k + 3,  $row, $guidingParametersValue->guiding_legislation_value);
-            }
-          } else {
-            $sheet->setCellValueByColumnAndRow($k + 3, $row, "-");
-          }
-
-          $sheet->getStyleByColumnAndRow($k + 3, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-          $sheet->getStyleByColumnAndRow($k + 3, $row)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-          $sheet->getStyleByColumnAndRow($k + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $colors[$k]));
-          $sheet->getStyleByColumnAndRow($k + 3, $row)->applyFromArray($border);
-        }
+        $k = 0;
 
         for ($l = 0; $l < count($analysisResult); $l++) {
           $sheet->setCellValueByColumnAndRow($k + $l + 3, $row, "N/A");
@@ -887,6 +855,29 @@ class AnalysisResultController extends Controller
           $sheet->getStyleByColumnAndRow($k + $l + 3, $row)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
           $sheet->getStyleByColumnAndRow($k + $l + 3, $row)->applyFromArray($border);
         }
+
+        $valueNormal =  $campaign->analysisResults()->with('projectPointMatrix')
+        ->with('projectPointMatrix')
+        ->leftJoin('project_point_matrices', 'analysis_results.project_point_matrix_id', '=', 'project_point_matrices.id')
+        ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+        ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+        ->where("project_point_matrices.parameter_analysis_id", $projectPointMatrices[$i]->parameter_analysis_id)
+        ->where("analysis_results.duplicata", false)
+        >first();
+
+        $valueDup = $campaign->analysisResults()->with('projectPointMatrix')
+        ->with('projectPointMatrix')
+        ->leftJoin('project_point_matrices', 'analysis_results.project_point_matrix_id', '=', 'project_point_matrices.id')
+        ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+        ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+        ->where("project_point_matrices.parameter_analysis_id", $projectPointMatrices[$i]->parameter_analysis_id)
+        ->where("analysis_results.duplicata", true)
+        >first();
+
+        $cellDprResult = ((($valueNormal->result - $valueDup->result) / (($valueNormal->result + $valueDup->result) /2 )) *100);
+        $sheet->setCellValueByColumnAndRow(5, $row, number_format($cellDprResult, 0, ",", "."));
+        $sheet->getStyleByColumnAndRow(5, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyleByColumnAndRow(5, $row)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
 
         for ($a = 0; $a < count($analysisResult); $a++) {
           $value =  $campaign->analysisResults()->with('projectPointMatrix')
@@ -896,8 +887,6 @@ class AnalysisResultController extends Controller
             ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
             ->where("project_point_matrices.parameter_analysis_id", $projectPointMatrices[$i]->parameter_analysis_id)
             ->where("project_point_matrices.point_identification_id", $analysisResult[$a]->projectPointMatrix->point_identification_id)
-            ->where("analysis_results.duplicata", false)
-
             ->first();
 
             $valueDup =  $campaign->analysisResults()->with('projectPointMatrix')
@@ -961,10 +950,6 @@ class AnalysisResultController extends Controller
 
           $sheet->setCellValueByColumnAndRow($k + $a + 3, $row, $result);
           $sheet->setCellValueByColumnAndRow(2,  $row, $value->units);
-          $cellDprResult = ((($value->result - $valueDup->result) / (($value->result + $valueDup->result) /2 )) *100);
-          $sheet->setCellValueByColumnAndRow(5, $row, number_format($cellDprResult, 0, ",", "."));
-          $sheet->getStyleByColumnAndRow(5, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-          $sheet->getStyleByColumnAndRow(5, $row)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
 
           if ((Str::contains($value->resultreal, ["j", "J"]) && !Str::contains($value->resultreal, ["<"])) || $bold || $value->snote6 == '*') {
             $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFont()->setBold(true);
@@ -986,60 +971,6 @@ class AnalysisResultController extends Controller
               $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->applyFromArray($styleArray);
             }
           }
-
-          $colorsGuidingParametersId = [];
-
-          for ($x = 0; $x < count($guidingParametersIds); $x++) {
-            $colorsGuidingParametersId[$x] = [
-              "guiding_parameter_id" => $guidingParametersIds[$x],
-              "color" => $colors[$x]
-            ];
-          }
-
-          $guidingParametersValues = GuidingParameterValue::whereIn("guiding_parameter_id", $guidingParametersIds)
-          ->where('parameter_analysis_id', $projectPointMatrices[$i]->parameter_analysis_id)
-          ->orderByRaw('guiding_legislation_value + 0')
-          ->get();
-
-          $b = 0;
-          foreach ($guidingParametersValues as $guidingParametersValue) {
-            if ($guidingParametersValue) {
-              $color = $colorsGuidingParametersId[array_search($guidingParametersValue->guiding_parameter_id, array_column($colorsGuidingParametersId, 'guiding_parameter_id'))]["color"];
-              $guiding_legislation_value = Str::replace(",", ".", $guidingParametersValue->guiding_legislation_value);
-              $guiding_legislation_value_1 = Str::replace(",", ".", $guidingParametersValue->guiding_legislation_value_1);
-
-              if (Str::contains($guidingParametersValue->guidingValue->name, ['Quantitativo'])) {
-                if ($resultValue > Str::replace(",", ".", $guiding_legislation_value)) {
-                  $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $color));
-                }
-              }
-              if ($guidingParametersValue->guidingValue->name == 'Intervalo') {
-                if (($resultValue < $guiding_legislation_value || $resultValue > $guiding_legislation_value_1)) {
-                  $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $color));
-                }
-              }
-              if ($guidingParametersValue->guidingValue->name == 'Intervalo de Aceitação') {
-                if ($resultValue > $rlValue) {
-                  $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFont()->setBold(true);
-                }
-              }
-              if (Str::contains($guidingParametersValue->guidingValue->name, ['Qualitativo'])) {
-                if (is_numeric($resultValue)) {
-                  if ($resultValue >= $rlValue && !Str::contains($value->resultreal, ["<", "< "])) {
-                    $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFont()->setBold(true);
-                    $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $color));
-                  }
-                } else {
-                  if ($value->resultreal == 'Presente' || $value->resultreal == 'Presença') {
-                    $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFont()->setBold(true);
-                    $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $color));
-                  }
-                }
-              }
-            }
-            $b++;
-          }
-        }
 
         $sheet->getStyleByColumnAndRow(1, $row)->applyFromArray($border);
         $sheet->getStyleByColumnAndRow(2, $row)->applyFromArray($border);
