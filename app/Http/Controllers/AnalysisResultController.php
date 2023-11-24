@@ -789,7 +789,7 @@ class AnalysisResultController extends Controller
     $sheet->getStyleByColumnAndRow(5, 1)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
     $sheet->mergeCells('E1:E5');
     $sheet->getStyle("E1:E5")->applyFromArray($border);
-    $sheet->setCellValueByColumnAndRow(5, 8, "TESTE");
+    // $sheet->setCellValueByColumnAndRow(5, 8, "TESTE");
 
     // Intervalo
     $sheet->setCellValueByColumnAndRow(6, 1, 'Intervalo de aceitação');
@@ -897,7 +897,20 @@ class AnalysisResultController extends Controller
             ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
             ->where("project_point_matrices.parameter_analysis_id", $projectPointMatrices[$i]->parameter_analysis_id)
             ->where("project_point_matrices.point_identification_id", $analysisResult[$a]->projectPointMatrix->point_identification_id)
+            ->where("analysis_results.duplicata", false)
+
             ->first();
+
+            $valueDup =  $campaign->analysisResults()->with('projectPointMatrix')
+                ->with('projectPointMatrix')
+                ->leftJoin('project_point_matrices', 'analysis_results.project_point_matrix_id', '=', 'project_point_matrices.id')
+                ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+                ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+                ->where("project_point_matrices.parameter_analysis_id", $projectPointMatrices[$i]->parameter_analysis_id)
+                ->where("project_point_matrices.point_identification_id", $analysisResult[$a]->projectPointMatrix->point_identification_id)
+                ->where("analysis_results.duplicata", true)
+
+                ->first();
 
           if (!$value) continue;
 
@@ -949,6 +962,8 @@ class AnalysisResultController extends Controller
 
           $sheet->setCellValueByColumnAndRow($k + $a + 3, $row, $result);
           $sheet->setCellValueByColumnAndRow(2,  $row, $value->units);
+          $cellDprResult = ((($value->result - $valueDup->result) / (($value->result + $valueDup->result) /2 )) *100);
+          $sheet->setCellValueByColumnAndRow(5, $row, number_format($cellDprResult, 5, ",", "."));
 
           if ((Str::contains($value->resultreal, ["j", "J"]) && !Str::contains($value->resultreal, ["<"])) || $bold || $value->snote6 == '*') {
             $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFont()->setBold(true);
@@ -1494,7 +1509,7 @@ class AnalysisResultController extends Controller
       $obj->snote8 = $this->searchCellByValue("snote8", $rows[0], $order->lab, $value, 50); #$value[50];
       $obj->snote9 = $this->searchCellByValue("snote9", $rows[0], $order->lab, $value, 51); #$value[51];
       $obj->snote10 = $this->searchCellByValue("snote10", $rows[0], $order->lab, $value, 52); #$value[52];
-      $obj->duplicata = FALSE;
+      $obj->duplicata = FALSE; #$value[53];
       $obj->totalDup = 0;
       $obj->totalResult = 0;
       $obj->dprResult = 0;
