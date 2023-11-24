@@ -889,16 +889,6 @@ class AnalysisResultController extends Controller
             ->where("project_point_matrices.point_identification_id", $analysisResult[$a]->projectPointMatrix->point_identification_id)
             ->first();
 
-            $valueDup =  $campaign->analysisResults()->with('projectPointMatrix')
-                ->with('projectPointMatrix')
-                ->leftJoin('project_point_matrices', 'analysis_results.project_point_matrix_id', '=', 'project_point_matrices.id')
-                ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
-                ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
-                ->where("project_point_matrices.parameter_analysis_id", $projectPointMatrices[$i]->parameter_analysis_id)
-                ->where("project_point_matrices.point_identification_id", $analysisResult[$a]->projectPointMatrix->point_identification_id)
-                ->where("analysis_results.duplicata", true)
-
-                ->first();
 
           if (!$value) continue;
 
@@ -971,6 +961,7 @@ class AnalysisResultController extends Controller
               $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->applyFromArray($styleArray);
             }
           }
+        }
 
         $sheet->getStyleByColumnAndRow(1, $row)->applyFromArray($border);
         $sheet->getStyleByColumnAndRow(2, $row)->applyFromArray($border);
