@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use Illuminate\Support\Facades\Storage;
 
 class AnalysisResultController extends Controller
 {
@@ -681,6 +682,322 @@ class AnalysisResultController extends Controller
     }, "$project->project_cod.xls");
   }
 
+  public function downloadDUPType($id)
+  {$campaign = Campaign::findOrFail($id);
+    $project = $campaign->project;
+    $colors = $this->getColors($project);
+    $guidingParameters = $this->getGuidingParametersOrder($project);
+
+    $guidingParametersValues  = [];
+    $guidingParametersIds = [];
+    for ($b = 0; $b < count($guidingParameters); $b++) {
+      $guidingParametersIds[] = $guidingParameters[$b]->id;
+    }
+
+    $spreadsheet = new Spreadsheet();
+
+    $sheet = $spreadsheet->getActiveSheet();
+
+    $border = [
+      'borders' => [
+        'allBorders' => [
+          'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+        ],
+      ],
+    ];
+
+    $sheet->setCellValueByColumnAndRow(1, 1, 'Parâmetro');
+    $sheet->getStyleByColumnAndRow(1, 1)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+
+    $sheet->setCellValueByColumnAndRow(1, 2, 'Data de Coleta');
+    $sheet->setCellValueByColumnAndRow(1, 3, 'Hora de Coleta');
+    $sheet->setCellValueByColumnAndRow(1, 4, 'Grupo do Laboratório');
+    $sheet->setCellValueByColumnAndRow(1, 5, 'Identificação do Laboratório');
+    $sheet->getStyle("A1:A5")->applyFromArray($border);
+
+    foreach (range('A1', 'A5') as $columnID) : $sheet->getColumnDimension($columnID)->setAutoSize(true);
+    endforeach;
+
+    $sheet->setCellValueByColumnAndRow(2, 1, 'Unid');
+    $sheet->getStyleByColumnAndRow(2, 1)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+    $sheet->getStyleByColumnAndRow(2, 1)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyleByColumnAndRow(2, 1)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+    $sheet->mergeCells('B1:B5');
+    $sheet->getStyle("B1:B5")->applyFromArray($border);
+
+    $sheet->setCellValueByColumnAndRow(3, 1, 'Valores Orientadores');
+    $sheet->getStyleByColumnAndRow(3, 1)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyleByColumnAndRow(3, 1)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+    $sheet->getStyleByColumnAndRow(3, 1)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+    $sheet->getStyleByColumnAndRow(3, 1)->applyFromArray($border);
+
+    $column = "B";
+    for ($i = 0; $i < count($guidingParameters); $i++) : $column++;
+    endfor;
+
+    foreach (range("C", $column) as $columnID) :
+      $sheet->getColumnDimension($columnID)->setAutoSize(true);
+      $sheet->getStyle($columnID . "1")->applyFromArray($border);
+    endforeach;
+
+    if (count($guidingParameters) > 1) $sheet->mergeCells('C1:' . $column . '1');
+
+    $column = "C";
+    /* PARAMETOS ORIENTADORES */
+    for ($i = 0; $i < count($guidingParameters); $i++) {
+      $sheet->setCellValueByColumnAndRow((3 + $i), 2, $guidingParameters[$i]->environmental_guiding_parameter_id);
+      $sheet->getStyleByColumnAndRow((3 + $i), 2)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+      $sheet->getStyleByColumnAndRow((3 + $i), 2)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+      $sheet->getStyleByColumnAndRow((3 + $i), 2)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB(Str::replace("#", "", $colors[$i]));
+
+      foreach (range($column . "2", $column . "2") as $columnID) : $sheet->getColumnDimension($columnID)->setAutoSize(true);
+      endforeach;
+
+      $spreadsheet->getActiveSheet()->mergeCells($column . "2:" . $column . "5");
+
+      $sheet->getStyleByColumnAndRow((3 + $i), 2)->applyFromArray($border);
+      $sheet->getStyleByColumnAndRow((3 + $i), 3)->applyFromArray($border);
+      $sheet->getStyleByColumnAndRow((3 + $i), 4)->applyFromArray($border);
+      $sheet->getStyleByColumnAndRow((3 + $i), 5)->applyFromArray($border);
+
+      $column++;
+    }
+
+    /* PONTOS */
+    $analysisResult = $campaign->analysisResults()->groupBy('samplename')->get();
+    for ($i = 0; $i < count($analysisResult); $i++) {
+      $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $i, 1, $analysisResult[$i]->samplename);
+      $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $i, 2, $analysisResult[$i]->projectPointMatrix->date_collection->format("d/m/Y"));
+      $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $i, 3, $analysisResult[$i]->projectPointMatrix->date_collection->format("H:i"));
+      $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $i, 4, $analysisResult[$i]->batch);
+      $sheet->setCellValueByColumnAndRow(2 + count($guidingParameters) + 1  + $i, 5, $analysisResult[$i]->labsampid);
+
+      for ($j = 1; $j <= 5; $j++) {
+        $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $i, $j)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $i, $j)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+        $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $i, $j)->applyFromArray($border);
+      }
+
+      $sheet->getStyleByColumnAndRow(2 + count($guidingParameters) + 1  + $i, 1)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+      $sheet->getColumnDimensionByColumn(2 + count($guidingParameters) + 1  + $i)->setAutoSize(true);
+    }
+
+    // DPR
+    $sheet->setCellValueByColumnAndRow(5, 1, 'DPR %');
+    $sheet->getStyleByColumnAndRow(5, 1)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+    $sheet->getStyleByColumnAndRow(5, 1)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyleByColumnAndRow(5, 1)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+    $sheet->mergeCells('E1:E5');
+    $sheet->getStyle("E1:E5")->applyFromArray($border);
+
+    // Intervalo
+    $sheet->setCellValueByColumnAndRow(6, 1, 'Intervalo de aceitação');
+    $sheet->getStyleByColumnAndRow(6, 1)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+    $sheet->getStyleByColumnAndRow(6, 1)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyleByColumnAndRow(6, 1)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+    $sheet->mergeCells('F1:F5');
+    $sheet->getStyle("F1:F5")->applyFromArray($border);
+
+    /* PARAMETROS DE ANÁLISE */
+    $projectPointMatrices = $campaign->projectPointMatrices()
+      ->with('pointIdentification')
+      ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+      ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+      ->leftJoin('parameter_analysis_groups as t1', 't1.id', '=', 'parameter_analyses.parameter_analysis_group_id')
+      ->orderByRaw("INET_ATON(SUBSTRING_INDEX(CONCAT(t1.`order`,'.0.0.0'),'.',4))")
+      ->orderBy('parameter_analyses.order', 'asc')
+      ->select('project_point_matrices.*')
+      ->get();
+
+    $row = 6;
+    $groupParameterAnalysis = [];
+    $parameterAnalysis = [];
+
+    for ($i = 0; $i < count($projectPointMatrices); $i++) {
+      if ($i == 0) {
+        if ($projectPointMatrices[$i]->parameterAnalysis->parameterAnalysisGroup) {
+          $parents = $this->getParameterAnalysisGroup($projectPointMatrices[$i]->parameterAnalysis);
+          for ($j = count($parents) - 1; $j >= 0; $j--) {
+            $groupParameterAnalysis[] = $parents[$j]->name;
+            $sheet->setCellValueByColumnAndRow(1, $row, $parents[$j]->name);
+            $sheet->getStyleByColumnAndRow(1, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+            for ($lo=1; $lo <= 3 + count($guidingParameters) + count($analysisResult) - 1; $lo++)  $sheet->getStyleByColumnAndRow($lo, $row)->applyFromArray($border);
+            $spreadsheet->getActiveSheet()->mergeCellsByColumnAndRow(1, $row, 3 + count($guidingParameters) + count($analysisResult) - 1, $row);
+            $row++;
+          }
+        }
+      } else {
+        if (
+          $projectPointMatrices[$i]->parameterAnalysis->parameter_analysis_group_id !=
+          $projectPointMatrices[$i - 1]->parameterAnalysis->parameter_analysis_group_id
+        ) {
+          $parents = $this->getParameterAnalysisGroup($projectPointMatrices[$i]->parameterAnalysis);
+          for ($j = count($parents) - 1; $j >= 0; $j--) {
+            if (in_array($parents[$j]->name, $groupParameterAnalysis)) continue;
+            $groupParameterAnalysis[] = $parents[$j]->name;
+            $sheet->setCellValueByColumnAndRow(1, $row, $parents[$j]->name);
+            $sheet->getStyleByColumnAndRow(1, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
+            for ($lo=1; $lo <= 3 + count($guidingParameters) + count($analysisResult) - 1; $lo++)  $sheet->getStyleByColumnAndRow($lo, $row)->applyFromArray($border);
+            $spreadsheet->getActiveSheet()->mergeCellsByColumnAndRow(1, $row, 3 + count($guidingParameters) + count($analysisResult) - 1, $row);
+            $row++;
+          }
+        }
+      }
+
+      if (!in_array($projectPointMatrices[$i]->parameterAnalysis->analysis_parameter_name, $parameterAnalysis) || $i == 0) {
+        $sheet->setCellValueByColumnAndRow(1, $row, $projectPointMatrices[$i]->parameterAnalysis->analysis_parameter_name);
+
+        $k = 0;
+
+        for ($l = 0; $l < count($analysisResult); $l++) {
+          $sheet->setCellValueByColumnAndRow($k + $l + 3, $row, "N/A");
+          $sheet->getStyleByColumnAndRow($k + $l + 3, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+          $sheet->getStyleByColumnAndRow($k + $l + 3, $row)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+          $sheet->getStyleByColumnAndRow($k + $l + 3, $row)->applyFromArray($border);
+        }
+
+        $valueNormal =  $campaign->analysisResults()->with('projectPointMatrix')
+        ->with('projectPointMatrix')
+        ->leftJoin('project_point_matrices', 'analysis_results.project_point_matrix_id', '=', 'project_point_matrices.id')
+        ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+        ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+        ->where("project_point_matrices.parameter_analysis_id", $projectPointMatrices[$i]->parameter_analysis_id)
+        ->where("analysis_results.duplicata", false)
+        ->first();
+
+        $valueDup = $campaign->analysisResults()->with('projectPointMatrix')
+        ->with('projectPointMatrix')
+        ->leftJoin('project_point_matrices', 'analysis_results.project_point_matrix_id', '=', 'project_point_matrices.id')
+        ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+        ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+        ->where("project_point_matrices.parameter_analysis_id", $projectPointMatrices[$i]->parameter_analysis_id)
+        ->where("analysis_results.duplicata", true)
+        ->first();
+
+        $cellDprResult = ((($valueNormal->result - $valueDup->result) / (($valueNormal->result + $valueDup->result) /2 )) *100);
+        $intervalValue = $projectPointMatrices[$i]->parameterAnalysis->parameterAnalysisGroup->acceptance_interval;
+        $cellDprResultFinal = number_format($cellDprResult, 0, ",", ".");
+        if(($cellDprResult > 0) && ($cellDprResult > $intervalValue)) :
+            $cellDprResultFinal .= "*";
+            $sheet->getStyleByColumnAndRow(5, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('fef3c7');
+        elseif($cellDprResult <= 0) :
+            $sheet->getStyleByColumnAndRow(5, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('d1fae5');
+        else:
+            $sheet->getStyleByColumnAndRow(5, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('fff');
+        endif;
+        $sheet->setCellValueByColumnAndRow(5, $row, $cellDprResultFinal);
+        $sheet->getStyleByColumnAndRow(5, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyleByColumnAndRow(5, $row)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+        $sheet->getStyleByColumnAndRow(5, $row)->applyFromArray($border);
+
+        $sheet->setCellValueByColumnAndRow(6, $row, number_format($projectPointMatrices[$i]->parameterAnalysis->parameterAnalysisGroup->acceptance_interval, 0, ",", ".") . "%");
+        $sheet->getStyleByColumnAndRow(6, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyleByColumnAndRow(6, $row)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+        $sheet->getStyleByColumnAndRow(6, $row)->applyFromArray($border);
+
+        for ($a = 0; $a < count($analysisResult); $a++) {
+          $value =  $campaign->analysisResults()->with('projectPointMatrix')
+            ->with('projectPointMatrix')
+            ->leftJoin('project_point_matrices', 'analysis_results.project_point_matrix_id', '=', 'project_point_matrices.id')
+            ->leftJoin('point_identifications', 'point_identifications.id', '=', 'project_point_matrices.point_identification_id')
+            ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
+            ->where("project_point_matrices.parameter_analysis_id", $projectPointMatrices[$i]->parameter_analysis_id)
+            ->where("project_point_matrices.point_identification_id", $analysisResult[$a]->projectPointMatrix->point_identification_id)
+            ->where("analysis_results.duplicata", Str::contains($analysisResult[$a]->samplename, ['DUP']))
+            ->first();
+
+
+          if (!$value) continue;
+
+          $result =  Str::replace(["*J", " [1]"], "", $value->result);
+          $result = Str::replace(["<", "< "], "", $result);
+          $result = Str::replace(",", ".", $result);
+
+          $rl =  Str::replace(["*J", " [1]"], "", $value->rl);
+          $rl = Str::replace(["<", "< "], "", $rl);
+          $rl = Str::replace(",", ".", $rl);
+          $rl = $rl == '' ? 0 : $rl;
+
+          $resultValue = $result;
+          $rlValue = $rl;
+
+          $token = ($resultValue < $rlValue || !$value->result) && !Str::contains($value->resultreal, ["j", "J"]);
+          $bold = $resultValue >= $rlValue && !Str::contains($value->resultreal, ["<", "< "]) && is_numeric(Str::replace(",", ".", $value->resultreal))
+            || (Str::contains($value->resultreal, ["J", "j"]) && !Str::contains($value->resultreal, ["<", "< "]));
+
+          if (is_numeric($result)) $result = number_format($result, 5, ",", ".");
+
+          $result = $result == '0,000' ? 'N/A' : $result;
+          $result = $token || Str::contains($value->resultreal, ["<"]) && !Str::contains($result, 'N/A') ? "< $result" : $result;
+
+          if ($value->result == '') $result = "< " . number_format($rl, 5, ",", ".");
+
+          if ($value->snote10) {
+            if (Str::contains($value->snote10, ["*j", "*J"])) {
+              $resultSnote10 = filter_var(Str::replace(",", ".", $value->snote10), FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+
+              $bold = !Str::contains($value->snote10, ["<"]);
+
+              if (is_numeric($resultSnote10)) {
+                if ($value->resultreal != '') {
+                  if ($result >= $resultSnote10) {
+                    $result = number_format($resultSnote10, 5, ",", ".");
+                    $result = Str::contains($value->snote10, ["<"]) ? "< $result" : $result;
+                    $resultValue = $resultSnote10;
+                    $bold = !Str::contains($value->snote10, ["<"]);
+                  }
+                } else {
+                  $result = number_format($resultSnote10, 5, ",", ".");
+                  $result = Str::contains($value->snote10, ["<"]) ? "< $result" : $result;
+                  $resultValue = $resultSnote10;
+                }
+              }
+            }
+          }
+
+          $sheet->setCellValueByColumnAndRow($k + $a + 3, $row, $result);
+          $sheet->setCellValueByColumnAndRow(2,  $row, $value->units);
+
+          if ((Str::contains($value->resultreal, ["j", "J"]) && !Str::contains($value->resultreal, ["<"])) || $bold || $value->snote6 == '*') {
+            $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->getFont()->setBold(true);
+          }
+
+          if ($value->anadate && $value->prepdate && $value->projectPointMatrix->parameterMethodPreparation) {
+            $anadate = Carbon::createFromFormat('d/m/Y', Str::substr($value->anadate, 0, 10));
+            $prepdate = Carbon::createFromFormat('d/m/Y', Str::substr($value->prepdate, 0, 10));
+
+            if ($prepdate->diffInDays($anadate) > $value->projectPointMatrix->parameterMethodPreparation->time_preparation) {
+              $styleArray = array(
+                'borders' => array(
+                  'allBorders' => array(
+                    'borderStyle' => Border::BORDER_THIN,
+                    'color' => array('argb' => 'FFFF0000'),
+                  ),
+                ),
+              );
+              $sheet->getStyleByColumnAndRow($k + $a + 3, $row)->applyFromArray($styleArray);
+            }
+          }
+        }
+
+        $sheet->getStyleByColumnAndRow(1, $row)->applyFromArray($border);
+        $sheet->getStyleByColumnAndRow(2, $row)->applyFromArray($border);
+        $sheet->getColumnDimensionByColumn(1, $row)->setAutoSize(true);
+        $sheet->getColumnDimensionByColumn(2, $row)->setAutoSize(true);
+
+        $parameterAnalysis[] = $projectPointMatrices[$i]->parameterAnalysis->analysis_parameter_name;
+        $row++;
+      }
+    }
+
+
+    $writer = new Xls($spreadsheet);
+
+    return response()->streamDownload(function () use ($writer) {
+      $writer->save("php://output");
+    }, "$project->project_cod.xls");
+  }
+
   /**
    * Download results
    *
@@ -1132,6 +1449,10 @@ class AnalysisResultController extends Controller
       $obj->snote8 = $this->searchCellByValue("snote8", $rows[0], $order->lab, $value, 50); #$value[50];
       $obj->snote9 = $this->searchCellByValue("snote9", $rows[0], $order->lab, $value, 51); #$value[51];
       $obj->snote10 = $this->searchCellByValue("snote10", $rows[0], $order->lab, $value, 52); #$value[52];
+      $obj->duplicata = FALSE; #$value[53];
+      $obj->totalDup = 0;
+      $obj->totalResult = 0;
+      $obj->dprResult = 0;
 
       $tokenResult = Str::contains($obj->result, "<");
       $tokenDl = Str::contains($obj->dl, "<");
@@ -1162,7 +1483,7 @@ class AnalysisResultController extends Controller
         ->whereHas('parameterAnalysis', function ($q) use ($obj) {
           $q->where(DB::raw("replace(parameter_analyses.analysis_parameter_name, ' ', '')"), Str::of(Str::replace(' ', '', $obj->analyte))->trim());
         })->whereHas('pointIdentification', function ($q) use ($obj) {
-          $q->where(DB::raw("LOWER(replace(point_identifications.identification, ' ', ''))"), Str::lower(Str::of(Str::replace(' ', '',  $obj->samplename))->trim()));
+          $q->where(DB::raw("LOWER(replace(point_identifications.identification, ' ', ''))"), Str::lower(Str::of(Str::replace([' ', '-DUP'], '',  $obj->samplename))->trim()));
         })->whereHas('analysisMatrix', function ($q) use ($obj) {
           $q->where(DB::raw("replace(analysis_matrices.name, ' ', '')"), Str::of(Str::replace(' ', '', $obj->matrix))->trim());
         })
@@ -1237,12 +1558,29 @@ class AnalysisResultController extends Controller
 
       if ($obj->project && $obj->samplename) {
 
+
         $analysisResult = AnalysisResult::firstOrCreate([
           'project_point_matrix_id' => $projectPointMatrices->id,
           'analysis_order_id' => $order->id,
           'samplename' => $obj->samplename,
           'matrix' => $obj->matrix,
         ]);
+        $obj->duplicata = Str::contains($obj->samplename, "-DUP");
+
+
+        if($obj->duplicata) {
+            $r2 =  Str::replace(["*J", " [1]"], "", $obj->result);
+            $r2 = Str::replace(["<", "< ", " "], "", $r2);
+            $r2 = Str::replace([","], ".", $r2);
+            $obj->result = $r2;
+        } else {
+            $r2 =  Str::replace(["*J", " [1]"], "", $obj->result);
+            $r2 = Str::replace(["<", "< ", " "], "", $r2);
+            $r2 = Str::replace([","], ".", $r2);
+            $obj->result = $r2;
+            $obj->totalResult += (float)$obj->result;
+        }
+
 
         $analysisResult->update([
           'client' => $obj->client,
@@ -1269,6 +1607,7 @@ class AnalysisResultController extends Controller
           'casnumber' => $obj->casnumber,
           'surrogate' => $obj->surrogate,
           'tic' => $obj->tic,
+          'duplicata' => Str::contains($obj->samplename, "-DUP"),
 
           /** CONVERSÃO */
           'result' => $obj->result,

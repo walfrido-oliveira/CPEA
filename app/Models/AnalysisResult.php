@@ -72,7 +72,8 @@ class AnalysisResult extends Model
         'snote8',
         'snote9',
         'snote10',
-        'resultreal'
+        'resultreal',
+        'duplicata',
     ];
 
     /**

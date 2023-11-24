@@ -34,6 +34,16 @@
                     {{ __('NBR') }}
                 </button>
 
+                <button
+                    class='block px-4 py-2 text-sm leading-5
+                           text-gray-700 hover:bg-gray-100 bg-green-100
+                            focus:outline-none focus:bg-gray-100
+                            transition w-full download-analysis-result'
+                    id="download-result-dup"
+                    data-url="{{ route('analysis-result.download-dup', ['campaign' => $campaign->id]) }}">
+                    {{ __('DUP') }}
+                </button>
+
                 <div class="banalysisOrder-t banalysisOrder-gray-100"></div>
             </x-slot>
         </x-jet-dropdown>

@@ -194,6 +194,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function() {
         Route::get('/download/{campaign}', [AnalysisResultController::class, 'download'])->name('download');
         Route::get('/download-nbr/{campaign}', [AnalysisResultController::class, 'downloadNBRType'])->name('download-nbr');
         Route::get('/download-edd/{analysis_order}', [AnalysisResultController::class, 'downloadEDD'])->name('download-edd');
+        Route::get('/download-dup/{campaign}', [AnalysisResultController::class, 'downloadDUPType'])->name('download-dup');
         Route::get('/edit/{project_point_matrix_id}', [AnalysisResultController::class, 'edit'])->name('edit');
         Route::get('/{project_point_matrix_id}', [AnalysisResultController::class, 'show'])->name('show');
         Route::put('/update/{analysis_result}', [AnalysisResultController::class, 'update'])->name('update');

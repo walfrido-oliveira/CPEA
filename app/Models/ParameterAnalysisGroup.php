@@ -16,7 +16,7 @@ class ParameterAnalysisGroup extends Model
      * @var array
      */
     protected $fillable = [
-        'parameter_analysis_group_id','name', 'order', 'final_validity'
+        'parameter_analysis_group_id','name', 'order', 'final_validity', 'acceptance_interval'
     ];
 
     /**
