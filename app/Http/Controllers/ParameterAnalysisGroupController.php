@@ -76,6 +76,7 @@ class ParameterAnalysisGroupController extends Controller
             'parameter_analysis_group_id' => $input['parameter_analysis_group_id'],
             'order' => $input['order'],
             'final_validity' => $input['final_validity'],
+            'acceptance_interval' => $input['acceptance_interval'],
         ]);
 
         return redirect()->route('registers.parameter-analysis-group.index')->with(defaultSaveMessagemNotification());
@@ -113,6 +114,7 @@ class ParameterAnalysisGroupController extends Controller
             'parameter_analysis_group_id' => $input['parameter_analysis_group_id'],
             'order' => $input['order'],
             'final_validity' => $input['final_validity'],
+            'acceptance_interval' => $input['acceptance_interval'],
         ]);
 
         return redirect()->route('registers.parameter-analysis-group.index')->with(defaultSaveMessagemNotification());
