@@ -887,6 +887,7 @@ class AnalysisResultController extends Controller
             ->leftJoin('parameter_analyses', 'parameter_analyses.id', '=', 'project_point_matrices.parameter_analysis_id')
             ->where("project_point_matrices.parameter_analysis_id", $projectPointMatrices[$i]->parameter_analysis_id)
             ->where("project_point_matrices.point_identification_id", $analysisResult[$a]->projectPointMatrix->point_identification_id)
+            ->where("analysis_results.duplicata", Str::contains($analysisResult[$a]->samplename, ['DUP']))
             ->first();
 
 
