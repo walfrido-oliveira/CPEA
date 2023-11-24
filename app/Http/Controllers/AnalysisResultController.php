@@ -875,9 +875,25 @@ class AnalysisResultController extends Controller
         ->first();
 
         $cellDprResult = ((($valueNormal->result - $valueDup->result) / (($valueNormal->result + $valueDup->result) /2 )) *100);
-        $sheet->setCellValueByColumnAndRow(5, $row, number_format($cellDprResult, 0, ",", "."));
+        $intervalValue = $projectPointMatrices[$i]->parameterAnalysis->parameterAnalysisGroup->acceptance_interval;
+        $cellDprResultFinal = number_format($cellDprResult, 0, ",", ".");
+        if(($cellDprResult > 0) && ($cellDprResult > $intervalValue)) :
+            $cellDprResultFinal .= "*";
+            $sheet->getStyleByColumnAndRow(5, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('fef3c7');
+        elseif($cellDprResult <= 0) :
+            $sheet->getStyleByColumnAndRow(5, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('d1fae5');
+        else:
+            $sheet->getStyleByColumnAndRow(5, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('fff');
+        endif;
+        $sheet->setCellValueByColumnAndRow(5, $row, $cellDprResultFinal);
         $sheet->getStyleByColumnAndRow(5, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $sheet->getStyleByColumnAndRow(5, $row)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+        $sheet->getStyleByColumnAndRow(5, $row)->applyFromArray($border);
+
+        $sheet->setCellValueByColumnAndRow(6, $row, number_format($projectPointMatrices[$i]->parameterAnalysis->parameterAnalysisGroup->acceptance_interval, 0, ",", ".") . "%");
+        $sheet->getStyleByColumnAndRow(6, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+        $sheet->getStyleByColumnAndRow(6, $row)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+        $sheet->getStyleByColumnAndRow(6, $row)->applyFromArray($border);
 
         for ($a = 0; $a < count($analysisResult); $a++) {
           $value =  $campaign->analysisResults()->with('projectPointMatrix')
