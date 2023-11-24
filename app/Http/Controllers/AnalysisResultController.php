@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use Illuminate\Support\Facades\Storage;
 
 class AnalysisResultController extends Controller
 {
@@ -788,6 +789,7 @@ class AnalysisResultController extends Controller
     $sheet->getStyleByColumnAndRow(5, 1)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
     $sheet->mergeCells('E1:E5');
     $sheet->getStyle("E1:E5")->applyFromArray($border);
+    $sheet->setCellValueByColumnAndRow(5, 8, "TESTE");
 
     // Intervalo
     $sheet->setCellValueByColumnAndRow(6, 1, 'Intervalo de aceitação');
@@ -1493,6 +1495,9 @@ class AnalysisResultController extends Controller
       $obj->snote9 = $this->searchCellByValue("snote9", $rows[0], $order->lab, $value, 51); #$value[51];
       $obj->snote10 = $this->searchCellByValue("snote10", $rows[0], $order->lab, $value, 52); #$value[52];
       $obj->duplicata = FALSE;
+      $obj->totalDup = 0;
+      $obj->totalResult = 0;
+      $obj->dprResult = 0;
 
       $tokenResult = Str::contains($obj->result, "<");
       $tokenDl = Str::contains($obj->dl, "<");
@@ -1606,6 +1611,24 @@ class AnalysisResultController extends Controller
           'matrix' => $obj->matrix,
         ]);
         $obj->duplicata = Str::contains($obj->samplename, "-DUP");
+
+
+        if($obj->duplicata) {
+            $r2 =  Str::replace(["*J", " [1]"], "", $obj->result);
+            $r2 = Str::replace(["<", "< ", " "], "", $r2);
+            $r2 = Str::replace([","], ".", $r2);
+            $obj->result = $r2;
+            $obj->totalDup += (float)$obj->result;
+        } else {
+            $r2 =  Str::replace(["*J", " [1]"], "", $obj->result);
+            $r2 = Str::replace(["<", "< ", " "], "", $r2);
+            $r2 = Str::replace([","], ".", $r2);
+            $obj->result = $r2;
+            $obj->totalResult += (float)$obj->result;
+        }
+
+        $obj->dprResult = ((($obj->totalResult - $obj->totalDup) / (($obj->totalResult + $obj->totalDup) / 2)) * 100);
+
 
         $analysisResult->update([
           'client' => $obj->client,
