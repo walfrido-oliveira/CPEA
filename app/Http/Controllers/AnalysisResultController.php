@@ -865,6 +865,8 @@ class AnalysisResultController extends Controller
         ->where("analysis_results.duplicata", false)
         ->first();
 
+        // dump($valueNormal);
+
         $valueDup = $campaign->analysisResults()->with('projectPointMatrix')
         ->with('projectPointMatrix')
         ->leftJoin('project_point_matrices', 'analysis_results.project_point_matrix_id', '=', 'project_point_matrices.id')
@@ -874,12 +876,19 @@ class AnalysisResultController extends Controller
         ->where("analysis_results.duplicata", true)
         ->first();
 
-        $cellDprResult = ((($valueNormal->result - $valueDup->result) / (($valueNormal->result + $valueDup->result) /2 )) *100);
+        if((Str::contains($valueNormal, ['<'])) || (Str::contains($valueDup, ['<']))) :
+            $cellDprResult = 0;
+        else :
+            $cellDprResult = ($valueNormal->result - $valueDup->result) / ( ($valueNormal->result + $valueDup->result) / 2 ) * 100;
+            if($cellDprResult < 0) : $cellDprResult = $cellDprResult * -1; endif;
+        endif;
+
         $intervalValue = $projectPointMatrices[$i]->parameterAnalysis->parameterAnalysisGroup->acceptance_interval;
         $cellDprResultFinal = number_format($cellDprResult, 0, ",", ".");
         if(($cellDprResult > 0) && ($cellDprResult > $intervalValue)) :
             $cellDprResultFinal .= "*";
         endif;
+
         $sheet->setCellValueByColumnAndRow(5, $row, $cellDprResultFinal);
         $sheet->getStyleByColumnAndRow(5, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
         $sheet->getStyleByColumnAndRow(5, $row)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
