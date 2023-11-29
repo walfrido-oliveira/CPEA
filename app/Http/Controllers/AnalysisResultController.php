@@ -879,11 +879,6 @@ class AnalysisResultController extends Controller
         $cellDprResultFinal = number_format($cellDprResult, 0, ",", ".");
         if(($cellDprResult > 0) && ($cellDprResult > $intervalValue)) :
             $cellDprResultFinal .= "*";
-            $sheet->getStyleByColumnAndRow(5, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('fef3c7');
-        elseif($cellDprResult <= 0) :
-            $sheet->getStyleByColumnAndRow(5, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('d1fae5');
-        else:
-            $sheet->getStyleByColumnAndRow(5, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('fff');
         endif;
         $sheet->setCellValueByColumnAndRow(5, $row, $cellDprResultFinal);
         $sheet->getStyleByColumnAndRow(5, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
