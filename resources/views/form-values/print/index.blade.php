@@ -132,7 +132,7 @@
                                             @if((isset($formPrint->formValue->values[$key . "_column"]) && $formPrint->formValue->form->name == "RT-LAB-020-1") ||
                                                 ($formPrint->formValue->form->name != "RT-LAB-020-1"))
 
-                                                @if($formPrint->formValue->form->name == "RT-LAB-020" && $key == "ntu" && !$formPrint->formValue->values['turbidity'])
+                                                @if($formPrint->formValue->form->name == "RT-LAB-020" && $key == "ntu" && !isset($formPrint->formValue->values['turbidity']))
                                                     @php continue @endphp
                                                 @endif
 
