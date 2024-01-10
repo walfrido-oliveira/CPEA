@@ -160,8 +160,10 @@ class FormValue extends Model
                             (($sample["chlorine_footer"]  + $sample["chlorine_footer_duplicate"]) / 2)) * 100;
                         }
                         if (isset($sample["residualchlorine_footer_duplicate"])) {
-                            $dpr[$key]["residualchlorine"] = ( ($sample["residualchlorine_footer"]  - $sample["residualchlorine_footer_duplicate"]) /
-                            (($sample["residualchlorine_footer"]  + $sample["residualchlorine_footer_duplicate"]) / 2)) * 100;
+                            if($sample["residualchlorine_footer_duplicate"] != 0) {
+                                $dpr[$key]["residualchlorine"] = ( ($sample["residualchlorine_footer"]  - $sample["residualchlorine_footer_duplicate"]) /
+                                (($sample["residualchlorine_footer"]  + $sample["residualchlorine_footer_duplicate"]) / 2)) * 100;
+                            }
                         }
                         if (isset($sample["voc_footer_duplicate"])) {
                             $dpr[$key]["voc"] = ( ($sample["voc_footer"]  - $sample["voc_footer_duplicate"]) /

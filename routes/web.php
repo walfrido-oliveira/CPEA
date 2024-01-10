@@ -63,6 +63,10 @@ use App\Http\Controllers\GuidingParameterRefValueController;
 |
 */
 
+Route::get('/info', function () {
+    phpinfo();
+});
+
 Route::get('/', function () {
     return redirect()->route('login');
 })->name('home');
