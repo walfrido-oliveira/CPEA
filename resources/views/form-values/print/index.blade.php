@@ -149,7 +149,7 @@
                                                                 if(isset($sample[$key . "_footer"])) :
                                                                     $v = is_numeric($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : "-";
                                                                 else :
-                                                                    $v =  $formPrint->formValue->svgs[$row][$key] > 0 ? $formPrint->formValue->svgs[$row][$key] : "-";
+                                                                    $v =  $formPrint->formValue->svgs[$row][$key] != 0 ? $formPrint->formValue->svgs[$row][$key] : "-";
                                                                 endif;
                                                             @endphp
 
