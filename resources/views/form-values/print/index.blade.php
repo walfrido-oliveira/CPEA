@@ -145,11 +145,11 @@
                                                     </td>
                                                     <td style="text-align: center; border: 0px;">
                                                         @if(isset($formPrint->formValue->svgs[$row][$key]) || isset($sample[$key . "_footer"]))
-                                                               @php
+                                                            @php
                                                                 if(isset($sample[$key . "_footer"])) :
-                                                                    $v = $sample[$key . "_footer"];
+                                                                    $v = is_numeric($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : "-";
                                                                 else :
-                                                                    $v =  $formPrint->formValue->svgs[$row][$key];
+                                                                    $v =  $formPrint->formValue->svgs[$row][$key] > 0 ? $formPrint->formValue->svgs[$row][$key] : "-";
                                                                 endif;
                                                             @endphp
 
@@ -162,6 +162,7 @@
                                                             @else
                                                                 {{ is_numeric($v) ? number_format($v, $formPrint->places[$key], ",", ".") : $v }}
                                                             @endif
+
                                                         @elseif(Str::contains($key, ["aspect", "artificialdyes", "floatingmaterials", "objectablesolidwaste", "visibleoilsandgreases"]))
                                                             {{ isset($sample["results"][0][$key]) ? $sample["results"][0][$key] : "-" }}
                                                         @else
