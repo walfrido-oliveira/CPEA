@@ -148,12 +148,14 @@
                                                             @php
                                                                 if(isset($sample[$key . "_footer"])) :
                                                                     $v = is_numeric($sample[$key . "_footer"]) ? $sample[$key . "_footer"] : "-";
+                                                                elseif($key != "ntu") :
+                                                                    $v =  $formPrint->formValue->svgs[$row][$key];
                                                                 else :
-                                                                    $v =  $formPrint->formValue->svgs[$row][$key] != 0 ? $formPrint->formValue->svgs[$row][$key] : "-";
+                                                                    $v = "-";
                                                                 endif;
                                                             @endphp
 
-                                                            @if((floatval($formPrint->LQ[$key]) >= floatval($v) || !$v) && is_numeric($formPrint->LQ[$key]))
+                                                            @if((floatval($formPrint->LQ[$key]) >= floatval($v) || !$v) && is_numeric($formPrint->LQ[$key]) && is_numeric($v))
                                                                 {{'< ' . number_format(floatval($formPrint->LQ[$key]), $formPrint->places[$key], ",", ".") }}
                                                             @elseif($key == "conductivity"  && $v >= 200000)
                                                                 {{ "> 200000" }}
@@ -162,7 +164,6 @@
                                                             @else
                                                                 {{ is_numeric($v) ? number_format($v, $formPrint->places[$key], ",", ".") : $v }}
                                                             @endif
-
                                                         @elseif(Str::contains($key, ["aspect", "artificialdyes", "floatingmaterials", "objectablesolidwaste", "visibleoilsandgreases"]))
                                                             {{ isset($sample["results"][0][$key]) ? $sample["results"][0][$key] : "-" }}
                                                         @else
