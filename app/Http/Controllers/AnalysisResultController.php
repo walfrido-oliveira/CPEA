@@ -26,7 +26,6 @@ use Illuminate\Support\Facades\Validator;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
-use Illuminate\Support\Facades\Storage;
 
 class AnalysisResultController extends Controller
 {
@@ -1410,7 +1409,7 @@ class AnalysisResultController extends Controller
       $obj->anadate = $this->formatDate($this->searchCellByValue("anadate", $rows[0], $order->lab, $value, 11), $order->lab); #$value[11];
 
       $obj->batch = $this->searchCellByValue("batch", $rows[0], $order->lab, $value, 12); #$value[12];
-      $obj->analysis = $this->searchCellByValue("analysis", $rows[0], $order->lab, $value, 13); #$value[13];
+      $obj->analysis = $this->toReplace($this->searchCellByValue("analysis", $rows[0], $order->lab, $value, 13), $order->lab); #$value[13];
       $obj->anacode = $this->formatDate($this->searchCellByValue("anacode", $rows[0], $order->lab, $value, 14), $order->lab); #$value[14];
       $obj->methodcode = $this->searchCellByValue("methodcode", $rows[0], $order->lab, $value, 15); #$value[15];
       $obj->methodname = $this->searchCellByValue("methodname", $rows[0], $order->lab, $value, 16); #$value[16];
@@ -1836,6 +1835,7 @@ class AnalysisResultController extends Controller
    */
   private function toReplace($value, $lab)
   {
+    $value = Str::of($value)->trim();
     $replace = $lab->replaces->where('from', $value)->first();
     return $replace ? $replace->to : $value;
   }
