@@ -795,8 +795,8 @@ class AnalysisResultController extends Controller
     $sheet->getStyleByColumnAndRow(6, 1)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
     $sheet->getStyleByColumnAndRow(6, 1)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
     $sheet->getStyleByColumnAndRow(6, 1)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-    $sheet->mergeCells('F1:F5');
-    $sheet->getStyle("F1:F5")->applyFromArray($border);
+    $sheet->mergeCells('F1:F6');
+    $sheet->getStyle("F1:F6")->applyFromArray($border);
 
     /* PARAMETROS DE ANÁLISE */
     $projectPointMatrices = $campaign->projectPointMatrices()
