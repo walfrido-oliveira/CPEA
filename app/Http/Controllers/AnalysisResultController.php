@@ -686,13 +686,13 @@ class AnalysisResultController extends Controller
   {$campaign = Campaign::findOrFail($id);
     $project = $campaign->project;
     $colors = $this->getColors($project);
-    $guidingParameters = $this->getGuidingParametersOrder($project);
+    $guidingParameters = [];//$this->getGuidingParametersOrder($project);
 
-    $guidingParametersValues  = [];
+    /*$guidingParametersValues  = [];
     $guidingParametersIds = [];
     for ($b = 0; $b < count($guidingParameters); $b++) {
       $guidingParametersIds[] = $guidingParameters[$b]->id;
-    }
+    }*/
 
     $spreadsheet = new Spreadsheet();
 
@@ -725,7 +725,7 @@ class AnalysisResultController extends Controller
     $sheet->mergeCells('B1:B5');
     $sheet->getStyle("B1:B5")->applyFromArray($border);
 
-    $sheet->setCellValueByColumnAndRow(3, 1, 'Valores Orientadores');
+    /*$sheet->setCellValueByColumnAndRow(3, 1, 'Valores Orientadores');
     $sheet->getStyleByColumnAndRow(3, 1)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
     $sheet->getStyleByColumnAndRow(3, 1)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
     $sheet->getStyleByColumnAndRow(3, 1)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
@@ -744,7 +744,7 @@ class AnalysisResultController extends Controller
 
     $column = "C";
     /* PARAMETOS ORIENTADORES */
-    for ($i = 0; $i < count($guidingParameters); $i++) {
+    /*for ($i = 0; $i < count($guidingParameters); $i++) {
       $sheet->setCellValueByColumnAndRow((3 + $i), 2, $guidingParameters[$i]->environmental_guiding_parameter_id);
       $sheet->getStyleByColumnAndRow((3 + $i), 2)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
       $sheet->getStyleByColumnAndRow((3 + $i), 2)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
@@ -761,7 +761,7 @@ class AnalysisResultController extends Controller
       $sheet->getStyleByColumnAndRow((3 + $i), 5)->applyFromArray($border);
 
       $column++;
-    }
+    }*/
 
     /* PONTOS */
     $analysisResult = $campaign->analysisResults()->groupBy('samplename')->get();
@@ -795,8 +795,8 @@ class AnalysisResultController extends Controller
     $sheet->getStyleByColumnAndRow(6, 1)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
     $sheet->getStyleByColumnAndRow(6, 1)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
     $sheet->getStyleByColumnAndRow(6, 1)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-    $sheet->mergeCells('F1:F6');
-    $sheet->getStyle("F1:F6")->applyFromArray($border);
+    $sheet->mergeCells('F1:F5');
+    $sheet->getStyle("F1:F5")->applyFromArray($border);
 
     /* PARAMETROS DE ANÁLISE */
     $projectPointMatrices = $campaign->projectPointMatrices()
@@ -821,8 +821,8 @@ class AnalysisResultController extends Controller
             $groupParameterAnalysis[] = $parents[$j]->name;
             $sheet->setCellValueByColumnAndRow(1, $row, $parents[$j]->name);
             $sheet->getStyleByColumnAndRow(1, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
-            for ($lo=1; $lo <= 3 + count($guidingParameters) + count($analysisResult) - 1; $lo++)  $sheet->getStyleByColumnAndRow($lo, $row)->applyFromArray($border);
-            $spreadsheet->getActiveSheet()->mergeCellsByColumnAndRow(1, $row, 3 + count($guidingParameters) + count($analysisResult) - 1, $row);
+            for ($lo=1; $lo <= 5 + count($guidingParameters) + count($analysisResult) - 1; $lo++)  $sheet->getStyleByColumnAndRow($lo, $row)->applyFromArray($border);
+            $spreadsheet->getActiveSheet()->mergeCellsByColumnAndRow(1, $row, 5 + count($guidingParameters) + count($analysisResult) - 1, $row);
             $row++;
           }
         }
@@ -837,8 +837,8 @@ class AnalysisResultController extends Controller
             $groupParameterAnalysis[] = $parents[$j]->name;
             $sheet->setCellValueByColumnAndRow(1, $row, $parents[$j]->name);
             $sheet->getStyleByColumnAndRow(1, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
-            for ($lo=1; $lo <= 3 + count($guidingParameters) + count($analysisResult) - 1; $lo++)  $sheet->getStyleByColumnAndRow($lo, $row)->applyFromArray($border);
-            $spreadsheet->getActiveSheet()->mergeCellsByColumnAndRow(1, $row, 3 + count($guidingParameters) + count($analysisResult) - 1, $row);
+            for ($lo=1; $lo <= 5 + count($guidingParameters) + count($analysisResult) - 1; $lo++)  $sheet->getStyleByColumnAndRow($lo, $row)->applyFromArray($border);
+            $spreadsheet->getActiveSheet()->mergeCellsByColumnAndRow(1, $row, 5 + count($guidingParameters) + count($analysisResult) - 1, $row);
             $row++;
           }
         }
