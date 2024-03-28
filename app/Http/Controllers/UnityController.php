@@ -51,6 +51,7 @@ class UnityController extends Controller
             'unity_cod' => $input['unity_cod'],
             'unity_id' => $input['unity_id'],
             'conversion_amount' => $input['conversion_amount'],
+            'type_conversation' => $input['type_conversation'],
         ]);
 
         return redirect()->route('registers.unity.index')->with(defaultSaveMessagemNotification());
@@ -101,6 +102,7 @@ class UnityController extends Controller
             'unity_cod' => $input['unity_cod'],
             'unity_id' => $input['unity_id'],
             'conversion_amount' => $input['conversion_amount'],
+            'type_conversation' => $input['type_conversation'],
         ]);
 
         return redirect()->route('registers.unity.index', ['unity' => $unity->id])->with(defaultSaveMessagemNotification());

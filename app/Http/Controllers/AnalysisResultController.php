@@ -1524,10 +1524,10 @@ class AnalysisResultController extends Controller
             $item2->parameter_analysis_id == $projectPointMatrices->parameterAnalysis->id &&
             $item2->unityLegislation->unity_cod !=  $obj->units && $item2->guidingValue->name != 'Qualitativo'
           ) {
-            if (is_numeric($result)) $obj->result = $result * $item2->unityLegislation->conversion_amount;
-            if (is_numeric($dl)) $obj->dl = $dl * $item2->unityLegislation->conversion_amount;
-            if (is_numeric($rl)) $obj->rl = $rl * $item2->unityLegislation->conversion_amount;
-            if (is_numeric($snote10)) $obj->snote10 = $snote10 * $item2->unityLegislation->conversion_amount;
+            if (is_numeric($result)) $obj->result =  $item2->unityLegislation->type_conversation == "*" ? $result * $item2->unityLegislation->conversion_amount : $result / $item2->unityLegislation->conversion_amount;
+            if (is_numeric($dl)) $obj->dl = $item2->unityLegislation->type_conversation == "*" ? $dl * $item2->unityLegislation->conversion_amount : $dl / $item2->unityLegislation->conversion_amount;
+            if (is_numeric($rl)) $obj->rl = $item2->unityLegislation->type_conversation == "*" ? $rl * $item2->unityLegislation->conversion_amount : $rl / $item2->unityLegislation->conversion_amount;
+            if (is_numeric($snote10)) $obj->snote10 = $item2->unityLegislation->type_conversation == "*" ? $snote10 * $item2->unityLegislation->conversion_amount : $snote10 / $item2->unityLegislation->conversion_amount;
 
             if ($tokenResult) $obj->result = "< " . $obj->result;
             if ($tokenDl) $obj->dl = "< " . $obj->dl;

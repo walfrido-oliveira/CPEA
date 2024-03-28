@@ -42,6 +42,10 @@
                             <x-jet-label for="unity_id" value="{{ __('Unidade Conversão') }}" />
                             <x-custom-select :options="$unities" name="unity_id" id="unity_id" :value="$unity->unity_id" class="mt-1"/>
                         </div>
+                        <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                            <x-jet-label for="type_conversation" value="{{ __('Tipo de conversão') }}" />
+                            <x-custom-select :options="['*' => 'Multiplicação', '/' => 'Divisão']" name="type_conversation" id="type_conversation" :value="$unity->type_conversation" class="mt-1"/>
+                        </div>
                     </div>
                 </div>
             </form>

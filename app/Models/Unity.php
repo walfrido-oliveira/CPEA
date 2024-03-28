@@ -15,7 +15,7 @@ class Unity extends Model
      * @var array
      */
     protected $fillable = [
-        'unity_id', 'unity_cod', 'name', 'conversion_amount'
+        'unity_id', 'unity_cod', 'name', 'conversion_amount', 'type_conversation'
     ];
 
     /**
