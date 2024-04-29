@@ -685,13 +685,13 @@ class AnalysisResultController extends Controller
     $campaign = Campaign::findOrFail($id);
     $project = $campaign->project;
     $colors = $this->getColors($project);
-    $guidingParameters = $this->getGuidingParametersOrder($project);
+    $guidingParameters = [];//$this->getGuidingParametersOrder($project);
 
-    $guidingParametersValues  = [];
+    /*$guidingParametersValues  = [];
     $guidingParametersIds = [];
     for ($b = 0; $b < count($guidingParameters); $b++) {
       $guidingParametersIds[] = $guidingParameters[$b]->id;
-    }
+    }*/
 
     $spreadsheet = new Spreadsheet();
 
@@ -724,7 +724,7 @@ class AnalysisResultController extends Controller
     $sheet->mergeCells('B1:B5');
     $sheet->getStyle("B1:B5")->applyFromArray($border);
 
-    $sheet->setCellValueByColumnAndRow(3, 1, 'Valores Orientadores');
+    /*$sheet->setCellValueByColumnAndRow(3, 1, 'Valores Orientadores');
     $sheet->getStyleByColumnAndRow(3, 1)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
     $sheet->getStyleByColumnAndRow(3, 1)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
     $sheet->getStyleByColumnAndRow(3, 1)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
@@ -743,7 +743,7 @@ class AnalysisResultController extends Controller
 
     $column = "C";
     /* PARAMETOS ORIENTADORES */
-    for ($i = 0; $i < count($guidingParameters); $i++) {
+    /*for ($i = 0; $i < count($guidingParameters); $i++) {
       $sheet->setCellValueByColumnAndRow((3 + $i), 2, $guidingParameters[$i]->environmental_guiding_parameter_id);
       $sheet->getStyleByColumnAndRow((3 + $i), 2)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
       $sheet->getStyleByColumnAndRow((3 + $i), 2)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
@@ -760,7 +760,7 @@ class AnalysisResultController extends Controller
       $sheet->getStyleByColumnAndRow((3 + $i), 5)->applyFromArray($border);
 
       $column++;
-    }
+    }*/
 
     /* PONTOS */
     $analysisResult = $campaign->analysisResults()->groupBy('samplename')->get();
@@ -820,8 +820,8 @@ class AnalysisResultController extends Controller
             $groupParameterAnalysis[] = $parents[$j]->name;
             $sheet->setCellValueByColumnAndRow(1, $row, $parents[$j]->name);
             $sheet->getStyleByColumnAndRow(1, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
-            for ($lo=1; $lo <= 3 + count($guidingParameters) + count($analysisResult) - 1; $lo++)  $sheet->getStyleByColumnAndRow($lo, $row)->applyFromArray($border);
-            $spreadsheet->getActiveSheet()->mergeCellsByColumnAndRow(1, $row, 3 + count($guidingParameters) + count($analysisResult) - 1, $row);
+            for ($lo=1; $lo <= 5 + count($guidingParameters) + count($analysisResult) - 1; $lo++)  $sheet->getStyleByColumnAndRow($lo, $row)->applyFromArray($border);
+            $spreadsheet->getActiveSheet()->mergeCellsByColumnAndRow(1, $row, 5 + count($guidingParameters) + count($analysisResult) - 1, $row);
             $row++;
           }
         }
@@ -836,8 +836,8 @@ class AnalysisResultController extends Controller
             $groupParameterAnalysis[] = $parents[$j]->name;
             $sheet->setCellValueByColumnAndRow(1, $row, $parents[$j]->name);
             $sheet->getStyleByColumnAndRow(1, $row)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setRGB('C0C0C0');
-            for ($lo=1; $lo <= 3 + count($guidingParameters) + count($analysisResult) - 1; $lo++)  $sheet->getStyleByColumnAndRow($lo, $row)->applyFromArray($border);
-            $spreadsheet->getActiveSheet()->mergeCellsByColumnAndRow(1, $row, 3 + count($guidingParameters) + count($analysisResult) - 1, $row);
+            for ($lo=1; $lo <= 5 + count($guidingParameters) + count($analysisResult) - 1; $lo++)  $sheet->getStyleByColumnAndRow($lo, $row)->applyFromArray($border);
+            $spreadsheet->getActiveSheet()->mergeCellsByColumnAndRow(1, $row, 5 + count($guidingParameters) + count($analysisResult) - 1, $row);
             $row++;
           }
         }
@@ -874,29 +874,30 @@ class AnalysisResultController extends Controller
         ->where("project_point_matrices.parameter_analysis_id", $projectPointMatrices[$i]->parameter_analysis_id)
         ->where("analysis_results.duplicata", true)
         ->first();
+        if( isset($valueNormal->result) && isset($valueDup->result)) :
+            if((Str::contains($valueNormal, ['<'])) || (Str::contains($valueDup, ['<']))) :
+                $cellDprResult = 0;
+            else :
+                $cellDprResult = ($valueNormal->result - $valueDup->result) / ( ($valueNormal->result + $valueDup->result) / 2 ) * 100;
+                if($cellDprResult < 0) : $cellDprResult = $cellDprResult * -1; endif;
+            endif;
 
-        if((Str::contains($valueNormal, ['<'])) || (Str::contains($valueDup, ['<']))) :
-            $cellDprResult = 0;
-        else :
-            $cellDprResult = ($valueNormal->result - $valueDup->result) / ( ($valueNormal->result + $valueDup->result) / 2 ) * 100;
-            if($cellDprResult < 0) : $cellDprResult = $cellDprResult * -1; endif;
+            $intervalValue = $projectPointMatrices[$i]->parameterAnalysis->parameterAnalysisGroup->acceptance_interval;
+            $cellDprResultFinal = number_format($cellDprResult, 0, ",", ".");
+            if(($cellDprResult > 0) && ($cellDprResult > $intervalValue)) :
+                $cellDprResultFinal .= "*";
+            endif;
+
+            $sheet->setCellValueByColumnAndRow(5, $row, $cellDprResultFinal);
+            $sheet->getStyleByColumnAndRow(5, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $sheet->getStyleByColumnAndRow(5, $row)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            $sheet->getStyleByColumnAndRow(5, $row)->applyFromArray($border);
+
+            $sheet->setCellValueByColumnAndRow(6, $row, number_format($projectPointMatrices[$i]->parameterAnalysis->parameterAnalysisGroup->acceptance_interval, 0, ",", ".") . "%");
+            $sheet->getStyleByColumnAndRow(6, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $sheet->getStyleByColumnAndRow(6, $row)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
+            $sheet->getStyleByColumnAndRow(6, $row)->applyFromArray($border);
         endif;
-
-        $intervalValue = $projectPointMatrices[$i]->parameterAnalysis->parameterAnalysisGroup->acceptance_interval;
-        $cellDprResultFinal = number_format($cellDprResult, 0, ",", ".");
-        if(($cellDprResult > 0) && ($cellDprResult > $intervalValue)) :
-            $cellDprResultFinal .= "*";
-        endif;
-
-        $sheet->setCellValueByColumnAndRow(5, $row, $cellDprResultFinal);
-        $sheet->getStyleByColumnAndRow(5, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyleByColumnAndRow(5, $row)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-        $sheet->getStyleByColumnAndRow(5, $row)->applyFromArray($border);
-
-        $sheet->setCellValueByColumnAndRow(6, $row, number_format($projectPointMatrices[$i]->parameterAnalysis->parameterAnalysisGroup->acceptance_interval, 0, ",", ".") . "%");
-        $sheet->getStyleByColumnAndRow(6, $row)->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
-        $sheet->getStyleByColumnAndRow(6, $row)->getAlignment()->setVertical(Alignment::VERTICAL_CENTER);
-        $sheet->getStyleByColumnAndRow(6, $row)->applyFromArray($border);
 
         for ($a = 0; $a < count($analysisResult); $a++) {
           $value =  $campaign->analysisResults()->with('projectPointMatrix')
