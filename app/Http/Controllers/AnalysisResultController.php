@@ -681,8 +681,8 @@ class AnalysisResultController extends Controller
     }, "$project->project_cod.xls");
   }
 
-  public function downloadDUPType($id)
-  {$campaign = Campaign::findOrFail($id);
+  public function downloadDUPType($id) {
+    $campaign = Campaign::findOrFail($id);
     $project = $campaign->project;
     $colors = $this->getColors($project);
     $guidingParameters = $this->getGuidingParametersOrder($project);
