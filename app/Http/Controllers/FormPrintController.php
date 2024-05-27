@@ -360,6 +360,7 @@ class FormPrintController extends Controller
             $formPrint->parameters["objectablesolidwaste"] = "Resíduos Sólidos Objetáveis";
             $formPrint->parameters["visibleoilsandgreases"] = "Óleos e Graxas Visíveis";
             $formPrint->parameters["voc"] = "VOC (ppm)";
+            $formPrint->parameters["ntu"] = "Turbidez (ppm)";
         endif;
 
         if(isset($formValue->values['turbidity']) && $formPrint->formValue->form->name != "RT-LAB-020-1") :
