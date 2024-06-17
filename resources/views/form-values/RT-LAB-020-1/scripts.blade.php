@@ -4,7 +4,7 @@
 <x-back-to-top element="mode_table" />
 
 <script>
-    window.addEventListener("load", function() {
+  window.addEventListener("load", function() {
         setChart("myChart");
         setChart("myChart2");
     });
@@ -189,7 +189,7 @@
 </script>
 
 <script>
-    document.getElementById("filter_default").addEventListener("click", function(e) {
+  document.getElementById("filter_default").addEventListener("click", function(e) {
         e.preventDefault();
         this.classList.add("border-green-900");
         this.classList.add("active");
@@ -223,9 +223,9 @@
 </script>
 
 <script>
-    window.addEventListener("load", function() {
-        const view_table = localStorage.getItem("view_mode");
-        document.getElementById(view_table).click();
+  window.addEventListener("load", function() {
+      const view_table = localStorage.getItem("view_mode");
+      if(view_table) document.getElementById(view_table).click();
     });
 
     document.getElementById("view_table").addEventListener("click", function() {
@@ -401,7 +401,7 @@
 </script>
 
 <script>
-    document.querySelectorAll("#mode_list_count, #mode_list_filter").forEach( item => {
+  document.querySelectorAll("#mode_list_count, #mode_list_filter").forEach( item => {
         item.addEventListener("change", function(e) {
             filterModeList(this.value);
         });
@@ -517,7 +517,7 @@
 </script>
 
 <script>
-    document.querySelectorAll(".edit-coordinate").forEach(item => {
+  document.querySelectorAll(".edit-coordinate").forEach(item => {
         item.addEventListener("click", function() {
             item.nextElementSibling.style.display = "inline-block";
             item.style.display = "none";
@@ -571,7 +571,7 @@
 </script>
 
 <script>
-    document.querySelectorAll(".edit-sample").forEach(item => {
+  document.querySelectorAll(".edit-sample").forEach(item => {
         item.addEventListener("click", function() {
             item.nextElementSibling.style.display = "inline-block";
             item.style.display = "none";
@@ -588,75 +588,113 @@
         });
     });
 
+    async function saveEnvironment(samples, environments) {
+      document.getElementById("spin_load").classList.remove("hidden");
+      let ajax = new XMLHttpRequest();
+      let url = "{!! route('fields.form-values.save-environment') !!}";
+      let token = document.querySelector('meta[name="csrf-token"]').content;
+      let method = 'POST';
+      let form_value_id = document.querySelector(`#form_value_id`).value;
+
+      var data = new FormData();
+      data.append('_token', token);
+      data.append('_method', method);
+      data.append('form_value_id', form_value_id);
+      samples.forEach(element => {
+        data.append('samples[]', element);
+      });
+      environments.forEach(element => {
+        data.append('environments[]', element);
+      });
+
+      await fetch(url, {
+        method: method,
+        body: data
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById("spin_load").classList.add("hidden");
+        toastr.success(data.message);
+      })
+      .catch(error => {
+        console.error(error);
+        document.getElementById("spin_load").classList.add("hidden");
+        toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+        that.value = '';
+      });
+
+      return true;
+    }
+
     function saveSample(that, noReaload = false) {
-        document.getElementById("spin_load").classList.remove("hidden");
-        let ajax = new XMLHttpRequest();
-        let url = "{!! route('fields.form-values.save-sample') !!}";
-        let token = document.querySelector('meta[name="csrf-token"]').content;
-        let method = 'POST';
-        let form_value_id = document.querySelector(`#form_value_id`).value;
-        let sample_index = document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`).value;
-        let equipment = document.querySelector(`#${that.dataset.index} #equipment_${that.dataset.row}`).value;
-        let turbidity_equipment = document.querySelector(`#${that.dataset.index} #turbidity_equipment_${that.dataset.row}`).value;
-        let chlorine_equipment = document.querySelector(`#${that.dataset.index} #chlorine_equipment_${that.dataset.row}`).value;
-        let voc_equipment = document.querySelector(`#${that.dataset.index} #voc_equipment_${that.dataset.row}`).value;
-        let orp_equipment = document.querySelector(`#${that.dataset.index} #orp_equipment_${that.dataset.row}`).value;
-        let point = document.querySelector(`#${that.dataset.index} #point_${that.dataset.row}`).value;
-        let environment = document.querySelector(`#${that.dataset.index} #environment_${that.dataset.row}`).value;
-        let collect = document.querySelector(`#${that.dataset.index} #collect_${that.dataset.row}`).value;
+      document.getElementById("spin_load").classList.remove("hidden");
+      let ajax = new XMLHttpRequest();
+      let url = "{!! route('fields.form-values.save-sample') !!}";
+      let token = document.querySelector('meta[name="csrf-token"]').content;
+      let method = 'POST';
+      let form_value_id = document.querySelector(`#form_value_id`).value;
+      let sample_index = document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`).value;
+      let equipment = document.querySelector(`#${that.dataset.index} #equipment_${that.dataset.row}`).value;
+      let turbidity_equipment = document.querySelector(`#${that.dataset.index} #turbidity_equipment_${that.dataset.row}`).value;
+      let chlorine_equipment = document.querySelector(`#${that.dataset.index} #chlorine_equipment_${that.dataset.row}`).value;
+      let voc_equipment = document.querySelector(`#${that.dataset.index} #voc_equipment_${that.dataset.row}`).value;
+      let orp_equipment = document.querySelector(`#${that.dataset.index} #orp_equipment_${that.dataset.row}`).value;
+      let point = document.querySelector(`#${that.dataset.index} #point_${that.dataset.row}`).value;
+      let environment = document.querySelector(`#${that.dataset.index} #environment_${that.dataset.row}`).value;
+      let collect = document.querySelector(`#${that.dataset.index} #collect_${that.dataset.row}`).value;
 
-        const results = [...document.querySelectorAll(`#${that.dataset.index} #table_result input, #${that.dataset.index} #table_result select`)];
-        const footer = [...document.querySelectorAll(`#${that.dataset.index} #table_result_footer input, #${that.dataset.index} #table_result_footer select`)];
+      const results = [...document.querySelectorAll(`#${that.dataset.index} #table_result input, #${that.dataset.index} #table_result select`)];
+      const footer = [...document.querySelectorAll(`#${that.dataset.index} #table_result_footer input, #${that.dataset.index} #table_result_footer select`)];
 
-        ajax.open(method, url);
+      ajax.open(method, url);
 
-        ajax.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var resp = JSON.parse(ajax.response);
-                document.getElementById("spin_load").classList.add("hidden");
+      ajax.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var resp = JSON.parse(ajax.response);
+            document.getElementById("spin_load").classList.add("hidden");
 
-                toastr.success(resp.message);
+            toastr.success(resp.message);
 
-                const status = document.querySelector("#filter_samples a.active").dataset.status;
-                const url = new URL(window.location.href);
+            const status = document.querySelector("#filter_samples a.active").dataset.status;
+            const url = new URL(window.location.href);
 
-                if(status == 'duplicates'){
-                    url.searchParams.set('filter_duplicate', 1);
-                    if (!noReaload) window.location.href = `${url.href}`;
-                } else {
-                    if (!noReaload) location.reload();
-                }
-
-            } else if (this.readyState == 4 && this.status != 200) {
-                document.getElementById("spin_load").classList.add("hidden");
-                toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
-                that.value = '';
+            if(status == 'duplicates'){
+              url.searchParams.set('filter_duplicate', 1);
+              if (!noReaload) window.location.href = `${url.href}`;
+            } else {
+              if (!noReaload) location.reload();
             }
+
+        } else if (this.readyState == 4 && this.status != 200) {
+          document.getElementById("spin_load").classList.add("hidden");
+          toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+          that.value = '';
         }
+      }
 
-        var data = new FormData();
-        data.append('_token', token);
-        data.append('_method', method);
-        data.append('form_value_id', form_value_id);
-        data.append('sample_index', sample_index);
-        data.append('equipment', equipment);
-        data.append('turbidity_equipment', turbidity_equipment);
-        data.append('chlorine_equipment', chlorine_equipment);
-        data.append('voc_equipment', voc_equipment);
-        data.append('orp_equipment', orp_equipment);
-        data.append('point', point);
-        data.append('environment', environment);
-        data.append('collect', collect);
+      var data = new FormData();
+      data.append('_token', token);
+      data.append('_method', method);
+      data.append('form_value_id', form_value_id);
+      data.append('sample_index', sample_index);
+      data.append('equipment', equipment);
+      data.append('turbidity_equipment', turbidity_equipment);
+      data.append('chlorine_equipment', chlorine_equipment);
+      data.append('voc_equipment', voc_equipment);
+      data.append('orp_equipment', orp_equipment);
+      data.append('point', point);
+      data.append('environment', environment);
+      data.append('collect', collect);
 
-        results.forEach(element => {
-            data.append(element.name, element.value);
-        });
+      results.forEach(element => {
+          data.append(element.name, element.value);
+      });
 
-        footer.forEach(element => {
-            data.append(element.name, element.value);
-        });
+      footer.forEach(element => {
+          data.append(element.name, element.value);
+      });
 
-        ajax.send(data);
+      ajax.send(data);
     }
 
     function deleteSample(that) {
@@ -761,156 +799,152 @@
 </script>
 
 <script>
-    document.getElementById("confirm_environment_modal").addEventListener("click", function() {
-        var countSamples = 0;
-        var samples = "";
+  document.getElementById("confirm_environment_modal").addEventListener("click", function() {
+    var countSamples = 0;
+    var samples = new Array();
+    var environments = new Array();
 
-        document.querySelectorAll("input.collect").forEach(item => {
-            var date = new Date(item.value);
-            date = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+    document.querySelectorAll("input.collect").forEach(item => {
+      var date = new Date(item.value);
+      date = new Date(date.getFullYear(), date.getMonth(), date.getDate())
 
-            const  [yearStart, monthStart, dayStart] = document.getElementById("date_start").value.split("-");
-            const  [yearEnd, monthEnd, dayEnd] = document.getElementById("date_end").value.split("-");
+      const  [yearStart, monthStart, dayStart] = document.getElementById("date_start").value.split("-");
+      const  [yearEnd, monthEnd, dayEnd] = document.getElementById("date_end").value.split("-");
 
-            const start = new Date(yearStart, monthStart - 1, dayStart);
-            const end = new Date(yearEnd, monthEnd - 1, dayEnd);
+      const start = new Date(yearStart, monthStart - 1, dayStart);
+      const end = new Date(yearEnd, monthEnd - 1, dayEnd);
 
-            const environmentValue = document.getElementById("environment_value");
-            const environment = document.getElementById(`environment_${item.dataset.index}`);
+      const environmentValue = document.getElementById("environment_value");
+      const environment = document.getElementById(`environment_${item.dataset.index}`);
 
-            console.log(date);
-            console.log(start);
-            console.log(end);
-
-            if(date >= start && date <= end) {
-                environment.value = environmentValue.value;
-                saveSample(document.querySelector(`.save-sample[data-index='sample_${item.dataset.index}']`), true);
-                countSamples++;
-                samples += `<p>Amostra ${item.dataset.index + 1}</p>`;
-            }
-        });
-
-        if(countSamples == 0) {
-            toastr.error("Nenhuma amostra encontrada com as datas informadas.");
-        } else {
-            samples += countSamples > 1 ? "<p>Foram atualizadas</p>" : "<p>Foi atualizada</p>";
-            toastr.success(samples);
-        }
-
-        var modal = document.getElementById("environment_modal");
-        modal.classList.add("hidden");
-        modal.classList.remove("block");
+      if(date >= start && date <= end) {
+        environment.value = environmentValue.value;
+        samples.push(`row_${item.dataset.index}`);
+        environments.push(environment.value);
+        countSamples++;
+      }
     });
 
+    saveEnvironment(samples, environments);
+
+    if(countSamples == 0) {
+      toastr.error("Nenhuma amostra encontrada com as datas informadas.");
+    }
+
+    var modal = document.getElementById("environment_modal");
+    modal.classList.add("hidden");
+    modal.classList.remove("block");
+  });
+
     document.getElementById("cancel_environment_modal").addEventListener("click", function() {
-        var modal = document.getElementById("environment_modal");
-        modal.classList.add("hidden");
-        modal.classList.remove("block");
+      var modal = document.getElementById("environment_modal");
+      modal.classList.add("hidden");
+      modal.classList.remove("block");
     });
 
     document.getElementById("environment_edit").addEventListener("click", function() {
-        var modal = document.getElementById("environment_modal");
-        modal.classList.remove("hidden");
-        modal.classList.add("block");
+      var modal = document.getElementById("environment_modal");
+      modal.classList.remove("hidden");
+      modal.classList.add("block");
     });
 
     document.querySelectorAll(".add-results, .add-coordinates").forEach(item => {
-        item.addEventListener("click", function() {
-            var modal = document.getElementById("add_results_modal");
-            modal.classList.remove("hidden");
-            modal.classList.add("block");
-            document.querySelector("#confirm_add_results_modal").dataset.index = item.dataset.index;
-            document.querySelector("#confirm_add_results_modal").dataset.row = item.dataset.row;
-        });
+      item.addEventListener("click", function() {
+        var modal = document.getElementById("add_results_modal");
+        modal.classList.remove("hidden");
+        modal.classList.add("block");
+        document.querySelector("#confirm_add_results_modal").dataset.index = item.dataset.index;
+        document.querySelector("#confirm_add_results_modal").dataset.row = item.dataset.row;
+      });
     });
 
     document.querySelector("#confirm_add_results_modal").addEventListener("click", function() {
-        document.getElementById("spin_load").classList.remove("hidden");
+      document.getElementById("spin_load").classList.remove("hidden");
 
-        let that = this;
-        let ajax = new XMLHttpRequest();
-        let token = document.querySelector('meta[name="csrf-token"]').content;
-        let method = 'POST';
-        let form_value_id = document.querySelector(`#form_value_id`).value;
-        let sample_index = document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`) ?
-        document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`).value : null;
-        let amount = document.querySelector(`#add_results_modal #amount`).value;
-        let url = sample_index ? "{!! route('fields.form-values.import.add-results') !!}" : "{!! route('fields.form-values.import.add-coordinates') !!}";
+      let that = this;
+      let ajax = new XMLHttpRequest();
+      let token = document.querySelector('meta[name="csrf-token"]').content;
+      let method = 'POST';
+      let form_value_id = document.querySelector(`#form_value_id`).value;
+      let sample_index = document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`) ?
+      document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`).value : null;
+      let amount = document.querySelector(`#add_results_modal #amount`).value;
+      let url = sample_index ? "{!! route('fields.form-values.import.add-results') !!}" : "{!! route('fields.form-values.import.add-coordinates') !!}";
 
-        ajax.open(method, url);
+      ajax.open(method, url);
 
-        ajax.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var resp = JSON.parse(ajax.response);
-                toastr.success(resp.message);
-                location.reload();
-            } else if (this.readyState == 4 && this.status != 200) {
-                toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
-            }
+      ajax.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var resp = JSON.parse(ajax.response);
+          toastr.success(resp.message);
+          location.reload();
+        } else if (this.readyState == 4 && this.status != 200) {
+          toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
         }
+      }
 
-        var data = new FormData();
-        data.append('_token', token);
-        data.append('_method', method);
-        data.append('form_value_id', form_value_id);
-        data.append('sample_index', sample_index);
-        data.append('amount', amount);
+      var data = new FormData();
+      data.append('_token', token);
+      data.append('_method', method);
+      data.append('form_value_id', form_value_id);
+      data.append('sample_index', sample_index);
+      data.append('amount', amount);
 
-        ajax.send(data);
+      ajax.send(data);
     });
 
     document.getElementById("help").addEventListener("click", function() {
-        var modal = document.getElementById("modal");
-        modal.classList.remove("hidden");
-        modal.classList.add("block");
+      var modal = document.getElementById("modal");
+      modal.classList.remove("hidden");
+      modal.classList.add("block");
     });
 
     document.getElementById("signer_document").addEventListener("click", function(e) {
-        e.preventDefault();
-        var modal = document.getElementById("signer_modal");
-        modal.classList.remove("hidden");
-        modal.classList.add("block");
+      e.preventDefault();
+      var modal = document.getElementById("signer_modal");
+      modal.classList.remove("hidden");
+      modal.classList.add("block");
 
-        document.getElementById("confirm_signer_modal").addEventListener("click", function() {
-            let that = this;
-            let ajax = new XMLHttpRequest();
-            let url = "{!! route('fields.form-values.signed') !!}";
-            let token = document.querySelector('meta[name="csrf-token"]').content;
-            let method = 'POST';
-            let form_value_id = document.querySelector(`#form_value_id`).value;
+      document.getElementById("confirm_signer_modal").addEventListener("click", function() {
+        let that = this;
+        let ajax = new XMLHttpRequest();
+        let url = "{!! route('fields.form-values.signed') !!}";
+        let token = document.querySelector('meta[name="csrf-token"]').content;
+        let method = 'POST';
+        let form_value_id = document.querySelector(`#form_value_id`).value;
 
-            ajax.open(method, url);
+        ajax.open(method, url);
 
-            ajax.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    var resp = JSON.parse(ajax.response);
-                   if(resp.signed) {
-                    var modalSigner = document.getElementById("signer_modal");
-                    modalSigner.classList.add("hidden");
-                    modalSigner.classList.remove("block");
+          ajax.onreadystatechange = function() {
+              if (this.readyState == 4 && this.status == 200) {
+                  var resp = JSON.parse(ajax.response);
+                  if(resp.signed) {
+                  var modalSigner = document.getElementById("signer_modal");
+                  modalSigner.classList.add("hidden");
+                  modalSigner.classList.remove("block");
 
-                    var modalRev = document.getElementById("rev_modal");
-                    modalRev.classList.remove("hidden");
-                    modalRev.classList.add("block");
-                   } else {
-                    var url = `@if($formValue) {{ route('fields.form-values.signer', ['form_value' => $formValue->id, 'project_id' => isset($formValue) ? $formValue->values['project_id'] : '' . ".pdf"]) }} @endif`;
-                    window.open(url, '_blank').focus();
-                    var modalSigner = document.getElementById("signer_modal");
-                    modalSigner.classList.add("hidden");
-                    modalSigner.classList.remove("block");
-                   }
-                } else if (this.readyState == 4 && this.status != 200) {
-                    toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
-                }
-            }
+                  var modalRev = document.getElementById("rev_modal");
+                  modalRev.classList.remove("hidden");
+                  modalRev.classList.add("block");
+                  } else {
+                  var url = `@if($formValue) {{ route('fields.form-values.signer', ['form_value' => $formValue->id, 'project_id' => isset($formValue) ? $formValue->values['project_id'] : '' . ".pdf"]) }} @endif`;
+                  window.open(url, '_blank').focus();
+                  var modalSigner = document.getElementById("signer_modal");
+                  modalSigner.classList.add("hidden");
+                  modalSigner.classList.remove("block");
+                  }
+              } else if (this.readyState == 4 && this.status != 200) {
+                  toastr.error("{!! __('Um erro ocorreu ao solicitar a consulta') !!}");
+              }
+          }
 
-            var data = new FormData();
-            data.append('_token', token);
-            data.append('_method', method);
-            data.append('form_value_id', form_value_id);
+          var data = new FormData();
+          data.append('_token', token);
+          data.append('_method', method);
+          data.append('form_value_id', form_value_id);
 
-            ajax.send(data);
-        });
+          ajax.send(data);
+      });
 
         document.getElementById("confirm_rev_modal").addEventListener("click", function() {
             let ajax = new XMLHttpRequest();
@@ -1202,7 +1236,7 @@
 </script>
 
 <script>
-    document.querySelectorAll(`.add-sample`).forEach(item => {
+  document.querySelectorAll(`.add-sample`).forEach(item => {
         item.addEventListener("click", function() {
             addInput();
         })
@@ -1287,7 +1321,7 @@
 </script>
 
 <script>
-    document.getElementById("form_form").addEventListener("submit", function(e) {
+  document.getElementById("form_form").addEventListener("submit", function(e) {
         document.querySelectorAll("#mode_table input").forEach(item => {
             item.disabled = true;
         });
@@ -1299,7 +1333,7 @@
 </script>
 
 <script>
-    document.getElementById("search_sample").addEventListener("click", function(e) {
+  document.getElementById("search_sample").addEventListener("click", function(e) {
         e.preventDefault();
         seachSample();
     });

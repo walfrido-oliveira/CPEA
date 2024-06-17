@@ -4,7 +4,7 @@
 <x-back-to-top element="mode_table" />
 
 <script>
-    window.addEventListener("load", function() {
+  window.addEventListener("load", function() {
         setChart("myChart");
         setChart("myChart2");
     });
@@ -189,7 +189,7 @@
 </script>
 
 <script>
-    document.getElementById("filter_default").addEventListener("click", function(e) {
+  document.getElementById("filter_default").addEventListener("click", function(e) {
         e.preventDefault();
         this.classList.add("border-green-900");
         this.classList.add("active");
@@ -223,9 +223,9 @@
 </script>
 
 <script>
-    window.addEventListener("load", function() {
-        const view_table = localStorage.getItem("view_mode");
-        if(document.getElementById(view_table)) document.getElementById(view_table).click();
+  window.addEventListener("load", function() {
+      const view_table = localStorage.getItem("view_mode");
+      if(view_table) document.getElementById(view_table).click();
     });
 
     document.getElementById("view_table").addEventListener("click", function() {
@@ -401,7 +401,7 @@
 </script>
 
 <script>
-    document.querySelectorAll("#mode_list_count, #mode_list_filter").forEach( item => {
+  document.querySelectorAll("#mode_list_count, #mode_list_filter").forEach( item => {
         item.addEventListener("change", function(e) {
             filterModeList(this.value);
         });
@@ -517,7 +517,7 @@
 </script>
 
 <script>
-    document.querySelectorAll(".edit-coordinate").forEach(item => {
+  document.querySelectorAll(".edit-coordinate").forEach(item => {
         item.addEventListener("click", function() {
             item.nextElementSibling.style.display = "inline-block";
             item.style.display = "none";
@@ -571,7 +571,7 @@
 </script>
 
 <script>
-    document.querySelectorAll(".edit-sample").forEach(item => {
+  document.querySelectorAll(".edit-sample").forEach(item => {
         item.addEventListener("click", function() {
             item.nextElementSibling.style.display = "inline-block";
             item.style.display = "none";
@@ -594,9 +594,6 @@
       let token = document.querySelector('meta[name="csrf-token"]').content;
       let method = 'POST';
       let form_value_id = document.querySelector(`#form_value_id`).value;
-
-      //let sample_index = document.querySelector(`#${that.dataset.index} #sample_index_${that.dataset.row}`).value;
-      //let environment = document.querySelector(`#${that.dataset.index} #environment_${that.dataset.row}`).value;
 
       var data = new FormData();
       data.append('_token', token);
@@ -751,42 +748,42 @@
 </script>
 
 <script>
-    document.getElementById("confirm_environment_modal").addEventListener("click", function() {
-      var countSamples = 0;
-      var samples = new Array();
-      var environments = new Array();
+  document.getElementById("confirm_environment_modal").addEventListener("click", function() {
+    var countSamples = 0;
+    var samples = new Array();
+    var environments = new Array();
 
-      document.querySelectorAll("input.collect").forEach(item => {
-        var date = new Date(item.value);
-        date = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+    document.querySelectorAll("input.collect").forEach(item => {
+      var date = new Date(item.value);
+      date = new Date(date.getFullYear(), date.getMonth(), date.getDate())
 
-        const  [yearStart, monthStart, dayStart] = document.getElementById("date_start").value.split("-");
-        const  [yearEnd, monthEnd, dayEnd] = document.getElementById("date_end").value.split("-");
+      const  [yearStart, monthStart, dayStart] = document.getElementById("date_start").value.split("-");
+      const  [yearEnd, monthEnd, dayEnd] = document.getElementById("date_end").value.split("-");
 
-        const start = new Date(yearStart, monthStart - 1, dayStart);
-        const end = new Date(yearEnd, monthEnd - 1, dayEnd);
+      const start = new Date(yearStart, monthStart - 1, dayStart);
+      const end = new Date(yearEnd, monthEnd - 1, dayEnd);
 
-        const environmentValue = document.getElementById("environment_value");
-        const environment = document.getElementById(`environment_${item.dataset.index}`);
+      const environmentValue = document.getElementById("environment_value");
+      const environment = document.getElementById(`environment_${item.dataset.index}`);
 
-        if(date >= start && date <= end) {
-          environment.value = environmentValue.value;
-          samples.push(`row_${item.dataset.index}`);
-          environments.push(environment.value);
-          countSamples++;
-        }
-      });
-
-      saveEnvironment(samples, environments);
-
-      if(countSamples == 0) {
-          toastr.error("Nenhuma amostra encontrada com as datas informadas.");
+      if(date >= start && date <= end) {
+        environment.value = environmentValue.value;
+        samples.push(`row_${item.dataset.index}`);
+        environments.push(environment.value);
+        countSamples++;
       }
-
-      var modal = document.getElementById("environment_modal");
-      modal.classList.add("hidden");
-      modal.classList.remove("block");
     });
+
+    saveEnvironment(samples, environments);
+
+    if(countSamples == 0) {
+      toastr.error("Nenhuma amostra encontrada com as datas informadas.");
+    }
+
+    var modal = document.getElementById("environment_modal");
+    modal.classList.add("hidden");
+    modal.classList.remove("block");
+  });
 
     document.getElementById("cancel_environment_modal").addEventListener("click", function() {
         var modal = document.getElementById("environment_modal");
@@ -1177,7 +1174,7 @@
 </script>
 
 <script>
-    document.querySelectorAll(`.add-sample`).forEach(item => {
+  document.querySelectorAll(`.add-sample`).forEach(item => {
         item.addEventListener("click", function() {
             addInput();
         })
@@ -1262,7 +1259,7 @@
 </script>
 
 <script>
-    document.getElementById("form_form").addEventListener("submit", function(e) {
+  document.getElementById("form_form").addEventListener("submit", function(e) {
         document.querySelectorAll("#mode_table input").forEach(item => {
             item.disabled = true;
         });
@@ -1274,7 +1271,7 @@
 </script>
 
 <script>
-    document.getElementById("search_sample").addEventListener("click", function(e) {
+  document.getElementById("search_sample").addEventListener("click", function(e) {
         e.preventDefault();
         seachSample();
     });
